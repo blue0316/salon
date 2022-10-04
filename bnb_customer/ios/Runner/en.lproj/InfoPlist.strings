@@ -1,0 +1,21 @@
+/* 
+  InfoPlist.strings
+  Runner
+
+  Created by sidharth yadav on 26/10/21.
+  
+*/
+
+
+"CFBundleDevelopmentRegion"="en_us";
+"CFBundleDisplayName"="bnb self care";
+"CFBundleName"="bnb self care";
+"CFBundleExecutable"="com.bnb.client";
+
+"NSCameraUsageDescription"="We need to get access to phone camera to take a photo of your document";
+"NSLocationAlwaysUsageDescription"="Needed for getting nearby salons data";
+"NSLocationWhenInUseUsageDescription"="Needed for getting nearby salons data";
+"NSLocationAlwaysAndWhenInUseUsageDescription"="Needed for getting nearby salons data";
+"NSLocationUsageDescription"="Needed for getting nearby salons data";
+"NSPhotoLibraryUsageDescription"="We need to get access to gallery to pick a photo of your document";
+

@@ -1,0 +1,94 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+
+  		match /allCategories/{document=**}{
+  		allow read:if true;
+      allow  write: if (isAuthenticated());
+      }
+      match /allSubCategories/{document=**}{
+  		allow read: if true;
+  		allow  write: if (isAuthenticated());
+      }
+      match /allServices/{document=**}{
+  		allow read: if true;
+  		allow  write: if (isAuthenticated());
+      }
+      
+    	match /appointments/{document=**}{
+  		allow read,write: if isAuthenticated();
+			}
+      match /beautyPro/{document=**}{
+  		allow read: if true;
+  		allow  write: if (isAuthenticated());
+			}
+     
+    	match /chats/{document=**}{
+  		allow read,write: if isAuthenticated();
+			}
+        match /customers/{document=**}{
+  		allow read,write: if isAuthenticated();
+			}
+      match /customerAdmins/{document=**}{
+  		allow read,write: if isAuthenticated();
+			}
+       match /customerAuthError/{document=**}{
+  		allow read,write: if true;
+			}
+      match /financials/{document=**}{
+  		allow read,write: if isAuthenticated();
+			}
+      
+		  match /invoices/{document=**}{
+  		allow read,write: if isAuthenticated();
+			}
+      
+      match /notifications/{document=**}{
+  		allow read,write: if isAuthenticated();
+			}
+      match /salonAdmins/{document=**}{
+  		allow read,write: if isAuthenticated();
+			}
+      match /salonMasters/{document=**}{
+  		allow read: if true;
+  		allow  write: if (isAuthenticated());
+			}
+      match /salons/{document=**}{
+    	allow read:if (true);
+      allow  write: if (isAuthenticated());
+  		
+			}
+      match /services/{document=**}{
+  		allow read:if (true);
+      allow  write: if (isAuthenticated());
+			} 
+      match /userAppSettings/{document=**}{
+  		allow read:if (true);
+			}
+      match /customLinks/{document=**}{
+  		allow read:if (true);
+      allow  write: if (isAuthenticated());
+			}
+      match /bonuses/{document=**}{
+  		allow read,write: if isAuthenticated();
+			} 
+      match /referrals/{document=**}{
+  		allow read:if (true);
+      allow  write: if (isAuthenticated());
+			} 
+      match /yClients/{document=**}{
+  		allow read: if true;
+  		allow  write: if (isAuthenticated());
+			}
+  }
+  
+  
+  function isAuthenticated(){
+  return request.auth!=null;
+  }
+  
+  // function matchUid(uid){
+  // return request.auth.uid==uid;
+  // }
+}

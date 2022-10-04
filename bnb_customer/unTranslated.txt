@@ -1,0 +1,8 @@
+{
+  "uk": [
+    "success",
+    "resend",
+    "enter",
+    "accessibilityForPersonsWithReducedMobility"
+  ]
+}

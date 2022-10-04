@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="filter0_d" x="0" y="0" width="355.8" height="234" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+      <feOffset dy="8"/>
+      <feGaussianBlur stdDeviation="15"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.537255 0 0 0 0 0.584314 0 0 0 0 0.623529 0 0 0 0.3 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+    </filter>
+    <linearGradient id="paint0_linear" x1="326" y1="188" x2="30" y2="22" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FDA085" stop-opacity="0.8"/>
+      <stop offset="1" stop-color="#F6D365"/>
+    </linearGradient>
+    <linearGradient id="paint1_linear" x1="326" y1="188" x2="30" y2="22" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FDA085"/>
+      <stop offset="1" stop-color="#F6D365"/>
+    </linearGradient>
+  </defs>
+  <g filter="url(#filter0_d)" transform="matrix(1, 0, 0, 1, -12.725848, -5.152929)">
+    <rect x="30" y="22" width="295.8" height="174" rx="16" fill="url(#paint0_linear)"/>
+    <mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="30" y="22" width="296" height="174">
+      <rect x="30" y="22" width="295.8" height="174" rx="16" fill="url(#paint1_linear)"/>
+    </mask>
+    <g mask="url(#mask0)">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M 133.079 182.709 C 176.981 144.682 230.912 100.261 285.91 118.906 C 338.886 136.866 340.767 207.532 360.586 259.838 C 377.066 303.332 407.917 347.262 388.442 389.508 C 368.711 432.306 316.55 443.087 270.832 454.531 C 223.062 466.488 171.826 480.739 130.423 454.094 C 84.592 424.598 56.646 371.532 57.179 317.029 C 57.709 262.931 92.181 218.135 133.079 182.709 Z" fill="#FFC775"/>
+      <path opacity="0.1" fill-rule="evenodd" clip-rule="evenodd" d="M 138.146 193.597 C 180.349 157.042 232.193 114.34 285.063 132.263 C 335.989 149.528 337.797 217.459 356.849 267.742 C 372.691 309.552 402.348 351.783 383.626 392.394 C 364.66 433.536 314.517 443.899 270.568 454.9 C 224.647 466.395 175.393 480.095 135.593 454.48 C 91.535 426.126 64.67 375.113 65.183 322.72 C 65.692 270.715 98.831 227.652 138.146 193.597 Z" fill="white"/>
+      <path opacity="0.1" fill-rule="evenodd" clip-rule="evenodd" d="M 141.441 210.431 C 182.428 174.928 232.778 133.456 284.125 150.864 C 333.584 167.631 335.34 233.605 353.843 282.439 C 369.229 323.045 398.032 364.059 379.849 403.5 C 361.429 443.457 312.73 453.522 270.048 464.206 C 225.449 475.37 177.615 488.675 138.961 463.798 C 96.173 436.261 70.081 386.718 70.58 335.833 C 71.074 285.327 103.257 243.504 141.441 210.431 Z" fill="white"/>
+      <path opacity="0.1" fill-rule="evenodd" clip-rule="evenodd" d="M 149.056 225.055 C 187.918 191.393 235.658 152.072 284.341 168.577 C 331.236 184.475 332.901 247.028 350.444 293.329 C 365.032 331.83 392.342 370.717 375.102 408.113 C 357.637 445.998 311.464 455.541 270.995 465.671 C 228.709 476.255 183.354 488.87 146.705 465.284 C 106.136 439.174 81.398 392.2 81.87 343.955 C 82.339 296.067 112.853 256.414 149.056 225.055 Z" fill="white"/>
+    </g>
+  </g>
+</svg>

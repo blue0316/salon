@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>120423255657-hj9qikgl8eu0qg185qcjkqqdhak5a5g8.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.120423255657-hj9qikgl8eu0qg185qcjkqqdhak5a5g8</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>120423255657-021082iblcqlnar5nc1a11p2v8kd5sl7.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDHluHIkUp9rs_vILID8JbwQf44iKnd_sE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>120423255657</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.bnb.client</string>
+	<key>PROJECT_ID</key>
+	<string>bowandbeautiful-dev</string>
+	<key>STORAGE_BUCKET</key>
+	<string>bowandbeautiful-dev.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:120423255657:ios:7f3117c120d67af47a5cf8</string>
+	<key>DATABASE_URL</key>
+	<string>https://bowandbeautiful-dev-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>
