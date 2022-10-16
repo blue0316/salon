@@ -79,12 +79,12 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
     printIt(_appProvider.firstRoute);
     final _salonSearchProvider = ref.read(salonSearchProvider);
     _salonSearchProvider.init(widget.salonId).then(
-        (value) => WidgetsBinding.instance!.addPostFrameCallback((_) async {
+        (value) => WidgetsBinding.instance.addPostFrameCallback((_) async {
               categories = value;
             }));
     _salonProfileProvider = ref.read(salonProfileProvider);
     _salonProfileProvider.init(widget.salonId).then(
-        (salon) => WidgetsBinding.instance!.addPostFrameCallback((_) async {
+        (salon) => WidgetsBinding.instance.addPostFrameCallback((_) async {
               await init(salon);
             }));
   }

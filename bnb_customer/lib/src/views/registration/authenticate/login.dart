@@ -37,7 +37,6 @@ checkUser(BuildContext context, WidgetRef ref, Function onTap,
     // openSignInSheet(context);
     onTap();
   } else {
-    
     openSignInSheet(context, appointmentModel);
   }
 }
@@ -54,15 +53,16 @@ openSignInSheet(context, AppointmentModel? appointmentModel) {
   showCupertinoModalBottomSheet(
     context: context,
     isDismissible: false,
-    builder: (context) => appointmentModel != null ? LoginFromBooking(appointment: appointmentModel,): Login2(
-     
-    ),
+    builder: (context) => appointmentModel != null
+        ? LoginFromBooking(
+            appointment: appointmentModel,
+          )
+        : Login2(),
     //const LoginIntro(),
     clipBehavior: Clip.antiAliasWithSaveLayer,
     topRadius: const Radius.circular(radius),
   );
 }
-
 
 class LoginIntro extends ConsumerStatefulWidget {
   const LoginIntro({Key? key}) : super(key: key);
@@ -269,7 +269,7 @@ class _LoginIntroState extends ConsumerState<LoginIntro> {
                                 child: (_auth.otpStatus != Status.loading)
                                     ? Text(
                                         AppLocalizations.of(context)?.login ??
-                                            "Login",
+                                            "",
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline2,

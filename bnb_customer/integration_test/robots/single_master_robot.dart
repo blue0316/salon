@@ -41,6 +41,7 @@ class SingleMasterRobot{
     await tester.pumpAndSettle();
     await Future.delayed(const Duration(seconds: 2));  
   }
+  
 ///[booking a masters service]
   Future<void> bookingAMastersService()async{
     await tester.tap(find.text("Book Now"));

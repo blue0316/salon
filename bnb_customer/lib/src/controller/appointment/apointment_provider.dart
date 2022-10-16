@@ -36,7 +36,7 @@ class AppointmentProvider with ChangeNotifier {
     selectedDayAppointments.clear();
     getEventsForDay(selectedDay).forEach((element) => selectedDayAppointments.add(element));
     selectedDayAppointments.sort((a, b) => a.appointmentStartTime.compareTo(b.appointmentStartTime));
-    notifyListeners();
+    notifyListeners(); 
   }
 
   loadAppointments({required String customerId, required SalonSearchProvider salonSearchProvider}) {

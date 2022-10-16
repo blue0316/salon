@@ -69,18 +69,18 @@ class _SettingsState extends State<Settings> {
                 );
               },
               size: size),
-          SettingsTile(
-              title: AppLocalizations.of(context)?.notifications ?? "Notifications",
-              iconUrl: "assets/icons/bell_active.svg",
-              onTapped: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const NotificationSettings(),
-                  ),
-                );
-              },
-              size: size),
+          // SettingsTile(
+          //     title: AppLocalizations.of(context)?.notifications ?? "Notifications",
+          //     iconUrl: "assets/icons/bell_active.svg",
+          //     onTapped: () {
+          //       Navigator.push(
+          //         context,
+          //         MaterialPageRoute(
+          //           builder: (context) => const NotificationSettings(),
+          //         ),
+          //       );
+          //     },
+          //     size: size),
           // SettingsTile(
           //     title: AppLocalizations.of(context)?.privacyAndSecurity ?? "Privacy and Security",
           //     iconUrl: "assets/icons/security_filled.svg",
