@@ -8,16 +8,15 @@ import 'package:bbblient/src/utils/time.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/calendar/calender_dialogues.dart';
 import 'package:bbblient/src/views/home/map_view/map_view_single_salon.dart';
-
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+
 import '../../theme/app_main_theme.dart';
 import '../../utils/icons.dart';
-
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EventCard extends ConsumerWidget {
   final AppointmentModel appointment;
@@ -54,7 +53,7 @@ class EventCard extends ConsumerWidget {
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          Container(
+          SizedBox(
             width: min(0.7.sw, 450),
             child: Column(
               children: [
@@ -173,7 +172,7 @@ class EventCard extends ConsumerWidget {
                                     borderRadius: BorderRadius.circular(50)),
                                 child: Ink(
                                   height: 30,
-                                  width: 127.h,
+                                  width: 120.h,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(50),
                                       color: AppTheme.creamBrown),
@@ -185,7 +184,7 @@ class EventCard extends ConsumerWidget {
                                       style: Theme.of(context)
                                           .textTheme
                                           .headline2!
-                                          .copyWith(fontSize: 14),
+                                          .copyWith(fontSize: 5),
                                     ),
                                   ),
                                 ),
