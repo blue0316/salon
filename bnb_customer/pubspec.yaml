@@ -58,7 +58,7 @@ dependencies:
   go_router: ^3.1.0
   google_fonts: ^3.0.1
   google_maps_flutter: ^2.1.0
-  google_maps_flutter_web: ^0.3.2+1
+  # google_maps_flutter_web: ^0.3.2+1
   image_cropper: ^1.4.1
   image_picker: ^0.8.4+3
   in_app_update: ^2.0.0

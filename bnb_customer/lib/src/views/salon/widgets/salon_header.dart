@@ -247,52 +247,52 @@ class _SaloonHeaderState extends ConsumerState<SaloonHeader> {
                                       SizedBox(
                                         width: 16.w,
                                       ),
-                                      Consumer(
-                                        builder: (context, ref, child) =>
-                                            GestureDetector(
-                                          onTap: () {
-                                            checkUser(
-                                                context,
-                                                ref,
-                                                () => Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            Chat(
-                                                              appointmentId: "",
-                                                              peerAvatar: widget
-                                                                      .salonModel
-                                                                      .profilePics
-                                                                      .isNotEmpty
-                                                                  ? widget
-                                                                      .salonModel
-                                                                      .profilePics
-                                                                      .first
-                                                                  : "",
-                                                              peerId: widget
-                                                                  .salonModel
-                                                                  .salonId,
-                                                              peerName: widget
-                                                                  .salonModel
-                                                                  .salonName,
-                                                            ))));
-                                          },
-                                          child: Container(
-                                            height: 38.h,
-                                            width: 38.h,
-                                            decoration: BoxDecoration(
-                                                color: Colors.white24,
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        12.sp)),
-                                            child: Padding(
-                                              padding: EdgeInsets.all(8.0.sp),
-                                              child: SvgPicture.asset(
-                                                  AppIcons.messageWhiteSVG),
-                                            ),
-                                          ),
-                                        ),
-                                      )
+                                      // Consumer(
+                                      //   builder: (context, ref, child) =>
+                                      //       GestureDetector(
+                                      //     onTap: () {
+                                      //       checkUser(
+                                      //           context,
+                                      //           ref,
+                                      //           () => Navigator.push(
+                                      //               context,
+                                      //               MaterialPageRoute(
+                                      //                   builder: (context) =>
+                                      //                       Chat(
+                                      //                         appointmentId: "",
+                                      //                         peerAvatar: widget
+                                      //                                 .salonModel
+                                      //                                 .profilePics
+                                      //                                 .isNotEmpty
+                                      //                             ? widget
+                                      //                                 .salonModel
+                                      //                                 .profilePics
+                                      //                                 .first
+                                      //                             : "",
+                                      //                         peerId: widget
+                                      //                             .salonModel
+                                      //                             .salonId,
+                                      //                         peerName: widget
+                                      //                             .salonModel
+                                      //                             .salonName,
+                                      //                       ))));
+                                      //     },
+                                      //     child: Container(
+                                      //       height: 38.h,
+                                      //       width: 38.h,
+                                      //       decoration: BoxDecoration(
+                                      //           color: Colors.white24,
+                                      //           borderRadius:
+                                      //               BorderRadius.circular(
+                                      //                   12.sp)),
+                                      //       child: Padding(
+                                      //         padding: EdgeInsets.all(8.0.sp),
+                                      //         child: SvgPicture.asset(
+                                      //             AppIcons.messageWhiteSVG),
+                                      //       ),
+                                      //     ),
+                                      //   ),
+                                      //)
                                     ],
                                   )
                                 ],
