@@ -50,7 +50,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
     if (widget.salonModel.ownerType == 'singleMaster') {
       for (Map registeredFeatures in masterFeatures) {
         if (registeredFeatures.containsKey(s)) {
-          print('eeeee$registeredFeatures');
+
           return registeredFeatures[s];
         }
       }
@@ -59,7 +59,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
     if (widget.salonModel.ownerType == 'salon'){
       for (Map registeredFeatures in salonFeatures) {
         if (registeredFeatures.containsKey(s)) {
-          print('hhhh$registeredFeatures');
+
           return registeredFeatures[s];
         }
       }
