@@ -1,18 +1,11 @@
 import 'package:bbblient/main.dart';
-import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
 import 'package:bbblient/src/firebase/collections.dart';
-import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/utils/utils.dart';
-import 'package:bbblient/src/views/home/home.dart';
-import 'package:bbblient/src/views/home_page.dart';
 
-import 'package:bbblient/src/views/registration/authenticate/login.dart';
-import 'package:bbblient/src/views/registration/quiz/register_quiz.dart';
-import 'package:bbblient/src/views/salon/booking/booking_date_time.dart';
-import 'package:bbblient/src/views/salon/booking/payment_bonus_confirmation.dart';
+import 'package:bbblient/src/views/policy/policy.dart';
+
 import 'package:bot_toast/bot_toast.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -64,6 +57,12 @@ final GoRouter router = GoRouter(
             error: "Invalid Link",
           )),
     ),
+    GoRoute(
+      path: EasyWebDemo.route,
+      pageBuilder: (context, state) =>
+          MaterialPage(key: state.pageKey, child: EasyWebDemo()),
+    ),
+
     GoRoute(
         path: NavigatorPage.route,
         pageBuilder: (context, state) =>
