@@ -17,6 +17,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../../utils/device_constraints.dart';
+import '../../widgets/buttons.dart';
+
 class BookingDateTime extends ConsumerStatefulWidget {
   const BookingDateTime({Key? key}) : super(key: key);
 
@@ -60,6 +63,7 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
         bottom: false,
         child: Stack(
           children: [
+
             SizedBox(
               height: 1.sh,
             ),
@@ -179,6 +183,8 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                       ),
                     ),
                   ),
+
+
                   Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: 16.w, vertical: 36),
@@ -825,6 +831,15 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                   //   ),
                   // )
                 ],
+              ),
+            ),
+            Positioned(
+              top: DeviceConstraints.getResponsiveSize(
+                  context, 10, 20, 30),
+              left: DeviceConstraints.getResponsiveSize(
+                  context, 10, 20, 30),
+              child: const SafeArea(
+                child: BackButtonGlassMorphic(),
               ),
             ),
             Positioned(

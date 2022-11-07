@@ -286,7 +286,7 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                             ),
                                           ),
                                           Expanded(
-                                            flex: 3,
+                                            flex: 4,
                                             child: Text(
                                               service.isFixedPrice
                                                   ? "${service.priceAndDuration.price} ${Keys.uah}"

@@ -6,6 +6,7 @@ import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/home/home.dart';
 import 'package:bbblient/src/views/home_page.dart';
+import 'package:bbblient/src/views/policy/policy.dart';
 
 import 'package:bbblient/src/views/registration/authenticate/login.dart';
 import 'package:bbblient/src/views/registration/quiz/register_quiz.dart';
@@ -30,25 +31,74 @@ final GoRouter router = GoRouter(
     if (kIsWeb) {
       var myPath = state.path;
       myPath = myPath!.substring(1);
-
-      // FirebaseFirestore.instance
-      //       .collection('stories')
-      //       .where('uid', isEqualTo: user.uid)
-      //       .snapshots()
-      Collection.customLinks.doc(myPath.toLowerCase()).get().then((snapshot) {
-        printIt(snapshot);
-        var openlink;
-        if (snapshot.exists) {
-          openlink = snapshot['link'].toString();
-          if (openlink != null) {
-            html.window.open(openlink, "_self");
+      try {
+        // FirebaseFirestore.instance
+        //       .collection('stories')
+        //       .where('uid', isEqualTo: user.uid)
+        //       .snapshots()
+        Collection.customLinks.doc(myPath.toLowerCase()).get().then((snapshot) {
+          printIt(snapshot);
+          var openlink;
+          if (snapshot.exists) {
+            openlink = snapshot['link'].toString();
+            if (openlink != null) {
+              html.window.open(openlink, "_self");
+            } else {
+              Collection.customLinks
+                  .get()
+                  .then((QuerySnapshot querySnapshot) async {
+                final allData = querySnapshot.docs
+                    .map((doc) =>
+                        {"name": doc.get("name"), "link": doc.get("link")})
+                    .toList();
+                final newData = allData
+                    .where(
+                        (element) => element["name"] == myPath!.toLowerCase())
+                    .toList();
+                var openlink;
+                if (newData.isNotEmpty) {
+                  openlink = newData[0]['link'].toString();
+                  if (openlink != null) {
+                    html.window.open(openlink, "_self");
+                  } else {
+                    html.window
+                        .open("https://bowandbeautiful.com/error", "_self");
+                  }
+                } else {
+                  html.window
+                      .open("https://bowandbeautiful.com/error", "_self");
+                }
+              });
+            }
           } else {
-            html.window.open("https://bowandbeautiful.com/error", "_self");
+            Collection.customLinks
+                .get()
+                .then((QuerySnapshot querySnapshot) async {
+              final allData = querySnapshot.docs
+                  .map((doc) =>
+                      {"name": doc.get("name"), "link": doc.get("link")})
+                  .toList();
+              final newData = allData
+                  .where((element) => element["name"] == myPath!.toLowerCase())
+                  .toList();
+              var openlink;
+              if (newData.isNotEmpty) {
+                openlink = newData[0]['link'].toString();
+                if (openlink != null) {
+                  html.window.open(openlink, "_self");
+                } else {
+                  html.window
+                      .open("https://bowandbeautiful.com/error", "_self");
+                }
+              } else {
+                html.window.open("https://bowandbeautiful.com/error", "_self");
+              }
+            });
           }
-        } else {
-          html.window.open("https://bowandbeautiful.com/error", "_self");
-        }
-      });
+        });
+      } catch (e) {
+        html.window.open("https://bowandbeautiful.com/error", "_self");
+      }
       return const SizedBox();
     } else {
       return ErrorScreen(error: state.error?.toString());
@@ -63,6 +113,11 @@ final GoRouter router = GoRouter(
           child: const ErrorScreen(
             error: "Invalid Link",
           )),
+    ),
+    GoRoute(
+      path: EasyWebDemo.route,
+      pageBuilder: (context, state) =>
+          MaterialPage(key: state.pageKey, child: EasyWebDemo()),
     ),
     GoRoute(
         path: NavigatorPage.route,
