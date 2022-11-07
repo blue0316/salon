@@ -75,7 +75,9 @@ class ImageUtilities {
       await _storage.refFromURL(imageAddress).delete();
       return imageAddress;
     } catch (e) {
+      
       printIt(e);
+
       return null;
     }
   }
