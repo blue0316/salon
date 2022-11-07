@@ -1,7 +1,10 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:ui';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
+import 'package:bbblient/src/models/promotions/promotion_service.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/salon/booking/booking_date_time.dart';
 import 'package:bbblient/src/views/salon/widgets/book_now_button.dart';
@@ -23,7 +26,6 @@ import 'master_service.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MasterProfile extends ConsumerStatefulWidget {
-
   final MasterModel masterModel;
   final String salonProfileImage;
 
@@ -132,6 +134,12 @@ class _MasterProfileState extends ConsumerState<MasterProfile> {
                         ),
                       ),
                     ),
+
+                    ///Promotions
+                    // Container(
+                    //   color: Colors.red,
+                    // ),
+                    // PromotionScroll(),
                     ExpandablePageView(
                       controller: _pageController,
                       onPageChanged: (ind) {
@@ -159,7 +167,6 @@ class _MasterProfileState extends ConsumerState<MasterProfile> {
           Positioned(
             bottom: 0,
             child: GestureDetector(
-            
               onTap: () {
                 if (_createAppointmentProvider.chosenServices.isNotEmpty) {
                   Navigator.of(context).push(MaterialPageRoute(
@@ -183,6 +190,74 @@ class _MasterProfileState extends ConsumerState<MasterProfile> {
           ),
           const Align(alignment: Alignment.bottomCenter, child: FloatingBar()),
         ],
+      ),
+    );
+  }
+}
+
+class PromotionLoading extends StatelessWidget {
+  const PromotionLoading({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(
+      height: 30,
+      width: 30,
+    );
+  }
+}
+
+class PromotionCard extends StatelessWidget {
+  const PromotionCard({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 140.h,
+      width: 218.w,
+      child: Container(
+        // height: 140.h,
+        // width: 218.w,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/promotion_card_client.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        // child: Column(),
+      ),
+    );
+  }
+}
+
+class PromotionScroll extends ConsumerWidget {
+  const PromotionScroll({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ref) {
+    // final _bnbProvider = ref.watch(bnbProvider);
+    final _createAppointmentProvider = ref.watch(createAppointmentProvider);
+
+    ScrollController _promotionListController = ScrollController();
+
+    if (_createAppointmentProvider.salonPromotions.isEmpty) {
+      return const Center(child: PromotionLoading());
+    }
+
+    return SizedBox(
+      height: 145.h,
+      child: Expanded(
+        child: ListView.builder(
+          controller: _promotionListController,
+          shrinkWrap: true,
+          primary: false,
+          
+          itemCount: _createAppointmentProvider.salonPromotions.length,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            return PromotionCard();
+          },
+        ),
       ),
     );
   }

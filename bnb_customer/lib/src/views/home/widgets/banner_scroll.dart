@@ -57,9 +57,7 @@ class BannerScroll extends ConsumerWidget {
     }
 
     return CarouselSlider(
-
         options: CarouselOptions(
-
           viewportFraction: DeviceConstraints.getResponsiveSize(context, 1,1, 0.5),
           autoPlay: true,
           enlargeCenterPage: true,
