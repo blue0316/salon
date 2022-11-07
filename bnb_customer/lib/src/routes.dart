@@ -20,7 +20,7 @@ import 'package:go_router/go_router.dart';
 
 import 'utils/analytics.dart';
 import 'views/salon/salon_home/salon_profile.dart';
-//import 'dart:html' as html;
+import 'dart:html' as html;
 
 final GoRouter router = GoRouter(
   debugLogDiagnostics: kDebugMode,
@@ -28,27 +28,27 @@ final GoRouter router = GoRouter(
   observers: [BotToastNavigatorObserver(), Analytics.getObserver()],
   errorBuilder: (context, state) {
     if (kIsWeb) {
-      // var myPath = state.path;
-      // myPath = myPath!.substring(1);
-      //
-      // // FirebaseFirestore.instance
-      // //       .collection('stories')
-      // //       .where('uid', isEqualTo: user.uid)
-      // //       .snapshots()
-      // Collection.customLinks.doc(myPath.toLowerCase()).get().then((snapshot) {
-      //   printIt(snapshot);
-      //   var openlink;
-      //   if (snapshot.exists) {
-      //     openlink = snapshot['link'].toString();
-      //     if (openlink != null) {
-      //       html.window.open(openlink, "_self");
-      //     } else {
-      //       html.window.open("https://bowandbeautiful.com/error", "_self");
-      //     }
-      //   } else {
-      //     html.window.open("https://bowandbeautiful.com/error", "_self");
-      //   }
-      // });
+      var myPath = state.path;
+      myPath = myPath!.substring(1);
+
+      // FirebaseFirestore.instance
+      //       .collection('stories')
+      //       .where('uid', isEqualTo: user.uid)
+      //       .snapshots()
+      Collection.customLinks.doc(myPath.toLowerCase()).get().then((snapshot) {
+        printIt(snapshot);
+        var openlink;
+        if (snapshot.exists) {
+          openlink = snapshot['link'].toString();
+          if (openlink != null) {
+            html.window.open(openlink, "_self");
+          } else {
+            html.window.open("https://bowandbeautiful.com/error", "_self");
+          }
+        } else {
+          html.window.open("https://bowandbeautiful.com/error", "_self");
+        }
+      });
       return const SizedBox();
     } else {
       return ErrorScreen(error: state.error?.toString());
