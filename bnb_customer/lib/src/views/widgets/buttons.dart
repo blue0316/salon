@@ -126,7 +126,6 @@ class BnbCheckCircle extends StatefulWidget {
 class _BnbCheckCircleState extends State<BnbCheckCircle> {
   @override
   Widget build(BuildContext context) {
-
     return Container(
       height: 24.h,
       width: 24.h,

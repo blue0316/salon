@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:async';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/app_provider.dart';
@@ -9,6 +11,7 @@ import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/enums/status.dart';
+import 'package:bbblient/src/models/promotions/promotion_service.dart';
 import 'package:bbblient/src/routes.dart';
 import 'package:bbblient/src/utils/analytics.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
@@ -27,6 +30,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gap/gap.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:jiffy/jiffy.dart';
 import '../../../models/enums/profile_datails_tabs.dart';
 import '../../../theme/app_main_theme.dart';
 import '../widgets/salon_header.dart';
@@ -196,6 +202,41 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
                                 child: Column(
                                   children: [
                                     Padding(
+                                      padding: EdgeInsets.only(
+                                        left:
+                                            DeviceConstraints.getResponsiveSize(
+                                                context, 16, 24, 32),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Text("Promotions",
+                                              textAlign: TextAlign.left,
+                                              style: GoogleFonts.epilogue(
+                                                  fontSize: DeviceConstraints
+                                                      .getResponsiveSize(
+                                                          context, 16, 16, 20),
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Color(0xff89959F))),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                        top:
+                                            DeviceConstraints.getResponsiveSize(
+                                                context, 16, 16, 24),
+                                        bottom:
+                                            DeviceConstraints.getResponsiveSize(
+                                                context, 16, 16, 24),
+                                        left:
+                                            DeviceConstraints.getResponsiveSize(
+                                                context, 16, 24, 32),
+                                      ),
+                                      child: PromotionScroll(),
+                                    ),
+                                    Padding(
                                       padding: EdgeInsets.only(left: 20.0.w),
                                       child: SizedBox(
                                         height: 45.h,
@@ -336,9 +377,10 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
                                     builder: (_) => const BookingDateTime()));
                               } else {
                                 Utils().vibrateNegatively();
-                                showToast(AppLocalizations.of(context)
-                                        ?.pleaseChooseAService ??
-                                    "Please choose a service");
+                                showToast(
+                                    // AppLocalizations.of(context)
+                                    //       ?.pleaseChooseAService ??
+                                    "Please choose a servicess");
                               }
                             },
                             child: Container(
@@ -415,6 +457,168 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
                       ],
                     )),
     );
+  }
+}
+
+class PromotionLoading extends StatelessWidget {
+  const PromotionLoading({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(
+      height: 5,
+      width: 5,
+    );
+  }
+}
+
+class PromotionCard extends StatelessWidget {
+  final PromotionModel? promotionModel;
+  const PromotionCard({Key? key, this.promotionModel}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: DeviceConstraints.getResponsiveSize(context, 150, 165, 200),
+      width: DeviceConstraints.getResponsiveSize(context, 228, 265, 327),
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/images/promotion_card_client.png"),
+          fit: BoxFit.fill,
+        ),
+      ),
+      child: Padding(
+        padding: EdgeInsets.only(top: 16, left: 12, bottom: 19),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                    promotionModel!.promotionTitle != null
+                        ? promotionModel!.promotionTitle!
+                        : promotionModel!.promotionType ==
+                                PromotionType.last_minute
+                            ? "Last Minute"
+                            : "",
+                    textAlign: TextAlign.left,
+                    style: GoogleFonts.epilogue(
+                      fontSize: DeviceConstraints.getResponsiveSize(
+                          context, 14, 16, 18),
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                    )),
+                Space(
+                  height: 7.h,
+                ),
+                Text(
+                  "Discount: ${promotionModel!.promotionDiscount} ${promotionModel!.discountUnit == "PCT(%)" ? '%' : '₴'}",
+                  style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                        color: Color(0xff89959F),
+                        fontSize: DeviceConstraints.getResponsiveSize(
+                            context, 12, 14, 16),
+                        fontWeight: FontWeight.w500,
+                      ),
+                ),
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Applies to" +
+                      getPromotionType(type: promotionModel!.promotionType!),
+                  style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                        color: Colors.white,
+                        fontSize: DeviceConstraints.getResponsiveSize(
+                            context, 12, 14, 16),
+                        fontWeight: FontWeight.w500,
+                      ),
+                ),
+                Space(
+                  height: 12.h,
+                ),
+                Text(
+                  "Valid until.${Jiffy(promotionModel!.endDate).format("dd MMM yyyy")}",
+                  style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                        color: Color(0xff89959F),
+                        fontSize: DeviceConstraints.getResponsiveSize(
+                            context, 10, 12, 14),
+                      ),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class PromotionScroll extends ConsumerWidget {
+  const PromotionScroll({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ref) {
+    // final _bnbProvider = ref.watch(bnbProvider);
+    final _createAppointmentProvider = ref.watch(createAppointmentProvider);
+
+    ScrollController _promotionListController = ScrollController();
+
+    if (_createAppointmentProvider.salonPromotions.isEmpty) {
+      return const Center(child: PromotionLoading());
+    }
+
+    return SizedBox(
+      height: DeviceConstraints.getResponsiveSize(context, 155, 185, 210),
+      child: ListView.builder(
+        controller: _promotionListController,
+        shrinkWrap: true,
+        primary: false,
+        itemCount: _createAppointmentProvider.salonPromotions.length,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          PromotionModel _promo =
+              _createAppointmentProvider.salonPromotions[index];
+
+          return Padding(
+            padding: EdgeInsets.only(
+                right:
+                    DeviceConstraints.getResponsiveSize(context, 15, 18, 24)),
+            child: GestureDetector(
+              // onTap: () {
+              //   setState(() {
+              //     currentCard = index;
+              //   });
+              // },
+              child: PromotionCard(
+                promotionModel: _promo,
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+String getPromotionType({required String type}) {
+  switch (type) {
+    case PromotionType.service:
+      return "Service(s)";
+    case PromotionType.service_set:
+      return "Service Set";
+    case PromotionType.visit:
+      return "Visit";
+    case PromotionType.last_minute:
+      return "Last Minute";
+    case PromotionType.happy_hour:
+      return "Happy Hour";
+
+    default:
+      return "No Promotion";
   }
 }
 

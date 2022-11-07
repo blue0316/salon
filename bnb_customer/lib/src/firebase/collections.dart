@@ -37,6 +37,8 @@ class Collection {
       FirebaseFirestore.instance.collection('bonuses');
   static final CollectionReference beautyPro =
       FirebaseFirestore.instance.collection('beautyPro');
+  static final CollectionReference promotions =
+      FirebaseFirestore.instance.collection('promotions');
   static final CollectionReference yClients =
       FirebaseFirestore.instance.collection('yClients');
   //auth error in customer app

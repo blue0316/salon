@@ -4,6 +4,7 @@ import 'package:bbblient/src/firebase/category_services.dart';
 import 'package:bbblient/src/firebase/collections.dart';
 import 'package:bbblient/src/firebase/integration/beauty_pro.dart';
 import 'package:bbblient/src/firebase/master.dart';
+import 'package:bbblient/src/firebase/promotion_service.dart';
 import 'package:bbblient/src/firebase/salons.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/backend_codings/appointment.dart';
@@ -16,6 +17,7 @@ import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/customer/customer.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/integration/beauty_pro/beauty_pro.dart';
+import 'package:bbblient/src/models/promotions/promotion_service.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/models/review.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
@@ -46,7 +48,19 @@ class CreateAppointmentProvider with ChangeNotifier {
   List<String> afternoonTimeslots = [];
   List<String> eveningTimeslots = [];
 
-  ///
+  ///Promotion Variables
+  // PromotionModel? chosenPromotion;
+  List<ServiceModel> salonPromotionServices = [];
+  List<PromotionModel> salonPromotions = [];
+  Map<String, List<ServiceModel>> categoryPromotionServicesMap = {};
+  PromotionModel? selectedPromotion;
+  List<String> allPromotionSlots = [];
+  List<String> validPromotionSlots = [];
+  List<String> chosenPromotionSlots = [];
+  List<String> morningTimePromotionslots = [];
+  List<String> afternoonTimePromotionslots = [];
+  List<String> eveningTimesPromotionlots = [];
+
   DateTime chosenDay = DateTime.now();
   int totalTimeSlotsRequired = 0;
   int totalMinutes = 0;
@@ -70,6 +84,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   Map<String, PriceAndDurationModel> mastersPriceDurationMap = {};
   Map<String, PriceAndDurationModel> mastersPriceDurationMapMax = {};
   AppointmentModel? appointmentModel;
+
   bool bookedForSelf = true;
   String bookedForName = '';
   String bookedForPhone = '';
@@ -78,9 +93,11 @@ class CreateAppointmentProvider with ChangeNotifier {
   String ownerType = OwnerType.all;
 
   // crm integration
-
   bool yclientActive = false;
   bool beautyProActive = false;
+
+  // bool for when promotion
+  bool promotionApplied = false;
   BeautyProConfig? beautyProConfig;
   Status slotsStatus = Status.init;
 
@@ -102,6 +119,91 @@ class CreateAppointmentProvider with ChangeNotifier {
     notifyListeners();
   }
 
+
+// Saving these for promotion 
+  // setSalonForPromotion(
+  //     {required SalonModel salonModel,
+  //     required BuildContext context,
+  //     required PromotionModel promotion}) async {
+  //   selectedPromotion = promotion;
+  //   _clearPromotionFromProvider();
+  //   // await _initSalonForPromotion{
+  //   //   salonModel: salonModel, 
+  //   //   context: context , 
+  //   //   promotionModel : promotion
+  //   // };
+  // }
+
+//Saving these for promotion
+  ///Initializing Salon for Booking(loading the promotion services and categorizing them acccording to masters and categories)
+//   Future _initSalonForPromotion(
+//       {required SalonModel salonModel, required BuildContext context,required PromotionModel promotionModel}) async {
+//     if (promotionModel != null) {
+//       List<ServiceModel> _servicesValidList = [];
+//       List<String> _mastersServices = [];
+//       printIt(salonModel.toJson());
+//       if (salonModel.ownerType == OwnerType.singleMaster) {
+//         if (promotionModel.services!.isNotEmpty) {
+//           salonPromotionServices = promotionModel.services!;
+//           _servicesValidList = promotionModel.services!;
+//         }
+        
+//         loadingStatus = Status.success;
+//         notifyListeners();
+//       } else {
+//         List<MasterModel> _masters =
+//             await MastersApi().getAllMaster(salonModel.salonId);
+
+//         List<ServiceModel> _servicesList = promotionModel.services!;
+//         if (_servicesList.isNotEmpty && _masters.isNotEmpty) {
+//           for (MasterModel master in _masters) {
+//             _mastersServices.addAll(master.serviceIds ?? []);
+//           }
+//           for (ServiceModel _service in _servicesList) {
+//             // if (_mastersServices.contains(_service.serviceId) && _service.priceAndDuration.price != '0') {
+//             if (_mastersServices.contains(_service.serviceId)) {
+//               printIt('service valid ${_service.serviceName}');
+//               _servicesValidList.add(_service);
+//             } else {
+//               printIt("no master found for ${_service.serviceName}");
+//             }
+//           }
+
+//           salonMasters = _masters;
+//           // calculateMasterVariationsAll(services: _servicesList);
+//           loadingStatus = Status.success;
+//           notifyListeners();
+//         } else {
+//           loadingStatus = Status.failed;
+//           notifyListeners();
+//         }
+//       }
+
+//       // dividing services into categories
+//       for (ServiceModel _service in _servicesValidList) {
+//         if (_service.isAvailableOnline) {
+//           if (categoryPromotionServicesMap[_service.categoryId] == null) {
+//             categoryPromotionServicesMap[_service.categoryId] = [];
+//           }
+//           categoryPromotionServicesMap[_service.categoryId]!.add(_service);
+//           if (categoryPromotionServicesMap != {}) {
+//             categoryPromotionServicesMap[_service.categoryId]!.sort((a, b) =>
+//                 a.bookOrderId != null && b.bookOrderId != null
+//                     ? a.bookOrderId!.compareTo(b.bookOrderId!)
+//                     : 1);
+//             loadingStatus = Status.success;
+//             notifyListeners();
+//           } else {
+//             loadingStatus = Status.failed;
+//             notifyListeners();
+//           }
+//           printIt(categoryPromotionServicesMap);
+//         }
+//       }
+//     }
+//   }
+
+  ///Initializing Salon for Booking(loading services and categorizing them acccording to masters and categories)
   Future _initSalon(
       {required SalonModel salonModel,
       required BuildContext context,
@@ -114,6 +216,12 @@ class CreateAppointmentProvider with ChangeNotifier {
           .getSalonServices(salonId: salonModel.salonId);
       salonServices = _servicesList;
       _servicesValidList = _servicesList;
+      //Saving these for promotion
+      // List<PromotionModel> _promotionList = await PromotionServiceApi()
+      //     .getMasterActivePromtions(salonId: salonModel.salonId);
+      // printIt("Promotion List");
+      // printIt(_promotionList);
+      // salonPromotions = _promotionList;
       loadingStatus = Status.success;
       notifyListeners();
     } else {
@@ -217,8 +325,22 @@ class CreateAppointmentProvider with ChangeNotifier {
     totalPriceWithMaster = 0;
     appointmentModel = null;
     chosenMaster = null;
+
     notifyListeners();
   }
+
+//Saving these for promotions
+  // _clearPromotionFromProvider() {
+  //   salonPromotionServices.clear();
+  //   salonPromotions.clear();
+  //   categoryPromotionServicesMap.clear();
+  //   allPromotionSlots.clear();
+  //   validPromotionSlots.clear();
+  //   chosenPromotionSlots.clear();
+  //   morningTimePromotionslots.clear();
+  //   afternoonTimePromotionslots.clear();
+  //   eveningTimesPromotionlots.clear();
+  // }
 
   clearSlotsAndSlotsRequired() {
     validSlots.clear();
@@ -242,6 +364,16 @@ class CreateAppointmentProvider with ChangeNotifier {
 
   void chooseBonus({required BonusModel bonusModel}) {
     chosenBonus = bonusModel;
+    notifyListeners();
+  }
+
+  void choosePromotion({required PromotionModel promotion}) {
+    selectedPromotion = promotion;
+    notifyListeners();
+  }
+
+  void chooseIfPromotionApplied({required bool promotionApplied}) {
+    promotionApplied = promotionApplied;
     notifyListeners();
   }
 
@@ -495,7 +627,7 @@ class CreateAppointmentProvider with ChangeNotifier {
             master.irregularWorkingHours!
                 .containsKey(DateFormat('yyyy-MM-dd').format(day).toString()));
         print("this is date");
-       
+
         bool servicesAvailable = mastersServicesMap[master.masterId] != null;
         bool servicesAvailableCount =
             mastersServicesMap[master.masterId]?.isNotEmpty ?? false;
@@ -507,6 +639,11 @@ class CreateAppointmentProvider with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future setUpPromotionSlots(
+      {required DateTime day,
+      required BuildContext context,
+      required bool showNotWorkingToast}) async {}
 
   Future setUpSlots(
       {required DateTime day,
@@ -772,6 +909,7 @@ class CreateAppointmentProvider with ChangeNotifier {
     }
   }
 
+  ///Divides Slots into Morning Afternoon and Night
   divideSlotsForDay() {
     int morningIndex = allSlots
         .indexWhere((element) => Time().stringToTime(element).hour >= 12);
@@ -1232,12 +1370,13 @@ class CreateAppointmentProvider with ChangeNotifier {
                 FieldValue.arrayUnion([appointmentModel!.salon.id])
           });
           loadingStatus = Status.success;
-           notifyListeners(); notifyListeners();
+          notifyListeners();
+          notifyListeners();
 
           return true;
         } else {
           loadingStatus = Status.failed;
-           notifyListeners();
+          notifyListeners();
 
           return false;
         }
@@ -1263,7 +1402,7 @@ class CreateAppointmentProvider with ChangeNotifier {
               FieldValue.arrayUnion([appointmentModel!.salon.id])
         });
         loadingStatus = Status.success;
-         notifyListeners();
+        notifyListeners();
         return true;
       }
     } else {

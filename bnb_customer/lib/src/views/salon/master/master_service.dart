@@ -25,7 +25,6 @@ class _MasterServicesState extends ConsumerState<MasterServices> {
     final _salonSearchProvider = ref.watch(salonSearchProvider);
     return Column(
       children: [
-
         SizedBox(
           height: 8.h,
         ),
@@ -36,17 +35,20 @@ class _MasterServicesState extends ConsumerState<MasterServices> {
             controller: _listViewController,
             padding: const EdgeInsets.all(0),
             itemBuilder: (context, index) {
-              List<ServiceModel> services = _createAppointmentProvider.mastersServicesMapAll[widget.master.masterId]
-                      ?.where((element) => element.categoryId == (index).toString())
+              List<ServiceModel> services = _createAppointmentProvider
+                      .mastersServicesMapAll[widget.master.masterId]
+                      ?.where(
+                          (element) => element.categoryId == (index).toString())
                       .toList() ??
                   [];
-              
 
               if (services.isNotEmpty) {
                 return ServiceTile(
                   services: services,
-                  categoryModel:
-                      _salonSearchProvider.categories.where((element) => element.categoryId == (index).toString()).first,
+                  categoryModel: _salonSearchProvider.categories
+                      .where(
+                          (element) => element.categoryId == (index).toString())
+                      .first,
                   listViewController: _listViewController,
                   initiallyExpanded: false,
                 );
