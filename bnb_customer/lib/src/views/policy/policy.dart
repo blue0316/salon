@@ -98,7 +98,7 @@ class EasyWebDemo extends StatelessWidget {
                     text: "     •   Visit our website at ",
                     style: TextStyle(fontWeight: FontWeight.bold)),
                 TextSpan(
-                    recognizer: new TapGestureRecognizer()
+                    recognizer: TapGestureRecognizer()
                       ..onTap = () {
                         html.window
                             .open("https://bowandbeautiful.com", "_blank");
