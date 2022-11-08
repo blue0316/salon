@@ -1,17 +1,21 @@
 import 'package:bbblient/main.dart';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+// import 'package:bbblient/src/controller/app_provider.dart';
 import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
 import 'package:bbblient/src/firebase/collections.dart';
+// import 'package:bbblient/src/firebase/master.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
+// import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/home/home.dart';
 import 'package:bbblient/src/views/home_page.dart';
 import 'package:bbblient/src/views/policy/policy.dart';
 
-import 'package:bbblient/src/views/registration/authenticate/login.dart';
+// import 'package:bbblient/src/views/registration/authenticate/login.dart';
 import 'package:bbblient/src/views/registration/quiz/register_quiz.dart';
 import 'package:bbblient/src/views/salon/booking/booking_date_time.dart';
 import 'package:bbblient/src/views/salon/booking/payment_bonus_confirmation.dart';
+// import 'package:bbblient/src/views/salon/master/master_profile.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
@@ -106,6 +110,7 @@ final GoRouter router = GoRouter(
   },
   initialLocation: NavigatorPage.route,
   routes: [
+    /// Error screen
     GoRoute(
       path: ErrorScreen.route,
       pageBuilder: (context, state) => MaterialPage(
@@ -114,11 +119,15 @@ final GoRouter router = GoRouter(
             error: "Invalid Link",
           )),
     ),
+
+    /// privacy
     GoRoute(
       path: EasyWebDemo.route,
       pageBuilder: (context, state) =>
           MaterialPage(key: state.pageKey, child: EasyWebDemo()),
     ),
+
+    /// home/salon for either master or salonOwner
     GoRoute(
         path: NavigatorPage.route,
         pageBuilder: (context, state) =>
@@ -129,7 +138,7 @@ final GoRouter router = GoRouter(
             pageBuilder: (context, state) {
               final String id = state.queryParams['id']!;
               final String locale = state.queryParams['locale'] ?? "en";
-              printIt(locale);
+              // printIt('ideeeeeeeeeeeeeeeeee '+id);
               bool back = true;
               if (state.queryParams['back'] != null) {
                 back = !(state.queryParams['back'] == 'false');
@@ -156,6 +165,42 @@ final GoRouter router = GoRouter(
                   ));
             },
           ),
+          // GoRoute(
+          //   path: MasterProfile.route,
+          //   pageBuilder: (context, state) {
+          //     final String id = state.queryParams['id']!;
+          //     final String id2 = state.queryParams['id2']!;
+          //
+          //     final String locale = state.queryParams['locale'] ?? "en";
+          //     printIt('id'+id2);
+          //     bool back = true;
+          //     if (state.queryParams['back'] != null) {
+          //       back = !(state.queryParams['back'] == 'false');
+          //     }
+          //
+          //     final bnbProvider = ChangeNotifierProvider<BnbProvider>(
+          //           (ref) => BnbProvider(),
+          //     );
+          //
+          //     final provider = Provider((ref) {
+          //       // use ref to obtain other providers
+          //       final repository = ref.watch(bnbProvider);
+          //       repository.changeLocale(
+          //           locale: Locale(state.queryParams['locale']!.toString()));
+          //       repository.retrieveSalonMasterModel(id2);
+          //       return repository;
+          //     });
+          //
+          //     return MaterialPage(
+          //         key: state.pageKey,
+          //         child: id2 != null ? MasterProfile(masterModel : AppProvider().salonMaster):  SalonPage(
+          //           salonId: id,
+          //           showBackButton: back,
+          //           locale: locale,
+          //         ));
+          //   },
+          // ),
+
         ]),
 
     // GoRoute(path: Home)
@@ -165,6 +210,7 @@ final GoRouter router = GoRouter(
 class ErrorScreen extends StatelessWidget {
   static const route = "/error";
   final String? error;
+
   const ErrorScreen({Key? key, this.error}) : super(key: key);
 
   @override
