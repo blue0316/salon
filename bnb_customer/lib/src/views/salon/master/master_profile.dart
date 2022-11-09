@@ -26,6 +26,8 @@ import 'master_service.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MasterProfile extends ConsumerStatefulWidget {
+  // static const route = 'master';
+
   final MasterModel masterModel;
   final String salonProfileImage;
 
@@ -61,7 +63,8 @@ class _MasterProfileState extends ConsumerState<MasterProfile> {
   void getReviews() {
     _salonProfileProvider = ref.read(salonProfileProvider);
     _salonProfileProvider.getMasterReviews(
-        masterId: widget.masterModel.masterId);
+      masterId: widget.masterModel.masterId);
+        // masterId: widget.masterModel!.masterId);
   }
 
   @override
@@ -74,7 +77,7 @@ class _MasterProfileState extends ConsumerState<MasterProfile> {
             child: Column(
               children: [
                 MasterHeader(
-                  masterModel: widget.masterModel,
+                  masterModel: widget.masterModel!,
                 ),
                 Column(
                   children: [
@@ -150,12 +153,15 @@ class _MasterProfileState extends ConsumerState<MasterProfile> {
                       children: [
                         MasterServices(
                           master: widget.masterModel,
+                          // master: widget.masterModel!,
                         ),
                         MasterAbout(
                           master: widget.masterModel,
+                          // master: widget.masterModel!,
                         ),
                         MasterAllWorks(
                           master: widget.masterModel,
+                          // master: widget.masterModel!,
                         ),
                       ],
                     )

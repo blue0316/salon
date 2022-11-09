@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_conditional_assignment
 
 import 'package:bbblient/main.dart';
+// import 'package:bbblient/src/firebase/master.dart';
 import 'package:bbblient/src/models/enums/status.dart';
+// import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/routes.dart';
 import 'package:bbblient/src/utils/keys.dart';
 import 'package:bbblient/src/utils/utils.dart';
@@ -11,15 +13,25 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AppProvider with ChangeNotifier {
   Status appStatus = Status.loading;
   bool isFirstTime = false;
+  // MasterModel? salonMaster;
   String? firstRoute;
+  // String? masterId;
 
   init() async {
     appStatus = Status.loading;
     await getSalonFirstTime();
     appStatus = Status.success;
+    // selectMasterID();
     selectFirstRoute();
+    // retrieveSalonMasterModel();
     notifyListeners();
   }
+  //
+  // retrieveSalonMasterModel()async{
+  //   salonMaster = await MastersApi().getMasterFromId(masterId!);
+  //   print('salonMaster Id '+salonMaster!.masterId.toString());
+  //   notifyListeners();
+  // }
 
   setSalonFirstTime() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -43,6 +55,13 @@ class AppProvider with ChangeNotifier {
     }
     notifyListeners();
   }
+  //
+  // selectMasterID(){
+  //   if (router.location.contains('master')) {
+  //     masterId = router.location.split('=').last;
+  //     print('the master id '+ masterId.toString());
+  //   }
+  //   }
 
   selectSalonFirstRoute() async {
     printIt("This is the $firstRoute");
