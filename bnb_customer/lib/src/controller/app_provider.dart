@@ -64,7 +64,7 @@ class AppProvider with ChangeNotifier {
   //   }
 
   selectSalonFirstRoute() async {
-    printIt("This is the $firstRoute");
+    // printIt("This is the $firstRoute");
     if (firstRoute == null) {
       firstRoute = router.location;
     }

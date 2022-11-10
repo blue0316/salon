@@ -119,8 +119,7 @@ class CreateAppointmentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-
-// Saving these for promotion 
+// Saving these for promotion
   // setSalonForPromotion(
   //     {required SalonModel salonModel,
   //     required BuildContext context,
@@ -128,8 +127,8 @@ class CreateAppointmentProvider with ChangeNotifier {
   //   selectedPromotion = promotion;
   //   _clearPromotionFromProvider();
   //   // await _initSalonForPromotion{
-  //   //   salonModel: salonModel, 
-  //   //   context: context , 
+  //   //   salonModel: salonModel,
+  //   //   context: context ,
   //   //   promotionModel : promotion
   //   // };
   // }
@@ -147,7 +146,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 //           salonPromotionServices = promotionModel.services!;
 //           _servicesValidList = promotionModel.services!;
 //         }
-        
+
 //         loadingStatus = Status.success;
 //         notifyListeners();
 //       } else {

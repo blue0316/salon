@@ -5,6 +5,7 @@ import 'package:bbblient/src/firebase/app_data.dart';
 import 'package:bbblient/src/firebase/bonus_referral_api.dart';
 import 'package:bbblient/src/firebase/collections.dart';
 import 'package:bbblient/src/firebase/customer.dart';
+import 'package:bbblient/src/firebase/master.dart';
 // import 'package:bbblient/src/firebase/master.dart';
 import 'package:bbblient/src/models/app_initialize.dart';
 import 'package:bbblient/src/models/appointment/notification.dart';
@@ -15,6 +16,7 @@ import 'package:bbblient/src/models/customer/customer.dart';
 import 'package:bbblient/src/models/enums/location.dart';
 import 'package:bbblient/src/models/enums/platform.dart';
 import 'package:bbblient/src/models/referral.dart';
+import 'package:bbblient/src/models/salon_master/master.dart';
 // import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/utils.dart';
@@ -43,7 +45,7 @@ class BnbProvider with ChangeNotifier {
     installBonusActive: false,
   );
   CustomerModel? customer;
-  // MasterModel? salonMaster;
+  MasterModel? salonMaster;
   Connectivity connectivity = Connectivity();
   CurrentPlatform platform = computePlatform();
   String? langCode;
@@ -55,6 +57,7 @@ class BnbProvider with ChangeNotifier {
   AppInitialization appInitialization =
       AppInitialization(serverDownReason: {}, serverDown: false);
   get getLocale => locale;
+  get getCurrenMaster => salonMaster;
   final AppData _appData = AppData();
   // StreamSubscription<ConnectivityResult>? _connectivitySubscription;
 
@@ -71,7 +74,7 @@ class BnbProvider with ChangeNotifier {
     if (!kIsWeb) {
       await monitorInternetConnection();
     }
-    
+
     printIt("Getting to this place ");
     appInitialization = await _appData.getAppInitialization() ??
         AppInitialization(serverDownReason: {}, serverDown: false);
@@ -124,12 +127,13 @@ class BnbProvider with ChangeNotifier {
         .compareTo(DateTime.parse(a.triggerTime.toString())));
     notifyListeners();
   }
+
   //
-  // retrieveSalonMasterModel(String id)async{
-  //   salonMaster = await MastersApi().getMasterFromId(id);
-  //   print('salonMaster Id '+salonMaster!.masterId.toString());
-  //   notifyListeners();
-  // }
+  retrieveSalonMasterModel(String id) async {
+    salonMaster = await MastersApi().getMasterFromId(id);
+    print('salonMaster Id ' + salonMaster!.masterId.toString());
+    notifyListeners();
+  }
 
   void changeLocale({required Locale locale}) async {
     this.locale = locale;

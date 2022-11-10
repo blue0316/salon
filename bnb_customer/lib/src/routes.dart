@@ -5,6 +5,7 @@ import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
 import 'package:bbblient/src/firebase/collections.dart';
 // import 'package:bbblient/src/firebase/master.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
+import 'package:bbblient/src/models/salon_master/master.dart';
 // import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/home/home.dart';
@@ -15,6 +16,7 @@ import 'package:bbblient/src/views/policy/policy.dart';
 import 'package:bbblient/src/views/registration/quiz/register_quiz.dart';
 import 'package:bbblient/src/views/salon/booking/booking_date_time.dart';
 import 'package:bbblient/src/views/salon/booking/payment_bonus_confirmation.dart';
+import 'package:bbblient/src/views/salon/master/master_profile.dart';
 // import 'package:bbblient/src/views/salon/master/master_profile.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -138,8 +140,10 @@ final GoRouter router = GoRouter(
             pageBuilder: (context, state) {
               final String id = state.queryParams['id']!;
               final String locale = state.queryParams['locale'] ?? "en";
-              // printIt('ideeeeeeeeeeeeeeeeee '+id);
+              final String id2 = state.queryParams['id2'] ?? "";
+              printIt('ideeeeeeeeeeeeeeeeee ' + id2);
               bool back = true;
+              MasterModel? salonMaster;
               if (state.queryParams['back'] != null) {
                 back = !(state.queryParams['back'] == 'false');
               }
@@ -148,14 +152,21 @@ final GoRouter router = GoRouter(
                 (ref) => BnbProvider(),
               );
 
-              final provider = Provider((ref) {
+              final provider = Provider((ref) async {
                 // use ref to obtain other providers
                 final repository = ref.watch(bnbProvider);
                 repository.changeLocale(
                     locale: Locale(state.queryParams['locale']!.toString()));
+                print("id 2 dey here oo" + id2);
+                if (id2 != "") {
+                  repository.retrieveSalonMasterModel(
+                      state.queryParams['id2']!.toString());
+                  salonMaster = repository.getCurrenMaster;
+                  print(repository.getCurrenMaster);
+                }
                 return repository;
               });
-
+              print(salonMaster);
               return MaterialPage(
                   key: state.pageKey,
                   child: SalonPage(
@@ -200,7 +211,6 @@ final GoRouter router = GoRouter(
           //         ));
           //   },
           // ),
-
         ]),
 
     // GoRoute(path: Home)
