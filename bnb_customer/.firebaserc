@@ -6,14 +6,14 @@
   "targets": {
     "bowandbeautiful-3372d": {
       "hosting": {
-        "uk": [
+        "bnbtest": [
           "bnbtest"
         ]
       }
     },
     "bowandbeautiful-dev": {
       "hosting": {
-        "uk": [
+        "bnb-test-dev": [
           "bnb-test-dev"
         ]
       }

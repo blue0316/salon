@@ -45,6 +45,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class SalonPage extends ConsumerStatefulWidget {
   static const route = 'salon';
   final String salonId;
+ 
   final bool switchSalon;
   final String locale;
   final List<ServiceModel> chosenServices;
@@ -54,11 +55,13 @@ class SalonPage extends ConsumerStatefulWidget {
       {Key? key,
       required this.salonId,
       this.locale = "uk",
+      
       this.showBackButton = true,
       this.switchSalon = true,
       this.chosenServices = const []})
       : super(key: key);
   @override
+   
   _SaloonProfileState createState() => _SaloonProfileState();
 }
 
@@ -73,6 +76,7 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
   final ScrollController _listViewController = ScrollController();
   @override
   void initState() {
+    
     // final _bnbProvider = ref.read(bnbProvider);
     // print(widget.locale);
     // _bnbProvider.changeLocale(locale: const Locale('uk'));
@@ -93,6 +97,8 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
         (salon) => WidgetsBinding.instance.addPostFrameCallback((_) async {
               await init(salon);
             }));
+
+
   }
 
   init(salon) async {

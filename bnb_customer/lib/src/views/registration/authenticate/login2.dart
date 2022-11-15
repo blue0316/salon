@@ -16,6 +16,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../controller/all_providers/all_providers.dart';
 import '../../../controller/appointment/apointment_provider.dart';
@@ -30,6 +31,7 @@ class Login2 extends ConsumerStatefulWidget {
 
 class _Login2State extends ConsumerState<Login2> {
   late AuthProvider _auth;
+
   final UnderlineInputBorder border = const UnderlineInputBorder(
     borderSide: BorderSide(
       color: AppTheme.lightBlack,
@@ -177,6 +179,7 @@ class _Login2State extends ConsumerState<Login2> {
                     ),
                   ),
                 ),
+
                 Gap(80.h),
                 ElevatedButton(
                   onPressed: () async {
