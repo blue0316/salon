@@ -31,6 +31,9 @@ class _SaloonServicesState extends ConsumerState<SalonServices> {
   Widget build(BuildContext context) {
     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
     final _salonSearchProvider = ref.watch(salonSearchProvider);
+    print(
+      'leenghtt${_salonSearchProvider.categories.length}',
+    );
     return Column(
       children: [
         SizedBox(

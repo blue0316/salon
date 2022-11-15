@@ -1,6 +1,7 @@
 {
   "hosting": {
-    "target": "uk",
+    "target1": "bnb-test-dev",
+    "target": "bnbtest",
     "public": "build/web",
     "ignore": [
       "firebase.json",
@@ -13,5 +14,18 @@
         "destination": "/index.html"
       }
     ]
+  },
+  "functions": {
+    "source": "functions"
+  },
+  "database": {
+    "rules": "database.rules.json"
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "storage": {
+    "rules": "storage.rules"
   }
 }

@@ -1,20 +1,12 @@
+import 'dart:html' as html;
+
 import 'package:bbblient/main.dart';
-import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 // import 'package:bbblient/src/controller/app_provider.dart';
 import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
 import 'package:bbblient/src/firebase/collections.dart';
-// import 'package:bbblient/src/firebase/master.dart';
-import 'package:bbblient/src/models/appointment/appointment.dart';
 // import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/utils/utils.dart';
-import 'package:bbblient/src/views/home/home.dart';
-import 'package:bbblient/src/views/home_page.dart';
 import 'package:bbblient/src/views/policy/policy.dart';
-
-// import 'package:bbblient/src/views/registration/authenticate/login.dart';
-import 'package:bbblient/src/views/registration/quiz/register_quiz.dart';
-import 'package:bbblient/src/views/salon/booking/booking_date_time.dart';
-import 'package:bbblient/src/views/salon/booking/payment_bonus_confirmation.dart';
 // import 'package:bbblient/src/views/salon/master/master_profile.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -25,7 +17,6 @@ import 'package:go_router/go_router.dart';
 
 import 'utils/analytics.dart';
 import 'views/salon/salon_home/salon_profile.dart';
-import 'dart:html' as html;
 
 final GoRouter router = GoRouter(
   debugLogDiagnostics: kDebugMode,
@@ -42,7 +33,7 @@ final GoRouter router = GoRouter(
         //       .snapshots()
         Collection.customLinks.doc(myPath.toLowerCase()).get().then((snapshot) {
           printIt(snapshot);
-          var openlink;
+          String openlink;
           if (snapshot.exists) {
             openlink = snapshot['link'].toString();
             if (openlink != null) {
@@ -59,7 +50,7 @@ final GoRouter router = GoRouter(
                     .where(
                         (element) => element["name"] == myPath!.toLowerCase())
                     .toList();
-                var openlink;
+                String openlink;
                 if (newData.isNotEmpty) {
                   openlink = newData[0]['link'].toString();
                   if (openlink != null) {
@@ -85,7 +76,7 @@ final GoRouter router = GoRouter(
               final newData = allData
                   .where((element) => element["name"] == myPath!.toLowerCase())
                   .toList();
-              var openlink;
+              String openlink;
               if (newData.isNotEmpty) {
                 openlink = newData[0]['link'].toString();
                 if (openlink != null) {
@@ -159,6 +150,7 @@ final GoRouter router = GoRouter(
               return MaterialPage(
                   key: state.pageKey,
                   child: SalonPage(
+                  
                     salonId: id,
                     showBackButton: back,
                     locale: locale,
@@ -200,7 +192,6 @@ final GoRouter router = GoRouter(
           //         ));
           //   },
           // ),
-
         ]),
 
     // GoRoute(path: Home)
