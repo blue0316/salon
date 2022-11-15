@@ -25,6 +25,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ConfirmBooking extends ConsumerStatefulWidget {
   static const route = "/confirmBooking";
@@ -36,6 +37,8 @@ class ConfirmBooking extends ConsumerStatefulWidget {
 }
 
 class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
+
+  bool acceptTerms = false;
   @override
   Widget build(BuildContext context) {
     final _auth = ref.watch(authProvider);
@@ -587,6 +590,74 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                           ),
                         ),
                       ),
+                      Gap(20.h),
+                      Visibility(
+                        visible: !_auth.userLoggedIn,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 32.0.w),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: Checkbox(
+                                  value: acceptTerms,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      acceptTerms = !acceptTerms;
+                                    });
+                                  },
+                                ),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Expanded(
+                                flex: 11,
+                                child: InkWell(
+                                    onTap: () async {
+                                      Uri uri = Uri.parse(
+                                          "https://bowandbeautiful.com/privacy");
+                                      print("launchingUrl: $uri");
+                                      if (await canLaunchUrl(uri)) {
+                                        await launchUrl(uri);
+                                      }
+                                    },
+                                    child: Text(
+                                      AppLocalizations.of(context)?.read_privacy_policy??'I have read and accept privacy policy' ,
+                                      textAlign: TextAlign.left,
+                                      style: const TextStyle(
+                                          decoration: TextDecoration.underline,
+                                          fontFamily: "Montserrat",
+                                          fontWeight: FontWeight.w400,
+                                          wordSpacing: 1,
+                                          fontSize: 13,
+                                          // height: 2.h,
+                                          color: AppTheme.grey1),
+                                    )
+                                  //  Text.rich(
+                                  //   TextSpan(
+                                  //     children: [
+                                  //       TextSpan(
+                                  //         text: tr(Keys.read_privacy_policy),
+                                  //         style: TextStyle(
+                                  //             fontFamily: "Montserrat",
+                                  //             fontWeight: FontWeight.w400,
+                                  //             wordSpacing: 1,
+                                  //             fontSize: 11,
+                                  //             height: 2.h,
+                                  //             color: AppTheme.grey1),
+                                  //       ),
+                                  //     ],
+                                  //     // textAlign: TextAlign.center,
+                                  //   ),
+                                  //   textAlign: TextAlign.left,
+                                  // ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                       Gap(102.h),
                       ElevatedButton(
                         onPressed: () async {
@@ -606,6 +677,11 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                             showToast(AppLocalizations.of(context)
                                     ?.invalid_phone_number ??
                                 'Invalid phone No');
+                            return;
+                          }
+                          if(!acceptTerms){
+                            showToast( AppLocalizations.of(context)?.privacy_policy_accept??'I have read and accepted privacy policy' ,
+                            );
                             return;
                           }
                           if (!_auth.userLoggedIn) {

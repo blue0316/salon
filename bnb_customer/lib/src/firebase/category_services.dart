@@ -22,10 +22,11 @@ class CategoryServicesApi {
         // print(e.data().);
         Map _temp = e.data() as Map<dynamic, dynamic>;
         _temp['categoryId'] = e.id;
+
         return CategoryModel.fromJson(_temp as Map<String, dynamic>);
       }).toList();
     } catch (e) {
-      debugPrint(e.toString());
+      debugPrint('eeee${e.toString()}');
       return [];
     }
   }

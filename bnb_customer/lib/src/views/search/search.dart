@@ -167,6 +167,7 @@ class _SearchState extends ConsumerState<Search> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => SalonPage(
+                                        
                                         salonId: salon.salonId,
                                         switchSalon: true,
                                         chosenServices: [service],
