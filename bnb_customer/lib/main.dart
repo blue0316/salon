@@ -16,7 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'dart:html' as html;
 import 'src/routes.dart';
 
 void main() async {
@@ -27,6 +27,10 @@ void main() async {
   ]);
   await Firebase.initializeApp();
   await initializeNotifications();
+  final el = html.window.document.getElementById('__ff-recaptcha-container');
+  if (el != null) {
+    el.style.visibility = 'hidden';
+  }
 
   if (!kIsWeb) {
     await FirebaseCrashlytics.instance
