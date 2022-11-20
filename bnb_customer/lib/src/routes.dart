@@ -43,7 +43,7 @@ final GoRouter router = GoRouter(
         //       .where('uid', isEqualTo: user.uid)
         //       .snapshots()
         Collection.customLinks.doc(myPath.toLowerCase()).get().then((snapshot) {
-          printIt(snapshot);
+          printIt(' snapshot'+ snapshot.toString());
           var openlink;
           if (snapshot.exists) {
             openlink = snapshot['link'].toString();
