@@ -97,7 +97,7 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                           Text(
                             AppLocalizations.of(context)
                                     ?.checkAppointmentDetails ??
-                                "check appointment details",
+                                "Appointment details",
                             style: AppTheme.bodyText1,
                           ),
                           const CancelButtonTopRight(),
@@ -679,7 +679,7 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                 'Invalid phone No');
                             return;
                           }
-                          if(!acceptTerms){
+                          if(!_auth.userLoggedIn && !acceptTerms){
                             showToast( AppLocalizations.of(context)?.privacy_policy_accept??'I have read and accepted privacy policy' ,
                             );
                             return;
@@ -688,8 +688,8 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                             await _auth.verifyPhoneNumber(context: context);
                             showTopSnackBar(
                               context,
-                              const CustomSnackBar.success(
-                                message: "Otp has been sent to your phone",
+                               CustomSnackBar.success(
+                                message:  AppLocalizations.of(context)?.otpSent?? "Otp has been sent to your phone",
                                 backgroundColor: AppTheme.creamBrown,
                               ),
                             );
@@ -806,8 +806,10 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                     strokeWidth: 2,
                                     color: AppTheme.white,
                                   ),
-                                ))
-                            : const Text('Continue',
+                                )):
+                        Text(!_auth.userLoggedIn?AppLocalizations.of(context)
+                                ?.continue_word??'Continue':AppLocalizations.of(context)
+                            ?.confirm??'Confirm',
                                 style: AppTheme.calTextStyle),
                         style: ElevatedButton.styleFrom(
                             primary: AppTheme.lightBlack,
