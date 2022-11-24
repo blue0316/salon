@@ -352,10 +352,12 @@
   "usa": "Сполучені Штати",
   "seeDetails": "Див. деталі",
   "book": "Запис",
+  "checkAppointmentDetails":"деталі запису",
   "newAppointment": "Новий запис",
   "repeated": "Попередні",
 
   "continue_word":"Продовжити",
+
   "confirm":"Підтвердити",
   "chooseMaster": "Оберіть майстра",
   "chooseService": "Оберіть одну чи кілька послуг",

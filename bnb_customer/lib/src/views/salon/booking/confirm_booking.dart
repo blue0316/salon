@@ -91,9 +91,7 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                           size: 10))),
                             ),
                           ),
-                          const SizedBox(
-                            width: 50,
-                          ),
+
                           Text(
                             AppLocalizations.of(context)
                                     ?.checkAppointmentDetails ??

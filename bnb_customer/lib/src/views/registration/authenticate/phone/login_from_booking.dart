@@ -359,15 +359,7 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
                           customerModel: _authProvider.currentCustomer!);
                       showToast(  AppLocalizations.of(context)?.booked ??'booked');
 
-                      // if (_appProvider.firstRoute != null) {
-                      //   printIt("Going back to : ${_appProvider.firstRoute}");
-                      //   context.pop();
-                      //   context.push(
-                      //       '${NavigatorPage.redirect}${_appProvider.firstRoute!}');
-                      // } else {
-                      //   Navigator.of(context)
-                      //       .popUntil((Route<dynamic> route) => route.isFirst);
-                      // }
+
                       if (_success) {
                         showMyDialog(
                           context: context,

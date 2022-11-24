@@ -62,6 +62,7 @@ class CustomerApi {
         printIt('customer is emptyyyy');
         return false;
       } else {
+        print('geData${getData.docs}');
            printIt('customer is not emptyyyy');
         
         return true;
