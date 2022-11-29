@@ -765,8 +765,7 @@ class CreateAppointmentProvider with ChangeNotifier {
           _blokedSlots.add(slot.toString());
         }
         if (workingHours != null) {
-          print("na here boos");
-          print(workingHours.startTime.toString());
+
 
           TimeOfDay _startTime = Time().stringToTime(workingHours.startTime);
           TimeOfDay _endTime = Time().stringToTime(workingHours.endTime);

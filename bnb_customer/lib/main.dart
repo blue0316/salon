@@ -5,6 +5,7 @@ import 'package:bbblient/src/utils/analytics.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/home_page.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -16,7 +17,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+
+import 'firebase_options.dart';
+
 import 'dart:html' as html;
+
 import 'src/routes.dart';
 
 void main() async {
@@ -25,7 +31,8 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options:DefaultFirebaseOptions.currentPlatform);
+
   await initializeNotifications();
   final el = html.window.document.getElementById('__ff-recaptcha-container');
   if (el != null) {
@@ -37,8 +44,11 @@ void main() async {
         .setCrashlyticsCollectionEnabled(kReleaseMode);
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   }
-  //logs the app opening..okay
+  //logs the app opening.
   Analytics.openApp();
+  await FirebaseAppCheck.instance.activate(
+    webRecaptchaSiteKey: '6LebxRcjAAAAAEhkbBhqF54zyW0jEPoCkUbeNnk1',
+  );
   runApp(
     const ProviderScope(
       child: MyApp(),

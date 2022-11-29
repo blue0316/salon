@@ -205,7 +205,7 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
                     const Spacer(),
                     Container(width: 265.w, color: AppTheme.midGrey, height: 1),
                     const Gap(10),
-                    Text('Please fill in your details here...',
+                    Text(AppLocalizations.of(context)?.fillDetails ??'Please fill in your details here...',
                         style: AppTheme.bodyText2),
                     const Gap(10),
                   ]),
@@ -357,17 +357,9 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
                       bool _success = await _createAppointment.finishBooking(
                           context: context,
                           customerModel: _authProvider.currentCustomer!);
-                      showToast('booked');
+                      showToast(  AppLocalizations.of(context)?.booked ??'booked');
 
-                      // if (_appProvider.firstRoute != null) {
-                      //   printIt("Going back to : ${_appProvider.firstRoute}");
-                      //   context.pop();
-                      //   context.push(
-                      //       '${NavigatorPage.redirect}${_appProvider.firstRoute!}');
-                      // } else {
-                      //   Navigator.of(context)
-                      //       .popUntil((Route<dynamic> route) => route.isFirst);
-                      // }
+
                       if (_success) {
                         showMyDialog(
                           context: context,
@@ -454,7 +446,7 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
                             color: AppTheme.white,
                           ),
                         ))
-                    : const Text('Verify and book',
+                    : Text(AppLocalizations.of(context)?.verifyAndBook ??'Verify and book',
                         style: AppTheme.calTextStyle),
                 style: ElevatedButton.styleFrom(
                     primary: AppTheme.lightBlack,
