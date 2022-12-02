@@ -68,7 +68,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
 
   @override
   Widget build(BuildContext context) {
-    printIt(widget.salonModel.additionalFeatures);
+    printIt("additional feat"+ widget.salonModel.additionalFeatures.toString());
     BnbProvider _bnbProvider = ref.read(bnbProvider);
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     return ConstrainedContainer(
@@ -117,41 +117,43 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
               child: Wrap(
-                  alignment: WrapAlignment.center,
-                  runAlignment: WrapAlignment.center,
-                  spacing: 16.w,
+                     spacing: 16.w,
                   runSpacing: 16.h,
                   children: [
                     for (String s in widget.salonModel.additionalFeatures) ...[
                       if (AppIcons.getIconFromFacilityString(feature: s) !=
                           null) ...[
-                        Column(
-                          children: [
-                            GestureDetector(
-                              onTap: () => showDialog<bool>(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return ShowAdditionaFeatureInfo(
-                                        _bnbProvider, s);
-                                  }),
-                              child: Container(
-                                height: 52.sp,
-                                width: 52.sp,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: AppTheme.black, width: 1),
-                                  borderRadius: BorderRadius.circular(12.sp),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.all(10.sp),
-                                  child: SvgPicture.asset(
-                                      AppIcons.getIconFromFacilityString(
-                                          feature: s)!),
+                        SizedBox(
+                          height: 100.sp,
+                          width: 70.sp,
+                          child: Column(
+                            children: [
+                              GestureDetector(
+                                onTap: () => showDialog<bool>(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return ShowAdditionaFeatureInfo(
+                                          _bnbProvider, s);
+                                    }),
+                                child: Container(
+                                  height: 52.sp,
+                                  width: 52.sp,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: AppTheme.black, width: 1),
+                                    borderRadius: BorderRadius.circular(12.sp),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.all(10.sp),
+                                    child: SvgPicture.asset(
+                                        AppIcons.getIconFromFacilityString(
+                                            feature: s)!),
+                                  ),
                                 ),
                               ),
-                            ),
-                            Text(getFeature(s)??''),
-                          ],
+                              Text(getFeature(s)??'', style: TextStyle(overflow: TextOverflow.ellipsis)),
+                            ],
+                          ),
                         ),
                       ]
                     ],
