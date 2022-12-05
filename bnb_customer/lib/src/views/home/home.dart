@@ -28,7 +28,6 @@ import 'map_view/pick_location.dart';
 import 'search/search_field.dart';
 import 'package:paginable/paginable.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'dart:html' as html;
 
 class Home extends ConsumerStatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -185,6 +184,7 @@ class _HomeState extends ConsumerState<Home> {
                                     onBookTapped: () {
                                       context.go(
                                           '${NavigatorPage.route}/salon?id=${_salon.salonId}');
+                                        
                                     });
                               },
                               itemCount:
@@ -306,21 +306,6 @@ class _AppBarState extends ConsumerState<HomePageAppBar> {
         ),
         Row(
           children: [
-            Padding(
-              padding: EdgeInsets.only(
-                  right:
-                      DeviceConstraints.getResponsiveSize(context, 24, 30, 42)),
-              child: GestureDetector(
-                onTap: () {
-                  html.window
-                      .open("https://bowandbeautiful.com/privacy", "_blank");
-                },
-                child: const Text(
-                  "PRIVACY",
-                  style: TextStyle(),
-                ),
-              ),
-            ),
             GestureDetector(
               onTap: () async {
                 if (!showCurrentAddress) {
