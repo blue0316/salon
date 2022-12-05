@@ -10,6 +10,7 @@ import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/home/home.dart';
 import 'package:bbblient/src/views/home_page.dart';
+import 'package:bbblient/src/views/policy/htmlPolicy.dart';
 import 'package:bbblient/src/views/policy/policy.dart';
 
 // import 'package:bbblient/src/views/registration/authenticate/login.dart';
@@ -43,7 +44,7 @@ final GoRouter router = GoRouter(
         //       .where('uid', isEqualTo: user.uid)
         //       .snapshots()
         Collection.customLinks.doc(myPath.toLowerCase()).get().then((snapshot) {
-          printIt(' snapshot'+ snapshot.toString());
+          printIt(' snapshot' + snapshot.toString());
           var openlink;
           if (snapshot.exists) {
             openlink = snapshot['link'].toString();
@@ -126,7 +127,7 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: EasyWebDemo.route,
       pageBuilder: (context, state) =>
-          MaterialPage(key: state.pageKey, child: EasyWebDemo()),
+          MaterialPage(key: state.pageKey, child: Iframe()),
     ),
 
     /// home/salon for either master or salonOwner
