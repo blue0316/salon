@@ -20,7 +20,7 @@ class _NewTEstState extends State<NewTEst> {
     super.initState();
     _iframeElement.style.height = '100%';
     _iframeElement.style.width = '100%';
-    _iframeElement.src = 'assets/policy.html';
+    _iframeElement.src = 'https://policy111.w3spaces-preview.com/index.html';
     _iframeElement.style.border = 'none';
 
     // ignore: undefined_prefixed_name
