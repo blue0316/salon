@@ -618,11 +618,13 @@ class CreateAppointmentProvider with ChangeNotifier {
       notifyListeners();
 
       for (MasterModel master in salonMasters) {
+        if(master.workingHours != null){
+        print('mmmm${master.workingHours} ${day.weekday}');
         bool isMasterWorking = (Time()
-                    .getWorkingHoursFromWeekDay(
-                        day.weekday, master.workingHours)
-                    ?.isWorking ==
-                true ||
+            .getWorkingHoursFromWeekDay(
+            day.weekday, master.workingHours)
+            ?.isWorking ==
+            true ||
             master.irregularWorkingHours!
                 .containsKey(DateFormat('yyyy-MM-dd').format(day).toString()));
         print("this is date");
@@ -633,6 +635,7 @@ class CreateAppointmentProvider with ChangeNotifier {
         if (isMasterWorking && servicesAvailable && servicesAvailableCount) {
           availableMasters.add(master);
         }
+      }
       }
       printIt("available masters ${availableMasters.length}");
       notifyListeners();
