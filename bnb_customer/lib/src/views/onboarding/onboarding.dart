@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
+import 'dart:html' as html;
 import '../../theme/app_main_theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -110,6 +110,18 @@ class _OnBoardingState extends ConsumerState<OnBoarding> {
                         onPressed: () => _appProvider.setSalonFirstTime(),
                         child: Text(
                           AppLocalizations.of(context)?.skip ?? "Skip",
+                          style: const TextStyle(fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                      TextButton(
+                        key: const ValueKey("policy"),
+                        onPressed: () {
+                          html.window.open(
+                              "https://bowandbeautiful.com/privacy", "_blank");
+                        },
+                        child: Text(
+                          AppLocalizations.of(context)?.policy ??
+                              "Privacy Policy",
                           style: const TextStyle(fontWeight: FontWeight.w400),
                         ),
                       ),
