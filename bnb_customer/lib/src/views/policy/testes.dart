@@ -21,7 +21,7 @@ class _NewTEstState extends State<NewTEst> {
     _iframeElement.style.height = '100%';
     _iframeElement.style.width = '100%';
     _iframeElement.src =
-        'https://firebasestorage.googleapis.com/v0/b/airplay-c007d.appspot.com/o/policy.html?alt=media&token=b0cf7352-8f24-4ceb-83a4-dd59ed574317';
+        'https://firebasestorage.googleapis.com/v0/b/bowandbeautiful-3372d.appspot.com/o/policy.html?alt=media&token=f962c7df-083e-496c-85a6-b99c61084741';
     _iframeElement.style.border = 'none';
 
     // ignore: undefined_prefixed_name
