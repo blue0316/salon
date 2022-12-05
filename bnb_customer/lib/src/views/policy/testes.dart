@@ -22,7 +22,7 @@ class _NewTEstState extends State<NewTEst> {
     _iframeElement.style.width = '100%';
     _iframeElement.src =
         // incase of next time if A' keep on showing beside an embedded link....open the file from your local host on chrome..if the A doesn't show..redownload it from chrome itself ..then open the file on vscode remove all the links to personal computer..then upload this new file to firebase
-        'https://firebasestorage.googleapis.com/v0/b/bowandbeautiful-3372d.appspot.com/o/policy.html?alt=media&token=65345547-e249-4c87-b1c7-4e7f4e777a8f';
+        'https://firebasestorage.googleapis.com/v0/b/bowandbeautiful-3372d.appspot.com/o/policy.html?alt=media&token=2611ff19-a470-4ec7-97a7-2219607f6e70';
     _iframeElement.style.border = 'none';
     _iframeElement.style.border = 'none';
 
