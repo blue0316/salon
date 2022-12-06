@@ -1,97 +1,41 @@
 {
   "project_info": {
-    "project_number": "1028145974134",
-    "firebase_url": "https://bowandbeautiful-3372d-default-rtdb.firebaseio.com",
-    "project_id": "bowandbeautiful-3372d",
-    "storage_bucket": "bowandbeautiful-3372d.appspot.com"
+    "project_number": "120423255657",
+    "firebase_url": "https://bowandbeautiful-dev-default-rtdb.firebaseio.com",
+    "project_id": "bowandbeautiful-dev",
+    "storage_bucket": "bowandbeautiful-dev.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1028145974134:android:c59e1b284580a204760857",
+        "mobilesdk_app_id": "1:120423255657:android:5a190419e0d6c7dd7a5cf8",
         "android_client_info": {
           "package_name": "com.bnb.client"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1028145974134-1u0pk14u1v20ctdoeua7pl3u1ac6ihbv.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.bnb.client",
-            "certificate_hash": "0b6c0aefa242da76ac8b5c559e73727da288af05"
-          }
-        },
-        {
-          "client_id": "1028145974134-950tfihq5kepv8m4qbc94p95ltpfv0p4.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.bnb.client",
-            "certificate_hash": "8817b83fc94542c42cf4d2317f5c65bb434957b9"
-          }
-        },
-        {
-          "client_id": "1028145974134-hj8tejhi2jbn32oge7b4ii1aj6brah34.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.bnb.client",
-            "certificate_hash": "e7f4f797a3326db81a96ea9fb34310cfa67ed54a"
-          }
-        },
-        {
-          "client_id": "1028145974134-i2v311c2qtkjqf0abhjc7687ukv7fr28.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.bnb.client",
-            "certificate_hash": "0de36582802936c12cd1f55adbd2a2d969241c6a"
-          }
-        },
-        {
-          "client_id": "1028145974134-lj16d73fqrr982ofrs1g9b4kci102i96.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.bnb.client",
-            "certificate_hash": "9135e556fe051b3e9dcf973a5a3bd298c7d7e3e4"
-          }
-        },
-        {
-          "client_id": "1028145974134-pb61umcugicqf9gvkq7bdbtf0cf8clup.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.bnb.client",
-            "certificate_hash": "5579d6f6df8ae97d503721e0e065ec1213765584"
-          }
-        },
-        {
-          "client_id": "1028145974134-tg1g8u7l59q1jvfjoimhsb5nrb666rqq.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.bnb.client",
-            "certificate_hash": "7e2225286ac29a5e0ec615771eab9e7b18c61e3c"
-          }
-        },
-        {
-          "client_id": "1028145974134-mf1804161v3pvkeqnuogovq5rmfhiq7n.apps.googleusercontent.com",
+          "client_id": "120423255657-4bpmiee6pc13d5k13ju2g93pfnpbntct.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCM128YfRhmin6kUNttOG5Fs9UZDvI1gLY"
+          "current_key": "AIzaSyDz6MTQ6fitLYV5AZS2SrbWkLLUehgTP0c"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1028145974134-mf1804161v3pvkeqnuogovq5rmfhiq7n.apps.googleusercontent.com",
+              "client_id": "120423255657-4bpmiee6pc13d5k13ju2g93pfnpbntct.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "1028145974134-9096jaqeggsu68i97roim405m9v8rnsn.apps.googleusercontent.com",
+              "client_id": "120423255657-ahvn5u7th53rqj8ihgb18ooni34ed7e9.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.bnb.client"
+                "bundle_id": "com.bnb.admin"
               }
             }
           ]
@@ -100,66 +44,74 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1028145974134:android:dfa9a7e212fcc5f3760857",
+        "mobilesdk_app_id": "1:120423255657:android:f28ec392fc3740537a5cf8",
         "android_client_info": {
           "package_name": "com.bowAndBeautiful.admin"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1028145974134-63k32sfu6j4702d3j24mbemndjhm0llf.apps.googleusercontent.com",
+          "client_id": "120423255657-40qjv7j83nrj9c3s722ac5ll7djf8ad3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.bowAndBeautiful.admin",
-            "certificate_hash": "0b6c0aefa242da76ac8b5c559e73727da288af05"
+            "certificate_hash": "f999462e57914df39ad88e8d418fdde133c47a2e"
           }
         },
         {
-          "client_id": "1028145974134-a7qrv82lm9mhpvukeqvbfavflb5d5hrd.apps.googleusercontent.com",
+          "client_id": "120423255657-8l1el52p6rihrdik4od6956vs9al1nhd.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.bowAndBeautiful.admin",
-            "certificate_hash": "bb8872269239210f6ef9d7229e60190bbcc02f7b"
+            "certificate_hash": "7e2225286ac29a5e0ec615771eab9e7b18c61e3c"
           }
         },
         {
-          "client_id": "1028145974134-e7mefud60802o6ar51eovedek387veou.apps.googleusercontent.com",
+          "client_id": "120423255657-ch1da0beg9jhalkj3l8tedp7mlli3j00.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.bowAndBeautiful.admin",
-            "certificate_hash": "553386abc4bdf2d3dea20d064fdc4ccb7a514c71"
+            "certificate_hash": "42e8cfad3862fa4b81f65af80ae8488c4c855bd5"
           }
         },
         {
-          "client_id": "1028145974134-hsfsf4kg51fukrbv94h7v47k3rugctis.apps.googleusercontent.com",
+          "client_id": "120423255657-ja8fe84nttbafiecs4a0vlmh0nak893s.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.bowAndBeautiful.admin",
-            "certificate_hash": "e7f4f797a3326db81a96ea9fb34310cfa67ed54a"
+            "certificate_hash": "8817b83fc94542c42cf4d2317f5c65bb434957b9"
           }
         },
         {
-          "client_id": "1028145974134-mf1804161v3pvkeqnuogovq5rmfhiq7n.apps.googleusercontent.com",
+          "client_id": "120423255657-v7o4827o25rjuvno766q15paa7ab8njt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bowAndBeautiful.admin",
+            "certificate_hash": "567c44bb8d3b2f39970694159218f435e2e0789b"
+          }
+        },
+        {
+          "client_id": "120423255657-4bpmiee6pc13d5k13ju2g93pfnpbntct.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCM128YfRhmin6kUNttOG5Fs9UZDvI1gLY"
+          "current_key": "AIzaSyDz6MTQ6fitLYV5AZS2SrbWkLLUehgTP0c"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1028145974134-mf1804161v3pvkeqnuogovq5rmfhiq7n.apps.googleusercontent.com",
+              "client_id": "120423255657-4bpmiee6pc13d5k13ju2g93pfnpbntct.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "1028145974134-9096jaqeggsu68i97roim405m9v8rnsn.apps.googleusercontent.com",
+              "client_id": "120423255657-ahvn5u7th53rqj8ihgb18ooni34ed7e9.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.bnb.client"
+                "bundle_id": "com.bnb.admin"
               }
             }
           ]
@@ -168,34 +120,82 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1028145974134:android:11583e868e04c878760857",
+        "mobilesdk_app_id": "1:120423255657:android:0cfdb115367e69da7a5cf8",
         "android_client_info": {
-          "package_name": "com.bowandbeautiful.bnb_admin"
+          "package_name": "com.bowAndBeautiful.admin.dev"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1028145974134-mf1804161v3pvkeqnuogovq5rmfhiq7n.apps.googleusercontent.com",
+          "client_id": "120423255657-021082iblcqlnar5nc1a11p2v8kd5sl7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bowAndBeautiful.admin.dev",
+            "certificate_hash": "f999462e57914df39ad88e8d418fdde133c47a2e"
+          }
+        },
+        {
+          "client_id": "120423255657-1usub09mhpb92m2o46f6d0dip2aotahd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bowAndBeautiful.admin.dev",
+            "certificate_hash": "0b6c0aefa242da76ac8b5c559e73727da288af05"
+          }
+        },
+        {
+          "client_id": "120423255657-86v32os5babaiugb69msvjoigi36gthq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bowAndBeautiful.admin.dev",
+            "certificate_hash": "567c44bb8d3b2f39970694159218f435e2e0789b"
+          }
+        },
+        {
+          "client_id": "120423255657-eh5o4nmshfl9l4639go01r2r99gq51p0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bowAndBeautiful.admin.dev",
+            "certificate_hash": "8817b83fc94542c42cf4d2317f5c65bb434957b9"
+          }
+        },
+        {
+          "client_id": "120423255657-froadju73vo1rl4v6ioi030m4g9tafdk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bowAndBeautiful.admin.dev",
+            "certificate_hash": "e7f4f797a3326db81a96ea9fb34310cfa67ed54a"
+          }
+        },
+        {
+          "client_id": "120423255657-vk4kocf1a41jbjv2ua6lkiupgqlobsfs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bowAndBeautiful.admin.dev",
+            "certificate_hash": "bb8872269239210f6ef9d7229e60190bbcc02f7b"
+          }
+        },
+        {
+          "client_id": "120423255657-4bpmiee6pc13d5k13ju2g93pfnpbntct.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCM128YfRhmin6kUNttOG5Fs9UZDvI1gLY"
+          "current_key": "AIzaSyDz6MTQ6fitLYV5AZS2SrbWkLLUehgTP0c"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1028145974134-mf1804161v3pvkeqnuogovq5rmfhiq7n.apps.googleusercontent.com",
+              "client_id": "120423255657-4bpmiee6pc13d5k13ju2g93pfnpbntct.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "1028145974134-9096jaqeggsu68i97roim405m9v8rnsn.apps.googleusercontent.com",
+              "client_id": "120423255657-ahvn5u7th53rqj8ihgb18ooni34ed7e9.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.bnb.client"
+                "bundle_id": "com.bnb.admin"
               }
             }
           ]
