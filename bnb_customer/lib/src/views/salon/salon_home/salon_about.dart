@@ -49,23 +49,19 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
       : showToast('Could not launch $url');
 
   getFeature(String s) {
-    if (widget.salonModel.ownerType == 'singleMaster') {
       for (Map registeredFeatures in masterFeatures) {
         if (registeredFeatures.containsKey(s)) {
           print("single s is: " + s);
           return registeredFeatures[s];
         }
       }
-    }
 
-    if (widget.salonModel.ownerType == 'salon') {
       for (Map registeredFeatures in salonFeatures) {
         if (registeredFeatures.containsKey(s)) {
           print("s is: " + salonFeatures.toString());
           return registeredFeatures[s];
         }
       }
-    }
   }
 
   @override
@@ -122,10 +118,10 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
               child: Wrap(spacing: 16.w, runSpacing: 16.h, children: [
-                for (String s in widget.salonModel.additionalFeatures) ...[
-                  if (AppIcons.getIconFromFacilityString(feature: s) !=
-                      null) ...[
-                    if (widget.salonModel.ownerType == 'salon') ...[
+                if(_bnbProvider.locale == const Locale('en'))...[
+                  for (String s in widget.salonModel.additionalFeatures) ...[
+                    if (AppIcons.getIconFromFacilityString(feature: s) !=
+                        null) ...[
                       for (Map registeredFeatures in salonFeatures) ...[
                         if (registeredFeatures.containsKey(s)) ...[
                           SizedBox(
@@ -157,16 +153,14 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                                     ),
                                   ),
                                 ),
-                                Text(getFeature(s) ?? '',
+                                Text(registeredFeatures[s] ?? '',
                                     style: const TextStyle(
                                         overflow: TextOverflow.ellipsis)),
                               ],
                             ),
                           ),
                         ]
-                      ]
-                    ],
-                    if (widget.salonModel.ownerType == 'singleMaster') ...[
+                      ],
                       for (Map registeredFeatures in masterFeatures) ...[
                         if (registeredFeatures.containsKey(s)) ...[
                           SizedBox(
@@ -194,11 +188,11 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                                       padding: EdgeInsets.all(10.sp),
                                       child: SvgPicture.asset(
                                           AppIcons.getIconFromFacilityString(
-                                              feature: registeredFeatures[s])!),
+                                              feature: s)!),
                                     ),
                                   ),
                                 ),
-                                Text(getFeature(s) ?? '',
+                                Text(registeredFeatures[s] ?? '',
                                     style: const TextStyle(
                                         overflow: TextOverflow.ellipsis)),
                               ],
@@ -207,7 +201,92 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                         ]
                       ]
                     ]
-                  ]
+                  ],
+                ],
+                if(_bnbProvider.locale == const Locale('uk'))...[
+                  for (String s in widget.salonModel.additionalFeatures) ...[
+                    if (AppIcons.getIconFromFacilityString(feature: s) !=
+                        null) ...[
+                      for (Map registeredFeatures in ukSalonFeatures) ...[
+                        if (registeredFeatures.containsKey(s)) ...[
+                          SizedBox(
+                            height: 100.sp,
+                            width: 70.sp,
+                            child: Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () => showDialog<bool>(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return ShowAdditionaFeatureInfo(
+                                            _bnbProvider, s);
+                                      }),
+                                  child: Container(
+                                    height: 52.sp,
+                                    width: 52.sp,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: AppTheme.black, width: 1),
+                                      borderRadius:
+                                      BorderRadius.circular(12.sp),
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsets.all(10.sp),
+                                      child: SvgPicture.asset(
+                                          AppIcons.getIconFromFacilityString(
+                                              feature: s)!),
+                                    ),
+                                  ),
+                                ),
+                                Text(registeredFeatures[s] ?? '',
+                                    style: const TextStyle(
+                                        overflow: TextOverflow.ellipsis)),
+                              ],
+                            ),
+                          ),
+                        ]
+                      ],
+                      for (Map registeredFeatures in ukMasterFeatures) ...[
+                        if (registeredFeatures.containsKey(s)) ...[
+                          SizedBox(
+                            height: 100.sp,
+                            width: 70.sp,
+                            child: Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () => showDialog<bool>(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return ShowAdditionaFeatureInfo(
+                                            _bnbProvider, s);
+                                      }),
+                                  child: Container(
+                                    height: 52.sp,
+                                    width: 52.sp,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: AppTheme.black, width: 1),
+                                      borderRadius:
+                                      BorderRadius.circular(12.sp),
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsets.all(10.sp),
+                                      child: SvgPicture.asset(
+                                          AppIcons.getIconFromFacilityString(
+                                              feature: s)!),
+                                    ),
+                                  ),
+                                ),
+                                Text(registeredFeatures[s] ?? '',
+                                    style: const TextStyle(
+                                        overflow: TextOverflow.ellipsis)),
+                              ],
+                            ),
+                          ),
+                        ]
+                      ]
+                    ]
+                  ],
                 ],
                 if (widget.salonModel.links != null) ...[
                   if (widget.salonModel.links!.instagram != "" &&
