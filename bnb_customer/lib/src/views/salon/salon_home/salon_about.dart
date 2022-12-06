@@ -103,10 +103,10 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                         colorClickableText: AppTheme.textBlack,
                         trimMode: TrimMode.Line,
                         trimCollapsedText:
-                            AppLocalizations.of(context)?.readMore ??
-                                '...Read More',
+                        AppLocalizations.of(context)?.readMore ??
+                            '...Read More',
                         trimExpandedText:
-                            AppLocalizations.of(context)?.less ?? '  Less',
+                        AppLocalizations.of(context)?.less ?? '  Less',
                         style: Theme.of(context)
                             .textTheme
                             .bodyText1!
@@ -147,7 +147,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                                       border: Border.all(
                                           color: AppTheme.black, width: 1),
                                       borderRadius:
-                                          BorderRadius.circular(12.sp),
+                                      BorderRadius.circular(12.sp),
                                     ),
                                     child: Padding(
                                       padding: EdgeInsets.all(10.sp),
@@ -188,7 +188,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                                       border: Border.all(
                                           color: AppTheme.black, width: 1),
                                       borderRadius:
-                                          BorderRadius.circular(12.sp),
+                                      BorderRadius.circular(12.sp),
                                     ),
                                     child: Padding(
                                       padding: EdgeInsets.all(10.sp),
@@ -223,7 +223,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                             width: 52.sp,
                             decoration: BoxDecoration(
                               border:
-                                  Border.all(color: AppTheme.black, width: 1),
+                              Border.all(color: AppTheme.black, width: 1),
                               borderRadius: BorderRadius.circular(12.sp),
                             ),
                             child: Padding(
@@ -250,7 +250,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                             width: 52.sp,
                             decoration: BoxDecoration(
                               border:
-                                  Border.all(color: AppTheme.black, width: 1),
+                              Border.all(color: AppTheme.black, width: 1),
                               borderRadius: BorderRadius.circular(12.sp),
                             ),
                             child: Padding(
@@ -278,7 +278,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                             width: 52.sp,
                             decoration: BoxDecoration(
                               border:
-                                  Border.all(color: AppTheme.black, width: 1),
+                              Border.all(color: AppTheme.black, width: 1),
                               borderRadius: BorderRadius.circular(12.sp),
                             ),
                             child: Padding(
@@ -305,7 +305,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                             width: 52.sp,
                             decoration: BoxDecoration(
                               border:
-                                  Border.all(color: AppTheme.black, width: 1),
+                              Border.all(color: AppTheme.black, width: 1),
                               borderRadius: BorderRadius.circular(12.sp),
                             ),
                             child: Padding(
@@ -332,7 +332,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                             width: 52.sp,
                             decoration: BoxDecoration(
                               border:
-                                  Border.all(color: AppTheme.black, width: 1),
+                              Border.all(color: AppTheme.black, width: 1),
                               borderRadius: BorderRadius.circular(12.sp),
                             ),
                             child: Padding(
@@ -514,9 +514,9 @@ class _ReviewWidgetState extends State<ReviewWidget> {
                       Text(
                         totalReviewsToShow == 3
                             ? AppLocalizations.of(context)?.moreReviews ??
-                                "More reviews"
+                            "More reviews"
                             : AppLocalizations.of(context)?.lessReviews ??
-                                "Less Reviews",
+                            "Less Reviews",
                         style: Theme.of(context)
                             .textTheme
                             .subtitle1!
