@@ -11,6 +11,7 @@ import 'package:bbblient/src/views/salon/booking/confirm_booking.dart';
 import 'package:bbblient/src/views/salon/booking/widgets/bottom_sheet_booking.dart';
 import 'package:bbblient/src/views/salon/widgets/person_avtar.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -863,6 +864,9 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                           printIt("it will check");
                           printIt(moveAhead);
                           if (moveAhead) {
+                            if(kIsWeb){
+
+
                             // checkUser2(context, ref, () {
                             createAppointment.createAppointment2(
                                 //  customerModel: _auth.currentCustomer!,
@@ -879,8 +883,25 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                               ),
                             );
                             // });
+                          }else {
+                              createAppointment.createAppointment2(
+                                //  customerModel: _auth.currentCustomer!,
+                                  context: context);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  settings: const RouteSettings(
+                                      name: ConfirmBooking.route),
+                                  builder: (context) => ConfirmBooking(
+                                    appointment:
+                                    createAppointment.appointmentModel!,
+                                  ),
+                                ),
+                              );
+                            }
+
                           }
-                        },
+    },
                         child: Container(
                           decoration: const BoxDecoration(
                             color: AppTheme.creamBrown,

@@ -767,6 +767,9 @@ class CreateAppointmentProvider with ChangeNotifier {
         for (dynamic slot in slotsBlocked) {
           _blokedSlots.add(slot.toString());
         }
+
+
+
         if (workingHours != null) {
 
 
@@ -828,81 +831,94 @@ class CreateAppointmentProvider with ChangeNotifier {
         }
       } else {
         Hours? workingHours;
-        if (chosenSalon!.irregularWorkingHours!.containsKey(
-            DateFormat('yyyy-MM-dd').format(chosenDay).toString())) {
-          workingHours = chosenSalon!.irregularWorkingHours![
-              DateFormat('yyyy-MM-dd').format(chosenDay).toString()];
-        } else {
-          workingHours = Time().getWorkingHoursFromWeekDay(
-            chosenDay.weekday,
-            (chosenMaster == null)
-                ? chosenSalon!.workingHours
-                : chosenMaster!.workingHours,
-          );
-        }
+        print('jjjjjjj${chosenSalon!.workingHours}');
+        if (chosenSalon!.irregularWorkingHours != null) {
+          if (chosenSalon!.irregularWorkingHours!.containsKey(
+              DateFormat('yyyy-MM-dd').format(chosenDay).toString())) {
+            workingHours = chosenSalon!.irregularWorkingHours![
+            DateFormat('yyyy-MM-dd').format(chosenDay).toString()];
+          }
+        }else {
+            workingHours = Time().getWorkingHoursFromWeekDay(
+              chosenDay.weekday,
+              (chosenMaster == null)
+                  ? chosenSalon!.workingHours
+                  : chosenMaster!.workingHours,
+            );
+          }
 
-        List<String> masterBlocked = [];
-        String? dateString = Time().getDateInStandardFormat(chosenDay);
-        List<dynamic> slotsBlocked =
-            chosenMaster?.blockedTime?[dateString] ?? [];
-        for (dynamic slot in slotsBlocked) {
-          masterBlocked.add(slot.toString());
-        }
-        if (workingHours != null) {
-          TimeOfDay _startTime = Time().stringToTime(workingHours.startTime);
-          TimeOfDay _endTime = Time().stringToTime(workingHours.endTime);
-          TimeOfDay _breakStartTime =
-              Time().stringToTime(workingHours.breakStartTime);
-          TimeOfDay _breakEndTime =
-              Time().stringToTime(workingHours.breakEndTime);
-          allSlots = Time().getTimeSlots(_startTime, _endTime).toList();
-          if (workingHours.isWorking) {
-            if (chosenDay.day == DateTime.now().day &&
-                chosenDay.month == DateTime.now().month) {
-              validSlots =
-                  Time().getTimeSlots(TimeOfDay.now(), _endTime).toList();
+          List<String> masterBlocked = [];
+          String? dateString = Time().getDateInStandardFormat(chosenDay);
+          List<dynamic> slotsBlocked =
+              chosenMaster?.blockedTime?[dateString] ?? [];
+          for (dynamic slot in slotsBlocked) {
+            masterBlocked.add(slot.toString());
+          }
+          if (workingHours != null) {
+            TimeOfDay _startTime = Time().stringToTime(workingHours.startTime);
+            TimeOfDay _endTime = Time().stringToTime(workingHours.endTime);
+            TimeOfDay _breakStartTime =
+            Time().stringToTime(workingHours.breakStartTime);
+            TimeOfDay _breakEndTime =
+            Time().stringToTime(workingHours.breakEndTime);
+            allSlots = Time().getTimeSlots(_startTime, _endTime).toList();
+            if (workingHours.isWorking) {
+              if (chosenDay.day == DateTime
+                  .now()
+                  .day &&
+                  chosenDay.month == DateTime
+                      .now()
+                      .month) {
+                validSlots =
+                    Time().getTimeSlots(TimeOfDay.now(), _endTime).toList();
+              } else {
+                validSlots = Time().getTimeSlots(_startTime, _endTime).toList();
+              }
+              bool isBreakAvailable = Time()
+                  .getWorkingHoursFromWeekDay(
+                  chosenDay.weekday,
+                  (chosenSalon?.ownerType == OwnerType.salon)
+                      ? chosenMaster?.workingHours
+                      : chosenSalon!.workingHours)
+                  ?.isBreakAvailable ??
+                  false;
+              if (isBreakAvailable) {
+                printIt('master is taking break on choosen day');
+                breakSlots =
+                    Time()
+                        .getTimeSlots(_breakStartTime, _breakEndTime)
+                        .toList() +
+                        masterBlocked;
+              } else {
+                printIt('master is not taking break on choosen day');
+                breakSlots = masterBlocked;
+              }
+              for (String slot in breakSlots) {
+                validSlots.removeWhere((element) => element == slot);
+              }
+              slotsStatus = Status.success;
+              notifyListeners();
             } else {
-              validSlots = Time().getTimeSlots(_startTime, _endTime).toList();
+              validSlots.clear();
+              if (chosenMaster != null && showNotWorkingToast) {
+                showToast(AppLocalizations
+                    .of(context)
+                    ?.masterNotWorking ??
+                    "master's not Working");
+              }
+              slotsStatus = Status.failed;
+              notifyListeners();
+              notifyListeners();
             }
-            bool isBreakAvailable = Time()
-                    .getWorkingHoursFromWeekDay(
-                        chosenDay.weekday,
-                        (chosenSalon?.ownerType == OwnerType.salon)
-                            ? chosenMaster?.workingHours
-                            : chosenSalon!.workingHours)
-                    ?.isBreakAvailable ??
-                false;
-            if (isBreakAvailable) {
-              printIt('master is taking break on choosen day');
-              breakSlots =
-                  Time().getTimeSlots(_breakStartTime, _breakEndTime).toList() +
-                      masterBlocked;
-            } else {
-              printIt('master is not taking break on choosen day');
-              breakSlots = masterBlocked;
-            }
-            for (String slot in breakSlots) {
-              validSlots.removeWhere((element) => element == slot);
-            }
-            slotsStatus = Status.success;
-            notifyListeners();
+            printIt("valid Slots $validSlots");
+            divideSlotsForDay();
           } else {
-            validSlots.clear();
-            if (chosenMaster != null && showNotWorkingToast) {
-              showToast(AppLocalizations.of(context)?.masterNotWorking ??
-                  "master's not Working");
-            }
             slotsStatus = Status.failed;
             notifyListeners();
-            notifyListeners();
-          }
-          printIt("valid Slots $validSlots");
-          divideSlotsForDay();
-        } else {
-          slotsStatus = Status.failed;
-          notifyListeners();
-          debugPrint(allSlots.toString());
+            debugPrint(allSlots.toString());
+
         }
+
       }
     } else {
       slotsStatus = Status.failed;
@@ -1246,7 +1262,7 @@ class CreateAppointmentProvider with ChangeNotifier {
                   .map((element) => Service.fromService(
                       serviceModel: element,
                       masterPriceAndDuration: chosenMaster!
-                          .servicesPriceAndDurationMax![element.serviceId]))
+                          .servicesPriceAndDuration![element.serviceId]))
                   .toList();
 
       appointmentModel = AppointmentModel(

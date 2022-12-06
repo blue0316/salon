@@ -29,9 +29,9 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp();
   await initializeNotifications();
-  final el = html.window.document.getElementById('__ff-recaptcha-container');
+ final el = html.window.document.getElementById('__ff-recaptcha-container');
   if (el != null) {
     el.style.visibility = 'hidden';
   }
@@ -45,9 +45,9 @@ void main() async {
   Analytics.openApp();
 
 
-  // await FirebaseAppCheck.instance.activate(
-  //   webRecaptchaSiteKey: '6LebxRcjAAAAAEhkbBhqF54zyW0jEPoCkUbeNnk1',
-  // );
+  await FirebaseAppCheck.instance.activate(
+    webRecaptchaSiteKey: '6LebxRcjAAAAAEhkbBhqF54zyW0jEPoCkUbeNnk1',
+  );
 
 
   runApp(

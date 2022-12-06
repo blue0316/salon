@@ -2,7 +2,6 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/app_provider.dart';
 import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/views/home_page.dart';
-
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

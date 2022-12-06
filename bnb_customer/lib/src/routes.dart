@@ -28,7 +28,7 @@ import 'package:go_router/go_router.dart';
 //
 import 'utils/analytics.dart';
 import 'views/salon/salon_home/salon_profile.dart';
-import 'dart:html' as html;
+ import 'dart:html' as html;
 
 final GoRouter router = GoRouter(
   debugLogDiagnostics: kDebugMode,
