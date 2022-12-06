@@ -140,7 +140,7 @@ class _HomeState extends ConsumerState<Home> {
                                         _bnbProvider.toggleFav(_salon.salonId),
                                     onBookTapped: () {
                                       context.go(
-                                          '${NavigatorPage.route}/salon?id=${_salon.salonId}');
+                                          '${NavigatorPage.route}/salon?id=${_salon.salonId}&locale=${_bnbProvider.locale}');
                                     });
                               },
                             )
