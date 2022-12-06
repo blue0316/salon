@@ -43,9 +43,9 @@ void main() async {
   }
   //logs the app opening.
   Analytics.openApp();
-  await FirebaseAppCheck.instance.activate(
-    webRecaptchaSiteKey: '6LebxRcjAAAAAEhkbBhqF54zyW0jEPoCkUbeNnk1',
-  );
+  // await FirebaseAppCheck.instance.activate(
+  //   webRecaptchaSiteKey: '6LebxRcjAAAAAEhkbBhqF54zyW0jEPoCkUbeNnk1',
+  // );
   runApp(
     const ProviderScope(
       child: MyApp(),
