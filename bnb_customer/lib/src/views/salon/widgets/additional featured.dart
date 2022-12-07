@@ -3,7 +3,7 @@ List<Map<String,String>> salonFeatures = [
   {"masterWithHearingDisability ": "Master With Hearing Disability"},
   {"masterWithSpeechDisability ": "Master With Speech Disability"},
   {"medicalDegree" : "Medical Degree"},
-  {"instrumentsSterilization":  "Instruments Sterilization"},
+  {"instrumentSterilization":  "Instruments Sterilization"},
   {"antiCovidMeasures" : "Anti Covid Measures"},
   {"disposableMaterialsOnly" : "Disposable Materials Only"},
   {"coffee" : "Coffee"},
@@ -22,7 +22,7 @@ List<Map<String,String>> ukSalonFeatures = [
   {"masterWithHearingDisability ": "Майстер з вадами слуху"},
   {"masterWithSpeechDisability ": "Майстер з вадами мовлення"},
   {"medicalDegree" : "Медичний ступінь"},
-  {"instrumentsSterilization":  "Стерилізація інструментів"},
+  {"instrumentSterilization":  "Стерилізація інструментів"},
   {"antiCovidMeasures" : "Антиковідні заходи"},
   {"disposableMaterialsOnly" : "Лише одноразові матеріали"},
   {"coffee" : "кава"},
@@ -37,7 +37,7 @@ List<Map<String,String>> ukSalonFeatures = [
 ];
 
 List<Map<String,String>> masterFeatures = [
- {"instrumentsSterilization" : "Instrument Sterilization"},
+ {"instrumentSterilization" : "Instrument Sterilization"},
 {"antiCovidMeasures":"Anti Covid Measures"},
 {"disposableMaterialsOnly":"Disposable Materials Only"},
 {"womanOwnedBusiness":"Woman Owned Business"},
@@ -55,7 +55,7 @@ List<Map<String,String>> masterFeatures = [
 ];
 
 List<Map<String,String>> ukMasterFeatures = [
-  {"instrumentsSterilization" : "Стерилізація інструментів"},
+  {"instrumentSterilization" : "Стерилізація інструментів"},
   {"antiCovidMeasures":"Антиковідні заходи"},
   {"disposableMaterialsOnly":"Лише одноразові матеріали"},
   {"womanOwnedBusiness":"Жіночий бізнес"},

@@ -182,6 +182,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                               onTap: () => showDialog<bool>(
                                   context: context,
                                   builder: (BuildContext context) {
+                                    print(s);
                                     return ShowAdditionaFeatureInfo(
                                         _bnbProvider, s);
                                   }),
