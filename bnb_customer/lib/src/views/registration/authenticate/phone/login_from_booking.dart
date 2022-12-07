@@ -278,32 +278,30 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
                           )
                         ],
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 28.w, vertical: 12.h),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 16.0.w),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      AppLocalizations.of(context)?.master ??
-                                          "Master",
-                                      style: AppTheme.appointmentTitleStyle,
-                                    ),
-                                    Text(
-                                      appointment.master?.name ?? '',
-                                      style: AppTheme.appointmentSubtitle,
-                                    ),
-                                  ],
+                      Gap(24.h),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    AppLocalizations.of(context)?.master ??
+                                        "Master",
+                                    style: AppTheme.appointmentTitleStyle,
+                                  ),
                                 ),
-                              ),
-                            )
-                          ],
-                        ),
+                                Expanded(
+                                  child: Text(
+                                    appointment.master?.name ?? '',
+                                    style: AppTheme.appointmentSubtitle,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
                       ),
                     ],
                     if (appointment.salonOwnerType ==

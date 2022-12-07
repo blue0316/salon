@@ -29,10 +29,11 @@ class LogoDark extends StatelessWidget {
 void showToast(message, {duration = const Duration(seconds: 1)}) =>
     BotToast.showText(text: message, duration: duration);
 
-    void showToast2( {duration = const Duration(seconds: 1)}) =>
-    BotToast.showText(text: 'New Code Sent', duration: duration,contentColor: Color(0xff4BBB53
-
-));
+void showToast2(context, {duration = const Duration(seconds: 1)}) =>
+    BotToast.showText(
+        text: AppLocalizations.of(context)?.new_code_sent ?? 'New Code Sent',
+        duration: duration,
+        contentColor: Color(0xff4BBB53));
 
 class Loader extends StatelessWidget {
   final Widget? child;

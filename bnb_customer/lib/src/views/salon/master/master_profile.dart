@@ -77,7 +77,7 @@ class _MasterProfileState extends ConsumerState<MasterProfile> {
             child: Column(
               children: [
                 MasterHeader(
-                  masterModel: widget.masterModel!,
+                  masterModel: widget.masterModel,
                 ),
                 Column(
                   children: [
