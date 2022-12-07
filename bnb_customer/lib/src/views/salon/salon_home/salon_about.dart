@@ -2,7 +2,6 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
 import 'package:bbblient/src/models/review.dart';
-import 'package:bbblient/src/translation/translation_api.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/salon/widgets/additional%20featured.dart';
@@ -14,7 +13,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/url_launcher.dart' as lauch;
-
 import '../../../models/salon_master/salon.dart';
 import '../../../theme/app_main_theme.dart';
 import '../../../utils/icons.dart';
@@ -34,7 +32,6 @@ class SalonAbout extends ConsumerStatefulWidget {
 class _SaloonAboutState extends ConsumerState<SalonAbout> {
   ScrollController controller = ScrollController();
   int totalReviewsToShow = 3;
-
   late AuthProvider _authProvider;
 
   @override
@@ -49,19 +46,39 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
       : showToast('Could not launch $url');
 
   getFeature(String s) {
+    print(widget.salonModel.ownerType);
       for (Map registeredFeatures in masterFeatures) {
         if (registeredFeatures.containsKey(s)) {
-          print("single s is: " + s);
           return registeredFeatures[s];
         }
       }
 
+
+    if (widget.salonModel.ownerType == 'salon') {
       for (Map registeredFeatures in salonFeatures) {
         if (registeredFeatures.containsKey(s)) {
-          print("s is: " + salonFeatures.toString());
           return registeredFeatures[s];
         }
       }
+    }
+  }
+
+  getFeatureUk(String s) {
+    print(widget.salonModel.ownerType);
+    for (Map registeredFeatures in ukMasterFeatures) {
+      if (registeredFeatures.containsKey(s)) {
+        return registeredFeatures[s];
+      }
+    }
+
+
+    if (widget.salonModel.ownerType == 'salon') {
+      for (Map registeredFeatures in ukSalonFeatures) {
+        if (registeredFeatures.containsKey(s)) {
+          return registeredFeatures[s];
+        }
+      }
+    }
   }
 
   @override
@@ -70,7 +87,6 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
         "additional feat" + widget.salonModel.additionalFeatures.toString());
     BnbProvider _bnbProvider = ref.read(bnbProvider);
     final _salonProfileProvider = ref.watch(salonProfileProvider);
-
     return ConstrainedContainer(
       child: ListView(
         primary: false,
@@ -95,14 +111,13 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                       ReadMoreText(
                         widget.salonModel.description,
                         trimLines: 4,
-                        // locale: ,
                         colorClickableText: AppTheme.textBlack,
                         trimMode: TrimMode.Line,
                         trimCollapsedText:
-                        AppLocalizations.of(context)?.readMore ??
-                            '...Read More',
+                            AppLocalizations.of(context)?.readMore ??
+                                '...Read More',
                         trimExpandedText:
-                        AppLocalizations.of(context)?.less ?? '  Less',
+                            AppLocalizations.of(context)?.less ?? '  Less',
                         style: Theme.of(context)
                             .textTheme
                             .bodyText1!
@@ -118,12 +133,10 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
               child: Wrap(spacing: 16.w, runSpacing: 16.h, children: [
-                if(_bnbProvider.locale == const Locale('en'))...[
-                  for (String s in widget.salonModel.additionalFeatures) ...[
-                    if (AppIcons.getIconFromFacilityString(feature: s) !=
-                        null) ...[
-                      for (Map registeredFeatures in salonFeatures) ...[
-                        if (registeredFeatures.containsKey(s)) ...[
+                for (String s in widget.salonModel.additionalFeatures) ...[
+                  if (AppIcons.getIconFromFacilityString(feature: s) !=
+                      null) ...[
+                        if(_bnbProvider.locale == const Locale('en'))...[
                           SizedBox(
                             height: 100.sp,
                             width: 70.sp,
@@ -140,10 +153,9 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                                     height: 52.sp,
                                     width: 52.sp,
                                     decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: AppTheme.black, width: 1),
-                                      borderRadius:
-                                      BorderRadius.circular(12.sp),
+                                      border:
+                                      Border.all(color: AppTheme.black, width: 1),
+                                      borderRadius: BorderRadius.circular(12.sp),
                                     ),
                                     child: Padding(
                                       padding: EdgeInsets.all(10.sp),
@@ -153,140 +165,50 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                                     ),
                                   ),
                                 ),
-                                Text(registeredFeatures[s] ?? '',
-                                    style: const TextStyle(
-                                        overflow: TextOverflow.ellipsis)),
+                                Text(getFeature(s) ?? '',
+                                    style:
+                                    TextStyle(overflow: TextOverflow.ellipsis)),
                               ],
                             ),
                           ),
-                        ]
-                      ],
-                      for (Map registeredFeatures in masterFeatures) ...[
-                        if (registeredFeatures.containsKey(s)) ...[
-                          SizedBox(
-                            height: 100.sp,
-                            width: 70.sp,
-                            child: Column(
-                              children: [
-                                GestureDetector(
-                                  onTap: () => showDialog<bool>(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return ShowAdditionaFeatureInfo(
-                                            _bnbProvider, s);
-                                      }),
-                                  child: Container(
-                                    height: 52.sp,
-                                    width: 52.sp,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: AppTheme.black, width: 1),
-                                      borderRadius:
-                                      BorderRadius.circular(12.sp),
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.all(10.sp),
-                                      child: SvgPicture.asset(
-                                          AppIcons.getIconFromFacilityString(
-                                              feature: s)!),
-                                    ),
-                                  ),
+                        ],
+                    if(_bnbProvider.locale == const Locale('uk'))...[
+                      SizedBox(
+                        height: 100.sp,
+                        width: 70.sp,
+                        child: Column(
+                          children: [
+                            GestureDetector(
+                              onTap: () => showDialog<bool>(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return ShowAdditionaFeatureInfo(
+                                        _bnbProvider, s);
+                                  }),
+                              child: Container(
+                                height: 52.sp,
+                                width: 52.sp,
+                                decoration: BoxDecoration(
+                                  border:
+                                  Border.all(color: AppTheme.black, width: 1),
+                                  borderRadius: BorderRadius.circular(12.sp),
                                 ),
-                                Text(registeredFeatures[s] ?? '',
-                                    style: const TextStyle(
-                                        overflow: TextOverflow.ellipsis)),
-                              ],
+                                child: Padding(
+                                  padding: EdgeInsets.all(10.sp),
+                                  child: SvgPicture.asset(
+                                      AppIcons.getIconFromFacilityString(
+                                          feature: s)!),
+                                ),
+                              ),
                             ),
-                          ),
-                        ]
-                      ]
+                            Text(getFeatureUk(s) ?? '',
+                                style:
+                                TextStyle(overflow: TextOverflow.ellipsis)),
+                          ],
+                        ),
+                      ),
                     ]
-                  ],
-                ],
-                if(_bnbProvider.locale == const Locale('uk'))...[
-                  for (String s in widget.salonModel.additionalFeatures) ...[
-                    if (AppIcons.getIconFromFacilityString(feature: s) !=
-                        null) ...[
-                      for (Map registeredFeatures in ukSalonFeatures) ...[
-                        if (registeredFeatures.containsKey(s)) ...[
-                          SizedBox(
-                            height: 100.sp,
-                            width: 70.sp,
-                            child: Column(
-                              children: [
-                                GestureDetector(
-                                  onTap: () => showDialog<bool>(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return ShowAdditionaFeatureInfo(
-                                            _bnbProvider, s);
-                                      }),
-                                  child: Container(
-                                    height: 52.sp,
-                                    width: 52.sp,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: AppTheme.black, width: 1),
-                                      borderRadius:
-                                      BorderRadius.circular(12.sp),
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.all(10.sp),
-                                      child: SvgPicture.asset(
-                                          AppIcons.getIconFromFacilityString(
-                                              feature: s)!),
-                                    ),
-                                  ),
-                                ),
-                                Text(registeredFeatures[s] ?? '',
-                                    style: const TextStyle(
-                                        overflow: TextOverflow.ellipsis)),
-                              ],
-                            ),
-                          ),
-                        ]
-                      ],
-                      for (Map registeredFeatures in ukMasterFeatures) ...[
-                        if (registeredFeatures.containsKey(s)) ...[
-                          SizedBox(
-                            height: 100.sp,
-                            width: 70.sp,
-                            child: Column(
-                              children: [
-                                GestureDetector(
-                                  onTap: () => showDialog<bool>(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return ShowAdditionaFeatureInfo(
-                                            _bnbProvider, s);
-                                      }),
-                                  child: Container(
-                                    height: 52.sp,
-                                    width: 52.sp,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: AppTheme.black, width: 1),
-                                      borderRadius:
-                                      BorderRadius.circular(12.sp),
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.all(10.sp),
-                                      child: SvgPicture.asset(
-                                          AppIcons.getIconFromFacilityString(
-                                              feature: s)!),
-                                    ),
-                                  ),
-                                ),
-                                Text(registeredFeatures[s] ?? '',
-                                    style: const TextStyle(
-                                        overflow: TextOverflow.ellipsis)),
-                              ],
-                            ),
-                          ),
-                        ]
-                      ]
-                    ]
-                  ],
+                  ]
                 ],
                 if (widget.salonModel.links != null) ...[
                   if (widget.salonModel.links!.instagram != "" &&
@@ -302,7 +224,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                             width: 52.sp,
                             decoration: BoxDecoration(
                               border:
-                              Border.all(color: AppTheme.black, width: 1),
+                                  Border.all(color: AppTheme.black, width: 1),
                               borderRadius: BorderRadius.circular(12.sp),
                             ),
                             child: Padding(
@@ -329,7 +251,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                             width: 52.sp,
                             decoration: BoxDecoration(
                               border:
-                              Border.all(color: AppTheme.black, width: 1),
+                                  Border.all(color: AppTheme.black, width: 1),
                               borderRadius: BorderRadius.circular(12.sp),
                             ),
                             child: Padding(
@@ -357,7 +279,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                             width: 52.sp,
                             decoration: BoxDecoration(
                               border:
-                              Border.all(color: AppTheme.black, width: 1),
+                                  Border.all(color: AppTheme.black, width: 1),
                               borderRadius: BorderRadius.circular(12.sp),
                             ),
                             child: Padding(
@@ -384,7 +306,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                             width: 52.sp,
                             decoration: BoxDecoration(
                               border:
-                              Border.all(color: AppTheme.black, width: 1),
+                                  Border.all(color: AppTheme.black, width: 1),
                               borderRadius: BorderRadius.circular(12.sp),
                             ),
                             child: Padding(
@@ -411,7 +333,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                             width: 52.sp,
                             decoration: BoxDecoration(
                               border:
-                              Border.all(color: AppTheme.black, width: 1),
+                                  Border.all(color: AppTheme.black, width: 1),
                               borderRadius: BorderRadius.circular(12.sp),
                             ),
                             child: Padding(
@@ -593,9 +515,9 @@ class _ReviewWidgetState extends State<ReviewWidget> {
                       Text(
                         totalReviewsToShow == 3
                             ? AppLocalizations.of(context)?.moreReviews ??
-                            "More reviews"
+                                "More reviews"
                             : AppLocalizations.of(context)?.lessReviews ??
-                            "Less Reviews",
+                                "Less Reviews",
                         style: Theme.of(context)
                             .textTheme
                             .subtitle1!
