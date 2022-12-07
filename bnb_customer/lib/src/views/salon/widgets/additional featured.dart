@@ -3,7 +3,7 @@ List<Map<String,String>> salonFeatures = [
   {"masterWithHearingDisability ": "Master With Hearing Disability"},
   {"masterWithSpeechDisability ": "Master With Speech Disability"},
   {"medicalDegree" : "Medical Degree"},
-  {"instrumentsSterilization":  "Instruments Sterilization"},
+  {"instrumentSterilization":  "Instruments Sterilization"},
   {"antiCovidMeasures" : "Anti Covid Measures"},
   {"disposableMaterialsOnly" : "Disposable Materials Only"},
   {"coffee" : "Coffee"},
@@ -16,8 +16,28 @@ List<Map<String,String>> salonFeatures = [
   {"accessibilityForPersonsWithReducedMobility ":
     "Accessibility For Persons With ReducedMobility"},
 ];
+
+List<Map<String,String>> ukSalonFeatures = [
+  { "covidVaccinated" : "Ковід Вакцинований"},
+  {"masterWithHearingDisability ": "Майстер з вадами слуху"},
+  {"masterWithSpeechDisability ": "Майстер з вадами мовлення"},
+  {"medicalDegree" : "Медичний ступінь"},
+  {"instrumentSterilization":  "Стерилізація інструментів"},
+  {"antiCovidMeasures" : "Антиковідні заходи"},
+  {"disposableMaterialsOnly" : "Лише одноразові матеріали"},
+  {"coffee" : "кава"},
+  {"wifi ": "Wi-Fi"},
+  {"ownOffice" : "Власний кабінет"},
+  {"parking" : "Паркінг"},
+  {"masterWithHearingDisability" : "Майстер з вадами слуху"},
+  {"petFriendly": "Допускається розміщення з домашніми тваринами"},
+  {"noPets": "Без домашніх тварин"},
+  {"accessibilityForPersonsWithReducedMobility ":
+  "Доступність для осіб з обмеженими можливостями пересування"},
+];
+
 List<Map<String,String>> masterFeatures = [
- {"instrumentsSterilization" : "Instrument Sterilization"},
+ {"instrumentSterilization" : "Instrument Sterilization"},
 {"antiCovidMeasures":"Anti Covid Measures"},
 {"disposableMaterialsOnly":"Disposable Materials Only"},
 {"womanOwnedBusiness":"Woman Owned Business"},
@@ -32,4 +52,22 @@ List<Map<String,String>> masterFeatures = [
 {"accessibilityForPersonsWithReducedMobility":"Accessibility For Persons With ReducedMobility"},
 {"parallelService":"Parallel Service"},
 {"medicalPracticeLicense ":  "Medical Practice License"},
+];
+
+List<Map<String,String>> ukMasterFeatures = [
+  {"instrumentSterilization" : "Стерилізація інструментів"},
+  {"antiCovidMeasures":"Антиковідні заходи"},
+  {"disposableMaterialsOnly":"Лише одноразові матеріали"},
+  {"womanOwnedBusiness":"Жіночий бізнес"},
+  {"coffee":"кава"},
+  {"cocktails":"Коктейлі"},
+  {"wifi":"Wi-Fi"},
+  {"parking":"Паркінг"},
+  {"shop":"Магазин"},
+  {"childrenRoom":"Дитяча кімната"},
+  {"petFriend":"Допускається розміщення з домашніми тваринами"},
+  {"noPets":"Без домашніх тварин"},
+  {"accessibilityForPersonsWithReducedMobility":"Доступність для осіб з обмеженими можливостями пересування"},
+  {"parallelService":"Паралельний сервіс"},
+  {"medicalPracticeLicense ":  "Ліцензія на медичну практику"},
 ];

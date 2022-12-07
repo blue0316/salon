@@ -485,6 +485,18 @@ class ShowAdditionaFeatureInfo extends StatelessWidget {
                       color: AppTheme.white3, fontWeight: FontWeight.w400),
                 )
               ],
+              if (feature == "womanOwnedBusiness") ...[
+                Text(
+                  // (service.description == null || service.description == "")
+                  //     ? "Опис відсутній" //means no description available
+                  //     : service.description!,
+                  authprovider.getLocale.toString() == "en"
+                      ? "Woman Owned Business"
+                      : "Жіночий бізнес",
+                  style: const TextStyle(
+                      color: AppTheme.white3, fontWeight: FontWeight.w400),
+                )
+              ],
               if (feature == "noPets") ...[
                 Text(
                   // (service.description == null || service.description == "")
@@ -497,6 +509,18 @@ class ShowAdditionaFeatureInfo extends StatelessWidget {
                       color: AppTheme.white3, fontWeight: FontWeight.w400),
                 )
               ],
+              if (feature == "parallelService") ...[
+                Text(
+                  // (service.description == null || service.description == "")
+                  //     ? "Опис відсутній" //means no description available
+                  //     : service.description!,
+                  authprovider.getLocale.toString() == "en"
+                      ? "Parallel Service"
+                      : "Паралельний сервіс",
+                  style: const TextStyle(
+                      color: AppTheme.white3, fontWeight: FontWeight.w400),
+                )
+              ],
               if (feature == "parking") ...[
                 Text(
                   // (service.description == null || service.description == "")
@@ -505,6 +529,18 @@ class ShowAdditionaFeatureInfo extends StatelessWidget {
                   authprovider.getLocale.toString() == "en"
                       ? "Parking"
                       : "Парковка",
+                  style: const TextStyle(
+                      color: AppTheme.white3, fontWeight: FontWeight.w400),
+                )
+              ],
+              if (feature == "medicalPracticeLicense") ...[
+                Text(
+                  // (service.description == null || service.description == "")
+                  //     ? "Опис відсутній" //means no description available
+                  //     : service.description!,
+                  authprovider.getLocale.toString() == "en"
+                      ? "Medical Practice License"
+                      : "Ліцензія на медичну практику",
                   style: const TextStyle(
                       color: AppTheme.white3, fontWeight: FontWeight.w400),
                 )
@@ -533,6 +569,42 @@ class ShowAdditionaFeatureInfo extends StatelessWidget {
                       color: AppTheme.white3, fontWeight: FontWeight.w400),
                 )
               ],
+              if (feature == "cocktails") ...[
+                Text(
+                  // (service.description == null || service.description == "")
+                  //     ? "Опис відсутній" //means no description available
+                  //     : service.description!,
+                  authprovider.getLocale.toString() == "en"
+                      ? "Cocktails"
+                      : "Коктейлі",
+                  style: const TextStyle(
+                      color: AppTheme.white3, fontWeight: FontWeight.w400),
+                )
+              ],
+              if (feature == "shop") ...[
+                Text(
+                  // (service.description == null || service.description == "")
+                  //     ? "Опис відсутній" //means no description available
+                  //     : service.description!,
+                  authprovider.getLocale.toString() == "en"
+                      ? "Shop"
+                      : "Магазин",
+                  style: const TextStyle(
+                      color: AppTheme.white3, fontWeight: FontWeight.w400),
+                )
+              ],
+              if (feature == "childrenRoom") ...[
+                Text(
+                  // (service.description == null || service.description == "")
+                  //     ? "Опис відсутній" //means no description available
+                  //     : service.description!,
+                  authprovider.getLocale.toString() == "en"
+                      ? "Children Room"
+                      : "Дитяча кімната",
+                  style: const TextStyle(
+                      color: AppTheme.white3, fontWeight: FontWeight.w400),
+                )
+              ],
               if (feature == "antiCovidMeasures") ...[
                 Text(
                   // (service.description == null || service.description == "")
@@ -545,7 +617,7 @@ class ShowAdditionaFeatureInfo extends StatelessWidget {
                       color: AppTheme.white3, fontWeight: FontWeight.w400),
                 )
               ],
-              if (feature == "instrumentsSterilization") ...[
+              if (feature == "instrumentSterilization") ...[
                 Text(
                   // (service.description == null || service.description == "")
                   //     ? "Опис відсутній" //means no description available
