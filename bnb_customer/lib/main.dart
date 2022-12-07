@@ -1,3 +1,4 @@
+import 'package:bbblient/firebase_options.dart';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/app_provider.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
@@ -25,7 +26,7 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await initializeNotifications();
   final el = html.window.document.getElementById('__ff-recaptcha-container');
   if (el != null) {
