@@ -98,6 +98,7 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                 "Appointment details",
                             style: AppTheme.bodyText1,
                           ),
+                          SizedBox(width:50),
                           const CancelButtonTopRight(),
                         ],
                       ),
