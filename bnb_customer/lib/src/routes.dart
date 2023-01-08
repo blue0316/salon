@@ -3,6 +3,7 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 // import 'package:bbblient/src/controller/app_provider.dart';
 import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
 import 'package:bbblient/src/firebase/collections.dart';
+import 'package:bbblient/src/loadingLink.dart';
 // import 'package:bbblient/src/firebase/master.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
@@ -28,7 +29,7 @@ import 'package:go_router/go_router.dart';
 //
 import 'utils/analytics.dart';
 import 'views/salon/salon_home/salon_profile.dart';
- import 'dart:html' as html;
+import 'dart:html' as html;
 
 final GoRouter router = GoRouter(
   debugLogDiagnostics: kDebugMode,
@@ -43,66 +44,9 @@ final GoRouter router = GoRouter(
         //       .collection('stories')
         //       .where('uid', isEqualTo: user.uid)
         //       .snapshots()
-        Collection.customLinks.doc(myPath.toLowerCase()).get().then((snapshot) {
-          printIt(' snapshot' + snapshot.toString());
-          var openlink;
-          if (snapshot.exists) {
-            openlink = snapshot['link'].toString();
-            if (openlink != null) {
-              html.window.open(openlink, "_self");
-            } else {
-              Collection.customLinks
-                  .get()
-                  .then((QuerySnapshot querySnapshot) async {
-                final allData = querySnapshot.docs
-                    .map((doc) =>
-                        {"name": doc.get("name"), "link": doc.get("link")})
-                    .toList();
-                final newData = allData
-                    .where(
-                        (element) => element["name"] == myPath!.toLowerCase())
-                    .toList();
-                var openlink;
-                if (newData.isNotEmpty) {
-                  openlink = newData[0]['link'].toString();
-                  if (openlink != null) {
-                    html.window.open(openlink, "_self");
-                  } else {
-                    html.window
-                        .open("https://bowandbeautiful.com/error", "_self");
-                  }
-                } else {
-                  html.window
-                      .open("https://bowandbeautiful.com/error", "_self");
-                }
-              });
-            }
-          } else {
-            Collection.customLinks
-                .get()
-                .then((QuerySnapshot querySnapshot) async {
-              final allData = querySnapshot.docs
-                  .map((doc) =>
-                      {"name": doc.get("name"), "link": doc.get("link")})
-                  .toList();
-              final newData = allData
-                  .where((element) => element["name"] == myPath!.toLowerCase())
-                  .toList();
-              var openlink;
-              if (newData.isNotEmpty) {
-                openlink = newData[0]['link'].toString();
-                if (openlink != null) {
-                  html.window.open(openlink, "_self");
-                } else {
-                  html.window
-                      .open("https://bowandbeautiful.com/error", "_self");
-                }
-              } else {
-                html.window.open("https://bowandbeautiful.com/error", "_self");
-              }
-            });
-          }
-        });
+        return LoadingLink(
+          myPath: myPath,
+        );
       } catch (e) {
         html.window.open("https://bowandbeautiful.com/error", "_self");
       }

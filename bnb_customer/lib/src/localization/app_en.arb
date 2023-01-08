@@ -254,6 +254,7 @@
   "select_time": "Select time",
   "new_word": "New",
   "new_master": "New master",
+  "new_code_sent": "New Code Sent",
   "new_client": "New client",
   "new_service": "New service",
   "cancel": "Cancel",

@@ -277,7 +277,7 @@ class _Login2State extends ConsumerState<Login2> {
                   onTap: () async {
                     _auth
                         .verifyPhoneNumber(context: context)
-                        .then((value) => showToast2());
+                        .then((value) => showToast2(context));
                     _auth.otp = '';
                   },
                   child: RichText(

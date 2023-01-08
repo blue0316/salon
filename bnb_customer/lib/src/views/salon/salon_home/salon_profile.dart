@@ -207,27 +207,27 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
                                     top: 100, bottom: 100),
                                 child: Column(
                                   children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                        left:
-                                            DeviceConstraints.getResponsiveSize(
-                                                context, 16, 24, 32),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Text("Promotions",
-                                              textAlign: TextAlign.left,
-                                              style: GoogleFonts.epilogue(
-                                                  fontSize: DeviceConstraints
-                                                      .getResponsiveSize(
-                                                          context, 16, 16, 20),
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Color(0xff89959F))),
-                                        ],
-                                      ),
-                                    ),
+                                    // Padding(
+                                    //   padding: EdgeInsets.only(
+                                    //     left:
+                                    //         DeviceConstraints.getResponsiveSize(
+                                    //             context, 16, 24, 32),
+                                    //   ),
+                                    //   child: Row(
+                                    //     mainAxisAlignment:
+                                    //         MainAxisAlignment.start,
+                                    //     children: [
+                                    //       Text("Promotions",
+                                    //           textAlign: TextAlign.left,
+                                    //           style: GoogleFonts.epilogue(
+                                    //               fontSize: DeviceConstraints
+                                    //                   .getResponsiveSize(
+                                    //                       context, 16, 16, 20),
+                                    //               fontWeight: FontWeight.w500,
+                                    //               color: Color(0xff89959F))),
+                                    //     ],
+                                    //   ),
+                                    // ),
                                     Padding(
                                       padding: EdgeInsets.only(
                                         top:
