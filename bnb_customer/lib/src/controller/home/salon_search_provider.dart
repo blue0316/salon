@@ -72,7 +72,7 @@ class SalonSearchProvider with ChangeNotifier {
 
   changeTempCenter({required LatLng latlng}) async {
     tempCenter = latlng;
-    tempAddress = await LocationUtils.getAddressFromCoordinates(latlng);
+   // tempAddress = await LocationUtils.getAddressFromCoordinates(latlng);
     notifyListeners();
   }
 
@@ -104,21 +104,21 @@ class SalonSearchProvider with ChangeNotifier {
   //will return true if device gives the location otherwise need to use pre saved location
 
   Future setLocation({LatLng? backupLocation}) async {
-    LatLng? _currentLocation = await LocationUtils.getLocation();
+   // LatLng? _currentLocation = await LocationUtils.getLocation();
 
     final defaultLocation = Position().getDefaultLatLng();
 
     //makes sure that position is not null
     //uncomment line below to set default location
-    _currentLocation = defaultLocation;
+   // _currentLocation = defaultLocation;
     //_currentLocation ??= backupLocation ?? defaultLocation;
 
     //setting location
-    currentLocation = _currentLocation;
-    tempCenter = _currentLocation;
+    // currentLocation = _currentLocation;
+    // tempCenter = _currentLocation;
 
-    currentAddress =
-        await LocationUtils.getAddressFromCoordinates(_currentLocation);
+    // currentAddress =
+    //     await LocationUtils.getAddressFromCoordinates(_currentLocation);
 
     tempAddress = currentAddress;
     await loadSalons();

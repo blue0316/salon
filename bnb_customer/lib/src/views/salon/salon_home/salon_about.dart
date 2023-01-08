@@ -47,12 +47,13 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
 
   getFeature(String s) {
     print(widget.salonModel.ownerType);
+    if (widget.salonModel.ownerType == 'master') {
       for (Map registeredFeatures in masterFeatures) {
         if (registeredFeatures.containsKey(s)) {
           return registeredFeatures[s];
         }
       }
-
+    }
 
     if (widget.salonModel.ownerType == 'salon') {
       for (Map registeredFeatures in salonFeatures) {
