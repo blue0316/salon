@@ -31,9 +31,7 @@ class _SaloonServicesState extends ConsumerState<SalonServices> {
   Widget build(BuildContext context) {
     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
     final _salonSearchProvider = ref.watch(salonSearchProvider);
-    print(
-      'leenghtt${_salonSearchProvider.categories.length}',
-    );
+
     return Column(
       children: [
         SizedBox(
@@ -78,8 +76,7 @@ class _SaloonServicesState extends ConsumerState<SalonServices> {
             controller: _listViewController,
             padding: const EdgeInsets.all(0),
             itemBuilder: (context, index) {
-              print("this ids the number here" +
-                  _salonSearchProvider.categories.length.toString());
+
               if (_createAppointmentProvider.categoryServicesMap[
                           _salonSearchProvider.categories[index].categoryId
                               .toString()] !=

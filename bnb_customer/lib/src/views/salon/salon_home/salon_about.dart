@@ -47,9 +47,11 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
 
   getFeature(String s) {
     print(widget.salonModel.ownerType);
-    if (widget.salonModel.ownerType == 'master') {
+    if (widget.salonModel.ownerType == 'singleMaster') {
       for (Map registeredFeatures in masterFeatures) {
+
         if (registeredFeatures.containsKey(s)) {
+
           return registeredFeatures[s];
         }
       }
@@ -84,8 +86,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
 
   @override
   Widget build(BuildContext context) {
-    printIt(
-        "additional feat" + widget.salonModel.additionalFeatures.toString());
+
     BnbProvider _bnbProvider = ref.read(bnbProvider);
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     return ConstrainedContainer(

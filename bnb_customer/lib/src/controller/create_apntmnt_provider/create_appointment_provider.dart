@@ -235,7 +235,7 @@ class CreateAppointmentProvider with ChangeNotifier {
         for (ServiceModel _service in _servicesList) {
           // if (_mastersServices.contains(_service.serviceId) && _service.priceAndDuration.price != '0') {
           if (_mastersServices.contains(_service.serviceId)) {
-            printIt('service valid ${_service.serviceName}');
+
             _servicesValidList.add(_service);
           } else {
             printIt("no master found for ${_service.serviceName}");
@@ -619,7 +619,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 
       for (MasterModel master in salonMasters) {
         if(master.workingHours != null){
-        print('mmmm${master.workingHours} ${day.weekday}');
+
         bool isMasterWorking = (Time()
             .getWorkingHoursFromWeekDay(
             day.weekday, master.workingHours)
@@ -627,7 +627,7 @@ class CreateAppointmentProvider with ChangeNotifier {
             true ||
             master.irregularWorkingHours!
                 .containsKey(DateFormat('yyyy-MM-dd').format(day).toString()));
-        print("this is date");
+
 
         bool servicesAvailable = mastersServicesMap[master.masterId] != null;
         bool servicesAvailableCount =
@@ -831,7 +831,7 @@ class CreateAppointmentProvider with ChangeNotifier {
         }
       } else {
         Hours? workingHours;
-        print('jjjjjjj${chosenSalon!.workingHours}');
+
         if (chosenSalon!.irregularWorkingHours != null) {
           if (chosenSalon!.irregularWorkingHours!.containsKey(
               DateFormat('yyyy-MM-dd').format(chosenDay).toString())) {
@@ -932,7 +932,7 @@ class CreateAppointmentProvider with ChangeNotifier {
         .indexWhere((element) => Time().stringToTime(element).hour >= 12);
     int afterNoonIndex = allSlots
         .indexWhere((element) => Time().stringToTime(element).hour >= 17);
-    print("tjis is the guy" + afterNoonIndex.toString());
+
     if (afterNoonIndex != -1) {
       eveningTimeslots = allSlots.sublist(afterNoonIndex, allSlots.length);
       notifyListeners();
