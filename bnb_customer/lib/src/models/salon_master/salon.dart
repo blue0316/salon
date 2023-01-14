@@ -24,6 +24,7 @@ class SalonModel {
   late bool isAvailableOnline = false;
   late bool isProfileImage = false;
   late String address;
+  int? timeSlotsInterval;
   late List<String> categoryId = [];
   late List<String> parentServiceId = [];
   late List<String> additionalFeatures = [];
@@ -46,6 +47,7 @@ class SalonModel {
     this.workStation,
     required this.position,
     this.links,
+    this.timeSlotsInterval,
     this.isAvailableOnline = false,
     this.isProfileImage = false,
     this.salonWebSite,
@@ -81,6 +83,7 @@ class SalonModel {
     parentServiceId = json['parentServiceId'] == null
         ? []
         : parentServiceId = json['parentServiceId'].cast<String>();
+    timeSlotsInterval = json['timeSlotsInterval'];
 
     createdAt =
         json['createdAt'] != null ? json['createdAt'].toDate() : DateTime(1990);
@@ -153,6 +156,7 @@ class SalonModel {
       data['position'] = position!.toJson();
     }
     data['workingHours'] = workingHours?.toJson();
+    data['timeSlotsInterval'] = timeSlotsInterval;
     data['salonWebSite'] = salonWebSite;
     data['phoneNumber'] = phoneNumber;
     data['email'] = email;
@@ -229,7 +233,7 @@ class Links {
   String? whatsapp;
   String? instagram;
 
-  Links(Map map, 
+  Links(Map map,
       {this.facebookMessenger,
       this.viber,
       this.telegram,

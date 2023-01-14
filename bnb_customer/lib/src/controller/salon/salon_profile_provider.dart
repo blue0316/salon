@@ -4,6 +4,7 @@ import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/review.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
+import 'package:bbblient/src/utils/time.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -21,6 +22,7 @@ class SalonProfileProvider with ChangeNotifier {
     try {
       loadingStatus = Status.loading;
       chosenSalon = (await _salonApi.getSalonFromId(salonId))!;
+      // await Time().setTimeSlot(chosenSalon.timeSlotsInterval);
       await getSalonReviews(salonId: salonId);
       loadingStatus = Status.success;
     } catch (e) {
