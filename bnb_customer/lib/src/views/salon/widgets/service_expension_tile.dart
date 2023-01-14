@@ -617,7 +617,7 @@ class ShowAdditionaFeatureInfo extends StatelessWidget {
                       color: AppTheme.white3, fontWeight: FontWeight.w400),
                 )
               ],
-              if (feature == "instrumentSterilization") ...[
+              if (feature == "instrumentsSterilization") ...[
                 Text(
                   // (service.description == null || service.description == "")
                   //     ? "Опис відсутній" //means no description available

@@ -1,5 +1,5 @@
 class SalonFeatures {
-  static const instrumentSterilization = "instrumentSterilization";
+  static const instrumentSterilization = "instrumentsSterilization";
   static const antiCovidMeasures = "antiCovidMeasures";
   static const disposableMaterialsOnly = "disposableMaterialsOnly";
   static const womanOwnedBusiness = "womanOwnedBusiness";
@@ -10,7 +10,7 @@ class SalonFeatures {
   static const shop = "shop";
   static const childrenRoom = "childrenRoom";
   static const petFriendly = "petFriendly";
-  static const noPet = "noPet";
+  static const noPet = "noPets";
   static const accessibilityForPersonsWithReducedMobility = "accessibilityForPersonsWithReducedMobility";
   static const parallelService = "parallelService";
   static const medicalPracticeLicense = "medicalPracticeLicense";

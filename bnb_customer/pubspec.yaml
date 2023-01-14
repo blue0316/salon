@@ -65,7 +65,7 @@ dependencies:
   intl: ^0.17.0
   jiffy: ^4.1.0
   load: ^1.0.0
-  location: ^4.3.0
+#  location: ^4.3.0
   logger: ^1.1.0
   map_launcher: ^2.1.1
   modal_bottom_sheet: ^2.0.1

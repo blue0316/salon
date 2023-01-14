@@ -145,12 +145,15 @@ class QuizProvider with ChangeNotifier {
     final geo = Geoflutterfire();
     GeoFirePoint? myLocation;
 
-    LatLng? _currentLocation = await LocationUtils.getLocation();
-    if (_currentLocation != null) {
+  //  LatLng? _currentLocation = await LocationUtils.getLocation();
+   // if (_currentLocation != null) {
       myLocation = geo.point(
-          latitude: _currentLocation.latitude,
-          longitude: _currentLocation.longitude);
-    }
+          latitude:0.0,
+          //_currentLocation.latitude,
+          longitude:0.0
+         // _currentLocation.longitude
+      );
+  //  }
     print(3);
     customer.personalInfo = PersonalInfo(
       phone: _phoneNumber,

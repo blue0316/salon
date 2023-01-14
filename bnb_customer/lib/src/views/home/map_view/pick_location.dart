@@ -148,21 +148,23 @@ class _PickLocationState extends ConsumerState<PickLocation> {
                             ),
                             GestureDetector(
                               onTap: () async {
-                                LatLng? currentLocation =
-                                    await LocationUtils.getLocation();
-                                if (currentLocation != null) {
+                                // LatLng? currentLocation =
+                                //     await LocationUtils.getLocation();
+                                //if (currentLocation != null) {
                                   locationChanged = true;
-                                  _salonSearchProvider.changeTempCenter(
-                                      latlng: currentLocation);
+                                  // _salonSearchProvider.changeTempCenter(
+                                  //     latlng: );
                                   setMarkers();
-                                  final GoogleMapController controller =
-                                      await _controller.future;
-                                  controller.animateCamera(
-                                      CameraUpdate.newCameraPosition(
-                                          CameraPosition(
-                                              target: currentLocation,
-                                              zoom: 11)));
-                                }
+    //                               final GoogleMapController controller =
+    //                                   await _controller.future;
+    //                               controller.animateCamera(
+    //                                   CameraUpdate.newCameraPosition(
+    //                                       CameraPosition(
+    //                                           target: currentLocation,
+    //                                           zoom: 11)
+    //
+    // ));
+                             //   }
                               },
                               child: SizedBox(
                                 height: 35.h,

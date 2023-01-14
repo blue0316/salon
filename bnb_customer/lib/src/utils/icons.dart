@@ -367,6 +367,8 @@ class AppIcons {
         return AppIcons.instrumentSterilization;
       case SalonFeatures.wifi:
         return AppIcons.wifi;
+      case SalonFeatures.noPet:
+        return AppIcons.noPet;
 
       case SalonFeatures.antiCovidMeasures:
         return AppIcons.antiCovidMeasures;
