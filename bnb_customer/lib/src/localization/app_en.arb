@@ -23,6 +23,7 @@
   "client_base": "Clients",
   "monthly_calendar": "Monthly calendar",
   "daily_calendar": "Daily calendar",
+  "bookRestricted":"Booking is restricted",
   "all": "All",
   
   "resend":"Resend",

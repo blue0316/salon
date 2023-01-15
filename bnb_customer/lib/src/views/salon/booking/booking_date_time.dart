@@ -64,7 +64,6 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
         bottom: false,
         child: Stack(
           children: [
-
             SizedBox(
               height: 1.sh,
             ),
@@ -151,12 +150,26 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                                 outsideDaysVisible: false,
                               ),
                               onDaySelected: (start, end) {
-                                setState(() {
-                                  createAppointment.setUpSlots(
-                                      day: start,
-                                      context: context,
-                                      showNotWorkingToast: true);
-                                });
+                                if ((createAppointment.chosenSalon!
+                                            .bookingRestrictionDays !=
+                                        null
+                                    ? (DateTime.now()
+                                        .add(Duration(
+                                            days: createAppointment.chosenSalon!
+                                                .bookingRestrictionDays!))
+                                        .isAfter(start))
+                                    : false)) {
+                                  setState(() {
+                                    createAppointment.setUpSlots(
+                                        day: start,
+                                        context: context,
+                                        showNotWorkingToast: true);
+                                  });
+                                } else {
+                                  showToast(AppLocalizations.of(context)
+                                          ?.bookRestricted ??
+                                      "Booking is restricted");
+                                }
                               },
                               headerStyle: HeaderStyle(
                                 titleTextStyle: AppTheme.calTextStyle,
@@ -184,7 +197,6 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                       ),
                     ),
                   ),
-
 
                   Padding(
                     padding:
@@ -835,10 +847,8 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
               ),
             ),
             Positioned(
-              top: DeviceConstraints.getResponsiveSize(
-                  context, 10, 20, 30),
-              left: DeviceConstraints.getResponsiveSize(
-                  context, 10, 20, 30),
+              top: DeviceConstraints.getResponsiveSize(context, 10, 20, 30),
+              left: DeviceConstraints.getResponsiveSize(context, 10, 20, 30),
               child: const SafeArea(
                 child: BackButtonGlassMorphic(),
               ),
@@ -864,28 +874,10 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                           printIt("it will check");
                           printIt(moveAhead);
                           if (moveAhead) {
-                            if(kIsWeb){
-
-
-                            // checkUser2(context, ref, () {
-                            createAppointment.createAppointment2(
-                                //  customerModel: _auth.currentCustomer!,
-                                context: context);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                settings: const RouteSettings(
-                                    name: ConfirmBooking.route),
-                                builder: (context) => ConfirmBooking(
-                                  appointment:
-                                      createAppointment.appointmentModel!,
-                                ),
-                              ),
-                            );
-                            // });
-                          }else {
+                            if (kIsWeb) {
+                              // checkUser2(context, ref, () {
                               createAppointment.createAppointment2(
-                                //  customerModel: _auth.currentCustomer!,
+                                  //  customerModel: _auth.currentCustomer!,
                                   context: context);
                               Navigator.push(
                                 context,
@@ -894,13 +886,29 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                                       name: ConfirmBooking.route),
                                   builder: (context) => ConfirmBooking(
                                     appointment:
-                                    createAppointment.appointmentModel!,
+                                        createAppointment.appointmentModel!,
+                                  ),
+                                ),
+                              );
+                              // });
+                            } else {
+                              createAppointment.createAppointment2(
+                                  //  customerModel: _auth.currentCustomer!,
+                                  context: context);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  settings: const RouteSettings(
+                                      name: ConfirmBooking.route),
+                                  builder: (context) => ConfirmBooking(
+                                    appointment:
+                                        createAppointment.appointmentModel!,
                                   ),
                                 ),
                               );
                             }
                           }
-    },
+                        },
                         child: Container(
                           decoration: const BoxDecoration(
                             color: AppTheme.creamBrown,

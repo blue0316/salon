@@ -25,6 +25,7 @@ class SalonModel {
   late bool isProfileImage = false;
   late String address;
   int? timeSlotsInterval;
+  int? bookingRestrictionDays;
   late List<String> categoryId = [];
   late List<String> parentServiceId = [];
   late List<String> additionalFeatures = [];
@@ -64,6 +65,7 @@ class SalonModel {
     required this.avgRating,
     this.distanceFromCenter,
     this.irregularWorkingHours,
+    this.bookingRestrictionDays,
     this.fcmToken,
     required this.workingHours,
     required this.additionalFeatures,
@@ -84,7 +86,7 @@ class SalonModel {
         ? []
         : parentServiceId = json['parentServiceId'].cast<String>();
     timeSlotsInterval = json['timeSlotsInterval'];
-
+    bookingRestrictionDays = json['bookingRestrictionDays'];
     createdAt =
         json['createdAt'] != null ? json['createdAt'].toDate() : DateTime(1990);
     address = json['address'] ?? '';
@@ -149,6 +151,7 @@ class SalonModel {
     data['workStation'] = workStation;
     data['address'] = address;
     data['isAvailableOnline'] = isAvailableOnline;
+    data['bookingRestrictionDays'] = bookingRestrictionDays;
     if (links != null) {
       data['links'] = links!.toJson();
     }
