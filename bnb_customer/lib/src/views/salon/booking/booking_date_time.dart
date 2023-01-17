@@ -158,7 +158,7 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                                             days: createAppointment.chosenSalon!
                                                 .bookingRestrictionDays!))
                                         .isAfter(start))
-                                    : false)) {
+                                    : true)) {
                                   setState(() {
                                     createAppointment.setUpSlots(
                                         day: start,

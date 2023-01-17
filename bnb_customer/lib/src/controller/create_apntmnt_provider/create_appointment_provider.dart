@@ -801,11 +801,34 @@ class CreateAppointmentProvider with ChangeNotifier {
           if (workingHours.isWorking) {
             if (chosenDay.day == DateTime.now().day &&
                 chosenDay.month == DateTime.now().month) {
+              // if (chosenSalon!.appointmentsLeadTime != null) {
+              //   //computing start and end time acc to different parameters
+              //   // copied this function from salon app
+              //   TimeOfDay? _mystartTime =
+              //       _computeStartTime(workingHours.startTime, chosenDay);
+              //   var myminutes = Time().toMinutes(_mystartTime!);
+              //   // round up to nearest value of slot
+              //   myminutes = myminutes! +
+              //       ((chosenSalon!.timeSlotsInterval ?? 15) -
+              //           (myminutes % (chosenSalon!.timeSlotsInterval ?? 15)));
+              //   _mystartTime =
+              //       TimeOfDay(hour: myminutes ~/ 60, minute: myminutes % 60);
+              //   print(_mystartTime);
+              //   validSlots = Time()
+              //       .getTimeSlots(_mystartTime, _endTime,
+              //           step: Duration(
+              //               minutes: chosenSalon!.timeSlotsInterval ?? 15))
+              //       .toList();
+              // } else {
+              TimeOfDay? _mystartTime =
+                  _computeStartTime(workingHours.startTime, chosenDay);
+              printIt(_mystartTime);
               validSlots = Time()
-                  .getTimeSlots(TimeOfDay.now(), _endTime,
+                  .getTimeSlots(_mystartTime, _endTime,
                       step: Duration(
                           minutes: chosenSalon!.timeSlotsInterval ?? 15))
                   .toList();
+              // }
             } else {
               validSlots = Time()
                   .getTimeSlots(_startTime, _endTime,
@@ -893,12 +916,15 @@ class CreateAppointmentProvider with ChangeNotifier {
               .getTimeSlots(_startTime, _endTime,
                   step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15))
               .toList();
-          print(_startTime);
+
           if (workingHours.isWorking) {
             if (chosenDay.day == DateTime.now().day &&
                 chosenDay.month == DateTime.now().month) {
+              TimeOfDay? _mystartTime =
+                  _computeStartTime(workingHours.startTime, chosenDay);
+              printIt(_startTime);
               validSlots = Time()
-                  .getTimeSlots(TimeOfDay.now(), _endTime,
+                  .getTimeSlots(_mystartTime, _endTime,
                       step: Duration(
                           minutes: chosenSalon!.timeSlotsInterval ?? 15))
                   .toList();
@@ -945,6 +971,7 @@ class CreateAppointmentProvider with ChangeNotifier {
             notifyListeners();
           }
           printIt("valid Slots $validSlots");
+          printIt("valid Slots $allSlots");
           divideSlotsForDay();
         } else {
           slotsStatus = Status.failed;
@@ -978,6 +1005,62 @@ class CreateAppointmentProvider with ChangeNotifier {
       }
       notifyListeners();
       return;
+    }
+  }
+
+  Time _time = new Time();
+
+  TimeOfDay? _computeStartTime(String? masterStartTime, DateTime date) {
+    try {
+      DateTime _now = DateTime.now();
+
+      late TimeOfDay _masterAndSalonFusedTime;
+      // added this on the fly..but it seems to solve the problem
+      _masterAndSalonFusedTime = _time.stringToTime(masterStartTime!);
+      if (chosenSalon!.ownerType == OwnerType.singleMaster) {
+        _masterAndSalonFusedTime = _time.stringToTime(masterStartTime!);
+      } else {
+        //getting salon timings
+        Hours selectedSalonHours = _time.getRegularWorkingHoursFromDate(
+          chosenSalon?.workingHours ?? null,
+          weekDay: date.weekday,
+        )!;
+
+        if (!selectedSalonHours.isWorking!) return null;
+
+        TimeOfDay _salonStartTime =
+            _time.stringToTime(selectedSalonHours.startTime!);
+
+        TimeOfDay _masterStartTime = _time.stringToTime(masterStartTime!);
+
+        // computes the starting time by comparing master and salon starting time
+        TimeOfDay _masterAndSalonFusedTime = _time.getMinMaxTime(
+            _salonStartTime, _masterStartTime,
+            returnMaxTime: true);
+      }
+
+      if (_time.compareDate(date, _now)) {
+        //dates are same, Then it
+        // computes the start time by comparing current time and master working time
+
+        // for the effect of restricted time before appointment
+        if (chosenSalon!.appointmentsLeadTime != null) {
+          _now =
+              _now.add(Duration(minutes: chosenSalon!.appointmentsLeadTime!));
+        }
+        TimeOfDay _currentTime =
+            TimeOfDay(hour: _now.hour, minute: _now.minute);
+        print(TimeOfDay(hour: _now.hour, minute: _now.minute));
+        print(_masterAndSalonFusedTime);
+        return _time.getMinMaxTime(_currentTime, _masterAndSalonFusedTime,
+            returnMaxTime: true);
+      } else {
+        return _masterAndSalonFusedTime;
+      }
+    } catch (e) {
+      print('error while generating start time');
+      print(e);
+      return _time.stringToTime(masterStartTime!);
     }
   }
 

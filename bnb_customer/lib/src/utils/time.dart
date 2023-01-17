@@ -55,6 +55,40 @@ class Time {
     }
   }
 
+  //returns the working hours on the basis of week day
+  Hours? getRegularWorkingHoursFromDate(WorkingHoursModel? workingHours,
+      {int? weekDay, DateTime? date}) {
+    if (weekDay == null) {
+      DateTime _date = date ?? DateTime.now();
+      weekDay = _date.weekday;
+    }
+    if (workingHours == null) return null;
+
+    try {
+      switch (weekDay) {
+        case 1:
+          return workingHours.mon;
+        case 2:
+          return workingHours.tue;
+        case 3:
+          return workingHours.wed;
+        case 4:
+          return workingHours.thu;
+        case 5:
+          return workingHours.fri;
+        case 6:
+          return workingHours.sat;
+        case 7:
+          return workingHours.sun;
+        default:
+          return null;
+      }
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
   //returns true if two list contains same element/slot
   bool listOverLaps(List list1, List list2) {
     if (list1.isEmpty || list2.isEmpty) {
@@ -105,11 +139,11 @@ class Time {
         compareTime(endTime, startTime) == 1) return;
 
     if (inclusive) {
-      startTime = roundOfTime(startTime, toFloor: true);
-      endTime = roundOfTime(endTime, toFloor: false);
+      startTime = roundOfTime(startTime, toFloor: true, step: step);
+      endTime = roundOfTime(endTime, toFloor: false, step: step);
     } else {
-      startTime = roundOfTime(startTime, toFloor: false);
-      endTime = roundOfTime(endTime, toFloor: true);
+      startTime = roundOfTime(startTime, toFloor: false, step: step);
+      endTime = roundOfTime(endTime, toFloor: true, step: step);
     }
     int hour = startTime!.hour;
     int minute = startTime.minute;
@@ -135,11 +169,11 @@ class Time {
       TimeOfDay? _startTime;
       TimeOfDay? _endTime;
       if (inclusive) {
-        _startTime = roundOfTime(startTime, toFloor: true);
-        _endTime = roundOfTime(endTime, toFloor: false);
+        _startTime = roundOfTime(startTime, toFloor: true, step: step);
+        _endTime = roundOfTime(endTime, toFloor: false, step: step);
       } else {
-        _startTime = roundOfTime(startTime, toFloor: false);
-        _endTime = roundOfTime(endTime, toFloor: true);
+        _startTime = roundOfTime(startTime, toFloor: false, step: step);
+        _endTime = roundOfTime(endTime, toFloor: true, step: step);
       }
       if (_startTime != null && _endTime != null) {
         int hour = _startTime.hour;
