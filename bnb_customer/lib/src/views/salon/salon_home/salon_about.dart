@@ -1,11 +1,13 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
+import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/review.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/salon/widgets/additional%20featured.dart';
 import 'package:bbblient/src/views/salon/widgets/service_expension_tile.dart';
+import 'package:bbblient/src/views/widgets/salon_widgets.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -66,6 +68,29 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
     }
   }
 
+  getSalonType(_salon) {
+    if (_salon.ownerType == OwnerType.salon) {
+      return 0;
+    }
+    if (_salon.workStation == WorkStation.home) {
+      return 1;
+    }
+    return 2;
+  }
+
+  String getIcon(int id) {
+    switch (id) {
+      case 0:
+        return AppIcons.salon;
+      case 1:
+        return AppIcons.singleMasterFromHome;
+      case 2:
+        return AppIcons.singleMasterFromStudio;
+      default:
+        return AppIcons.salon;
+    }
+  }
+
   getFeatureUk(String s) {
     print(widget.salonModel.ownerType);
     for (Map registeredFeatures in ukMasterFeatures) {
@@ -86,7 +111,8 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
 
   @override
   Widget build(BuildContext context) {
-
+    final int type = getSalonType(widget.salonModel);
+    final String icon = getIcon(type);
     BnbProvider _bnbProvider = ref.read(bnbProvider);
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     return ConstrainedContainer(
@@ -96,39 +122,98 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
         addAutomaticKeepAlives: true,
         padding: EdgeInsets.symmetric(vertical: (AppTheme.margin * 2).h),
         children: [
+          Padding(
+            padding: EdgeInsets.only(
+              left: 20.w,right: 20.w,bottom: 30.h
+            ),
+            child: Text(
+              AppLocalizations.of(context)?.about ?? "About",
+              style: AppTheme.aboutScreenStyle,
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(
+              left: 20.w,right: 20.w,bottom: 30.h
+          ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 145.sp ,
+                  width: 250.sp,
+                  child: SvgPicture.asset(
+                      icon,
+                    color: AppTheme.bookingBlack,
+                    fit: BoxFit.cover,
+                  )
+                 ),
+                SizedBox(width:20.w),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.salonModel.salonName,
+                        style: AppTheme.aboutScreenStyle.copyWith(fontSize:30.sp,),
+                      ),
+                      Row(
+                        children: [
+                          Icon(Icons.location_on_outlined,size: 20.sp,),
+                          SizedBox(width: 5.w,),
+                          Expanded(
+                            child: Text(
+                              widget.salonModel.address,
+                              style: AppTheme.aboutScreenStyle.copyWith(fontSize:18.sp,fontWeight: FontWeight.w500,),
+                            ),
+                          ),
+                        ],
+                      ),
+                      BnbRatings(rating: widget.salonModel.avgRating, editable: false, starSize: 15)
+
+                    ],
+                  ),
+                )
+              ],
+            ) ,),
           if (widget.salonModel.description != '') ...[
             Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: 20.w,
               ),
-              child: Container(
-                constraints: BoxConstraints(maxHeight: 300.h),
-                child: Scrollbar(
-                  controller: controller,
-                  child: ListView(
-                    controller: controller,
-                    shrinkWrap: true,
-                    primary: false,
-                    children: [
-                      ReadMoreText(
-                        widget.salonModel.description,
-                        trimLines: 4,
-                        colorClickableText: AppTheme.textBlack,
-                        trimMode: TrimMode.Line,
-                        trimCollapsedText:
-                            AppLocalizations.of(context)?.readMore ??
-                                '...Read More',
-                        trimExpandedText:
-                            AppLocalizations.of(context)?.less ?? '  Less',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText1!
-                            .copyWith(fontWeight: FontWeight.w400),
-                      ),
-                    ],
-                  ),
-                ),
+              child: Text(
+                widget.salonModel.description,
+                style: AppTheme.aboutScreenStyle.copyWith(fontWeight: FontWeight.w400,fontSize: 18.sp),
               ),
+              // Container(
+              //   constraints: BoxConstraints(maxHeight: 300.h),
+              //   child: Scrollbar(
+              //     controller: controller,
+              //     child: ListView(
+              //       controller: controller,
+              //       shrinkWrap: true,
+              //       primary: false,
+              //       children: [
+              //         ReadMoreText(
+              //           widget.salonModel.description,
+              //           trimLines: 4,
+              //           colorClickableText: AppTheme.textBlack,
+              //           trimMode: TrimMode.Line,
+              //           trimCollapsedText:
+              //               AppLocalizations.of(context)?.readMore ??
+              //                   '...Read More',
+              //           trimExpandedText:
+              //               AppLocalizations.of(context)?.less ?? '  Less',
+              //           style: Theme.of(context)
+              //               .textTheme
+              //               .bodyText1!
+              //               .copyWith(fontWeight: FontWeight.w400),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
             ),
           ],
           if (widget.salonModel.additionalFeatures.isNotEmpty) ...[
@@ -211,201 +296,219 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                         ),
                       ),
                     ]
-                  ]
-                ],
-                if (widget.salonModel.links != null) ...[
-                  if (widget.salonModel.links!.instagram != "" &&
-                      widget.salonModel.links!.instagram != null) ...[
-                    Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            _launchURL(widget.salonModel.links!.instagram!);
-                          },
-                          child: Container(
-                            height: 52.sp,
-                            width: 52.sp,
-                            decoration: BoxDecoration(
-                              border:
-                                  Border.all(color: AppTheme.black, width: 1),
-                              borderRadius: BorderRadius.circular(12.sp),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.all(10.sp),
-                              child: SvgPicture.asset(
-                                  "assets/social_media/insta.svg"),
-                            ),
-                          ),
-                        ),
-                        const Text('instagram'),
-                      ],
-                    ),
-                  ],
-                  if (widget.salonModel.links!.whatsapp != "" &&
-                      widget.salonModel.links!.whatsapp != null) ...[
-                    Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            _launchURL(widget.salonModel.links!.whatsapp!);
-                          },
-                          child: Container(
-                            height: 52.sp,
-                            width: 52.sp,
-                            decoration: BoxDecoration(
-                              border:
-                                  Border.all(color: AppTheme.black, width: 1),
-                              borderRadius: BorderRadius.circular(12.sp),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.all(10.sp),
-                              child: SvgPicture.asset(
-                                  "assets/social_media/whatsapp.svg"),
-                            ),
-                          ),
-                        ),
-                        const Text('whatsapp'),
-                      ],
-                    ),
-                  ],
-                  if (widget.salonModel.links!.facebookMessenger != "" &&
-                      widget.salonModel.links!.facebookMessenger != null) ...[
-                    Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            _launchURL(
-                                widget.salonModel.links!.facebookMessenger!);
-                          },
-                          child: Container(
-                            height: 52.sp,
-                            width: 52.sp,
-                            decoration: BoxDecoration(
-                              border:
-                                  Border.all(color: AppTheme.black, width: 1),
-                              borderRadius: BorderRadius.circular(12.sp),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.all(10.sp),
-                              child: SvgPicture.asset(
-                                  "assets/social_media/facebook_messenger.svg"),
-                            ),
-                          ),
-                        ),
-                        const Text('facebook'),
-                      ],
-                    ),
-                  ],
-                  if (widget.salonModel.links!.telegram != "" &&
-                      widget.salonModel.links!.telegram != null) ...[
-                    Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            _launchURL(widget.salonModel.links!.telegram!);
-                          },
-                          child: Container(
-                            height: 52.sp,
-                            width: 52.sp,
-                            decoration: BoxDecoration(
-                              border:
-                                  Border.all(color: AppTheme.black, width: 1),
-                              borderRadius: BorderRadius.circular(12.sp),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.all(10.sp),
-                              child: SvgPicture.asset(
-                                  "assets/social_media/telegram.svg"),
-                            ),
-                          ),
-                        ),
-                        const Text('Telegram'),
-                      ],
-                    ),
-                  ],
-                  if (widget.salonModel.links!.viber != "" &&
-                      widget.salonModel.links!.viber != null) ...[
-                    Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            _launchURL(widget.salonModel.links!.viber!);
-                          },
-                          child: Container(
-                            height: 52.sp,
-                            width: 52.sp,
-                            decoration: BoxDecoration(
-                              border:
-                                  Border.all(color: AppTheme.black, width: 1),
-                              borderRadius: BorderRadius.circular(12.sp),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.all(10.sp),
-                              child: SvgPicture.asset(
-                                  "assets/social_media/viber.svg"),
-                            ),
-                          ),
-                        ),
-                        const Text('viber'),
-                      ],
-                    ),
                   ],
                 ],
               ]),
             )
           ],
           Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 20.0.w,
-              vertical: 20.0.w,
+            padding: EdgeInsets.only(left: 20.0.w,right: 20.w,top: 30.h,bottom: 20.h),
+            child: Text(
+              AppLocalizations.of(context)?.socialMedia ?? "Social Media",
+              style: AppTheme.aboutScreenStyle.copyWith(fontSize: 24.sp, fontWeight: FontWeight.w500),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal:20.w),
+            child: Row(
               children: [
-                // if (widget.salonModel.workingHours != null) ...[
-                //   WorkingHoursTable(
-                //     workingHoursModel: widget.salonModel.workingHours!,
-                //   ),
-                // ],
                 if (widget.salonModel.salonWebSite != null &&
                     widget.salonModel.salonWebSite != "") ...[
-                  Text(
-                    AppLocalizations.of(context)?.website ?? "website",
-                    style: Theme.of(context).textTheme.subtitle1,
-                  ),
-                  SizedBox(
-                    height: 16.h,
-                  ),
-                  Row(
-                    children: [
-                      SizedBox(
-                        height: 15,
-                        width: 15,
-                        child: SvgPicture.asset(AppIcons.globalSVG),
+                  GestureDetector(
+                    onTap: () {
+                      _launchURL(widget.salonModel.links!.instagram!);
+                    },
+                    child: Container(
+                      height: 40.sp,
+                      width: 40.sp,
+                      decoration: BoxDecoration(
+                        color: AppTheme.bookingWhite,
+                        border: const Border.symmetric(vertical: BorderSide.none, horizontal: BorderSide.none),
+                        borderRadius: BorderRadius.circular(20.sp),
                       ),
-                      SizedBox(
-                        width: 8.w,
+                      child: Padding(
+                        padding: EdgeInsets.all(10.sp),
+                        child: SvgPicture.asset(
+                          "assets/icons/Global.svg",color: AppTheme.bookingBlack,),
                       ),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            Utils()
-                                .launchUrl(url: widget.salonModel.salonWebSite);
-                          },
-                          child: Text(
-                            widget.salonModel.salonWebSite ?? "",
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(color: Colors.blue),
-                          ),
+                    ),
+                  ),
+                ],
+                if (widget.salonModel.links != null) ...[
+                  if (widget.salonModel.links!.instagram != "" &&
+                      widget.salonModel.links!.instagram != null) ...[
+                    GestureDetector(
+                      onTap: () {
+                        _launchURL(widget.salonModel.links!.instagram!);
+                      },
+                      child: Container(
+                        height: 40.sp,
+                        width: 40.sp,
+                        decoration: BoxDecoration(
+                          border: const Border.symmetric(vertical: BorderSide.none, horizontal: BorderSide.none),
+                          borderRadius: BorderRadius.circular(20.sp),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(10.sp),
+                          child: SvgPicture.asset(
+                            "assets/social_media/insta.svg",color: AppTheme.bookingBlack,),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
+                  if (widget.salonModel.links!.whatsapp != "" &&
+                      widget.salonModel.links!.whatsapp != null) ...[
+                    GestureDetector(
+                      onTap: () {
+                        _launchURL(widget.salonModel.links!.whatsapp!);
+                      },
+                      child: Container(
+                        height: 40.sp,
+                        width: 40.sp,
+                        decoration: BoxDecoration(
+                          border: const Border.symmetric(vertical: BorderSide.none, horizontal: BorderSide.none),
+                          borderRadius: BorderRadius.circular(20.sp),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(10.sp),
+                          child: SvgPicture.asset(
+                            "assets/social_media/whatsapp.svg", color: AppTheme.bookingBlack,),
+                        ),
+                      ),
+                    ),
+                  ],
+                  if (widget.salonModel.links!.facebookMessenger != "" &&
+                      widget.salonModel.links!.facebookMessenger != null) ...[
+                    GestureDetector(
+                      onTap: () {
+                        _launchURL(
+                            widget.salonModel.links!.facebookMessenger!);
+                      },
+                      child: Container(
+                        height: 40.sp,
+                        width: 40.sp,
+                        decoration: BoxDecoration(
+                          border: const Border.symmetric(vertical: BorderSide.none, horizontal: BorderSide.none),
+                          borderRadius: BorderRadius.circular(20.sp),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(10.sp),
+                          child: SvgPicture.asset(
+                            "assets/social_media/facebook_messenger.svg", color: AppTheme.bookingBlack,),
+                        ),
+                      ),
+                    ),
+                  ],
+                  // if (widget.salonModel.links!.telegram != "" &&
+                  //     widget.salonModel.links!.telegram != null) ...[
+                  //   Column(
+                  //     children: [
+                  //       GestureDetector(
+                  //         onTap: () {
+                  //           _launchURL(widget.salonModel.links!.telegram!);
+                  //         },
+                  //         child: Container(
+                  //           height: 52.sp,
+                  //           width: 52.sp,
+                  //           decoration: BoxDecoration(
+                  //             border:
+                  //             Border.all(color: AppTheme.black, width: 1),
+                  //             borderRadius: BorderRadius.circular(12.sp),
+                  //           ),
+                  //           child: Padding(
+                  //             padding: EdgeInsets.all(10.sp),
+                  //             child: SvgPicture.asset(
+                  //                 "assets/social_media/telegram.svg"),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //       const Text('Telegram'),
+                  //     ],
+                  //   ),
+                  // ],
+                  // if (widget.salonModel.links!.viber != "" &&
+                  //     widget.salonModel.links!.viber != null) ...[
+                  //   Column(
+                  //     children: [
+                  //       GestureDetector(
+                  //         onTap: () {
+                  //           _launchURL(widget.salonModel.links!.viber!);
+                  //         },
+                  //         child: Container(
+                  //           height: 52.sp,
+                  //           width: 52.sp,
+                  //           decoration: BoxDecoration(
+                  //             border:
+                  //             Border.all(color: AppTheme.black, width: 1),
+                  //             borderRadius: BorderRadius.circular(12.sp),
+                  //           ),
+                  //           child: Padding(
+                  //             padding: EdgeInsets.all(10.sp),
+                  //             child: SvgPicture.asset(
+                  //                 "assets/social_media/viber.svg"),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //       const Text('viber'),
+                  //     ],
+                  //   ),
+                  // ],
                 ],
               ],
             ),
           ),
+          // Padding(
+          //   padding: EdgeInsets.symmetric(
+          //     horizontal: 20.0.w,
+          //     vertical: 20.0.w,
+          //   ),
+          //   child: Column(
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     children: [
+          //       // if (widget.salonModel.workingHours != null) ...[
+          //       //   WorkingHoursTable(
+          //       //     workingHoursModel: widget.salonModel.workingHours!,
+          //       //   ),
+          //       // ],
+          //       if (widget.salonModel.salonWebSite != null &&
+          //           widget.salonModel.salonWebSite != "") ...[
+          //         Text(
+          //           AppLocalizations.of(context)?.website ?? "website",
+          //           style: Theme.of(context).textTheme.subtitle1,
+          //         ),
+          //         SizedBox(
+          //           height: 16.h,
+          //         ),
+          //         Row(
+          //           children: [
+          //             SizedBox(
+          //               height: 15,
+          //               width: 15,
+          //               child: SvgPicture.asset(AppIcons.globalSVG),
+          //             ),
+          //             SizedBox(
+          //               width: 8.w,
+          //             ),
+          //             Expanded(
+          //               child: GestureDetector(
+          //                 onTap: () {
+          //                   Utils()
+          //                       .launchUrl(url: widget.salonModel.salonWebSite);
+          //                 },
+          //                 child: Text(
+          //                   widget.salonModel.salonWebSite ?? "",
+          //                   maxLines: 1,
+          //                   overflow: TextOverflow.ellipsis,
+          //                   style: const TextStyle(color: Colors.blue),
+          //                 ),
+          //               ),
+          //             ),
+          //           ],
+          //         ),
+          //       ],
+          //     ],
+          //   ),
+          // ),
           ReviewWidget(
             reviews: _salonProfileProvider.salonReviews,
             avgRating: widget.salonModel.avgRating,
@@ -444,7 +547,7 @@ class _ReviewWidgetState extends State<ReviewWidget> {
           if (widget.reviews.isNotEmpty) ...[
             Text(
               AppLocalizations.of(context)?.reviews ?? "Reviews",
-              style: Theme.of(context).textTheme.subtitle1,
+              style: AppTheme.aboutScreenStyle.copyWith(fontWeight: FontWeight.w500,fontSize: 24.sp),
             ),
             SizedBox(
               height: 20.h,

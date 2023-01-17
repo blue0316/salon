@@ -103,6 +103,13 @@ class AppTheme {
   static const Color creamBrownPrimaryVariant = Color(0xFFAE7C63);
   static const Color creamBrownSecondaryVarient = Color(0xffE3AF7B);
 
+  static final TextStyle aboutScreenStyle = TextStyle(
+    fontFamily: "Gilroy",
+    fontSize: 40.sp,
+    fontWeight: FontWeight.w600,
+    color: bookingBlack,
+  );
+
   static final TextStyle hintStyle = TextStyle(
     fontFamily: "Montserrat",
     fontSize: 14.sp,

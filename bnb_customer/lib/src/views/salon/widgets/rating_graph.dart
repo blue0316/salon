@@ -22,28 +22,27 @@ class RatingGraph extends StatelessWidget {
   Widget build(BuildContext context) {
     final _ratingStr=  avgRating.toString();
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Column(
           children: [
             Text(
               _ratingStr.length>3?_ratingStr.substring(0, 3):_ratingStr,
-              style:
-                  Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 38),
+              style: AppTheme.aboutScreenStyle.copyWith(),
             ),
             SizedBox(
-              height: 8.h,
+              height: 10.h,
             ),
             BnbRatings(rating: avgRating, editable: false, starSize: 15),
             SizedBox(
-              height: 8.h,
+              height: 10.h,
             ),
             Text(
               "${noOfReviews.toInt()} ${AppLocalizations.of(context)?.reviews ?? "reviews"}",
-              style: Theme.of(context).textTheme.bodyText2,
+              style: AppTheme.aboutScreenStyle.copyWith(fontWeight: FontWeight.w400,fontSize: 20.sp, decoration: TextDecoration.underline),
             ),
           ],
         ),
+        SizedBox(width: 40.w ,),
         DistributedRating(
           allReviews: allReviews,
         ),
@@ -113,9 +112,7 @@ class _DistributedRatingState extends State<DistributedRating> {
         children: [
           Text(
             ratingLabel,
-            style:
-                Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 12),
-          ),
+            style: AppTheme.aboutScreenStyle.copyWith(fontWeight: FontWeight.w500,fontSize: 18.sp),          ),
           const SpaceHorizontal(),
           Stack(
             children: [
@@ -133,7 +130,7 @@ class _DistributedRatingState extends State<DistributedRating> {
                   height: 8,
                   width: 160.0 * (totalCount == 0 ? 0 : (rating / totalCount)),
                   decoration: BoxDecoration(
-                    color: AppTheme.creamBrownLight,
+                    color: AppTheme.bookingYellow,
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
