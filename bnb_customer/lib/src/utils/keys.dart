@@ -19,10 +19,11 @@ class Keys {
   static const childrenRoom = "children_room";
   static const petFriendly = "pet_friendly";
   static const noPet = "no_pet";
-  static const accessibilityForPersonsWithReducedMobility = "accessibility_for_persons_with_reducedMobility";
+  static const accessibilityForPersonsWithReducedMobility =
+      "accessibility_for_persons_with_reducedMobility";
   static const parallelServices = "parallel_services";
   static const medicalPracticeLicense = "medical_practice_license";
-
+  static const bookRestricted = "bookRestricted";
   static const String user = 'user';
   static const String min = "min";
   static const String uah = "₴";
@@ -220,7 +221,8 @@ class Keys {
   static const String registration_line44 = "registration_line44";
   static const String registration_line45 = "registration_line45";
   static const String registration_line46 = "registration_line46";
-  static const String email_sent_to_reset_password = "email_sent_to_reset_password";
+  static const String email_sent_to_reset_password =
+      "email_sent_to_reset_password";
   static const String for_ = "for";
   static const String men = "men";
   static const String women = "women";
@@ -372,11 +374,14 @@ class Keys {
   static const String back = "Back";
   static const String noAppointmentsFound = "NoAppointmentsFound";
   static const String okey = "Okey";
-  static const String twoHoursBeforeTheAppointment = "TwoHoursBeforeTheAppointment";
+  static const String twoHoursBeforeTheAppointment =
+      "TwoHoursBeforeTheAppointment";
   static const String mostPeopleCancelLastMinute = "MostPeopleCancelLastMinute";
-  static const String hoursLessBeforeTheAppointment = "24hoursLessBeforeTheAppointment";
+  static const String hoursLessBeforeTheAppointment =
+      "24hoursLessBeforeTheAppointment";
   static const String thanksForCanceling = "ThanksForCanceling";
-  static const String hoursMoreBeforeTheAppointment = "24hoursMoreBeforeTheAppointment";
+  static const String hoursMoreBeforeTheAppointment =
+      "24hoursMoreBeforeTheAppointment";
   static const String priorWarningThanks = "priorWarningThanks";
   static const String calenderEmpty = "CalenderEmpty";
   static const String allAppointmentsHere = "AllAppointmentsHere";
@@ -472,7 +477,8 @@ class Keys {
   static const String turnOnLocation = "TurnOnLocation";
   static const String preferServicesFor = "PreferServicesFor";
   static const String showMeAll = "ShowMeAll";
-  static const String whichStatementIsTruerForYou = "WhichStatementIsTruerForYou";
+  static const String whichStatementIsTruerForYou =
+      "WhichStatementIsTruerForYou";
   static const String ipreferTopServices = "IpreferTopServices";
   static const String iPreferTraineeServicews = "IPreferTraineeServicews";
   static const String idontCareGiveMeGoodService = "IdontCareGiveMeGoodService";
@@ -495,7 +501,8 @@ class Keys {
   static const String tellUsSalonMore = "TellUsSalonMore";
   static const String tellUsWhyChose = "TellUsWhyChose";
   static const String useMyAccountForReview = "UseMyAccountForReview";
-  static const String useOnlyMyFirstNameWithoutPhoto = "UseOnlyMyFirstNameWithoutPhoto";
+  static const String useOnlyMyFirstNameWithoutPhoto =
+      "UseOnlyMyFirstNameWithoutPhoto";
   static const String remindMeLater = "RemindMeLater";
   static const String less = "Less";
   static const String bookNow = "BookNow";
@@ -520,13 +527,15 @@ class Keys {
   static const String pleaseSetAnAddress = "PleaseSetAnAddress";
   static const String lastBooked = "LastBooked";
   static const String searchServices = "SearchServices";
-  static const String hereWillBeYourSearchResults = "HereWillBeYourSearchResults";
+  static const String hereWillBeYourSearchResults =
+      "HereWillBeYourSearchResults";
   static const String sortBy = "SortBy";
   static const String lowPriceFirst = "lowPriceFirst";
   static const String highPriceFirst = "highPriceFirst";
   static const String popularFirst = "popularFirst";
   static const String newestFirst = "newestFirst";
-  static const String salonOrMasterDeletedYourAppointment = "SalonOrMasterDeletedYourAppointment";
+  static const String salonOrMasterDeletedYourAppointment =
+      "SalonOrMasterDeletedYourAppointment";
   static const String startConversation = "StartConversation";
   static const String holdCardHere = "HoldCardHere";
   static const String utWillScanAutomatically = "ItWillScanAutomatically";
@@ -534,34 +543,43 @@ class Keys {
   static const String protectYourselfCovid = "ProtectYourselfCovid";
   static const String wearAFMask = "WearAFMask";
   static const String washYourFHands = "WashYourFHands";
-  static const String avoidCrowdsAndKeepSocialDistance = "AvoidCrowdsAndKeepSocialDistance";
-  static const String stayHomeAndContactYourDoctor = "StayHomeAndContactYourDoctor";
-  static const String dontForgetToCancelAppointment24Hours = "DontForgetToCancelAppointment24Hours";
+  static const String avoidCrowdsAndKeepSocialDistance =
+      "AvoidCrowdsAndKeepSocialDistance";
+  static const String stayHomeAndContactYourDoctor =
+      "StayHomeAndContactYourDoctor";
+  static const String dontForgetToCancelAppointment24Hours =
+      "DontForgetToCancelAppointment24Hours";
   static const String beSafeAndCare = "BeSafeAndCare";
   static const String yesOfCourse = "YesOfCourse";
   static const String yourWishesOrComments = "YourWishesOrComments";
   static const String yhankYouForYourReview = "ThankYouForYourReview";
-  static const String removeThisMasterSalonfromYourFavorites = "RemoveThisMasterSalonfromYourFavorites";
+  static const String removeThisMasterSalonfromYourFavorites =
+      "RemoveThisMasterSalonfromYourFavorites";
   static const String confirmYouWillComePlease = "ConfirmYouWillComePlease";
   static const String imNotComing = "ImNotComing";
   static const String total = "Total";
-  static const String makeAppointmentDontForgetBonus = "MakeAppointmentDontForgetBonus";
+  static const String makeAppointmentDontForgetBonus =
+      "MakeAppointmentDontForgetBonus";
   static const String linkYourCard = "LinkYourCard";
   static const String link = "Link";
   static const String nowIAmHere = "NowIAmHere";
   static const String appointmentsInAewTaps = "AppointmentsInAewTaps";
-  static const String chooseByServicesPriceDistanceRating = "ChooseByServicesPriceDistanceRating";
+  static const String chooseByServicesPriceDistanceRating =
+      "ChooseByServicesPriceDistanceRating";
   static const String seeSalonNMastersArpundYou = "SeeSalonNMastersArpundYou";
-  static const String chooseMasterSalonBasedOnRealReviews = "ChooseMasterSalonBasedOnRealReviews";
-  static const String dontEverMissAppointmentsWithOurNotifications = "DontEverMissAppointmentsWithOurNotifications";
+  static const String chooseMasterSalonBasedOnRealReviews =
+      "ChooseMasterSalonBasedOnRealReviews";
+  static const String dontEverMissAppointmentsWithOurNotifications =
+      "DontEverMissAppointmentsWithOurNotifications";
   static const String ukrainian = "Ukrainian";
-  static const String youSureWeMightSuggestYouVariants = "YouSureWeMightSuggestYouVariants";
+  static const String youSureWeMightSuggestYouVariants =
+      "YouSureWeMightSuggestYouVariants";
 
   static const String salon = "salon";
   static const String specialistStudio = "specialistStudio";
   static const String singleMaster = "singleMaster";
-   static const String pleasefillInYourName = "pleasefillInYourName";
-    static const String resendVerificationCode = "resendVerificationCode";
+  static const String pleasefillInYourName = "pleasefillInYourName";
+  static const String resendVerificationCode = "resendVerificationCode";
 }
 
 

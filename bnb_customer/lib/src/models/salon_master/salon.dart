@@ -24,6 +24,10 @@ class SalonModel {
   late bool isAvailableOnline = false;
   late bool isProfileImage = false;
   late String address;
+  int? timeSlotsInterval;
+  int? bookingRestrictionDays;
+  // the amount of time between each appointments
+  int? appointmentsLeadTime;
   late List<String> categoryId = [];
   late List<String> parentServiceId = [];
   late List<String> additionalFeatures = [];
@@ -46,6 +50,7 @@ class SalonModel {
     this.workStation,
     required this.position,
     this.links,
+    this.timeSlotsInterval,
     this.isAvailableOnline = false,
     this.isProfileImage = false,
     this.salonWebSite,
@@ -61,7 +66,9 @@ class SalonModel {
     required this.reviewCount,
     required this.avgRating,
     this.distanceFromCenter,
+    this.appointmentsLeadTime,
     this.irregularWorkingHours,
+    this.bookingRestrictionDays,
     this.fcmToken,
     required this.workingHours,
     required this.additionalFeatures,
@@ -74,6 +81,7 @@ class SalonModel {
   SalonModel.fromJson(Map<String, dynamic> json) {
     salonId = json['salonId'];
     salonName = json['salonName'] ?? '';
+    appointmentsLeadTime = json['appointmentsLeadTime'];
     categoryId = json['categoryId'] == null
         ? []
         : categoryId = json['categoryId'].cast<String>();
@@ -81,7 +89,8 @@ class SalonModel {
     parentServiceId = json['parentServiceId'] == null
         ? []
         : parentServiceId = json['parentServiceId'].cast<String>();
-
+    timeSlotsInterval = json['timeSlotsInterval'];
+    bookingRestrictionDays = json['bookingRestrictionDays'];
     createdAt =
         json['createdAt'] != null ? json['createdAt'].toDate() : DateTime(1990);
     address = json['address'] ?? '';
@@ -141,11 +150,13 @@ class SalonModel {
         ? data['createdAt']?.toDate()
         : DateTime.now();
     data['categoryId'] = categoryId;
+    data['appointmentsLeadTime'] = appointmentsLeadTime;
     data['parentServiceId'] = parentServiceId;
     data['ownerType'] = ownerType;
     data['workStation'] = workStation;
     data['address'] = address;
     data['isAvailableOnline'] = isAvailableOnline;
+    data['bookingRestrictionDays'] = bookingRestrictionDays;
     if (links != null) {
       data['links'] = links!.toJson();
     }
@@ -153,6 +164,7 @@ class SalonModel {
       data['position'] = position!.toJson();
     }
     data['workingHours'] = workingHours?.toJson();
+    data['timeSlotsInterval'] = timeSlotsInterval;
     data['salonWebSite'] = salonWebSite;
     data['phoneNumber'] = phoneNumber;
     data['email'] = email;
@@ -229,7 +241,7 @@ class Links {
   String? whatsapp;
   String? instagram;
 
-  Links(Map map, 
+  Links(Map map,
       {this.facebookMessenger,
       this.viber,
       this.telegram,

@@ -106,8 +106,14 @@ class CreateAppointmentProvider with ChangeNotifier {
       required BuildContext context,
       required List<ServiceModel> servicesFromSearch}) async {
     chosenSalon = salonModel;
+    //set time slot interval
+
+    // Time().timeSlotSize = Duration(minutes: chosenSalon!.timeSlotsInterval!);
+    // Time().timeSlotSizeInt = chosenSalon!.timeSlotsInterval!;
+    // await Time().setTimeSlot(chosenSalon!.timeSlotsInterval);
     ownerType = chosenSalon?.ownerType ?? OwnerType.all;
     _clearProvider();
+    // print(Time().timeSlotSizeInt);
     calculateValidSlots();
     await _initSalon(
         salonModel: salonModel,
@@ -235,7 +241,6 @@ class CreateAppointmentProvider with ChangeNotifier {
         for (ServiceModel _service in _servicesList) {
           // if (_mastersServices.contains(_service.serviceId) && _service.priceAndDuration.price != '0') {
           if (_mastersServices.contains(_service.serviceId)) {
-
             _servicesValidList.add(_service);
           } else {
             printIt("no master found for ${_service.serviceName}");
@@ -427,7 +432,9 @@ class CreateAppointmentProvider with ChangeNotifier {
       totalTimeSlotsRequired = (int.parse(
                   mastersPriceDurationMap[masterModel.masterId]?.duration ??
                       '0') /
-              Time.timeSlotSizeInt)
+              (chosenSalon!.timeSlotsInterval != null
+                  ? chosenSalon!.timeSlotsInterval!
+                  : 15))
           .ceil();
       printIt(mastersPriceDurationMap[masterModel.masterId]?.duration);
       setUpSlots(day: chosenDay, context: context, showNotWorkingToast: true);
@@ -618,24 +625,26 @@ class CreateAppointmentProvider with ChangeNotifier {
       notifyListeners();
 
       for (MasterModel master in salonMasters) {
-        if(master.workingHours != null){
+        if (master.workingHours != null) {
+          print('mmmm${master.workingHours} ${day.weekday}');
+          bool isMasterWorking = (Time()
+                      .getWorkingHoursFromWeekDay(
+                          day.weekday, master.workingHours)
+                      ?.isWorking ==
+                  true ||
+              (master.irregularWorkingHours != null
+                  ? master.irregularWorkingHours!.containsKey(
+                      DateFormat('yyyy-MM-dd').format(day).toString())
+                  : false));
+          print("this is date");
 
-        bool isMasterWorking = (Time()
-            .getWorkingHoursFromWeekDay(
-            day.weekday, master.workingHours)
-            ?.isWorking ==
-            true ||
-            master.irregularWorkingHours!
-                .containsKey(DateFormat('yyyy-MM-dd').format(day).toString()));
-
-
-        bool servicesAvailable = mastersServicesMap[master.masterId] != null;
-        bool servicesAvailableCount =
-            mastersServicesMap[master.masterId]?.isNotEmpty ?? false;
-        if (isMasterWorking && servicesAvailable && servicesAvailableCount) {
-          availableMasters.add(master);
+          bool servicesAvailable = mastersServicesMap[master.masterId] != null;
+          bool servicesAvailableCount =
+              mastersServicesMap[master.masterId]?.isNotEmpty ?? false;
+          if (isMasterWorking && servicesAvailable && servicesAvailableCount) {
+            availableMasters.add(master);
+          }
         }
-      }
       }
       printIt("available masters ${availableMasters.length}");
       notifyListeners();
@@ -651,6 +660,7 @@ class CreateAppointmentProvider with ChangeNotifier {
       {required DateTime day,
       required BuildContext context,
       required bool showNotWorkingToast}) async {
+    // await Time().setTimeSlot(chosenSalon!.timeSlotsInterval);
     chosenDay = day;
     chosenSlots.clear();
     for (int i = 1; i <= chosenServices.length; i++) {
@@ -693,7 +703,10 @@ class CreateAppointmentProvider with ChangeNotifier {
               validSlots.remove(slot);
             }
           }
-          allSlots = Time().getTimeSlots(_startTime, _endTime).toList();
+          allSlots = Time()
+              .getTimeSlots(_startTime, _endTime,
+                  step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15))
+              .toList();
           slotsStatus = Status.success;
           divideSlotsForDay();
           notifyListeners();
@@ -727,13 +740,19 @@ class CreateAppointmentProvider with ChangeNotifier {
           TimeOfDay _endTime = Time().stringToTime(validSlots.last);
           if (chosenDay.day == DateTime.now().day &&
               chosenDay.month == DateTime.now().month) {
-            List<String> _pastSlots =
-                Time().generateTimeSlots(_startTime, TimeOfDay.now()).toList();
+            List<String> _pastSlots = Time()
+                .generateTimeSlots(_startTime, TimeOfDay.now(),
+                    step:
+                        Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15))
+                .toList();
             for (String slot in _pastSlots) {
               validSlots.remove(slot);
             }
           }
-          allSlots = Time().getTimeSlots(_startTime, _endTime).toList();
+          allSlots = Time()
+              .getTimeSlots(_startTime, _endTime,
+                  step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15))
+              .toList();
           slotsStatus = Status.success;
           divideSlotsForDay();
           notifyListeners();
@@ -768,25 +787,54 @@ class CreateAppointmentProvider with ChangeNotifier {
           _blokedSlots.add(slot.toString());
         }
 
-
-
         if (workingHours != null) {
-
-
           TimeOfDay _startTime = Time().stringToTime(workingHours.startTime);
           TimeOfDay _endTime = Time().stringToTime(workingHours.endTime);
           TimeOfDay _breakStartTime =
               Time().stringToTime(workingHours.breakStartTime);
           TimeOfDay _breakEndTime =
               Time().stringToTime(workingHours.breakEndTime);
-          allSlots = Time().getTimeSlots(_startTime, _endTime).toList();
+          allSlots = Time()
+              .getTimeSlots(_startTime, _endTime,
+                  step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15))
+              .toList();
           if (workingHours.isWorking) {
             if (chosenDay.day == DateTime.now().day &&
                 chosenDay.month == DateTime.now().month) {
-              validSlots =
-                  Time().getTimeSlots(TimeOfDay.now(), _endTime).toList();
+              // if (chosenSalon!.appointmentsLeadTime != null) {
+              //   //computing start and end time acc to different parameters
+              //   // copied this function from salon app
+              //   TimeOfDay? _mystartTime =
+              //       _computeStartTime(workingHours.startTime, chosenDay);
+              //   var myminutes = Time().toMinutes(_mystartTime!);
+              //   // round up to nearest value of slot
+              //   myminutes = myminutes! +
+              //       ((chosenSalon!.timeSlotsInterval ?? 15) -
+              //           (myminutes % (chosenSalon!.timeSlotsInterval ?? 15)));
+              //   _mystartTime =
+              //       TimeOfDay(hour: myminutes ~/ 60, minute: myminutes % 60);
+              //   print(_mystartTime);
+              //   validSlots = Time()
+              //       .getTimeSlots(_mystartTime, _endTime,
+              //           step: Duration(
+              //               minutes: chosenSalon!.timeSlotsInterval ?? 15))
+              //       .toList();
+              // } else {
+              TimeOfDay? _mystartTime =
+                  _computeStartTime(workingHours.startTime, chosenDay);
+              printIt(_mystartTime);
+              validSlots = Time()
+                  .getTimeSlots(_mystartTime, _endTime,
+                      step: Duration(
+                          minutes: chosenSalon!.timeSlotsInterval ?? 15))
+                  .toList();
+              // }
             } else {
-              validSlots = Time().getTimeSlots(_startTime, _endTime).toList();
+              validSlots = Time()
+                  .getTimeSlots(_startTime, _endTime,
+                      step: Duration(
+                          minutes: chosenSalon!.timeSlotsInterval ?? 15))
+                  .toList();
             }
             bool isBreakAvailable = Time()
                     .getWorkingHoursFromWeekDay(
@@ -798,9 +846,12 @@ class CreateAppointmentProvider with ChangeNotifier {
                 false;
             if (isBreakAvailable) {
               printIt('master is taking break on choosen day');
-              breakSlots =
-                  Time().getTimeSlots(_breakStartTime, _breakEndTime).toList() +
-                      _blokedSlots;
+              breakSlots = Time()
+                      .getTimeSlots(_breakStartTime, _breakEndTime,
+                          step: Duration(
+                              minutes: chosenSalon!.timeSlotsInterval ?? 15))
+                      .toList() +
+                  _blokedSlots;
             } else {
               printIt('master is not taking break on choosen day');
               breakSlots = _blokedSlots;
@@ -836,89 +887,97 @@ class CreateAppointmentProvider with ChangeNotifier {
           if (chosenSalon!.irregularWorkingHours!.containsKey(
               DateFormat('yyyy-MM-dd').format(chosenDay).toString())) {
             workingHours = chosenSalon!.irregularWorkingHours![
-            DateFormat('yyyy-MM-dd').format(chosenDay).toString()];
+                DateFormat('yyyy-MM-dd').format(chosenDay).toString()];
           }
-        }else {
-            workingHours = Time().getWorkingHoursFromWeekDay(
-              chosenDay.weekday,
-              (chosenMaster == null)
-                  ? chosenSalon!.workingHours
-                  : chosenMaster!.workingHours,
-            );
-          }
-
-          List<String> masterBlocked = [];
-          String? dateString = Time().getDateInStandardFormat(chosenDay);
-          List<dynamic> slotsBlocked =
-              chosenMaster?.blockedTime?[dateString] ?? [];
-          for (dynamic slot in slotsBlocked) {
-            masterBlocked.add(slot.toString());
-          }
-          if (workingHours != null) {
-            TimeOfDay _startTime = Time().stringToTime(workingHours.startTime);
-            TimeOfDay _endTime = Time().stringToTime(workingHours.endTime);
-            TimeOfDay _breakStartTime =
-            Time().stringToTime(workingHours.breakStartTime);
-            TimeOfDay _breakEndTime =
-            Time().stringToTime(workingHours.breakEndTime);
-            allSlots = Time().getTimeSlots(_startTime, _endTime).toList();
-            if (workingHours.isWorking) {
-              if (chosenDay.day == DateTime
-                  .now()
-                  .day &&
-                  chosenDay.month == DateTime
-                      .now()
-                      .month) {
-                validSlots =
-                    Time().getTimeSlots(TimeOfDay.now(), _endTime).toList();
-              } else {
-                validSlots = Time().getTimeSlots(_startTime, _endTime).toList();
-              }
-              bool isBreakAvailable = Time()
-                  .getWorkingHoursFromWeekDay(
-                  chosenDay.weekday,
-                  (chosenSalon?.ownerType == OwnerType.salon)
-                      ? chosenMaster?.workingHours
-                      : chosenSalon!.workingHours)
-                  ?.isBreakAvailable ??
-                  false;
-              if (isBreakAvailable) {
-                printIt('master is taking break on choosen day');
-                breakSlots =
-                    Time()
-                        .getTimeSlots(_breakStartTime, _breakEndTime)
-                        .toList() +
-                        masterBlocked;
-              } else {
-                printIt('master is not taking break on choosen day');
-                breakSlots = masterBlocked;
-              }
-              for (String slot in breakSlots) {
-                validSlots.removeWhere((element) => element == slot);
-              }
-              slotsStatus = Status.success;
-              notifyListeners();
-            } else {
-              validSlots.clear();
-              if (chosenMaster != null && showNotWorkingToast) {
-                showToast(AppLocalizations
-                    .of(context)
-                    ?.masterNotWorking ??
-                    "master's not Working");
-              }
-              slotsStatus = Status.failed;
-              notifyListeners();
-              notifyListeners();
-            }
-            printIt("valid Slots $validSlots");
-            divideSlotsForDay();
-          } else {
-            slotsStatus = Status.failed;
-            notifyListeners();
-            debugPrint(allSlots.toString());
-
+        } else {
+          workingHours = Time().getWorkingHoursFromWeekDay(
+            chosenDay.weekday,
+            (chosenMaster == null)
+                ? chosenSalon!.workingHours
+                : chosenMaster!.workingHours,
+          );
         }
 
+        List<String> masterBlocked = [];
+        String? dateString = Time().getDateInStandardFormat(chosenDay);
+        List<dynamic> slotsBlocked =
+            chosenMaster?.blockedTime?[dateString] ?? [];
+        for (dynamic slot in slotsBlocked) {
+          masterBlocked.add(slot.toString());
+        }
+        if (workingHours != null) {
+          TimeOfDay _startTime = Time().stringToTime(workingHours.startTime);
+          TimeOfDay _endTime = Time().stringToTime(workingHours.endTime);
+          TimeOfDay _breakStartTime =
+              Time().stringToTime(workingHours.breakStartTime);
+          TimeOfDay _breakEndTime =
+              Time().stringToTime(workingHours.breakEndTime);
+          allSlots = Time()
+              .getTimeSlots(_startTime, _endTime,
+                  step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15))
+              .toList();
+
+          if (workingHours.isWorking) {
+            if (chosenDay.day == DateTime.now().day &&
+                chosenDay.month == DateTime.now().month) {
+              TimeOfDay? _mystartTime =
+                  _computeStartTime(workingHours.startTime, chosenDay);
+              printIt(_startTime);
+              validSlots = Time()
+                  .getTimeSlots(_mystartTime, _endTime,
+                      step: Duration(
+                          minutes: chosenSalon!.timeSlotsInterval ?? 15))
+                  .toList();
+            } else {
+              validSlots = Time()
+                  .getTimeSlots(_startTime, _endTime,
+                      step: Duration(
+                          minutes: chosenSalon!.timeSlotsInterval ?? 15))
+                  .toList();
+            }
+            bool isBreakAvailable = Time()
+                    .getWorkingHoursFromWeekDay(
+                        chosenDay.weekday,
+                        (chosenSalon?.ownerType == OwnerType.salon)
+                            ? chosenMaster?.workingHours
+                            : chosenSalon!.workingHours)
+                    ?.isBreakAvailable ??
+                false;
+            if (isBreakAvailable) {
+              printIt('master is taking break on choosen day');
+              breakSlots = Time()
+                      .getTimeSlots(_breakStartTime, _breakEndTime,
+                          step: Duration(
+                              minutes: chosenSalon!.timeSlotsInterval ?? 15))
+                      .toList() +
+                  masterBlocked;
+            } else {
+              printIt('master is not taking break on choosen day');
+              breakSlots = masterBlocked;
+            }
+            for (String slot in breakSlots) {
+              validSlots.removeWhere((element) => element == slot);
+            }
+            slotsStatus = Status.success;
+            notifyListeners();
+          } else {
+            validSlots.clear();
+            if (chosenMaster != null && showNotWorkingToast) {
+              showToast(AppLocalizations.of(context)?.masterNotWorking ??
+                  "master's not Working");
+            }
+            slotsStatus = Status.failed;
+            notifyListeners();
+            notifyListeners();
+          }
+          printIt("valid Slots $validSlots");
+          printIt("valid Slots $allSlots");
+          divideSlotsForDay();
+        } else {
+          slotsStatus = Status.failed;
+          notifyListeners();
+          debugPrint(allSlots.toString());
+        }
       }
     } else {
       slotsStatus = Status.failed;
@@ -949,6 +1008,62 @@ class CreateAppointmentProvider with ChangeNotifier {
     }
   }
 
+  Time _time = new Time();
+
+  TimeOfDay? _computeStartTime(String? masterStartTime, DateTime date) {
+    try {
+      DateTime _now = DateTime.now();
+
+      late TimeOfDay _masterAndSalonFusedTime;
+      // added this on the fly..but it seems to solve the problem
+      _masterAndSalonFusedTime = _time.stringToTime(masterStartTime!);
+      if (chosenSalon!.ownerType == OwnerType.singleMaster) {
+        _masterAndSalonFusedTime = _time.stringToTime(masterStartTime!);
+      } else {
+        //getting salon timings
+        Hours selectedSalonHours = _time.getRegularWorkingHoursFromDate(
+          chosenSalon?.workingHours ?? null,
+          weekDay: date.weekday,
+        )!;
+
+        if (!selectedSalonHours.isWorking!) return null;
+
+        TimeOfDay _salonStartTime =
+            _time.stringToTime(selectedSalonHours.startTime!);
+
+        TimeOfDay _masterStartTime = _time.stringToTime(masterStartTime!);
+
+        // computes the starting time by comparing master and salon starting time
+        TimeOfDay _masterAndSalonFusedTime = _time.getMinMaxTime(
+            _salonStartTime, _masterStartTime,
+            returnMaxTime: true);
+      }
+
+      if (_time.compareDate(date, _now)) {
+        //dates are same, Then it
+        // computes the start time by comparing current time and master working time
+
+        // for the effect of restricted time before appointment
+        if (chosenSalon!.appointmentsLeadTime != null) {
+          _now =
+              _now.add(Duration(minutes: chosenSalon!.appointmentsLeadTime!));
+        }
+        TimeOfDay _currentTime =
+            TimeOfDay(hour: _now.hour, minute: _now.minute);
+        print(TimeOfDay(hour: _now.hour, minute: _now.minute));
+        print(_masterAndSalonFusedTime);
+        return _time.getMinMaxTime(_currentTime, _masterAndSalonFusedTime,
+            returnMaxTime: true);
+      } else {
+        return _masterAndSalonFusedTime;
+      }
+    } catch (e) {
+      print('error while generating start time');
+      print(e);
+      return _time.stringToTime(masterStartTime!);
+    }
+  }
+
   calculateValidSlots() {
     clearChoosenSlots();
     totalMinutes = 0;
@@ -964,9 +1079,16 @@ class CreateAppointmentProvider with ChangeNotifier {
       printIt(totalMinutes);
       notifyListeners();
     }
-    totalTimeSlotsRequired = (totalMinutes / Time.timeSlotSizeInt).ceil();
-    if (totalMinutes <= 15) {
-      totalMinutes = Time.timeSlotSizeInt;
+    totalTimeSlotsRequired = (totalMinutes /
+            (chosenSalon!.timeSlotsInterval != null
+                ? chosenSalon!.timeSlotsInterval!
+                : 15))
+        .ceil();
+    if (totalMinutes <=
+        (chosenSalon!.timeSlotsInterval != null
+            ? chosenSalon!.timeSlotsInterval!
+            : 15)) {
+      totalMinutes = chosenSalon!.timeSlotsInterval ?? 15;
       totalTimeSlotsRequired = 1;
     }
     notifyListeners();

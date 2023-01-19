@@ -16,6 +16,7 @@ import 'package:bbblient/src/routes.dart';
 import 'package:bbblient/src/utils/analytics.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/icons.dart';
+import 'package:bbblient/src/utils/time.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/registration/authenticate/login.dart';
 import 'package:bbblient/src/views/salon/booking/booking_date_time.dart';
@@ -48,7 +49,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class SalonPage extends ConsumerStatefulWidget {
   static const route = 'salon';
   final String salonId;
- 
+
   final bool switchSalon;
   final String locale;
   final List<ServiceModel> chosenServices;
@@ -58,13 +59,11 @@ class SalonPage extends ConsumerStatefulWidget {
       {Key? key,
       required this.salonId,
       this.locale = "uk",
-      
       this.showBackButton = true,
       this.switchSalon = true,
       this.chosenServices = const []})
       : super(key: key);
   @override
-   
   _SaloonProfileState createState() => _SaloonProfileState();
 }
 
@@ -81,7 +80,6 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
 
   @override
   void initState() {
-    
     // final _bnbProvider = ref.read(bnbProvider);
     // print(widget.locale);
     // _bnbProvider.changeLocale(locale: const Locale('uk'));
@@ -94,6 +92,7 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
 
     printIt(_appProvider.firstRoute);
     final _salonSearchProvider = ref.read(salonSearchProvider);
+
     _salonSearchProvider.init(widget.salonId).then(
         (value) => WidgetsBinding.instance.addPostFrameCallback((_) async {
               categories = value;
@@ -101,13 +100,15 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
     _salonProfileProvider = ref.read(salonProfileProvider);
     _salonProfileProvider.init(widget.salonId).then(
         (salon) => WidgetsBinding.instance.addPostFrameCallback((_) async {
+              // here we set the time interval instead of the 15mins preset available
               await init(salon);
             }));
-
-
   }
 
   init(salon) async {
+    // Time().timeSlotSize = Duration(minutes: salon!.timeSlotsInterval!);
+    // Time().timeSlotSizeInt = salon!.timeSlotsInterval!;
+    // await Time().setTimeSlot(salon!.timeSlotsInterval);
     categories = await CategoryServicesApi().getCategories();
     final _createAppointmentProvider = ref.read(createAppointmentProvider);
     final repository = ref.watch(bnbProvider);
