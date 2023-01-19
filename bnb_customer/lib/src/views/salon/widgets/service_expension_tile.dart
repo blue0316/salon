@@ -509,6 +509,18 @@ class ShowAdditionaFeatureInfo extends StatelessWidget {
                       color: AppTheme.white3, fontWeight: FontWeight.w400),
                 )
               ],
+              if (feature == "noPet") ...[
+                Text(
+                  // (service.description == null || service.description == "")
+                  //     ? "Опис відсутній" //means no description available
+                  //     : service.description!,
+                  authprovider.getLocale.toString() == "en"
+                      ? "No pets"
+                      : "Без тварин",
+                  style: const TextStyle(
+                      color: AppTheme.white3, fontWeight: FontWeight.w400),
+                )
+              ],
               if (feature == "parallelService") ...[
                 Text(
                   // (service.description == null || service.description == "")
@@ -528,7 +540,7 @@ class ShowAdditionaFeatureInfo extends StatelessWidget {
                   //     : service.description!,
                   authprovider.getLocale.toString() == "en"
                       ? "Parking"
-                      : "Парковка",
+                      : "Паркінг",
                   style: const TextStyle(
                       color: AppTheme.white3, fontWeight: FontWeight.w400),
                 )
@@ -618,6 +630,18 @@ class ShowAdditionaFeatureInfo extends StatelessWidget {
                 )
               ],
               if (feature == "instrumentsSterilization") ...[
+                Text(
+                  // (service.description == null || service.description == "")
+                  //     ? "Опис відсутній" //means no description available
+                  //     : service.description!,
+                  authprovider.getLocale.toString() == "en"
+                      ? "Instruments sterilization"
+                      : "Стерилізація інструментів",
+                  style: const TextStyle(
+                      color: AppTheme.white3, fontWeight: FontWeight.w400),
+                )
+              ],
+              if (feature == "instrumentSterilization") ...[
                 Text(
                   // (service.description == null || service.description == "")
                   //     ? "Опис відсутній" //means no description available
