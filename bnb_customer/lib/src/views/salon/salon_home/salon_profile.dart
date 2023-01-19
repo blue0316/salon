@@ -381,6 +381,7 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
                               if (_createAppointmentProvider
                                   .chosenServices.isNotEmpty) {
                                 Navigator.of(context).push(MaterialPageRoute(
+                                    settings: RouteSettings(name: "Foo1"),
                                     builder: (_) => const BookingDateTime()));
                               } else {
                                 Utils().vibrateNegatively();

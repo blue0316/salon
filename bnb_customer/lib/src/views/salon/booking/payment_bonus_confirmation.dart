@@ -21,6 +21,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'dart:html' as html;
 
 class PaymentBonusConfirmation extends ConsumerStatefulWidget {
   const PaymentBonusConfirmation({Key? key}) : super(key: key);
@@ -430,9 +431,12 @@ class _PaymentBonusConfirmationState
                                       if (_appProvider.firstRoute != null) {
                                         printIt(
                                             "Going back to : ${_appProvider.firstRoute}");
-                                        context.pop();
-                                        context.push(
-                                            '${NavigatorPage.redirect}${_appProvider.firstRoute!}');
+                                        // context.pop();
+                                        // context.push(
+                                        //     '${NavigatorPage.redirect}${_appProvider.firstRoute!}');
+                                        html.window.open(
+                                            "https://bowandbeautiful.com${_appProvider.firstRoute}",
+                                            "_self");
                                       } else {
                                         Navigator.of(context).popUntil(
                                             (Route<dynamic> route) =>
@@ -458,9 +462,12 @@ class _PaymentBonusConfirmationState
                           if (_appProvider.firstRoute != null) {
                             printIt(
                                 "Going back to : ${_appProvider.firstRoute}");
-                            context.pop();
-                            context.push(
-                                '${NavigatorPage.redirect}${_appProvider.firstRoute!}');
+                            // context.pop();
+                            // context.push(
+                            //     '${NavigatorPage.redirect}${_appProvider.firstRoute!}');
+                            html.window.open(
+                                "https://bowandbeautiful.com${_appProvider.firstRoute}",
+                                "_self");
                           } else {
                             Navigator.of(context).popUntil(
                                 (Route<dynamic> route) => route.isFirst);
