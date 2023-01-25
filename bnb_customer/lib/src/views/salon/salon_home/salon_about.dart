@@ -123,8 +123,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     if (DeviceConstraints.getDeviceType(mediaQuery) == DeviceScreenType.portrait)
-                      Container(
-                        color: Colors.red,
+                      SizedBox(
                         height: 170.h,
                         width: double.infinity,
                         child: Image.asset(AppIcons.logoBnbPNG, fit: BoxFit.cover), // CachedImage(url: widget.salonModel.)
