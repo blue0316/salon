@@ -68,84 +68,64 @@ class _SaloonMastersState extends ConsumerState<SaloonMasters> {
                       padding: const EdgeInsets.symmetric(vertical: AppTheme.margin * 0.6),
                       child: Column(
                         children: [
-                          Padding(
-                            padding: EdgeInsets.zero, // EdgeInsets.only(left: 30.0.w, right: 16.w),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                /// --- ICON, SECTION TITLE, X MASTERS ---
-                                Row(
-                                  children: [
-                                    Container(
-                                      height: 55.h,
-                                      width: 55.h,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50),
-                                        color: const Color.fromARGB(255, 239, 239, 239),
-                                      ),
-                                      child: Padding(
-                                        padding: EdgeInsets.all(8.0.sp),
-                                        child: Center(
-                                          child: SvgPicture.asset(
-                                            AppIcons.getIconFromCategoryId(id: _salonSearchProvider.categories[index].categoryId),
-                                            color: AppTheme.black,
-                                            height: DeviceConstraints.getResponsiveSize(context, 25, 35, 40),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    const SpaceHorizontal(width: 30),
-
-                                    Text(
-                                      _salonSearchProvider.categories[index].translations[AppLocalizations.of(context)?.localeName],
-                                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 18.sp,
-                                          ),
-                                    ),
-                                    const SpaceHorizontal(width: 25),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        color: const Color.fromARGB(255, 239, 239, 239),
-                                        borderRadius: BorderRadius.circular(50),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                                        child: Text(
-                                          " (${_filteredMasters.length}) masters",
-                                          style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                                fontSize: 15.sp,
-                                                // fontWeight: FontWeight.w600,
-                                              ),
-                                        ),
-                                      ),
-                                    ),
-                                    // RichText(
-                                    //   text: TextSpan(
-                                    //     children: [
-                                    //       TextSpan(
-                                    //         text: _salonSearchProvider.categories[index].translations[AppLocalizations.of(context)?.localeName],
-                                    //         style: Theme.of(context).textTheme.bodyText1,
-                                    //       ),
-                                    //       TextSpan(
-                                    //           text: " (${_filteredMasters.length})",
-                                    //           style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                    //                 fontSize: 14,
-                                    //                 fontWeight: FontWeight.w400,
-                                    //               )),
-                                    //     ],
-                                    //   ),
-                                    // ),
-                                  ],
+                          Row(
+                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: DeviceConstraints.getResponsiveSize(context, 40.h, 55.h, 55.h),
+                                width: DeviceConstraints.getResponsiveSize(context, 40.h, 55.h, 55.h),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  color: const Color.fromARGB(255, 239, 239, 239),
                                 ),
-                              ],
-                            ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.0.sp),
+                                  child: Center(
+                                    child: SvgPicture.asset(
+                                      AppIcons.getIconFromCategoryId(id: _salonSearchProvider.categories[index].categoryId),
+                                      color: AppTheme.black,
+                                      height: DeviceConstraints.getResponsiveSize(context, 20, 35, 40),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SpaceHorizontal(
+                                width: DeviceConstraints.getResponsiveSize(context, 15, 30, 30),
+                              ),
+                              Text(
+                                _salonSearchProvider.categories[index].translations[AppLocalizations.of(context)?.localeName],
+                                style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 18.sp, //  DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
+                                    ),
+                              ),
+                              SpaceHorizontal(
+                                width: DeviceConstraints.getResponsiveSize(context, 10, 25, 25),
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: const Color.fromARGB(255, 239, 239, 239),
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+                                  child: Text(
+                                    " (${_filteredMasters.length}) masters ",
+                                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                          fontSize: 13.sp,
+                                          // fontWeight: FontWeight.w600,
+                                        ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                           const Space(factor: 1.5),
 
                           /// --- MASTER AVATAR ----
                           Container(
-                            height: DeviceConstraints.getResponsiveSize(context, 70, 120, 170),
+                            height: DeviceConstraints.getResponsiveSize(context, 110, 140, 170),
                             alignment: Alignment.centerLeft,
                             child: ListView.builder(
                                 itemCount: _filteredMasters.length,
