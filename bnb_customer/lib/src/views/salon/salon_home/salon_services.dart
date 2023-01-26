@@ -1,17 +1,13 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
-import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
 import 'package:bbblient/src/models/enums/profile_datails_tabs.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
-import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import '../widgets/service_expension_tile.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -127,7 +123,7 @@ class _SaloonServicesState extends ConsumerState<SalonServices> {
                   // return Text("data");
                 }),
             SizedBox(
-              height: 200.h,
+              height: 50.h,
             )
           ],
         ),
