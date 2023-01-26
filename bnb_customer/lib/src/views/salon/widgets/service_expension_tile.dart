@@ -67,9 +67,14 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
       child: ExpansionTile(
         initiallyExpanded: widget.initiallyExpanded,
         iconColor: AppTheme.black,
+        collapsedIconColor: AppTheme.black,
+        tilePadding: EdgeInsets.zero,
+        childrenPadding: EdgeInsets.zero,
         title: Padding(
-          padding: EdgeInsets.symmetric(vertical: DeviceConstraints.getResponsiveSize(context, 0, 12, 24)),
+          padding: EdgeInsets.symmetric(vertical: DeviceConstraints.getResponsiveSize(context, 10, 12, 24)),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
                 height: DeviceConstraints.getResponsiveSize(context, 40.h, 55.h, 55.h),
@@ -78,31 +83,44 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                   borderRadius: BorderRadius.circular(50),
                   color: const Color.fromARGB(255, 239, 239, 239),
                 ),
-                child: Padding(
-                  padding: EdgeInsets.zero, // all(8.0.sp),
-                  child: Center(
-                    child: Image.asset(
-                      AppIcons.getPngIconFromCategoryId(
-                        id: widget.categoryModel.categoryId,
-                      ),
-                      height: DeviceConstraints.getResponsiveSize(context, 20, 35, 40),
-
-                      // color:
-                      // AppTheme.creamBrown.withOpacity(0.2)
-                      // Colors.black12
-                      //  Colors.grey,
-                      // currentColor: Colors.grey,
-                    ),
+                child: Center(
+                  child: Image.asset(
+                    AppIcons.getPngIconFromCategoryId(id: widget.categoryModel.categoryId),
+                    height: DeviceConstraints.getResponsiveSize(context, 20, 35, 40),
                   ),
                 ),
               ),
-              SpaceHorizontal(width: DeviceConstraints.getResponsiveSize(context, 15, 30, 30)),
-              Text(
-                widget.categoryModel.translations[AppLocalizations.of(context)?.localeName ?? 'en'],
-                style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 18.sp,
+              SpaceHorizontal(width: DeviceConstraints.getResponsiveSize(context, 10, 30, 30)),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.categoryModel.translations[AppLocalizations.of(context)?.localeName ?? 'en'],
+                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                          fontWeight: FontWeight.w600,
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
+                        ),
+                  ),
+                  const SizedBox(height: 5),
+                  if (DeviceConstraints.getDeviceType(mediaQuery) == DeviceScreenType.portrait && widget.services.length == 5) // TODO: REMOVE THE OTHER CHECK (JUST A PLACEHOLDER)
+                    Container(
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 239, 239, 239),
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 7),
+                        child: Text(
+                          'Save up to 15%',
+                          style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                fontSize: 14.sp,
+                                color: AppTheme.lightGrey,
+                              ),
+                        ),
+                      ),
                     ),
+                ],
               ),
               if (DeviceConstraints.getDeviceType(mediaQuery) != DeviceScreenType.portrait) const SizedBox(width: 25),
               if (DeviceConstraints.getDeviceType(mediaQuery) != DeviceScreenType.portrait && widget.services.length == 5) // TODO: REMOVE THE OTHER CHECK (JUST A PLACEHOLDER)
@@ -129,11 +147,11 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                   borderRadius: BorderRadius.circular(50),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 7),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
                   child: Text(
                     '${widget.services.length} Services',
                     style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                          fontSize: 14.sp,
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 13.sp, 13.sp, 15.sp),
                           fontWeight: FontWeight.w600,
                         ),
                   ),
@@ -190,35 +208,40 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                                   mainAxisAlignment: MainAxisAlignment.start,
                                                   children: [
                                                     Expanded(
-                                                      flex: 0,
-                                                      child: Text(
-                                                        widget.services[index].translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
-                                                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                                              fontWeight: FontWeight.w600,
-                                                              fontSize: 16.sp,
-                                                            ),
-                                                        //overflow: TextOverflow.clip,
-                                                        maxLines: 2,
+                                                      flex: 1,
+                                                      child: Row(
+                                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                                        children: [
+                                                          Text(
+                                                            widget.services[index].translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
+                                                            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                                                  fontWeight: FontWeight.w600,
+                                                                  fontSize: 16.sp,
+                                                                ),
+                                                            overflow: TextOverflow.ellipsis,
+                                                            maxLines: 2,
+                                                          ),
+                                                          SizedBox(width: DeviceConstraints.getResponsiveSize(context, 2, 10, 10)),
+                                                          (service.description == null || service.description == "")
+                                                              ? const SizedBox(width: 15)
+                                                              : GestureDetector(
+                                                                  onTap: () => showDialog<bool>(
+                                                                    context: context,
+                                                                    builder: (BuildContext context) => ShowServiceInfo(service),
+                                                                  ),
+                                                                  child: SizedBox(
+                                                                    height: DeviceConstraints.getResponsiveSize(context, 12, 18, 18),
+                                                                    width: DeviceConstraints.getResponsiveSize(context, 12, 18, 18),
+                                                                    child: SvgPicture.asset(
+                                                                      AppIcons.informationSVG,
+                                                                      height: DeviceConstraints.getResponsiveSize(context, 12, 18, 18),
+                                                                      width: DeviceConstraints.getResponsiveSize(context, 12, 18, 18),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                        ],
                                                       ),
                                                     ),
-                                                    const SizedBox(width: 10),
-                                                    (service.description == null || service.description == "")
-                                                        ? const SizedBox(width: 15)
-                                                        : GestureDetector(
-                                                            onTap: () => showDialog<bool>(
-                                                              context: context,
-                                                              builder: (BuildContext context) => ShowServiceInfo(service),
-                                                            ),
-                                                            child: SizedBox(
-                                                              height: DeviceConstraints.getResponsiveSize(context, 12, 18, 18),
-                                                              width: DeviceConstraints.getResponsiveSize(context, 12, 18, 18),
-                                                              child: SvgPicture.asset(
-                                                                AppIcons.informationSVG,
-                                                                height: DeviceConstraints.getResponsiveSize(context, 12, 18, 18),
-                                                                width: DeviceConstraints.getResponsiveSize(context, 12, 18, 18),
-                                                              ),
-                                                            ),
-                                                          ),
                                                   ],
                                                 ),
                                                 SizedBox(
