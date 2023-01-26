@@ -39,7 +39,7 @@ class _SaloonHeaderState extends ConsumerState<SaloonHeader> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
+        SizedBox(
           height: 511.h,
           // decoration: const BoxDecoration(color:   AppTheme.lightBlack),
           child: Stack(
@@ -100,8 +100,8 @@ class _SaloonHeaderState extends ConsumerState<SaloonHeader> {
                                 bottom: 100,
                                 left: 40.w,
                                 child: Container(
-                                  height: DeviceConstraints.getResponsiveSize(context, 50.h, 25, 140.h), // TODO: TAB HEIGHT??
-                                  width: DeviceConstraints.getResponsiveSize(context, 50.h, 25, 140.h),
+                                  height: DeviceConstraints.getResponsiveSize(context, 95.h, 140.h, 140.h), // TODO: TAB HEIGHT??
+                                  width: DeviceConstraints.getResponsiveSize(context, 95.h, 140.h, 140.h),
                                   decoration: BoxDecoration(
                                     border: Border.all(color: Colors.white, width: 1.3),
                                   ),
@@ -164,47 +164,6 @@ class _SaloonHeaderState extends ConsumerState<SaloonHeader> {
                     padding: EdgeInsets.symmetric(vertical: 25.h),
                     child: Column(
                       children: [
-                        // Container(
-                        //   height: 62.h,
-                        //   width: 1.sw,
-                        //   decoration: const BoxDecoration(color: Colors.black),
-                        //   child: Padding(
-                        //     padding: EdgeInsets.only(left: 20.0.w, right: 40.w),
-                        //     child: Row(
-                        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //       children: [
-                        //         Flexible(
-                        //           child: Text(
-                        //             widget.salonModel.requestSalon ? AppLocalizations.of(context)?.requestInfo ?? "Request mode" : AppLocalizations.of(context)?.instantInfo ?? "Instant mode",
-                        //             style: Theme.of(context).textTheme.headline2!.copyWith(fontSize: 14, color: AppTheme.white, fontWeight: FontWeight.w600),
-                        //           ),
-                        //         ),
-                        //         const SpaceHorizontal(
-                        //           factor: 0.5,
-                        //         ),
-                        //         Row(
-                        //           children: [
-                        //             GestureDetector(
-                        //               onTap: () {
-                        //                 Utils().launchCaller(widget.salonModel.phoneNumber.replaceAll("-", ""));
-                        //               },
-                        //               child: Container(
-                        //                 height: 38.h,
-                        //                 width: 38.h,
-                        //                 decoration: BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(12.sp)),
-                        //                 child: Padding(
-                        //                   padding: EdgeInsets.all(8.0.sp),
-                        //                   child: SvgPicture.asset(AppIcons.phoneWhiteSVG),
-                        //                 ),
-                        //               ),
-                        //             ),
-                        //             SizedBox(width: 16.w),
-                        //           ],
-                        //         )
-                        //       ],
-                        //     ),
-                        //   ),
-                        // ),
                         SizedBox(
                           // height: 97.h,
                           width: 1.sw,
@@ -224,14 +183,23 @@ class _SaloonHeaderState extends ConsumerState<SaloonHeader> {
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                         ),
-                                        const Space(factor: 1),
+                                        const Space(factor: 0.8),
                                         Row(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           mainAxisAlignment: MainAxisAlignment.start,
                                           children: [
+                                            SvgPicture.asset(
+                                              AppIcons.mapPin2WhiteSVG,
+                                              height: 15.sp,
+                                              // color: Colors.black,
+                                            ),
+                                            const SizedBox(width: 10),
                                             Text(
                                               widget.salonModel.address,
-                                              style: Theme.of(context).textTheme.headline2!.copyWith(fontSize: 13.sp, fontWeight: FontWeight.w400),
+                                              style: Theme.of(context).textTheme.headline2!.copyWith(
+                                                    fontSize: 13.sp,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                             ),
@@ -253,19 +221,26 @@ class _SaloonHeaderState extends ConsumerState<SaloonHeader> {
                                           Utils().launchCaller(widget.salonModel.phoneNumber.replaceAll("-", ""));
                                         },
                                         child: Container(
-                                          height: DeviceConstraints.getResponsiveSize(context, 20, 25, 40),
-                                          width: DeviceConstraints.getResponsiveSize(context, 20, 25, 40),
+                                          // height: DeviceConstraints.getResponsiveSize(context, 20, 25, 40),
+                                          // width: DeviceConstraints.getResponsiveSize(context, 20, 25, 40),
+                                          height: 35.h,
+                                          width: 35.h,
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.circular(50),
                                             border: Border.all(color: Colors.white, width: 1.3),
                                           ),
                                           child: Padding(
                                             padding: EdgeInsets.all(8.0.sp),
-                                            child: Center(child: SvgPicture.asset(AppIcons.phoneWhiteSVG, height: 20.sp)),
+                                            child: Center(
+                                              child: SvgPicture.asset(
+                                                AppIcons.phoneWhiteSVG,
+                                                height: DeviceConstraints.getResponsiveSize(context, 40, 50, 70),
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(width: 15),
+                                      const SizedBox(width: 10),
                                       GestureDetector(
                                         onTap: () {
                                           if ((widget.salonModel.position?.geoPoint?.latitude ?? 0) == 0 && (widget.salonModel.position?.geoPoint?.longitude ?? 0) == 0) {
@@ -283,19 +258,20 @@ class _SaloonHeaderState extends ConsumerState<SaloonHeader> {
                                             }
                                           }
                                         },
-                                        child: SizedBox(
-                                          height: DeviceConstraints.getResponsiveSize(context, 20, 25, 40),
-                                          width: DeviceConstraints.getResponsiveSize(context, 20, 25, 40),
-                                          child: Container(
-                                            // height: 40.h,
-                                            // width: 40.h,
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(50),
-                                              border: Border.all(color: Colors.white, width: 1.3),
-                                            ),
-                                            child: Padding(
-                                              padding: EdgeInsets.all(8.0.sp),
-                                              child: Center(child: SvgPicture.asset(AppIcons.mapPinWhiteSVG, height: 20.sp)),
+                                        child: Container(
+                                          height: 35.h,
+                                          width: 35.h,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(50),
+                                            border: Border.all(color: Colors.white, width: 1.3),
+                                          ),
+                                          child: Padding(
+                                            padding: EdgeInsets.all(8.0.sp),
+                                            child: Center(
+                                              child: SvgPicture.asset(
+                                                AppIcons.send,
+                                                height: DeviceConstraints.getResponsiveSize(context, 40, 50, 70), // height: 40.h,
+                                              ),
                                             ),
                                           ),
                                         ),

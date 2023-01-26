@@ -160,6 +160,8 @@ class AppIcons {
   static const String bellActiveBrownSVG = "assets/icons/bell_active_brown.svg";
   static const String phoneWhiteSVG = "assets/icons/phone_btn.svg";
   static const String mapPinWhiteSVG = "assets/icons/map_pin_white.svg";
+  static const String mapPin2WhiteSVG = "assets/icons/map-pin.svg";
+  static const String send = "assets/icons/send.svg";
   static const String messageWhiteSVG = "assets/icons/message_icon_white.svg";
   static const String dotActiveSVG = "assets/icons/dot_active.svg";
   static const String dotInactiveSVG = "assets/icons/dot_inactive.svg";

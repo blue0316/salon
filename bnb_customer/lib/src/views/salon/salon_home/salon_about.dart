@@ -1,13 +1,11 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
-import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/enums/profile_datails_tabs.dart';
 import 'package:bbblient/src/models/review.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
-import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/salon/widgets/additional%20featured.dart';
 import 'package:bbblient/src/views/salon/widgets/service_expension_tile.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
@@ -128,21 +126,33 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                         width: double.infinity,
                         child: Image.asset(AppIcons.logoBnbPNG, fit: BoxFit.cover), // CachedImage(url: widget.salonModel.)
                       ),
-                    if (DeviceConstraints.getDeviceType(mediaQuery) == DeviceScreenType.portrait) SizedBox(height: 30),
-                    Text(
-                      widget.salonModel.salonName,
-                      style: Theme.of(context).textTheme.headline2!.copyWith(
-                            fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 20.sp, 20.sp),
-                            color: AppTheme.textBlack,
-                          ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                    if (DeviceConstraints.getDeviceType(mediaQuery) == DeviceScreenType.portrait) const SizedBox(height: 30),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.salonModel.salonName,
+                          style: Theme.of(context).textTheme.headline2!.copyWith(
+                                fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 20.sp, 20.sp),
+                                color: AppTheme.textBlack,
+                              ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
                     ),
                     const Space(factor: 0.7),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
+                        SvgPicture.asset(
+                          AppIcons.mapPin2WhiteSVG,
+                          height: DeviceConstraints.getResponsiveSize(context, 20.sp, 22.sp, 22.sp),
+                          color: Colors.black,
+                        ),
+                        const SizedBox(width: 10),
                         Text(
                           widget.salonModel.address,
                           style: Theme.of(context).textTheme.headline2!.copyWith(
