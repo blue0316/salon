@@ -268,13 +268,13 @@ class Salon {
   late String id;
   late String name;
   late String phoneNo;
-  late Position location;
+  // Position? location;
   late String address;
 
   Salon({
     required this.id,
     required this.name,
-    required this.location,
+    // this.location,
     required this.phoneNo,
     required this.address,
   });
@@ -283,9 +283,9 @@ class Salon {
     id = json["id"];
     name = json["name"];
     // todo default location for salons
-    location = json['location'] != null
-        ? Position.fromJson(json['location'])
-        : Position(geoHash: '', geoPoint: const GeoPoint(0, 0));
+    // location = json['location'] != null
+    //     ? Position.fromJson(json['location'])
+    //     : Position(geoHash: '', geoPoint: const GeoPoint(0, 0));
     phoneNo = json['phoneNo'] ?? '';
     address = json['address'] ?? '';
   }
@@ -294,7 +294,7 @@ class Salon {
     var map = <String, dynamic>{};
     map["id"] = id;
     map["name"] = name;
-    map['location'] = location.toJson();
+    // map['location'] = location!.toJson();
     map['phoneNo'] = phoneNo;
     map['address'] = address;
     return map;

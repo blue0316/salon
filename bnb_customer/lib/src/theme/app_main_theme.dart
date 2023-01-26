@@ -71,6 +71,12 @@ class AppTheme {
   static const Color master1 = green2;
   static const Color grey1 = Color(0xff6E6E6E);
 
+  //New theme colors for new booking flow
+  static const Color bookingBlack = Color(0xff0A0A0A);
+  static const Color bookingWhite = Color(0xffF5F5F5);
+  static const Color bookingGray = Color(0xff9D9D9D);
+  static const Color bookingYellow = Color(0xffFBC844);
+
   static const Color master2 = divider;
   static const Color master3 = Color(0xffB6CDD7);
   static const Color master4 = yellow;

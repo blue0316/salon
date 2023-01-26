@@ -19,6 +19,7 @@ import 'package:bbblient/src/views/registration/authenticate/phone/otp.dart';
 import 'package:bbblient/src/views/widgets/buttons.dart';
 import 'package:bbblient/src/views/widgets/dialogues/dialogue_function.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,6 +28,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
+import 'dart:html' as html;
 
 class LoginFromBooking extends ConsumerStatefulWidget {
   final AppointmentModel? appointment;
@@ -205,7 +207,9 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
                     const Spacer(),
                     Container(width: 265.w, color: AppTheme.midGrey, height: 1),
                     const Gap(10),
-                    Text(AppLocalizations.of(context)?.fillDetails ??'Please fill in your details here...',
+                    Text(
+                        AppLocalizations.of(context)?.fillDetails ??
+                            'Please fill in your details here...',
                         style: AppTheme.bodyText2),
                     const Gap(10),
                   ]),
@@ -355,8 +359,8 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
                       bool _success = await _createAppointment.finishBooking(
                           context: context,
                           customerModel: _authProvider.currentCustomer!);
-                      showToast(  AppLocalizations.of(context)?.booked ??'booked');
-
+                      showToast(
+                          AppLocalizations.of(context)?.booked ?? 'booked');
 
                       if (_success) {
                         showMyDialog(
@@ -399,11 +403,22 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
                                   onTap: () {
                                     // print(object)
                                     if (_appProvider.firstRoute != null) {
+                                      // printIt("loginBook");
                                       printIt(
                                           "Going back to : ${_appProvider.firstRoute}");
-                                      context.pop();
-                                      context.push(
-                                          '${NavigatorPage.redirect}${_appProvider.firstRoute!}');
+
+                                      // context.pop();
+                                      // Navigator.popUntil(
+                                      //     context, ModalRoute.withName("Foo1"));
+                                      // if (kIsWeb) {
+                                      html.window.open(
+                                          "https://bowandbeautiful.com${_appProvider.firstRoute}",
+                                          "_self");
+                                      // } else {
+                                      //   context.pop();
+                                      //   context.push(
+                                      //       '${NavigatorPage.redirect}${_appProvider.firstRoute!}');
+                                      // }
                                     } else {
                                       Navigator.of(context).popUntil(
                                           (Route<dynamic> route) =>
@@ -444,7 +459,9 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
                             color: AppTheme.white,
                           ),
                         ))
-                    : Text(AppLocalizations.of(context)?.verifyAndBook ??'Verify and book',
+                    : Text(
+                        AppLocalizations.of(context)?.verifyAndBook ??
+                            'Verify and book',
                         style: AppTheme.calTextStyle),
                 style: ElevatedButton.styleFrom(
                     primary: AppTheme.lightBlack,

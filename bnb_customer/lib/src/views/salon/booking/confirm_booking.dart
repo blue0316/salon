@@ -26,6 +26,7 @@ import 'package:go_router/go_router.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:html' as html;
 
 class ConfirmBooking extends ConsumerStatefulWidget {
   static const route = "/confirmBooking";
@@ -37,7 +38,6 @@ class ConfirmBooking extends ConsumerStatefulWidget {
 }
 
 class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
-
   bool acceptTerms = false;
   @override
   Widget build(BuildContext context) {
@@ -91,14 +91,13 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                           size: 10))),
                             ),
                           ),
-
                           Text(
                             AppLocalizations.of(context)
                                     ?.checkAppointmentDetails ??
                                 "Appointment details",
                             style: AppTheme.bodyText1,
                           ),
-                          SizedBox(width:50),
+                          SizedBox(width: 50),
                           const CancelButtonTopRight(),
                         ],
                       ),
@@ -622,7 +621,9 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                       }
                                     },
                                     child: Text(
-                                      AppLocalizations.of(context)?.read_privacy_policy??'I have read and accept privacy policy' ,
+                                      AppLocalizations.of(context)
+                                              ?.read_privacy_policy ??
+                                          'I have read and accept privacy policy',
                                       textAlign: TextAlign.left,
                                       style: const TextStyle(
                                           decoration: TextDecoration.underline,
@@ -633,25 +634,25 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                           // height: 2.h,
                                           color: AppTheme.grey1),
                                     )
-                                  //  Text.rich(
-                                  //   TextSpan(
-                                  //     children: [
-                                  //       TextSpan(
-                                  //         text: tr(Keys.read_privacy_policy),
-                                  //         style: TextStyle(
-                                  //             fontFamily: "Montserrat",
-                                  //             fontWeight: FontWeight.w400,
-                                  //             wordSpacing: 1,
-                                  //             fontSize: 11,
-                                  //             height: 2.h,
-                                  //             color: AppTheme.grey1),
-                                  //       ),
-                                  //     ],
-                                  //     // textAlign: TextAlign.center,
-                                  //   ),
-                                  //   textAlign: TextAlign.left,
-                                  // ),
-                                ),
+                                    //  Text.rich(
+                                    //   TextSpan(
+                                    //     children: [
+                                    //       TextSpan(
+                                    //         text: tr(Keys.read_privacy_policy),
+                                    //         style: TextStyle(
+                                    //             fontFamily: "Montserrat",
+                                    //             fontWeight: FontWeight.w400,
+                                    //             wordSpacing: 1,
+                                    //             fontSize: 11,
+                                    //             height: 2.h,
+                                    //             color: AppTheme.grey1),
+                                    //       ),
+                                    //     ],
+                                    //     // textAlign: TextAlign.center,
+                                    //   ),
+                                    //   textAlign: TextAlign.left,
+                                    // ),
+                                    ),
                               ),
                             ],
                           ),
@@ -678,8 +679,11 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                 'Invalid phone No');
                             return;
                           }
-                          if(!_auth.userLoggedIn && !acceptTerms){
-                            showToast( AppLocalizations.of(context)?.privacy_policy_accept??'I have read and accepted privacy policy' ,
+                          if (!_auth.userLoggedIn && !acceptTerms) {
+                            showToast(
+                              AppLocalizations.of(context)
+                                      ?.privacy_policy_accept ??
+                                  'I have read and accepted privacy policy',
                             );
                             return;
                           }
@@ -687,8 +691,10 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                             await _auth.verifyPhoneNumber(context: context);
                             showTopSnackBar(
                               context,
-                               CustomSnackBar.success(
-                                message:  AppLocalizations.of(context)?.otpSent?? "Otp has been sent to your phone",
+                              CustomSnackBar.success(
+                                message:
+                                    AppLocalizations.of(context)?.otpSent ??
+                                        "Otp has been sent to your phone",
                                 backgroundColor: AppTheme.creamBrown,
                               ),
                             );
@@ -767,9 +773,12 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                                   null) {
                                                 printIt(
                                                     "Going back to : ${_appProvider.firstRoute}");
-                                                context.pop();
-                                                context.push(
-                                                    '${NavigatorPage.redirect}${_appProvider.firstRoute!}');
+                                                // context.pop();
+                                                // context.push(
+                                                //     '${NavigatorPage.redirect}${_appProvider.firstRoute!}');
+                                                html.window.open(
+                                                    "https://bowandbeautiful.com${_appProvider.firstRoute}",
+                                                    "_self");
                                               } else {
                                                 Navigator.of(context).popUntil(
                                                     (Route<dynamic> route) =>
@@ -805,10 +814,14 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                     strokeWidth: 2,
                                     color: AppTheme.white,
                                   ),
-                                )):
-                        Text(!_auth.userLoggedIn?AppLocalizations.of(context)
-                                ?.continue_word??'Continue':AppLocalizations.of(context)
-                            ?.confirm??'Confirm',
+                                ))
+                            : Text(
+                                !_auth.userLoggedIn
+                                    ? AppLocalizations.of(context)
+                                            ?.continue_word ??
+                                        'Continue'
+                                    : AppLocalizations.of(context)?.confirm ??
+                                        'Confirm',
                                 style: AppTheme.calTextStyle),
                         style: ElevatedButton.styleFrom(
                             primary: AppTheme.lightBlack,

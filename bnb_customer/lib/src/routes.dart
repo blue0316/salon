@@ -45,6 +45,7 @@ final GoRouter router = GoRouter(
         //       .where('uid', isEqualTo: user.uid)
         //       .snapshots()
         return LoadingLink(
+          key: const Key("Loading Link"),
           myPath: myPath,
         );
       } catch (e) {
