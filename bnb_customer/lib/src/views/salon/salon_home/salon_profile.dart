@@ -213,6 +213,7 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
                                     // SERVICES - ABOUT - MASTERS - ALL WORKS
                                     Padding(
                                       padding: EdgeInsets.zero,
+
                                       child: SizedBox(
                                         height: 45.h,
                                         child: ListView.builder(
@@ -541,6 +542,7 @@ String getPromotionType({required String type}) {
       return "No Promotion";
   }
 }
+
 
 //class BottomButton extends StatelessWidget {
 //   final void Function() onTap;
