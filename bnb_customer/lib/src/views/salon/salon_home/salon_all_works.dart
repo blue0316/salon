@@ -4,7 +4,6 @@ import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/chat/image_preview.dart';
-import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -92,7 +91,7 @@ class _SaloonAllWorksState extends State<SaloonAllWorks> {
                       );
                     })
                 : SizedBox(height: 0.5.sh),
-            const Space(factor: 3),
+            const Space(factor: 6),
           ],
         ),
       ),
