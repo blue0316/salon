@@ -212,14 +212,20 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                                       child: Row(
                                                         crossAxisAlignment: CrossAxisAlignment.center,
                                                         children: [
-                                                          Text(
-                                                            widget.services[index].translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
-                                                            style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                                                  fontWeight: FontWeight.w600,
-                                                                  fontSize: 16.sp,
-                                                                ),
-                                                            overflow: TextOverflow.ellipsis,
-                                                            maxLines: 2,
+                                                          Expanded(
+                                                            flex: DeviceConstraints.getResponsiveSize(context, 1, 0, 0).toInt(),
+                                                            child: SizedBox(
+                                                              // color: Colors.yellow,
+                                                              child: Text(
+                                                                widget.services[index].translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
+                                                                style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                                                      fontWeight: FontWeight.w600,
+                                                                      fontSize: 16.sp,
+                                                                    ),
+                                                                overflow: TextOverflow.ellipsis,
+                                                                maxLines: 2,
+                                                              ),
+                                                            ),
                                                           ),
                                                           SizedBox(width: DeviceConstraints.getResponsiveSize(context, 2, 10, 10)),
                                                           (service.description == null || service.description == "")
