@@ -44,35 +44,26 @@ class ReviewDescription extends StatelessWidget {
                   // SizedBox(
                   //   height: 8.h,
                   // ),
-                  Container(
-                    color: Colors.purple,
-                    child: Text(
-                      review.customerName != '' ? review.customerName : 'bnb user',
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.subtitle1!.copyWith(fontSize: 16.sp),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                  Text(
+                    review.customerName != '' ? review.customerName : 'bnb user',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.subtitle1!.copyWith(fontSize: 16.sp),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  Container(
-                    color: Colors.green,
-                    child: Text(
-                      Time().getLocaleDate2(review.createdAt, AppLocalizations.of(context)?.localeName ?? "uk"),
-                      style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 13.sp),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                  Text(
+                    Time().getLocaleDate2(review.createdAt, AppLocalizations.of(context)?.localeName ?? "uk"),
+                    style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 13.sp),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   SizedBox(height: 15.h),
-                  Container(
-                    color: Colors.yellow,
-                    child: Text(
-                      review.review,
-                      style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w400),
-                      maxLines: 6,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.left,
-                    ),
+                  Text(
+                    review.review,
+                    style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w400),
+                    maxLines: 6,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.left,
                   ),
                 ],
               ),
