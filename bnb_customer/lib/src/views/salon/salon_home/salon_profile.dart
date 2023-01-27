@@ -302,40 +302,42 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
                             ],
                           ),
                         ),
-                        Positioned(
-                          bottom: 0,
-                          right: 0,
-                          child: GestureDetector(
-                            key: const ValueKey("book-key"),
-                            onTap: () {
-                              if (_createAppointmentProvider.chosenServices.isNotEmpty) {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(settings: RouteSettings(name: "Foo1"), builder: (_) => const BookingDateTime()),
-                                );
-                              } else {
-                                Utils().vibrateNegatively();
-                                showToast(
-                                    // AppLocalizations.of(context)
-                                    //       ?.pleaseChooseAService ??
-                                    "Please choose a servicess");
-                              }
-                            },
-                            child: Container(
-                              width: 0.5.sw,
-                              height: 60.h,
-                              decoration: const BoxDecoration(
-                                color: AppTheme.creamBrown,
-                                borderRadius: BorderRadius.only(topLeft: Radius.circular(28)),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  AppLocalizations.of(context)?.bookNow ?? "Book Now",
-                                  style: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.white),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                        // -- BOOK NOW ---
+                        // Positioned(
+                        //   bottom: 0,
+                        //   right: 0,
+                        //   child: GestureDetector(
+                        //     key: const ValueKey("book-key"),
+                        //     onTap: () {
+                        //       if (_createAppointmentProvider.chosenServices.isNotEmpty) {
+                        //         Navigator.of(context).push(
+                        //           MaterialPageRoute(settings: RouteSettings(name: "Foo1"), builder: (_) => const BookingDateTime()),
+                        //         );
+                        //       } else {
+                        //         Utils().vibrateNegatively();
+                        //         showToast(
+                        //             // AppLocalizations.of(context)
+                        //             //       ?.pleaseChooseAService ??
+                        //             "Please choose a servicess");
+                        //       }
+                        //     },
+                        //     child: Container(
+                        //       width: 0.5.sw,
+                        //       height: 60.h,
+                        //       decoration: const BoxDecoration(
+                        //         color: AppTheme.creamBrown,
+                        //         borderRadius: BorderRadius.only(topLeft: Radius.circular(28)),
+                        //       ),
+                        //       child: Center(
+                        //         child: Text(
+                        //           AppLocalizations.of(context)?.bookNow ?? "Book Now",
+                        //           style: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.white),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+
                         // if (widget.showBackButton)
                         //   Positioned(
                         //     top: DeviceConstraints.getResponsiveSize(context, 10, 20, 30),
