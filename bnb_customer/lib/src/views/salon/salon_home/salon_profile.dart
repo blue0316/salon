@@ -274,21 +274,33 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
                                         },
                                         children: [
                                           // Text(categories!.length.toString()),
-                                          SalonServices(
-                                            key: const ValueKey("services"),
-                                            salonModel: _salonProfileProvider.chosenSalon,
-                                            categories: _salonSearchProvider.categories,
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                                            child: SalonServices(
+                                              key: const ValueKey("services"),
+                                              salonModel: _salonProfileProvider.chosenSalon,
+                                              categories: _salonSearchProvider.categories,
+                                            ),
                                           ),
-                                          SalonAbout(
-                                            salonModel: _salonProfileProvider.chosenSalon,
-                                          ),
-                                          if (_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon) ...[
-                                            SaloonMasters(
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                                            child: SalonAbout(
                                               salonModel: _salonProfileProvider.chosenSalon,
                                             ),
+                                          ),
+                                          if (_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon) ...[
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                                              child: SaloonMasters(
+                                                salonModel: _salonProfileProvider.chosenSalon,
+                                              ),
+                                            ),
                                           ],
-                                          SaloonAllWorks(
-                                            salonModel: _salonProfileProvider.chosenSalon,
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                                            child: SaloonAllWorks(
+                                              salonModel: _salonProfileProvider.chosenSalon,
+                                            ),
                                           )
                                         ],
                                       ),
