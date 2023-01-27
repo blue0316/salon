@@ -95,7 +95,7 @@ class _SaloonMastersState extends ConsumerState<SaloonMasters> {
                               Text(
                                 _salonSearchProvider.categories[index].translations[AppLocalizations.of(context)?.localeName],
                                 style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                      fontWeight: FontWeight.w600,
+                                      fontWeight: FontWeight.w500,
                                       fontSize: 18.sp, //  DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
                                     ),
                               ),

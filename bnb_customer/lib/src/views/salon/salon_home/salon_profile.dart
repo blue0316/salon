@@ -213,7 +213,6 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
                                     // SERVICES - ABOUT - MASTERS - ALL WORKS
                                     Padding(
                                       padding: EdgeInsets.zero,
-
                                       child: SizedBox(
                                         height: 45.h,
                                         child: ListView.builder(
@@ -249,7 +248,7 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
                                                                 : masterDetailsTitles[index].toCapitalized(),
                                                         style: Theme.of(context).textTheme.bodyText1!.copyWith(
                                                               color: _activeTab == index ? AppTheme.textBlack : AppTheme.lightGrey,
-                                                              fontWeight: _activeTab == index ? FontWeight.w600 : FontWeight.w500,
+                                                              fontWeight: _activeTab == index ? FontWeight.w500 : FontWeight.w400,
                                                             ),
                                                       ),
                                                     ),
