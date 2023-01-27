@@ -98,7 +98,7 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                   Text(
                     widget.categoryModel.translations[AppLocalizations.of(context)?.localeName ?? 'en'],
                     style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w500,
                           fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
                         ),
                   ),
@@ -152,7 +152,7 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                     '${widget.services.length} Services',
                     style: Theme.of(context).textTheme.bodyText1!.copyWith(
                           fontSize: DeviceConstraints.getResponsiveSize(context, 13.sp, 13.sp, 15.sp),
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.normal,
                         ),
                   ),
                 ),
@@ -219,7 +219,7 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                                               child: Text(
                                                                 widget.services[index].translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
                                                                 style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                                                      fontWeight: FontWeight.w600,
+                                                                      fontWeight: FontWeight.w500,
                                                                       fontSize: 16.sp,
                                                                     ),
                                                                 overflow: TextOverflow.ellipsis,
@@ -238,10 +238,12 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                                                   child: SizedBox(
                                                                     height: DeviceConstraints.getResponsiveSize(context, 12, 18, 18),
                                                                     width: DeviceConstraints.getResponsiveSize(context, 12, 18, 18),
-                                                                    child: SvgPicture.asset(
-                                                                      AppIcons.informationSVG,
-                                                                      height: DeviceConstraints.getResponsiveSize(context, 12, 18, 18),
-                                                                      width: DeviceConstraints.getResponsiveSize(context, 12, 18, 18),
+                                                                    child: Center(
+                                                                      child: SvgPicture.asset(
+                                                                        AppIcons.informationSVG,
+                                                                        height: DeviceConstraints.getResponsiveSize(context, 12, 18, 18),
+                                                                        width: DeviceConstraints.getResponsiveSize(context, 12, 18, 18),
+                                                                      ),
                                                                     ),
                                                                   ),
                                                                 ),

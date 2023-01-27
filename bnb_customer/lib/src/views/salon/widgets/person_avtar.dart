@@ -46,6 +46,7 @@ class PersonAvtar extends StatelessWidget {
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.subtitle1!.copyWith(
                 fontSize: 13.sp,
+                fontWeight: FontWeight.w500,
               ),
           maxLines: 2,
           overflow: TextOverflow.ellipsis,

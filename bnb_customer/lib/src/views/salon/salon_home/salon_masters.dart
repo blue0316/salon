@@ -82,9 +82,8 @@ class _SaloonMastersState extends ConsumerState<SaloonMasters> {
                                 child: Padding(
                                   padding: EdgeInsets.all(8.0.sp),
                                   child: Center(
-                                    child: SvgPicture.asset(
-                                      AppIcons.getIconFromCategoryId(id: _salonSearchProvider.categories[index].categoryId),
-                                      color: AppTheme.black,
+                                    child: Image.asset(
+                                      AppIcons.getPngIconFromCategoryId(id: _salonSearchProvider.categories[index].categoryId),
                                       height: DeviceConstraints.getResponsiveSize(context, 20, 35, 40),
                                     ),
                                   ),
@@ -96,7 +95,7 @@ class _SaloonMastersState extends ConsumerState<SaloonMasters> {
                               Text(
                                 _salonSearchProvider.categories[index].translations[AppLocalizations.of(context)?.localeName],
                                 style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                      fontWeight: FontWeight.w600,
+                                      fontWeight: FontWeight.w500,
                                       fontSize: 18.sp, //  DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
                                     ),
                               ),

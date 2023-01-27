@@ -213,7 +213,6 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
                                     // SERVICES - ABOUT - MASTERS - ALL WORKS
                                     Padding(
                                       padding: EdgeInsets.zero,
-
                                       child: SizedBox(
                                         height: 45.h,
                                         child: ListView.builder(
@@ -249,7 +248,7 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
                                                                 : masterDetailsTitles[index].toCapitalized(),
                                                         style: Theme.of(context).textTheme.bodyText1!.copyWith(
                                                               color: _activeTab == index ? AppTheme.textBlack : AppTheme.lightGrey,
-                                                              fontWeight: _activeTab == index ? FontWeight.w600 : FontWeight.w500,
+                                                              fontWeight: _activeTab == index ? FontWeight.w500 : FontWeight.w400,
                                                             ),
                                                       ),
                                                     ),
@@ -275,21 +274,33 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
                                         },
                                         children: [
                                           // Text(categories!.length.toString()),
-                                          SalonServices(
-                                            key: const ValueKey("services"),
-                                            salonModel: _salonProfileProvider.chosenSalon,
-                                            categories: _salonSearchProvider.categories,
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                                            child: SalonServices(
+                                              key: const ValueKey("services"),
+                                              salonModel: _salonProfileProvider.chosenSalon,
+                                              categories: _salonSearchProvider.categories,
+                                            ),
                                           ),
-                                          SalonAbout(
-                                            salonModel: _salonProfileProvider.chosenSalon,
-                                          ),
-                                          if (_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon) ...[
-                                            SaloonMasters(
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                                            child: SalonAbout(
                                               salonModel: _salonProfileProvider.chosenSalon,
                                             ),
+                                          ),
+                                          if (_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon) ...[
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                                              child: SaloonMasters(
+                                                salonModel: _salonProfileProvider.chosenSalon,
+                                              ),
+                                            ),
                                           ],
-                                          SaloonAllWorks(
-                                            salonModel: _salonProfileProvider.chosenSalon,
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                                            child: SaloonAllWorks(
+                                              salonModel: _salonProfileProvider.chosenSalon,
+                                            ),
                                           )
                                         ],
                                       ),
