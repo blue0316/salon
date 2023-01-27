@@ -82,9 +82,8 @@ class _SaloonMastersState extends ConsumerState<SaloonMasters> {
                                 child: Padding(
                                   padding: EdgeInsets.all(8.0.sp),
                                   child: Center(
-                                    child: SvgPicture.asset(
-                                      AppIcons.getIconFromCategoryId(id: _salonSearchProvider.categories[index].categoryId),
-                                      color: AppTheme.black,
+                                    child: Image.asset(
+                                      AppIcons.getPngIconFromCategoryId(id: _salonSearchProvider.categories[index].categoryId),
                                       height: DeviceConstraints.getResponsiveSize(context, 20, 35, 40),
                                     ),
                                   ),
