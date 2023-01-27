@@ -199,8 +199,6 @@ class PromotionCard extends StatelessWidget {
       height: 140.h,
       width: 218.w,
       child: Container(
-        // height: 140.h,
-        // width: 218.w,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/promotion_card_client.png"),
