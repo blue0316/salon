@@ -27,7 +27,7 @@ class PersonAvtar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         (personImageUrl != null && personImageUrl != '')
             ? CircleAvatar(
@@ -40,21 +40,18 @@ class PersonAvtar extends StatelessWidget {
                 backgroundColor: AppTheme.white,
                 backgroundImage: const AssetImage(AppIcons.masterDefaultAvtar),
               ),
-        SizedBox(
-          height: 4.w,
-        ),
+        const SizedBox(height: 8),
         Text(
           personName ?? "",
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.subtitle1!.copyWith(fontSize: 9.sp),
+          style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                fontSize: 13.sp,
+              ),
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
         ),
         if (rating != 0) ...[
-          SizedBox(
-            height: 8.h,
-          ),
-
+          const SizedBox(height: 5),
           BnbRatings(
             rating: rating ?? 0,
             editable: false,

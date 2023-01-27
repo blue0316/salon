@@ -1,14 +1,12 @@
 // ignore_for_file: unnecessary_this
 
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
-import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
 import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
+import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/keys.dart';
 import 'package:bbblient/src/utils/translation.dart';
-import 'package:bbblient/src/utils/translation_widget.dart';
-import 'package:flutter/foundation.dart';
 import 'package:translator/translator.dart' as trans;
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -49,9 +47,7 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
         _bnbProvider = ref.watch(bnbProvider);
       });
       text = value != "" && value != null
-          ? await translator
-              .translate(value, to: _bnbProvider.getLocale.toString())
-              .then((value) {
+          ? await translator.translate(value, to: _bnbProvider.getLocale.toString()).then((value) {
               return value.text;
             })
           : "";
@@ -62,47 +58,105 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
   @override
   Widget build(BuildContext context) {
     final createAppointment = ref.watch(createAppointmentProvider);
+    var mediaQuery = MediaQuery.of(context);
 
-    return ConstrainedContainer(
+    return Container(
+      decoration: const BoxDecoration(
+        border: Border(bottom: BorderSide(color: Color(0XFF9D9D9D), width: 1.3)),
+      ),
       child: ExpansionTile(
         initiallyExpanded: widget.initiallyExpanded,
-        backgroundColor: Colors.white,
+        iconColor: AppTheme.black,
+        collapsedIconColor: AppTheme.black,
+        tilePadding: EdgeInsets.zero,
+        childrenPadding: EdgeInsets.zero,
         title: Padding(
-          padding: EdgeInsets.symmetric(
-              vertical:
-                  DeviceConstraints.getResponsiveSize(context, 0, 12, 24)),
+          padding: EdgeInsets.symmetric(vertical: DeviceConstraints.getResponsiveSize(context, 10, 12, 24)),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(
-                width: DeviceConstraints.getResponsiveSize(context, 40, 44, 56),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 35,
-                // DeviceConstraints.getResponsiveSize(context, 20, 22, 24),
-                width: MediaQuery.of(context).size.width / 15,
-                // DeviceConstraints.getResponsiveSize(context, 20, 22, 24),
-                child: Image.asset(
-                  AppIcons.getPngIconFromCategoryId(
-                      id: widget.categoryModel.categoryId),
-                      
-                  // color:
-                  // AppTheme.creamBrown.withOpacity(0.2)
-                  // Colors.black12
-                  //  Colors.grey,
-                  // currentColor: Colors.grey,
+              Container(
+                height: DeviceConstraints.getResponsiveSize(context, 40.h, 55.h, 55.h),
+                width: DeviceConstraints.getResponsiveSize(context, 40.h, 55.h, 55.h),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  color: const Color.fromARGB(255, 239, 239, 239),
+                ),
+                child: Center(
+                  child: Image.asset(
+                    AppIcons.getPngIconFromCategoryId(id: widget.categoryModel.categoryId),
+                    height: DeviceConstraints.getResponsiveSize(context, 20, 35, 40),
+                  ),
                 ),
               ),
-              SizedBox(
-                width: DeviceConstraints.getResponsiveSize(context, 16, 22, 24),
+              SpaceHorizontal(width: DeviceConstraints.getResponsiveSize(context, 10, 30, 30)),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.categoryModel.translations[AppLocalizations.of(context)?.localeName ?? 'en'],
+                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                          fontWeight: FontWeight.w600,
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
+                        ),
+                  ),
+                  const SizedBox(height: 5),
+                  if (DeviceConstraints.getDeviceType(mediaQuery) == DeviceScreenType.portrait && widget.services.length == 5) // TODO: REMOVE THE OTHER CHECK (JUST A PLACEHOLDER)
+                    Container(
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 239, 239, 239),
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 7),
+                        child: Text(
+                          'Save up to 15%',
+                          style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                fontSize: 14.sp,
+                                color: AppTheme.lightGrey,
+                              ),
+                        ),
+                      ),
+                    ),
+                ],
               ),
-              Text(
-                widget.categoryModel.translations[
-                    AppLocalizations.of(context)?.localeName ?? 'en'],
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(fontWeight: FontWeight.w500),
-              )
+              if (DeviceConstraints.getDeviceType(mediaQuery) != DeviceScreenType.portrait) const SizedBox(width: 25),
+              if (DeviceConstraints.getDeviceType(mediaQuery) != DeviceScreenType.portrait && widget.services.length == 5) // TODO: REMOVE THE OTHER CHECK (JUST A PLACEHOLDER)
+                Container(
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 239, 239, 239),
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 7),
+                    child: Text(
+                      'Save up to 15%',
+                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                            fontSize: 14.sp,
+                            color: AppTheme.lightGrey,
+                          ),
+                    ),
+                  ),
+                ),
+              const Spacer(),
+              Container(
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 239, 239, 239),
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+                  child: Text(
+                    '${widget.services.length} Services',
+                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 13.sp, 13.sp, 15.sp),
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -119,214 +173,184 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                         key: const ValueKey("tap-service"),
                         onTap: () {
                           createAppointment.toggleService(
-                              serviceModel: service,
-                              clearChosenMaster: false,
-                              context: context);
+                            serviceModel: service,
+                            clearChosenMaster: false,
+                            context: context,
+                          );
                         },
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width,
                           child: Padding(
-                            padding: EdgeInsets.only(left: 20.0.w, right: 8.w),
+                            padding: EdgeInsets.zero, // only(left: 20.0.w, right: 8.w),
                             child: Padding(
-                              padding: const EdgeInsets.only(bottom: 18.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                    flex: 9,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                        top: 15.0.h,
-                                      ),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            flex: 7,
+                              padding: const EdgeInsets.only(bottom: 4),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          flex: 9,
+                                          child: Padding(
+                                            padding: EdgeInsets.only(top: 10.0.h),
                                             child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
+                                                // -- SERVICES SUB TITLE WITH INFORMATION ICON --
                                                 Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  mainAxisAlignment: MainAxisAlignment.start,
                                                   children: [
-                                                    (service.description ==
-                                                                null ||
-                                                            service.description ==
-                                                                "")
-                                                        ? const SizedBox(
-                                                            width: 15)
-                                                        : GestureDetector(
-                                                            onTap: () => showDialog<
-                                                                    bool>(
-                                                                context:
-                                                                    context,
-                                                                builder: (BuildContext
-                                                                        context) =>
-                                                                    ShowServiceInfo(
-                                                                        service)),
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .only(
-                                                                      top: 5),
-                                                              child: SizedBox(
-                                                                height: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .height /
-                                                                    35,
-                                                                width: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width /
-                                                                    15,
-                                                                child:
-                                                                    SvgPicture
-                                                                        .asset(
-                                                                  AppIcons
-                                                                      .informationSVG,
-                                                                  height: MediaQuery.of(
-                                                                              context)
-                                                                          .size
-                                                                          .height /
-                                                                      35,
-                                                                  width: MediaQuery.of(
-                                                                              context)
-                                                                          .size
-                                                                          .width /
-                                                                      15,
-                                                                ),
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Row(
+                                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                                        children: [
+                                                          Expanded(
+                                                            flex: DeviceConstraints.getResponsiveSize(context, 1, 0, 0).toInt(),
+                                                            child: SizedBox(
+                                                              // color: Colors.yellow,
+                                                              child: Text(
+                                                                widget.services[index].translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
+                                                                style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                                                      fontWeight: FontWeight.w600,
+                                                                      fontSize: 16.sp,
+                                                                    ),
+                                                                overflow: TextOverflow.ellipsis,
+                                                                maxLines: 2,
                                                               ),
                                                             ),
                                                           ),
-                                                    // SizedBox(
-                                                    //   width: 8.w,
-                                                    // ),
-                                                    Expanded(
-                                                      child: Text(
-                                                        widget
-                                                            .services[index]
-                                                            .translations[
-                                                                AppLocalizations.of(
-                                                                            context)
-                                                                        ?.localeName ??
-                                                                    'en']
-                                                            .toString(),
-
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .bodyText1!
-                                                            .copyWith(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w300),
-                                                        //overflow: TextOverflow.clip,
-                                                        maxLines: 2,
+                                                          SizedBox(width: DeviceConstraints.getResponsiveSize(context, 2, 10, 10)),
+                                                          (service.description == null || service.description == "")
+                                                              ? const SizedBox(width: 15)
+                                                              : GestureDetector(
+                                                                  onTap: () => showDialog<bool>(
+                                                                    context: context,
+                                                                    builder: (BuildContext context) => ShowServiceInfo(service),
+                                                                  ),
+                                                                  child: SizedBox(
+                                                                    height: DeviceConstraints.getResponsiveSize(context, 12, 18, 18),
+                                                                    width: DeviceConstraints.getResponsiveSize(context, 12, 18, 18),
+                                                                    child: SvgPicture.asset(
+                                                                      AppIcons.informationSVG,
+                                                                      height: DeviceConstraints.getResponsiveSize(context, 12, 18, 18),
+                                                                      width: DeviceConstraints.getResponsiveSize(context, 12, 18, 18),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                        ],
                                                       ),
                                                     ),
                                                   ],
                                                 ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                      top: 4.0.h),
-                                                  child: Row(
-                                                    children: [
-                                                      SizedBox(
-                                                        width: 20.w,
+                                                SizedBox(
+                                                  height: DeviceConstraints.getResponsiveSize(context, 10, 15, 15),
+                                                ),
+                                                // -- DURATION SECTION --
+                                                Row(
+                                                  children: [
+                                                    SizedBox(
+                                                      height: 20.h,
+                                                      width: 20.h,
+                                                      child: Center(
+                                                        child: SvgPicture.asset(
+                                                          AppIcons.clockSVG,
+                                                          color: AppTheme.black,
+                                                        ),
                                                       ),
-                                                      service.isFixedPrice
-                                                          ? Text(
-                                                              "${service.priceAndDuration.duration} ${AppLocalizations.of(context)?.min ?? "min"}",
-                                                              style: Theme.of(
-                                                                      context)
-                                                                  .textTheme
-                                                                  .bodyText1!
-                                                                  .copyWith(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w300,
-                                                                      fontSize:
-                                                                          13,
-                                                                      color: AppTheme
-                                                                          .lightGrey),
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              maxLines: 1,
-                                                            )
-                                                          : Text(
-                                                              "${service.priceAndDuration.duration} ${AppLocalizations.of(context)?.min ?? "min"} - ${service.priceAndDurationMax!.duration} ${AppLocalizations.of(context)?.min ?? "min"}",
-                                                              style: Theme.of(
-                                                                      context)
-                                                                  .textTheme
-                                                                  .bodyText1!
-                                                                  .copyWith(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w300,
-                                                                      fontSize:
-                                                                          13,
-                                                                      color: AppTheme
-                                                                          .lightGrey),
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              maxLines: 1,
-                                                            ),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                    const SizedBox(width: 10),
+                                                    service.isFixedPrice // TODO: REMOVE THIS (PLACEHOLDER UI)
+                                                        ? Text(
+                                                            "${service.priceAndDuration.duration} minutes",
+                                                            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                                                  fontSize: 15.sp,
+                                                                ),
+                                                            overflow: TextOverflow.ellipsis,
+                                                            maxLines: 1,
+                                                          )
+                                                        : Text(
+                                                            "${service.priceAndDuration.duration} minutes - ${service.priceAndDurationMax!.duration} minutes",
+                                                            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                                                  fontSize: 16.sp,
+                                                                ),
+                                                            overflow: TextOverflow.ellipsis,
+                                                            maxLines: 1,
+                                                          ),
+                                                  ],
                                                 ),
                                               ],
                                             ),
                                           ),
-                                          Expanded(
-                                            flex: 4,
-                                            child: Text(
-                                              service.isFixedPrice
-                                                  ? "${service.priceAndDuration.price} ${Keys.uah}"
-                                                  : "${service.priceAndDuration.price} ${Keys.uah} - ${service.priceAndDurationMax!.price} ${Keys.uah}",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1!
-                                                  .copyWith(
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: 14,
-                                                      color:
-                                                          AppTheme.textBlack),
-                                              overflow: TextOverflow.visible,
-                                              maxLines: 1,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 2,
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 20,
-                                          ),
-                                          child: BnbCheckCircle(
-                                            value: createAppointment.isAdded(
-                                                serviceModel: service),
+                                        ),
+                                        const Spacer(),
+
+                                        Expanded(
+                                          flex: 5,
+                                          child: Row(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              // PREVIOUS PRICE
+                                              if (service.priceAndDuration.price == '200')
+                                                Text(
+                                                  service.isFixedPrice ? "${service.priceAndDuration.price} ${Keys.uah}" : "${service.priceAndDuration.price} ${Keys.uah} - ${service.priceAndDurationMax!.price} ${Keys.uah}",
+                                                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                                        fontWeight: FontWeight.w400,
+                                                        fontSize: 13.sp,
+                                                        color: AppTheme.lightGrey,
+                                                        decoration: TextDecoration.lineThrough,
+                                                      ),
+                                                  overflow: TextOverflow.visible,
+                                                  maxLines: 1,
+                                                ),
+                                              SizedBox(width: DeviceConstraints.getResponsiveSize(context, 10, 20, 20)),
+                                              Text(
+                                                service.isFixedPrice ? "${service.priceAndDuration.price} ${Keys.uah}" : "${service.priceAndDuration.price} ${Keys.uah} - ${service.priceAndDurationMax!.price} ${Keys.uah}",
+                                                style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                                      fontWeight: FontWeight.w600,
+                                                      fontSize: 17.sp,
+                                                      color: AppTheme.textBlack,
+                                                    ),
+                                                overflow: TextOverflow.visible,
+                                                maxLines: 1,
+                                              ),
+                                            ],
                                           ),
                                         ),
+
+                                        SizedBox(width: DeviceConstraints.getResponsiveSize(context, 10, 30, 30)),
+
+                                        // -- ADD SERVICE ICON --
+                                        Expanded(
+                                          flex: 0,
+                                          child: Row(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              ServicesBnbCheckCircle(
+                                                value: createAppointment.isAdded(serviceModel: service),
+                                              ),
+                                              // SizedBox(width: 10),
+                                            ],
+                                          ),
+                                        )
                                       ],
                                     ),
-                                  )
-                                ],
+                                    const Space(factor: 0.7),
+                                    if (index != widget.services.length - 1)
+                                      const Divider(
+                                        color: Color(0XFF9D9D9D),
+                                        thickness: 1.3,
+                                      ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -348,8 +372,7 @@ class ShowServiceInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
         contentPadding: EdgeInsets.zero,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(12))),
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
         content: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
@@ -365,10 +388,7 @@ class ShowServiceInfo extends StatelessWidget {
                 children: [
                   Flexible(
                     child: Text(
-                      Translation.getServiceName(
-                          service: service,
-                          langCode:
-                              AppLocalizations.of(context)?.localeName ?? 'en'),
+                      Translation.getServiceName(service: service, langCode: AppLocalizations.of(context)?.localeName ?? 'en'),
                       style: const TextStyle(color: AppTheme.white3),
                     ),
                   ),
@@ -387,8 +407,7 @@ class ShowServiceInfo extends StatelessWidget {
                 (service.description == null || service.description == "")
                     ? "Опис відсутній" //means no description available
                     : service.description!,
-                style: const TextStyle(
-                    color: AppTheme.white3, fontWeight: FontWeight.w400),
+                style: const TextStyle(color: AppTheme.white3, fontWeight: FontWeight.w400),
               )
             ],
           ),
@@ -397,22 +416,19 @@ class ShowServiceInfo extends StatelessWidget {
 }
 
 extension ForWeb on String {
-  String forWeb({required bool web}) =>
-      web ? this.replaceFirst('assets/', '') : this;
+  String forWeb({required bool web}) => web ? this.replaceFirst('assets/', '') : this;
 }
 
 class ShowAdditionaFeatureInfo extends StatelessWidget {
   final String feature;
   final authprovider;
-  const ShowAdditionaFeatureInfo(this.authprovider, this.feature, {Key? key})
-      : super(key: key);
+  const ShowAdditionaFeatureInfo(this.authprovider, this.feature, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
         contentPadding: EdgeInsets.zero,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(12))),
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
         content: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
@@ -466,11 +482,8 @@ class ShowAdditionaFeatureInfo extends StatelessWidget {
                   // (service.description == null || service.description == "")
                   //     ? "Опис відсутній" //means no description available
                   //     : service.description!,
-                  authprovider.getLocale.toString() == "en"
-                      ? "Disposable Materials Only"
-                      : "Тільки одноразові матеріали",
-                  style: const TextStyle(
-                      color: AppTheme.white3, fontWeight: FontWeight.w400),
+                  authprovider.getLocale.toString() == "en" ? "Disposable Materials Only" : "Тільки одноразові матеріали",
+                  style: const TextStyle(color: AppTheme.white3, fontWeight: FontWeight.w400),
                 )
               ],
               if (feature == "accessibilityForPersonsWithReducedMobility") ...[
@@ -478,11 +491,8 @@ class ShowAdditionaFeatureInfo extends StatelessWidget {
                   // (service.description == null || service.description == "")
                   //     ? "Опис відсутній" //means no description available
                   //     : service.description!,
-                  authprovider.getLocale.toString() == "en"
-                      ? "Accessibility for persons with reduced mobility"
-                      : "Доступність для маломобільних людей",
-                  style: const TextStyle(
-                      color: AppTheme.white3, fontWeight: FontWeight.w400),
+                  authprovider.getLocale.toString() == "en" ? "Accessibility for persons with reduced mobility" : "Доступність для маломобільних людей",
+                  style: const TextStyle(color: AppTheme.white3, fontWeight: FontWeight.w400),
                 )
               ],
               if (feature == "womanOwnedBusiness") ...[
@@ -490,11 +500,8 @@ class ShowAdditionaFeatureInfo extends StatelessWidget {
                   // (service.description == null || service.description == "")
                   //     ? "Опис відсутній" //means no description available
                   //     : service.description!,
-                  authprovider.getLocale.toString() == "en"
-                      ? "Woman Owned Business"
-                      : "Жіночий бізнес",
-                  style: const TextStyle(
-                      color: AppTheme.white3, fontWeight: FontWeight.w400),
+                  authprovider.getLocale.toString() == "en" ? "Woman Owned Business" : "Жіночий бізнес",
+                  style: const TextStyle(color: AppTheme.white3, fontWeight: FontWeight.w400),
                 )
               ],
               if (feature == "noPets") ...[
@@ -502,11 +509,8 @@ class ShowAdditionaFeatureInfo extends StatelessWidget {
                   // (service.description == null || service.description == "")
                   //     ? "Опис відсутній" //means no description available
                   //     : service.description!,
-                  authprovider.getLocale.toString() == "en"
-                      ? "No pets"
-                      : "Без тварин",
-                  style: const TextStyle(
-                      color: AppTheme.white3, fontWeight: FontWeight.w400),
+                  authprovider.getLocale.toString() == "en" ? "No pets" : "Без тварин",
+                  style: const TextStyle(color: AppTheme.white3, fontWeight: FontWeight.w400),
                 )
               ],
               if (feature == "parallelService") ...[
@@ -514,11 +518,8 @@ class ShowAdditionaFeatureInfo extends StatelessWidget {
                   // (service.description == null || service.description == "")
                   //     ? "Опис відсутній" //means no description available
                   //     : service.description!,
-                  authprovider.getLocale.toString() == "en"
-                      ? "Parallel Service"
-                      : "Паралельний сервіс",
-                  style: const TextStyle(
-                      color: AppTheme.white3, fontWeight: FontWeight.w400),
+                  authprovider.getLocale.toString() == "en" ? "Parallel Service" : "Паралельний сервіс",
+                  style: const TextStyle(color: AppTheme.white3, fontWeight: FontWeight.w400),
                 )
               ],
               if (feature == "parking") ...[
@@ -526,11 +527,8 @@ class ShowAdditionaFeatureInfo extends StatelessWidget {
                   // (service.description == null || service.description == "")
                   //     ? "Опис відсутній" //means no description available
                   //     : service.description!,
-                  authprovider.getLocale.toString() == "en"
-                      ? "Parking"
-                      : "Парковка",
-                  style: const TextStyle(
-                      color: AppTheme.white3, fontWeight: FontWeight.w400),
+                  authprovider.getLocale.toString() == "en" ? "Parking" : "Парковка",
+                  style: const TextStyle(color: AppTheme.white3, fontWeight: FontWeight.w400),
                 )
               ],
               if (feature == "medicalPracticeLicense") ...[
@@ -538,11 +536,8 @@ class ShowAdditionaFeatureInfo extends StatelessWidget {
                   // (service.description == null || service.description == "")
                   //     ? "Опис відсутній" //means no description available
                   //     : service.description!,
-                  authprovider.getLocale.toString() == "en"
-                      ? "Medical Practice License"
-                      : "Ліцензія на медичну практику",
-                  style: const TextStyle(
-                      color: AppTheme.white3, fontWeight: FontWeight.w400),
+                  authprovider.getLocale.toString() == "en" ? "Medical Practice License" : "Ліцензія на медичну практику",
+                  style: const TextStyle(color: AppTheme.white3, fontWeight: FontWeight.w400),
                 )
               ],
               if (feature == "wifi") ...[
@@ -550,11 +545,8 @@ class ShowAdditionaFeatureInfo extends StatelessWidget {
                   // (service.description == null || service.description == "")
                   //     ? "Опис відсутній" //means no description available
                   //     : service.description!,
-                  authprovider.getLocale.toString() == "en"
-                      ? "Wi-Fi "
-                      : "Wi-Fi ",
-                  style: const TextStyle(
-                      color: AppTheme.white3, fontWeight: FontWeight.w400),
+                  authprovider.getLocale.toString() == "en" ? "Wi-Fi " : "Wi-Fi ",
+                  style: const TextStyle(color: AppTheme.white3, fontWeight: FontWeight.w400),
                 )
               ],
               if (feature == "coffee") ...[
@@ -562,11 +554,8 @@ class ShowAdditionaFeatureInfo extends StatelessWidget {
                   // (service.description == null || service.description == "")
                   //     ? "Опис відсутній" //means no description available
                   //     : service.description!,
-                  authprovider.getLocale.toString() == "en"
-                      ? "Coffee/tea"
-                      : "Кава/чай",
-                  style: const TextStyle(
-                      color: AppTheme.white3, fontWeight: FontWeight.w400),
+                  authprovider.getLocale.toString() == "en" ? "Coffee/tea" : "Кава/чай",
+                  style: const TextStyle(color: AppTheme.white3, fontWeight: FontWeight.w400),
                 )
               ],
               if (feature == "cocktails") ...[
@@ -574,11 +563,8 @@ class ShowAdditionaFeatureInfo extends StatelessWidget {
                   // (service.description == null || service.description == "")
                   //     ? "Опис відсутній" //means no description available
                   //     : service.description!,
-                  authprovider.getLocale.toString() == "en"
-                      ? "Cocktails"
-                      : "Коктейлі",
-                  style: const TextStyle(
-                      color: AppTheme.white3, fontWeight: FontWeight.w400),
+                  authprovider.getLocale.toString() == "en" ? "Cocktails" : "Коктейлі",
+                  style: const TextStyle(color: AppTheme.white3, fontWeight: FontWeight.w400),
                 )
               ],
               if (feature == "shop") ...[
@@ -586,11 +572,8 @@ class ShowAdditionaFeatureInfo extends StatelessWidget {
                   // (service.description == null || service.description == "")
                   //     ? "Опис відсутній" //means no description available
                   //     : service.description!,
-                  authprovider.getLocale.toString() == "en"
-                      ? "Shop"
-                      : "Магазин",
-                  style: const TextStyle(
-                      color: AppTheme.white3, fontWeight: FontWeight.w400),
+                  authprovider.getLocale.toString() == "en" ? "Shop" : "Магазин",
+                  style: const TextStyle(color: AppTheme.white3, fontWeight: FontWeight.w400),
                 )
               ],
               if (feature == "childrenRoom") ...[
@@ -598,11 +581,8 @@ class ShowAdditionaFeatureInfo extends StatelessWidget {
                   // (service.description == null || service.description == "")
                   //     ? "Опис відсутній" //means no description available
                   //     : service.description!,
-                  authprovider.getLocale.toString() == "en"
-                      ? "Children Room"
-                      : "Дитяча кімната",
-                  style: const TextStyle(
-                      color: AppTheme.white3, fontWeight: FontWeight.w400),
+                  authprovider.getLocale.toString() == "en" ? "Children Room" : "Дитяча кімната",
+                  style: const TextStyle(color: AppTheme.white3, fontWeight: FontWeight.w400),
                 )
               ],
               if (feature == "antiCovidMeasures") ...[
@@ -610,11 +590,8 @@ class ShowAdditionaFeatureInfo extends StatelessWidget {
                   // (service.description == null || service.description == "")
                   //     ? "Опис відсутній" //means no description available
                   //     : service.description!,
-                  authprovider.getLocale.toString() == "en"
-                      ? "Anti-covid measures"
-                      : "Антиковідні заходи ",
-                  style: const TextStyle(
-                      color: AppTheme.white3, fontWeight: FontWeight.w400),
+                  authprovider.getLocale.toString() == "en" ? "Anti-covid measures" : "Антиковідні заходи ",
+                  style: const TextStyle(color: AppTheme.white3, fontWeight: FontWeight.w400),
                 )
               ],
               if (feature == "instrumentsSterilization") ...[
@@ -622,11 +599,8 @@ class ShowAdditionaFeatureInfo extends StatelessWidget {
                   // (service.description == null || service.description == "")
                   //     ? "Опис відсутній" //means no description available
                   //     : service.description!,
-                  authprovider.getLocale.toString() == "en"
-                      ? "Instruments sterilization"
-                      : "Стерилізація інструментів",
-                  style: const TextStyle(
-                      color: AppTheme.white3, fontWeight: FontWeight.w400),
+                  authprovider.getLocale.toString() == "en" ? "Instruments sterilization" : "Стерилізація інструментів",
+                  style: const TextStyle(color: AppTheme.white3, fontWeight: FontWeight.w400),
                 )
               ],
               if (feature == "masterWithSpeechDisability") ...[
@@ -634,11 +608,8 @@ class ShowAdditionaFeatureInfo extends StatelessWidget {
                   // (service.description == null || service.description == "")
                   //     ? "Опис відсутній" //means no description available
                   //     : service.description!,
-                  authprovider.getLocale.toString() == "en"
-                      ? "Master with speech disability"
-                      : "Майстер із порушенням мовлення",
-                  style: const TextStyle(
-                      color: AppTheme.white3, fontWeight: FontWeight.w400),
+                  authprovider.getLocale.toString() == "en" ? "Master with speech disability" : "Майстер із порушенням мовлення",
+                  style: const TextStyle(color: AppTheme.white3, fontWeight: FontWeight.w400),
                 )
               ],
               if (feature == "medicalDegree") ...[
@@ -646,11 +617,8 @@ class ShowAdditionaFeatureInfo extends StatelessWidget {
                   // (service.description == null || service.description == "")
                   //     ? "Опис відсутній" //means no description available
                   //     : service.description!,
-                  authprovider.getLocale.toString() == "en"
-                      ? "Medical degree"
-                      : "Медична освіта",
-                  style: const TextStyle(
-                      color: AppTheme.white3, fontWeight: FontWeight.w400),
+                  authprovider.getLocale.toString() == "en" ? "Medical degree" : "Медична освіта",
+                  style: const TextStyle(color: AppTheme.white3, fontWeight: FontWeight.w400),
                 )
               ],
               if (feature == "masterWithHearingDisability") ...[
@@ -658,11 +626,8 @@ class ShowAdditionaFeatureInfo extends StatelessWidget {
                   // (service.description == null || service.description == "")
                   //     ? "Опис відсутній" //means no description available
                   //     : service.description!,
-                  authprovider.getLocale.toString() == "en"
-                      ? "Master with hearing disability"
-                      : "Майстер із порушенням слуху",
-                  style: const TextStyle(
-                      color: AppTheme.white3, fontWeight: FontWeight.w400),
+                  authprovider.getLocale.toString() == "en" ? "Master with hearing disability" : "Майстер із порушенням слуху",
+                  style: const TextStyle(color: AppTheme.white3, fontWeight: FontWeight.w400),
                 )
               ],
 
@@ -671,11 +636,8 @@ class ShowAdditionaFeatureInfo extends StatelessWidget {
                   // (service.description == null || service.description == "")
                   //     ? "Опис відсутній" //means no description available
                   //     : service.description!,
-                  authprovider.getLocale.toString() == "en"
-                      ? "Pet friendly"
-                      : "Дозволено з тваринами",
-                  style: const TextStyle(
-                      color: AppTheme.white3, fontWeight: FontWeight.w400),
+                  authprovider.getLocale.toString() == "en" ? "Pet friendly" : "Дозволено з тваринами",
+                  style: const TextStyle(color: AppTheme.white3, fontWeight: FontWeight.w400),
                 )
               ],
               if (feature == "ownOffice") ...[
@@ -683,11 +645,8 @@ class ShowAdditionaFeatureInfo extends StatelessWidget {
                   // (service.description == null || service.description == "")
                   //     ? "Опис відсутній" //means no description available
                   //     : service.description!,
-                  authprovider.getLocale.toString() == "en"
-                      ? "Own office"
-                      : "Власний кабінет",
-                  style: const TextStyle(
-                      color: AppTheme.white3, fontWeight: FontWeight.w400),
+                  authprovider.getLocale.toString() == "en" ? "Own office" : "Власний кабінет",
+                  style: const TextStyle(color: AppTheme.white3, fontWeight: FontWeight.w400),
                 )
               ],
               if (feature == "covidVaccinated") ...[
@@ -695,11 +654,8 @@ class ShowAdditionaFeatureInfo extends StatelessWidget {
                   // (service.description == null || service.description == "")
                   //     ? "Опис відсутній" //means no description available
                   //     : service.description!,
-                  authprovider.getLocale.toString() == "en"
-                      ? "Covid-19 vaccinated"
-                      : "Вакцинованість проти Covid-19",
-                  style: const TextStyle(
-                      color: AppTheme.white3, fontWeight: FontWeight.w400),
+                  authprovider.getLocale.toString() == "en" ? "Covid-19 vaccinated" : "Вакцинованість проти Covid-19",
+                  style: const TextStyle(color: AppTheme.white3, fontWeight: FontWeight.w400),
                 )
               ],
             ],
