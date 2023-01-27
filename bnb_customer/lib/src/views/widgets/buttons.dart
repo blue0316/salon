@@ -161,15 +161,16 @@ class _ServicesBnbCheckCircleState extends State<ServicesBnbCheckCircle> {
       height: DeviceConstraints.getResponsiveSize(context, 28.h, 40.h, 40.h),
       width: DeviceConstraints.getResponsiveSize(context, 28.h, 40.h, 40.h),
       decoration: BoxDecoration(
-        border: Border.all(color: AppTheme.black, width: 1.5),
-        // shape: BoxShape.circle,
-        borderRadius: BorderRadius.circular(50),
+        border: Border.all(color: AppTheme.black, width: 1.3),
+        shape: BoxShape.circle,
         color: widget.value ? AppTheme.textBlack : Colors.white,
       ),
-      child: Icon(
-        Icons.add_rounded,
-        color: widget.value ? Colors.white : Colors.black,
-        size: DeviceConstraints.getResponsiveSize(context, 20.h, 30.h, 30.h),
+      child: Center(
+        child: Icon(
+          Icons.add_rounded,
+          color: widget.value ? Colors.white : Colors.black,
+          size: DeviceConstraints.getResponsiveSize(context, 20.h, 30.h, 30.h),
+        ),
       ),
     );
   }

@@ -335,6 +335,7 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                           flex: 0,
                                           child: Row(
                                             crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               ServicesBnbCheckCircle(
                                                 value: createAppointment.isAdded(serviceModel: service),
