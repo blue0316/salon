@@ -1,7 +1,6 @@
 import 'package:bbblient/src/models/review.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../theme/app_main_theme.dart';
 import '../../widgets/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -11,39 +10,30 @@ class RatingGraph extends StatelessWidget {
   final int noOfReviews;
   final List<ReviewModel> allReviews;
 
-  const RatingGraph(
-      {Key? key,
-      required this.avgRating,
-      required this.noOfReviews,
-      required this.allReviews})
-      : super(key: key);
+  const RatingGraph({Key? key, required this.avgRating, required this.noOfReviews, required this.allReviews}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final _ratingStr=  avgRating.toString();
+    final _ratingStr = avgRating.toString();
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Column(
           children: [
             Text(
-              _ratingStr.length>3?_ratingStr.substring(0, 3):_ratingStr,
-              style:
-                  Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 38),
+              _ratingStr.length > 3 ? _ratingStr.substring(0, 3) : _ratingStr,
+              style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 38),
             ),
-            SizedBox(
-              height: 8.h,
-            ),
+            SizedBox(height: 8.h),
             BnbRatings(rating: avgRating, editable: false, starSize: 15),
-            SizedBox(
-              height: 8.h,
-            ),
+            SizedBox(height: 8.h),
             Text(
               "${noOfReviews.toInt()} ${AppLocalizations.of(context)?.reviews ?? "reviews"}",
               style: Theme.of(context).textTheme.bodyText2,
             ),
           ],
         ),
+        SizedBox(width: 10.w),
         DistributedRating(
           allReviews: allReviews,
         ),
@@ -54,8 +44,7 @@ class RatingGraph extends StatelessWidget {
 
 class DistributedRating extends StatefulWidget {
   final List<ReviewModel> allReviews;
-  const DistributedRating({Key? key, required this.allReviews})
-      : super(key: key);
+  const DistributedRating({Key? key, required this.allReviews}) : super(key: key);
 
   @override
   State<DistributedRating> createState() => _DistributedRatingState();
@@ -105,7 +94,6 @@ class _DistributedRatingState extends State<DistributedRating> {
   }
 
   Widget rating(String ratingLabel, rating) {
-
     return Padding(
       padding: EdgeInsets.only(bottom: 2.sp),
       child: Row(
@@ -113,8 +101,7 @@ class _DistributedRatingState extends State<DistributedRating> {
         children: [
           Text(
             ratingLabel,
-            style:
-                Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 12),
+            style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 13),
           ),
           const SpaceHorizontal(),
           Stack(

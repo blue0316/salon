@@ -6,10 +6,8 @@ class AppIcons {
   static const String done1GIF = "assets/icons/done1.gif";
   static const String failGIF = "assets/icons/fail.gif";
   static const String notificationPermission = "assets/images/notification.svg";
-  static const String notificationPermissionPNG =
-      "assets/images/illustr_notific.png";
-  static const String approvedNotifications =
-      "assets/images/approved_notifications.svg";
+  static const String notificationPermissionPNG = "assets/images/illustr_notific.png";
+  static const String approvedNotifications = "assets/images/approved_notifications.svg";
   // static const String linkCard = "assets/images/link_card.svg";
   static const String permissionDone = "assets/images/done.svg";
   static const String quizDone = "assets/images/quiz_done.svg";
@@ -20,16 +18,14 @@ class AppIcons {
   static const String noSearchResult = "assets/images/no_result.svg";
   static const String noSearchResultUk = "assets/images/no_result_uk.svg";
   static const String salonPlaceHolder = "assets/images/salon_place_holder.svg";
-  static const String profilePicPlaceHolder =
-      "assets/images/profile_pic_place_holder.svg";
+  static const String profilePicPlaceHolder = "assets/images/profile_pic_place_holder.svg";
   static const String mapMarkerBrown = "assets/icons/location_marker_brown.svg";
   static const String phoneBrown = "assets/icons/phone_brown.svg";
   static const String masterDefaultAvtar = "assets/images/master_avtar.png";
   static const String defaultUserAvtarPNG = "assets/images/customer_avtar.png";
   static const String quizFinish = "assets/images/quiz_finish.png";
   static const String puzzledGuy = "assets/images/puzzled_guy.svg";
-  static const String bookingConfirmedPNG =
-      "assets/icons/confirm_apppointment.png";
+  static const String bookingConfirmedPNG = "assets/icons/confirm_apppointment.png";
   //"assets/images/booking_confirmed.png";
   static const String singleMasterFromHome = "assets/icons/salon_in_home.svg";
   static const String salon = "assets/icons/salon.svg";
@@ -60,16 +56,14 @@ class AppIcons {
 
   //  category icons png
 
-  static const String hairDressingPng =
-      "assets/icons/png_icons/hairdressing.png";
+  static const String hairDressingPng = "assets/icons/png_icons/hairdressing.png";
   static const String eyebrowsPng = "assets/icons/png_icons/eyelashes.png";
   static const String tattooPng = "assets/icons/png_icons/Tatoo_piercing.png";
   static const String beardPng = "assets/icons/png_icons/barbershop.png";
   static const String makeUpPng = "assets/icons/png_icons/makeup.png";
   static const String cosmetologyPng = "assets/icons/png_icons/skincare.png";
   static const String nailPng = "assets/icons/png_icons/pediandmeni.png";
-  static const String hairRemovalPng =
-      "assets/icons/png_icons/hair_removal.png";
+  static const String hairRemovalPng = "assets/icons/png_icons/hair_removal.png";
   static const String massagePng = "assets/icons/png_icons/massage.png";
   static const String bodyCarePng = "assets/icons/png_icons/body_care.png";
 
@@ -92,8 +86,7 @@ class AppIcons {
   static const String iconSVG = "assets/icons/icon.svg";
   static const String infoSVG = "assets/icons/Info.svg";
   static const String informationSVG = "assets/icons/Information.svg";
-  static const String inviteFriendsFilledSVG =
-      "assets/icons/invite_friends_filled.svg";
+  static const String inviteFriendsFilledSVG = "assets/icons/invite_friends_filled.svg";
   static const String arrowDownSVG = "assets/icons/arrow_down.svg";
   static const String arrowUpSVG = "assets/icons/arrow_up.svg";
   static const String barbershopSVG = "assets/icons/barbershop.svg";
@@ -110,17 +103,16 @@ class AppIcons {
   static const String chatBubbleSVG = "assets/icons/chat_bubble_grey.svg";
   static const String telegramSVG = "assets/icons/Telegram_logo.svg";
   static const String clockGreySVG = "assets/icons/clock_grey.svg";
+  static const String clockSVG = "assets/icons/clock.svg";
   static const String creditCardSVG = "assets/icons/credit_card.svg";
-  static const String creditCardYellowSVG =
-      "assets/icons/credit_card_yellow.svg";
+  static const String creditCardYellowSVG = "assets/icons/credit_card_yellow.svg";
   static const String dashboardSVG = "assets/icons/dashboard.svg";
   static const String dollarSVG = "assets/icons/dollar.svg";
   static const String eyelashesSVG = "assets/icons/eyelashes.svg";
   static const String favouritesHeartSVG = "assets/icons/favourites_heart.svg";
   static const String flutterratingSVG = "assets/icons/flutterrating.svg";
   static const String hairdressingSVG = "assets/icons/hairdressing.svg";
-  static const String hairdressingBlackSVG =
-      "assets/icons/hairdressing_black.svg";
+  static const String hairdressingBlackSVG = "assets/icons/hairdressing_black.svg";
   static const String heartIconSVG = "assets/icons/heart_icon.svg";
   static const String helpSVG = "assets/icons/help.svg";
   static const String homeSVG = "assets/icons/home.svg";
@@ -132,23 +124,20 @@ class AppIcons {
   static const String lensGreySVG = "assets/icons/lens_grey.svg";
   static const String locationmarkerSVG = "assets/icons/locationmarker.svg";
   static const String locationCurrentSVG = "assets/icons/location_current.svg";
-  static const String locationMarkerBrownSVG =
-      "assets/icons/location_marker_brown.svg";
-  static const String locationMarkerWhiteSVG =
-      "assets/icons/location_marker_white.svg";
+  static const String locationMarkerBrownSVG = "assets/icons/location_marker_brown.svg";
+  static const String locationMarkerWhiteSVG = "assets/icons/location_marker_white.svg";
   static const String logoutSVG = "assets/icons/logout.svg";
   static const String makeupSVG = "assets/icons/makeup.svg";
   static const String markerPNG = "assets/icons/marker.png";
   static const String notifBellSVG = "assets/icons/notif_bell.svg";
 
   static const String appLogo = "assets/images/Logo.png";
-  
+
   //"assets/images/Logo.svg";
   static const String passwordFilledSVG = "assets/icons/password_filled.svg";
   static const String paymentHistorySVG = "assets/icons/payment_history.svg";
   static const String pediandmeniSVG = "assets/icons/pediandmeni.svg";
-  static const String pedicureMenicureSVG =
-      "assets/icons/pedicure_menicure.svg";
+  static const String pedicureMenicureSVG = "assets/icons/pedicure_menicure.svg";
   static const String personAddSVG = "assets/icons/person_add.svg";
   static const String personGreySVG = "assets/icons/person_grey.svg";
   static const String personIconSVG = "assets/icons/person_icon.svg";
@@ -163,8 +152,7 @@ class AppIcons {
   static const String calenderBrownSVG = "assets/icons/calender_brown.svg";
   static const String notifBellBrownSVG = "assets/icons/notif_bell_brown.svg";
   static const String recentOutlinedSVG = "assets/icons/recent_outlined.svg";
-  static const String inviteFriendsGreenSVG =
-      "assets/icons/invite_friends_green.svg";
+  static const String inviteFriendsGreenSVG = "assets/icons/invite_friends_green.svg";
   static const String cardScanSVG = "assets/icons/card_scan.svg";
   static const String emailFilledSVG = "assets/icons/email_filled.svg";
   static const String dollarFilledSVG = "assets/icons/dollar_filled.svg";
@@ -172,6 +160,8 @@ class AppIcons {
   static const String bellActiveBrownSVG = "assets/icons/bell_active_brown.svg";
   static const String phoneWhiteSVG = "assets/icons/phone_btn.svg";
   static const String mapPinWhiteSVG = "assets/icons/map_pin_white.svg";
+  static const String mapPin2WhiteSVG = "assets/icons/map-pin.svg";
+  static const String send = "assets/icons/send.svg";
   static const String messageWhiteSVG = "assets/icons/message_icon_white.svg";
   static const String dotActiveSVG = "assets/icons/dot_active.svg";
   static const String dotInactiveSVG = "assets/icons/dot_inactive.svg";
@@ -189,8 +179,7 @@ class AppIcons {
   static const String filterSVG = "assets/icons/filter.svg";
   static const String filterBlackSVG = "assets/icons/filterBlack.svg";
   static const String filterFunnelSVG = "assets/icons/filterFunnel.svg";
-  static const String filterFunnelBlackSVG =
-      "assets/icons/filterFunnelBlack.svg";
+  static const String filterFunnelBlackSVG = "assets/icons/filterFunnelBlack.svg";
   static const String unionPNG = "assets/images/union.png";
   static const String adPNG = "assets/images/ad.png";
   static const String allsexPNG = "assets/images/allsex.png";
@@ -214,11 +203,9 @@ class AppIcons {
   static const String noFavsPNG = "assets/images/no_favourites.png";
   static const String notificationSVG = "assets/images/notification.svg";
   static const String onboardingFirstSVG = "assets/images/onbording_first.svg";
-  static const String onboardingSecondSVG =
-      "assets/images/onbording_second.svg";
+  static const String onboardingSecondSVG = "assets/images/onbording_second.svg";
   static const String onboardingThirdSVG = "assets/images/onbording_third.svg";
-  static const String onboardingFourthSVG =
-      "assets/images/onbording_fourth.svg";
+  static const String onboardingFourthSVG = "assets/images/onbording_fourth.svg";
   static const String onboardingFifthSVG = "assets/images/onbording_fifth.svg";
   static const String onboardingFirstPNG = "assets/images/illustr_1.png";
   static const String onboardingSecondPNG = "assets/images/illustr_2.png";
@@ -228,22 +215,16 @@ class AppIcons {
   static const String saloonJPG = "assets/images/salon_home.jpg";
   static const String thumbDownPNG = "assets/images/thumb_down.png";
   static const String thumbUpPNG = "assets/images/thumb_up.png";
-  static const String appointmentCancelledPNG =
-      "assets/images/salon_master_deleted.png";
+  static const String appointmentCancelledPNG = "assets/images/salon_master_deleted.png";
   static const String topSaloonsPNG = "assets/images/top_saloons.png";
   static const String traineePNG = "assets/images/trainee.png";
-  static const String undrawGiftCardRe_5dyy2PNG =
-      "assets/images/undraw_gift_card_re_5dyy 2.png";
-  static const String undrawCertificationAif82PNG =
-      "assets/images/undraw_certification_aif8 2.png";
+  static const String undrawGiftCardRe_5dyy2PNG = "assets/images/undraw_gift_card_re_5dyy 2.png";
+  static const String undrawCertificationAif82PNG = "assets/images/undraw_certification_aif8 2.png";
   static const String womenPNG = "assets/images/women.png";
-  static const String noNotificationBellPNG =
-      "assets/images/no_notification_bell.png";
+  static const String noNotificationBellPNG = "assets/images/no_notification_bell.png";
   static const String inviteSentPNG = "assets/images/invitation_sent.png";
-  static const String userFoundAlreadyPNG =
-      "assets/images/got_in_the_system.png";
-  static const String masterPicDefaultSVG =
-      "assets/images/master_pic_default.svg";
+  static const String userFoundAlreadyPNG = "assets/images/got_in_the_system.png";
+  static const String masterPicDefaultSVG = "assets/images/master_pic_default.svg";
   static const String masterPicDefaultPNG = "assets/images/master_pic.png";
   static const String masterBigSVG = "assets/images/master_big.svg";
   static const String serviceBigSVG = "assets/images/services_big.svg";
@@ -261,27 +242,17 @@ class AppIcons {
   static const String creditCardGreenPNG = "assets/cards/card_green.png";
   static const String creditCardOrangePNG = "assets/cards/card_orange.png";
 
-  static const String creditCardAppleTumbnailPNG =
-      "assets/cards/card_apple_tumbnail.png";
-  static const String creditCardBlackTumbnailPNG =
-      "assets/cards/card_black_tumbnail.png";
-  static const String creditCardBlueGreyTumbnailPNG =
-      "assets/cards/card_bluegrey_tumbnail.png";
-  static const String creditCardBlueTumbnailPNG =
-      "assets/cards/card_blue_tumbnail.png";
-  static const String creditCardGreenTumbnailPNG =
-      "assets/cards/card_green_tumbnail.png";
-  static const String creditCardOrangeTumbnailPNG =
-      "assets/cards/card_orange_tumbnail.png";
+  static const String creditCardAppleTumbnailPNG = "assets/cards/card_apple_tumbnail.png";
+  static const String creditCardBlackTumbnailPNG = "assets/cards/card_black_tumbnail.png";
+  static const String creditCardBlueGreyTumbnailPNG = "assets/cards/card_bluegrey_tumbnail.png";
+  static const String creditCardBlueTumbnailPNG = "assets/cards/card_blue_tumbnail.png";
+  static const String creditCardGreenTumbnailPNG = "assets/cards/card_green_tumbnail.png";
+  static const String creditCardOrangeTumbnailPNG = "assets/cards/card_orange_tumbnail.png";
 
-  static const instrumentSterilization =
-      "assets/icons/features/instrument_sterilized.svg";
-  static const antiCovidMeasures =
-      "assets/icons/features/anti_covid_measures.svg";
-  static const disposableMaterialsOnly =
-      "assets/icons/features/disposible_material.svg";
-  static const womanOwnedBusiness =
-      "assets/icons/features/women_owned_business.svg";
+  static const instrumentSterilization = "assets/icons/features/instrument_sterilized.svg";
+  static const antiCovidMeasures = "assets/icons/features/anti_covid_measures.svg";
+  static const disposableMaterialsOnly = "assets/icons/features/disposible_material.svg";
+  static const womanOwnedBusiness = "assets/icons/features/women_owned_business.svg";
   static const coffee = "assets/icons/features/coffee.svg";
   static const cocktails = "assets/icons/features/cocktails.svg";
   static const wifi = "assets/icons/features/wifi.svg";
@@ -290,18 +261,14 @@ class AppIcons {
   static const childrenRoom = "assets/icons/features/children_room.svg";
   static const petFriendly = "assets/icons/features/pet_friendly.svg";
   static const noPet = "assets/icons/features/no_pet.svg";
-  static const accessibilityForPersonsWithReducedMobility =
-      "assets/icons/features/accessibility_for_persons_with_reduced_mobility.svg";
+  static const accessibilityForPersonsWithReducedMobility = "assets/icons/features/accessibility_for_persons_with_reduced_mobility.svg";
   static const parallelService = "assets/icons/features/parallel_service.svg";
-  static const medicalPracticeLicense =
-      "assets/icons/features/medical_practice_license.svg";
+  static const medicalPracticeLicense = "assets/icons/features/medical_practice_license.svg";
 
   //keys for single master features
   static const covidVaccinated = "assets/icons/features/covid_vaccinated.svg";
-  static const masterWithHearingDisability =
-      "assets/icons/features/master_with_hearing_disability.svg";
-  static const masterWithSpeechDisability =
-      "assets/icons/features/master_with_speech_disability.svg";
+  static const masterWithHearingDisability = "assets/icons/features/master_with_hearing_disability.svg";
+  static const masterWithSpeechDisability = "assets/icons/features/master_with_speech_disability.svg";
   static const medicalDegree = "assets/icons/features/medical_degree.svg";
   static const ownOffice = "assets/icons/features/own_office.svg";
 
