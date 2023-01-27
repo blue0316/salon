@@ -238,10 +238,12 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                                                   child: SizedBox(
                                                                     height: DeviceConstraints.getResponsiveSize(context, 12, 18, 18),
                                                                     width: DeviceConstraints.getResponsiveSize(context, 12, 18, 18),
-                                                                    child: SvgPicture.asset(
-                                                                      AppIcons.informationSVG,
-                                                                      height: DeviceConstraints.getResponsiveSize(context, 12, 18, 18),
-                                                                      width: DeviceConstraints.getResponsiveSize(context, 12, 18, 18),
+                                                                    child: Center(
+                                                                      child: SvgPicture.asset(
+                                                                        AppIcons.informationSVG,
+                                                                        height: DeviceConstraints.getResponsiveSize(context, 12, 18, 18),
+                                                                        width: DeviceConstraints.getResponsiveSize(context, 12, 18, 18),
+                                                                      ),
                                                                     ),
                                                                   ),
                                                                 ),
