@@ -352,15 +352,15 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
                             ref: ref,
                             callBack: refreshAccount)
                         .then((value) async {
+                      _auth.getUserInfo(context:context);
                       _auth.createAppointmentProvider(_createAppointment);
-                      _createAppointment.createAppointment(
+                      await _createAppointment.createAppointment(
                           customerModel: _auth.currentCustomer!,
                           context: context);
                       bool _success = await _createAppointment.finishBooking(
                           context: context,
-                          customerModel: _authProvider.currentCustomer!);
-                      showToast(
-                          AppLocalizations.of(context)?.booked ?? 'booked');
+                          customerModel: _auth.currentCustomer!);
+
 
                       if (_success) {
                         showMyDialog(
@@ -445,8 +445,8 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
                     //   null;
                     // }
                   } else {
-                    showToast(AppLocalizations.of(context)?.pleaseWait ??
-                        "Please wait");
+                    // showToast(AppLocalizations.of(context)?.pleaseWait ??
+                    //     "Please wait");
                   }
                 },
                 child: (_auth.loginStatus == Status.loading)

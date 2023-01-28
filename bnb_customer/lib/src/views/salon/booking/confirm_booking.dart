@@ -705,6 +705,10 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                               //     context: context);
                             }, appointmentModel: appointment);
                           } else {
+                            // if(_auth.currentCustomer!.salonIdsBlocked!.contains(appointment.salon.id  )){
+                            //   showToast("You have been blocked from making appointments at this salon");
+                            //   return;
+                            // }
                             showToast(
                                 AppLocalizations.of(context)?.pleaseWait ??
                                     "Please wait");
@@ -712,16 +716,22 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                 .checkSlotsAndMaster(context: context);
                             checkUser(context, ref, () async {
                               if (moveAhead) {
+
+
+
                                 _auth.createAppointmentProvider(
                                     _createAppointment);
-                                _createAppointment.createAppointment(
+                                print('here1');
+                                await _createAppointment.createAppointment(
                                     customerModel: _auth.currentCustomer!,
                                     context: context);
+                                print('here2');
                                 bool _success =
                                     await _createAppointment.finishBooking(
                                         context: context,
                                         customerModel:
-                                            _authProvider.currentCustomer!);
+                                            _auth.currentCustomer!);
+                                print('here3');
                                 if (_success) {
                                   setState(() {
                                     // _status = Status.success;

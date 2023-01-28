@@ -19,7 +19,7 @@ List<Map<String,String>> salonFeatures = [
   {"petFriendly": "Pet Friendly"},
   {"noPet": "No Pets"},
   {"medicalPracticeLicense":"Medical Practice License"},
-  {"accessibilityForPersonsWithReducedMobility ":
+  {"accessibilityForPersonsWithReducedMobility":
     "Accessibility For Persons With ReducedMobility"},
 ];
 
@@ -37,9 +37,10 @@ List<Map<String,String>> ukSalonFeatures = [
   {"parking" : "Паркінг"},
   {"masterWithHearingDisability" : "Майстер з вадами слуху"},
   {"petFriendly": "Допускається розміщення з домашніми тваринами"},
-  {"noPets": "Без домашніх тварин"},
+  {"noPet": "Без домашніх тварин"},
   {"accessibilityForPersonsWithReducedMobility":
   "Доступність для осіб з обмеженими можливостями пересування"},
+  {"medicalPracticeLicense":  "Ліцензія на медичну практику"},
 ];
 
 List<Map<String,String>> masterFeatures = [
@@ -73,7 +74,7 @@ List<Map<String,String>> ukMasterFeatures = [
   {"antiCovidMeasures":"Антиковідні заходи"},
   {"disposableMaterialsOnly":"Лише одноразові матеріали"},
   {"womanOwnedBusiness":"Жіночий бізнес"},
-  {"coffee":"кава"},
+  {"coffee":"Кава/Чай"},
   {"medicalDegree" :"Медична освіта"},
   {"cocktails":"Коктейлі"},
   { "covidVaccinated" :"Вакцинованість проти Covid-19"},

@@ -20,10 +20,12 @@ class CustomerModel {
   late String locale;
   late List<String> favSalons;
   late String referralLink;
+  late List<String?>? salonIdsBlocked;
 
   CustomerModel({
     required this.customerId,
     required this.personalInfo,
+    this.salonIdsBlocked,
     required this.registeredSalons,
     required this.createdAt,
     required this.avgRating,
@@ -70,6 +72,7 @@ class CustomerModel {
             .toList();
     locale = json['locale'] ?? 'uk';
     referralLink = json['referralLink'] ?? '';
+    salonIdsBlocked=json['salonIdsBlocked']==null?[]:json['salonIdsBlocked'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {
