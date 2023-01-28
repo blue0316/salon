@@ -144,15 +144,14 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                     ),
                     const Space(factor: 0.7),
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        SvgPicture.asset(
-                          AppIcons.mapPin2WhiteSVG,
+                        Image.asset(
+                          AppIcons.mapPinPNG,
                           height: DeviceConstraints.getResponsiveSize(context, 20.sp, 22.sp, 22.sp),
-                          color: Colors.black,
                         ),
-                        const SizedBox(width: 10),
+                        const SizedBox(width: 6),
                         Text(
                           widget.salonModel.address,
                           style: Theme.of(context).textTheme.headline2!.copyWith(
@@ -417,17 +416,18 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                         decoration: BoxDecoration(
                           color: const Color.fromARGB(255, 239, 239, 239),
                           borderRadius: BorderRadius.circular(50),
+                          image: DecorationImage(image: social['icon'], fit: BoxFit.cover),
                         ),
-                        child: Padding(
-                          padding: EdgeInsets.all(5.sp),
-                          child: Center(
-                            child: Image.asset(
-                              social['icon'],
-                              height: 17.sp,
-                              fit: BoxFit.scaleDown,
-                            ),
-                          ),
-                        ),
+                        // child: Padding(
+                        //   padding: EdgeInsets.all(5.sp),
+                        //   child: Center(
+                        //     child: Image.asset(
+                        //       social['icon'],
+                        //       height: 17.sp,
+                        //       fit: BoxFit.scaleDown,
+                        //     ),
+                        //   ),
+                        // ),
                       ),
                     ),
                   ),

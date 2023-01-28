@@ -303,22 +303,22 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                               // PREVIOUS PRICE
                                               if (service.priceAndDuration.price == '200')
                                                 Text(
-                                                  service.isFixedPrice ? "${service.priceAndDuration.price} ${Keys.uah}" : "${service.priceAndDuration.price} ${Keys.uah} - ${service.priceAndDurationMax!.price} ${Keys.uah}",
+                                                  service.isFixedPrice ? "${service.priceAndDuration.price}${Keys.uah}" : "${service.priceAndDuration.price}${Keys.uah} - ${service.priceAndDurationMax!.price}${Keys.uah}",
                                                   style: Theme.of(context).textTheme.bodyText1!.copyWith(
                                                         fontWeight: FontWeight.w400,
-                                                        fontSize: 13.sp,
+                                                        fontSize: 12.5.sp,
                                                         color: AppTheme.lightGrey,
                                                         decoration: TextDecoration.lineThrough,
                                                       ),
                                                   overflow: TextOverflow.visible,
                                                   maxLines: 1,
                                                 ),
-                                              SizedBox(width: DeviceConstraints.getResponsiveSize(context, 10, 20, 20)),
+                                              SizedBox(width: DeviceConstraints.getResponsiveSize(context, 7, 20, 20)),
                                               Text(
-                                                service.isFixedPrice ? "${service.priceAndDuration.price} ${Keys.uah}" : "${service.priceAndDuration.price} ${Keys.uah} - ${service.priceAndDurationMax!.price} ${Keys.uah}",
+                                                service.isFixedPrice ? "${service.priceAndDuration.price}${Keys.uah}" : "${service.priceAndDuration.price}${Keys.uah} - ${service.priceAndDurationMax!.price}${Keys.uah}",
                                                 style: Theme.of(context).textTheme.bodyText1!.copyWith(
                                                       fontWeight: FontWeight.w600,
-                                                      fontSize: 17.sp,
+                                                      fontSize: 16.sp,
                                                       color: AppTheme.textBlack,
                                                     ),
                                                 overflow: TextOverflow.visible,
@@ -335,6 +335,7 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                           flex: 0,
                                           child: Row(
                                             crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               ServicesBnbCheckCircle(
                                                 value: createAppointment.isAdded(serviceModel: service),

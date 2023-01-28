@@ -158,10 +158,10 @@ class _ServicesBnbCheckCircleState extends State<ServicesBnbCheckCircle> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: DeviceConstraints.getResponsiveSize(context, 25.h, 40.h, 40.h),
-      width: DeviceConstraints.getResponsiveSize(context, 25.h, 40.h, 40.h),
+      height: DeviceConstraints.getResponsiveSize(context, 28.h, 40.h, 40.h),
+      width: DeviceConstraints.getResponsiveSize(context, 28.h, 40.h, 40.h),
       decoration: BoxDecoration(
-        border: Border.all(color: AppTheme.black, width: 1.5),
+        border: Border.all(color: AppTheme.black, width: 1.3),
         shape: BoxShape.circle,
         color: widget.value ? AppTheme.textBlack : Colors.white,
       ),
@@ -169,7 +169,7 @@ class _ServicesBnbCheckCircleState extends State<ServicesBnbCheckCircle> {
         child: Icon(
           Icons.add_rounded,
           color: widget.value ? Colors.white : Colors.black,
-          size: DeviceConstraints.getResponsiveSize(context, 20, 30, 30),
+          size: DeviceConstraints.getResponsiveSize(context, 20.h, 30.h, 30.h),
         ),
       ),
     );
