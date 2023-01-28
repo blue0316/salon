@@ -362,6 +362,7 @@ class AuthProvider with ChangeNotifier {
 
     Analytics.setUser(user.uid);
     userLoggedIn = true;
+    notifyListeners();
     CustomerModel? customerModel = await CustomerApi().getCustomer();
 
     if (customerModel != null) {
