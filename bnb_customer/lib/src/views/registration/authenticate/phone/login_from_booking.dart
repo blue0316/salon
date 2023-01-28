@@ -360,8 +360,7 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
                       bool _success = await _createAppointment.finishBooking(
                           context: context,
                           customerModel: _auth.currentCustomer!);
-                      showToast(
-                          AppLocalizations.of(context)?.booked ?? 'booked');
+
 
                       if (_success) {
                         showMyDialog(
@@ -446,8 +445,8 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
                     //   null;
                     // }
                   } else {
-                    showToast(AppLocalizations.of(context)?.pleaseWait ??
-                        "Please wait");
+                    // showToast(AppLocalizations.of(context)?.pleaseWait ??
+                    //     "Please wait");
                   }
                 },
                 child: (_auth.loginStatus == Status.loading)

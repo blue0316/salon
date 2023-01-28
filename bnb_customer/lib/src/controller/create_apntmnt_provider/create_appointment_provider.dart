@@ -1458,6 +1458,12 @@ class CreateAppointmentProvider with ChangeNotifier {
   }) async {
     print('llllll');
     loadingStatus = Status.loading;
+    if(customerModel.salonIdsBlocked!.contains(chosenSalon!.salonId)){
+     showToast("You have been blocked from making appointments by this salon");
+      loadingStatus = Status.failed;
+    notifyListeners();
+    return false;
+    }
     if (appointmentModel != null) {
       PaymentInfo _paymentInfo = PaymentInfo(
         bonusApplied: chosenBonus != null,
