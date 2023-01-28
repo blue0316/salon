@@ -1245,6 +1245,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   Future<bool> createAppointment(
       {required CustomerModel? customerModel,
       required BuildContext context}) async {
+    print('${customerModel!.customerId}');
     if (chosenServices.isEmpty) {
       showToast(' no services');
     } else {
@@ -1282,8 +1283,10 @@ class CreateAppointmentProvider with ChangeNotifier {
               : mastersServicesMap[chosenMaster!.masterId]!
                   .map((element) => Service.fromService(
                       serviceModel: element,
-                      masterPriceAndDuration: chosenMaster!
-                          .servicesPriceAndDurationMax![element.serviceId]))
+                      masterPriceAndDuration:chosenMaster!
+                          .servicesPriceAndDurationMax!=null?chosenMaster!
+                          .servicesPriceAndDurationMax![element.serviceId]: chosenMaster!
+                          .servicesPriceAndDuration![element.serviceId]))
                   .toList();
 
       appointmentModel = AppointmentModel(
@@ -1344,7 +1347,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 
   Future<bool> createAppointment2(
       {
-      //   required CustomerModel? customerModel,
+      //  required CustomerModel? customerModel,
       required BuildContext context}) async {
     if (chosenServices.isEmpty) {
       showToast(' no services');
@@ -1404,10 +1407,10 @@ class CreateAppointmentProvider with ChangeNotifier {
             : AppointmentStatus.active,
         services: _services,
         customer: Customer(
-          id: " customerModel!.customerId",
+          id: "customerModel!.customerId",
           name: "Utils().getName(customerModel.personalInfo)",
-          phoneNumber: "customerModel.personalInfo.phone",
-          pic: "customerModel.profilePic",
+          phoneNumber:" customerModel.personalInfo.phone",
+          pic:" customerModel.profilePic",
         ),
         priceAndDuration: _totalPriceAndDuration,
         paymentInfo: null,
@@ -1453,6 +1456,7 @@ class CreateAppointmentProvider with ChangeNotifier {
     required BuildContext context,
     required CustomerModel customerModel,
   }) async {
+    print('llllll');
     loadingStatus = Status.loading;
     if (appointmentModel != null) {
       PaymentInfo _paymentInfo = PaymentInfo(

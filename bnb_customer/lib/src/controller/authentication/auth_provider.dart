@@ -283,6 +283,7 @@ class AuthProvider with ChangeNotifier {
         printIt("It's webbb");
         _userResult = await webOTPConfirmationResult?.confirm(otp);
         phoneNoController.clear();
+
       } else {
         final AuthCredential _authCredential = PhoneAuthProvider.credential(
           verificationId: verificationCode!,
