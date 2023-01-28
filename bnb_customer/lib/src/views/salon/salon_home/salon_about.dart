@@ -416,17 +416,18 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                         decoration: BoxDecoration(
                           color: const Color.fromARGB(255, 239, 239, 239),
                           borderRadius: BorderRadius.circular(50),
+                          image: DecorationImage(image: social['icon'], fit: BoxFit.cover),
                         ),
-                        child: Padding(
-                          padding: EdgeInsets.all(5.sp),
-                          child: Center(
-                            child: Image.asset(
-                              social['icon'],
-                              height: 17.sp,
-                              fit: BoxFit.scaleDown,
-                            ),
-                          ),
-                        ),
+                        // child: Padding(
+                        //   padding: EdgeInsets.all(5.sp),
+                        //   child: Center(
+                        //     child: Image.asset(
+                        //       social['icon'],
+                        //       height: 17.sp,
+                        //       fit: BoxFit.scaleDown,
+                        //     ),
+                        //   ),
+                        // ),
                       ),
                     ),
                   ),
