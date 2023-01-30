@@ -11,13 +11,22 @@ class DefaultButton extends StatelessWidget {
   final bool isLoading;
   final Color? color;
   final double height;
-  const DefaultButton({Key? key, this.label, this.onTap, this.isLoading = false, this.color, this.height = 60}) : super(key: key);
+  final double? borderRadius;
+  const DefaultButton({
+    Key? key,
+    this.label,
+    this.onTap,
+    this.isLoading = false,
+    this.color,
+    this.height = 60,
+    this.borderRadius,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return isLoading
         ? const CircularProgressIndicator()
         : MaterialButton(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadius ?? 8)),
             height: height,
             // size.width - 94,
             minWidth: double.infinity,
