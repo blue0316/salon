@@ -301,7 +301,7 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
                                               // PREVIOUS PRICE
-                                              if (service.priceAndDuration.price == '200')
+                                              if (service.priceAndDuration.price == '200') // TODO: REMOVE THIS
                                                 Text(
                                                   service.isFixedPrice ? "${service.priceAndDuration.price}${Keys.uah}" : "${service.priceAndDuration.price}${Keys.uah} - ${service.priceAndDurationMax!.price}${Keys.uah}",
                                                   style: Theme.of(context).textTheme.bodyText1!.copyWith(
