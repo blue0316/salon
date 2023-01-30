@@ -107,7 +107,7 @@ class _BookingDialogWidgetState<T> extends ConsumerState<BookingDialogWidget<T>>
                       borderRadius: BorderRadius.circular(60),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
                       child: Center(
                         child: IgnorePointer(
                           child: TabBar(
