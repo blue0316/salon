@@ -785,8 +785,12 @@ class TimeSlotContainer extends StatelessWidget {
               ? choosen
                   ? AppTheme.textBlack
                   : Colors.white
-              : AppTheme.grey2,
+              : const Color.fromARGB(255, 239, 239, 239),
           borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: const Color.fromARGB(255, 239, 239, 239),
+            width: 1,
+          ),
         ),
         child: Center(
             child: Text(
