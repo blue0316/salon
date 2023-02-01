@@ -2,6 +2,7 @@ import 'package:bbblient/src/firebase/appointments.dart';
 import 'package:bbblient/src/firebase/bonus_referral_api.dart';
 import 'package:bbblient/src/firebase/category_services.dart';
 import 'package:bbblient/src/firebase/collections.dart';
+import 'package:bbblient/src/firebase/customer.dart';
 import 'package:bbblient/src/firebase/integration/beauty_pro.dart';
 import 'package:bbblient/src/firebase/master.dart';
 import 'package:bbblient/src/firebase/promotion_service.dart';
@@ -121,7 +122,15 @@ class CreateAppointmentProvider with ChangeNotifier {
     }
 
     // Required fields have been filled
-    confirmationPageController.animateToPage(1, duration: const Duration(milliseconds: 100), curve: Curves.ease);
+    nextPageView(1);
+  }
+
+  void nextPageView(int index) {
+    confirmationPageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 100),
+      curve: Curves.ease,
+    );
   }
 
   setSalon({required SalonModel salonModel, required BuildContext context, required List<ServiceModel> servicesFromSearch}) async {
