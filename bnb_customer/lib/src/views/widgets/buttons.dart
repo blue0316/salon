@@ -9,9 +9,11 @@ class DefaultButton extends StatelessWidget {
   final String? label;
   final Function? onTap;
   final bool isLoading;
-  final Color? color;
+  final Color? color, textColor, borderColor;
   final double height;
   final double? borderRadius;
+  final Widget? prefixIcon;
+
   const DefaultButton({
     Key? key,
     this.label,
@@ -20,25 +22,49 @@ class DefaultButton extends StatelessWidget {
     this.color,
     this.height = 60,
     this.borderRadius,
+    this.textColor,
+    this.borderColor,
+    this.prefixIcon,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return isLoading
-        ? const CircularProgressIndicator()
-        : MaterialButton(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadius ?? 8)),
-            height: height,
-            // size.width - 94,
-            minWidth: double.infinity,
-            color: color ?? AppTheme.lightBlack,
-            disabledColor: AppTheme.coolGrey,
-            onPressed: onTap as void Function()?,
-            child: Text(
-              label ?? "Sign up",
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headline2,
-            ),
-          );
+    if (isLoading) {
+      return const CircularProgressIndicator();
+    } else {
+      return MaterialButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(borderRadius ?? 8),
+          side: BorderSide(
+            color: borderColor ?? color ?? Colors.black,
+          ),
+        ),
+        height: height,
+        // size.width - 94,
+        minWidth: double.infinity,
+        color: color ?? AppTheme.lightBlack,
+        disabledColor: AppTheme.coolGrey,
+        onPressed: onTap as void Function()?,
+        child: (prefixIcon != null)
+            ? Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  prefixIcon!,
+                  const SizedBox(width: 10),
+                  Text(
+                    label ?? "Sign up",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headline2?.copyWith(color: textColor),
+                  ),
+                ],
+              )
+            : Text(
+                label ?? "Sign up",
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headline2?.copyWith(color: textColor),
+              ),
+      );
+    }
   }
 }
 
@@ -107,7 +133,7 @@ class BnbMaterialButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-      padding: padding ?? EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+      padding: padding ?? const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
       onPressed: onTap as void Function()?,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       color: AppTheme.creamBrown,
