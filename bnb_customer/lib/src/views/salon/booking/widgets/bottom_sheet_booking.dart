@@ -4,6 +4,7 @@ import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/utils/keys.dart';
+import 'package:bbblient/src/views/salon/booking/booking_dialog.dart';
 import 'package:bbblient/src/views/widgets/buttons.dart';
 import 'package:bbblient/src/views/widgets/dialogues/dialogue_function.dart';
 import 'package:flutter/material.dart';
@@ -99,7 +100,11 @@ class _BookingBottomSheetState extends ConsumerState<BookingBottomSheet> {
                             ),
                             IconButton(
                               onPressed: () {
-                                _createAppointmentProvider.toggleService(serviceModel: _createAppointmentProvider.chosenServices[index], clearChosenMaster: true, context: context);
+                                _createAppointmentProvider.toggleService(
+                                  serviceModel: _createAppointmentProvider.chosenServices[index],
+                                  clearChosenMaster: true,
+                                  context: context,
+                                );
 
                                 if (_createAppointmentProvider.chosenServices.isEmpty) {
                                   Navigator.pop(context);
@@ -145,9 +150,20 @@ class _BookingBottomSheetState extends ConsumerState<BookingBottomSheet> {
                     title: AppLocalizations.of(context)?.bookNow ?? "Book Now",
                     minWidth: 1.sw - 48,
                   )
-                : const SizedBox(
-                    height: 40,
+                : const SizedBox(height: 40),
+
+            /// --- TESTING --- ////
+            const SizedBox(height: 50),
+            widget.showBookButton
+                ? BnbMaterialButton(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      const BookingDialogWidget().show(context);
+                    },
+                    title: "DIALOG",
+                    minWidth: 1.sw - 48,
                   )
+                : const SizedBox(height: 40)
           ],
         ),
       ),
