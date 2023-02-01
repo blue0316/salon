@@ -1,12 +1,14 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
+import 'package:bbblient/src/views/salon/booking/booking_dialog.dart';
 import 'package:bbblient/src/views/salon/booking/widgets/bottom_sheet_booking.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+// SHOW SERVICES FAB
 class FloatingBar extends ConsumerStatefulWidget {
   const FloatingBar({Key? key}) : super(key: key);
 
@@ -21,12 +23,13 @@ class _FloatingBarState extends ConsumerState<FloatingBar> {
     int noOfServices = _createAppointmentProvider.chosenServices.length;
     return GestureDetector(
       onTap: () {
-        showModalBottomSheet(
-          context: context,
-          builder: (context) {
-            return const BookingBottomSheet();
-          },
-        );
+        // showModalBottomSheet(
+        //   context: context,
+        //   builder: (context) {
+        //     return const BookingBottomSheet();
+        //   },
+        // );
+        const BookingDialogWidget().show(context);
       },
       child: Padding(
           padding: EdgeInsets.only(bottom: 100.h),
@@ -65,12 +68,13 @@ class _FloatingBarState extends ConsumerState<FloatingBar> {
                                 const SizedBox(width: 5),
                                 TextButton(
                                   onPressed: () {
-                                    showModalBottomSheet(
-                                      context: context,
-                                      builder: (context) {
-                                        return const BookingBottomSheet();
-                                      },
-                                    );
+                                    // showModalBottomSheet(
+                                    //   context: context,
+                                    //   builder: (context) {
+                                    //     return const BookingBottomSheet();
+                                    //   },
+                                    // );
+                                    const BookingDialogWidget().show(context);
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.only(bottom: 1),
