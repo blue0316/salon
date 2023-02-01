@@ -170,6 +170,10 @@ class AppIcons {
   static const String voiceMessageSVG = "assets/icons/Voice_message.svg";
   static const String addPencilSvg = "assets/icons/edit_add_pencil.svg";
   static const String appleLogoPng = "assets/icons/appleLogo.png";
+  static const String appleLogoSvg = "assets/icons/apple_logo.svg";
+  static const String appleLogoWhitePNG = "assets/icons/apple_logo.png";
+  static const String googleLogoPNG = "assets/icons/google_logo.png";
+  static const String googleLogoSVG = "assets/icons/google_logo.svg";
   static const String speechBubbleSVG = "assets/icons/chat_bubble.svg";
   static const String closeRoundSVG = "assets/icons/close_round.svg";
   static const String priceTagSVG = "assets/icons/Price.svg";
