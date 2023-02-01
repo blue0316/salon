@@ -3,15 +3,12 @@ import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointme
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
-import 'package:bbblient/src/utils/icons.dart';
-import 'package:bbblient/src/views/widgets/buttons.dart';
+import 'package:bbblient/src/views/salon/booking/widgets/confirmation.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
+import 'widgets/dayAndTime_section.dart';
 import 'widgets/masters_section.dart';
 
 class BookingDialogWidget<T> extends ConsumerStatefulWidget {
@@ -30,11 +27,22 @@ class BookingDialogWidget<T> extends ConsumerStatefulWidget {
 
 class _BookingDialogWidgetState<T> extends ConsumerState<BookingDialogWidget<T>> with SingleTickerProviderStateMixin {
   TabController? bookingTabController;
+  late CreateAppointmentProvider createAppointment;
 
   @override
   void initState() {
     bookingTabController = TabController(vsync: this, length: 3);
     super.initState();
+    setUpMasterPrice();
+  }
+
+  setUpMasterPrice() {
+    createAppointment = ref.read(createAppointmentProvider);
+    if (createAppointment.chosenMaster != null) {
+      Future.delayed(const Duration(milliseconds: 300), () {
+        createAppointment.chooseMaster(masterModel: createAppointment.chosenMaster!, context: context);
+      });
+    }
   }
 
   @override
@@ -49,11 +57,15 @@ class _BookingDialogWidgetState<T> extends ConsumerState<BookingDialogWidget<T>>
 
     return Dialog(
       insetPadding: EdgeInsets.symmetric(
-        horizontal: DeviceConstraints.getResponsiveSize(context, 0, mediaQuery.width / 6, mediaQuery.width / 6),
+        horizontal: DeviceConstraints.getResponsiveSize(
+          context,
+          0,
+          mediaQuery.width / 6,
+          mediaQuery.width / 6,
+        ),
         vertical: DeviceConstraints.getResponsiveSize(context, 0, 50.h, 50.h),
       ),
       child: SizedBox(
-        // color: Colors.red,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10), // , horizontal: 5),
           child: Padding(
@@ -89,10 +101,9 @@ class _BookingDialogWidgetState<T> extends ConsumerState<BookingDialogWidget<T>>
                     ),
                   ],
                 ),
-                // SizedBox(
-                //   height: DeviceConstraints.getResponsiveSize(context, 10.h, 20.h, 20.h),
-                // ),
+
                 const Space(factor: 2),
+                // -- TAB BAR
                 Expanded(
                   flex: 0,
                   child: Container(
@@ -133,6 +144,8 @@ class _BookingDialogWidgetState<T> extends ConsumerState<BookingDialogWidget<T>>
                   ),
                 ),
                 SizedBox(height: 30.h),
+
+                // -- TAB BAR VIEW
                 Expanded(
                   child: SizedBox(
                     width: double.infinity,
@@ -141,49 +154,23 @@ class _BookingDialogWidgetState<T> extends ConsumerState<BookingDialogWidget<T>>
                       physics: const NeverScrollableScrollPhysics(),
                       children: [
                         // -- MASTERS --
-                        DialogMastersSection(tabController: bookingTabController!),
+                        DialogMastersSection(
+                          tabController: bookingTabController!,
+                          createAppointment: createAppointment,
+                        ),
 
                         // -- DAY AND TIME --
-                        Expanded(
-                          child: Container(
-                            width: double.infinity,
-                            color: Colors.purple,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: const [],
-                            ),
-                          ),
+                        DialogDateAndTimeSection(
+                          tabController: bookingTabController!,
+                          createAppointment: createAppointment,
                         ),
 
                         // -- CONFIRMATION --
-                        Expanded(
-                          child: Container(
-                            width: double.infinity,
-                            color: Colors.lightGreen,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: const [],
-                            ),
-                          ),
-                        ),
+                        const ConfirmationSection(),
                       ],
                     ),
                   ),
                 ),
-                // Padding(
-                //   padding: const EdgeInsets.only(top: 15, bottom: 5),
-                //   child: DefaultButton(
-                //     borderRadius: 60,
-                //     onTap: () {
-                //       debugPrint('Next Step');
-                //     },
-                //     color: Colors.black,
-                //     height: 60,
-                //     label: 'Next step',
-                //   ),
-                // ),
               ],
             ),
           ),

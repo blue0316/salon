@@ -20,33 +20,16 @@ import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 
 class DialogMastersSection extends ConsumerStatefulWidget {
+  final CreateAppointmentProvider createAppointment;
   final TabController tabController;
-  const DialogMastersSection({Key? key, required this.tabController}) : super(key: key);
+  const DialogMastersSection({Key? key, required this.tabController, required this.createAppointment}) : super(key: key);
 
   @override
   ConsumerState<DialogMastersSection> createState() => _DialogMastersSectionState();
 }
 
 class _DialogMastersSectionState extends ConsumerState<DialogMastersSection> {
-  final DateTime _today = DateTime.now();
-  final DateTime _lastDay = DateTime.now().add(const Duration(days: 31 * 3));
   final ScrollController _mastresListController = ScrollController();
-  late CreateAppointmentProvider createAppointment;
-
-  @override
-  void initState() {
-    super.initState();
-    setUpMasterPrice();
-  }
-
-  setUpMasterPrice() {
-    createAppointment = ref.read(createAppointmentProvider);
-    if (createAppointment.chosenMaster != null) {
-      Future.delayed(const Duration(milliseconds: 300), () {
-        createAppointment.chooseMaster(masterModel: createAppointment.chosenMaster!, context: context);
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,25 +48,32 @@ class _DialogMastersSectionState extends ConsumerState<DialogMastersSection> {
               Expanded(
                 child: ListView(
                   children: [
+                    const Space(factor: 0.5),
                     // -- ALL SERVICES
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          'All Services',
+                          "${AppLocalizations.of(context)?.all ?? "All"} ${AppLocalizations.of(context)?.services ?? "services"}",
                           style: AppTheme.bodyText1.copyWith(color: AppTheme.creamBrown),
                         ),
                         const SizedBox(height: 7),
-                        Text(
-                          _createAppointmentProvider.chosenMaster == null
-                              ? "${_createAppointmentProvider.chosenServices.length} ${AppLocalizations.of(
-                                    context,
-                                  )?.selectedServices ?? "selected services"}"
-                              : "${_createAppointmentProvider.mastersServicesMap[_createAppointmentProvider.chosenMaster?.masterId]?.length} ${AppLocalizations.of(
-                                    context,
-                                  )?.availableServices ?? "available services"}",
-                          style: AppTheme.bodyText2.copyWith(color: AppTheme.black),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              _createAppointmentProvider.chosenMaster == null
+                                  ? "${_createAppointmentProvider.chosenServices.length} ${AppLocalizations.of(
+                                        context,
+                                      )?.selectedServices ?? "selected services"}"
+                                  : "${_createAppointmentProvider.mastersServicesMap[_createAppointmentProvider.chosenMaster?.masterId]?.length} ${AppLocalizations.of(
+                                        context,
+                                      )?.availableServices ?? "available services"}",
+                              style: AppTheme.bodyText2.copyWith(color: AppTheme.black),
+                            ),
+                          ],
                         ),
                         const Space(factor: 1),
                         ListView.builder(
@@ -207,11 +197,11 @@ class _DialogMastersSectionState extends ConsumerState<DialogMastersSection> {
                         ),
                       ],
                     ),
-                    const Space(factor: 1.5),
+                    const Space(factor: 2),
 
                     // -- SELECT MASTER
                     AvailableMasters(
-                      createAppointment: createAppointment,
+                      createAppointment: widget.createAppointment,
                       mastresListController: _mastresListController,
                     ),
                   ],
@@ -221,7 +211,7 @@ class _DialogMastersSectionState extends ConsumerState<DialogMastersSection> {
               DefaultButton(
                 borderRadius: 60,
                 onTap: () {
-                  final bool isMasterNull = createAppointment.chosenMaster == null && createAppointment.chosenSalon!.ownerType == OwnerType.salon;
+                  final bool isMasterNull = widget.createAppointment.chosenMaster == null && widget.createAppointment.chosenSalon!.ownerType == OwnerType.salon;
                   if (isMasterNull) {
                     showToast(AppLocalizations.of(context)?.chooseMaster ?? 'choose master');
                     return;
@@ -234,6 +224,7 @@ class _DialogMastersSectionState extends ConsumerState<DialogMastersSection> {
                 height: 60,
                 label: 'Next step',
               ),
+              SizedBox(height: 20.h),
             ],
           ),
         ),
@@ -264,7 +255,7 @@ class AvailableMasters extends ConsumerWidget {
             style: AppTheme.bodyText1.copyWith(color: AppTheme.creamBrown),
           ),
 
-          SizedBox(height: 10.h),
+          SizedBox(height: 20.h),
 
           // IF THERE ARE NOT AVAILABLE MASTERS
           if (createAppointment.availableMasters.isEmpty) ...[
@@ -303,6 +294,7 @@ class AvailableMasters extends ConsumerWidget {
                               context: context,
                             );
                             printIt(res);
+
                             if (res == "choosen") {
                               showToast(AppLocalizations.of(context)?.selected ?? "selected");
                             } else {
