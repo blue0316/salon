@@ -83,18 +83,12 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                   // padding: const EdgeInsets.all(8),
                                   height: 32,
                                   width: 32,
-                                  decoration: BoxDecoration(
-                                      color: const Color(0xffF4F4F4),
-                                      borderRadius: BorderRadius.circular(20)),
-                                  child: const Center(
-                                      child: Icon(Icons.arrow_back_ios,
-                                          size: 10))),
+                                  decoration: BoxDecoration(color: const Color(0xffF4F4F4), borderRadius: BorderRadius.circular(20)),
+                                  child: const Center(child: Icon(Icons.arrow_back_ios, size: 10))),
                             ),
                           ),
                           Text(
-                            AppLocalizations.of(context)
-                                    ?.checkAppointmentDetails ??
-                                "Appointment details",
+                            AppLocalizations.of(context)?.checkAppointmentDetails ?? "Appointment details",
                             style: AppTheme.bodyText1,
                           ),
                           SizedBox(width: 50),
@@ -113,10 +107,8 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                     color: Color(0xffEFEFEF), // shadow color
                                     blurRadius: 2, // shadow radius
                                     offset: Offset(2, 5), // shadow offset
-                                    spreadRadius:
-                                        0.1, // The amount the box should be inflated prior to applying the blur
-                                    blurStyle:
-                                        BlurStyle.normal // set blur style
+                                    spreadRadius: 0.1, // The amount the box should be inflated prior to applying the blur
+                                    blurStyle: BlurStyle.normal // set blur style
                                     ),
                               ],
                             ),
@@ -127,36 +119,20 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                   height: 44.h,
                                   decoration: const BoxDecoration(
                                     color: AppTheme.lightBlack,
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(8),
-                                        topRight: Radius.circular(8)),
+                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)),
                                   ),
                                   child: Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 12.w),
+                                    padding: EdgeInsets.symmetric(horizontal: 12.w),
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
                                           _date,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline3!
-                                              .copyWith(
-                                                  fontSize: 16,
-                                                  color: Colors.white),
+                                          style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: 16, color: Colors.white),
                                         ),
                                         Text(
                                           _time,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline3!
-                                              .copyWith(
-                                                  fontSize: 16,
-                                                  color: Colors.white,
-                                                  fontWeight:
-                                                      FontWeight.normal),
+                                          style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: 16, color: Colors.white, fontWeight: FontWeight.normal),
                                         ),
                                       ],
                                     ),
@@ -168,24 +144,19 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                 Column(
                                   children: [
                                     Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 28.w, vertical: 12.h),
+                                      padding: EdgeInsets.symmetric(horizontal: 28.w, vertical: 12.h),
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           CircleAvatar(
                                             radius: 27.sp,
-                                            backgroundColor:
-                                                AppTheme.creamBrownLight,
+                                            backgroundColor: AppTheme.creamBrownLight,
                                             child: Padding(
                                               padding: EdgeInsets.all(16.r),
                                               child: SvgPicture.asset(
                                                 AppIcons.getIconFromCategoryId(
-                                                  id: appointment.services.first
-                                                      .categoryId,
+                                                  id: appointment.services.first.categoryId,
                                                 ),
                                                 color: Colors.white,
                                               ),
@@ -193,34 +164,19 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                           ),
                                           Expanded(
                                             child: Padding(
-                                              padding:
-                                                  EdgeInsets.only(left: 16.0.w),
+                                              padding: EdgeInsets.only(left: 16.0.w),
                                               child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
-                                                  for (Service s
-                                                      in appointment.services)
+                                                  for (Service s in appointment.services)
                                                     Text(
-                                                      s.translations[
-                                                          AppLocalizations.of(
-                                                                      context)
-                                                                  ?.localeName ??
-                                                              'en'],
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .headline4!
-                                                          .copyWith(
-                                                              color: AppTheme
-                                                                  .textBlack),
+                                                      s.translations[AppLocalizations.of(context)?.localeName ?? 'en'],
+                                                      style: Theme.of(context).textTheme.headline4!.copyWith(color: AppTheme.textBlack),
                                                       maxLines: 1,
                                                     ),
                                                   Text(
                                                     "${AppLocalizations.of(context)?.services ?? "services"} (${appointment.services.length})",
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .headline4!
-                                                        .copyWith(fontSize: 14),
+                                                    style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 14),
                                                   )
                                                 ],
                                               ),
@@ -230,48 +186,32 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 28.w, vertical: 12.h),
+                                      padding: EdgeInsets.symmetric(horizontal: 28.w, vertical: 12.h),
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           CircleAvatar(
                                             radius: 27.sp,
-                                            backgroundColor:
-                                                AppTheme.creamBrownLight,
+                                            backgroundColor: AppTheme.creamBrownLight,
                                             child: Padding(
                                               padding: EdgeInsets.all(16.r),
-                                              child: SvgPicture.asset(
-                                                  AppIcons.priceTagSVG),
+                                              child: SvgPicture.asset(AppIcons.priceTagSVG),
                                             ),
                                           ),
                                           Expanded(
                                             child: Padding(
-                                              padding:
-                                                  EdgeInsets.only(left: 16.0.w),
+                                              padding: EdgeInsets.only(left: 16.0.w),
                                               child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
                                                     "${appointment.priceAndDuration.price} ${Keys.uah}",
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .headline4!
-                                                        .copyWith(
-                                                            color: AppTheme
-                                                                .textBlack),
+                                                    style: Theme.of(context).textTheme.headline4!.copyWith(color: AppTheme.textBlack),
                                                     maxLines: 1,
                                                   ),
                                                   Text(
-                                                    AppLocalizations.of(context)
-                                                            ?.price ??
-                                                        "Price",
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .headline4!
-                                                        .copyWith(fontSize: 14),
+                                                    AppLocalizations.of(context)?.price ?? "Price",
+                                                    style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 14),
                                                   )
                                                 ],
                                               ),
@@ -280,51 +220,33 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                         ],
                                       ),
                                     ),
-                                    if (appointment.salonOwnerType ==
-                                        OwnerType.salon) ...[
+                                    if (appointment.salonOwnerType == OwnerType.salon) ...[
                                       Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 28.w, vertical: 12.h),
+                                        padding: EdgeInsets.symmetric(horizontal: 28.w, vertical: 12.h),
                                         child: Row(
                                           children: [
                                             CircleAvatar(
                                               radius: 27.sp,
-                                              backgroundColor:
-                                                  AppTheme.creamBrownLight,
+                                              backgroundColor: AppTheme.creamBrownLight,
                                               child: Padding(
                                                 padding: EdgeInsets.all(16.r),
-                                                child: SvgPicture.asset(
-                                                    AppIcons.homeSVG),
+                                                child: SvgPicture.asset(AppIcons.homeSVG),
                                               ),
                                             ),
                                             Expanded(
                                               child: Padding(
-                                                padding: EdgeInsets.only(
-                                                    left: 16.0.w),
+                                                padding: EdgeInsets.only(left: 16.0.w),
                                                 child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
                                                       appointment.salon.name,
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .headline4!
-                                                          .copyWith(
-                                                              color: AppTheme
-                                                                  .textBlack),
+                                                      style: Theme.of(context).textTheme.headline4!.copyWith(color: AppTheme.textBlack),
                                                       maxLines: 1,
                                                     ),
                                                     Text(
-                                                      AppLocalizations.of(
-                                                                  context)
-                                                              ?.salon ??
-                                                          "Salon",
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .headline4!
-                                                          .copyWith(
-                                                              fontSize: 14),
+                                                      AppLocalizations.of(context)?.salon ?? "Salon",
+                                                      style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 14),
                                                     )
                                                   ],
                                                 ),
@@ -334,18 +256,15 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                         ),
                                       ),
                                       Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 28.w, vertical: 12.h),
+                                        padding: EdgeInsets.symmetric(horizontal: 28.w, vertical: 12.h),
                                         child: Row(
                                           children: [
                                             CircleAvatar(
                                               radius: 27.sp,
-                                              backgroundColor:
-                                                  AppTheme.creamBrownLight,
+                                              backgroundColor: AppTheme.creamBrownLight,
                                               child: Center(
                                                 child: Padding(
-                                                    padding:
-                                                        EdgeInsets.all(10.r),
+                                                    padding: EdgeInsets.all(10.r),
                                                     child: const Icon(
                                                       Icons.person,
                                                       color: Colors.white,
@@ -354,33 +273,17 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                             ),
                                             Expanded(
                                               child: Padding(
-                                                padding: EdgeInsets.only(
-                                                    left: 16.0.w),
+                                                padding: EdgeInsets.only(left: 16.0.w),
                                                 child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      appointment
-                                                              .master?.name ??
-                                                          '',
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .headline4!
-                                                          .copyWith(
-                                                              color: AppTheme
-                                                                  .textBlack),
+                                                      appointment.master?.name ?? '',
+                                                      style: Theme.of(context).textTheme.headline4!.copyWith(color: AppTheme.textBlack),
                                                     ),
                                                     Text(
-                                                      AppLocalizations.of(
-                                                                  context)
-                                                              ?.master ??
-                                                          "Master",
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .headline4!
-                                                          .copyWith(
-                                                              fontSize: 14),
+                                                      AppLocalizations.of(context)?.master ?? "Master",
+                                                      style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 14),
                                                     )
                                                   ],
                                                 ),
@@ -390,21 +293,17 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                         ),
                                       ),
                                     ],
-                                    if (appointment.salonOwnerType ==
-                                        OwnerType.singleMaster) ...[
+                                    if (appointment.salonOwnerType == OwnerType.singleMaster) ...[
                                       Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 28.w, vertical: 12.h),
+                                        padding: EdgeInsets.symmetric(horizontal: 28.w, vertical: 12.h),
                                         child: Row(
                                           children: [
                                             CircleAvatar(
                                               radius: 27.sp,
-                                              backgroundColor:
-                                                  AppTheme.creamBrownLight,
+                                              backgroundColor: AppTheme.creamBrownLight,
                                               child: Center(
                                                 child: Padding(
-                                                    padding:
-                                                        EdgeInsets.all(10.r),
+                                                    padding: EdgeInsets.all(10.r),
                                                     child: const Icon(
                                                       Icons.person,
                                                       color: Colors.white,
@@ -413,31 +312,17 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                             ),
                                             Expanded(
                                               child: Padding(
-                                                padding: EdgeInsets.only(
-                                                    left: 16.0.w),
+                                                padding: EdgeInsets.only(left: 16.0.w),
                                                 child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
                                                       appointment.salon.name,
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .headline4!
-                                                          .copyWith(
-                                                              color: AppTheme
-                                                                  .textBlack),
+                                                      style: Theme.of(context).textTheme.headline4!.copyWith(color: AppTheme.textBlack),
                                                     ),
                                                     Text(
-                                                      AppLocalizations.of(
-                                                                  context)
-                                                              ?.master ??
-                                                          "Master",
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .headline4!
-                                                          .copyWith(
-                                                              fontSize: 14),
+                                                      AppLocalizations.of(context)?.master ?? "Master",
+                                                      style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 14),
                                                     )
                                                   ],
                                                 ),
@@ -448,48 +333,30 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                       ),
                                     ],
                                     Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 28.w, vertical: 12.h),
+                                      padding: EdgeInsets.symmetric(horizontal: 28.w, vertical: 12.h),
                                       child: Row(
                                         children: [
                                           CircleAvatar(
                                             radius: 27.sp,
-                                            backgroundColor:
-                                                AppTheme.creamBrownLight,
+                                            backgroundColor: AppTheme.creamBrownLight,
                                             child: Padding(
                                               padding: EdgeInsets.all(17.r),
-                                              child: SvgPicture.asset(AppIcons
-                                                  .locationMarkerWhiteSVG),
+                                              child: SvgPicture.asset(AppIcons.locationMarkerWhiteSVG),
                                             ),
                                           ),
                                           Expanded(
                                             child: Padding(
-                                              padding:
-                                                  EdgeInsets.only(left: 16.0.w),
+                                              padding: EdgeInsets.only(left: 16.0.w),
                                               child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    _createAppointment
-                                                            .chosenSalon
-                                                            ?.address ??
-                                                        '',
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .headline4!
-                                                        .copyWith(
-                                                            color: AppTheme
-                                                                .textBlack),
+                                                    _createAppointment.chosenSalon?.address ?? '',
+                                                    style: Theme.of(context).textTheme.headline4!.copyWith(color: AppTheme.textBlack),
                                                   ),
                                                   Text(
-                                                    AppLocalizations.of(context)
-                                                            ?.address ??
-                                                        "Address",
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .headline4!
-                                                        .copyWith(fontSize: 14),
+                                                    AppLocalizations.of(context)?.address ?? "Address",
+                                                    style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 14),
                                                   )
                                                 ],
                                               ),
@@ -511,21 +378,15 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                         child: Padding(
                           padding: EdgeInsets.only(left: 32.0.w, right: 32.w),
                           child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(4),
-                                shape: BoxShape.rectangle,
-                                boxShadow: const [
-                                  BoxShadow(
-                                      color: Color(0xffF0F0F0), // shadow color
-                                      blurRadius: 2, // shadow radius
-                                      offset: Offset(2, 5), // shadow offset
-                                      spreadRadius:
-                                          0.1, // The amount the box should be inflated prior to applying the blur
-                                      blurStyle:
-                                          BlurStyle.normal // set blur style
-                                      ),
-                                ]),
+                            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(4), shape: BoxShape.rectangle, boxShadow: const [
+                              BoxShadow(
+                                  color: Color(0xffF0F0F0), // shadow color
+                                  blurRadius: 2, // shadow radius
+                                  offset: Offset(2, 5), // shadow offset
+                                  spreadRadius: 0.1, // The amount the box should be inflated prior to applying the blur
+                                  blurStyle: BlurStyle.normal // set blur style
+                                  ),
+                            ]),
                             //  height: 60.h,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -554,15 +415,11 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                     showCountryOnly: false,
                                     showOnlyCountryWhenClosed: false,
                                     alignLeft: false,
-                                    textStyle:
-                                        const TextStyle(color: Colors.black),
+                                    textStyle: const TextStyle(color: Colors.black),
                                     showFlag: false,
                                   ),
                                 ),
-                                Container(
-                                    height: 28.h,
-                                    color: AppTheme.divider2,
-                                    width: 1),
+                                Container(height: 28.h, color: AppTheme.divider2, width: 1),
                                 const SizedBox(
                                   width: 8,
                                 ),
@@ -613,17 +470,14 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                 flex: 11,
                                 child: InkWell(
                                     onTap: () async {
-                                      Uri uri = Uri.parse(
-                                          "https://bowandbeautiful.com/privacy");
+                                      Uri uri = Uri.parse("https://bowandbeautiful.com/privacy");
                                       print("launchingUrl: $uri");
                                       if (await canLaunchUrl(uri)) {
                                         await launchUrl(uri);
                                       }
                                     },
                                     child: Text(
-                                      AppLocalizations.of(context)
-                                              ?.read_privacy_policy ??
-                                          'I have read and accept privacy policy',
+                                      AppLocalizations.of(context)?.read_privacy_policy ?? 'I have read and accept privacy policy',
                                       textAlign: TextAlign.left,
                                       style: const TextStyle(
                                           decoration: TextDecoration.underline,
@@ -664,26 +518,17 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                           // if(!_auth.userLoggedIn){
 
                           // }
-                          if (!_auth.userLoggedIn &&
-                              _auth.phoneNoController.text.isEmpty) {
-                            showToast(AppLocalizations.of(context)
-                                    ?.invalid_phone_number ??
-                                'Input phone No');
+                          if (!_auth.userLoggedIn && _auth.phoneNoController.text.isEmpty) {
+                            showToast(AppLocalizations.of(context)?.invalid_phone_number ?? 'Input phone No');
                             return;
                           }
-                          if (!_auth.userLoggedIn &&
-                              (_auth.phoneNumber.length < 8 ||
-                                  _auth.phoneNumber.length > 10)) {
-                            showToast(AppLocalizations.of(context)
-                                    ?.invalid_phone_number ??
-                                'Invalid phone No');
+                          if (!_auth.userLoggedIn && (_auth.phoneNumber.length < 8 || _auth.phoneNumber.length > 10)) {
+                            showToast(AppLocalizations.of(context)?.invalid_phone_number ?? 'Invalid phone No');
                             return;
                           }
                           if (!_auth.userLoggedIn && !acceptTerms) {
                             showToast(
-                              AppLocalizations.of(context)
-                                      ?.privacy_policy_accept ??
-                                  'I have read and accepted privacy policy',
+                              AppLocalizations.of(context)?.privacy_policy_accept ?? 'I have read and accepted privacy policy',
                             );
                             return;
                           }
@@ -692,9 +537,7 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                             showTopSnackBar(
                               context,
                               CustomSnackBar.success(
-                                message:
-                                    AppLocalizations.of(context)?.otpSent ??
-                                        "Otp has been sent to your phone",
+                                message: AppLocalizations.of(context)?.otpSent ?? "Otp has been sent to your phone",
                                 backgroundColor: AppTheme.creamBrown,
                               ),
                             );
@@ -705,33 +548,15 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                               //     context: context);
                             }, appointmentModel: appointment);
                           } else {
-                            // if(_auth.currentCustomer!.salonIdsBlocked!.contains(appointment.salon.id  )){
-                            //   showToast("You have been blocked from making appointments at this salon");
-                            //   return;
-                            // }
-                            showToast(
-                                AppLocalizations.of(context)?.pleaseWait ??
-                                    "Please wait");
-                            bool moveAhead = _createAppointment
-                                .checkSlotsAndMaster(context: context);
+
+                            showToast(AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
+                            bool moveAhead = _createAppointment.checkSlotsAndMaster(context: context);
                             checkUser(context, ref, () async {
                               if (moveAhead) {
+                                _auth.createAppointmentProvider(_createAppointment);
+                                _createAppointment.createAppointment(customerModel: _auth.currentCustomer!, context: context);
+                                bool _success = await _createAppointment.finishBooking(context: context, customerModel: _authProvider.currentCustomer!);
 
-
-
-                                _auth.createAppointmentProvider(
-                                    _createAppointment);
-                                print('here1');
-                                await _createAppointment.createAppointment(
-                                    customerModel: _auth.currentCustomer!,
-                                    context: context);
-                                print('here2');
-                                bool _success =
-                                    await _createAppointment.finishBooking(
-                                        context: context,
-                                        customerModel:
-                                            _auth.currentCustomer!);
-                                print('here3');
                                 if (_success) {
                                   setState(() {
                                     // _status = Status.success;
@@ -741,63 +566,37 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                     child: SizedBox(
                                       height: 300.h,
                                       child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                         children: [
                                           Text(
-                                            AppLocalizations.of(context)
-                                                    ?.success ??
-                                                "Success",
+                                            AppLocalizations.of(context)?.success ?? "Success",
                                             style: AppTheme.appointmentSubtitle,
                                           ),
                                           Gap(10),
-                                          SizedBox(
-                                              height: 150.h,
-                                              width: 150.w,
-                                              child: Image.asset(AppIcons
-                                                  .bookingConfirmedPNG)),
+                                          SizedBox(height: 150.h, width: 150.w, child: Image.asset(AppIcons.bookingConfirmedPNG)),
                                           Gap(10),
                                           Text(
-                                            (_createAppointment.appointmentModel
-                                                            ?.status ??
-                                                        "") ==
-                                                    AppointmentStatus.requested
-                                                ? AppLocalizations.of(context)
-                                                        ?.requestConfirmed ??
-                                                    "Request Confirmed"
-                                                : AppLocalizations.of(context)
-                                                        ?.bookingConfirmed ??
-                                                    "Your booking has been confirmed",
+                                            (_createAppointment.appointmentModel?.status ?? "") == AppointmentStatus.requested ? AppLocalizations.of(context)?.requestConfirmed ?? "Request Confirmed" : AppLocalizations.of(context)?.bookingConfirmed ?? "Your booking has been confirmed",
                                             textAlign: TextAlign.center,
-                                            style:
-                                                AppTheme.appointmentTitleStyle,
+                                            style: AppTheme.appointmentTitleStyle,
                                           ),
                                           Gap(15),
                                           BnbMaterialButton(
                                             key: const Key("great-key"),
                                             onTap: () {
                                               // print(object)
-                                              if (_appProvider.firstRoute !=
-                                                  null) {
-                                                printIt(
-                                                    "Going back to : ${_appProvider.firstRoute}");
+                                              if (_appProvider.firstRoute != null) {
+                                                printIt("Going back to : ${_appProvider.firstRoute}");
                                                 // context.pop();
                                                 // context.push(
                                                 //     '${NavigatorPage.redirect}${_appProvider.firstRoute!}');
-                                                html.window.open(
-                                                    "https://bowandbeautiful.com${_appProvider.firstRoute}",
-                                                    "_self");
+                                                html.window.open("https://bowandbeautiful.com${_appProvider.firstRoute}", "_self");
                                               } else {
-                                                Navigator.of(context).popUntil(
-                                                    (Route<dynamic> route) =>
-                                                        route.isFirst);
+                                                Navigator.of(context).popUntil((Route<dynamic> route) => route.isFirst);
                                               }
                                             },
-                                            title: AppLocalizations.of(context)
-                                                    ?.great ??
-                                                'Great',
+                                            title: AppLocalizations.of(context)?.great ?? 'Great',
                                             minWidth: 150.w,
                                           ),
                                         ],
@@ -813,9 +612,7 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
 
                           // _auth.changeFromBooking();
                         },
-                        child: (_auth.otpStatus == Status.loading) ||
-                                _createAppointment.loadingStatus ==
-                                    Status.loading
+                        child: (_auth.otpStatus == Status.loading) || _createAppointment.loadingStatus == Status.loading
                             ? const SizedBox(
                                 height: 20,
                                 width: 20,
@@ -825,17 +622,8 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                     color: AppTheme.white,
                                   ),
                                 ))
-                            : Text(
-                                !_auth.userLoggedIn
-                                    ? AppLocalizations.of(context)
-                                            ?.continue_word ??
-                                        'Continue'
-                                    : AppLocalizations.of(context)?.confirm ??
-                                        'Confirm',
-                                style: AppTheme.calTextStyle),
-                        style: ElevatedButton.styleFrom(
-                            primary: AppTheme.lightBlack,
-                            fixedSize: const Size(311, 48)),
+                            : Text(!_auth.userLoggedIn ? AppLocalizations.of(context)?.continue_word ?? 'Continue' : AppLocalizations.of(context)?.confirm ?? 'Confirm', style: AppTheme.calTextStyle),
+                        style: ElevatedButton.styleFrom(primary: AppTheme.lightBlack, fixedSize: const Size(311, 48)),
                       ),
                       Gap(24.h),
                     ],
