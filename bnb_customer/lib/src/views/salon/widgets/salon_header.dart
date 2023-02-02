@@ -4,8 +4,6 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/utils.dart';
-import 'package:bbblient/src/views/chat/chat_screen.dart';
-import 'package:bbblient/src/views/registration/authenticate/login.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:bbblient/src/views/widgets/salon_widgets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -18,10 +16,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../models/salon_master/salon.dart';
-import '../../../theme/app_main_theme.dart';
 import '../../../utils/icons.dart';
 import '../../widgets/widgets.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SaloonHeader extends ConsumerStatefulWidget {
   final SalonModel salonModel;
@@ -294,20 +290,16 @@ class _SaloonHeaderState extends ConsumerState<SaloonHeader> {
   }
 }
 
-
-
 class SalonHeader extends ConsumerStatefulWidget {
-  const SalonHeader({Key? key}) : super(key:key );
+  const SalonHeader({Key? key}) : super(key: key);
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _SalonHeaderState();
 }
 
 class _SalonHeaderState extends ConsumerState<SalonHeader> {
-
   @override
   Widget build(BuildContext context) {
     return Container();
   }
 }
-

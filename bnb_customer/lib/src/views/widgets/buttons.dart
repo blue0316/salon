@@ -1,8 +1,8 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-
 import '../../theme/app_main_theme.dart';
 
 class DefaultButton extends StatelessWidget {

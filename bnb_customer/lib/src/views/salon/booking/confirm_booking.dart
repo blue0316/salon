@@ -1,4 +1,5 @@
-import 'package:bbblient/main.dart';
+// ignore_for_file: avoid_web_libraries_in_flutter
+
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/app_provider.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
@@ -22,7 +23,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -91,7 +91,7 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                             AppLocalizations.of(context)?.checkAppointmentDetails ?? "Appointment details",
                             style: AppTheme.bodyText1,
                           ),
-                          SizedBox(width: 50),
+                          const SizedBox(width: 50),
                           const CancelButtonTopRight(),
                         ],
                       ),
@@ -463,7 +463,7 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                   },
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 5,
                               ),
                               Expanded(
@@ -471,7 +471,7 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                 child: InkWell(
                                     onTap: () async {
                                       Uri uri = Uri.parse("https://bowandbeautiful.com/privacy");
-                                      print("launchingUrl: $uri");
+                                      debugPrint("launchingUrl: $uri");
                                       if (await canLaunchUrl(uri)) {
                                         await launchUrl(uri);
                                       }
@@ -548,7 +548,6 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                               //     context: context);
                             }, appointmentModel: appointment);
                           } else {
-
                             showToast(AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
                             bool moveAhead = _createAppointment.checkSlotsAndMaster(context: context);
                             checkUser(context, ref, () async {
@@ -573,15 +572,15 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                             AppLocalizations.of(context)?.success ?? "Success",
                                             style: AppTheme.appointmentSubtitle,
                                           ),
-                                          Gap(10),
+                                          const Gap(10),
                                           SizedBox(height: 150.h, width: 150.w, child: Image.asset(AppIcons.bookingConfirmedPNG)),
-                                          Gap(10),
+                                          const Gap(10),
                                           Text(
                                             (_createAppointment.appointmentModel?.status ?? "") == AppointmentStatus.requested ? AppLocalizations.of(context)?.requestConfirmed ?? "Request Confirmed" : AppLocalizations.of(context)?.bookingConfirmed ?? "Your booking has been confirmed",
                                             textAlign: TextAlign.center,
                                             style: AppTheme.appointmentTitleStyle,
                                           ),
-                                          Gap(15),
+                                          const Gap(15),
                                           BnbMaterialButton(
                                             key: const Key("great-key"),
                                             onTap: () {
@@ -605,7 +604,7 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                   );
                                 }
                               } else {
-                                print('falseeeee');
+                                // print('falseeeee');
                               }
                             }, appointmentModel: appointment);
                           }
@@ -622,8 +621,14 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                     color: AppTheme.white,
                                   ),
                                 ))
-                            : Text(!_auth.userLoggedIn ? AppLocalizations.of(context)?.continue_word ?? 'Continue' : AppLocalizations.of(context)?.confirm ?? 'Confirm', style: AppTheme.calTextStyle),
-                        style: ElevatedButton.styleFrom(primary: AppTheme.lightBlack, fixedSize: const Size(311, 48)),
+                            : Text(
+                                !_auth.userLoggedIn ? AppLocalizations.of(context)?.continue_word ?? 'Continue' : AppLocalizations.of(context)?.confirm ?? 'Confirm',
+                                style: AppTheme.calTextStyle,
+                              ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppTheme.lightBlack,
+                          fixedSize: const Size(311, 48),
+                        ),
                       ),
                       Gap(24.h),
                     ],

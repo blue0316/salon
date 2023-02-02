@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-
 import '../../../theme/app_main_theme.dart';
 import '../../../utils/icons.dart';
 import '../../widgets/buttons.dart';
 import '../widgets/card_tumbnails.dart';
 import '../widgets/card_widgets.dart';
-import 'scan_card.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddCard extends StatefulWidget {
+  const AddCard({Key? key}) : super(key: key);
+
   @override
   _AddCardState createState() => _AddCardState();
 }
 
 class _AddCardState extends State<AddCard> {
-  ScrollController _cardListController = ScrollController();
-  TextEditingController _firstNameController = TextEditingController();
-  TextEditingController _lastNameController = TextEditingController();
-  TextEditingController _cardNoController = TextEditingController();
-  TextEditingController _expDateController = TextEditingController();
-  TextEditingController _cvvController = TextEditingController();
+  final ScrollController _cardListController = ScrollController();
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _cardNoController = TextEditingController();
+  final TextEditingController _expDateController = TextEditingController();
+  final TextEditingController _cvvController = TextEditingController();
 
   int currentCard = 0;
 
@@ -54,14 +54,11 @@ class _AddCardState extends State<AddCard> {
       borderRadius: BorderRadius.circular(12),
       borderSide: BorderSide.none,
     ),
-    hintStyle:
-        const TextStyle(fontFamily: "Montserrat", fontSize: 14, fontWeight: FontWeight.w400, color: AppTheme.textBlack),
-    labelStyle:
-        const TextStyle(fontFamily: "Montserrat", fontSize: 14, fontWeight: FontWeight.w400, color: AppTheme.textBlack),
+    hintStyle: const TextStyle(fontFamily: "Montserrat", fontSize: 14, fontWeight: FontWeight.w400, color: AppTheme.textBlack),
+    labelStyle: const TextStyle(fontFamily: "Montserrat", fontSize: 14, fontWeight: FontWeight.w400, color: AppTheme.textBlack),
   );
 
-  TextStyle textFieldStyle =
-      const TextStyle(fontFamily: "Montserrat", fontSize: 14, fontWeight: FontWeight.w400, color: AppTheme.textBlack);
+  TextStyle textFieldStyle = const TextStyle(fontFamily: "Montserrat", fontSize: 14, fontWeight: FontWeight.w400, color: AppTheme.textBlack);
 
   @override
   Widget build(BuildContext context) {

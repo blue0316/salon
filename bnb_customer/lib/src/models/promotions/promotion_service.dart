@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_collection_literals
+
 import '../cat_sub_service/services_model.dart';
 
 class PromotionModel {
@@ -119,33 +121,31 @@ class PromotionModel {
         : services = json['services'].map<ServiceModel>((e) {
             return ServiceModel.fromJson(e);
           }).toList();
-    
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['promotionTitle'] = this.promotionTitle;
-    data['promotionDiscount'] = this.promotionDiscount;
-    data['discountUnit'] = this.discountUnit;
-    data['promotionType'] = this.promotionType;
-    data['salonId'] = this.salonId;
-    data['promoDocId'] = this.promoDocId;
-    data['promotionDescription'] = this.promotionDescription;
-    data['lastMinuteBookingUnit'] = this.lastMinuteBookingUnit;
-    data['lastMinuteBookingValue'] = this.lastMinuteBookingValue;
-    data['visitStatus'] = this.visitStatus;
-    data['numberOfAvailableSlots'] = this.numberOfAvailableSlots;
-    data['numberOfInitialSlots'] = this.numberOfInitialSlots;
-    data['createdAt'] = this.createdAt;
-    data['startDate'] = this.startDate;
-    data['endDate'] = this.endDate;
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['promotionTitle'] = promotionTitle;
+    data['promotionDiscount'] = promotionDiscount;
+    data['discountUnit'] = discountUnit;
+    data['promotionType'] = promotionType;
+    data['salonId'] = salonId;
+    data['promoDocId'] = promoDocId;
+    data['promotionDescription'] = promotionDescription;
+    data['lastMinuteBookingUnit'] = lastMinuteBookingUnit;
+    data['lastMinuteBookingValue'] = lastMinuteBookingValue;
+    data['visitStatus'] = visitStatus;
+    data['numberOfAvailableSlots'] = numberOfAvailableSlots;
+    data['numberOfInitialSlots'] = numberOfInitialSlots;
+    data['createdAt'] = createdAt;
+    data['startDate'] = startDate;
+    data['endDate'] = endDate;
     // data['service'] = this.service!.toJson();
 
-    data['activeStatus'] = this.activeStatus ?? false;
+    data['activeStatus'] = activeStatus ?? false;
     if (services != null && services!.isNotEmpty) {
       data['services'] = services!.map((e) => e.toJson()).toList();
     }
-    
 
     return data;
   }

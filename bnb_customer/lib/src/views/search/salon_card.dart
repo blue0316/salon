@@ -14,12 +14,7 @@ class SalonSearchCard extends StatefulWidget {
   final SalonModel salonModel;
   final List<ServiceModel> services;
   final Function onServiceTap;
-  const SalonSearchCard(
-      {Key? key,
-      required this.salonModel,
-      required this.services,
-      required this.onServiceTap})
-      : super(key: key);
+  const SalonSearchCard({Key? key, required this.salonModel, required this.services, required this.onServiceTap}) : super(key: key);
 
   @override
   State<SalonSearchCard> createState() => _SalonSearchCardState();
@@ -36,25 +31,20 @@ class _SalonSearchCardState extends State<SalonSearchCard> {
 
   @override
   Widget build(BuildContext context) {
-    final String _distance = widget.salonModel.distanceFromCenter != null
-        ? "${widget.salonModel.distanceFromCenter} km"
-        : "";
+    final String _distance = widget.salonModel.distanceFromCenter != null ? "${widget.salonModel.distanceFromCenter} km" : "";
 
     final String _salonName = widget.salonModel.salonName;
     final String _address = widget.salonModel.address;
     final double _rating = widget.salonModel.rating;
-    final String _ratingCount =
-        widget.salonModel.reviewCount.floor().toString();
+    final String _ratingCount = widget.salonModel.reviewCount.floor().toString();
     return Padding(
       padding: EdgeInsets.all(8.0.sp),
       child: InkWell(
         onTap: onTap,
         child: Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12), color: Colors.white),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: Colors.white),
           child: Padding(
-            padding:
-                EdgeInsets.symmetric(horizontal: 8.0.sp, vertical: 12.0.sp),
+            padding: EdgeInsets.symmetric(horizontal: 8.0.sp, vertical: 12.0.sp),
             child: Column(
               children: [
                 SizedBox(
@@ -65,13 +55,11 @@ class _SalonSearchCardState extends State<SalonSearchCard> {
                       CircleAvatar(
                         radius: 30.w,
                         backgroundColor: Colors.blue,
-                        backgroundImage:
-                            (widget.salonModel.profilePics.isNotEmpty
-                                    ? NetworkImage(
-                                        widget.salonModel.profilePics[0],
-                                      )
-                                    : const AssetImage(AppIcons.saloonJPG))
-                                as ImageProvider<Object>?,
+                        backgroundImage: (widget.salonModel.profilePics.isNotEmpty
+                            ? NetworkImage(
+                                widget.salonModel.profilePics[0],
+                              )
+                            : const AssetImage(AppIcons.saloonJPG)) as ImageProvider<Object>?,
                       ),
                       Expanded(
                         child: Padding(
@@ -87,10 +75,7 @@ class _SalonSearchCardState extends State<SalonSearchCard> {
                               Text(
                                 _address,
                                 overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline4!
-                                    .copyWith(
+                                style: Theme.of(context).textTheme.headline4!.copyWith(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 14,
                                     ),
@@ -118,12 +103,7 @@ class _SalonSearchCardState extends State<SalonSearchCard> {
                                       ),
                                       Text(
                                         _ratingCount,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline4!
-                                            .copyWith(
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 14.sp),
+                                        style: Theme.of(context).textTheme.headline4!.copyWith(fontWeight: FontWeight.w400, fontSize: 14.sp),
                                       )
                                     ],
                                   ),
@@ -139,8 +119,7 @@ class _SalonSearchCardState extends State<SalonSearchCard> {
                         children: [
                           Text(
                             _distance,
-                            style: AppTheme.headLine3.copyWith(
-                                color: AppTheme.lightGrey, fontSize: 18.sp),
+                            style: AppTheme.headLine3.copyWith(color: AppTheme.lightGrey, fontSize: 18.sp),
                           ),
                           // Container(
                           //   height: 30.h,
@@ -191,45 +170,29 @@ class _SalonSearchCardState extends State<SalonSearchCard> {
                             children: [
                               Flexible(
                                 child: Text(
-                                  Translation.getServiceName(
-                                      service: service,
-                                      langCode: Localizations.localeOf(context)
-                                          .languageCode),
-                                  style:
-                                      AppTheme.bodyText1.copyWith(fontSize: 14),
+                                  Translation.getServiceName(service: service, langCode: Localizations.localeOf(context).languageCode),
+                                  style: AppTheme.bodyText1.copyWith(fontSize: 14),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                               Row(
                                 children: [
-                                  SpaceHorizontal(),
+                                  const SpaceHorizontal(),
                                   Text(
                                     "${service.priceAndDuration.price} ${Keys.uah}",
-                                    style: AppTheme.bodyText1
-                                        .copyWith(fontSize: 14),
+                                    style: AppTheme.bodyText1.copyWith(fontSize: 14),
                                   ),
-                                  SpaceHorizontal(),
+                                  const SpaceHorizontal(),
                                   GestureDetector(
-                                    onTap: () => widget.onServiceTap(
-                                        service, widget.salonModel),
+                                    onTap: () => widget.onServiceTap(service, widget.salonModel),
                                     child: Container(
                                       height: 25.h,
                                       width: 60.w,
-                                      decoration: BoxDecoration(
-                                          color: AppTheme.creamBrown,
-                                          borderRadius:
-                                              BorderRadius.circular(40)),
+                                      decoration: BoxDecoration(color: AppTheme.creamBrown, borderRadius: BorderRadius.circular(40)),
                                       child: Center(
                                           child: Text(
-                                        AppLocalizations.of(context)?.book ??
-                                            "Book",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline5!
-                                            .copyWith(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 14.sp),
+                                        AppLocalizations.of(context)?.book ?? "Book",
+                                        style: Theme.of(context).textTheme.headline5!.copyWith(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14.sp),
                                       )),
                                     ),
                                   ),
@@ -262,8 +225,7 @@ class SalonOnlySearchCard extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(8.0.sp),
       child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12), color: Colors.white),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: Colors.white),
         child: Padding(
           padding: EdgeInsets.all(8.0.sp),
           child: Column(
@@ -277,11 +239,10 @@ class SalonOnlySearchCard extends StatelessWidget {
                       radius: 28.w,
                       backgroundColor: Colors.blue,
                       backgroundImage: (salonModel.profilePics.isNotEmpty
-                              ? NetworkImage(
-                                  salonModel.profilePics[0],
-                                )
-                              : const AssetImage(AppIcons.saloonJPG))
-                          as ImageProvider<Object>?,
+                          ? NetworkImage(
+                              salonModel.profilePics[0],
+                            )
+                          : const AssetImage(AppIcons.saloonJPG)) as ImageProvider<Object>?,
                     ),
                     Expanded(
                       child: Padding(
@@ -297,10 +258,7 @@ class SalonOnlySearchCard extends StatelessWidget {
                             Text(
                               salonModel.address,
                               overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline4!
-                                  .copyWith(
+                              style: Theme.of(context).textTheme.headline4!.copyWith(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 14,
                                   ),
@@ -325,12 +283,7 @@ class SalonOnlySearchCard extends StatelessWidget {
                                     ),
                                     Text(
                                       '24',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline4!
-                                          .copyWith(
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 16.sp),
+                                      style: Theme.of(context).textTheme.headline4!.copyWith(fontWeight: FontWeight.w400, fontSize: 16.sp),
                                     )
                                   ],
                                 ),
@@ -346,8 +299,7 @@ class SalonOnlySearchCard extends StatelessWidget {
                       children: [
                         Text(
                           "${salonModel.distanceFromCenter} km",
-                          style: AppTheme.headLine3.copyWith(
-                              color: AppTheme.lightGrey, fontSize: 18.sp),
+                          style: AppTheme.headLine3.copyWith(color: AppTheme.lightGrey, fontSize: 18.sp),
                         ),
                         // Container(
                         //   height: 30.h,

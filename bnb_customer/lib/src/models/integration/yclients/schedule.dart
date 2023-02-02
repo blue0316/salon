@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison, prefer_collection_literals
+
 class ScheduleModel {
   late bool success;
   late List<Schedule> schedule = [];
@@ -18,10 +20,10 @@ class ScheduleModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    if (this.schedule != null) {
-      data['data'] = this.schedule.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['success'] = success;
+    if (schedule != null) {
+      data['data'] = schedule.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -51,11 +53,11 @@ class Schedule {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['time'] = this.time;
-    data['seance_length'] = this.seanceLength;
-    data['sum_length'] = this.sumLength;
-    data['datetime'] = this.datetime.toString();
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['time'] = time;
+    data['seance_length'] = seanceLength;
+    data['sum_length'] = sumLength;
+    data['datetime'] = datetime.toString();
     return data;
   }
 }

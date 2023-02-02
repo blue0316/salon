@@ -22,7 +22,7 @@ class _ChoosePaymentModeState extends ConsumerState<ChoosePaymentMode> {
   @override
   Widget build(BuildContext context) {
     final _createAppointment = ref.watch(createAppointmentProvider);
-    final _auth = ref.watch(authProvider);
+    // final _auth = ref.watch(authProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -194,8 +194,7 @@ class _ChoosePaymentModeState extends ConsumerState<ChoosePaymentMode> {
             child: Container(
               height: 60.h,
               width: 0.5.sw,
-              decoration:
-                  const BoxDecoration(color: AppTheme.creamBrown, borderRadius: BorderRadius.only(topLeft: Radius.circular(28))),
+              decoration: const BoxDecoration(color: AppTheme.creamBrown, borderRadius: BorderRadius.only(topLeft: Radius.circular(28))),
               child: Center(
                 child: Text(
                   AppLocalizations.of(context)?.bookNow ?? "Book Now",

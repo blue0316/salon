@@ -7,7 +7,6 @@ import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/salon/master/master_profile.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/svg.dart';
 import '../../../models/salon_master/master.dart';
 import '../../../models/salon_master/salon.dart';
 import '../../../theme/app_main_theme.dart';

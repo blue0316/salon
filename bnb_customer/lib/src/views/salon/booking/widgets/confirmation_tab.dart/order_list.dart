@@ -6,7 +6,6 @@ import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/utils/keys.dart';
 import 'package:bbblient/src/utils/time.dart';
-import 'package:bbblient/src/views/salon/booking/booking_dialog.dart';
 import 'package:bbblient/src/views/salon/booking/widgets/confirmation_tab.dart/confirmed.dart';
 import 'package:bbblient/src/views/salon/booking/widgets/confirmation_tab.dart/widgets.dart';
 import 'package:bbblient/src/views/widgets/buttons.dart';

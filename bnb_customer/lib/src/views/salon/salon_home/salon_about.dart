@@ -39,14 +39,19 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
   @override
   void initState() {
     _authProvider = ref.read(authProvider);
-    // TODO: implement initState
     super.initState();
   }
 
-  void _launchURL(String url) async => await lauch.canLaunch(url) ? await lauch.launch(url) : showToast('Could not launch $url');
+  void _launchURL(String url) async => await lauch.canLaunchUrl(
+        Uri.parse(url),
+      )
+          ? await lauch.canLaunchUrl(Uri.parse(url))
+          : showToast(
+              'Could not launch $url',
+            );
 
   getFeature(String s) {
-    print(widget.salonModel.ownerType);
+    debugPrint(widget.salonModel.ownerType);
     if (widget.salonModel.ownerType == 'singleMaster') {
       for (Map registeredFeatures in masterFeatures) {
         if (registeredFeatures.containsKey(s)) {
