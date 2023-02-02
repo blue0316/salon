@@ -1,5 +1,6 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
+import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
@@ -132,10 +133,10 @@ class _BookingDialogWidgetState<T> extends ConsumerState<BookingDialogWidget<T>>
                               borderRadius: BorderRadius.circular(50),
                               color: Colors.black,
                             ),
-                            tabs: const [
-                              Tab(text: 'Masters'),
-                              Tab(text: 'Day & Time'),
-                              Tab(text: 'Confirm'),
+                            tabs: [
+                              Tab(text: (createAppointment.chosenSalon!.ownerType == OwnerType.salon) ? 'Masters' : 'Services'),
+                              const Tab(text: 'Day & Time'),
+                              const Tab(text: 'Confirm'),
                             ],
                           ),
                         ),
