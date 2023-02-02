@@ -52,7 +52,7 @@ class _VerificationState extends ConsumerState<Verification> {
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: DeviceConstraints.getResponsiveSize(context, 10, 40.w, 40.w).toDouble(),
+                    horizontal: DeviceConstraints.getResponsiveSize(context, 10, 25.w, 40.w).toDouble(),
                   ),
                   child: const OTPField9(color: Colors.black),
                 ),
@@ -81,6 +81,7 @@ class _VerificationState extends ConsumerState<Verification> {
             ),
           ),
         ),
+        const Spacer(),
         const Spacer(),
         DefaultButton(
           borderRadius: 60,

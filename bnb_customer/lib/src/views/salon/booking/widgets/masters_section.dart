@@ -76,7 +76,7 @@ class _DialogMastersSectionState extends ConsumerState<DialogMastersSection> {
                           ),
                         ],
                       ),
-                      const Space(factor: 1),
+                      Space(factor: (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.salon) ? 1 : 2),
                       ListView.builder(
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
