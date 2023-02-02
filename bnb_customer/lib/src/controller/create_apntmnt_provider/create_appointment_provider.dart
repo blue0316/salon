@@ -881,14 +881,16 @@ class CreateAppointmentProvider with ChangeNotifier {
           notifyListeners();
         }
       } else {
+
+        print('salon masterrrr');
         Hours? workingHours;
 
-        if (chosenSalon!.irregularWorkingHours != null) {
-          if (chosenSalon!.irregularWorkingHours!.containsKey(
-              DateFormat('yyyy-MM-dd').format(chosenDay).toString())) {
+        if (chosenSalon!.irregularWorkingHours != null&& chosenSalon!.irregularWorkingHours!.containsKey(
+            DateFormat('yyyy-MM-dd').format(chosenDay).toString())) {
+
             workingHours = chosenSalon!.irregularWorkingHours![
                 DateFormat('yyyy-MM-dd').format(chosenDay).toString()];
-          }
+
         } else {
           workingHours = Time().getWorkingHoursFromWeekDay(
             chosenDay.weekday,
@@ -896,6 +898,7 @@ class CreateAppointmentProvider with ChangeNotifier {
                 ? chosenSalon!.workingHours
                 : chosenMaster!.workingHours,
           );
+         // divideSlotsForDay();
         }
 
         List<String> masterBlocked = [];
@@ -928,6 +931,7 @@ class CreateAppointmentProvider with ChangeNotifier {
                       step: Duration(
                           minutes: chosenSalon!.timeSlotsInterval ?? 15))
                   .toList();
+
             } else {
               validSlots = Time()
                   .getTimeSlots(_startTime, _endTime,
@@ -958,6 +962,7 @@ class CreateAppointmentProvider with ChangeNotifier {
             for (String slot in breakSlots) {
               validSlots.removeWhere((element) => element == slot);
             }
+            divideSlotsForDay();
             slotsStatus = Status.success;
             notifyListeners();
           } else {
@@ -987,6 +992,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 
   ///Divides Slots into Morning Afternoon and Night
   divideSlotsForDay() {
+    print('master timelineeeeeeeeee');
     int morningIndex = allSlots
         .indexWhere((element) => Time().stringToTime(element).hour >= 12);
     int afterNoonIndex = allSlots
@@ -1456,7 +1462,7 @@ class CreateAppointmentProvider with ChangeNotifier {
     required BuildContext context,
     required CustomerModel customerModel,
   }) async {
-    print('llllll');
+
     loadingStatus = Status.loading;
     if(customerModel.salonIdsBlocked!.contains(chosenSalon!.salonId)){
      showToast("You have been blocked from making appointments by this salon");
