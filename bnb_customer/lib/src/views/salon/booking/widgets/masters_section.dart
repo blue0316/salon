@@ -47,7 +47,9 @@ class _DialogMastersSectionState extends ConsumerState<DialogMastersSection> {
             Expanded(
               child: ListView(
                 children: [
-                  const Space(factor: 0.5),
+                  Space(
+                    factor: (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.salon) ? 0.5 : 2,
+                  ),
                   // -- ALL SERVICES
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -199,10 +201,11 @@ class _DialogMastersSectionState extends ConsumerState<DialogMastersSection> {
                   const Space(factor: 2),
 
                   // -- SELECT MASTER
-                  AvailableMasters(
-                    createAppointment: widget.createAppointment,
-                    mastresListController: _mastresListController,
-                  ),
+                  if (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.salon)
+                    AvailableMasters(
+                      createAppointment: widget.createAppointment,
+                      mastresListController: _mastresListController,
+                    ),
                 ],
               ),
             ),
