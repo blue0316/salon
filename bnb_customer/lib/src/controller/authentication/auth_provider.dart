@@ -283,6 +283,7 @@ class AuthProvider with ChangeNotifier {
         printIt("It's webbb");
         _userResult = await webOTPConfirmationResult?.confirm(otp);
         phoneNoController.clear();
+
       } else {
         final AuthCredential _authCredential = PhoneAuthProvider.credential(
           verificationId: verificationCode!,
@@ -361,6 +362,7 @@ class AuthProvider with ChangeNotifier {
 
     Analytics.setUser(user.uid);
     userLoggedIn = true;
+    notifyListeners();
     CustomerModel? customerModel = await CustomerApi().getCustomer();
 
     if (customerModel != null) {

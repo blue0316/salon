@@ -765,17 +765,22 @@ class CreateAppointmentProvider with ChangeNotifier {
           notifyListeners();
         }
       } else {
+
+        print('salon masterrrr');
         Hours? workingHours;
+
 
         if (chosenSalon!.irregularWorkingHours != null) {
           if (chosenSalon!.irregularWorkingHours!.containsKey(DateFormat('yyyy-MM-dd').format(chosenDay).toString())) {
             workingHours = chosenSalon!.irregularWorkingHours![DateFormat('yyyy-MM-dd').format(chosenDay).toString()];
           }
+
         } else {
           workingHours = Time().getWorkingHoursFromWeekDay(
             chosenDay.weekday,
             (chosenMaster == null) ? chosenSalon!.workingHours : chosenMaster!.workingHours,
           );
+         // divideSlotsForDay();
         }
 
         List<String> masterBlocked = [];
@@ -795,7 +800,9 @@ class CreateAppointmentProvider with ChangeNotifier {
             if (chosenDay.day == DateTime.now().day && chosenDay.month == DateTime.now().month) {
               TimeOfDay? _mystartTime = _computeStartTime(workingHours.startTime, chosenDay);
               printIt(_startTime);
+
               validSlots = Time().getTimeSlots(_mystartTime, _endTime, step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15)).toList();
+
             } else {
               validSlots = Time().getTimeSlots(_startTime, _endTime, step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15)).toList();
             }
@@ -810,6 +817,7 @@ class CreateAppointmentProvider with ChangeNotifier {
             for (String slot in breakSlots) {
               validSlots.removeWhere((element) => element == slot);
             }
+            divideSlotsForDay();
             slotsStatus = Status.success;
             notifyListeners();
           } else {
@@ -838,8 +846,10 @@ class CreateAppointmentProvider with ChangeNotifier {
 
   ///Divides Slots into Morning Afternoon and Night
   divideSlotsForDay() {
+
     int morningIndex = allSlots.indexWhere((element) => Time().stringToTime(element).hour >= 12);
     int afterNoonIndex = allSlots.indexWhere((element) => Time().stringToTime(element).hour >= 17);
+
 
     if (afterNoonIndex != -1) {
       eveningTimeslots = allSlots.sublist(afterNoonIndex, allSlots.length);
@@ -1045,7 +1055,9 @@ class CreateAppointmentProvider with ChangeNotifier {
     }
   }
 
+
   Future<bool> createAppointment({required CustomerModel? customerModel, required BuildContext context}) async {
+
     if (chosenServices.isEmpty) {
       showToast(' no services');
     } else {
@@ -1063,11 +1075,13 @@ class CreateAppointmentProvider with ChangeNotifier {
 
       printIt("Chosen Slots");
       printIt(chosenSlots);
+
       DateTime _startTime = DateTime(chosenDay.year, chosenDay.month, chosenDay.day, int.parse(chosenSlots.first.split(':')[0]), int.parse(chosenSlots.first.split(':')[1]));
 
       DateTime _endTime = _startTime.add(Duration(minutes: int.parse(_totalPriceAndDuration.duration)));
 
       final List<Service> _services = chosenSalon!.ownerType == OwnerType.singleMaster ? chosenServices.map((element) => Service.fromService(serviceModel: element)).toList() : mastersServicesMap[chosenMaster!.masterId]!.map((element) => Service.fromService(serviceModel: element, masterPriceAndDuration: chosenMaster!.servicesPriceAndDurationMax![element.serviceId])).toList();
+
 
       appointmentModel = AppointmentModel(
         appointmentStartTime: _startTime,
@@ -1125,7 +1139,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 
   Future<bool> createAppointment2(
       {
-      //   required CustomerModel? customerModel,
+      //  required CustomerModel? customerModel,
       required BuildContext context}) async {
     if (chosenServices.isEmpty) {
       showToast(' no services');
@@ -1165,10 +1179,10 @@ class CreateAppointmentProvider with ChangeNotifier {
         status: chosenSalon!.requestSalon ? AppointmentStatus.requested : AppointmentStatus.active,
         services: _services,
         customer: Customer(
-          id: " customerModel!.customerId",
+          id: "customerModel!.customerId",
           name: "Utils().getName(customerModel.personalInfo)",
-          phoneNumber: "customerModel.personalInfo.phone",
-          pic: "customerModel.profilePic",
+          phoneNumber:" customerModel.personalInfo.phone",
+          pic:" customerModel.profilePic",
         ),
         priceAndDuration: _totalPriceAndDuration,
         paymentInfo: null,
@@ -1214,7 +1228,14 @@ class CreateAppointmentProvider with ChangeNotifier {
     required BuildContext context,
     required CustomerModel customerModel,
   }) async {
+
     loadingStatus = Status.loading;
+    if(customerModel.salonIdsBlocked!.contains(chosenSalon!.salonId)){
+     showToast("You have been blocked from making appointments by this salon");
+      loadingStatus = Status.failed;
+    notifyListeners();
+    return false;
+    }
     if (appointmentModel != null) {
       PaymentInfo _paymentInfo = PaymentInfo(
         bonusApplied: chosenBonus != null,

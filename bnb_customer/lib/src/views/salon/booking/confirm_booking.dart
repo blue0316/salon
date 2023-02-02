@@ -548,6 +548,7 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                               //     context: context);
                             }, appointmentModel: appointment);
                           } else {
+
                             showToast(AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
                             bool moveAhead = _createAppointment.checkSlotsAndMaster(context: context);
                             checkUser(context, ref, () async {
@@ -555,6 +556,7 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                 _auth.createAppointmentProvider(_createAppointment);
                                 _createAppointment.createAppointment(customerModel: _auth.currentCustomer!, context: context);
                                 bool _success = await _createAppointment.finishBooking(context: context, customerModel: _authProvider.currentCustomer!);
+
                                 if (_success) {
                                   setState(() {
                                     // _status = Status.success;

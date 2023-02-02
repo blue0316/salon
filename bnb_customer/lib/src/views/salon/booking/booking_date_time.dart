@@ -697,9 +697,12 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                           printIt(moveAhead);
                           if (moveAhead) {
                             if (kIsWeb) {
+
+
+
                               // checkUser2(context, ref, () {
                               createAppointment.createAppointment2(
-                                  //  customerModel: _auth.currentCustomer!,
+                                 //  customerModel: _auth.currentCustomer!,
                                   context: context);
                               Navigator.push(
                                 context,
@@ -713,7 +716,7 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                               // });
                             } else {
                               createAppointment.createAppointment2(
-                                  //  customerModel: _auth.currentCustomer!,
+                                 // customerModel: _auth.currentCustomer!,
                                   context: context);
                               Navigator.push(
                                 context,
