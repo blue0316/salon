@@ -15,29 +15,27 @@ class ConfirmationSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
 
-    return Expanded(
-      child: SizedBox(
-        width: double.infinity,
-        // color: Colors.lightGreen,
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: DeviceConstraints.getResponsiveSize(context, 7.w, 15.w, 20.w),
-          ),
-          child: Column(
-            children: [
-              Expanded(
-                child: PageView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  controller: _createAppointmentProvider.confirmationPageController,
-                  children: const [
-                    UserDetailsVerification(),
-                    Verification(),
-                    OrderList(),
-                  ],
-                ),
+    return SizedBox(
+      width: double.infinity,
+      // color: Colors.lightGreen,
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: DeviceConstraints.getResponsiveSize(context, 7.w, 15.w, 20.w),
+        ),
+        child: Column(
+          children: [
+            Expanded(
+              child: PageView(
+                physics: const NeverScrollableScrollPhysics(),
+                controller: _createAppointmentProvider.confirmationPageController,
+                children: const [
+                  UserDetailsVerification(),
+                  Verification(),
+                  OrderList(),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
