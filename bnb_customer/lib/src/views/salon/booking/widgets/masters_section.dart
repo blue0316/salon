@@ -22,7 +22,13 @@ import 'package:bbblient/src/views/widgets/widgets.dart';
 class DialogMastersSection extends ConsumerStatefulWidget {
   final CreateAppointmentProvider createAppointment;
   final TabController tabController;
-  const DialogMastersSection({Key? key, required this.tabController, required this.createAppointment}) : super(key: key);
+  final bool master;
+  const DialogMastersSection({
+    Key? key,
+    required this.tabController,
+    required this.createAppointment,
+    this.master = false,
+  }) : super(key: key);
 
   @override
   ConsumerState<DialogMastersSection> createState() => _DialogMastersSectionState();
@@ -48,7 +54,7 @@ class _DialogMastersSectionState extends ConsumerState<DialogMastersSection> {
               child: ListView(
                 children: [
                   Space(
-                    factor: (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.salon) ? 0.5 : 2,
+                    factor: (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.salon && widget.master == false) ? 0.5 : 2,
                   ),
                   // -- ALL SERVICES
                   Column(
@@ -76,7 +82,7 @@ class _DialogMastersSectionState extends ConsumerState<DialogMastersSection> {
                           ),
                         ],
                       ),
-                      Space(factor: (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.salon) ? 1 : 2),
+                      Space(factor: (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.salon && widget.master == false) ? 1 : 2),
                       ListView.builder(
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
@@ -201,7 +207,7 @@ class _DialogMastersSectionState extends ConsumerState<DialogMastersSection> {
                   const Space(factor: 2),
 
                   // -- SELECT MASTER
-                  if (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.salon)
+                  if (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.salon && widget.master == false)
                     AvailableMasters(
                       createAppointment: widget.createAppointment,
                       mastresListController: _mastresListController,

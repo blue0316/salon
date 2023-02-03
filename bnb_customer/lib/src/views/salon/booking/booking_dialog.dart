@@ -13,7 +13,8 @@ import 'widgets/dayAndTime_section.dart';
 import 'widgets/masters_section.dart';
 
 class BookingDialogWidget<T> extends ConsumerStatefulWidget {
-  const BookingDialogWidget({Key? key}) : super(key: key);
+  final bool master;
+  const BookingDialogWidget({Key? key, this.master = false}) : super(key: key);
 
   Future<void> show(BuildContext context) async {
     await showDialog<T>(
@@ -134,7 +135,9 @@ class _BookingDialogWidgetState<T> extends ConsumerState<BookingDialogWidget<T>>
                               color: Colors.black,
                             ),
                             tabs: [
-                              Tab(text: (createAppointment.chosenSalon!.ownerType == OwnerType.salon) ? 'Masters' : 'Services'),
+                              Tab(
+                                text: (createAppointment.chosenSalon!.ownerType == OwnerType.salon && widget.master == false) ? 'Masters' : 'Services',
+                              ),
                               const Tab(text: 'Day & Time'),
                               const Tab(text: 'Confirm'),
                             ],
@@ -156,6 +159,7 @@ class _BookingDialogWidgetState<T> extends ConsumerState<BookingDialogWidget<T>>
                       children: [
                         // -- MASTERS --
                         DialogMastersSection(
+                          master: widget.master,
                           tabController: bookingTabController!,
                           createAppointment: createAppointment,
                         ),
