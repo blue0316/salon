@@ -103,7 +103,7 @@ class _BNBTextFieldState extends State<BNBTextField> {
             fontWeight: FontWeight.w600,
           ),
       textInputAction: widget.action ?? TextInputAction.next,
-      onFieldSubmitted: widget.submit ?? (_) => FocusScope.of(context).nextFocus(),
+      onFieldSubmitted: widget.submit,
       keyboardType: widget.keyboardType ?? TextInputType.text,
       maxLines: widget.lines ?? 1,
       decoration: InputDecoration(
@@ -112,15 +112,24 @@ class _BNBTextFieldState extends State<BNBTextField> {
               color: widget.textColor ?? AppTheme.lightBlack,
               fontSize: widget.textSize ?? 15.sp,
             ),
-        contentPadding: EdgeInsets.symmetric(vertical: widget.vPadding ?? 12.h, horizontal: widget.vPadding ?? 10.w),
+        contentPadding: EdgeInsets.symmetric(
+          vertical: widget.vPadding ?? 12.h,
+          horizontal: widget.vPadding ?? 10.w,
+        ),
         fillColor: widget.fillColor,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(40),
-          borderSide: BorderSide(color: widget.border ?? Colors.black, width: widget.borderWidth ?? 1),
+          borderSide: BorderSide(
+            color: widget.border ?? Colors.black,
+            width: widget.borderWidth ?? 1,
+          ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(40),
-          borderSide: BorderSide(color: widget.border ?? Colors.black, width: widget.borderWidth ?? 1),
+          borderSide: BorderSide(
+            color: widget.border ?? Colors.black,
+            width: widget.borderWidth ?? 1,
+          ),
         ),
         errorMaxLines: 1,
         errorStyle: const TextStyle(fontSize: 0),
