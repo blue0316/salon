@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_collection_literals
+
 class YClientsModel {
   late String id;
   late String? companyId;
@@ -22,10 +24,10 @@ class YClientsModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
 
     data['companyId'] = companyId;
-    data['salonId'] =  salonId;
+    data['salonId'] = salonId;
     data['userToken'] = userToken;
     data['isActive'] = isActive ?? true;
 

@@ -1,6 +1,7 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
+import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/salon/booking/widgets/confirmation_tab.dart/widgets.dart';
 import 'package:bbblient/src/views/widgets/buttons.dart';
@@ -49,7 +50,12 @@ class _VerificationState extends ConsumerState<Verification> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const OTPField9(color: Colors.black),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: DeviceConstraints.getResponsiveSize(context, 10, 25.w, 40.w).toDouble(),
+                  ),
+                  child: const OTPField9(color: Colors.black),
+                ),
                 SizedBox(height: 12.h),
                 RichText(
                   text: TextSpan(
@@ -75,6 +81,7 @@ class _VerificationState extends ConsumerState<Verification> {
             ),
           ),
         ),
+        const Spacer(),
         const Spacer(),
         DefaultButton(
           borderRadius: 60,

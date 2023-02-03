@@ -39,14 +39,19 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
   @override
   void initState() {
     _authProvider = ref.read(authProvider);
-    // TODO: implement initState
     super.initState();
   }
 
-  void _launchURL(String url) async => await lauch.canLaunch(url) ? await lauch.launch(url) : showToast('Could not launch $url');
+  void _launchURL(String url) async => await lauch.canLaunchUrl(
+        Uri.parse(url),
+      )
+          ? await lauch.canLaunchUrl(Uri.parse(url))
+          : showToast(
+              'Could not launch $url',
+            );
 
   getFeature(String s) {
-    print(widget.salonModel.ownerType);
+    debugPrint(widget.salonModel.ownerType);
     if (widget.salonModel.ownerType == 'singleMaster') {
       for (Map registeredFeatures in masterFeatures) {
         if (registeredFeatures.containsKey(s)) {
@@ -65,7 +70,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
   }
 
   getFeatureUk(String s) {
-    print(widget.salonModel.ownerType);
+    debugPrint(widget.salonModel.ownerType);
     for (Map registeredFeatures in ukMasterFeatures) {
       if (registeredFeatures.containsKey(s)) {
         return registeredFeatures[s];
@@ -246,7 +251,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                               onTap: () => showDialog<bool>(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    print(s);
+                                    debugPrint(s);
                                     return ShowAdditionaFeatureInfo(_bnbProvider, s);
                                   }),
                               child: Container(
@@ -416,18 +421,21 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                         decoration: BoxDecoration(
                           color: const Color.fromARGB(255, 239, 239, 239),
                           borderRadius: BorderRadius.circular(50),
-                          image: DecorationImage(image: social['icon'], fit: BoxFit.cover),
+                          // image: DecorationImage(
+                          //   image: AssetImage(social['icon']),
+                          //   fit: BoxFit.scaleDown,
+                          // ),
                         ),
-                        // child: Padding(
-                        //   padding: EdgeInsets.all(5.sp),
-                        //   child: Center(
-                        //     child: Image.asset(
-                        //       social['icon'],
-                        //       height: 17.sp,
-                        //       fit: BoxFit.scaleDown,
-                        //     ),
-                        //   ),
-                        // ),
+                        child: Padding(
+                          padding: EdgeInsets.all(5.sp),
+                          child: Center(
+                            child: Image.asset(
+                              social['icon'],
+                              height: 17.sp,
+                              fit: BoxFit.scaleDown,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),

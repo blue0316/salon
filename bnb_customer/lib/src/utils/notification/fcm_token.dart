@@ -1,4 +1,3 @@
-import 'package:bbblient/src/firebase/collections.dart';
 import 'package:bbblient/src/firebase/customer.dart';
 import 'package:bbblient/src/models/customer/customer.dart';
 import 'package:bbblient/src/utils/utils.dart';
@@ -16,8 +15,7 @@ class FCMTokenHandler {
     if (newToken == null) return null;
 
     if (customer.fcmToken != newToken) {
-      CustomerApi()
-          .updateFcmToken(customerId: customer.customerId, fcmToken: newToken);
+      CustomerApi().updateFcmToken(customerId: customer.customerId, fcmToken: newToken);
       customer.fcmToken = newToken;
       printIt('fcm updated $newToken');
       return newToken;

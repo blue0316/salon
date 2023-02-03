@@ -1,5 +1,6 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
+import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
@@ -12,7 +13,8 @@ import 'widgets/dayAndTime_section.dart';
 import 'widgets/masters_section.dart';
 
 class BookingDialogWidget<T> extends ConsumerStatefulWidget {
-  const BookingDialogWidget({Key? key}) : super(key: key);
+  final bool master;
+  const BookingDialogWidget({Key? key, this.master = false}) : super(key: key);
 
   Future<void> show(BuildContext context) async {
     await showDialog<T>(
@@ -132,10 +134,12 @@ class _BookingDialogWidgetState<T> extends ConsumerState<BookingDialogWidget<T>>
                               borderRadius: BorderRadius.circular(50),
                               color: Colors.black,
                             ),
-                            tabs: const [
-                              Tab(text: 'Masters'),
-                              Tab(text: 'Day & Time'),
-                              Tab(text: 'Confirm'),
+                            tabs: [
+                              Tab(
+                                text: (createAppointment.chosenSalon!.ownerType == OwnerType.salon && widget.master == false) ? 'Masters' : 'Services',
+                              ),
+                              const Tab(text: 'Day & Time'),
+                              const Tab(text: 'Confirm'),
                             ],
                           ),
                         ),
@@ -155,6 +159,7 @@ class _BookingDialogWidgetState<T> extends ConsumerState<BookingDialogWidget<T>>
                       children: [
                         // -- MASTERS --
                         DialogMastersSection(
+                          master: widget.master,
                           tabController: bookingTabController!,
                           createAppointment: createAppointment,
                         ),

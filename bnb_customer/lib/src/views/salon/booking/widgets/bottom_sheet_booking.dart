@@ -74,7 +74,7 @@ class _BookingBottomSheetState extends ConsumerState<BookingBottomSheet> {
             ),
             Expanded(
               child: Scrollbar(
-                isAlwaysShown: true,
+                thumbVisibility: true,
                 child: ListView.builder(
                     itemCount: _createAppointmentProvider.chosenServices.length,
                     shrinkWrap: true,
@@ -225,7 +225,7 @@ class _BookingBottomSheetFinalState extends ConsumerState<BookingBottomSheetFina
             ),
             Expanded(
               child: Scrollbar(
-                isAlwaysShown: true,
+                thumbVisibility: true,
                 child: ListView.builder(
                     itemCount: _createAppointmentProvider.chosenServices.length,
                     shrinkWrap: true,

@@ -1,5 +1,6 @@
-import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
+// ignore_for_file: unnecessary_null_comparison
 
+import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import '../models/cat_sub_service/category_service.dart';
 
 class Translation {

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 
 ChatModel chatModelFromJson(String str) => ChatModel.fromJson(json.decode(str));
 
@@ -56,20 +55,5 @@ class ChatModel {
         salonName: json['salonName'],
       );
 
-  Map<String, dynamic> toJson() => {
-        "customerId": customerId,
-        "customerAvtar": customerAvtar,
-        "salonId": salonId,
-        "salonAvtar": salonAvtar,
-        "createdAt": createdAt,
-        "messages": List<dynamic>.from(messages.map((x) => x)),
-        "appointmentId": appointmentId,
-        "customerDeleted": customerDeleted,
-        "customerName": customerName,
-        "lastMessage": lastMessage,
-        "lastSeenCustomer": lastSeenCustomer,
-        "lastSeenSalon": lastSeenSalon,
-        "salonDeleted": salonDeleted,
-        "salonName": salonName
-      };
+  Map<String, dynamic> toJson() => {"customerId": customerId, "customerAvtar": customerAvtar, "salonId": salonId, "salonAvtar": salonAvtar, "createdAt": createdAt, "messages": List<dynamic>.from(messages.map((x) => x)), "appointmentId": appointmentId, "customerDeleted": customerDeleted, "customerName": customerName, "lastMessage": lastMessage, "lastSeenCustomer": lastSeenCustomer, "lastSeenSalon": lastSeenSalon, "salonDeleted": salonDeleted, "salonName": salonName};
 }

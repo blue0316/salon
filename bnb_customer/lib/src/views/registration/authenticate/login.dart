@@ -1,6 +1,5 @@
 // ignore_for_file: unnecessary_null_comparison
 
-import 'dart:io';
 import 'dart:ui';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/appointment/apointment_provider.dart';
@@ -30,8 +29,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 const double radius = 32;
 
-checkUser(BuildContext context, WidgetRef ref, Function onTap,
-    {AppointmentModel? appointmentModel}) {
+checkUser(BuildContext context, WidgetRef ref, Function onTap, {AppointmentModel? appointmentModel}) {
   AuthProvider _auth = ref.read(authProvider);
   if (_auth.userLoggedIn) {
     // openSignInSheet(context);
@@ -57,7 +55,7 @@ openSignInSheet(context, AppointmentModel? appointmentModel) {
         ? LoginFromBooking(
             appointment: appointmentModel,
           )
-        : Login2(),
+        : const Login2(),
     //const LoginIntro(),
     clipBehavior: Clip.antiAliasWithSaveLayer,
     topRadius: const Radius.circular(radius),
@@ -90,12 +88,10 @@ class _LoginIntroState extends ConsumerState<LoginIntro> {
 
     //await _salonSearchProvider.initialize();
 
-    await _bnbProvider.initializeApp(
-        customerModel: _auth.currentCustomer, lang: _bnbProvider.getLocale);
+    await _bnbProvider.initializeApp(customerModel: _auth.currentCustomer, lang: _bnbProvider.getLocale);
 
     if (_auth.userLoggedIn) {
-      await DynamicLinksApi().handleDynamicLink(
-          context: context, bonusSettings: _bnbProvider.bonusSettings);
+      await DynamicLinksApi().handleDynamicLink(context: context, bonusSettings: _bnbProvider.bonusSettings);
 
       await _appointmentProvider.loadAppointments(
         customerId: _auth.currentCustomer?.customerId ?? '',
@@ -132,11 +128,10 @@ class _LoginIntroState extends ConsumerState<LoginIntro> {
             ),
             BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-                child: Container(
+                child: SizedBox(
                   width: 1.sw,
                   child: Padding(
-                    padding: EdgeInsets.only(
-                        left: 35, right: 35, bottom: 40.h, top: 20.h),
+                    padding: EdgeInsets.only(left: 35, right: 35, bottom: 40.h, top: 20.h),
                     child: ConstrainedContainer(
                       maxWidth: 600,
                       child: SingleChildScrollView(
@@ -175,12 +170,8 @@ class _LoginIntroState extends ConsumerState<LoginIntro> {
                               Align(
                                 alignment: Alignment.topLeft,
                                 child: Text(
-                                  AppLocalizations.of(context)?.phoneNumber ??
-                                      "Enter phone no",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline1!
-                                      .copyWith(
+                                  AppLocalizations.of(context)?.phoneNumber ?? "Enter phone no",
+                                  style: Theme.of(context).textTheme.headline1!.copyWith(
                                         fontSize: 16,
                                       ),
                                 ),
@@ -191,8 +182,7 @@ class _LoginIntroState extends ConsumerState<LoginIntro> {
                               SizedBox(
                                 height: 60.h,
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
                                       height: 58.h,
@@ -204,13 +194,11 @@ class _LoginIntroState extends ConsumerState<LoginIntro> {
                                       ),
                                       child: CountryCodePicker(
                                         onChanged: (val) {
-                                          _auth.countryCode =
-                                              val.dialCode ?? '';
+                                          _auth.countryCode = val.dialCode ?? '';
                                           printIt(_auth.countryCode);
                                         },
                                         onInit: (val) {
-                                          _auth.countryCode =
-                                              val?.dialCode ?? '';
+                                          _auth.countryCode = val?.dialCode ?? '';
                                           printIt(_auth.countryCode);
                                         },
                                         initialSelection: 'UA',
@@ -218,8 +206,7 @@ class _LoginIntroState extends ConsumerState<LoginIntro> {
                                         showCountryOnly: false,
                                         showOnlyCountryWhenClosed: false,
                                         alignLeft: false,
-                                        textStyle: const TextStyle(
-                                            color: Colors.black),
+                                        textStyle: const TextStyle(color: Colors.black),
                                         showFlag: false,
                                       ),
                                     ),
@@ -237,9 +224,7 @@ class _LoginIntroState extends ConsumerState<LoginIntro> {
                                           border: border,
                                           //enabledBorder:  border,
                                           focusedBorder: border,
-                                          hintText: AppLocalizations.of(context)
-                                                  ?.phoneNumber ??
-                                              "Enter phone no",
+                                          hintText: AppLocalizations.of(context)?.phoneNumber ?? "Enter phone no",
                                         ),
                                       ),
                                     ),
@@ -253,26 +238,19 @@ class _LoginIntroState extends ConsumerState<LoginIntro> {
                                 key: const ValueKey("phone-but"),
                                 onPressed: () async {
                                   if (_auth.otpStatus != Status.loading) {
-                                    await _auth.verifyPhoneNumber(
-                                        context: context);
+                                    await _auth.verifyPhoneNumber(context: context);
                                   } else {
-                                    showToast(AppLocalizations.of(context)
-                                            ?.pleaseWait ??
-                                        "Please wait");
+                                    showToast(AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
                                   }
                                 },
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8)),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                                 color: AppTheme.textBlack,
                                 height: 50.h,
                                 minWidth: 1.sw - 80,
                                 child: (_auth.otpStatus != Status.loading)
                                     ? Text(
-                                        AppLocalizations.of(context)?.login ??
-                                            "",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline2,
+                                        AppLocalizations.of(context)?.login ?? "",
+                                        style: Theme.of(context).textTheme.headline2,
                                       )
                                     : const SizedBox(
                                         height: 20,
@@ -285,16 +263,14 @@ class _LoginIntroState extends ConsumerState<LoginIntro> {
                                         )),
                               )
                             ],
-                            if (_auth.otpSent &&
-                                _auth.loginStatus != Status.success) ...[
+                            if (_auth.otpSent && _auth.loginStatus != Status.success) ...[
                               Align(
                                 alignment: Alignment.topLeft,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Row(
                                           children: [
@@ -309,9 +285,7 @@ class _LoginIntroState extends ConsumerState<LoginIntro> {
                                                 _auth.setOtpSent(false);
                                               },
                                               child: Text(
-                                                AppLocalizations.of(context)
-                                                        ?.change ??
-                                                    " change",
+                                                AppLocalizations.of(context)?.change ?? " change",
                                                 style: const TextStyle(
                                                   color: AppTheme.lightBlack,
                                                 ),
@@ -319,22 +293,17 @@ class _LoginIntroState extends ConsumerState<LoginIntro> {
                                             ),
                                           ],
                                         ),
-                                        if (_auth.otpSent &&
-                                            _auth.start != 0) ...[
+                                        if (_auth.otpSent && _auth.start != 0) ...[
                                           Text("${_auth.start}"),
                                         ],
-                                        if (_auth.otpSent &&
-                                            _auth.start == 0) ...[
+                                        if (_auth.otpSent && _auth.start == 0) ...[
                                           GestureDetector(
                                             onTap: () {
-                                              _auth.verifyPhoneNumber(
-                                                  context: context);
+                                              _auth.verifyPhoneNumber(context: context);
                                               _auth.otp = '';
                                             },
                                             child: Text(
-                                              AppLocalizations.of(context)
-                                                      ?.resendOTP ??
-                                                  " Resend OTP",
+                                              AppLocalizations.of(context)?.resendOTP ?? " Resend OTP",
                                               style: const TextStyle(
                                                 color: AppTheme.lightBlack,
                                               ),
@@ -347,12 +316,8 @@ class _LoginIntroState extends ConsumerState<LoginIntro> {
                                       height: 16.h,
                                     ),
                                     Text(
-                                      AppLocalizations.of(context)?.enterOTP ??
-                                          "Enter OTP",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline1!
-                                          .copyWith(
+                                      AppLocalizations.of(context)?.enterOTP ?? "Enter OTP",
+                                      style: Theme.of(context).textTheme.headline1!.copyWith(
                                             fontSize: 16,
                                             color: AppTheme.lightBlack,
                                           ),
@@ -373,31 +338,20 @@ class _LoginIntroState extends ConsumerState<LoginIntro> {
                                 key: const ValueKey("otp-but"),
                                 onPressed: () async {
                                   if (_auth.loginStatus != Status.loading) {
-                                    await _auth.signIn(
-                                        context: context,
-                                        ref: ref,
-                                        callBack: refreshAccount);
-                                    _auth.name.isNotEmpty
-                                        ? Navigator.of(context).pop()
-                                        : null;
+                                    await _auth.signIn(context: context, ref: ref, callBack: refreshAccount);
+                                    _auth.name.isNotEmpty ? Navigator.of(context).pop() : null;
                                   } else {
-                                    showToast(AppLocalizations.of(context)
-                                            ?.pleaseWait ??
-                                        "Please wait");
+                                    showToast(AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
                                   }
                                 },
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8)),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                                 color: AppTheme.lightBlack,
                                 height: 50.h,
                                 minWidth: 1.sw - 80,
                                 child: (_auth.loginStatus != Status.loading)
                                     ? Text(
-                                        AppLocalizations.of(context)?.login ??
-                                            "Login",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline2,
+                                        AppLocalizations.of(context)?.login ?? "Login",
+                                        style: Theme.of(context).textTheme.headline2,
                                       )
                                     : const SizedBox(
                                         height: 20,
@@ -410,20 +364,12 @@ class _LoginIntroState extends ConsumerState<LoginIntro> {
                                         )),
                               )
                             ],
-                            if (_auth.otpSent &&
-                                _auth.loginStatus == Status.success &&
-                                (_auth.name.isEmpty)) ...[
+                            if (_auth.otpSent && _auth.loginStatus == Status.success && (_auth.name.isEmpty)) ...[
                               Align(
                                 alignment: Alignment.topLeft,
                                 child: Text(
-                                  AppLocalizations.of(context)
-                                          ?.pleasefillInYourName
-                                          .toCapitalized() ??
-                                      'Please Fill In Your Name ',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline1!
-                                      .copyWith(
+                                  AppLocalizations.of(context)?.pleasefillInYourName.toCapitalized() ?? 'Please Fill In Your Name ',
+                                  style: Theme.of(context).textTheme.headline1!.copyWith(
                                         fontSize: 16,
                                       ),
                                 ),
@@ -434,48 +380,39 @@ class _LoginIntroState extends ConsumerState<LoginIntro> {
                               SizedBox(
                                 height: 60.h,
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.40,
+                                      width: MediaQuery.of(context).size.width * 0.40,
                                       child: TextFormField(
                                         autofocus: true,
                                         onChanged: (val) {
                                           _auth.firstName = val;
-                                          printIt(
-                                              'This is my ${_auth.firstName}');
+                                          printIt('This is my ${_auth.firstName}');
                                         },
                                         keyboardType: TextInputType.name,
                                         decoration: InputDecoration(
                                           border: border,
                                           //enabledBorder:  border,
                                           focusedBorder: border,
-                                          hintText: AppLocalizations.of(context)
-                                                  ?.firstName ??
-                                              "Enter First Name",
+                                          hintText: AppLocalizations.of(context)?.firstName ?? "Enter First Name",
                                         ),
                                       ),
                                     ),
                                     SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.40,
+                                      width: MediaQuery.of(context).size.width * 0.40,
                                       child: TextFormField(
                                         autofocus: true,
                                         onChanged: (val) {
                                           _auth.lastName = val;
-                                          printIt(
-                                              'This is my ${_auth.lastName}');
+                                          printIt('This is my ${_auth.lastName}');
                                         },
                                         keyboardType: TextInputType.name,
                                         decoration: InputDecoration(
                                           border: border,
                                           //enabledBorder:  border,
                                           focusedBorder: border,
-                                          hintText: AppLocalizations.of(context)
-                                                  ?.lastName ??
-                                              "Enter Last Name",
+                                          hintText: AppLocalizations.of(context)?.lastName ?? "Enter Last Name",
                                         ),
                                       ),
                                     ),
@@ -497,23 +434,17 @@ class _LoginIntroState extends ConsumerState<LoginIntro> {
                                     // await _auth.printNewName();
                                     Navigator.of(context).pop();
                                   } else {
-                                    showToast(AppLocalizations.of(context)
-                                            ?.pleaseWait ??
-                                        "Please wait");
+                                    showToast(AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
                                   }
                                 },
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8)),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                                 color: AppTheme.lightBlack,
                                 height: 50.h,
                                 minWidth: 1.sw - 80,
                                 child: (_auth.saveNameStatus != Status.loading)
                                     ? Text(
-                                        AppLocalizations.of(context)?.save ??
-                                            "Save",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline2,
+                                        AppLocalizations.of(context)?.save ?? "Save",
+                                        style: Theme.of(context).textTheme.headline2,
                                       )
                                     : const SizedBox(
                                         height: 20,
@@ -526,27 +457,18 @@ class _LoginIntroState extends ConsumerState<LoginIntro> {
                                         )),
                               )
                             ],
-                            if (_auth.userLoggedIn &&
-                                _auth.loginStatus == Status.success &&
-                                _auth.nameSent == true) ...[
+                            if (_auth.userLoggedIn && _auth.loginStatus == Status.success && _auth.nameSent == true) ...[
                               Text(
-                                AppLocalizations.of(context)?.loginSuccess ??
-                                    "You have successfully joined bnb!",
-                                style: const TextStyle(
-                                    fontSize: 18,
-                                    color: AppTheme.textBlack,
-                                    fontWeight: FontWeight.w600),
+                                AppLocalizations.of(context)?.loginSuccess ?? "You have successfully joined bnb!",
+                                style: const TextStyle(fontSize: 18, color: AppTheme.textBlack, fontWeight: FontWeight.w600),
                                 textAlign: TextAlign.center,
                               ),
                               Space(
                                 factor: 1.h,
                               ),
                               Text(
-                                AppLocalizations.of(context)
-                                        ?.startBookingSalons ??
-                                    "",
-                                style: const TextStyle(
-                                    fontSize: 16, color: Colors.black54),
+                                AppLocalizations.of(context)?.startBookingSalons ?? "",
+                                style: const TextStyle(fontSize: 16, color: Colors.black54),
                                 textAlign: TextAlign.center,
                               ),
                               Space(
@@ -555,26 +477,19 @@ class _LoginIntroState extends ConsumerState<LoginIntro> {
                               MaterialButton(
                                   key: const ValueKey("done-but"),
                                   onPressed: () async {
-                                    if (_auth.currentCustomer != null &&
-                                        !_auth.currentCustomer!.quizCompleted) {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (_) =>
-                                                  const RegisterQuiz()));
+                                    if (_auth.currentCustomer != null && !_auth.currentCustomer!.quizCompleted) {
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => const RegisterQuiz()));
                                     } else {
                                       Navigator.of(context).pop();
                                     }
                                   },
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8)),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                                   color: AppTheme.lightBlack,
                                   height: 50.h,
                                   minWidth: 1.sw - 80,
                                   child: Text(
-                                    AppLocalizations.of(context)?.done ??
-                                        "Done !",
-                                    style:
-                                        Theme.of(context).textTheme.headline2,
+                                    AppLocalizations.of(context)?.done ?? "Done !",
+                                    style: Theme.of(context).textTheme.headline2,
                                   ))
                             ],
                           ],

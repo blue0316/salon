@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/icons.dart';
 import 'package:flutter/material.dart';
@@ -59,10 +58,7 @@ class _BookingStartState extends State<BookingStart> {
                             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
                             child: Text(
                               AppLocalizations.of(context)?.newAppointment ?? "New Appointment",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .copyWith(fontSize: 14, color: _tabIndex == 0 ? AppTheme.textBlack : AppTheme.lightGrey),
+                              style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14, color: _tabIndex == 0 ? AppTheme.textBlack : AppTheme.lightGrey),
                             ),
                           ),
                         ),
@@ -87,10 +83,7 @@ class _BookingStartState extends State<BookingStart> {
                             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
                             child: Text(
                               AppLocalizations.of(context)?.repeated ?? "Repeated",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .copyWith(fontSize: 14, color: _tabIndex == 1 ? AppTheme.textBlack : AppTheme.lightGrey),
+                              style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14, color: _tabIndex == 1 ? AppTheme.textBlack : AppTheme.lightGrey),
                             ),
                           ),
                         ),
@@ -265,8 +258,7 @@ class _BookingStartState extends State<BookingStart> {
                             }
                           },
                           child: Container(
-                            decoration: const BoxDecoration(
-                                color: AppTheme.creamBrown, borderRadius: BorderRadius.only(topLeft: Radius.circular(28))),
+                            decoration: const BoxDecoration(color: AppTheme.creamBrown, borderRadius: BorderRadius.only(topLeft: Radius.circular(28))),
                             child: Center(
                               child: Text(
                                 AppLocalizations.of(context)?.continue_word ?? "Continue",

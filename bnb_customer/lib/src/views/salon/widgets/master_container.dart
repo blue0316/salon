@@ -1,9 +1,7 @@
 import 'package:bbblient/src/views/widgets/image.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 
 import '../../../theme/app_main_theme.dart';
 import '../../widgets/widgets.dart';
@@ -43,11 +41,7 @@ class MasterContainer extends StatelessWidget {
           SizedBox(
             height: 120.h,
             width: 108.w,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.only(topLeft: Radius.circular(12), bottomLeft: Radius.circular(12)),
-              child:CachedImage(url:imageUrl)
-
-            ),
+            child: ClipRRect(borderRadius: const BorderRadius.only(topLeft: Radius.circular(12), bottomLeft: Radius.circular(12)), child: CachedImage(url: imageUrl)),
           ),
           Expanded(
             child: Padding(
@@ -79,9 +73,7 @@ class MasterContainer extends StatelessWidget {
                           child: SizedBox(
                             height: 20.h,
                             width: 20.w,
-                            child: liked == true
-                                ? SvgPicture.asset('assets/icons/HeartFilled.svg')
-                                : SvgPicture.asset('assets/icons/HeartEmpty.svg'),
+                            child: liked == true ? SvgPicture.asset('assets/icons/HeartFilled.svg') : SvgPicture.asset('assets/icons/HeartEmpty.svg'),
                           ),
                         )
                       ],
@@ -107,8 +99,7 @@ class MasterContainer extends StatelessWidget {
                             ),
                             Text(
                               '$persons',
-                              style:
-                                  Theme.of(context).textTheme.headline4!.copyWith(fontWeight: FontWeight.w400, fontSize: 16.sp),
+                              style: Theme.of(context).textTheme.headline4!.copyWith(fontWeight: FontWeight.w400, fontSize: 16.sp),
                             )
                           ],
                         ),
@@ -123,10 +114,7 @@ class MasterContainer extends StatelessWidget {
                             child: Center(
                                 child: Text(
                               AppLocalizations.of(context)?.book ?? "Book",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline5!
-                                  .copyWith(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14.sp),
+                              style: Theme.of(context).textTheme.headline5!.copyWith(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14.sp),
                             )),
                           ),
                         ),

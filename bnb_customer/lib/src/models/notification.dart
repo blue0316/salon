@@ -1,4 +1,3 @@
-import 'appointment/appointment.dart';
 
 // class NotificationModel {
 //   //type mean notification is for review or appointment

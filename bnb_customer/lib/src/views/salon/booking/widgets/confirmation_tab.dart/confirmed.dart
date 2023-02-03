@@ -77,7 +77,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                     ),
                   ],
                 ),
-                Space(factor: DeviceConstraints.getResponsiveSize(context, 3, 1, 1).toDouble()),
+                Space(factor: DeviceConstraints.getResponsiveSize(context, 3, 2.5, 2.5).toDouble()),
                 const TopDetails(),
                 Space(factor: DeviceConstraints.getResponsiveSize(context, 2, 1, 1).toDouble()),
                 const BottomDetails(),

@@ -171,7 +171,10 @@ class _MasterProfileState extends ConsumerState<MasterProfile> {
           //     child: BackButtonGlassMorphic(),
           //   ),
           // ),
-          const Align(alignment: Alignment.bottomCenter, child: FloatingBar()),
+          const Align(
+            alignment: Alignment.bottomCenter,
+            child: FloatingBar(master: true),
+          ),
         ],
       ),
     );

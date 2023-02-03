@@ -7,7 +7,6 @@ import 'package:bbblient/src/models/referral.dart';
 import 'package:bbblient/src/utils/notification/referral_notification.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/widgets/dialogues/referral_dilouges.dart';
-import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -36,8 +35,7 @@ class BonusReferralApi {
 
   Future<String> addBonus({required BonusModel bonusModel}) async {
     try {
-      DocumentReference documentId =
-          await Collection.bonuses.add(bonusModel.toJson()).onError((error, stackTrace) => printIt(error));
+      DocumentReference documentId = await Collection.bonuses.add(bonusModel.toJson()).onError((error, stackTrace) => printIt(error));
       return documentId.id;
     } catch (e) {
       printIt(e);
@@ -77,11 +75,7 @@ class BonusReferralApi {
 
   Future<List<BonusModel>> getBonuses({required String customerId}) async {
     List<BonusModel> bonuses = [];
-    QuerySnapshot snapshot = await Collection.bonuses
-        .where('owner', isEqualTo: customerId)
-        .where("validated", isEqualTo: true)
-        .where("used", isEqualTo: false).where("expiresAt",isGreaterThan: DateTime.now())
-        .get();
+    QuerySnapshot snapshot = await Collection.bonuses.where('owner', isEqualTo: customerId).where("validated", isEqualTo: true).where("used", isEqualTo: false).where("expiresAt", isGreaterThan: DateTime.now()).get();
     for (QueryDocumentSnapshot doc in snapshot.docs) {
       try {
         BonusModel bonusModel = BonusModel.fromJson(doc.data() as Map<String, dynamic>);
@@ -96,8 +90,7 @@ class BonusReferralApi {
 
   Future<String> createReferral({required ReferralModel referralModel}) async {
     try {
-      DocumentReference docref =
-          await Collection.referrals.add(referralModel.toJson()).onError((error, stackTrace) => printIt(error));
+      DocumentReference docref = await Collection.referrals.add(referralModel.toJson()).onError((error, stackTrace) => printIt(error));
       return docref.id;
     } catch (e) {
       printIt(e);
@@ -107,16 +100,8 @@ class BonusReferralApi {
 
   Future<bool> alreadyReferred({required String referredById, required String referredToId}) async {
     QuerySnapshot _docref = await Collection.referrals.where('referredToId', isEqualTo: referredToId).limit(3).get();
-    QuerySnapshot _docref1 = await Collection.referrals
-        .where('referredById', isEqualTo: referredById)
-        .where('referredToId', isEqualTo: referredToId)
-        .limit(3)
-        .get();
-    QuerySnapshot _docref2 = await Collection.referrals
-        .where('referredById', isEqualTo: referredToId)
-        .where('referredToId', isEqualTo: referredById)
-        .limit(3)
-        .get();
+    QuerySnapshot _docref1 = await Collection.referrals.where('referredById', isEqualTo: referredById).where('referredToId', isEqualTo: referredToId).limit(3).get();
+    QuerySnapshot _docref2 = await Collection.referrals.where('referredById', isEqualTo: referredToId).where('referredToId', isEqualTo: referredById).limit(3).get();
     printIt('referral check');
     printIt(_docref.docs.length);
     printIt(_docref.docs.isEmpty);
@@ -174,9 +159,9 @@ class BonusReferralApi {
           }
           if (bonusesGiven > 0) {
             showSuccessDialog(
-                context: context,
-                onTap: (){},
-                message: AppLocalizations.of(context)?.youGotTwoWelcomeBonuses ?? 'You got two welcome bonuses',
+              context: context,
+              onTap: () {},
+              message: AppLocalizations.of(context)?.youGotTwoWelcomeBonuses ?? 'You got two welcome bonuses',
             );
             // showToast("you received $bonusesGiven welcome bonuses");
           }
@@ -185,8 +170,7 @@ class BonusReferralApi {
     }
   }
 
-  Future giveReferralBonuses(
-      {required BuildContext context, required CustomerModel referredTo, required CustomerModel referredBy}) async {
+  Future giveReferralBonuses({required BuildContext context, required CustomerModel referredTo, required CustomerModel referredBy}) async {
     bool _alreadyReferred = await alreadyReferred(referredById: referredBy.customerId, referredToId: referredTo.customerId);
     if (_alreadyReferred) {
       showErrorDialog(context: context, message: 'you have already been referred');

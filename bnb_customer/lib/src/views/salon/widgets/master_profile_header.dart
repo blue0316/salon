@@ -1,9 +1,6 @@
-import 'dart:ui';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/chat/chat_screen.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -24,7 +21,7 @@ class MasterHeader extends StatefulWidget {
 }
 
 class _MasterHeaderState extends State<MasterHeader> {
-  int _current = 0;
+  // int _current = 0;
 
   @override
   Widget build(BuildContext context) {

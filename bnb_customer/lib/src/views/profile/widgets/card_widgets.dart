@@ -19,12 +19,12 @@ class CreditCard extends StatefulWidget {
 class _CreditCardState extends State<CreditCard> {
   @override
   Widget build(BuildContext context) {
-    print(widget.name);
+    debugPrint(widget.name);
     return AspectRatio(
       aspectRatio: cardRatio,
       child: Stack(
         children: [
-          Container(
+          SizedBox(
             child: Image.asset(widget.cardImage),
           ),
           Positioned(
@@ -33,9 +33,7 @@ class _CreditCardState extends State<CreditCard> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (widget.cardNumber != null &&
-                    widget.name != null &&
-                    widget.cardImage != AppIcons.creditCardApplePNG) ...[
+                if (widget.cardNumber != null && widget.name != null && widget.cardImage != AppIcons.creditCardApplePNG) ...[
                   Text(
                     widget.name!,
                     style: Theme.of(context).textTheme.bodyText2!.copyWith(
@@ -51,16 +49,16 @@ class _CreditCardState extends State<CreditCard> {
                     child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: widget.cardNumber!.length,
                         itemBuilder: (_, index) {
                           if (index <= 11) {
                             if (index == 3 || index == 7 || index == 11) {
-                              return GreyDotCard(
+                              return const GreyDotCard(
                                 padding: true,
                               );
                             } else {
-                              return GreyDotCard(
+                              return const GreyDotCard(
                                 padding: false,
                               );
                             }
@@ -112,7 +110,7 @@ class GreyDotCard extends StatelessWidget {
           backgroundColor: Colors.white.withOpacity(0.7),
         ),
         if (!padding) ...[
-          SizedBox(
+          const SizedBox(
             width: 4,
           ),
         ],
@@ -127,6 +125,8 @@ class GreyDotCard extends StatelessWidget {
 }
 
 class FourDots extends StatelessWidget {
+  const FourDots({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -135,21 +135,21 @@ class FourDots extends StatelessWidget {
           radius: 4,
           backgroundColor: Colors.white.withOpacity(0.7),
         ),
-        SizedBox(
+        const SizedBox(
           width: 4,
         ),
         CircleAvatar(
           radius: 4,
           backgroundColor: Colors.white.withOpacity(0.7),
         ),
-        SizedBox(
+        const SizedBox(
           width: 4,
         ),
         CircleAvatar(
           radius: 4,
           backgroundColor: Colors.white.withOpacity(0.7),
         ),
-        SizedBox(
+        const SizedBox(
           width: 4,
         ),
         CircleAvatar(

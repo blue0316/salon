@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member, constant_identifier_names
+
 library smooth_scroll_web;
 
 import 'package:flutter/gestures.dart';
@@ -25,12 +27,13 @@ class SmoothScrollWeb extends StatelessWidget {
   double _scroll = 0;
 
   SmoothScrollWeb({
+    Key? key,
     required this.controller,
     required this.child,
     this.scrollSpeed = DEFAULT_SCROLL_SPEED,
     this.scrollAnimationLength = DEFAULT_NORMAL_SCROLL_ANIMATION_LENGTH_MS,
     this.curve = Curves.linear,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

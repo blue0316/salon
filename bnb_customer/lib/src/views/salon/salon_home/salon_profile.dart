@@ -3,8 +3,6 @@
 import 'dart:async';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/app_provider.dart';
-import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
-import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/firebase/category_services.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
@@ -17,7 +15,6 @@ import 'package:bbblient/src/utils/analytics.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/utils/utils.dart';
-import 'package:bbblient/src/views/salon/booking/booking_date_time.dart';
 import 'package:bbblient/src/views/salon/salon_home/salon_masters.dart';
 import 'package:bbblient/src/views/salon/widgets/floating_button_booking.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
@@ -57,7 +54,7 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
   int _activeTab = 0;
   bool choosen = false;
   List<CategoryModel>? categories;
-  final ScrollController _listViewController = ScrollController();
+
   @override
   void initState() {
     // final _bnbProvider = ref.read(bnbProvider);
@@ -65,7 +62,7 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
     // _bnbProvider.changeLocale(locale: const Locale('uk'));
     final AppProvider _appProvider = ref.read(appProvider);
     super.initState();
-    print('==========');
+    debugPrint('==========');
 
     _appProvider.selectSalonFirstRoute();
 
@@ -149,8 +146,8 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
   @override
   Widget build(BuildContext context) {
     final _salonSearchProvider = ref.watch(salonSearchProvider);
-    final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
-    final BnbProvider _bnbProvider = ref.watch(bnbProvider);
+    // final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
+    // final BnbProvider _bnbProvider = ref.watch(bnbProvider);
 
     return Scaffold(
       body: SafeArea(
@@ -490,7 +487,7 @@ class PromotionScroll extends ConsumerWidget {
       return const Center(child: PromotionLoading());
     }
 
-    print('Gotten here ??');
+    debugPrint('Gotten here ??');
 
     return SizedBox(
       height: DeviceConstraints.getResponsiveSize(context, 155, 185, 210),
@@ -502,8 +499,8 @@ class PromotionScroll extends ConsumerWidget {
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           PromotionModel _promo = _createAppointmentProvider.salonPromotions[index];
-          print('--------------------------');
-          print(_promo);
+          debugPrint('--------------------------');
+          debugPrint(_promo.toString());
 
           return Padding(
             padding: EdgeInsets.only(right: DeviceConstraints.getResponsiveSize(context, 15, 18, 24)),

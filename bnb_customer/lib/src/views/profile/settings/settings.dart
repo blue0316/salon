@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-
 import '../../../theme/app_main_theme.dart';
 import 'language_preferences.dart';
 import 'my_preferences.dart';
-import 'notification_settings.dart';
 import 'widgets/settings_list_tile.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

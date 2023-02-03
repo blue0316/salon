@@ -16,8 +16,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:url_launcher/url_launcher.dart';
-
 import '../../../controller/all_providers/all_providers.dart';
 import '../../../controller/appointment/apointment_provider.dart';
 import '../../../firebase/dynamic_link.dart';
@@ -168,7 +166,11 @@ class _Login2State extends ConsumerState<Login2> {
                     }
                   },
                   child: (_auth.otpStatus != Status.loading)
-                      ? Text('Enter', style: TextStyle(fontFamily: "Montserrat", fontWeight: FontWeight.w400, fontSize: 16.sp, color: AppTheme.white), textAlign: TextAlign.center)
+                      ? Text(
+                          'Enter',
+                          style: TextStyle(fontFamily: "Montserrat", fontWeight: FontWeight.w400, fontSize: 16.sp, color: AppTheme.white),
+                          textAlign: TextAlign.center,
+                        )
                       : const SizedBox(
                           height: 20,
                           width: 20,
@@ -178,14 +180,26 @@ class _Login2State extends ConsumerState<Login2> {
                               color: AppTheme.white,
                             ),
                           )),
-                  style: ElevatedButton.styleFrom(primary: AppTheme.btnColor, minimumSize: Size(130.w, 55.h), maximumSize: Size(130.w, 55.h), fixedSize: Size(130.w, 55.h)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppTheme.btnColor,
+                    minimumSize: Size(130.w, 55.h),
+                    maximumSize: Size(130.w, 55.h),
+                    fixedSize: Size(130.w, 55.h),
+                  ),
                 ),
                 Gap(85.h)
               ],
               if (_auth.otpSent && _auth.loginStatus != Status.success) ...[
-                Text(AppLocalizations.of(context)?.verification ?? 'Verification', style: GoogleFonts.epilogue(fontSize: 24.sp, fontWeight: FontWeight.w600, color: AppTheme.black2)),
+                Text(
+                  AppLocalizations.of(context)?.verification ?? 'Verification',
+                  style: GoogleFonts.epilogue(fontSize: 24.sp, fontWeight: FontWeight.w600, color: AppTheme.black2),
+                ),
                 Gap(14.h),
-                Text(AppLocalizations.of(context)?.inputotp ?? 'Kindly input your OTP', style: TextStyle(fontFamily: "Montserrat", fontWeight: FontWeight.w400, fontSize: 16.sp, color: AppTheme.grey1), textAlign: TextAlign.center),
+                Text(
+                  AppLocalizations.of(context)?.inputotp ?? 'Kindly input your OTP',
+                  style: TextStyle(fontFamily: "Montserrat", fontWeight: FontWeight.w400, fontSize: 16.sp, color: AppTheme.grey1),
+                  textAlign: TextAlign.center,
+                ),
                 Gap(20.h),
                 SvgPicture.asset('assets/images/Illustration.svg'),
                 Gap(40.h),
@@ -203,7 +217,11 @@ class _Login2State extends ConsumerState<Login2> {
                     }
                   },
                   child: (_auth.loginStatus != Status.loading)
-                      ? Text(AppLocalizations.of(context)?.verify ?? 'Verify', style: TextStyle(fontFamily: "Montserrat", fontWeight: FontWeight.w400, fontSize: 16.sp, color: AppTheme.white), textAlign: TextAlign.center)
+                      ? Text(
+                          AppLocalizations.of(context)?.verify ?? 'Verify',
+                          style: TextStyle(fontFamily: "Montserrat", fontWeight: FontWeight.w400, fontSize: 16.sp, color: AppTheme.white),
+                          textAlign: TextAlign.center,
+                        )
                       : const SizedBox(
                           height: 20,
                           width: 20,
@@ -213,7 +231,12 @@ class _Login2State extends ConsumerState<Login2> {
                               color: AppTheme.white,
                             ),
                           )),
-                  style: ElevatedButton.styleFrom(primary: AppTheme.btnColor, minimumSize: Size(130.w, 55.h), maximumSize: Size(130.w, 55.h), fixedSize: Size(130.w, 55.h)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppTheme.btnColor,
+                    minimumSize: Size(130.w, 55.h),
+                    maximumSize: Size(130.w, 55.h),
+                    fixedSize: Size(130.w, 55.h),
+                  ),
                 ),
                 Gap(85.h),
                 GestureDetector(

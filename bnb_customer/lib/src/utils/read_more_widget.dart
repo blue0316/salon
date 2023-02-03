@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -25,8 +27,7 @@ class ReadMoreText extends StatefulWidget {
     this.locale,
     this.textScaleFactor,
     this.semanticsLabel,
-  })  : assert(data != null),
-        super(key: key);
+  }) : super(key: key);
 
   final String data;
   final String trimExpandedText;
@@ -74,7 +75,7 @@ class ReadMoreTextState extends State<ReadMoreText> {
           context,
         );
 
-    final colorClickableText = widget.colorClickableText ?? Theme.of(context).accentColor;
+    final colorClickableText = widget.colorClickableText ?? Theme.of(context).colorScheme.secondary;
 
     TextSpan link = TextSpan(
       text: _readMore ? widget.trimCollapsedText : widget.trimExpandedText,
@@ -114,7 +115,7 @@ class ReadMoreTextState extends State<ReadMoreText> {
         textPainter.layout(minWidth: constraints.minWidth, maxWidth: maxWidth);
         final textSize = textPainter.size;
 
-        print('linkSize $linkSize textSize $textSize');
+        debugPrint('linkSize $linkSize textSize $textSize');
 
         // Get the endIndex of data
         bool linkLongerThanLine = false;
@@ -134,7 +135,7 @@ class ReadMoreTextState extends State<ReadMoreText> {
           linkLongerThanLine = true;
         }
 
-        var textSpan;
+        TextSpan textSpan;
         switch (widget.trimMode) {
           case TrimMode.Length:
             if (widget.trimLength < widget.data.length) {
@@ -154,9 +155,7 @@ class ReadMoreTextState extends State<ReadMoreText> {
             if (textPainter.didExceedMaxLines) {
               textSpan = TextSpan(
                 style: effectiveTextStyle,
-                text: _readMore
-                    ? widget.data.substring(0, endIndex) + (linkLongerThanLine ? _kLineSeparator : '')
-                    : widget.data,
+                text: _readMore ? widget.data.substring(0, endIndex) + (linkLongerThanLine ? _kLineSeparator : '') : widget.data,
                 children: <TextSpan>[link],
               );
             } else {

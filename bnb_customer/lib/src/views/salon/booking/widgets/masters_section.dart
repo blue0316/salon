@@ -22,7 +22,13 @@ import 'package:bbblient/src/views/widgets/widgets.dart';
 class DialogMastersSection extends ConsumerStatefulWidget {
   final CreateAppointmentProvider createAppointment;
   final TabController tabController;
-  const DialogMastersSection({Key? key, required this.tabController, required this.createAppointment}) : super(key: key);
+  final bool master;
+  const DialogMastersSection({
+    Key? key,
+    required this.tabController,
+    required this.createAppointment,
+    this.master = false,
+  }) : super(key: key);
 
   @override
   ConsumerState<DialogMastersSection> createState() => _DialogMastersSectionState();
@@ -47,7 +53,9 @@ class _DialogMastersSectionState extends ConsumerState<DialogMastersSection> {
             Expanded(
               child: ListView(
                 children: [
-                  const Space(factor: 0.5),
+                  Space(
+                    factor: (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.salon && widget.master == false) ? 0.5 : 2,
+                  ),
                   // -- ALL SERVICES
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,7 +82,7 @@ class _DialogMastersSectionState extends ConsumerState<DialogMastersSection> {
                           ),
                         ],
                       ),
-                      const Space(factor: 1),
+                      Space(factor: (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.salon && widget.master == false) ? 1 : 2),
                       ListView.builder(
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
@@ -199,10 +207,11 @@ class _DialogMastersSectionState extends ConsumerState<DialogMastersSection> {
                   const Space(factor: 2),
 
                   // -- SELECT MASTER
-                  AvailableMasters(
-                    createAppointment: widget.createAppointment,
-                    mastresListController: _mastresListController,
-                  ),
+                  if (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.salon && widget.master == false)
+                    AvailableMasters(
+                      createAppointment: widget.createAppointment,
+                      mastresListController: _mastresListController,
+                    ),
                 ],
               ),
             ),

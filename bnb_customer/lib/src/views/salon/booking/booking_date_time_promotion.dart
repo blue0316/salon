@@ -1,8 +1,9 @@
+// ignore_for_file: unused_field
+
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../controller/all_providers/all_providers.dart';
 
 class BookingDateTime extends ConsumerStatefulWidget {
@@ -51,7 +52,7 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
             SizedBox(
               height: 1.sh,
             ),
-         ],
+          ],
         ),
       ),
     );

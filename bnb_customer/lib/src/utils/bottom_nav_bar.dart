@@ -78,12 +78,11 @@ class SalomonBottomBar extends StatelessWidget {
                   final _unselectedColor = item.unselectedColor ?? unselectedItemColor ?? theme.iconTheme.color;
 
                   return Material(
-                    color: Color.lerp(
-                        _selectedColor.withOpacity(0.0), _selectedColor.withOpacity(selectedColorOpacity ?? 0.1), t),
-                    shape: StadiumBorder(),
+                    color: Color.lerp(_selectedColor.withOpacity(0.0), _selectedColor.withOpacity(selectedColorOpacity ?? 0.1), t),
+                    shape: const StadiumBorder(),
                     child: InkWell(
                       onTap: () => onTap?.call(items.indexOf(item)),
-                      customBorder: StadiumBorder(),
+                      customBorder: const StadiumBorder(),
                       focusColor: _selectedColor.withOpacity(0.1),
                       highlightColor: _selectedColor.withOpacity(0.1),
                       splashColor: _selectedColor.withOpacity(0.1),
@@ -107,7 +106,7 @@ class SalomonBottomBar extends StatelessWidget {
                                 /// best to find a way to make it respond only to padding.
                                 height: 20,
                                 child: Align(
-                                  alignment: Alignment(-0.2, 0.0),
+                                  alignment: const Alignment(-0.2, 0.0),
                                   widthFactor: t,
                                   child: Padding(
                                     padding: EdgeInsets.only(left: itemPadding.right / 2, right: itemPadding.right),
