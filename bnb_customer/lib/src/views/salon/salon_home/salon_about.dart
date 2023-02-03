@@ -70,7 +70,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
   }
 
   getFeatureUk(String s) {
-    print(widget.salonModel.ownerType);
+    debugPrint(widget.salonModel.ownerType);
     for (Map registeredFeatures in ukMasterFeatures) {
       if (registeredFeatures.containsKey(s)) {
         return registeredFeatures[s];
@@ -251,7 +251,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                               onTap: () => showDialog<bool>(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    print(s);
+                                    debugPrint(s);
                                     return ShowAdditionaFeatureInfo(_bnbProvider, s);
                                   }),
                               child: Container(

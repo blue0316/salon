@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
@@ -30,7 +28,11 @@ class SaloonHeader extends ConsumerStatefulWidget {
 
 class _SaloonHeaderState extends ConsumerState<SaloonHeader> {
   int _current = 0;
-  void _launchURL(String url) async => await canLaunch(url) ? await launch(url) : showToast('Could not launch $url');
+  void _launchURL(String url) async => await canLaunchUrl(Uri.parse(url))
+      ? await canLaunchUrl(Uri.parse(url))
+      : showToast(
+          'Could not launch $url',
+        );
   @override
   Widget build(BuildContext context) {
     return Column(

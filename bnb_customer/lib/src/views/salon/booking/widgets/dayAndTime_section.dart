@@ -1,4 +1,5 @@
-import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+// ignore_for_file: file_names
+
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,7 @@ class _DialogDateAndTimeSectionState extends ConsumerState<DialogDateAndTimeSect
 
   @override
   Widget build(BuildContext context) {
-    final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
+    // final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
 
     return Padding(
       padding: EdgeInsets.symmetric(

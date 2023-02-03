@@ -16,7 +16,7 @@ class _PriceFilterState extends State<PriceFilter> {
   double? priceEnd = 1200;
 
   final TextEditingController _priceStartController = TextEditingController();
-  TextEditingController _priceEndController = TextEditingController();
+  final TextEditingController _priceEndController = TextEditingController();
 
   @override
   void initState() {

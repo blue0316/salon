@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_web_libraries_in_flutter
+// ignore_for_file: avoid_web_libraries_in_flutter, unused_local_variable
 
 import 'package:bbblient/main.dart';
 import 'package:bbblient/src/controller/bnb/bnb_provider.dart';

@@ -3,7 +3,6 @@ import 'package:bbblient/src/controller/home/map_view_provider.dart';
 import 'package:bbblient/src/controller/home/salon_search_provider.dart';
 import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/views/home/map_view/pick_location.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -13,7 +12,6 @@ import '../search/filter/filter.dart';
 import 'bottom_sheets/salon_description.dart';
 import 'bottom_sheets/salon_search_result.dart';
 import 'map.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MapView extends ConsumerStatefulWidget {
   final bool showAllNearby;
@@ -74,10 +72,7 @@ class SalonsDraggableList extends ConsumerWidget {
         maxChildSize: 0.75,
         builder: (BuildContext context, ScrollController scrollController) {
           return Container(
-            decoration: const BoxDecoration(
-                color: AppTheme.coolerGrey,
-                borderRadius:
-                    BorderRadius.only(topLeft: Radius.circular(AppTheme.margin), topRight: Radius.circular(AppTheme.margin))),
+            decoration: const BoxDecoration(color: AppTheme.coolerGrey, borderRadius: BorderRadius.only(topLeft: Radius.circular(AppTheme.margin), topRight: Radius.circular(AppTheme.margin))),
             child: Column(
               children: [
                 Padding(
@@ -174,9 +169,7 @@ class _AppBar extends ConsumerWidget implements PreferredSizeWidget {
                 child: Ink(
                   height: 32,
                   width: 32,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: _mapViewProvider.isSearching ? AppTheme.lightGrey : AppTheme.lightBlack),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: _mapViewProvider.isSearching ? AppTheme.lightGrey : AppTheme.lightBlack),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SvgPicture.asset(

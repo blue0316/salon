@@ -115,7 +115,7 @@ class ReadMoreTextState extends State<ReadMoreText> {
         textPainter.layout(minWidth: constraints.minWidth, maxWidth: maxWidth);
         final textSize = textPainter.size;
 
-        print('linkSize $linkSize textSize $textSize');
+        debugPrint('linkSize $linkSize textSize $textSize');
 
         // Get the endIndex of data
         bool linkLongerThanLine = false;
@@ -135,7 +135,7 @@ class ReadMoreTextState extends State<ReadMoreText> {
           linkLongerThanLine = true;
         }
 
-        var textSpan;
+        TextSpan textSpan;
         switch (widget.trimMode) {
           case TrimMode.Length:
             if (widget.trimLength < widget.data.length) {

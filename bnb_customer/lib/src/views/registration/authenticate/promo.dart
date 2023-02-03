@@ -27,11 +27,7 @@ class EnterPromo extends StatelessWidget {
               width: 170,
               height: 48,
               child: TextFormField(
-                decoration: InputDecoration(
-                    fillColor: Colors.white.withOpacity(.48),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
-                    filled: true,
-                    hintText: "Enter promo code"),
+                decoration: InputDecoration(fillColor: Colors.white.withOpacity(.48), border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none), filled: true, hintText: "Enter promo code"),
                 cursorHeight: 16,
                 textAlign: TextAlign.center,
                 textAlignVertical: TextAlignVertical.center,
@@ -49,7 +45,7 @@ class EnterPromo extends StatelessWidget {
           color: AppTheme.lightBlack,
           // inactive color = D8DDE8
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterQuiz()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterQuiz()));
           },
           child: Text(
             "confirm",
@@ -62,10 +58,12 @@ class EnterPromo extends StatelessWidget {
 }
 
 class DoYouHavePromo extends StatelessWidget {
+  const DoYouHavePromo({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    return Container(
+    return SizedBox(
       height: 280.h,
       child: Column(
         children: [
@@ -89,7 +87,7 @@ class DoYouHavePromo extends StatelessWidget {
                   value: true,
                   groupValue: 1,
                   onChanged: (dynamic val) {},
-                  title: Text("Yes"),
+                  title: const Text("Yes"),
                 ),
               ),
               SizedBox(
@@ -98,7 +96,7 @@ class DoYouHavePromo extends StatelessWidget {
                   value: false,
                   groupValue: 1,
                   onChanged: (dynamic val) {},
-                  title: Text("No"),
+                  title: const Text("No"),
                 ),
               ),
             ],

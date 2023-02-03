@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 import '../salon_master/salon.dart';
 
 class CustomerModel {
@@ -44,35 +42,24 @@ class CustomerModel {
   });
 
   CustomerModel.fromJson(Map<String, dynamic> json) {
-    createdAt =
-        json['createdAt'] != null ? json['createdAt'].toDate() : DateTime.now();
+    createdAt = json['createdAt'] != null ? json['createdAt'].toDate() : DateTime.now();
     customerId = '';
     personalInfo = PersonalInfo.fromJson(json['personalInfo']);
-    registeredSalons = json['registeredSalons'] == null
-        ? []
-        : json['registeredSalons'].cast<String>();
+    registeredSalons = json['registeredSalons'] == null ? [] : json['registeredSalons'].cast<String>();
     avgRating = (json['avgRating'] != null) ? json['avgRating'].toDouble() : 0;
-    noOfRatings =
-        (json['noOfRatings'] != null) ? json['noOfRatings'].toInt() : 0;
+    noOfRatings = (json['noOfRatings'] != null) ? json['noOfRatings'].toInt() : 0;
     profileCompleted = json['profileCompleted'] ?? false;
     quizCompleted = json['quizCompleted'] ?? false;
     profilePicUploaded = json['profilePicUploaded'] ?? false;
     profilePic = json['profilePic'] ?? '';
     preferredGender = json['preferredGender'] ?? 'all';
-    preferredCategories = json['preferredCategories'] == null
-        ? []
-        : json['preferredCategories'].cast<String>();
-    favSalons =
-        json['favSalons'] == null ? [] : json['favSalons'].cast<String>();
+    preferredCategories = json['preferredCategories'] == null ? [] : json['preferredCategories'].cast<String>();
+    favSalons = json['favSalons'] == null ? [] : json['favSalons'].cast<String>();
     fcmToken = json['fcmToken'] ?? '';
-    locations = json['locations'] == null
-        ? []
-        : locations = json['locations']
-            .map<Position>((val) => Position.fromJson(val))
-            .toList();
+    locations = json['locations'] == null ? [] : locations = json['locations'].map<Position>((val) => Position.fromJson(val)).toList();
     locale = json['locale'] ?? 'uk';
     referralLink = json['referralLink'] ?? '';
-    salonIdsBlocked=json['salonIdsBlocked']==null?[]:json['salonIdsBlocked'].cast<String>();
+    salonIdsBlocked = json['salonIdsBlocked'] == null ? [] : json['salonIdsBlocked'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {
@@ -85,8 +72,7 @@ class CustomerModel {
     data['profilePic'] = profilePic;
     data['preferredGender'] = preferredGender;
     data['preferredCategories'] = preferredCategories;
-    data['locations'] =
-        locations.map<Map<String, dynamic>>((loc) => loc.toJson()).toList();
+    data['locations'] = locations.map<Map<String, dynamic>>((loc) => loc.toJson()).toList();
     data['favSalons'] = favSalons;
     data['fcmToken'] = fcmToken;
     data['profileCompleted'] = profileCompleted;

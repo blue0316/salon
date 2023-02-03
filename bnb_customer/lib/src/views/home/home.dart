@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_type_check, avoid_web_libraries_in_flutter
+
 import 'dart:math';
 
 import 'package:bbblient/main.dart';
@@ -22,7 +24,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../theme/app_main_theme.dart';
 import '../../utils/icons.dart';
-import '../salon/salon_home/salon_profile.dart';
 import 'choose_category.dart';
 import 'map_view/pick_location.dart';
 import 'search/search_field.dart';
@@ -48,18 +49,9 @@ class _HomeState extends ConsumerState<Home> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const ConstrainedContainer(
-                  margin: EdgeInsets.only(
-                      top: 20.0, left: AppTheme.margin, right: AppTheme.margin),
-                  child: HomePageAppBar()),
-              const ConstrainedContainer(
-                  margin: EdgeInsets.only(
-                      top: 30, left: AppTheme.margin, right: AppTheme.margin),
-                  child: SearchField()),
-              const ConstrainedContainer(
-                  margin: EdgeInsets.only(
-                      left: AppTheme.margin, right: AppTheme.margin),
-                  child: BannerScroll()),
+              const ConstrainedContainer(margin: EdgeInsets.only(top: 20.0, left: AppTheme.margin, right: AppTheme.margin), child: HomePageAppBar()),
+              const ConstrainedContainer(margin: EdgeInsets.only(top: 30, left: AppTheme.margin, right: AppTheme.margin), child: SearchField()),
+              const ConstrainedContainer(margin: EdgeInsets.only(left: AppTheme.margin, right: AppTheme.margin), child: BannerScroll()),
               Space(
                 factor: 1.h,
               ),
@@ -75,8 +67,7 @@ class _HomeState extends ConsumerState<Home> {
                       ),
                     )),
               ),
-              if (_salonSearchProvider.nearbySalons.isEmpty &&
-                  _salonSearchProvider.status == Status.failed) ...[
+              if (_salonSearchProvider.nearbySalons.isEmpty && _salonSearchProvider.status == Status.failed) ...[
                 ConstrainedContainer(
                   child: Column(
                     children: [
@@ -89,9 +80,7 @@ class _HomeState extends ConsumerState<Home> {
                         height: 16,
                       ),
                       Text(
-                        AppLocalizations.of(context)
-                                ?.noSalonsNearbyTryDifferentLocation ??
-                            '',
+                        AppLocalizations.of(context)?.noSalonsNearbyTryDifferentLocation ?? '',
                         style: Theme.of(context).textTheme.headline4,
                       ),
                     ],
@@ -115,32 +104,25 @@ class _HomeState extends ConsumerState<Home> {
                           return false;
                         }
                       },
-                      child: DeviceConstraints.getDeviceType(mediaQuery) ==
-                              DeviceScreenType.tab
+                      child: DeviceConstraints.getDeviceType(mediaQuery) == DeviceScreenType.tab
                           ? GridView.builder(
                               physics: const NeverScrollableScrollPhysics(),
-                              itemCount:
-                                  _salonSearchProvider.nearbySalons.length,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                              itemCount: _salonSearchProvider.nearbySalons.length,
+                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 3,
                                 mainAxisSpacing: 16,
                                 crossAxisSpacing: 16,
                               ),
                               shrinkWrap: true,
                               itemBuilder: (context, index) {
-                                final SalonModel _salon =
-                                    _salonSearchProvider.nearbySalons[index];
+                                final SalonModel _salon = _salonSearchProvider.nearbySalons[index];
                                 return SalonContainerForWeb(
                                     salon: _salon,
                                     showDialogForFavToggle: false,
-                                    isFav: _bnbProvider
-                                        .checkForFav(_salon.salonId),
-                                    onFavouriteCallback: () =>
-                                        _bnbProvider.toggleFav(_salon.salonId),
+                                    isFav: _bnbProvider.checkForFav(_salon.salonId),
+                                    onFavouriteCallback: () => _bnbProvider.toggleFav(_salon.salonId),
                                     onBookTapped: () {
-                                      context.go(
-                                          '${NavigatorPage.route}/salon?id=${_salon.salonId}&locale=${_bnbProvider.locale}');
+                                      context.go('${NavigatorPage.route}/salon?id=${_salon.salonId}&locale=${_bnbProvider.locale}');
                                     });
                               },
                             )
@@ -150,17 +132,14 @@ class _HomeState extends ConsumerState<Home> {
                               loadMore: () async {
                                 _salonSearchProvider.incrementRadius();
                               },
-                              errorIndicatorWidget: (exception, tryAgain) =>
-                                  Container(
+                              errorIndicatorWidget: (exception, tryAgain) => Container(
                                 color: Colors.redAccent,
                                 height: 130,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      AppLocalizations.of(context)
-                                              ?.noSalonsNearby ??
-                                          '',
+                                      AppLocalizations.of(context)?.noSalonsNearby ?? '',
                                       style: const TextStyle(fontSize: 16),
                                     ),
                                   ],
@@ -173,22 +152,17 @@ class _HomeState extends ConsumerState<Home> {
                                 ),
                               ),
                               itemBuilder: (context, index) {
-                                final SalonModel _salon =
-                                    _salonSearchProvider.nearbySalons[index];
+                                final SalonModel _salon = _salonSearchProvider.nearbySalons[index];
                                 return SalonContainer(
                                     salon: _salon,
                                     showDialogForFavToggle: false,
-                                    isFav: _bnbProvider
-                                        .checkForFav(_salon.salonId),
-                                    onFavouriteCallback: () =>
-                                        _bnbProvider.toggleFav(_salon.salonId),
+                                    isFav: _bnbProvider.checkForFav(_salon.salonId),
+                                    onFavouriteCallback: () => _bnbProvider.toggleFav(_salon.salonId),
                                     onBookTapped: () {
-                                      context.go(
-                                          '${NavigatorPage.route}/salon?id=${_salon.salonId}');
+                                      context.go('${NavigatorPage.route}/salon?id=${_salon.salonId}');
                                     });
                               },
-                              itemCount:
-                                  _salonSearchProvider.nearbySalons.length,
+                              itemCount: _salonSearchProvider.nearbySalons.length,
                             ),
                     ),
                   ),
@@ -235,8 +209,7 @@ class _AppBarState extends ConsumerState<HomePageAppBar> {
     });
   }
 
-  Future pickLocation(
-      {required SalonSearchProvider salonSearchProvider}) async {
+  Future pickLocation({required SalonSearchProvider salonSearchProvider}) async {
     bool? locationChanged = await Navigator.push(
       context,
       MaterialPageRoute(
@@ -252,35 +225,20 @@ class _AppBarState extends ConsumerState<HomePageAppBar> {
   @override
   Widget build(BuildContext context) {
     final AuthProvider _authProvider = ref.watch(authProvider);
-    final SalonSearchProvider _salonSearchProvider =
-        ref.watch(salonSearchProvider);
+    final SalonSearchProvider _salonSearchProvider = ref.watch(salonSearchProvider);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
           child: AnimatedCrossFade(
-            crossFadeState: showCurrentAddress
-                ? CrossFadeState.showSecond
-                : CrossFadeState.showFirst,
+            crossFadeState: showCurrentAddress ? CrossFadeState.showSecond : CrossFadeState.showFirst,
             duration: const Duration(milliseconds: 300),
             firstChild: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                    "${AppLocalizations.of(context)!.welcomeback}${(_authProvider.currentCustomer?.personalInfo.firstName != null && _authProvider.currentCustomer?.personalInfo.firstName != '') ? "," : ""}",
-                    style: Theme.of(context).textTheme.headline5),
+                Text("${AppLocalizations.of(context)!.welcomeback}${(_authProvider.currentCustomer?.personalInfo.firstName != null && _authProvider.currentCustomer?.personalInfo.firstName != '') ? "," : ""}", style: Theme.of(context).textTheme.headline5),
                 SizedBox(height: 4.h),
-                if ((_authProvider.currentCustomer?.personalInfo.firstName !=
-                        null &&
-                    _authProvider.currentCustomer?.personalInfo.firstName !=
-                        ''))
-                  Text(
-                      _authProvider.currentCustomer?.personalInfo.firstName ??
-                          "",
-                      style: Theme.of(context).textTheme.headline5!.copyWith(
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w500,
-                          color: AppTheme.textBlack)),
+                if ((_authProvider.currentCustomer?.personalInfo.firstName != null && _authProvider.currentCustomer?.personalInfo.firstName != '')) Text(_authProvider.currentCustomer?.personalInfo.firstName ?? "", style: Theme.of(context).textTheme.headline5!.copyWith(fontSize: 18.sp, fontWeight: FontWeight.w500, color: AppTheme.textBlack)),
               ],
             ),
             secondChild: Padding(
@@ -291,10 +249,7 @@ class _AppBarState extends ConsumerState<HomePageAppBar> {
                   Expanded(
                     child: Text(
                       _salonSearchProvider.tempAddress,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline5!
-                          .copyWith(fontSize: 15.sp),
+                      style: Theme.of(context).textTheme.headline5!.copyWith(fontSize: 15.sp),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -307,13 +262,10 @@ class _AppBarState extends ConsumerState<HomePageAppBar> {
         Row(
           children: [
             Padding(
-              padding: EdgeInsets.only(
-                  right:
-                      DeviceConstraints.getResponsiveSize(context, 24, 30, 42)),
+              padding: EdgeInsets.only(right: DeviceConstraints.getResponsiveSize(context, 24, 30, 42)),
               child: GestureDetector(
                 onTap: () {
-                  html.window
-                      .open("https://bowandbeautiful.com/privacy", "_blank");
+                  html.window.open("https://bowandbeautiful.com/privacy", "_blank");
                 },
                 child: const Text(
                   "PRIVACY",
@@ -336,33 +288,21 @@ class _AppBarState extends ConsumerState<HomePageAppBar> {
                 await pickLocation(salonSearchProvider: _salonSearchProvider);
               },
               child: Padding(
-                padding: EdgeInsets.only(
-                    right: DeviceConstraints.getResponsiveSize(
-                        context, 24, 30, 42)),
+                padding: EdgeInsets.only(right: DeviceConstraints.getResponsiveSize(context, 24, 30, 42)),
                 child: Stack(
                   clipBehavior: Clip.none,
                   children: [
-                    SvgPicture.asset(AppIcons.locationMarkerSVG,
-                        height: DeviceConstraints.getResponsiveSize(
-                            context, 26, 27, 28)),
+                    SvgPicture.asset(AppIcons.locationMarkerSVG, height: DeviceConstraints.getResponsiveSize(context, 26, 27, 28)),
                   ],
                 ),
               ),
             ),
             GestureDetector(
-              onTap: () => checkUser(
-                  context,
-                  ref,
-                  () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ChatList()))),
+              onTap: () => checkUser(context, ref, () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ChatList()))),
               child: Stack(
                 clipBehavior: Clip.none,
                 children: [
-                  SvgPicture.asset(AppIcons.speechBubbleSVG,
-                      height: DeviceConstraints.getResponsiveSize(
-                          context, 26, 27, 28)),
+                  SvgPicture.asset(AppIcons.speechBubbleSVG, height: DeviceConstraints.getResponsiveSize(context, 26, 27, 28)),
 
                   // const Positioned(
                   //     top: 0,

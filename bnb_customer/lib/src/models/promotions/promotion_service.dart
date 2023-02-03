@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_collection_literals
+// ignore_for_file: prefer_collection_literals, constant_identifier_names
 
 import '../cat_sub_service/services_model.dart';
 

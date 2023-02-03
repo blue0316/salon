@@ -1,6 +1,5 @@
 import 'package:bbblient/src/models/cat_sub_service/price_and_duration.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
-import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../backend_codings/appointment.dart';
@@ -100,18 +99,18 @@ class AppointmentModel {
     } else {
       updatedAt = [];
     }
-    paymentInfo = json['paymentInfo'] != null
-        ? PaymentInfo.fromJson(json['paymentInfo'])
-        : null;
+    paymentInfo = json['paymentInfo'] != null ? PaymentInfo.fromJson(json['paymentInfo']) : null;
 
     appointmentTime = json['appointmentTime'];
-    if (json['appointmentDate'] is String)
+    if (json['appointmentDate'] is String) {
       appointmentDate = json['appointmentDate'];
+    }
     appointmentId = json['appointmentId'] ?? '';
     if (json['salon'] != null) salon = Salon.fromJson(json['salon']);
     if (json['master'] != null) master = Master.fromJson(json['master']);
-    if (json['customer'] != null)
+    if (json['customer'] != null) {
       customer = Customer.fromJson(json['customer']);
+    }
     createdBy = json['createdBy'];
     chatId = json['chatId'];
     bookedForSelf = json['bookedForSelf'] ?? true;
@@ -122,14 +121,12 @@ class AppointmentModel {
     bookedForPhoneNo = json['bookedForPhoneNo'] ?? '';
     salonOwnerType = json['salonOwnerType'];
     note = json['note'] ?? '';
-    if (json['priceAndDuration'] != null)
-      priceAndDuration =
-          PriceAndDurationModel.fromJson(json['priceAndDuration']);
+    if (json['priceAndDuration'] != null) {
+      priceAndDuration = PriceAndDurationModel.fromJson(json['priceAndDuration']);
+    }
     updates = json['updates'] == null ? [] : json['updates'].cast<String>();
     status = json['status'];
-    services = json['services'] != null
-        ? json['services'].map<Service>((e) => Service.fromJson(e)).toList()
-        : [];
+    services = json['services'] != null ? json['services'].map<Service>((e) => Service.fromJson(e)).toList() : [];
     masterReviewed = json['masterReviewed'] ?? false;
     salonReviewed = json['salonReviewed'] ?? false;
     beautyProId = json['beautyProId'];
@@ -205,12 +202,10 @@ class Service {
     subCategoryId = json["subCategoryId"];
     serviceName = json["serviceName"];
     if (json['priceAndDuration'] != null) {
-      priceAndDuration =
-          PriceAndDurationModel.fromJson(json['priceAndDuration']);
+      priceAndDuration = PriceAndDurationModel.fromJson(json['priceAndDuration']);
     }
     if (json['priceAndDurationMax'] != null) {
-      priceAndDurationMax =
-          PriceAndDurationModel.fromJson(json['priceAndDurationMax']);
+      priceAndDurationMax = PriceAndDurationModel.fromJson(json['priceAndDurationMax']);
     }
     if (json["translations"] != null) translations = {...json["translations"]};
   }
@@ -226,9 +221,7 @@ class Service {
     return map;
   }
 
-  Service.fromService(
-      {required ServiceModel serviceModel,
-      PriceAndDurationModel? masterPriceAndDuration}) {
+  Service.fromService({required ServiceModel serviceModel, PriceAndDurationModel? masterPriceAndDuration}) {
     serviceId = serviceModel.serviceId;
     categoryId = serviceModel.categoryId;
     subCategoryId = serviceModel.subCategoryId;

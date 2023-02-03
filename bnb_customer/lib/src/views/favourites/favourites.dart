@@ -1,11 +1,9 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
 import 'package:bbblient/src/controller/home/salon_search_provider.dart';
-import 'package:bbblient/src/firebase/salons.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
-import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/salon/salon_home/salon_profile.dart';
 import 'package:bbblient/src/views/widgets/salon_widgets.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
@@ -33,7 +31,7 @@ class _FavouritesState extends ConsumerState<Favourites> {
 
     return Scaffold(
       body: ConstrainedContainer(
-        margin:const EdgeInsets.symmetric(horizontal: 16),
+        margin: const EdgeInsets.symmetric(horizontal: 16),
         child: SafeArea(
           child: SingleChildScrollView(
             child: Column(
@@ -43,10 +41,7 @@ class _FavouritesState extends ConsumerState<Favourites> {
                   padding: EdgeInsets.only(top: 37.0.h, bottom: 24.h),
                   child: Text(
                     AppLocalizations.of(context)?.favourites ?? "Favourites",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4!
-                        .copyWith(color: AppTheme.textBlack),
+                    style: Theme.of(context).textTheme.headline4!.copyWith(color: AppTheme.textBlack),
                   ),
                 ),
                 SizedBox(
@@ -70,12 +65,8 @@ class _FavouritesState extends ConsumerState<Favourites> {
                                   Icons.search,
                                   color: Colors.grey,
                                 ),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                    borderSide: BorderSide.none),
-                                hintText:
-                                    AppLocalizations.of(context)?.search ??
-                                        "Search"),
+                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
+                                hintText: AppLocalizations.of(context)?.search ?? "Search"),
                           ),
                         ),
                         SizedBox(
@@ -107,38 +98,30 @@ class _FavouritesState extends ConsumerState<Favourites> {
                 SizedBox(
                   height: 32.h,
                 ),
-                _bnbProvider
-                        .isFavPresent(_salonProvider.nearbySalons)
-                    ? DeviceConstraints.getDeviceType(mediaQuery) ==
-                            DeviceScreenType.tab
+                _bnbProvider.isFavPresent(_salonProvider.nearbySalons)
+                    ? DeviceConstraints.getDeviceType(mediaQuery) == DeviceScreenType.tab
                         ? GridView.builder(
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: _salonProvider.nearbySalons.length,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 3,
                               mainAxisSpacing: 14,
                               crossAxisSpacing: 14,
                             ),
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
-                              final SalonModel _salon =
-                                  _salonProvider.nearbySalons[index];
-                              if (_bnbProvider
-                                  .checkForFav(_salon.salonId)) {
+                              final SalonModel _salon = _salonProvider.nearbySalons[index];
+                              if (_bnbProvider.checkForFav(_salon.salonId)) {
                                 return SalonContainerForWeb(
                                   salon: _salon,
                                   showDialogForFavToggle: true,
-                                  isFav: _bnbProvider
-                                      .checkForFav(_salon.salonId),
-                                  onFavouriteCallback: () => _bnbProvider
-                                      .toggleFav(_salon.salonId),
+                                  isFav: _bnbProvider.checkForFav(_salon.salonId),
+                                  onFavouriteCallback: () => _bnbProvider.toggleFav(_salon.salonId),
                                   onBookTapped: () {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        settings: const RouteSettings(
-                                            name: SalonPage.route),
+                                        settings: const RouteSettings(name: SalonPage.route),
                                         builder: (context) => SalonPage(
                                           salonId: _salon.salonId,
                                           switchSalon: true,
@@ -155,25 +138,19 @@ class _FavouritesState extends ConsumerState<Favourites> {
                             shrinkWrap: true,
                             itemCount: _salonProvider.nearbySalons.length,
                             itemBuilder: (BuildContext context, int index) {
-                              final SalonModel _salon =
-                                  _salonProvider.nearbySalons[index];
-                              if (_bnbProvider
-                                  .checkForFav(_salon.salonId)) {
+                              final SalonModel _salon = _salonProvider.nearbySalons[index];
+                              if (_bnbProvider.checkForFav(_salon.salonId)) {
                                 return SalonContainer(
-                                  isFav: _bnbProvider
-                                      .checkForFav(_salon.salonId),
+                                  isFav: _bnbProvider.checkForFav(_salon.salonId),
                                   salon: _salon,
                                   showDialogForFavToggle: true,
-                                  onFavouriteCallback: () => _bnbProvider
-                                      .toggleFav(_salon.salonId),
+                                  onFavouriteCallback: () => _bnbProvider.toggleFav(_salon.salonId),
                                   onBookTapped: () async {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        settings: const RouteSettings(
-                                            name: SalonPage.route),
+                                        settings: const RouteSettings(name: SalonPage.route),
                                         builder: (context) => SalonPage(
-
                                           salonId: _salon.salonId,
                                           switchSalon: true,
                                         ),
@@ -200,33 +177,18 @@ class _FavouritesState extends ConsumerState<Favourites> {
                                 right: 24,
                                 top: 52,
                                 child: Text(
-                                  AppLocalizations.of(context)
-                                          ?.noFavouritesYet ??
-                                      "No favourites yet",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline4!
-                                      .copyWith(
-                                          color: AppTheme.textBlack,
-                                          fontSize: 16),
+                                  AppLocalizations.of(context)?.noFavouritesYet ?? "No favourites yet",
+                                  style: Theme.of(context).textTheme.headline4!.copyWith(color: AppTheme.textBlack, fontSize: 16),
                                 ),
                               )
                             ],
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 24.0, vertical: 50),
+                            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 50),
                             child: Text(
-                              AppLocalizations.of(context)
-                                      ?.saveFavourites ??
-                                  "Save salons and masters you like by tapping on heart",
+                              AppLocalizations.of(context)?.saveFavourites ?? "Save salons and masters you like by tapping on heart",
                               textAlign: TextAlign.center,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .copyWith(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400),
+                              style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 16, fontWeight: FontWeight.w400),
                             ),
                           ),
                         ],

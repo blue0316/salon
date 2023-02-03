@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_function_literals_in_foreach_calls
+// ignore_for_file: avoid_function_literals_in_foreach_calls, unused_field
 
 import 'dart:async';
 import 'dart:io';
@@ -14,7 +14,6 @@ import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -24,7 +23,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:translator/translator.dart';
 import 'image_preview.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -91,13 +89,7 @@ class ChatScreen extends ConsumerStatefulWidget {
   final String peerName;
   final String appointmentId;
 
-  const ChatScreen(
-      {Key? key,
-      required this.peerId,
-      required this.peerAvatar,
-      required this.peerName,
-      required this.appointmentId})
-      : super(key: key);
+  const ChatScreen({Key? key, required this.peerId, required this.peerAvatar, required this.peerName, required this.appointmentId}) : super(key: key);
 
   @override
   _ChatScreenState createState() => _ChatScreenState();
@@ -107,8 +99,8 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
   late AuthProvider _authProvider;
   late String userUId = '';
   List<ChatMessages> listMessage = [];
-  int _limit = 20;
-  int _limitIncrement = 20;
+  final int _limit = 20;
+  final int _limitIncrement = 20;
   String chatId = "";
   String lastMessage = "";
   SharedPreferences? prefs;
@@ -144,11 +136,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
   initialiseChat() async {
     _authProvider = ref.read(authProvider);
     userUId = _authProvider.currentCustomer!.customerId;
-    QuerySnapshot list = await chatRef
-        .where("customerId",
-            isEqualTo: _authProvider.currentCustomer!.customerId)
-        .where("salonId", isEqualTo: widget.peerId)
-        .get();
+    QuerySnapshot list = await chatRef.where("customerId", isEqualTo: _authProvider.currentCustomer!.customerId).where("salonId", isEqualTo: widget.peerId).get();
     printIt(list.docs);
 
     if (list.docs.isNotEmpty) {
@@ -192,8 +180,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     ImagePicker imagePicker = ImagePicker();
     XFile? pickedFile;
     try {
-      pickedFile = await imagePicker.pickImage(
-          source: ImageSource.gallery, imageQuality: 50);
+      pickedFile = await imagePicker.pickImage(source: ImageSource.gallery, imageQuality: 50);
       if (pickedFile != null) {
         imageFile = File(pickedFile.path);
         if (imageFile != null) {
@@ -217,20 +204,14 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
 
   Future uploadFile({required BuildContext context}) async {
     showToast(AppLocalizations.of(context)?.uploading ?? "uploading");
-    String fileName =
-        "$userUId-${DateTime.now().millisecondsSinceEpoch.toString()}";
-    Reference reference = FirebaseStorage.instance
-        .ref()
-        .child("chatAssets")
-        .child(chatId)
-        .child(fileName);
+    String fileName = "$userUId-${DateTime.now().millisecondsSinceEpoch.toString()}";
+    Reference reference = FirebaseStorage.instance.ref().child("chatAssets").child(chatId).child(fileName);
     UploadTask uploadTask = reference.putFile(imageFile!);
 
     uploadTask.snapshotEvents.listen((event) {
       setState(() {
         printIt(event.bytesTransferred.toDouble());
-        _progress =
-            event.bytesTransferred.toDouble() / event.totalBytes.toDouble();
+        _progress = event.bytesTransferred.toDouble() / event.totalBytes.toDouble();
       });
     }).onError((error) {
       showToast(AppLocalizations.of(context)?.errorOccurred ?? "Network error");
@@ -262,22 +243,10 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     if (content.trim() != '') {
       textEditingController.clear();
       await chatRef.doc(chatId).update({
-        "messages": FieldValue.arrayUnion([
-          ChatMessages(
-                  uid: userUId,
-                  createdAt: Timestamp.fromDate(DateTime.now()),
-                  type: type,
-                  content: content)
-              .toJson()
-        ])
+        "messages": FieldValue.arrayUnion([ChatMessages(uid: userUId, createdAt: Timestamp.fromDate(DateTime.now()), type: type, content: content).toJson()])
       });
-      notification.sendNotificationToSalon(
-          utils.getName(_authProvider.currentCustomer?.personalInfo),
-          content,
-          widget.peerId,
-          type: type);
-      listScrollController.animateTo(0.0,
-          duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
+      notification.sendNotificationToSalon(utils.getName(_authProvider.currentCustomer?.personalInfo), content, widget.peerId, type: type);
+      listScrollController.animateTo(0.0, duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
       setState(() {
         lastMessage = content;
       });
@@ -305,26 +274,17 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                           children: [
                             Text(
                               stringg,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2!
-                                  .copyWith(color: AppTheme.textBlack),
+                              style: Theme.of(context).textTheme.bodyText2!.copyWith(color: AppTheme.textBlack),
                               textAlign: TextAlign.start,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Text(
-                                  DateFormat('EE kk:mm').format(
-                                      DateTime.fromMillisecondsSinceEpoch(
-                                          chatMessages.createdAt!
-                                              .millisecondsSinceEpoch)),
+                                  DateFormat('EE kk:mm').format(DateTime.fromMillisecondsSinceEpoch(chatMessages.createdAt!.millisecondsSinceEpoch)),
 
                                   // "${chatMessages.createdAt.toDate().hour}:${chatMessages.createdAt.toDate().minute}",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText2!
-                                      .copyWith(
+                                  style: Theme.of(context).textTheme.bodyText2!.copyWith(
                                         fontSize: 12,
                                         fontStyle: FontStyle.italic,
                                       ),
@@ -333,8 +293,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                             )
                           ],
                         ),
-                        padding:
-                            const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 10.0),
+                        padding: const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 10.0),
                         width: .7.sw,
                         decoration: BoxDecoration(
                             color: AppTheme.oliveLight.withOpacity(0.3),
@@ -343,8 +302,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                               bottomLeft: Radius.circular(12),
                               bottomRight: Radius.circular(12),
                             )),
-                        margin:
-                            const EdgeInsets.only(bottom: 10.0, right: 10.0),
+                        margin: const EdgeInsets.only(bottom: 10.0, right: 10.0),
                       );
                     })
                 : chatMessages.type == 1
@@ -363,13 +321,9 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                             ? Container(
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(12),
-                                  child: CachedImage(
-                                      url: imageUrl,
-                                      height: 200.w,
-                                      width: 200.w),
+                                  child: CachedImage(url: imageUrl, height: 200.w, width: 200.w),
                                 ),
-                                margin: const EdgeInsets.only(
-                                    bottom: 10.0, right: 10.0),
+                                margin: const EdgeInsets.only(bottom: 10.0, right: 10.0),
                               )
                             : Container(
                                 child: ClipRRect(
@@ -380,8 +334,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                                     width: 200.0.w,
                                     height: 200.0.h,
                                     fit: BoxFit.cover,
-                                    progressIndicatorBuilder:
-                                        (context, url, progress) {
+                                    progressIndicatorBuilder: (context, url, progress) {
                                       return Center(
                                           child: SizedBox(
                                               height: 30,
@@ -392,13 +345,11 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                                     },
                                   ),
                                 ),
-                                margin: const EdgeInsets.only(
-                                    bottom: 10.0, right: 10.0),
+                                margin: const EdgeInsets.only(bottom: 10.0, right: 10.0),
                               ),
                       )
                     : Container(
-                        margin:
-                            const EdgeInsets.only(bottom: 10.0, right: 10.0),
+                        margin: const EdgeInsets.only(bottom: 10.0, right: 10.0),
                       ),
           ],
           mainAxisAlignment: MainAxisAlignment.end,
@@ -417,24 +368,15 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                             children: [
                               Text(
                                 chatMessages.content!,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2!
-                                    .copyWith(color: AppTheme.textBlack),
+                                style: Theme.of(context).textTheme.bodyText2!.copyWith(color: AppTheme.textBlack),
                                 textAlign: TextAlign.start,
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
-                                    DateFormat('dd EE kk:mm').format(
-                                        DateTime.fromMillisecondsSinceEpoch(
-                                            chatMessages.createdAt!
-                                                .millisecondsSinceEpoch)),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText2!
-                                        .copyWith(
+                                    DateFormat('dd EE kk:mm').format(DateTime.fromMillisecondsSinceEpoch(chatMessages.createdAt!.millisecondsSinceEpoch)),
+                                    style: Theme.of(context).textTheme.bodyText2!.copyWith(
                                           fontSize: 12,
                                           fontStyle: FontStyle.italic,
                                         ),
@@ -443,8 +385,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                               )
                             ],
                           ),
-                          padding:
-                              const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 10.0),
+                          padding: const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 10.0),
                           width: .7.sw,
                           decoration: const BoxDecoration(
                               color: Colors.white,
@@ -453,8 +394,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                                 bottomLeft: Radius.circular(12),
                                 bottomRight: Radius.circular(12),
                               )),
-                          margin:
-                              const EdgeInsets.only(bottom: 10.0, right: 10.0),
+                          margin: const EdgeInsets.only(bottom: 10.0, right: 10.0),
                         )
                       : chatMessages.type == 1
                           ? GestureDetector(
@@ -476,8 +416,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                                     width: 200.0.w,
                                     height: 200.0.h,
                                     fit: BoxFit.cover,
-                                    progressIndicatorBuilder:
-                                        (context, url, progress) {
+                                    progressIndicatorBuilder: (context, url, progress) {
                                       return Center(
                                           child: SizedBox(
                                               height: 30,
@@ -488,13 +427,11 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                                     },
                                   ),
                                 ),
-                                margin: const EdgeInsets.only(
-                                    bottom: 10.0, right: 10.0),
+                                margin: const EdgeInsets.only(bottom: 10.0, right: 10.0),
                               ),
                             )
                           : Container(
-                              margin: const EdgeInsets.only(
-                                  bottom: 10.0, right: 10.0),
+                              margin: const EdgeInsets.only(bottom: 10.0, right: 10.0),
                             ),
                 ],
               ),
@@ -545,10 +482,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: IconButton(
-                icon: SizedBox(
-                    height: 22,
-                    width: 22,
-                    child: SvgPicture.asset(AppIcons.attachSVG)),
+                icon: SizedBox(height: 22, width: 22, child: SvgPicture.asset(AppIcons.attachSVG)),
                 onPressed: () {
                   if (!imagepickerTapped) {
                     setState(() {
@@ -567,18 +501,11 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                   onSubmitted: (value) {
                     onSendMessage(textEditingController.text, 0);
                   },
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText2!
-                      .copyWith(color: AppTheme.textBlack),
+                  style: Theme.of(context).textTheme.bodyText2!.copyWith(color: AppTheme.textBlack),
                   controller: textEditingController,
                   decoration: InputDecoration(
-                    hintText: AppLocalizations.of(context)?.typeYourMessage ??
-                        'Type your message...',
-                    hintStyle: Theme.of(context)
-                        .textTheme
-                        .bodyText2!
-                        .copyWith(color: AppTheme.lightGrey),
+                    hintText: AppLocalizations.of(context)?.typeYourMessage ?? 'Type your message...',
+                    hintStyle: Theme.of(context).textTheme.bodyText2!.copyWith(color: AppTheme.lightGrey),
                     fillColor: AppTheme.milkeyGrey,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -613,32 +540,21 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     );
   }
 
-
   Widget buildListMessage() {
     return Expanded(
       child: chatId.isNotEmpty
           ? StreamBuilder(
-              stream: FirebaseFirestore.instance
-                  .collection('chats')
-                  .doc(chatId)
-                  .snapshots(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<DocumentSnapshot<Map>> snapshot) {
+              stream: FirebaseFirestore.instance.collection('chats').doc(chatId).snapshots(),
+              builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map>> snapshot) {
                 if (snapshot.connectionState == ConnectionState.active) {
-                  List<dynamic> rawMessages =
-                      snapshot.data!.data()!['messages'];
+                  List<dynamic> rawMessages = snapshot.data!.data()!['messages'];
 
                   // if (rawMessages.isNotEmpty) {
                   //   for ()
                   // }
-                  List<ChatMessages> processedMessages = rawMessages
-                      .map((e) => ChatMessages.fromJson(e))
-                      .toList()
-                      .reversed
-                      .toList();
+                  List<ChatMessages> processedMessages = rawMessages.map((e) => ChatMessages.fromJson(e)).toList().reversed.toList();
 
                   printIt(processedMessages);
-
 
                   printIt(processedMessages);
 
@@ -666,8 +582,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                 } else {
                   return const Center(
                     child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                          AppTheme.creamBrownLight),
+                      valueColor: AlwaysStoppedAnimation<Color>(AppTheme.creamBrownLight),
                     ),
                   );
                 }
@@ -675,8 +590,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
             )
           : const Center(
               child: CircularProgressIndicator(
-                valueColor:
-                    AlwaysStoppedAnimation<Color>(AppTheme.creamBrownLight),
+                valueColor: AlwaysStoppedAnimation<Color>(AppTheme.creamBrownLight),
               ),
             ),
     );

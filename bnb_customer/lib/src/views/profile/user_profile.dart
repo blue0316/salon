@@ -67,15 +67,8 @@ class _UserProfileState extends ConsumerState<UserProfile> {
                                   backgroundColor: AppTheme.coolGrey,
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(1000),
-                                    child: _auth.currentCustomer
-                                                ?.profilePicUploaded ??
-                                            false
-                                        ? SizedBox(
-                                            height: 64,
-                                            width: 64,
-                                            child: CachedImage(
-                                                url: _auth.currentCustomer!
-                                                    .profilePic))
+                                    child: _auth.currentCustomer?.profilePicUploaded ?? false
+                                        ? SizedBox(height: 64, width: 64, child: CachedImage(url: _auth.currentCustomer!.profilePic))
                                         : SvgPicture.asset(
                                             AppIcons.profilePicPlaceHolder,
                                             fit: BoxFit.cover,
@@ -91,26 +84,15 @@ class _UserProfileState extends ConsumerState<UserProfile> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    NamingConventions.getName(
-                                        _auth.currentCustomer?.personalInfo)!,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1!
-                                        .copyWith(fontWeight: FontWeight.w400),
+                                    NamingConventions.getName(_auth.currentCustomer?.personalInfo)!,
+                                    style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w400),
                                   ),
                                   const Space(
                                     factor: 0.5,
                                   ),
                                   Text(
-                                    _auth.currentCustomer?.personalInfo.phone ??
-                                        '',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1!
-                                        .copyWith(
-                                            fontWeight: FontWeight.w400,
-                                            color: AppTheme.lightGrey,
-                                            fontSize: 14),
+                                    _auth.currentCustomer?.personalInfo.phone ?? '',
+                                    style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w400, color: AppTheme.lightGrey, fontSize: 14),
                                   ),
                                 ],
                               ),
@@ -129,25 +111,20 @@ class _UserProfileState extends ConsumerState<UserProfile> {
                             padding: EdgeInsets.only(
                               right: 20.0.w,
                             ),
-                            child: SizedBox(
-                                height: 24,
-                                width: 24,
-                                child: SvgPicture.asset(AppIcons.logoutSVG)),
+                            child: SizedBox(height: 24, width: 24, child: SvgPicture.asset(AppIcons.logoutSVG)),
                           ),
                         ),
                       ],
                     ),
                   ),
                   ProfileListTile(
-                    key: Key("profile"),
-                    title: AppLocalizations.of(context)?.personalInformation ??
-                        "Personal Information",
+                    key: const Key("profile"),
+                    title: AppLocalizations.of(context)?.personalInformation ?? "Personal Information",
                     iconUrl: AppIcons.personGreySVG,
                     onTapped: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const PersonalInformation()),
+                        MaterialPageRoute(builder: (context) => const PersonalInformation()),
                       );
                     },
                   ),
@@ -162,34 +139,30 @@ class _UserProfileState extends ConsumerState<UserProfile> {
                   //   },
                   // ),
                   ProfileListTile(
-                    key: Key("settings"),
+                    key: const Key("settings"),
                     title: AppLocalizations.of(context)?.settings ?? "Settings",
                     iconUrl: AppIcons.settingsSVG,
                     onTapped: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const Settings()),
+                        MaterialPageRoute(builder: (context) => const Settings()),
                       );
                     },
                   ),
                   ProfileListTile(
-                    key: Key("payments"),
-                    title: AppLocalizations.of(context)?.myPayments ??
-                        "My Payments",
+                    key: const Key("payments"),
+                    title: AppLocalizations.of(context)?.myPayments ?? "My Payments",
                     iconUrl: AppIcons.dollarSVG,
                     onTapped: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const MyPayments()),
+                        MaterialPageRoute(builder: (context) => const MyPayments()),
                       );
                     },
                   ),
                   ProfileListTile(
-                    key: Key("bonuses"),
-                    title:
-                        AppLocalizations.of(context)?.myBonuses ?? "My Bonuses",
+                    key: const Key("bonuses"),
+                    title: AppLocalizations.of(context)?.myBonuses ?? "My Bonuses",
                     iconUrl: AppIcons.bonusesSVG,
                     onTapped: () {
                       Navigator.push(
@@ -202,9 +175,8 @@ class _UserProfileState extends ConsumerState<UserProfile> {
                     },
                   ),
                   ProfileListTile(
-                    key: Key("invite-friends"),
-                    title: AppLocalizations.of(context)?.inviteFriends ??
-                        "Invite Friends",
+                    key: const Key("invite-friends"),
+                    title: AppLocalizations.of(context)?.inviteFriends ?? "Invite Friends",
                     iconUrl: AppIcons.inviteFriendsSVG,
                     onTapped: () {
                       Navigator.push(
@@ -216,9 +188,8 @@ class _UserProfileState extends ConsumerState<UserProfile> {
                     },
                   ),
                   ProfileListTile(
-                    key: Key("support-chats"),
-                    title: AppLocalizations.of(context)?.supportChat ??
-                        "Support Chat",
+                    key: const Key("support-chats"),
+                    title: AppLocalizations.of(context)?.supportChat ?? "Support Chat",
                     iconUrl: AppIcons.chatBubbleSVG,
                     onTapped: () {
                       Navigator.push(

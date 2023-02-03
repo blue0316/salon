@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/firebase/appointments.dart';
 import 'package:bbblient/src/firebase/collections.dart';
@@ -7,8 +9,6 @@ import 'package:bbblient/src/models/review.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/utils/utils.dart';
-import 'package:bbblient/src/views/home_page.dart';
-import 'package:bbblient/src/views/widgets/buttons.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -34,20 +34,7 @@ class _MakeReviewState extends ConsumerState<MakeReview> {
   final TextEditingController _masterReview = TextEditingController();
   final TextEditingController _salonReview = TextEditingController();
 
-  List<String> suggestions = [
-    'Top quality',
-    'Individual approach',
-    'Light-hand',
-    'Good sense of humour',
-    'Goodwill',
-    'Reticence',
-    'Best tools',
-    'Politeness',
-    'Good design',
-    'Rapidity',
-    'Generosity of advice',
-    'Interesting person'
-  ];
+  List<String> suggestions = ['Top quality', 'Individual approach', 'Light-hand', 'Good sense of humour', 'Goodwill', 'Reticence', 'Best tools', 'Politeness', 'Good design', 'Rapidity', 'Generosity of advice', 'Interesting person'];
 
   List<String> masterPositive = [
     'individual approach',
@@ -77,14 +64,7 @@ class _MakeReviewState extends ConsumerState<MakeReview> {
     'пояснений процес',
   ];
 
-  List<String> masterNegative = [
-    'traumatized me',
-    'ignored my wishes',
-    'sloppy',
-    'inattentive master',
-    'disappointing result',
-    "rude communication"
-  ];
+  List<String> masterNegative = ['traumatized me', 'ignored my wishes', 'sloppy', 'inattentive master', 'disappointing result', "rude communication"];
 
   List<String> masterNegativeUKR = [
     'травмування',
@@ -248,8 +228,7 @@ class _MakeReviewState extends ConsumerState<MakeReview> {
         masterId: widget.appointmentModel.salon.id,
       );
       printIt(_review.toJson());
-      DocumentReference docref =
-          await Collection.salons.doc(widget.appointmentModel.salon.id).collection('reviews').add(_review.toJson());
+      DocumentReference docref = await Collection.salons.doc(widget.appointmentModel.salon.id).collection('reviews').add(_review.toJson());
       await AppointmentApi().reviewAppointment(
         appointmentId: widget.appointmentModel.appointmentId,
         masterReviewed: true,
@@ -289,10 +268,8 @@ class _MakeReviewState extends ConsumerState<MakeReview> {
       );
       printIt(_masterReviewModel.toJson());
 
-      DocumentReference docref =
-          await Collection.salons.doc(widget.appointmentModel.salon.id).collection('reviews').add(_salonReviewModel.toJson());
-      DocumentReference docref1 =
-          await Collection.masters.doc(widget.appointmentModel.master!.id).collection('reviews').add(_masterReviewModel.toJson());
+      DocumentReference docref = await Collection.salons.doc(widget.appointmentModel.salon.id).collection('reviews').add(_salonReviewModel.toJson());
+      DocumentReference docref1 = await Collection.masters.doc(widget.appointmentModel.master!.id).collection('reviews').add(_masterReviewModel.toJson());
       await AppointmentApi().reviewAppointment(
         appointmentId: widget.appointmentModel.appointmentId,
         masterReviewed: true,
@@ -391,9 +368,7 @@ class _MakeReviewState extends ConsumerState<MakeReview> {
                             padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 4.sp),
                             child: Text(
                               s,
-                              style: choosenTagsMaster.contains(s)
-                                  ? AppTheme.subTitle1.copyWith(color: Colors.white, fontSize: 13)
-                                  : AppTheme.subTitle1.copyWith(color: AppTheme.lightGrey, fontSize: 13),
+                              style: choosenTagsMaster.contains(s) ? AppTheme.subTitle1.copyWith(color: Colors.white, fontSize: 13) : AppTheme.subTitle1.copyWith(color: AppTheme.lightGrey, fontSize: 13),
                             )),
                       ),
                     ),
@@ -498,9 +473,7 @@ class _MakeReviewState extends ConsumerState<MakeReview> {
                               padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 4.sp),
                               child: Text(
                                 s,
-                                style: choosenTagsSalon.contains(s)
-                                    ? AppTheme.subTitle1.copyWith(color: Colors.white, fontSize: 13)
-                                    : AppTheme.subTitle1.copyWith(color: AppTheme.lightGrey, fontSize: 13),
+                                style: choosenTagsSalon.contains(s) ? AppTheme.subTitle1.copyWith(color: Colors.white, fontSize: 13) : AppTheme.subTitle1.copyWith(color: AppTheme.lightGrey, fontSize: 13),
                               )),
                         ),
                       ),

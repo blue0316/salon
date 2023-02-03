@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_type_check, unused_local_variable
+
 import 'dart:convert';
 
 import 'package:bbblient/src/models/enums/status.dart';
@@ -58,8 +60,7 @@ class BeautyProApi {
   Future<BeautyProConfig?> generateNewToken(BeautyProConfig? config) async {
     if (config == null || config.databaseCode == null) return null;
     try {
-      final String url =
-          '$prod/$version/auth/database?application_id=$applicationId&application_secret=$applicationSecret&database_code=${config.databaseCode}';
+      final String url = '$prod/$version/auth/database?application_id=$applicationId&application_secret=$applicationSecret&database_code=${config.databaseCode}';
       final response = await http.get(Uri.parse(url), headers: {});
 
       if (response.statusCode == 200) {
@@ -137,8 +138,7 @@ class BeautyProApi {
   Future<BeautyProConfig?> getSalonConfig(String salonId) async {
     try {
       // salonId ??= homeController.currentSalon.salonId;
-      QuerySnapshot<Map<String, dynamic>> response =
-          await Collection.beautyPro.where("salonId", isEqualTo: salonId).get() as QuerySnapshot<Map<String, dynamic>>;
+      QuerySnapshot<Map<String, dynamic>> response = await Collection.beautyPro.where("salonId", isEqualTo: salonId).get() as QuerySnapshot<Map<String, dynamic>>;
 
       if (response.docs.isNotEmpty) {
         var e = response.docs.first;
@@ -160,8 +160,7 @@ class BeautyProApi {
       //will assign date time in-case it's null
       config.createdAt ??= DateTime.now();
 
-      final DocumentReference<Map<String, dynamic>> doc =
-          Collection.beautyPro.doc(config.beautyProDocId) as DocumentReference<Map<String, dynamic>>;
+      final DocumentReference<Map<String, dynamic>> doc = Collection.beautyPro.doc(config.beautyProDocId) as DocumentReference<Map<String, dynamic>>;
 
       await doc.set(config.toJson(), SetOptions(merge: true));
       config.beautyProDocId = doc.id;
@@ -226,8 +225,7 @@ class BeautyProApi {
       final String _startDateStr = getDateInBeautyProFormat(_startDate);
       final String _endDateStr = getDateInBeautyProFormat(_endDate);
 
-      final String url =
-          '$prod/$version/employees/free_time?from=$_startDateStr&to=$_endDateStr&duration=15&step=15m&location=${config.locationId}';
+      final String url = '$prod/$version/employees/free_time?from=$_startDateStr&to=$_endDateStr&duration=15&step=15m&location=${config.locationId}';
 
       final header = {"Authorization": "Bearer ${config.accessToken}"};
 
@@ -277,8 +275,7 @@ class BeautyProApi {
   /// make appointment in beauty pro DB
   /// will return ID in-case of success and returns null if fails
   /// abort the current booking if paused
-  Future<String?>? bookAppointment(DateTime? date, String? masterId, int duration, BeautyProConfig? config,
-      {String? comment}) async {
+  Future<String?>? bookAppointment(DateTime? date, String? masterId, int duration, BeautyProConfig? config, {String? comment}) async {
     if (config == null || config.accessToken == null || date == null || masterId == null) return null;
 
     try {
