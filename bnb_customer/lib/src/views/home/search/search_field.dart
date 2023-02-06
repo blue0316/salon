@@ -1,5 +1,4 @@
 import 'package:bbblient/src/views/home/map_view/map_view.dart';
-import 'package:bbblient/src/views/home/search/search_all.dart';
 import 'package:bbblient/src/views/search/search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,20 +20,13 @@ class SearchField extends ConsumerWidget {
         Expanded(
           child: GestureDetector(
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Search(
-                          locale: Localizations.localeOf(context)
-                              .languageCode)));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Search(locale: Localizations.localeOf(context).languageCode)));
             },
             child: SizedBox(
               height: 54,
               child: TextField(
-
                 enabled: false,
                 autofocus: false,
-
                 decoration: InputDecoration(
                   fillColor: Colors.white,
                   filled: true,
@@ -42,9 +34,7 @@ class SearchField extends ConsumerWidget {
                     Icons.search,
                     color: Colors.grey,
                   ),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
                   hintText: AppLocalizations.of(context)?.search ?? "Search",
                 ),
               ),

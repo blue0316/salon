@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:collection';
-import 'dart:typed_data';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/home/map_view_provider.dart';
 import 'package:bbblient/src/utils/utils.dart';
@@ -106,7 +105,6 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
           _mapViewProvider.mapController.complete(controller);
         }
       },
-
       myLocationEnabled: true,
       circles: _circle,
       markers: _marker,

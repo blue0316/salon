@@ -4,6 +4,7 @@ import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/utils/keys.dart';
+import 'package:bbblient/src/views/salon/booking/booking_dialog.dart';
 import 'package:bbblient/src/views/widgets/buttons.dart';
 import 'package:bbblient/src/views/widgets/dialogues/dialogue_function.dart';
 import 'package:flutter/material.dart';
@@ -27,13 +28,11 @@ class BookingBottomSheet extends ConsumerStatefulWidget {
 class _BookingBottomSheetState extends ConsumerState<BookingBottomSheet> {
   @override
   Widget build(BuildContext context) {
-    final CreateAppointmentProvider _createAppointmentProvider =
-        ref.watch(createAppointmentProvider);
+    final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
     return SizedBox(
       width: 1.sw,
       child: Padding(
-        padding:
-            EdgeInsets.only(top: 8.0.h, right: 24.w, left: 24.w, bottom: 36.h),
+        padding: EdgeInsets.only(top: 8.0.h, right: 24.w, left: 24.w, bottom: 36.h),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -75,7 +74,7 @@ class _BookingBottomSheetState extends ConsumerState<BookingBottomSheet> {
             ),
             Expanded(
               child: Scrollbar(
-                isAlwaysShown: true,
+                thumbVisibility: true,
                 child: ListView.builder(
                     itemCount: _createAppointmentProvider.chosenServices.length,
                     shrinkWrap: true,
@@ -89,10 +88,7 @@ class _BookingBottomSheetState extends ConsumerState<BookingBottomSheet> {
                             Expanded(
                               flex: 3,
                               child: Text(
-                                _createAppointmentProvider
-                                        .chosenServices[index].translations[
-                                    AppLocalizations.of(context)?.localeName ??
-                                        'en'],
+                                _createAppointmentProvider.chosenServices[index].translations[AppLocalizations.of(context)?.localeName ?? 'en'],
                                 style: AppTheme.bodyText1,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
@@ -105,13 +101,12 @@ class _BookingBottomSheetState extends ConsumerState<BookingBottomSheet> {
                             IconButton(
                               onPressed: () {
                                 _createAppointmentProvider.toggleService(
-                                    serviceModel: _createAppointmentProvider
-                                        .chosenServices[index],
-                                    clearChosenMaster: true,
-                                    context: context);
+                                  serviceModel: _createAppointmentProvider.chosenServices[index],
+                                  clearChosenMaster: true,
+                                  context: context,
+                                );
 
-                                if (_createAppointmentProvider
-                                    .chosenServices.isEmpty) {
+                                if (_createAppointmentProvider.chosenServices.isEmpty) {
                                   Navigator.pop(context);
                                 }
                               },
@@ -132,8 +127,7 @@ class _BookingBottomSheetState extends ConsumerState<BookingBottomSheet> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    AppLocalizations.of(context)?.totalAmount ??
-                        "Total amount:   ",
+                    AppLocalizations.of(context)?.totalAmount ?? "Total amount:   ",
                     style: AppTheme.headLine4,
                   ),
                   Text(
@@ -147,15 +141,29 @@ class _BookingBottomSheetState extends ConsumerState<BookingBottomSheet> {
                 ? BnbMaterialButton(
                     onTap: () {
                       Navigator.of(context).pop();
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (_) => const BookingDateTime()));
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => const BookingDateTime(),
+                        ),
+                      );
                     },
                     title: AppLocalizations.of(context)?.bookNow ?? "Book Now",
                     minWidth: 1.sw - 48,
                   )
-                : const SizedBox(
-                    height: 40,
+                : const SizedBox(height: 40),
+
+            /// --- TESTING --- ////
+            const SizedBox(height: 50),
+            widget.showBookButton
+                ? BnbMaterialButton(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      const BookingDialogWidget().show(context);
+                    },
+                    title: "DIALOG",
+                    minWidth: 1.sw - 48,
                   )
+                : const SizedBox(height: 40)
           ],
         ),
       ),
@@ -171,21 +179,17 @@ class BookingBottomSheetFinal extends ConsumerStatefulWidget {
   }) : super(key: key);
 
   @override
-  _BookingBottomSheetFinalState createState() =>
-      _BookingBottomSheetFinalState();
+  _BookingBottomSheetFinalState createState() => _BookingBottomSheetFinalState();
 }
 
-class _BookingBottomSheetFinalState
-    extends ConsumerState<BookingBottomSheetFinal> {
+class _BookingBottomSheetFinalState extends ConsumerState<BookingBottomSheetFinal> {
   @override
   Widget build(BuildContext context) {
-    final CreateAppointmentProvider _createAppointmentProvider =
-        ref.watch(createAppointmentProvider);
+    final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
     return SizedBox(
       width: 1.sw,
       child: Padding(
-        padding:
-            EdgeInsets.only(top: 8.0.h, right: 24.w, left: 24.w, bottom: 36.h),
+        padding: EdgeInsets.only(top: 8.0.h, right: 24.w, left: 24.w, bottom: 36.h),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -207,9 +211,7 @@ class _BookingBottomSheetFinalState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      _createAppointmentProvider.chosenMaster == null
-                          ? "${_createAppointmentProvider.chosenServices.length} ${AppLocalizations.of(context)?.selectedServices ?? "selected services"}"
-                          : "${_createAppointmentProvider.mastersServicesMap[_createAppointmentProvider.chosenMaster?.masterId]?.length} ${AppLocalizations.of(context)?.availableServices ?? "available services"}",
+                      _createAppointmentProvider.chosenMaster == null ? "${_createAppointmentProvider.chosenServices.length} ${AppLocalizations.of(context)?.selectedServices ?? "selected services"}" : "${_createAppointmentProvider.mastersServicesMap[_createAppointmentProvider.chosenMaster?.masterId]?.length} ${AppLocalizations.of(context)?.availableServices ?? "available services"}",
                       style: AppTheme.bodyText2.copyWith(
                         color: AppTheme.black,
                       ),
@@ -223,7 +225,7 @@ class _BookingBottomSheetFinalState
             ),
             Expanded(
               child: Scrollbar(
-                isAlwaysShown: true,
+                thumbVisibility: true,
                 child: ListView.builder(
                     itemCount: _createAppointmentProvider.chosenServices.length,
                     shrinkWrap: true,
@@ -231,20 +233,9 @@ class _BookingBottomSheetFinalState
                     itemBuilder: (context, index) {
                       // todo optimise this booking flow entirely
                       bool valid = true;
-                      if (_createAppointmentProvider.ownerType ==
-                          OwnerType.salon) {
-                        if (_createAppointmentProvider.mastersServicesMap[
-                                _createAppointmentProvider
-                                    .chosenMaster?.masterId] !=
-                            null) {
-                          valid = _createAppointmentProvider.mastersServicesMap[
-                                  _createAppointmentProvider
-                                      .chosenMaster?.masterId]!
-                              .where((element) =>
-                                  element.serviceId ==
-                                  _createAppointmentProvider
-                                      .chosenServices[index].serviceId)
-                              .isNotEmpty;
+                      if (_createAppointmentProvider.ownerType == OwnerType.salon) {
+                        if (_createAppointmentProvider.mastersServicesMap[_createAppointmentProvider.chosenMaster?.masterId] != null) {
+                          valid = _createAppointmentProvider.mastersServicesMap[_createAppointmentProvider.chosenMaster?.masterId]!.where((element) => element.serviceId == _createAppointmentProvider.chosenServices[index].serviceId).isNotEmpty;
                         } else {
                           valid = false;
                         }
@@ -258,71 +249,44 @@ class _BookingBottomSheetFinalState
                             Expanded(
                               flex: 3,
                               child: Text(
-                                _createAppointmentProvider
-                                        .chosenServices[index].translations[
-                                    AppLocalizations.of(context)?.localeName ??
-                                        "en"],
-                                style: AppTheme.bodyText1.copyWith(
-                                    color: valid ? Colors.black : Colors.grey),
+                                _createAppointmentProvider.chosenServices[index].translations[AppLocalizations.of(context)?.localeName ?? "en"],
+                                style: AppTheme.bodyText1.copyWith(color: valid ? Colors.black : Colors.grey),
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
                             Text(
                               "${_createAppointmentProvider.chosenServices[index].priceAndDuration.price} ${Keys.uah}",
-                              style: AppTheme.bodyText1.copyWith(
-                                  color: valid ? Colors.black : Colors.grey),
+                              style: AppTheme.bodyText1.copyWith(color: valid ? Colors.black : Colors.grey),
                             ),
                             IconButton(
                               onPressed: () {
-                                if (_createAppointmentProvider
-                                        .chosenServices.length <=
-                                    1) {
+                                if (_createAppointmentProvider.chosenServices.length <= 1) {
                                   showMyDialog(
                                       context: context,
                                       child: SizedBox(
                                         height: 150.h,
                                         child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                           children: [
-                                            Text(AppLocalizations.of(context)
-                                                    ?.removeServiceQue ??
-                                                "Remove service ?"),
+                                            Text(AppLocalizations.of(context)?.removeServiceQue ?? "Remove service ?"),
                                             Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
+                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                               children: [
                                                 TextButton(
                                                   onPressed: () {
                                                     Navigator.pop(context);
                                                   },
-                                                  child: Text(
-                                                      AppLocalizations.of(
-                                                                  context)
-                                                              ?.no ??
-                                                          'No'),
+                                                  child: Text(AppLocalizations.of(context)?.no ?? 'No'),
                                                 ),
                                                 BnbMaterialButton(
                                                   onTap: () {
-                                                    _createAppointmentProvider
-                                                        .toggleService(
-                                                            serviceModel:
-                                                                _createAppointmentProvider
-                                                                        .chosenServices[
-                                                                    index],
-                                                            clearChosenMaster:
-                                                                widget
-                                                                    .showBookButton,
-                                                            context: context);
+                                                    _createAppointmentProvider.toggleService(serviceModel: _createAppointmentProvider.chosenServices[index], clearChosenMaster: widget.showBookButton, context: context);
                                                     Navigator.pop(context);
                                                     Navigator.pop(context);
                                                     Navigator.pop(context);
                                                   },
-                                                  title: AppLocalizations.of(
-                                                              context)
-                                                          ?.remove ??
-                                                      'Remove',
+                                                  title: AppLocalizations.of(context)?.remove ?? 'Remove',
                                                   minWidth: 100.w,
                                                 ),
                                               ],
@@ -331,11 +295,7 @@ class _BookingBottomSheetFinalState
                                         ),
                                       ));
                                 } else {
-                                  _createAppointmentProvider.toggleService(
-                                      serviceModel: _createAppointmentProvider
-                                          .chosenServices[index],
-                                      clearChosenMaster: widget.showBookButton,
-                                      context: context);
+                                  _createAppointmentProvider.toggleService(serviceModel: _createAppointmentProvider.chosenServices[index], clearChosenMaster: widget.showBookButton, context: context);
                                 }
                               },
                               icon: SvgPicture.asset(
@@ -355,14 +315,11 @@ class _BookingBottomSheetFinalState
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    AppLocalizations.of(context)?.totalAmount ??
-                        "Total amount:   ",
+                    AppLocalizations.of(context)?.totalAmount ?? "Total amount:   ",
                     style: AppTheme.headLine4,
                   ),
                   Text(
-                    _createAppointmentProvider.chosenMaster == null
-                        ? "${_createAppointmentProvider.totalPrice} ${Keys.uah}"
-                        : "${_createAppointmentProvider.mastersPriceDurationMap[_createAppointmentProvider.chosenMaster?.masterId]?.price} ${Keys.uah}",
+                    _createAppointmentProvider.chosenMaster == null ? "${_createAppointmentProvider.totalPrice} ${Keys.uah}" : "${_createAppointmentProvider.mastersPriceDurationMap[_createAppointmentProvider.chosenMaster?.masterId]?.price} ${Keys.uah}",
                     // "${_createAppointmentProvider.totalPrice} ${Keys.uah}",
                     style: AppTheme.headLine3,
                   ),
@@ -373,8 +330,7 @@ class _BookingBottomSheetFinalState
                 ? BnbMaterialButton(
                     onTap: () {
                       Navigator.of(context).pop();
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (_) => const BookingDateTime()));
+                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => const BookingDateTime()));
                     },
                     title: AppLocalizations.of(context)?.bookNow ?? "Book Now",
                     minWidth: 1.sw - 48,

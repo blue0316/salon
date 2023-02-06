@@ -16,8 +16,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:url_launcher/url_launcher.dart';
-
 import '../../../controller/all_providers/all_providers.dart';
 import '../../../controller/appointment/apointment_provider.dart';
 import '../../../firebase/dynamic_link.dart';
@@ -55,12 +53,10 @@ class _Login2State extends ConsumerState<Login2> {
 
     //await _salonSearchProvider.initialize();
 
-    await _bnbProvider.initializeApp(
-        customerModel: _auth.currentCustomer, lang: _bnbProvider.getLocale);
+    await _bnbProvider.initializeApp(customerModel: _auth.currentCustomer, lang: _bnbProvider.getLocale);
 
     if (_auth.userLoggedIn) {
-      await DynamicLinksApi().handleDynamicLink(
-          context: context, bonusSettings: _bnbProvider.bonusSettings);
+      await DynamicLinksApi().handleDynamicLink(context: context, bonusSettings: _bnbProvider.bonusSettings);
 
       await _appointmentProvider.loadAppointments(
         customerId: _auth.currentCustomer?.customerId ?? '',
@@ -89,40 +85,22 @@ class _Login2State extends ConsumerState<Login2> {
               )),
               Gap(40.h),
               if (!_auth.otpSent) ...[
-                Text(AppLocalizations.of(context)?.login ?? "Login",
-                    style: GoogleFonts.epilogue(
-                        fontSize: 27.sp,
-                        fontWeight: FontWeight.w600,
-                        color: AppTheme.black2)),
+                Text(AppLocalizations.of(context)?.login ?? "Login", style: GoogleFonts.epilogue(fontSize: 27.sp, fontWeight: FontWeight.w600, color: AppTheme.black2)),
                 Gap(14.h),
-                Text(
-                    AppLocalizations.of(context)?.inputPhoneNumber ??
-                        'Welome back, Please Input your \n Phone number below',
-                    style: TextStyle(
-                        fontFamily: "Montserrat",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 18.sp,
-                        height: 2.h,
-                        color: AppTheme.grey1),
-                    textAlign: TextAlign.center),
+                Text(AppLocalizations.of(context)?.inputPhoneNumber ?? 'Welome back, Please Input your \n Phone number below', style: TextStyle(fontFamily: "Montserrat", fontWeight: FontWeight.w400, fontSize: 18.sp, height: 2.h, color: AppTheme.grey1), textAlign: TextAlign.center),
                 Gap(122.h),
                 Padding(
                   padding: EdgeInsets.only(left: 32.0.w, right: 32.w),
                   child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(4),
-                        shape: BoxShape.rectangle,
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Color(0xffF0F0F0), // shadow color
-                              blurRadius: 2, // shadow radius
-                              offset: Offset(2, 5), // shadow offset
-                              spreadRadius:
-                                  0.1, // The amount the box should be inflated prior to applying the blur
-                              blurStyle: BlurStyle.normal // set blur style
-                              ),
-                        ]),
+                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(4), shape: BoxShape.rectangle, boxShadow: const [
+                      BoxShadow(
+                          color: Color(0xffF0F0F0), // shadow color
+                          blurRadius: 2, // shadow radius
+                          offset: Offset(2, 5), // shadow offset
+                          spreadRadius: 0.1, // The amount the box should be inflated prior to applying the blur
+                          blurStyle: BlurStyle.normal // set blur style
+                          ),
+                    ]),
                     //  height: 60.h,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -155,8 +133,7 @@ class _Login2State extends ConsumerState<Login2> {
                             showFlag: false,
                           ),
                         ),
-                        Container(
-                            height: 28.h, color: AppTheme.divider2, width: 1),
+                        Container(height: 28.h, color: AppTheme.divider2, width: 1),
                         const SizedBox(
                           width: 8,
                         ),
@@ -179,25 +156,21 @@ class _Login2State extends ConsumerState<Login2> {
                     ),
                   ),
                 ),
-
                 Gap(80.h),
                 ElevatedButton(
                   onPressed: () async {
                     if (_auth.otpStatus != Status.loading) {
                       await _auth.verifyPhoneNumber(context: context);
                     } else {
-                      showToast(AppLocalizations.of(context)?.pleaseWait ??
-                          "Please wait");
+                      showToast(AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
                     }
                   },
                   child: (_auth.otpStatus != Status.loading)
-                      ? Text('Enter',
-                          style: TextStyle(
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16.sp,
-                              color: AppTheme.white),
-                          textAlign: TextAlign.center)
+                      ? Text(
+                          'Enter',
+                          style: TextStyle(fontFamily: "Montserrat", fontWeight: FontWeight.w400, fontSize: 16.sp, color: AppTheme.white),
+                          textAlign: TextAlign.center,
+                        )
                       : const SizedBox(
                           height: 20,
                           width: 20,
@@ -208,29 +181,25 @@ class _Login2State extends ConsumerState<Login2> {
                             ),
                           )),
                   style: ElevatedButton.styleFrom(
-                      primary: AppTheme.btnColor,
-                      minimumSize: Size(130.w, 55.h),
-                      maximumSize: Size(130.w, 55.h),
-                      fixedSize: Size(130.w, 55.h)),
+                    backgroundColor: AppTheme.btnColor,
+                    minimumSize: Size(130.w, 55.h),
+                    maximumSize: Size(130.w, 55.h),
+                    fixedSize: Size(130.w, 55.h),
+                  ),
                 ),
                 Gap(85.h)
               ],
               if (_auth.otpSent && _auth.loginStatus != Status.success) ...[
-                Text(AppLocalizations.of(context)?.verification ?? 'Verification',
-                    style: GoogleFonts.epilogue(
-                        fontSize: 24.sp,
-                        fontWeight: FontWeight.w600,
-                        color: AppTheme.black2)),
+                Text(
+                  AppLocalizations.of(context)?.verification ?? 'Verification',
+                  style: GoogleFonts.epilogue(fontSize: 24.sp, fontWeight: FontWeight.w600, color: AppTheme.black2),
+                ),
                 Gap(14.h),
                 Text(
-                    AppLocalizations.of(context)?.inputotp ??
-                        'Kindly input your OTP',
-                    style: TextStyle(
-                        fontFamily: "Montserrat",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16.sp,
-                        color: AppTheme.grey1),
-                    textAlign: TextAlign.center),
+                  AppLocalizations.of(context)?.inputotp ?? 'Kindly input your OTP',
+                  style: TextStyle(fontFamily: "Montserrat", fontWeight: FontWeight.w400, fontSize: 16.sp, color: AppTheme.grey1),
+                  textAlign: TextAlign.center,
+                ),
                 Gap(20.h),
                 SvgPicture.asset('assets/images/Illustration.svg'),
                 Gap(40.h),
@@ -241,22 +210,18 @@ class _Login2State extends ConsumerState<Login2> {
                 ElevatedButton(
                   onPressed: () async {
                     if (_auth.loginStatus != Status.loading) {
-                      await _auth.signIn(
-                          context: context, ref: ref, callBack: refreshAccount);
-                          Navigator.of(context).pop();
+                      await _auth.signIn(context: context, ref: ref, callBack: refreshAccount);
+                      Navigator.of(context).pop();
                     } else {
-                      showToast(AppLocalizations.of(context)?.pleaseWait ??
-                          "Please wait");
+                      showToast(AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
                     }
                   },
                   child: (_auth.loginStatus != Status.loading)
-                      ? Text(AppLocalizations.of(context)?.verify ?? 'Verify',
-                          style: TextStyle(
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16.sp,
-                              color: AppTheme.white),
-                          textAlign: TextAlign.center)
+                      ? Text(
+                          AppLocalizations.of(context)?.verify ?? 'Verify',
+                          style: TextStyle(fontFamily: "Montserrat", fontWeight: FontWeight.w400, fontSize: 16.sp, color: AppTheme.white),
+                          textAlign: TextAlign.center,
+                        )
                       : const SizedBox(
                           height: 20,
                           width: 20,
@@ -267,31 +232,28 @@ class _Login2State extends ConsumerState<Login2> {
                             ),
                           )),
                   style: ElevatedButton.styleFrom(
-                      primary: AppTheme.btnColor,
-                      minimumSize: Size(130.w, 55.h),
-                      maximumSize: Size(130.w, 55.h),
-                      fixedSize: Size(130.w, 55.h)),
+                    backgroundColor: AppTheme.btnColor,
+                    minimumSize: Size(130.w, 55.h),
+                    maximumSize: Size(130.w, 55.h),
+                    fixedSize: Size(130.w, 55.h),
+                  ),
                 ),
                 Gap(85.h),
                 GestureDetector(
                   onTap: () async {
-                    _auth
-                        .verifyPhoneNumber(context: context)
-                        .then((value) => showToast2(context));
+                    _auth.verifyPhoneNumber(context: context).then((value) => showToast2(context));
                     _auth.otp = '';
                   },
                   child: RichText(
                     text: TextSpan(
-                      text: AppLocalizations.of(context)?.nootp ??
-                          'Didn’t Receive an OTP? ',
+                      text: AppLocalizations.of(context)?.nootp ?? 'Didn’t Receive an OTP? ',
                       style: const TextStyle(
                         color: AppTheme.grey1,
                         fontFamily: "Montserrat",
                       ),
                       children: <TextSpan>[
                         TextSpan(
-                            text:
-                                AppLocalizations.of(context)?.resend ?? "Resend",
+                            text: AppLocalizations.of(context)?.resend ?? "Resend",
                             style: const TextStyle(
                               fontWeight: FontWeight.w500,
                               color: AppTheme.btnColor,
@@ -302,16 +264,11 @@ class _Login2State extends ConsumerState<Login2> {
                   ),
                 ),
               ],
-              if (_auth.otpSent &&
-                  _auth.loginStatus == Status.success &&
-                  (_auth.name.isEmpty)) ...[
+              if (_auth.otpSent && _auth.loginStatus == Status.success && (_auth.name.isEmpty)) ...[
                 Align(
                   alignment: Alignment.center,
                   child: Text(
-                    AppLocalizations.of(context)
-                            ?.pleasefillInYourName
-                            .toCapitalized() ??
-                        'Please Fill In Your Name ',
+                    AppLocalizations.of(context)?.pleasefillInYourName.toCapitalized() ?? 'Please Fill In Your Name ',
                     style: Theme.of(context).textTheme.headline1!.copyWith(
                           color: AppTheme.grey1,
                           fontSize: 16,
@@ -342,8 +299,7 @@ class _Login2State extends ConsumerState<Login2> {
                               border: border,
                               //enabledBorder:  border,
                               focusedBorder: border,
-                              hintText: AppLocalizations.of(context)?.firstName ??
-                                  "Enter First Name",
+                              hintText: AppLocalizations.of(context)?.firstName ?? "Enter First Name",
                             ),
                           ),
                         ),
@@ -361,8 +317,7 @@ class _Login2State extends ConsumerState<Login2> {
                               border: border,
                               //enabledBorder:  border,
                               focusedBorder: border,
-                              hintText: AppLocalizations.of(context)?.lastName ??
-                                  "Enter Last Name",
+                              hintText: AppLocalizations.of(context)?.lastName ?? "Enter Last Name",
                             ),
                           ),
                         ),
@@ -377,30 +332,22 @@ class _Login2State extends ConsumerState<Login2> {
                   key: const ValueKey("auth_name_butt"),
                   onPressed: () async {
                     if (_auth.firstName.isEmpty || _auth.lastName.isEmpty) {
-                      _auth.firstName.isEmpty
-                          ? showToast(AppLocalizations.of(context)
-                                  ?.pleaseEnterFirstName ??
-                              "Please fill in your first name")
-                          : showToast(
-                              AppLocalizations.of(context)?.pleaseEnterLastName ??
-                                  "Please fill in last name");
+                      _auth.firstName.isEmpty ? showToast(AppLocalizations.of(context)?.pleaseEnterFirstName ?? "Please fill in your first name") : showToast(AppLocalizations.of(context)?.pleaseEnterLastName ?? "Please fill in last name");
                     } else {
                       if (_auth.saveNameStatus != Status.loading) {
                         await _auth.addName(
                           context: context,
                           // callBack: refreshAccount
                         );
-        
+
                         // await _auth.printNewName();
                         Navigator.of(context).pop();
                       } else {
-                        showToast(AppLocalizations.of(context)?.pleaseWait ??
-                            "Please wait");
+                        showToast(AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
                       }
                     }
                   },
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                   color: AppTheme.btnColor,
                   height: 50.h,
                   minWidth: 1.sw - 80,

@@ -1,35 +1,70 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-
 import '../../theme/app_main_theme.dart';
 
 class DefaultButton extends StatelessWidget {
   final String? label;
   final Function? onTap;
   final bool isLoading;
-  final Color? color;
+  final Color? color, textColor, borderColor;
   final double height;
-  const DefaultButton({Key? key, this.label, this.onTap, this.isLoading = false, this.color, this.height = 60}) : super(key: key);
+  final double? borderRadius;
+  final Widget? prefixIcon;
+
+  const DefaultButton({
+    Key? key,
+    this.label,
+    this.onTap,
+    this.isLoading = false,
+    this.color,
+    this.height = 60,
+    this.borderRadius,
+    this.textColor,
+    this.borderColor,
+    this.prefixIcon,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return isLoading
-        ? const CircularProgressIndicator()
-        : MaterialButton(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            height: height,
-            // size.width - 94,
-            minWidth: double.infinity,
-            color: color ?? AppTheme.lightBlack,
-            disabledColor: AppTheme.coolGrey,
-            onPressed: onTap as void Function()?,
-            child: Text(
-              label ?? "Sign up",
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headline2,
-            ),
-          );
+    if (isLoading) {
+      return const CircularProgressIndicator();
+    } else {
+      return MaterialButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(borderRadius ?? 8),
+          side: BorderSide(
+            color: borderColor ?? color ?? Colors.black,
+          ),
+        ),
+        height: height,
+        // size.width - 94,
+        minWidth: double.infinity,
+        color: color ?? AppTheme.lightBlack,
+        disabledColor: AppTheme.coolGrey,
+        onPressed: onTap as void Function()?,
+        child: (prefixIcon != null)
+            ? Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  prefixIcon!,
+                  const SizedBox(width: 10),
+                  Text(
+                    label ?? "Sign up",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headline2?.copyWith(color: textColor),
+                  ),
+                ],
+              )
+            : Text(
+                label ?? "Sign up",
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headline2?.copyWith(color: textColor),
+              ),
+      );
+    }
   }
 }
 
@@ -93,16 +128,15 @@ class BnbMaterialButton extends StatelessWidget {
   final Function onTap;
   final String title;
   final double? minWidth;
-final EdgeInsets? padding;
+  final EdgeInsets? padding;
   const BnbMaterialButton({Key? key, required this.onTap, required this.title, required this.minWidth, this.padding}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(padding: padding??EdgeInsets.symmetric(horizontal: 12,vertical: 16),
+    return MaterialButton(
+      padding: padding ?? const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
       onPressed: onTap as void Function()?,
-
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       color: AppTheme.creamBrown,
-
       minWidth: minWidth,
       child: Text(
         title,
@@ -144,14 +178,46 @@ class _BnbCheckCircleState extends State<BnbCheckCircle> {
   }
 }
 
+class ServicesBnbCheckCircle extends StatefulWidget {
+  final bool value;
+  const ServicesBnbCheckCircle({
+    Key? key,
+    required this.value,
+  }) : super(key: key);
+
+  @override
+  _ServicesBnbCheckCircleState createState() => _ServicesBnbCheckCircleState();
+}
+
+class _ServicesBnbCheckCircleState extends State<ServicesBnbCheckCircle> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: DeviceConstraints.getResponsiveSize(context, 28.h, 40.h, 40.h),
+      width: DeviceConstraints.getResponsiveSize(context, 28.h, 40.h, 40.h),
+      decoration: BoxDecoration(
+        border: Border.all(color: AppTheme.black, width: 1.3),
+        shape: BoxShape.circle,
+        color: widget.value ? AppTheme.textBlack : Colors.white,
+      ),
+      child: Center(
+        child: Icon(
+          Icons.add_rounded,
+          color: widget.value ? Colors.white : Colors.black,
+          size: DeviceConstraints.getResponsiveSize(context, 20.h, 30.h, 30.h),
+        ),
+      ),
+    );
+  }
+}
+
 class BackButtonGlassMorphic extends StatelessWidget {
   const BackButtonGlassMorphic({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     return GestureDetector(
-      onTap: ()=>Navigator.of(context).maybePop(),
+      onTap: () => Navigator.of(context).maybePop(),
       child: Container(
         height: DeviceConstraints.getResponsiveSize(context, 32, 40, 48),
         width: DeviceConstraints.getResponsiveSize(context, 32, 40, 48),

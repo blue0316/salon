@@ -26,27 +26,16 @@ class LogoDark extends StatelessWidget {
   }
 }
 
-void showToast(message, {duration = const Duration(seconds: 1)}) =>
-    BotToast.showText(text: message, duration: duration);
+void showToast(message, {duration = const Duration(seconds: 1)}) => BotToast.showText(text: message, duration: duration);
 
-void showToast2(context, {duration = const Duration(seconds: 1)}) =>
-    BotToast.showText(
-        text: AppLocalizations.of(context)?.new_code_sent ?? 'New Code Sent',
-        duration: duration,
-        contentColor: Color(0xff4BBB53));
+void showToast2(context, {duration = const Duration(seconds: 1)}) => BotToast.showText(text: AppLocalizations.of(context)?.new_code_sent ?? 'New Code Sent', duration: duration, contentColor: const Color(0xff4BBB53));
 
 class Loader extends StatelessWidget {
   final Widget? child;
   final Status? status;
   final EdgeInsetsGeometry iconPadding;
   final Widget? errorWidget;
-  const Loader(
-      {Key? key,
-      this.status,
-      this.child,
-      this.iconPadding = EdgeInsets.zero,
-      this.errorWidget})
-      : super(key: key);
+  const Loader({Key? key, this.status, this.child, this.iconPadding = EdgeInsets.zero, this.errorWidget}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -88,8 +77,7 @@ class SpaceHorizontal extends StatelessWidget {
   final double? width;
   final double factor;
 
-  const SpaceHorizontal({Key? key, this.width, this.factor = 1})
-      : super(key: key);
+  const SpaceHorizontal({Key? key, this.width, this.factor = 1}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -129,13 +117,7 @@ class BnbRatings extends StatelessWidget {
   final double starSize;
   final Function? onRatingUpdate;
 
-  const BnbRatings(
-      {Key? key,
-      required this.rating,
-      required this.editable,
-      required this.starSize,
-      this.onRatingUpdate})
-      : super(key: key);
+  const BnbRatings({Key? key, required this.rating, required this.editable, required this.starSize, this.onRatingUpdate}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
@@ -143,10 +125,7 @@ class BnbRatings extends StatelessWidget {
       return Text(
         AppLocalizations.of(context)?.noRating ?? "no ratings",
         style: TextStyle(
-          fontSize: DeviceConstraints.getDeviceType(mediaQuery) ==
-                  DeviceScreenType.tab
-              ? 12
-              : 12.sp,
+          fontSize: DeviceConstraints.getDeviceType(mediaQuery) == DeviceScreenType.tab ? 12 : 12.sp,
         ),
         textAlign: TextAlign.center,
       );
@@ -164,8 +143,7 @@ class BnbRatings extends StatelessWidget {
         onRatingUpdate: (rating) {
           onRatingUpdate!();
         },
-        itemSize: DeviceConstraints.getResponsiveSize(
-            context, starSize, starSize * 1.2, starSize * 1.3),
+        itemSize: DeviceConstraints.getResponsiveSize(context, starSize, starSize * 1.2, starSize * 1.3),
         glow: false,
         updateOnDrag: true,
         ignoreGestures: !editable,
@@ -222,10 +200,7 @@ class CategoryButton extends ConsumerWidget {
             Flexible(
               child: Text(
                 title,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline4!
-                    .copyWith(fontSize: 14, fontWeight: FontWeight.w400),
+                style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 14, fontWeight: FontWeight.w400),
                 maxLines: 2,
               ),
             )
@@ -245,16 +220,7 @@ class CustomDivider extends StatelessWidget {
   final double width;
   final double? height;
 
-  const CustomDivider(
-      {this.left = 0,
-      this.top = 0,
-      this.right = 0,
-      this.bottom = 0,
-      this.color,
-      this.height,
-      this.width = 1.0,
-      Key? key})
-      : super(key: key);
+  const CustomDivider({this.left = 0, this.top = 0, this.right = 0, this.bottom = 0, this.color, this.height, this.width = 1.0, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -262,10 +228,7 @@ class CustomDivider extends StatelessWidget {
         ? Container(
             margin: EdgeInsets.fromLTRB(left, top, right, bottom),
             decoration: BoxDecoration(
-              border: Border(
-                  bottom: BorderSide(
-                      color: color ?? Theme.of(context).dividerColor,
-                      width: width)),
+              border: Border(bottom: BorderSide(color: color ?? Theme.of(context).dividerColor, width: width)),
             ),
           )
         : Container(
@@ -284,15 +247,7 @@ class ConstrainedContainer extends StatelessWidget {
   final bool isLargeSize;
   final bool disableCenter;
   final Alignment? alignment;
-  const ConstrainedContainer(
-      {this.margin = const EdgeInsets.symmetric(horizontal: 0),
-      this.child,
-      this.maxWidth,
-      this.isLargeSize = true,
-      Key? key,
-      this.disableCenter = false,
-      this.alignment})
-      : super(key: key);
+  const ConstrainedContainer({this.margin = const EdgeInsets.symmetric(horizontal: 0), this.child, this.maxWidth, this.isLargeSize = true, Key? key, this.disableCenter = false, this.alignment}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -300,11 +255,7 @@ class ConstrainedContainer extends StatelessWidget {
       alignment: alignment ?? Alignment.topCenter,
       child: Container(
         margin: margin,
-        constraints: BoxConstraints(
-            maxWidth: maxWidth ??
-                (isLargeSize
-                    ? DeviceConstraints.breakPointTab
-                    : DeviceConstraints.breakPointPhone)),
+        constraints: BoxConstraints(maxWidth: maxWidth ?? (isLargeSize ? DeviceConstraints.breakPointTab : DeviceConstraints.breakPointPhone)),
         child: child,
       ),
     );

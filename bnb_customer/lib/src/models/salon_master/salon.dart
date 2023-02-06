@@ -26,6 +26,8 @@ class SalonModel {
   late String address;
   int? timeSlotsInterval;
   int? bookingRestrictionDays;
+  // the amount of time between each appointments
+  int? appointmentsLeadTime;
   late List<String> categoryId = [];
   late List<String> parentServiceId = [];
   late List<String> additionalFeatures = [];
@@ -64,6 +66,7 @@ class SalonModel {
     required this.reviewCount,
     required this.avgRating,
     this.distanceFromCenter,
+    this.appointmentsLeadTime,
     this.irregularWorkingHours,
     this.bookingRestrictionDays,
     this.fcmToken,
@@ -78,6 +81,7 @@ class SalonModel {
   SalonModel.fromJson(Map<String, dynamic> json) {
     salonId = json['salonId'];
     salonName = json['salonName'] ?? '';
+    appointmentsLeadTime = json['appointmentsLeadTime'];
     categoryId = json['categoryId'] == null
         ? []
         : categoryId = json['categoryId'].cast<String>();
@@ -146,6 +150,7 @@ class SalonModel {
         ? data['createdAt']?.toDate()
         : DateTime.now();
     data['categoryId'] = categoryId;
+    data['appointmentsLeadTime'] = appointmentsLeadTime;
     data['parentServiceId'] = parentServiceId;
     data['ownerType'] = ownerType;
     data['workStation'] = workStation;

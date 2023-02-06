@@ -1,9 +1,8 @@
+// ignore_for_file: avoid_web_libraries_in_flutter
+
 import 'dart:html';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class NewTEst extends StatefulWidget {
   const NewTEst({Key? key}) : super(key: key);
@@ -16,7 +15,6 @@ class _NewTEstState extends State<NewTEst> {
   final IFrameElement _iframeElement = IFrameElement();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _iframeElement.style.height = '100%';
     _iframeElement.style.width = '100%';

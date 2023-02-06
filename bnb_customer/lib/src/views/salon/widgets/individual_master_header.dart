@@ -1,13 +1,10 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-
 import '../../../theme/app_main_theme.dart';
 import '../../../utils/icons.dart';
 import '../../widgets/widgets.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class IndividualMasterHeader extends StatelessWidget {
   const IndividualMasterHeader({Key? key}) : super(key: key);
@@ -72,18 +69,14 @@ class IndividualMasterHeader extends StatelessWidget {
                                 children: [
                                   Text(
                                     "+919999999999",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline2!
-                                        .copyWith(fontSize: 16, fontWeight: FontWeight.w500),
+                                    style: Theme.of(context).textTheme.headline2!.copyWith(fontSize: 16, fontWeight: FontWeight.w500),
                                   ),
                                   Row(
                                     children: [
                                       Container(
                                         height: 38.h,
                                         width: 38.h,
-                                        decoration: BoxDecoration(
-                                            color: Colors.white24, borderRadius: BorderRadius.circular(12.sp)),
+                                        decoration: BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(12.sp)),
                                         child: Padding(
                                           padding: EdgeInsets.all(8.0.sp),
                                           child: SvgPicture.asset(AppIcons.phoneWhiteSVG),
@@ -95,8 +88,7 @@ class IndividualMasterHeader extends StatelessWidget {
                                       Container(
                                         height: 38.h,
                                         width: 38.h,
-                                        decoration: BoxDecoration(
-                                            color: Colors.white24, borderRadius: BorderRadius.circular(12.sp)),
+                                        decoration: BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(12.sp)),
                                         child: Padding(
                                           padding: EdgeInsets.all(8.0.sp),
                                           child: SvgPicture.asset(AppIcons.messageWhiteSVG),
@@ -133,8 +125,7 @@ class IndividualMasterHeader extends StatelessWidget {
                                           ),
                                           Text(
                                             "  (speciality)",
-                                            style: Theme.of(context).textTheme.headline2!.copyWith(
-                                                fontSize: 14, fontWeight: FontWeight.w400, fontStyle: FontStyle.italic),
+                                            style: Theme.of(context).textTheme.headline2!.copyWith(fontSize: 14, fontWeight: FontWeight.w400, fontStyle: FontStyle.italic),
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                           ),
@@ -142,16 +133,13 @@ class IndividualMasterHeader extends StatelessWidget {
                                       ),
                                       Text(
                                         "salon_home address",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline2!
-                                            .copyWith(fontSize: 14, fontWeight: FontWeight.w400),
+                                        style: Theme.of(context).textTheme.headline2!.copyWith(fontSize: 14, fontWeight: FontWeight.w400),
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                       Padding(
                                         padding: EdgeInsets.only(top: 4.0.h),
-                                        child: BnbRatings(rating: 4.1, editable: false, starSize: 12),
+                                        child: const BnbRatings(rating: 4.1, editable: false, starSize: 12),
                                       )
                                     ],
                                   ),

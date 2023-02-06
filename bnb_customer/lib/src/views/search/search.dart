@@ -1,12 +1,10 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/search/search_provider.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
-import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/utils/translation.dart';
-import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/salon/salon_home/salon_profile.dart';
 import 'package:bbblient/src/views/search/salon_card.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
@@ -112,8 +110,7 @@ class _SearchState extends ConsumerState<Search> {
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
                               final ParentServiceModel _service = searchController.parentServices[index];
-                              final String serviceName =
-                                  Translation.translate(map: _service.translations, langCode: searchController.langCode) ?? "";
+                              final String serviceName = Translation.translate(map: _service.translations, langCode: searchController.langCode) ?? "";
 
                               return InkWell(
                                 onTap: () {
@@ -137,10 +134,7 @@ class _SearchState extends ConsumerState<Search> {
                               );
                             }),
                       )
-                    : Container(
-                        alignment: Alignment.topCenter,
-                        padding: const EdgeInsets.only(top: 32),
-                        child: SvgPicture.asset(AppIcons.noSearchResultUk)),
+                    : Container(alignment: Alignment.topCenter, padding: const EdgeInsets.only(top: 32), child: SvgPicture.asset(AppIcons.noSearchResultUk)),
               ),
             )
           else
@@ -167,7 +161,6 @@ class _SearchState extends ConsumerState<Search> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => SalonPage(
-                                        
                                         salonId: salon.salonId,
                                         switchSalon: true,
                                         chosenServices: [service],
@@ -177,10 +170,7 @@ class _SearchState extends ConsumerState<Search> {
                                 },
                               );
                             })
-                        : Container(
-                            alignment: Alignment.topCenter,
-                            padding: const EdgeInsets.only(top: 32),
-                            child: SvgPicture.asset(AppIcons.noSearchResultUk))),
+                        : Container(alignment: Alignment.topCenter, padding: const EdgeInsets.only(top: 32), child: SvgPicture.asset(AppIcons.noSearchResultUk))),
               ),
             ),
         ],

@@ -1,18 +1,9 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
-import 'package:bbblient/src/controller/authentication/auth_provider.dart';
-import 'package:bbblient/src/firebase/customer.dart';
-import 'package:bbblient/src/firebase/dynamic_link.dart';
-import 'package:bbblient/src/utils/keys.dart';
-import 'package:bbblient/src/utils/utils.dart';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:share_plus/share_plus.dart';
 import '../../../theme/app_main_theme.dart';
 import '../../../utils/icons.dart';
-import '../../widgets/buttons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -25,7 +16,7 @@ class InviteFriends extends ConsumerStatefulWidget {
 
 class _InviteFriendsState extends ConsumerState<InviteFriends> {
   int _currentStep = 0;
-  late AuthProvider _authProvider;
+  // late AuthProvider _authProvider;
   String referralLink = '';
   int _amount = 0;
 
@@ -37,7 +28,7 @@ class _InviteFriendsState extends ConsumerState<InviteFriends> {
 
   void getDynamicLink() async {
     Future.delayed(const Duration(milliseconds: 100), () async {
-      final _authProvider = ref.read(authProvider);
+      // final _authProvider = ref.read(authProvider);
       final _bnbProvider = ref.read(bnbProvider);
       _amount = _bnbProvider.bonusSettings.referralBonusesAmounts[0];
       setState(() {});
@@ -80,8 +71,7 @@ class _InviteFriendsState extends ConsumerState<InviteFriends> {
           icon: const Icon(Icons.arrow_back),
         ),
         title: Text(
-          AppLocalizations.of(context)?.friendsInvitation ??
-              "Friends Invitation",
+          AppLocalizations.of(context)?.friendsInvitation ?? "Friends Invitation",
           style: Theme.of(context).textTheme.bodyText1,
         ),
         centerTitle: true,
@@ -95,8 +85,7 @@ class _InviteFriendsState extends ConsumerState<InviteFriends> {
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 90, vertical: 50),
+                    padding: const EdgeInsets.symmetric(horizontal: 90, vertical: 50),
                     child: Image.asset('assets/images/invite_friends.png'),
                   ),
                   Padding(
@@ -104,12 +93,8 @@ class _InviteFriendsState extends ConsumerState<InviteFriends> {
                     child: Column(
                       children: [
                         Text(
-                          AppLocalizations.of(context)?.goodFriendsTakeCare ??
-                              "Good friends take care of each other 😊",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline2!
-                              .copyWith(color: AppTheme.textBlack),
+                          AppLocalizations.of(context)?.goodFriendsTakeCare ?? "Good friends take care of each other 😊",
+                          style: Theme.of(context).textTheme.headline2!.copyWith(color: AppTheme.textBlack),
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(
@@ -119,31 +104,16 @@ class _InviteFriendsState extends ConsumerState<InviteFriends> {
                           text: TextSpan(
                             children: [
                               TextSpan(
-                                text: AppLocalizations.of(context)
-                                        ?.inviteFriendsAndGet ??
-                                    "Invite friends and get",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1!
-                                    .copyWith(fontSize: 14),
+                                text: AppLocalizations.of(context)?.inviteFriendsAndGet ?? "Invite friends and get",
+                                style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
                               ),
                               TextSpan(
                                 text: " $_amount ₴ ",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1!
-                                    .copyWith(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600),
+                                style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14, fontWeight: FontWeight.w600),
                               ),
                               TextSpan(
-                                text: AppLocalizations.of(context)
-                                        ?.forEachonYourBonusAccount ??
-                                    "for each \non your bonus account!",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1!
-                                    .copyWith(fontSize: 14),
+                                text: AppLocalizations.of(context)?.forEachonYourBonusAccount ?? "for each \non your bonus account!",
+                                style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
                               ),
                             ],
                           ),
@@ -217,12 +187,10 @@ class _InviteFriendsState extends ConsumerState<InviteFriends> {
                               child: SizedBox(
                                 height: 20,
                                 width: 20,
-                                child:
-                                    SvgPicture.asset(AppIcons.emailFilledSVG),
+                                child: SvgPicture.asset(AppIcons.emailFilledSVG),
                               ),
                             ),
-                            Text(AppLocalizations.of(context)?.inviteFriends ??
-                                "Invite Friends"),
+                            Text(AppLocalizations.of(context)?.inviteFriends ?? "Invite Friends"),
                             Padding(
                                 padding: const EdgeInsets.only(left: 8.0),
                                 child: _currentStep == 0
@@ -240,9 +208,7 @@ class _InviteFriendsState extends ConsumerState<InviteFriends> {
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(12.0),
-                            child: Text(AppLocalizations.of(context)
-                                    ?.personalLinkDescription ??
-                                "You have a personal referral link for inviting friends to join bnb. Just enter friend’s phone number and we will send them an unique registration code"),
+                            child: Text(AppLocalizations.of(context)?.personalLinkDescription ?? "You have a personal referral link for inviting friends to join bnb. Just enter friend’s phone number and we will send them an unique registration code"),
                           ),
                         ),
                         isActive: _currentStep == 0,
@@ -255,13 +221,10 @@ class _InviteFriendsState extends ConsumerState<InviteFriends> {
                               child: SizedBox(
                                 height: 20,
                                 width: 20,
-                                child: SvgPicture.asset(
-                                    AppIcons.bellActiveBrownSVG),
+                                child: SvgPicture.asset(AppIcons.bellActiveBrownSVG),
                               ),
                             ),
-                            Text(AppLocalizations.of(context)
-                                    ?.receiveNotifications ??
-                                "Receive notifications"),
+                            Text(AppLocalizations.of(context)?.receiveNotifications ?? "Receive notifications"),
                             Padding(
                               padding: const EdgeInsets.only(left: 8.0),
                               child: _currentStep == 1
@@ -284,28 +247,19 @@ class _InviteFriendsState extends ConsumerState<InviteFriends> {
                                 text: TextSpan(
                                   children: [
                                     TextSpan(
-                                      text: AppLocalizations.of(context)
-                                              ?.notifWhenSignUp ??
-                                          "We will notify you when your friend signs up and give you a ",
-                                      style:
-                                          Theme.of(context).textTheme.bodyText2,
+                                      text: AppLocalizations.of(context)?.notifWhenSignUp ?? "We will notify you when your friend signs up and give you a ",
+                                      style: Theme.of(context).textTheme.bodyText2,
                                     ),
                                     TextSpan(
                                       text: " $_amount ₴ ",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText2!
-                                          .copyWith(
+                                      style: Theme.of(context).textTheme.bodyText2!.copyWith(
                                             fontWeight: FontWeight.w600,
                                             color: AppTheme.textBlack,
                                           ),
                                     ),
                                     TextSpan(
-                                      text: AppLocalizations.of(context)
-                                              ?.bonusAfterThat ??
-                                          " bonus after that",
-                                      style:
-                                          Theme.of(context).textTheme.bodyText2,
+                                      text: AppLocalizations.of(context)?.bonusAfterThat ?? " bonus after that",
+                                      style: Theme.of(context).textTheme.bodyText2,
                                     ),
                                   ],
                                 ),
@@ -321,12 +275,10 @@ class _InviteFriendsState extends ConsumerState<InviteFriends> {
                               child: SizedBox(
                                 height: 20,
                                 width: 20,
-                                child:
-                                    SvgPicture.asset(AppIcons.bonusesFilledSVG),
+                                child: SvgPicture.asset(AppIcons.bonusesFilledSVG),
                               ),
                             ),
-                            Text(AppLocalizations.of(context)?.getBonuses ??
-                                "Get bonuses"),
+                            Text(AppLocalizations.of(context)?.getBonuses ?? "Get bonuses"),
                             Padding(
                                 padding: const EdgeInsets.only(left: 8.0),
                                 child: _currentStep == 2
@@ -348,45 +300,30 @@ class _InviteFriendsState extends ConsumerState<InviteFriends> {
                               text: TextSpan(
                                 children: [
                                   TextSpan(
-                                    text: AppLocalizations.of(context)
-                                            ?.everyInviteWillGet ??
-                                        "Every time you invite friends to experience self-care with us, they will get ",
-                                    style:
-                                        Theme.of(context).textTheme.bodyText2,
+                                    text: AppLocalizations.of(context)?.everyInviteWillGet ?? "Every time you invite friends to experience self-care with us, they will get ",
+                                    style: Theme.of(context).textTheme.bodyText2,
                                   ),
                                   TextSpan(
                                     text: " $_amount ₴ ",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText2!
-                                        .copyWith(
+                                    style: Theme.of(context).textTheme.bodyText2!.copyWith(
                                           fontWeight: FontWeight.w600,
                                           color: AppTheme.textBlack,
                                         ),
                                   ),
                                   TextSpan(
-                                    text: AppLocalizations.of(context)
-                                            ?.afterSignupYouWillGet ??
-                                        " after signing up. You will also get ",
-                                    style:
-                                        Theme.of(context).textTheme.bodyText2,
+                                    text: AppLocalizations.of(context)?.afterSignupYouWillGet ?? " after signing up. You will also get ",
+                                    style: Theme.of(context).textTheme.bodyText2,
                                   ),
                                   TextSpan(
                                     text: " $_amount ₴ ",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText2!
-                                        .copyWith(
+                                    style: Theme.of(context).textTheme.bodyText2!.copyWith(
                                           fontWeight: FontWeight.w600,
                                           color: AppTheme.textBlack,
                                         ),
                                   ),
                                   TextSpan(
-                                    text: AppLocalizations.of(context)
-                                            ?.bczSharingIsCaring ??
-                                        " for each invited friend, because sharing is caring",
-                                    style:
-                                        Theme.of(context).textTheme.bodyText2,
+                                    text: AppLocalizations.of(context)?.bczSharingIsCaring ?? " for each invited friend, because sharing is caring",
+                                    style: Theme.of(context).textTheme.bodyText2,
                                   ),
                                 ],
                               ),
@@ -403,12 +340,10 @@ class _InviteFriendsState extends ConsumerState<InviteFriends> {
                               child: SizedBox(
                                 height: 20,
                                 width: 20,
-                                child:
-                                    SvgPicture.asset(AppIcons.dollarFilledSVG),
+                                child: SvgPicture.asset(AppIcons.dollarFilledSVG),
                               ),
                             ),
-                            Text(AppLocalizations.of(context)?.spendBonuses ??
-                                "Spend bonuses"),
+                            Text(AppLocalizations.of(context)?.spendBonuses ?? "Spend bonuses"),
                             Padding(
                               padding: const EdgeInsets.only(left: 8.0),
                               child: _currentStep == 3
@@ -427,9 +362,7 @@ class _InviteFriendsState extends ConsumerState<InviteFriends> {
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(12.0),
-                            child: Text(AppLocalizations.of(context)
-                                    ?.useBonusAndEnjoy ??
-                                "Use bonuses while paying for services online: pay part of the total sum with your bonus account and enjoy your time with bnb!"),
+                            child: Text(AppLocalizations.of(context)?.useBonusAndEnjoy ?? "Use bonuses while paying for services online: pay part of the total sum with your bonus account and enjoy your time with bnb!"),
                           ),
                         ),
                         isActive: _currentStep == 3,
@@ -453,12 +386,7 @@ class _InviteFriendsState extends ConsumerState<InviteFriends> {
           ),
           Center(
             child: SizedBox(
-              child: Text(
-                  AppLocalizations.of(context)?.comingSoon ?? "coming soon",
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1!
-                      .copyWith(fontSize: 22, color: AppTheme.redishPink)),
+              child: Text(AppLocalizations.of(context)?.comingSoon ?? "coming soon", style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 22, color: AppTheme.redishPink)),
             ),
           ),
         ],

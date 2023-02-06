@@ -1,7 +1,6 @@
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/chat/image_preview.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../models/salon_master/salon.dart';
@@ -35,14 +34,12 @@ class _SalonBestWorksState extends State<SalonBestWorks> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(left: 20.0.w ),
+          padding: EdgeInsets.only(left: 20.0.w),
           child: SizedBox(
             height: 140.h,
             child: ListView.builder(
                 controller: _bestWorksScrollController,
-                itemCount: widget.salonModel.photosOfWork.isNotEmpty
-                    ? widget.salonModel.photosOfWork.length
-                    : 3,
+                itemCount: widget.salonModel.photosOfWork.isNotEmpty ? widget.salonModel.photosOfWork.length : 3,
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
@@ -60,8 +57,7 @@ class _SalonBestWorksState extends State<SalonBestWorks> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => ImagePreview(
-                                          imageUrls:
-                                              widget.salonModel.photosOfWork,
+                                          imageUrls: widget.salonModel.photosOfWork,
                                           index: index,
                                         ),
                                       ));

@@ -8,6 +8,7 @@ import 'package:bbblient/src/routes.dart';
 import 'package:bbblient/src/utils/analytics.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/registration/authenticate/login.dart';
+import 'package:bbblient/src/views/widgets/smooth_scroll/smooth_scroll.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -34,10 +35,12 @@ class HomePageState extends ConsumerState<HomePage> {
   int _currentIndex = 0;
   final PageController _pageController = PageController();
   late BnbProvider _bnbProvider;
+  late ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
+    _scrollController = ScrollController();
     initHome();
   }
 
@@ -67,6 +70,7 @@ class HomePageState extends ConsumerState<HomePage> {
       _authProvider.quizReminder(context);
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -188,41 +192,44 @@ class HomePageState extends ConsumerState<HomePage> {
           ],
         ),
       ),
-      body: SafeArea(
-        child: PageView(
-          key: const ValueKey("page-view"),
-          controller: _pageController,
-          allowImplicitScrolling: false,
-          physics: const NeverScrollableScrollPhysics(),
-          children: [
-            _bnbProvider.appInitialization.serverDown
-                ? ServerDownScreen(
-                    reason:
-                        _bnbProvider.appInitialization.serverDownReason["uk"])
-                : const Home(
-                    key: ValueKey("home"),
-                  ),
-            _bnbProvider.appInitialization.serverDown
-                ? ServerDownScreen(
-                    reason:
-                        _bnbProvider.appInitialization.serverDownReason["uk"])
-                : const Favourites(key: ValueKey("fav")),
-            const CalendarView(
-              key: ValueKey("cal"),
-            ),
-            UserProfile(
-              onLogOut: () {
-                setState(() {
-                  _currentIndex = 0;
-                  _pageController.jumpToPage(_currentIndex);
-                });
-              },
-              key: const ValueKey("user-prof"),
-            ),
-            const UserNotifications(
-              key: Key("notif"),
-            ),
-          ],
+      body: WebSmoothScroll(
+        controller:_scrollController ,
+        child: SafeArea(
+          child: PageView(
+            key: const ValueKey("page-view"),
+            controller: _pageController,
+            allowImplicitScrolling: false,
+            physics: const NeverScrollableScrollPhysics(),
+            children: [
+              _bnbProvider.appInitialization.serverDown
+                  ? ServerDownScreen(
+                      reason:
+                          _bnbProvider.appInitialization.serverDownReason["uk"])
+                  : const Home(
+                      key: ValueKey("home"),
+                    ),
+              _bnbProvider.appInitialization.serverDown
+                  ? ServerDownScreen(
+                      reason:
+                          _bnbProvider.appInitialization.serverDownReason["uk"])
+                  : const Favourites(key: ValueKey("fav")),
+              const CalendarView(
+                key: ValueKey("cal"),
+              ),
+              UserProfile(
+                onLogOut: () {
+                  setState(() {
+                    _currentIndex = 0;
+                    _pageController.jumpToPage(_currentIndex);
+                  });
+                },
+                key: const ValueKey("user-prof"),
+              ),
+              const UserNotifications(
+                key: Key("notif"),
+              ),
+            ],
+          ),
         ),
       ),
     );

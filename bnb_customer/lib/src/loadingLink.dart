@@ -1,8 +1,7 @@
+// ignore_for_file: avoid_web_libraries_in_flutter, unused_import, unused_local_variable, file_names
+
 import 'package:bbblient/src/firebase/collections.dart';
 import 'package:bbblient/src/routes.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'views/salon/salon_home/salon_profile.dart';
@@ -11,8 +10,8 @@ import 'dart:html' as html;
 import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
 
 class LoadingLink extends StatefulWidget {
-  final myPath;
-  const LoadingLink({Key? key, this.myPath}) : super(key: key);
+  final String myPath;
+  const LoadingLink({Key? key, required this.myPath}) : super(key: key);
 
   @override
   State<LoadingLink> createState() => _LoadingLinkState();
@@ -26,19 +25,15 @@ class _LoadingLinkState extends State<LoadingLink> {
   bool back = true;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    Collection.customLinks
-        .where('name', isEqualTo: widget.myPath.toLowerCase())
-        .get()
-        .then((snapshot) {
-      var openlink;
+    Collection.customLinks.where('name', isEqualTo: widget.myPath.toLowerCase()).get().then((snapshot) {
+      // var openlink;
       if (snapshot.docs.isNotEmpty) {
         final mydata = snapshot.docs[0].data()! as Map<String, dynamic>;
 
         final uri = Uri.parse(mydata["link"]);
         id = uri.queryParameters["id"]!;
-        print(id);
+        debugPrint(id);
         locale = uri.queryParameters['locale'] ?? "en";
         final String id2 = uri.queryParameters['id2'] ?? "";
         // printIt('ideeeeeeeeeeeeeeeeee ' + id2);
@@ -54,8 +49,7 @@ class _LoadingLinkState extends State<LoadingLink> {
         final provider = Provider((ref) async {
           // use ref to obtain other providers
           final repository = ref.watch(bnbProvider);
-          repository.changeLocale(
-              locale: Locale(uri.queryParameters['locale']!.toString()));
+          repository.changeLocale(locale: Locale(uri.queryParameters['locale']!.toString()));
 
           // if (id2 != "") {
           //   repository.retrieveSalonMasterModel(

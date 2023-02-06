@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
@@ -9,7 +8,6 @@ import 'package:bbblient/src/views/registration/authenticate/login.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -24,15 +22,7 @@ class SalonContainer extends StatelessWidget {
   final bool isFav;
   final Function onFavouriteCallback;
 
-  const SalonContainer(
-      {Key? key,
-      required this.salon,
-      required this.showDialogForFavToggle,
-      required this.onBookTapped,
-      required this.onFavouriteCallback,
-      this.isFav = false,
-      this.padding})
-      : super(key: key);
+  const SalonContainer({Key? key, required this.salon, required this.showDialogForFavToggle, required this.onBookTapped, required this.onFavouriteCallback, this.isFav = false, this.padding}) : super(key: key);
 
   onHeartTap(context) {
     if (showDialogForFavToggle) {
@@ -40,17 +30,14 @@ class SalonContainer extends StatelessWidget {
         context: context,
         builder: (context) {
           return Dialog(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             child: Padding(
               padding: const EdgeInsets.all(32),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    AppLocalizations.of(context)
-                            ?.removeThisMasterSalonfromYourFavorites ??
-                        "Remove this master/salon from your favorites?",
+                    AppLocalizations.of(context)?.removeThisMasterSalonfromYourFavorites ?? "Remove this master/salon from your favorites?",
                     style: Theme.of(context).textTheme.headline3,
                     textAlign: TextAlign.center,
                   ),
@@ -70,10 +57,7 @@ class SalonContainer extends StatelessWidget {
                     color: AppTheme.creamBrown,
                     child: Text(
                       AppLocalizations.of(context)?.yes ?? "Yes",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline3!
-                          .copyWith(color: Colors.white),
+                      style: Theme.of(context).textTheme.headline3!.copyWith(color: Colors.white),
                     ),
                   ),
                   const SizedBox(
@@ -87,16 +71,12 @@ class SalonContainer extends StatelessWidget {
                     height: 52,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
-                      side: const BorderSide(
-                          color: AppTheme.creamBrown, width: 1),
+                      side: const BorderSide(color: AppTheme.creamBrown, width: 1),
                     ),
                     color: Colors.white,
                     child: Text(
                       AppLocalizations.of(context)?.no ?? "No",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline3!
-                          .copyWith(color: AppTheme.creamBrown),
+                      style: Theme.of(context).textTheme.headline3!.copyWith(color: AppTheme.creamBrown),
                     ),
                   ),
                 ],
@@ -114,8 +94,7 @@ class SalonContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final String _salonName = salon.salonName;
     final String _address = salon.address;
-    final String? _dp =
-        (salon.profilePics.isNotEmpty) ? salon.profilePics[0] : null;
+    final String? _dp = (salon.profilePics.isNotEmpty) ? salon.profilePics[0] : null;
     final String _distance = "${salon.distanceFromCenter ?? "N/A"} Km";
 
     final double _rating = salon.avgRating;
@@ -128,8 +107,7 @@ class SalonContainer extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.only(bottom: 20.0.h),
         height: 120.h,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12), color: Colors.white),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: Colors.white),
         child: Stack(
           children: [
             Row(
@@ -137,9 +115,7 @@ class SalonContainer extends StatelessWidget {
                 Expanded(
                   flex: 3,
                   child: ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(12),
-                        bottomLeft: Radius.circular(12)),
+                    borderRadius: const BorderRadius.only(topLeft: Radius.circular(12), bottomLeft: Radius.circular(12)),
                     child: _dp == null
                         ? SvgPicture.asset(
                             AppIcons.salonPlaceHolder,
@@ -152,8 +128,7 @@ class SalonContainer extends StatelessWidget {
                               AppIcons.salonPlaceHolder,
                               fit: BoxFit.cover,
                             ),
-                            errorWidget: (context, str, obj) =>
-                                SvgPicture.asset(
+                            errorWidget: (context, str, obj) => SvgPicture.asset(
                               AppIcons.salonPlaceHolder,
                               fit: BoxFit.cover,
                             ),
@@ -166,8 +141,7 @@ class SalonContainer extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(
-                            top: 10.0.h, left: 16.w, right: 8.0.h),
+                        padding: EdgeInsets.only(top: 10.0.h, left: 16.w, right: 8.0.h),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -175,17 +149,12 @@ class SalonContainer extends StatelessWidget {
                             Consumer(
                               builder: (con, ref, child) => GestureDetector(
                                 onTap: () async {
-                                  checkUser(
-                                      context, ref, () => onHeartTap(context));
+                                  checkUser(context, ref, () => onHeartTap(context));
                                 },
                                 child: SizedBox(
                                   height: 20.h,
                                   width: 20.w,
-                                  child: isFav
-                                      ? SvgPicture.asset(
-                                          AppIcons.heartfilledSVG)
-                                      : SvgPicture.asset(
-                                          AppIcons.heartemptySVG),
+                                  child: isFav ? SvgPicture.asset(AppIcons.heartfilledSVG) : SvgPicture.asset(AppIcons.heartemptySVG),
                                 ),
                               ),
                             )
@@ -193,29 +162,22 @@ class SalonContainer extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(
-                            top: 6.0.h, left: 16.w, right: 8.0.h),
+                        padding: EdgeInsets.only(top: 6.0.h, left: 16.w, right: 8.0.h),
                         child: Text(
                           _salonName,
                           overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline3!
-                              .copyWith(
-                                  fontWeight: FontWeight.w600, fontSize: 18.sp),
+                          style: Theme.of(context).textTheme.headline3!.copyWith(fontWeight: FontWeight.w600, fontSize: 18.sp),
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(
-                            top: 6.0.h, left: 16.w, right: 8.0.h),
+                        padding: EdgeInsets.only(top: 6.0.h, left: 16.w, right: 8.0.h),
                         child: Text(
                           _address,
                           overflow: TextOverflow.ellipsis,
-                          style:
-                              Theme.of(context).textTheme.headline4!.copyWith(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 14.sp,
-                                  ),
+                          style: Theme.of(context).textTheme.headline4!.copyWith(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14.sp,
+                              ),
                         ),
                       ),
                       Expanded(
@@ -234,8 +196,7 @@ class SalonContainer extends StatelessWidget {
                                     onRatingUpdate: () {},
                                   ),
                                   SizedBox(
-                                    width: DeviceConstraints.getResponsiveSize(
-                                        context, 8, 12, 16),
+                                    width: DeviceConstraints.getResponsiveSize(context, 8, 12, 16),
                                   ),
                                   if (_ratingCount != 0) ...[
                                     Row(
@@ -250,12 +211,7 @@ class SalonContainer extends StatelessWidget {
                                         ),
                                         Text(
                                           _ratingCount.toInt().toString(),
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline4!
-                                              .copyWith(
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize: 16.sp),
+                                          style: Theme.of(context).textTheme.headline4!.copyWith(fontWeight: FontWeight.w400, fontSize: 16.sp),
                                         )
                                       ],
                                     ),
@@ -268,18 +224,14 @@ class SalonContainer extends StatelessWidget {
                                   SizedBox(
                                     height: 12.h,
                                     width: 12.w,
-                                    child: SvgPicture.asset(
-                                        AppIcons.locationMarkerSVG),
+                                    child: SvgPicture.asset(AppIcons.locationMarkerSVG),
                                   ),
                                   SizedBox(
                                     width: 4.w,
                                   ),
                                   Text(
                                     _distance,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline3!
-                                        .copyWith(fontSize: 13.sp),
+                                    style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: 13.sp),
                                   ),
                                 ],
                               ),
@@ -310,15 +262,7 @@ class SalonContainerForWeb extends StatelessWidget {
   final bool isFav;
   final Function onFavouriteCallback;
 
-  const SalonContainerForWeb(
-      {Key? key,
-      required this.salon,
-      required this.showDialogForFavToggle,
-      required this.onBookTapped,
-      required this.onFavouriteCallback,
-      this.isFav = false,
-      this.padding})
-      : super(key: key);
+  const SalonContainerForWeb({Key? key, required this.salon, required this.showDialogForFavToggle, required this.onBookTapped, required this.onFavouriteCallback, this.isFav = false, this.padding}) : super(key: key);
 
   onHeartTap(context) {
     if (showDialogForFavToggle) {
@@ -326,17 +270,14 @@ class SalonContainerForWeb extends StatelessWidget {
         context: context,
         builder: (context) {
           return Dialog(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             child: Padding(
               padding: const EdgeInsets.all(32),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    AppLocalizations.of(context)
-                            ?.removeThisMasterSalonfromYourFavorites ??
-                        "Remove this master/salon from your favorites?",
+                    AppLocalizations.of(context)?.removeThisMasterSalonfromYourFavorites ?? "Remove this master/salon from your favorites?",
                     style: Theme.of(context).textTheme.headline3,
                     textAlign: TextAlign.center,
                   ),
@@ -356,10 +297,7 @@ class SalonContainerForWeb extends StatelessWidget {
                     color: AppTheme.creamBrown,
                     child: Text(
                       AppLocalizations.of(context)?.yes ?? "Yes",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline3!
-                          .copyWith(color: Colors.white),
+                      style: Theme.of(context).textTheme.headline3!.copyWith(color: Colors.white),
                     ),
                   ),
                   const SizedBox(
@@ -373,16 +311,12 @@ class SalonContainerForWeb extends StatelessWidget {
                     height: 52,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
-                      side: const BorderSide(
-                          color: AppTheme.creamBrown, width: 1),
+                      side: const BorderSide(color: AppTheme.creamBrown, width: 1),
                     ),
                     color: Colors.white,
                     child: Text(
                       AppLocalizations.of(context)?.no ?? "No",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline3!
-                          .copyWith(color: AppTheme.creamBrown),
+                      style: Theme.of(context).textTheme.headline3!.copyWith(color: AppTheme.creamBrown),
                     ),
                   ),
                 ],
@@ -400,8 +334,7 @@ class SalonContainerForWeb extends StatelessWidget {
   Widget build(BuildContext context) {
     final String _salonName = salon.salonName;
     final String _address = salon.address;
-    final String? _dp =
-        (salon.profilePics.isNotEmpty) ? salon.profilePics[0] : null;
+    final String? _dp = (salon.profilePics.isNotEmpty) ? salon.profilePics[0] : null;
     final String _distance = "${salon.distanceFromCenter ?? "N/A"} Km";
 
     final double _rating = salon.avgRating;
@@ -444,8 +377,7 @@ class SalonContainerForWeb extends StatelessWidget {
                                 AppIcons.salonPlaceHolder,
                                 fit: BoxFit.cover,
                               ),
-                              errorWidget: (context, str, obj) =>
-                                  SvgPicture.asset(
+                              errorWidget: (context, str, obj) => SvgPicture.asset(
                                 AppIcons.salonPlaceHolder,
                                 fit: BoxFit.cover,
                               ),
@@ -465,8 +397,7 @@ class SalonContainerForWeb extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding:
-                        const EdgeInsets.only(top: 8.0, left: 8, right: 8.0),
+                    padding: const EdgeInsets.only(top: 8.0, left: 8, right: 8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -483,9 +414,7 @@ class SalonContainerForWeb extends StatelessWidget {
                             child: SizedBox(
                               height: 17,
                               width: 20,
-                              child: isFav
-                                  ? SvgPicture.asset(AppIcons.heartfilledSVG)
-                                  : SvgPicture.asset(AppIcons.heartemptySVG),
+                              child: isFav ? SvgPicture.asset(AppIcons.heartfilledSVG) : SvgPicture.asset(AppIcons.heartemptySVG),
                             ),
                           ),
                         )
@@ -493,20 +422,15 @@ class SalonContainerForWeb extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding:
-                        const EdgeInsets.only(top: 4.0, left: 8, right: 8.0),
+                    padding: const EdgeInsets.only(top: 4.0, left: 8, right: 8.0),
                     child: Text(
                       _salonName,
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline3!
-                          .copyWith(fontWeight: FontWeight.w600, fontSize: 16),
+                      style: Theme.of(context).textTheme.headline3!.copyWith(fontWeight: FontWeight.w600, fontSize: 16),
                     ),
                   ),
                   Padding(
-                    padding:
-                        const EdgeInsets.only(top: 2.0, left: 8, right: 8.0),
+                    padding: const EdgeInsets.only(top: 2.0, left: 8, right: 8.0),
                     child: Text(
                       _address,
                       overflow: TextOverflow.ellipsis,
@@ -517,11 +441,7 @@ class SalonContainerForWeb extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(
-                        top: 6.0,
-                        left: 8,
-                        right: 8.0,
-                        bottom: 5),
+                    padding: const EdgeInsets.only(top: 6.0, left: 8, right: 8.0, bottom: 5),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -550,12 +470,7 @@ class SalonContainerForWeb extends StatelessWidget {
                                   ),
                                   Text(
                                     _ratingCount.toInt().toString(),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline4!
-                                        .copyWith(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 13),
+                                    style: Theme.of(context).textTheme.headline4!.copyWith(fontWeight: FontWeight.w400, fontSize: 13),
                                   )
                                 ],
                               ),
@@ -568,20 +483,14 @@ class SalonContainerForWeb extends StatelessWidget {
                             SizedBox(
                               height: 12,
                               width: 12,
-                              child:
-                                  SvgPicture.asset(AppIcons.locationMarkerSVG),
+                              child: SvgPicture.asset(AppIcons.locationMarkerSVG),
                             ),
                             const SizedBox(
                               width: 3,
                             ),
                             Text(
                               _distance,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline3!
-                                  .copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 13),
+                              style: Theme.of(context).textTheme.headline3!.copyWith(fontWeight: FontWeight.w600, fontSize: 13),
                             ),
                           ],
                         ),
@@ -642,8 +551,7 @@ class SalonRecognitionContainer extends StatelessWidget {
       case 1:
         return AppLocalizations.of(context)?.singleMaster ?? "singleMaster";
       case 2:
-        return AppLocalizations.of(context)?.specialistStudio ??
-            "specialistStudio";
+        return AppLocalizations.of(context)?.specialistStudio ?? "specialistStudio";
       default:
         return AppIcons.salon;
     }
@@ -662,13 +570,12 @@ class SalonRecognitionContainer extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
-              border: Border.all(
-                width: 1,
-                color: const Color(0x80FFFFFF),
-              ),
-              borderRadius: BorderRadius.circular(8),
-              color:  Colors.black.withOpacity(0.3)
-            ),
+                border: Border.all(
+                  width: 1,
+                  color: const Color(0x80FFFFFF),
+                ),
+                borderRadius: BorderRadius.circular(8),
+                color: Colors.black.withOpacity(0.3)),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -684,10 +591,7 @@ class SalonRecognitionContainer extends StatelessWidget {
                           const SizedBox(width: 7),
                           Text(
                             label,
-                            style: const TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white),
+                            style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: Colors.white),
                           ),
                         ],
                       )
@@ -703,8 +607,7 @@ class SalonRecognitionContainer extends StatelessWidget {
 
 class RequestModeBanner extends StatelessWidget {
   final bool requestSalon;
-  const RequestModeBanner({Key? key, this.requestSalon = false})
-      : super(key: key);
+  const RequestModeBanner({Key? key, this.requestSalon = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -714,20 +617,12 @@ class RequestModeBanner extends StatelessWidget {
         borderRadius: BorderRadius.circular(50),
         // borderRadius: const BorderRadius.only(
         //     topLeft: Radius.circular(6), bottomLeft: Radius.circular(6)),
-        color: requestSalon
-            ? AppTheme.lightBlack.withOpacity(0.8)
-            : AppTheme.creamBrownLight,
+        color: requestSalon ? AppTheme.lightBlack.withOpacity(0.8) : AppTheme.creamBrownLight,
       ),
       child: Text(
-        requestSalon
-            ? AppLocalizations.of(context)?.request ?? "request"
-            : AppLocalizations.of(context)?.instant ?? "instant",
+        requestSalon ? AppLocalizations.of(context)?.request ?? "request" : AppLocalizations.of(context)?.instant ?? "instant",
         overflow: TextOverflow.clip,
-        style: const TextStyle(
-            height: 1,
-            color: Colors.white,
-            fontSize: 11,
-            fontWeight: FontWeight.w600),
+        style: const TextStyle(height: 1, color: Colors.white, fontSize: 11, fontWeight: FontWeight.w600),
       ),
     );
   }
@@ -748,8 +643,7 @@ class SalonCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final String _salonName = salon.salonName;
     final String _address = salon.address;
-    final String _dp =
-        (salon.profilePics.isNotEmpty) ? salon.profilePics[0] : "";
+    final String _dp = (salon.profilePics.isNotEmpty) ? salon.profilePics[0] : "";
     final String _distance = "${salon.distanceFromCenter ?? "N/A"} Km";
     final double _rating = salon.avgRating;
     return ConstrainedContainer(
@@ -762,13 +656,7 @@ class SalonCard extends StatelessWidget {
           ),
           child: Ink(
             height: 115.h,
-            decoration: BoxDecoration(
-                color: AppTheme.white,
-                borderRadius: BorderRadius.circular(12.sp),
-                border: Border.all(
-                    color:
-                        isSelected ? AppTheme.creamBrownLight : AppTheme.white,
-                    width: 2)),
+            decoration: BoxDecoration(color: AppTheme.white, borderRadius: BorderRadius.circular(12.sp), border: Border.all(color: isSelected ? AppTheme.creamBrownLight : AppTheme.white, width: 2)),
             child: Row(
               children: [
                 Padding(
@@ -787,8 +675,7 @@ class SalonCard extends StatelessWidget {
                                   AppIcons.salonPlaceHolder,
                                   fit: BoxFit.cover,
                                 ),
-                                errorWidget: (context, str, obj) =>
-                                    SvgPicture.asset(
+                                errorWidget: (context, str, obj) => SvgPicture.asset(
                                   AppIcons.salonPlaceHolder,
                                   fit: BoxFit.cover,
                                 ),
@@ -814,10 +701,7 @@ class SalonCard extends StatelessWidget {
                               child: Text(
                                 _salonName,
                                 overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline3!
-                                    .copyWith(fontSize: 16.sp),
+                                style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: 16.sp),
                                 maxLines: 1,
                               ),
                             ),
@@ -826,12 +710,7 @@ class SalonCard extends StatelessWidget {
                               child: Text(
                                 _distance,
                                 overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline3!
-                                    .copyWith(
-                                        color: AppTheme.lightGrey,
-                                        fontSize: 15),
+                                style: Theme.of(context).textTheme.headline3!.copyWith(color: AppTheme.lightGrey, fontSize: 15),
                               ),
                             ),
                           ],
@@ -841,10 +720,7 @@ class SalonCard extends StatelessWidget {
                         ),
                         Text(
                           _address,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline4!
-                              .copyWith(fontWeight: FontWeight.w400),
+                          style: Theme.of(context).textTheme.headline4!.copyWith(fontWeight: FontWeight.w400),
                         ),
                         const Spacer(),
                         Row(
@@ -854,10 +730,7 @@ class SalonCard extends StatelessWidget {
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                BnbRatings(
-                                    rating: _rating,
-                                    editable: false,
-                                    starSize: 12.sp),
+                                BnbRatings(rating: _rating, editable: false, starSize: 12.sp),
                                 SizedBox(
                                   width: 8.w,
                                 ),
@@ -874,12 +747,7 @@ class SalonCard extends StatelessWidget {
                                       ),
                                       Text(
                                         salon.reviewCount.toInt().toString(),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline4!
-                                            .copyWith(
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 16.sp),
+                                        style: Theme.of(context).textTheme.headline4!.copyWith(fontWeight: FontWeight.w400, fontSize: 16.sp),
                                       )
                                     ],
                                   ),

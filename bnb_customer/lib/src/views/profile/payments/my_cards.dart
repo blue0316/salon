@@ -95,7 +95,7 @@ class _MyCardsState extends State<MyCards> {
               name: name,
             ),
           ),
-          Divider(),
+          const Divider(),
           SizedBox(
             height: 40.h,
           ),
@@ -114,7 +114,7 @@ class _MyCardsState extends State<MyCards> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => AddCard(),
+                          builder: (context) => const AddCard(),
                         ),
                       );
                     },

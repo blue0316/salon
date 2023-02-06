@@ -1,9 +1,7 @@
 import 'dart:collection';
-
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/home/salon_search_provider.dart';
 import 'package:bbblient/src/utils/utils.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -116,8 +114,8 @@ class Map extends StatefulWidget {
 
 class _MapState extends State<Map> {
   bool loading = true;
-  Set<Circle> _circle = HashSet<Circle>();
-  Set<Marker> _marker = HashSet<Marker>();
+  final Set<Circle> _circle = HashSet<Circle>();
+  final Set<Marker> _marker = HashSet<Marker>();
 
   double? _oldRadius;
   LatLng? _oldCoordinates;

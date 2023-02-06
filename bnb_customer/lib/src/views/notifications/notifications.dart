@@ -1,6 +1,5 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/models/backend_codings/notification_type.dart';
-import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/notifications/notification_type_widgets.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +23,7 @@ class _UserNotificationsState extends ConsumerState<UserNotifications> {
     return Scaffold(
         body: SafeArea(
       child: ConstrainedContainer(
-maxWidth: 800,
+        maxWidth: 800,
         child: CustomScrollView(
           slivers: [
             SliverAppBar(
@@ -64,6 +63,7 @@ maxWidth: 800,
                   if (_bnbProvider.notifications[index].notificationSubType == NotificationSubType.appointmentCancelled) {
                     return NotificationAppointmentCancelled(notif: _bnbProvider.notifications[index]);
                   }
+                  return null;
                 },
                 childCount: _bnbProvider.notifications.length,
               ),
@@ -91,17 +91,13 @@ maxWidth: 800,
                                 ],
                               ),
                             ),
-                            Positioned(
-                                top: -12,
-                                left: 12,
-                                child: SizedBox(height: 90.w, width: 90.w, child: Image.asset(AppIcons.noNotificationBellPNG)))
+                            Positioned(top: -12, left: 12, child: SizedBox(height: 90.w, width: 90.w, child: Image.asset(AppIcons.noNotificationBellPNG)))
                           ],
                         ),
                         Padding(
                           padding: const EdgeInsets.all(40.0),
                           child: Text(
-                            AppLocalizations.of(context)?.allNotificationsHere ??
-                                "All your notifications will be here: from upcoming appointments to bonuses updates",
+                            AppLocalizations.of(context)?.allNotificationsHere ?? "All your notifications will be here: from upcoming appointments to bonuses updates",
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.bodyText1,
                           ),

@@ -1,3 +1,5 @@
+// ignore_for_file: use_full_hex_values_for_flutter_colors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -13,11 +15,7 @@ class AppTheme {
     ),
   ];
   static final List<BoxShadow> lightShadow = [
-    const BoxShadow(
-        color: Colors.black12,
-        offset: Offset(1, 2),
-        blurRadius: 3.0,
-        spreadRadius: 3),
+    const BoxShadow(color: Colors.black12, offset: Offset(1, 2), blurRadius: 3.0, spreadRadius: 3),
   ];
 
   static const padding = EdgeInsets.all(margin);
@@ -86,18 +84,7 @@ class AppTheme {
   static const Color master8 = Color(0xff14213d);
   static const Color master9 = Color(0xffcaffbf);
   static const Color master10 = Color(0xffa5a58d);
-  static const List<Color> masterColors = [
-    master1,
-    master2,
-    master3,
-    master4,
-    master5,
-    master6,
-    master7,
-    master8,
-    master9,
-    master10
-  ];
+  static const List<Color> masterColors = [master1, master2, master3, master4, master5, master6, master7, master8, master9, master10];
 
 // colorScheme
   static const Color creamBrownPrimaryVariant = Color(0xFFAE7C63);
@@ -165,7 +152,7 @@ class AppTheme {
     fontWeight: FontWeight.w600,
     color: lightBlack,
   );
-    static final TextStyle appointmentSubtitle = TextStyle(
+  static final TextStyle appointmentSubtitle = TextStyle(
     fontFamily: "Montserrat",
     fontSize: 14.sp,
     fontWeight: FontWeight.w600,
@@ -177,6 +164,14 @@ class AppTheme {
     color: Colors.white,
     fontWeight: FontWeight.w500,
   );
+
+  static const TextStyle calTextStyle2 = TextStyle(
+    fontFamily: "Montserrat",
+    fontSize: 14,
+    color: Colors.black,
+    fontWeight: FontWeight.w500,
+  );
+
   static const TextStyle appointmentTitleStyle = TextStyle(
     fontFamily: "Montserrat",
     fontSize: 14,
