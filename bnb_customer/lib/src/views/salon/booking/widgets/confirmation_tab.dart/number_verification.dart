@@ -1,4 +1,5 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
@@ -22,6 +23,7 @@ class _VerificationState extends ConsumerState<Verification> {
   @override
   Widget build(BuildContext context) {
     final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
+    final AuthProvider _auth = AuthProvider();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,24 +59,29 @@ class _VerificationState extends ConsumerState<Verification> {
                   child: const OTPField9(color: Colors.black),
                 ),
                 SizedBox(height: 12.h),
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: AppLocalizations.of(context)?.registration_line17.toCapitalized() ?? "Didn't Receive an OTP? ",
-                        style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                              color: AppTheme.lightGrey,
-                            ),
-                      ),
-                      const TextSpan(text: '   '),
-                      TextSpan(
-                        text: "Resend",
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                              fontSize: 15.sp,
-                              decoration: TextDecoration.underline,
-                            ),
-                      ),
-                    ],
+                GestureDetector(
+                  onTap: () {
+                    // _auth.otp = '';
+                  },
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: AppLocalizations.of(context)?.registration_line17.toCapitalized() ?? "Didn't Receive an OTP? ",
+                          style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                                color: AppTheme.lightGrey,
+                              ),
+                        ),
+                        const TextSpan(text: '   '),
+                        TextSpan(
+                          text: "Resend",
+                          style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                fontSize: 15.sp,
+                                decoration: TextDecoration.underline,
+                              ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -85,7 +92,11 @@ class _VerificationState extends ConsumerState<Verification> {
         const Spacer(),
         DefaultButton(
           borderRadius: 60,
-          onTap: () => _createAppointmentProvider.nextPageView(2),
+          onTap: () {
+            _auth.checkOtp(_createAppointmentProvider.otp);
+
+            _createAppointmentProvider.nextPageView(2);
+          },
           color: Colors.black,
           height: 60,
           label: 'Next step',

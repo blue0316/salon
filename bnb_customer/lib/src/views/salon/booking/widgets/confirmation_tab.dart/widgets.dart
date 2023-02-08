@@ -1,4 +1,5 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,7 +11,9 @@ class OTPField9 extends ConsumerWidget {
   const OTPField9({Key? key, this.color}) : super(key: key);
   @override
   Widget build(BuildContext context, ref) {
-    final _auth = ref.watch(authProvider);
+    // final _auth = ref.watch(authProvider);
+    final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
+
     return PinCodeTextField(
       autoFocus: true,
       appContext: context,
@@ -39,10 +42,11 @@ class OTPField9 extends ConsumerWidget {
       backgroundColor: Colors.transparent,
       enableActiveFill: false,
       onCompleted: (val) {
-        _auth.otp = val;
+        _createAppointmentProvider.otp = val;
+        // _auth.checkOtp(val);
       },
       onChanged: (val) {
-        _auth.otp = val;
+        // _auth.otp = val;
       },
       beforeTextPaste: (text) {
         //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.

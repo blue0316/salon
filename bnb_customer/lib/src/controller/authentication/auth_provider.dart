@@ -40,8 +40,7 @@ import '../create_apntmnt_provider/create_appointment_provider.dart';
 
 class AuthProvider with ChangeNotifier {
   static final FirebaseAuth _auth = FirebaseAuth.instance;
-  static final FirebaseMessaging _firebaseMessaging =
-      FirebaseMessaging.instance;
+  static final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   //       final TextEditingController firstnamecontroller = TextEditingController();
   // final TextEditingController lastnamecontroller = TextEditingController();
   String? verificationCode;
@@ -150,8 +149,7 @@ class AuthProvider with ChangeNotifier {
 
       switch (error.code) {
         case 'ERROR_INVALID_VERIFICATION_CODE':
-          showToast(AppLocalizations.of(context)?.invalid_phone_number ??
-              'Invalid phone no !');
+          showToast(AppLocalizations.of(context)?.invalid_phone_number ?? 'Invalid phone no !');
           printIt("The verification code is invalid");
           break;
         default:
@@ -180,6 +178,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   ConfirmationResult? webOTPConfirmationResult;
+  ConfirmationResult? phoneVerificationResult;
 
   Future<void> verifyPhoneNumber({required BuildContext context}) async {
     printIt("verifying phone number");
@@ -190,18 +189,15 @@ class AuthProvider with ChangeNotifier {
     printIt(_phone);
 
     if (phoneNumber.length < 8 || phoneNumber.length > 10) {
-      showToast(AppLocalizations.of(context)?.invalid_phone_number ??
-          'Invalid phone No');
+      showToast(AppLocalizations.of(context)?.invalid_phone_number ?? 'Invalid phone No');
       //return;
     } else {
       otpStatus = Status.loading;
       notifyListeners();
       try {
         if (kIsWeb) {
-          webOTPConfirmationResult =
-              await _auth.signInWithPhoneNumber(_phone.trim());
-          final customerExists =
-              await CustomerApi().checkIfCustomerExists(_phone.trim());
+          webOTPConfirmationResult = await _auth.signInWithPhoneNumber(_phone.trim());
+          final customerExists = await CustomerApi().checkIfCustomerExists(_phone.trim());
           if (!customerExists) {
             isNewUser = true;
             notifyListeners();
@@ -218,8 +214,7 @@ class AuthProvider with ChangeNotifier {
             codeSent: smsOTPSent,
             timeout: const Duration(seconds: 60),
             verificationCompleted: (AuthCredential phoneAuthCredential) async {
-              UserCredential result =
-                  await _auth.signInWithCredential(phoneAuthCredential);
+              UserCredential result = await _auth.signInWithCredential(phoneAuthCredential);
 
               otpStatus = Status.success;
 
@@ -228,8 +223,7 @@ class AuthProvider with ChangeNotifier {
             verificationFailed: (FirebaseAuthException exception) {
               if (exception.code == 'invalid-phone-number') {
                 errorMessage = exception.code;
-                showToast(AppLocalizations.of(context)?.invalid_phone_number ??
-                    'Invalid phone no !');
+                showToast(AppLocalizations.of(context)?.invalid_phone_number ?? 'Invalid phone no !');
                 printIt('The provided phone number is not valid.');
               } else {
                 errorMessage = exception.code;
@@ -240,8 +234,7 @@ class AuthProvider with ChangeNotifier {
               notifyListeners();
             },
           );
-          final customerExists =
-              await CustomerApi().checkIfCustomerExists(_phone.trim());
+          final customerExists = await CustomerApi().checkIfCustomerExists(_phone.trim());
           if (!customerExists) {
             isNewUser = true;
             notifyListeners();
@@ -264,10 +257,78 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future<Status> signIn(
-      {required BuildContext context,
-      required WidgetRef ref,
-      required callBack}) async {
+  Future<void> verifyPhone({
+    required BuildContext context,
+    required String phoneNumber,
+    required String countryCode,
+  }) async {
+    String _phone = "$countryCode$phoneNumber";
+    // debugPrint('#####################################');
+
+    // debugPrint(countryCode);
+    // debugPrint(phoneNumber);
+    // debugPrint(_phone);
+    // debugPrint('#####################################');
+
+    if (phoneNumber.length < 8 || phoneNumber.length > 10) {
+      showToast(AppLocalizations.of(context)?.invalid_phone_number ?? 'Invalid phone No');
+      return;
+    }
+
+    otpStatus = Status.loading;
+    notifyListeners();
+    try {
+      phoneVerificationResult = await _auth.signInWithPhoneNumber(_phone.trim());
+      notifyListeners();
+
+      _showOTPScreen();
+    } on FirebaseAuthException catch (e) {
+      otpStatus = Status.failed;
+      notifyListeners();
+      printIt("$e");
+      showToast(ErrorCodes.getFirebaseErrorMessage(e));
+      AdminApi().addAuthError(e.toString(), _phone);
+    } catch (e) {
+      otpStatus = Status.failed;
+
+      errorMessage = e.toString();
+      handleError(e, context);
+      notifyListeners();
+      AdminApi().addAuthError(e.toString(), _phone);
+    }
+  }
+
+  Future<void> checkOtp(String confirmOtp) async {
+    print('**************************************');
+    print(confirmOtp);
+    print('**************************************');
+    // print(phoneVerificationResult.toString());
+    // print(phoneVerificationResult?.verificationId);
+
+    try {
+      dynamic kk = await phoneVerificationResult?.confirm(confirmOtp);
+
+      print(kk);
+
+      print('**************************************');
+
+      print(kk);
+      print('*********** ***************************');
+    } on FirebaseAuthException catch (e) {
+      loginStatus = Status.failed;
+      notifyListeners();
+      printIt("$e");
+      String? error = ErrorCodes.getFirebaseErrorMessage(e);
+    } catch (err) {
+      loginStatus = Status.failed;
+      notifyListeners();
+      // handleError(e, context);
+      printIt('Caught exception ');
+      printIt(err);
+    }
+  }
+
+  Future<Status> signIn({required BuildContext context, required WidgetRef ref, required callBack}) async {
     printIt(otp);
     printIt(verificationCode);
     BnbProvider _bnbProvider = ref.read(bnbProvider);
@@ -282,8 +343,11 @@ class AuthProvider with ChangeNotifier {
       if (kIsWeb) {
         printIt("It's webbb");
         _userResult = await webOTPConfirmationResult?.confirm(otp);
-        phoneNoController.clear();
+        print('**************************************');
+        print(_userResult);
+        print('**************************************');
 
+        phoneNoController.clear();
       } else {
         final AuthCredential _authCredential = PhoneAuthProvider.credential(
           verificationId: verificationCode!,
@@ -303,8 +367,7 @@ class AuthProvider with ChangeNotifier {
         loginStatus = Status.failed;
         printIt("New Login Status");
         printIt(loginStatus);
-        showToast(
-            AppLocalizations.of(context)?.errorOccurred ?? 'error occurred');
+        showToast(AppLocalizations.of(context)?.errorOccurred ?? 'error occurred');
       }
 
       _timer.cancel();
@@ -322,10 +385,7 @@ class AuthProvider with ChangeNotifier {
         } else {
           if (locale != null && locale != 'en') {
             printIt(locale);
-            var translatederror = await translator.translate(
-                ErrorCodes.getFirebaseErrorMessage(e)!,
-                from: 'en',
-                to: locale);
+            var translatederror = await translator.translate(ErrorCodes.getFirebaseErrorMessage(e)!, from: 'en', to: locale);
             printIt('Else Error ');
             printIt(translatederror);
             showToast(translatederror);
@@ -393,10 +453,7 @@ class AuthProvider with ChangeNotifier {
 
       // printIt('I got to Add name ');
 
-      if (firstName == null ||
-          firstName.isEmpty ||
-          lastName == null ||
-          lastName.isEmpty) {
+      if (firstName == null || firstName.isEmpty || lastName == null || lastName.isEmpty) {
         saveNameStatus = Status.failed;
         showNameSent(false);
         showToast(
@@ -411,12 +468,10 @@ class AuthProvider with ChangeNotifier {
               // customerModel.personalInfo.firstName ?? ,
               lastName: lastName,
               description: customerModel.personalInfo.description ?? '',
-              dob: customerModel.personalInfo.dob ??
-                  DateTime.now().subtract(const Duration(days: 365 * 26)),
+              dob: customerModel.personalInfo.dob ?? DateTime.now().subtract(const Duration(days: 365 * 26)),
               email: customerModel.personalInfo.email ?? '',
               sex: customerModel.personalInfo.sex ?? '');
-          await CustomerApi().updatePersonalInfo(
-              customerId: customerModel.customerId, personalInfo: personalInfo);
+          await CustomerApi().updatePersonalInfo(customerId: customerModel.customerId, personalInfo: personalInfo);
           name = firstName + '' + lastName;
           notifyListeners();
           // printIt('Name $name ');
@@ -440,13 +495,9 @@ class AuthProvider with ChangeNotifier {
   }
 
   addPosition({required LatLng latlng}) async {
-    GeoFirePoint myLocation = Geoflutterfire()
-        .point(latitude: latlng.latitude, longitude: latlng.longitude);
-    Position myPosition = Position(
-        geoHash: myLocation.hash,
-        geoPoint: GeoPoint(myLocation.latitude, myLocation.longitude));
-    bool added =
-        await CustomerApi().addCustomerLocation(newPosition: myPosition);
+    GeoFirePoint myLocation = Geoflutterfire().point(latitude: latlng.latitude, longitude: latlng.longitude);
+    Position myPosition = Position(geoHash: myLocation.hash, geoPoint: GeoPoint(myLocation.latitude, myLocation.longitude));
+    bool added = await CustomerApi().addCustomerLocation(newPosition: myPosition);
     if (added) {
       CustomerModel? customerModel = await CustomerApi().getCustomer();
       if (customerModel != null) {
@@ -466,12 +517,10 @@ class AuthProvider with ChangeNotifier {
             context: context,
             child: DefaultDialogue(
               svg: AppIcons.puzzledGuy,
-              text: AppLocalizations.of(context)?.answerFewQuestions ??
-                  "Answer a few questions. It will help us understand what to suggest you",
+              text: AppLocalizations.of(context)?.answerFewQuestions ?? "Answer a few questions. It will help us understand what to suggest you",
               buttonText: AppLocalizations.of(context)?.yesPlease ?? "Continue",
               onConfirm: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => const RegisterQuiz()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (_) => const RegisterQuiz()));
               },
               showSkipButton: true,
               skipText: AppLocalizations.of(context)?.noImOk ?? 'Not now',
@@ -501,9 +550,7 @@ class AuthProvider with ChangeNotifier {
       avgRating: 0,
       noOfRatings: 0,
       locations: [
-        Position(
-            geoHash: 'u8vwyxct5',
-            geoPoint: const GeoPoint(50.44872086752114, 30.52221357822418)),
+        Position(geoHash: 'u8vwyxct5', geoPoint: const GeoPoint(50.44872086752114, 30.52221357822418)),
       ],
       profileCompleted: false,
       profilePicUploaded: false,

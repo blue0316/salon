@@ -1,8 +1,13 @@
+import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
+import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/utils/icons.dart';
+import 'package:bbblient/src/utils/keys.dart';
+import 'package:bbblient/src/utils/time.dart';
 import 'package:bbblient/src/views/salon/booking/widgets/confirmation_tab.dart/widgets.dart';
 import 'package:bbblient/src/views/widgets/buttons.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
@@ -13,7 +18,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ConfirmedDialog<T> extends ConsumerStatefulWidget {
-  const ConfirmedDialog({Key? key}) : super(key: key);
+  final AppointmentModel appointment;
+
+  const ConfirmedDialog({Key? key, required this.appointment}) : super(key: key);
 
   Future<void> show(BuildContext context) async {
     await showDialog<T>(
@@ -120,7 +127,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20.h),
+                SizedBox(height: 15.h),
               ],
             ),
           ),
@@ -130,11 +137,25 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
   }
 }
 
-class TopDetails extends StatelessWidget {
+class TopDetails extends ConsumerWidget {
+  // final AppointmentModel appointment;
+
   const TopDetails({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final CreateAppointmentProvider _createAppointment = ref.watch(createAppointmentProvider);
+
+    final String _date = Time().getLocaleDate(
+      _createAppointment.appointmentModel!.appointmentStartTime,
+      AppLocalizations.of(context)?.localeName ?? 'en',
+    );
+
+    final String _time = Time().getAppointmentStartEndTime(
+          _createAppointment.appointmentModel!,
+        ) ??
+        '';
+
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: DeviceConstraints.getResponsiveSize(context, 5, 20.w, 20.w),
@@ -167,7 +188,7 @@ class TopDetails extends StatelessWidget {
                     style: AppTheme.bodyText1.copyWith(fontWeight: FontWeight.w500),
                   ),
                   Text(
-                    "Haylie Septems",
+                    _createAppointment.nameController.text,
                     style: AppTheme.bodyText2.copyWith(fontSize: 15.sp),
                   ),
                 ],
@@ -182,7 +203,7 @@ class TopDetails extends StatelessWidget {
                     style: AppTheme.bodyText1.copyWith(fontWeight: FontWeight.w500),
                   ),
                   Text(
-                    "000000000000",
+                    _createAppointment.phoneController.text,
                     style: AppTheme.bodyText2.copyWith(fontSize: 15.sp),
                   ),
                 ],
@@ -197,7 +218,7 @@ class TopDetails extends StatelessWidget {
                     style: AppTheme.bodyText1.copyWith(fontWeight: FontWeight.w500),
                   ),
                   Text(
-                    "aaaaa@gmail.com",
+                    _createAppointment.emailController.text,
                     style: AppTheme.bodyText2.copyWith(fontSize: 15.sp),
                   ),
                 ],
@@ -212,7 +233,8 @@ class TopDetails extends StatelessWidget {
                     style: AppTheme.bodyText1.copyWith(fontWeight: FontWeight.w500),
                   ),
                   Text(
-                    "Brows",
+                    // "Brows",
+                    '${_createAppointment.appointmentModel!.services.length} services',
                     style: AppTheme.bodyText2.copyWith(fontSize: 15.sp),
                   ),
                 ],
@@ -227,7 +249,8 @@ class TopDetails extends StatelessWidget {
                     style: AppTheme.bodyText1.copyWith(fontWeight: FontWeight.w500),
                   ),
                   Text(
-                    "Mon, November 7",
+                    // "Mon, November 7",
+                    _date,
                     style: AppTheme.bodyText2.copyWith(fontSize: 15.sp),
                   ),
                 ],
@@ -242,22 +265,25 @@ class TopDetails extends StatelessWidget {
                     style: AppTheme.bodyText1.copyWith(fontWeight: FontWeight.w500),
                   ),
                   Text(
-                    "11:00 - 12:00",
+                    // "11:00 - 12:00",
+                    _time,
                     style: AppTheme.bodyText2.copyWith(fontSize: 15.sp),
                   ),
                 ],
               ),
               SizedBox(height: 15.h),
+
+              // -- SALON NAME
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    AppLocalizations.of(context)?.name.toCapitalized() ?? 'Name',
+                    AppLocalizations.of(context)?.registration_line33.toCapitalized() ?? 'Salon Name',
                     style: AppTheme.bodyText1.copyWith(fontWeight: FontWeight.w500),
                   ),
                   Text(
-                    "Haylie Septems",
+                    _createAppointment.appointmentModel!.salon.name.toCapitalized(),
                     style: AppTheme.bodyText2.copyWith(fontSize: 15.sp),
                   ),
                 ],
@@ -271,11 +297,13 @@ class TopDetails extends StatelessWidget {
   }
 }
 
-class BottomDetails extends StatelessWidget {
+class BottomDetails extends ConsumerWidget {
   const BottomDetails({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final CreateAppointmentProvider _createAppointment = ref.watch(createAppointmentProvider);
+
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: DeviceConstraints.getResponsiveSize(context, 5, 20.w, 20.w),
@@ -303,7 +331,7 @@ class BottomDetails extends StatelessWidget {
                     style: AppTheme.bodyText1.copyWith(fontWeight: FontWeight.w500),
                   ),
                   Text(
-                    "\$000",
+                    "${_createAppointment.appointmentModel!.priceAndDuration.price} ${Keys.uah}",
                     style: AppTheme.bodyText2.copyWith(fontSize: 15.sp),
                   ),
                 ],
@@ -343,8 +371,9 @@ class BottomDetails extends StatelessWidget {
                     style: AppTheme.bodyText1.copyWith(fontSize: 18.sp, fontWeight: FontWeight.w700),
                   ),
                   Text(
-                    "-\$00",
-                    style: AppTheme.bodyText2.copyWith(fontSize: 18.sp, fontWeight: FontWeight.w700),
+                    // "-\$00",
+                    "${_createAppointment.appointmentModel!.priceAndDuration.price} ${Keys.uah}",
+                    style: AppTheme.bodyText1.copyWith(fontSize: 18.sp, fontWeight: FontWeight.w700),
                   ),
                 ],
               ),

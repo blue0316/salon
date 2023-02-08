@@ -1,12 +1,10 @@
+import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/firebase/appointments.dart';
 import 'package:bbblient/src/firebase/bonus_referral_api.dart';
 import 'package:bbblient/src/firebase/category_services.dart';
 import 'package:bbblient/src/firebase/collections.dart';
 import 'package:bbblient/src/firebase/customer.dart';
-import 'package:bbblient/src/firebase/integration/beauty_pro.dart';
 import 'package:bbblient/src/firebase/master.dart';
-import 'package:bbblient/src/firebase/promotion_service.dart';
-import 'package:bbblient/src/firebase/salons.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/backend_codings/appointment.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
@@ -28,6 +26,7 @@ import 'package:bbblient/src/utils/time.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
@@ -102,6 +101,11 @@ class CreateAppointmentProvider with ChangeNotifier {
   BeautyProConfig? beautyProConfig;
   Status slotsStatus = Status.init;
 
+  String countryCode = '';
+  String otp = '';
+
+  static final AuthProvider _authProvider = AuthProvider();
+
   // TextField Controllers on `Book Now` Dialog
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -110,7 +114,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   // PageView Controller on `Confirmation` Tab Bar
   final PageController confirmationPageController = PageController();
 
-  void verifyControllers() {
+  void verifyControllers(BuildContext context) async {
     if (nameController.text.isEmpty) {
       showToast('Name field cannot be empty', duration: const Duration(seconds: 3));
       return;
@@ -121,8 +125,20 @@ class CreateAppointmentProvider with ChangeNotifier {
       return;
     }
 
-    // Required fields have been filled
-    nextPageView(1);
+    if (_authProvider.otpStatus != Status.loading) {
+      await _authProvider.verifyPhone(
+        context: context,
+        countryCode: countryCode,
+        phoneNumber: phoneController.text.trim(),
+      );
+    } else {
+      showToast(AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
+    }
+
+    if (_authProvider.otpStatus == Status.success) {
+      // Required fields have been filled
+      nextPageView(1);
+    }
   }
 
   void nextPageView(int index) {
@@ -131,6 +147,16 @@ class CreateAppointmentProvider with ChangeNotifier {
       duration: const Duration(milliseconds: 100),
       curve: Curves.ease,
     );
+  }
+
+  void changeCountryCode(String value) {
+    countryCode = value;
+    notifyListeners();
+  }
+
+  void changeOtp(String value) {
+    otp = value;
+    notifyListeners();
   }
 
   setSalon({required SalonModel salonModel, required BuildContext context, required List<ServiceModel> servicesFromSearch}) async {
