@@ -127,6 +127,11 @@ flutter:
     - assets/cards/
     - assets/social_media/
 
+
+    # Theme Assets
+    - assets/themes/glam_one/images/
+    - assets/themes/glam_one/svg/
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see
@@ -147,5 +152,11 @@ flutter:
         - asset: assets/fonts/Gilroy-Regular.ttf
         - asset: assets/fonts/Gilroy-SemiBold.ttf
         - asset: assets/fonts/Gilroy-Medium.ttf
+    - family: VASQUZ
+      fonts:
+        - asset: assets/fonts/VASQUZ-ITALIC.otf
+        - asset: assets/fonts/VASQUZ-ITALIC.ttf
+        - asset: assets/fonts/VASQUZ.otf        
+        - asset: assets/fonts/VASQUZ.ttf        
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
