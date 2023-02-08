@@ -1,4 +1,6 @@
+import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/theme/glam_one.dart';
+import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/constants/image.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/constants/theme_icons.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +18,15 @@ class SalonReviews extends StatefulWidget {
 class _SalonReviewsState extends State<SalonReviews> {
   @override
   Widget build(BuildContext context) {
+    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+
     return Padding(
-      padding: EdgeInsets.only(left: 50.w, right: 50.w, bottom: 100),
+      padding: EdgeInsets.only(
+        left: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
+        right: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
+        // top: 50,
+        bottom: 100,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -28,7 +37,9 @@ class _SalonReviewsState extends State<SalonReviews> {
             children: [
               Text(
                 "REVIEWS",
-                style: GlamOneTheme.headLine2.copyWith(),
+                style: GlamOneTheme.headLine2.copyWith(
+                  fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),
+                ),
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -36,12 +47,12 @@ class _SalonReviewsState extends State<SalonReviews> {
                 children: [
                   SvgPicture.asset(
                     GlamOneIcons.leftArrow,
-                    height: 50.sp, // TODO: RESPONSIVE
+                    height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
                   ),
-                  const SizedBox(width: 40), // TODO: RESPONSIVE
+                  SizedBox(width: DeviceConstraints.getResponsiveSize(context, 15, 30, 40)),
                   SvgPicture.asset(
                     GlamOneIcons.rightArrow,
-                    height: 50.sp, // TODO: RESPONSIVE
+                    height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
                   ),
                 ],
               ),
@@ -89,33 +100,49 @@ class _SalonReviewsState extends State<SalonReviews> {
             ],
           ),
           const SizedBox(height: 40),
-          Container(
+          SizedBox(
             height: 220.h,
-            // color: Colors.white,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const ReviewCard(
-                  avatar: GlamOneImages.review1,
-                  reviewUser: 'Jocelyn Francis',
-                  review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis.',
-                  reviewStars: 5,
-                ),
-                const ReviewCard(
-                  avatar: GlamOneImages.review2,
-                  reviewUser: 'Skylar Vetrovs',
-                  review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis.',
-                  reviewStars: 3.5,
-                ),
-                const ReviewCard(
-                  avatar: GlamOneImages.review3,
-                  reviewUser: 'Jocelyn Francis',
-                  review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis.',
-                  reviewStars: 5,
-                ),
-              ],
-            ),
+            child: (!isPortrait)
+                ? Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: const [
+                      ReviewCard(
+                        avatar: GlamOneImages.review1,
+                        reviewUser: 'Jocelyn Francis',
+                        review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis.',
+                        reviewStars: 5,
+                      ),
+                      ReviewCard(
+                        avatar: GlamOneImages.review2,
+                        reviewUser: 'Skylar Vetrovs',
+                        review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis.',
+                        reviewStars: 3.5,
+                      ),
+                      ReviewCard(
+                        avatar: GlamOneImages.review3,
+                        reviewUser: 'Jocelyn Francis',
+                        review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis.',
+                        reviewStars: 5,
+                      ),
+                    ],
+                  )
+                : ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 3,
+                    itemBuilder: (context, index) {
+                      return const Padding(
+                        padding: EdgeInsets.only(right: 15),
+                        child: ReviewCard(
+                          avatar: GlamOneImages.review3,
+                          reviewUser: 'Jocelyn Francis',
+                          review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis.',
+                          reviewStars: 5,
+                        ),
+                      );
+                    },
+                  ),
           ),
           SizedBox(height: 30.h),
         ],
@@ -138,9 +165,9 @@ class ReviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 350.h,
-      width: 100.w,
+      width: DeviceConstraints.getResponsiveSize(context, 250.w, 250.w, 100.w),
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
@@ -195,7 +222,7 @@ class ReviewCard extends StatelessWidget {
                           child: SvgPicture.asset(GlamOneIcons.leftQuote, height: 15),
                         ),
                         SizedBox(
-                          width: 80.w,
+                          width: DeviceConstraints.getResponsiveSize(context, 200.w, 200.w, 80.w),
                           child: Text(
                             review,
                             maxLines: 4,

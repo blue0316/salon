@@ -1,4 +1,5 @@
 import 'package:bbblient/src/theme/glam_one.dart';
+import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/constants/image.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/constants/theme_icons.dart';
 import 'package:flutter/material.dart';
@@ -20,12 +21,16 @@ class SalonSocials extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 50.w),
+              padding: EdgeInsets.symmetric(horizontal: DeviceConstraints.getResponsiveSize(context, 20.w, 30.w, 50.w)),
               child: Center(
                 child: Text(
                   'my social network'.toUpperCase(),
                   textAlign: TextAlign.center,
-                  style: GlamOneTheme.headLine2.copyWith(color: Colors.black, fontWeight: FontWeight.w600),
+                  style: GlamOneTheme.headLine2.copyWith(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                    fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),
+                  ),
                 ),
               ),
             ),
@@ -41,13 +46,13 @@ class SalonSocials extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.only(right: 15),
+                      padding: EdgeInsets.only(right: DeviceConstraints.getResponsiveSize(context, 30, 30, 15)),
                       child: Stack(
                         alignment: Alignment.center,
                         children: [
-                          Container(
+                          SizedBox(
                             height: 270.h,
-                            width: 65.w,
+                            width: DeviceConstraints.getResponsiveSize(context, 250.w, 180.w, 65.w),
                             child: Image.asset(_images[index], fit: BoxFit.cover),
                           ),
                           SvgPicture.asset(

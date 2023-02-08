@@ -8,7 +8,7 @@ class SalonTags extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 50, bottom: 50),
+      padding: const EdgeInsets.only(top: 20, bottom: 50),
       child: Column(
         children: [
           const Divider(color: Color(0XFFF48B72), thickness: 2),

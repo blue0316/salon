@@ -1,4 +1,6 @@
+import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/theme/glam_one.dart';
+import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/constants/theme_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,6 +11,8 @@ class CustomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w),
       child: Column(
@@ -19,18 +23,26 @@ class CustomAppBar extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SvgPicture.asset(GlamOneIcons.insta, height: 25.h),
-              const SizedBox(width: 20),
-              SvgPicture.asset(GlamOneIcons.tiktok, height: 25.h, color: Colors.white),
-              const SizedBox(width: 20),
-              SvgPicture.asset(GlamOneIcons.whatsapp, height: 25.h, color: Colors.white),
-              const Spacer(),
+              if (!isPortrait)
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset(GlamOneIcons.insta, height: 25.h),
+                    const SizedBox(width: 20),
+                    SvgPicture.asset(GlamOneIcons.tiktok, height: 25.h, color: Colors.white),
+                    const SizedBox(width: 20),
+                    SvgPicture.asset(GlamOneIcons.whatsapp, height: 25.h, color: Colors.white),
+                  ],
+                ),
+              if (!isPortrait) const Spacer(),
               Text(
                 "Beauty Miami".toUpperCase(),
                 style: GlamOneTheme.headLine1.copyWith(
                   color: Colors.white,
                   fontSize: 24.sp,
                   letterSpacing: 0.9,
+                  fontWeight: FontWeight.normal,
                 ),
               ),
               const Spacer(),

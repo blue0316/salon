@@ -1,4 +1,5 @@
 import 'package:bbblient/src/theme/glam_one.dart';
+import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/constants/image.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/constants/theme_icons.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,12 @@ class _SalonShopState extends State<SalonShop> with SingleTickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 50.w, right: 50.w, bottom: 100),
+      padding: EdgeInsets.only(
+        left: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
+        right: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
+        top: 50,
+        bottom: 50,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -41,7 +47,9 @@ class _SalonShopState extends State<SalonShop> with SingleTickerProviderStateMix
             children: [
               Text(
                 "SHOP",
-                style: GlamOneTheme.headLine2.copyWith(),
+                style: GlamOneTheme.headLine2.copyWith(
+                  fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),
+                ),
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -49,23 +57,23 @@ class _SalonShopState extends State<SalonShop> with SingleTickerProviderStateMix
                 children: [
                   SvgPicture.asset(
                     GlamOneIcons.leftArrow,
-                    height: 50.sp, // TODO: RESPONSIVE
+                    height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
                   ),
-                  SizedBox(width: 40), // TODO: RESPONSIVE
+                  SizedBox(width: DeviceConstraints.getResponsiveSize(context, 15, 30, 40)),
                   SvgPicture.asset(
                     GlamOneIcons.rightArrow,
-                    height: 50.sp, // TODO: RESPONSIVE
+                    height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
                   ),
                 ],
               ),
             ],
           ),
-          SizedBox(height: 30),
+          SizedBox(height: DeviceConstraints.getResponsiveSize(context, 50, 40, 30)),
           Expanded(
             flex: 0,
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Container(
+              child: SizedBox(
                 height: 60.h,
                 child: TabBar(
                   controller: shopTabController,
@@ -92,16 +100,16 @@ class _SalonShopState extends State<SalonShop> with SingleTickerProviderStateMix
           // -- TAB BAR VIEW
           Expanded(
             flex: 0,
-            child: Container(
-              height: 400, // TODO: RESPONSIVE
+            child: SizedBox(
+              height: 400,
               // width: double.infinity,
               child: TabBarView(
                 controller: shopTabController,
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
-                  Container(
+                  SizedBox(
                     // height: 100,
-                    width: 300.w,
+                    width: DeviceConstraints.getResponsiveSize(context, 700.w, 500.w, 300.w),
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: shopProducsts.length,
@@ -150,18 +158,18 @@ class ShopCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(right: 20),
-      child: Container(
-        width: 80.w,
+      child: SizedBox(
+        width: DeviceConstraints.getResponsiveSize(context, 150.w, 120.w, 80.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Container(
+            SizedBox(
               height: 300.h,
-              width: 80.w,
+              width: DeviceConstraints.getResponsiveSize(context, 150.w, 120.w, 80.w),
               child: Image.asset(itemImage, fit: BoxFit.cover),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

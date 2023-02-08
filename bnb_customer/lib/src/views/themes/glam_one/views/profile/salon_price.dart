@@ -1,4 +1,5 @@
 import 'package:bbblient/src/theme/glam_one.dart';
+import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/oval_button.dart';
@@ -28,7 +29,12 @@ class _SalonPriceState extends State<SalonPrice> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 50.w, vertical: 100),
+      padding: EdgeInsets.only(
+        left: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
+        right: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
+        top: DeviceConstraints.getResponsiveSize(context, 40, 60, 70),
+        bottom: DeviceConstraints.getResponsiveSize(context, 40, 60, 70),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -38,12 +44,12 @@ class _SalonPriceState extends State<SalonPrice> with SingleTickerProviderStateM
             style: GlamOneTheme.headLine2.copyWith(),
           ),
 
-          const SizedBox(height: 50), // TODO: RESPONSIVE
+          const SizedBox(height: 50),
           Expanded(
             flex: 0,
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Container(
+              child: SizedBox(
                 height: 60.h,
                 child: TabBar(
                   controller: tabController,
@@ -56,9 +62,9 @@ class _SalonPriceState extends State<SalonPrice> with SingleTickerProviderStateM
                   indicator: const BoxDecoration(color: GlamOneTheme.primaryColor),
                   isScrollable: true,
                   labelPadding: const EdgeInsets.symmetric(horizontal: 50),
-                  tabs: [
-                    const Tab(text: 'Haircut'),
-                    const Tab(text: 'Make up'),
+                  tabs: const [
+                    Tab(text: 'Haircut'),
+                    Tab(text: 'Make up'),
                   ],
                 ),
               ),
@@ -71,16 +77,17 @@ class _SalonPriceState extends State<SalonPrice> with SingleTickerProviderStateM
           Expanded(
             flex: 0,
             child: SizedBox(
-              height: 400, // TODO: RESPONSIVE
+              height: 400,
               width: double.infinity,
               child: TabBarView(
                 controller: tabController,
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
-                  Container(
+                  SizedBox(
                     // height: 100,
                     width: double.infinity,
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -118,7 +125,12 @@ class _SalonPriceState extends State<SalonPrice> with SingleTickerProviderStateM
                           price: '\$180/\$240/\$290',
                         ),
                         const SizedBox(height: 35),
-                        const OvalButton(text: 'Book Now'),
+                        OvalButton(
+                          width: 180.h,
+                          height: 60.h,
+                          textSize: 18.sp,
+                          text: 'Book Now',
+                        ),
                       ],
                     ),
                   ),

@@ -1,4 +1,6 @@
+import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/theme/glam_one.dart';
+import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/constants/image.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/color_constant.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/app_bar.dart';
@@ -29,6 +31,8 @@ class GlamOneScreen extends StatefulWidget {
 class _GlamOneScreenState extends State<GlamOneScreen> {
   @override
   Widget build(BuildContext context) {
+    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+
     return SafeArea(
       top: false,
       bottom: false,
@@ -47,8 +51,8 @@ class _GlamOneScreenState extends State<GlamOneScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          height: 1000.h, // TODO: MAKE RESPONSIVE
+                        Container(
+                          height: DeviceConstraints.getResponsiveSize(context, 900.h, 1000.h, 1000.h),
                           width: double.infinity,
                           child: Stack(
                             alignment: Alignment.topCenter,
@@ -56,7 +60,10 @@ class _GlamOneScreenState extends State<GlamOneScreen> {
                               // TOP BACKGROUND IMAGE
                               SizedBox(
                                 width: double.infinity,
-                                child: Image.asset(GlamOneImages.shortBG, fit: BoxFit.cover),
+                                child: Image.asset(
+                                  isPortrait ? GlamOneImages.longBG : GlamOneImages.shortBG,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                               SizedBox(
                                 child: Align(

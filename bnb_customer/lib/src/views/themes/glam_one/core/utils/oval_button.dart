@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class OvalButton extends StatelessWidget {
+  final double? height, width;
   final String text;
   final double? textSize;
-  const OvalButton({Key? key, required this.text, this.textSize}) : super(key: key);
+  const OvalButton({Key? key, required this.text, this.textSize, this.height, this.width}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 145.h,
-      height: 45.h,
+      width: width ?? 145.h,
+      height: height ?? 45.h,
       decoration: BoxDecoration(
         border: Border.all(
           color: GlamOneTheme.primaryColor,
