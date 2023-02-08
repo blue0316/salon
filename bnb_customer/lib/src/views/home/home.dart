@@ -14,6 +14,7 @@ import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/chat/chat_list.dart';
 import 'package:bbblient/src/views/home/widgets/banner_scroll.dart';
 import 'package:bbblient/src/views/registration/authenticate/login.dart';
+import 'package:bbblient/src/views/themes/glam_one/glam_one.dart';
 
 import 'package:bbblient/src/views/widgets/salon_widgets.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
@@ -50,7 +51,7 @@ class _HomeState extends ConsumerState<Home> {
           child: Column(
             children: [
               GestureDetector(
-                onTap: () => context.go('${NavigatorPage.route}/theme1'),
+                onTap: () => context.go(GlamOneScreen.route),
                 child: const Text(
                   'THEME 1',
                   style: TextStyle(fontSize: 30),

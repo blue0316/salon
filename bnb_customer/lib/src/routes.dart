@@ -8,6 +8,7 @@ import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/policy/policy.dart';
 import 'package:bbblient/src/views/policy/testes.dart';
+import 'package:bbblient/src/views/themes/glam_one/glam_one.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -61,82 +62,96 @@ final GoRouter router = GoRouter(
     ),
 
     /// home/salon for either master or salonOwner
-    GoRoute(path: NavigatorPage.route, pageBuilder: (context, state) => MaterialPage(key: state.pageKey, child: const NavigatorPage()), routes: [
-      GoRoute(
-        path: SalonPage.route,
-        pageBuilder: (context, state) {
-          final String id = state.queryParams['id']!;
-          final String locale = state.queryParams['locale'] ?? "en";
-          final String id2 = state.queryParams['id2'] ?? "";
-          printIt('ideeeeeeeeeeeeeeeeee ' + id2);
-          bool back = true;
-          MasterModel? salonMaster;
-          if (state.queryParams['back'] != null) {
-            back = !(state.queryParams['back'] == 'false');
-          }
-
-          final bnbProvider = ChangeNotifierProvider<BnbProvider>(
-            (ref) => BnbProvider(),
-          );
-
-          final provider = Provider((ref) async {
-            // use ref to obtain other providers
-            final repository = ref.watch(bnbProvider);
-            repository.changeLocale(locale: Locale(state.queryParams['locale']!.toString()));
-            debugPrint("id 2 dey here oo" + id2);
-            if (id2 != "") {
-              repository.retrieveSalonMasterModel(state.queryParams['id2']!.toString());
-              salonMaster = repository.getCurrenMaster;
-              debugPrint(repository.getCurrenMaster);
+    GoRoute(
+      path: NavigatorPage.route,
+      pageBuilder: (context, state) => MaterialPage(key: state.pageKey, child: const NavigatorPage()),
+      routes: [
+        GoRoute(
+          path: SalonPage.route,
+          pageBuilder: (context, state) {
+            final String id = state.queryParams['id']!;
+            final String locale = state.queryParams['locale'] ?? "en";
+            final String id2 = state.queryParams['id2'] ?? "";
+            printIt('ideeeeeeeeeeeeeeeeee ' + id2);
+            bool back = true;
+            MasterModel? salonMaster;
+            if (state.queryParams['back'] != null) {
+              back = !(state.queryParams['back'] == 'false');
             }
-            return repository;
-          });
-          debugPrint(salonMaster.toString());
-          return MaterialPage(
-              key: state.pageKey,
-              child: SalonPage(
-                salonId: id,
-                showBackButton: back,
-                locale: locale,
-              ));
-        },
-      ),
-      // GoRoute(
-      //   path: MasterProfile.route,
-      //   pageBuilder: (context, state) {
-      //     final String id = state.queryParams['id']!;
-      //     final String id2 = state.queryParams['id2']!;
-      //
-      //     final String locale = state.queryParams['locale'] ?? "en";
-      //     printIt('id'+id2);
-      //     bool back = true;
-      //     if (state.queryParams['back'] != null) {
-      //       back = !(state.queryParams['back'] == 'false');
-      //     }
-      //
-      //     final bnbProvider = ChangeNotifierProvider<BnbProvider>(
-      //           (ref) => BnbProvider(),
-      //     );
-      //
-      //     final provider = Provider((ref) {
-      //       // use ref to obtain other providers
-      //       final repository = ref.watch(bnbProvider);
-      //       repository.changeLocale(
-      //           locale: Locale(state.queryParams['locale']!.toString()));
-      //       repository.retrieveSalonMasterModel(id2);
-      //       return repository;
-      //     });
-      //
-      //     return MaterialPage(
-      //         key: state.pageKey,
-      //         child: id2 != null ? MasterProfile(masterModel : AppProvider().salonMaster):  SalonPage(
-      //           salonId: id,
-      //           showBackButton: back,
-      //           locale: locale,
-      //         ));
-      //   },
-      // ),
-    ]),
+
+            final bnbProvider = ChangeNotifierProvider<BnbProvider>(
+              (ref) => BnbProvider(),
+            );
+
+            final provider = Provider((ref) async {
+              // use ref to obtain other providers
+              final repository = ref.watch(bnbProvider);
+              repository.changeLocale(locale: Locale(state.queryParams['locale']!.toString()));
+              debugPrint("id 2 dey here oo" + id2);
+              if (id2 != "") {
+                repository.retrieveSalonMasterModel(state.queryParams['id2']!.toString());
+                salonMaster = repository.getCurrenMaster;
+                debugPrint(repository.getCurrenMaster);
+              }
+              return repository;
+            });
+            debugPrint(salonMaster.toString());
+            return MaterialPage(
+                key: state.pageKey,
+                child: SalonPage(
+                  salonId: id,
+                  showBackButton: back,
+                  locale: locale,
+                ));
+          },
+        ),
+        // GoRoute(
+        //   path: MasterProfile.route,
+        //   pageBuilder: (context, state) {
+        //     final String id = state.queryParams['id']!;
+        //     final String id2 = state.queryParams['id2']!;
+        //
+        //     final String locale = state.queryParams['locale'] ?? "en";
+        //     printIt('id'+id2);
+        //     bool back = true;
+        //     if (state.queryParams['back'] != null) {
+        //       back = !(state.queryParams['back'] == 'false');
+        //     }
+        //
+        //     final bnbProvider = ChangeNotifierProvider<BnbProvider>(
+        //           (ref) => BnbProvider(),
+        //     );
+        //
+        //     final provider = Provider((ref) {
+        //       // use ref to obtain other providers
+        //       final repository = ref.watch(bnbProvider);
+        //       repository.changeLocale(
+        //           locale: Locale(state.queryParams['locale']!.toString()));
+        //       repository.retrieveSalonMasterModel(id2);
+        //       return repository;
+        //     });
+        //
+        //     return MaterialPage(
+        //         key: state.pageKey,
+        //         child: id2 != null ? MasterProfile(masterModel : AppProvider().salonMaster):  SalonPage(
+        //           salonId: id,
+        //           showBackButton: back,
+        //           locale: locale,
+        //         ));
+        //   },
+        // ),
+      ],
+    ),
+
+    GoRoute(
+      path: GlamOneScreen.route,
+      pageBuilder: (context, state) {
+        return MaterialPage(
+          key: state.pageKey,
+          child: const GlamOneScreen(),
+        );
+      },
+    ),
 
     // GoRoute(path: Home)
   ],

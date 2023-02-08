@@ -1,5 +1,4 @@
 import 'package:bbblient/src/theme/glam_one.dart';
-import 'package:bbblient/src/views/salon/salon_home/salon_about.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/constants/image.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/color_constant.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/app_bar.dart';
@@ -19,6 +18,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class GlamOneScreen extends StatefulWidget {
+  static const route = '/glam-one';
+
   const GlamOneScreen({Key? key}) : super(key: key);
 
   @override
