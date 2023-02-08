@@ -49,9 +49,25 @@ class _HomeState extends ConsumerState<Home> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const ConstrainedContainer(margin: EdgeInsets.only(top: 20.0, left: AppTheme.margin, right: AppTheme.margin), child: HomePageAppBar()),
-              const ConstrainedContainer(margin: EdgeInsets.only(top: 30, left: AppTheme.margin, right: AppTheme.margin), child: SearchField()),
-              const ConstrainedContainer(margin: EdgeInsets.only(left: AppTheme.margin, right: AppTheme.margin), child: BannerScroll()),
+              GestureDetector(
+                onTap: () => context.go('${NavigatorPage.route}/theme1'),
+                child: const Text(
+                  'THEME 1',
+                  style: TextStyle(fontSize: 30),
+                ),
+              ),
+              const ConstrainedContainer(
+                margin: EdgeInsets.only(top: 20.0, left: AppTheme.margin, right: AppTheme.margin),
+                child: HomePageAppBar(),
+              ),
+              const ConstrainedContainer(
+                margin: EdgeInsets.only(top: 30, left: AppTheme.margin, right: AppTheme.margin),
+                child: SearchField(),
+              ),
+              const ConstrainedContainer(
+                margin: EdgeInsets.only(left: AppTheme.margin, right: AppTheme.margin),
+                child: BannerScroll(),
+              ),
               Space(
                 factor: 1.h,
               ),
