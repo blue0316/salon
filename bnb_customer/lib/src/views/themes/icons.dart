@@ -1,4 +1,4 @@
-class GlamOneIcons {
+class ThemeIcons {
   static const String insta = 'assets/themes/glam_one/svg/instagram.svg';
   static const String menu = 'assets/themes/glam_one/svg/menu.svg';
   static const String tiktok = 'assets/themes/glam_one/svg/tiktok.svg';

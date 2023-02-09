@@ -1,8 +1,8 @@
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
-import 'package:bbblient/src/views/themes/glam_one/core/constants/image.dart';
-import 'package:bbblient/src/views/themes/glam_one/core/constants/theme_icons.dart';
+import 'package:bbblient/src/views/themes/images.dart';
+import 'package:bbblient/src/views/themes/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -38,12 +38,12 @@ class SalonPromotions extends StatelessWidget {
               Row(
                 children: [
                   SvgPicture.asset(
-                    GlamOneIcons.leftArrow,
+                    ThemeIcons.leftArrow,
                     height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
                   ),
                   SizedBox(width: DeviceConstraints.getResponsiveSize(context, 15, 30, 40)),
                   SvgPicture.asset(
-                    GlamOneIcons.rightArrow,
+                    ThemeIcons.rightArrow,
                     height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
                   ),
                 ],
@@ -173,15 +173,15 @@ class SalonPromotions extends StatelessWidget {
 
 List<Map<String, dynamic>> _samples = [
   {
-    'image': GlamOneImages.wideLadyPic,
+    'image': ThemeImages.wideLadyPic,
     'title': "DISCOUNTS 15%",
   },
   {
-    'image': GlamOneImages.wideLadyPic,
+    'image': ThemeImages.wideLadyPic,
     'title': "HAPPY HOURS 12:00 - 15:00",
   },
   {
-    'image': GlamOneImages.wideLadyPic,
+    'image': ThemeImages.wideLadyPic,
     'title': "HAPPY FRIDAY",
   },
 ];

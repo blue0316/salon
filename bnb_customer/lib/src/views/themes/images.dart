@@ -1,4 +1,4 @@
-class GlamOneImages {
+class ThemeImages {
   static const longBG = 'assets/themes/glam_one/images/long_bg.png';
 
   static const shortBG = 'assets/themes/glam_one/images/short_bg.png';

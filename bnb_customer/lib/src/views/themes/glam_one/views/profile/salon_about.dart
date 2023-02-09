@@ -1,7 +1,7 @@
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
-import 'package:bbblient/src/views/themes/glam_one/core/constants/image.dart';
+import 'package:bbblient/src/views/themes/images.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/oval_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,7 +33,7 @@ class SalonAbout2 extends StatelessWidget {
                     flex: 0,
                     child: SizedBox(
                       child: Image.asset(
-                        GlamOneImages.makeup,
+                        ThemeImages.makeup,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -96,7 +96,7 @@ class SalonAbout2 extends StatelessWidget {
                   SizedBox(
                     height: 300.h,
                     child: Image.asset(
-                      GlamOneImages.makeup,
+                      ThemeImages.makeup,
                       fit: BoxFit.cover,
                     ),
                   ),

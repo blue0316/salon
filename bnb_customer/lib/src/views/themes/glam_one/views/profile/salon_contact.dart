@@ -1,8 +1,8 @@
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
-import 'package:bbblient/src/views/themes/glam_one/core/constants/image.dart';
-import 'package:bbblient/src/views/themes/glam_one/core/constants/theme_icons.dart';
+import 'package:bbblient/src/views/themes/images.dart';
+import 'package:bbblient/src/views/themes/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -78,7 +78,7 @@ class _SalonContactState extends State<SalonContact> with SingleTickerProviderSt
                         // SizedBox(width: 10),
                         Expanded(
                           flex: 1,
-                          child: Image.asset(GlamOneImages.map, fit: BoxFit.cover),
+                          child: Image.asset(ThemeImages.map, fit: BoxFit.cover),
                         ),
                       ],
                     )
@@ -88,7 +88,7 @@ class _SalonContactState extends State<SalonContact> with SingleTickerProviderSt
                       children: [
                         Expanded(
                           flex: 1,
-                          child: Image.asset(GlamOneImages.map, fit: BoxFit.cover),
+                          child: Image.asset(ThemeImages.map, fit: BoxFit.cover),
                         ),
                         const SizedBox(height: 30),
                         const ContactSection(),
@@ -129,19 +129,19 @@ class SocialNetwork extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SvgPicture.asset(
-              GlamOneIcons.insta,
+              ThemeIcons.insta,
               height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
               color: GlamOneTheme.deepOrange,
             ),
             const SizedBox(width: 20),
             SvgPicture.asset(
-              GlamOneIcons.tiktok,
+              ThemeIcons.tiktok,
               height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
               color: GlamOneTheme.deepOrange,
             ),
             const SizedBox(width: 20),
             SvgPicture.asset(
-              GlamOneIcons.whatsapp,
+              ThemeIcons.whatsapp,
               height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
               color: GlamOneTheme.deepOrange,
             ),
@@ -170,7 +170,7 @@ class VisitUs extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
-        const ContactCard(icon: GlamOneIcons.mail, value: "500 Brickell Av, Miami Fl 33131"),
+        const ContactCard(icon: ThemeIcons.mail, value: "500 Brickell Av, Miami Fl 33131"),
       ],
     );
   }
@@ -196,8 +196,8 @@ class ContactSection extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
-        const ContactCard(icon: GlamOneIcons.phone, value: "(000) 000-0000"),
-        const ContactCard(icon: GlamOneIcons.mail, value: "miamibeauty@gmail.com"),
+        const ContactCard(icon: ThemeIcons.phone, value: "(000) 000-0000"),
+        const ContactCard(icon: ThemeIcons.mail, value: "miamibeauty@gmail.com"),
       ],
     );
   }

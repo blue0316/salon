@@ -1,8 +1,8 @@
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
-import 'package:bbblient/src/views/themes/glam_one/core/constants/image.dart';
-import 'package:bbblient/src/views/themes/glam_one/core/constants/theme_icons.dart';
+import 'package:bbblient/src/views/themes/images.dart';
+import 'package:bbblient/src/views/themes/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -46,12 +46,12 @@ class _SalonReviewsState extends State<SalonReviews> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SvgPicture.asset(
-                    GlamOneIcons.leftArrow,
+                    ThemeIcons.leftArrow,
                     height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
                   ),
                   SizedBox(width: DeviceConstraints.getResponsiveSize(context, 15, 30, 40)),
                   SvgPicture.asset(
-                    GlamOneIcons.rightArrow,
+                    ThemeIcons.rightArrow,
                     height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
                   ),
                 ],
@@ -108,19 +108,19 @@ class _SalonReviewsState extends State<SalonReviews> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
                       ReviewCard(
-                        avatar: GlamOneImages.review1,
+                        avatar: ThemeImages.review1,
                         reviewUser: 'Jocelyn Francis',
                         review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis.',
                         reviewStars: 5,
                       ),
                       ReviewCard(
-                        avatar: GlamOneImages.review2,
+                        avatar: ThemeImages.review2,
                         reviewUser: 'Skylar Vetrovs',
                         review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis.',
                         reviewStars: 3.5,
                       ),
                       ReviewCard(
-                        avatar: GlamOneImages.review3,
+                        avatar: ThemeImages.review3,
                         reviewUser: 'Jocelyn Francis',
                         review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis.',
                         reviewStars: 5,
@@ -135,7 +135,7 @@ class _SalonReviewsState extends State<SalonReviews> {
                       return const Padding(
                         padding: EdgeInsets.only(right: 15),
                         child: ReviewCard(
-                          avatar: GlamOneImages.review3,
+                          avatar: ThemeImages.review3,
                           reviewUser: 'Jocelyn Francis',
                           review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis.',
                           reviewStars: 5,
@@ -219,7 +219,7 @@ class ReviewCard extends StatelessWidget {
                       children: [
                         Align(
                           alignment: Alignment.bottomLeft,
-                          child: SvgPicture.asset(GlamOneIcons.leftQuote, height: 15),
+                          child: SvgPicture.asset(ThemeIcons.leftQuote, height: 15),
                         ),
                         SizedBox(
                           width: DeviceConstraints.getResponsiveSize(context, 200.w, 200.w, 80.w),
@@ -237,7 +237,7 @@ class ReviewCard extends StatelessWidget {
                         ),
                         Align(
                           alignment: Alignment.topRight,
-                          child: SvgPicture.asset(GlamOneIcons.rightQuote, height: 15),
+                          child: SvgPicture.asset(ThemeIcons.rightQuote, height: 15),
                         ),
                       ],
                     ),

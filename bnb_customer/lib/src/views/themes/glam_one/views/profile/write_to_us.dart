@@ -1,7 +1,7 @@
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
-import 'package:bbblient/src/views/themes/glam_one/core/constants/image.dart';
+import 'package:bbblient/src/views/themes/images.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/profile/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -59,7 +59,7 @@ class _WriteToUsState extends State<WriteToUs> {
                     SizedBox(
                       height: 400.h,
                       width: 80.w,
-                      child: Image.asset(GlamOneImages.write1, fit: BoxFit.cover),
+                      child: Image.asset(ThemeImages.write1, fit: BoxFit.cover),
                     ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -180,7 +180,7 @@ class _WriteToUsState extends State<WriteToUs> {
                     SizedBox(
                       height: 400.h,
                       width: 80.w,
-                      child: Image.asset(GlamOneImages.write2, fit: BoxFit.cover),
+                      child: Image.asset(ThemeImages.write2, fit: BoxFit.cover),
                     ),
                 ],
               ),

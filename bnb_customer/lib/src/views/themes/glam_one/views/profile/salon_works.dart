@@ -1,8 +1,8 @@
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
-import 'package:bbblient/src/views/themes/glam_one/core/constants/image.dart';
-import 'package:bbblient/src/views/themes/glam_one/core/constants/theme_icons.dart';
+import 'package:bbblient/src/views/themes/images.dart';
+import 'package:bbblient/src/views/themes/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -102,13 +102,13 @@ class PrevAndNext extends StatelessWidget {
     return Row(
       children: [
         SvgPicture.asset(
-          GlamOneIcons.leftArrow,
+          ThemeIcons.leftArrow,
           color: Colors.black,
           height: 35.sp, // TODO: RESPONSIVE
         ),
         const SizedBox(width: 20), // TODO: RESPONSIVE
         SvgPicture.asset(
-          GlamOneIcons.rightArrow,
+          ThemeIcons.rightArrow,
           color: const Color(0XFF0A0A0A),
           height: 35.sp, // TODO: RESPONSIVE
         ),
@@ -118,13 +118,13 @@ class PrevAndNext extends StatelessWidget {
 }
 
 List<String> ladyImages = [
-  GlamOneImages.lady1,
-  GlamOneImages.lady2,
-  GlamOneImages.lady3,
-  GlamOneImages.lady4,
-  GlamOneImages.lady1,
-  GlamOneImages.lady2,
-  GlamOneImages.lady3,
-  GlamOneImages.lady2,
-  GlamOneImages.lady3,
+  ThemeImages.lady1,
+  ThemeImages.lady2,
+  ThemeImages.lady3,
+  ThemeImages.lady4,
+  ThemeImages.lady1,
+  ThemeImages.lady2,
+  ThemeImages.lady3,
+  ThemeImages.lady2,
+  ThemeImages.lady3,
 ];

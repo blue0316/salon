@@ -1,7 +1,7 @@
 import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
-import 'package:bbblient/src/views/themes/glam_one/core/constants/image.dart';
-import 'package:bbblient/src/views/themes/glam_one/core/constants/theme_icons.dart';
+import 'package:bbblient/src/views/themes/images.dart';
+import 'package:bbblient/src/views/themes/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -56,12 +56,12 @@ class _SalonShopState extends State<SalonShop> with SingleTickerProviderStateMix
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SvgPicture.asset(
-                    GlamOneIcons.leftArrow,
+                    ThemeIcons.leftArrow,
                     height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
                   ),
                   SizedBox(width: DeviceConstraints.getResponsiveSize(context, 15, 30, 40)),
                   SvgPicture.asset(
-                    GlamOneIcons.rightArrow,
+                    ThemeIcons.rightArrow,
                     height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
                   ),
                 ],
@@ -203,21 +203,21 @@ List shopProducsts = [
   {
     'title': 'Body Oil',
     'price': '\$30.50',
-    'image': GlamOneImages.product1,
+    'image': ThemeImages.product1,
   },
   {
     'title': 'Hand cream',
     'price': '\$15.00',
-    'image': GlamOneImages.product3,
+    'image': ThemeImages.product3,
   },
   {
     'title': 'Body Lotion',
     'price': '\$25.00',
-    'image': GlamOneImages.product2,
+    'image': ThemeImages.product2,
   },
   {
     'title': 'Gel polish',
     'price': '\$5.30',
-    'image': GlamOneImages.product4,
+    'image': ThemeImages.product4,
   },
 ];

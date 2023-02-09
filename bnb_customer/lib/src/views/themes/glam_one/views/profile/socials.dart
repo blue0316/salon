@@ -1,7 +1,7 @@
 import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
-import 'package:bbblient/src/views/themes/glam_one/core/constants/image.dart';
-import 'package:bbblient/src/views/themes/glam_one/core/constants/theme_icons.dart';
+import 'package:bbblient/src/views/themes/icons.dart';
+import 'package:bbblient/src/views/themes/images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -56,7 +56,7 @@ class SalonSocials extends StatelessWidget {
                             child: Image.asset(_images[index], fit: BoxFit.cover),
                           ),
                           SvgPicture.asset(
-                            GlamOneIcons.insta,
+                            ThemeIcons.insta,
                             color: GlamOneTheme.primaryColor,
                             height: 30.h,
                           ),
@@ -75,15 +75,15 @@ class SalonSocials extends StatelessWidget {
 }
 
 List<String> _images = [
-  GlamOneImages.social1,
-  GlamOneImages.social2,
-  GlamOneImages.social3,
-  GlamOneImages.social4,
-  GlamOneImages.social1,
-  GlamOneImages.social5,
-  GlamOneImages.social3,
-  GlamOneImages.social4,
-  GlamOneImages.social3,
-  GlamOneImages.social4,
-  GlamOneImages.social1,
+  ThemeImages.social1,
+  ThemeImages.social2,
+  ThemeImages.social3,
+  ThemeImages.social4,
+  ThemeImages.social1,
+  ThemeImages.social5,
+  ThemeImages.social3,
+  ThemeImages.social4,
+  ThemeImages.social3,
+  ThemeImages.social4,
+  ThemeImages.social1,
 ];

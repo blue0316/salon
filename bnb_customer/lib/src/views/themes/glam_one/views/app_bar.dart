@@ -1,7 +1,7 @@
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
-import 'package:bbblient/src/views/themes/glam_one/core/constants/theme_icons.dart';
+import 'package:bbblient/src/views/themes/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -28,11 +28,11 @@ class CustomAppBar extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    SvgPicture.asset(GlamOneIcons.insta, height: 25.h),
+                    SvgPicture.asset(ThemeIcons.insta, height: 25.h),
                     const SizedBox(width: 20),
-                    SvgPicture.asset(GlamOneIcons.tiktok, height: 25.h, color: Colors.white),
+                    SvgPicture.asset(ThemeIcons.tiktok, height: 25.h, color: Colors.white),
                     const SizedBox(width: 20),
-                    SvgPicture.asset(GlamOneIcons.whatsapp, height: 25.h, color: Colors.white),
+                    SvgPicture.asset(ThemeIcons.whatsapp, height: 25.h, color: Colors.white),
                   ],
                 ),
               if (!isPortrait) const Spacer(),
@@ -46,7 +46,7 @@ class CustomAppBar extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              SvgPicture.asset(GlamOneIcons.menu, height: 25.h),
+              SvgPicture.asset(ThemeIcons.menu, height: 25.h),
             ],
           ),
           const SizedBox(height: 10),

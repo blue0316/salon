@@ -1,7 +1,7 @@
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
-import 'package:bbblient/src/views/themes/glam_one/core/constants/image.dart';
+import 'package:bbblient/src/views/themes/images.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/color_constant.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/app_bar.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/header.dart';
@@ -61,7 +61,7 @@ class _GlamOneScreenState extends State<GlamOneScreen> {
                               SizedBox(
                                 width: double.infinity,
                                 child: Image.asset(
-                                  isPortrait ? GlamOneImages.longBG : GlamOneImages.shortBG,
+                                  isPortrait ? ThemeImages.longBG : ThemeImages.shortBG,
                                   fit: BoxFit.cover,
                                 ),
                               ),
