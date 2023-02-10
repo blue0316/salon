@@ -1,4 +1,6 @@
+import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
+import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/images.dart';
@@ -17,21 +19,28 @@ import 'package:bbblient/src/views/themes/glam_one/views/profile/salon_works.dar
 import 'package:bbblient/src/views/themes/glam_one/views/profile/socials.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/profile/write_to_us.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class GlamOneScreen extends StatefulWidget {
+// SINGLE MASTER THEME
+class GlamOneScreen extends ConsumerStatefulWidget {
   static const route = '/glam-one';
+
+  // final SalonModel salonModel;
 
   const GlamOneScreen({Key? key}) : super(key: key);
 
   @override
-  State<GlamOneScreen> createState() => _GlamOneScreenState();
+  _GlamOneScreenState createState() => _GlamOneScreenState();
 }
 
-class _GlamOneScreenState extends State<GlamOneScreen> {
+class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
   @override
   Widget build(BuildContext context) {
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+
+    final _salonSearchProvider = ref.watch(salonSearchProvider);
+    final _salonProfileProvider = ref.watch(salonProfileProvider);
 
     return SafeArea(
       top: false,
@@ -51,7 +60,7 @@ class _GlamOneScreenState extends State<GlamOneScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Container(
+                        SizedBox(
                           height: DeviceConstraints.getResponsiveSize(context, 900.h, 1000.h, 1000.h),
                           width: double.infinity,
                           child: Stack(
@@ -76,7 +85,9 @@ class _GlamOneScreenState extends State<GlamOneScreen> {
                                       children: [
                                         const CustomAppBar(),
                                         SizedBox(height: 70.h),
-                                        const ThemeHeader(),
+                                        ThemeHeader(
+                                          salonModel: _salonProfileProvider.chosenSalon,
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -90,7 +101,10 @@ class _GlamOneScreenState extends State<GlamOneScreen> {
                         const SalonAbout2(),
                         const SalonSponsors(),
                         const SalonWorks(),
-                        const SalonPrice(),
+                        SalonPrice(
+                          salonModel: _salonProfileProvider.chosenSalon,
+                          categories: _salonSearchProvider.categories,
+                        ),
                         const SalonShop(),
                         const SalonReviews(),
                         const WriteToUs(),

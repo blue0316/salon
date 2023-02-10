@@ -1,17 +1,25 @@
+import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
+import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/views/salon/booking/booking_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/oval_button.dart';
 
-class SalonPrice extends StatefulWidget {
-  const SalonPrice({Key? key}) : super(key: key);
+class SalonPrice extends ConsumerStatefulWidget {
+  final SalonModel salonModel;
+  final List<CategoryModel> categories;
+
+  const SalonPrice({Key? key, required this.salonModel, required this.categories}) : super(key: key);
 
   @override
-  State<SalonPrice> createState() => _SalonPriceState();
+  _SalonPriceState createState() => _SalonPriceState();
 }
 
-class _SalonPriceState extends State<SalonPrice> with SingleTickerProviderStateMixin {
+class _SalonPriceState extends ConsumerState<SalonPrice> with SingleTickerProviderStateMixin {
   TabController? tabController;
 
   @override
@@ -28,6 +36,8 @@ class _SalonPriceState extends State<SalonPrice> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
+    final _salonSearchProvider = ref.watch(salonSearchProvider);
+
     return Padding(
       padding: EdgeInsets.only(
         left: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
@@ -130,6 +140,14 @@ class _SalonPriceState extends State<SalonPrice> with SingleTickerProviderStateM
                           height: 60.h,
                           textSize: 18.sp,
                           text: 'Book Now',
+                          onTap: () {
+                            // createAppointment.toggleService(
+                            //   serviceModel: service,
+                            //   clearChosenMaster: false,
+                            //   context: context,
+                            // );
+                            const BookingDialogWidget(themeNo: 1).show(context);
+                          },
                         ),
                       ],
                     ),

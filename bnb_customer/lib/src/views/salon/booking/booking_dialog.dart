@@ -14,7 +14,8 @@ import 'widgets/masters_section.dart';
 
 class BookingDialogWidget<T> extends ConsumerStatefulWidget {
   final bool master;
-  const BookingDialogWidget({Key? key, this.master = false}) : super(key: key);
+  final int themeNo;
+  const BookingDialogWidget({Key? key, required this.themeNo, this.master = false}) : super(key: key);
 
   Future<void> show(BuildContext context) async {
     await showDialog<T>(
@@ -31,11 +32,25 @@ class _BookingDialogWidgetState<T> extends ConsumerState<BookingDialogWidget<T>>
   TabController? bookingTabController;
   late CreateAppointmentProvider createAppointment;
 
+  late ThemeData theme;
+
+  // CREATE CONTROLLER TO PROPERLY CHECK FOR THEME NUMBER
+
+  void checkTheme() {
+    if (widget.themeNo == 1) {
+      theme = AppTheme.glamTheme;
+    } else {
+      theme = AppTheme.lightTheme;
+    }
+  }
+
   @override
   void initState() {
     bookingTabController = TabController(vsync: this, length: 3);
     super.initState();
     setUpMasterPrice();
+
+    checkTheme();
   }
 
   setUpMasterPrice() {
@@ -57,7 +72,11 @@ class _BookingDialogWidgetState<T> extends ConsumerState<BookingDialogWidget<T>>
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context).size;
 
+    // final Theme a = AppTheme as Theme;
+    final ThemeData a = AppTheme.glamTheme;
+
     return Dialog(
+      // backgroundColor: ,
       insetPadding: EdgeInsets.symmetric(
         horizontal: DeviceConstraints.getResponsiveSize(
           context,
@@ -87,7 +106,13 @@ class _BookingDialogWidgetState<T> extends ConsumerState<BookingDialogWidget<T>>
                         fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 25.sp, 40.sp),
                         fontWeight: FontWeight.w600,
                         fontFamily: 'Gilroy',
+                        // color: a.black,
                       ),
+                    ),
+                    Container(
+                      height: 50,
+                      width: 100,
+                      color: a.colorScheme.onPrimary,
                     ),
                     const Spacer(flex: 2),
                     GestureDetector(

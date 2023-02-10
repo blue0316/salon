@@ -3,6 +3,7 @@
 import 'package:bbblient/main.dart';
 import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
 import 'package:bbblient/src/loadingLink.dart';
+import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
 // import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/utils/utils.dart';
@@ -143,15 +144,19 @@ final GoRouter router = GoRouter(
       ],
     ),
 
-    GoRoute(
-      path: GlamOneScreen.route,
-      pageBuilder: (context, state) {
-        return MaterialPage(
-          key: state.pageKey,
-          child: const GlamOneScreen(),
-        );
-      },
-    ),
+    // GoRoute(
+    //   path: GlamOneScreen.route,
+    //   pageBuilder: (context, state) {
+    //         final String id = state.queryParams['id']!;
+
+    //     return MaterialPage(
+    //       key: state.pageKey,
+    //       child: const GlamOneScreen(
+    //               salonId: id,
+    //       ),
+    //     );
+    //   },
+    // ),
 
     // GoRoute(path: Home)
   ],

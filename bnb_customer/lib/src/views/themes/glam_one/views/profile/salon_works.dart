@@ -14,6 +14,7 @@ class SalonWorks extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
 
+// widget.salonModel.photosOfWork.
     return Padding(
       padding: EdgeInsets.only(
         top: DeviceConstraints.getResponsiveSize(context, 40, 60, 70),

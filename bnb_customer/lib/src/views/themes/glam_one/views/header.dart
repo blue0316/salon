@@ -1,11 +1,14 @@
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
+import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ThemeHeader extends StatelessWidget {
-  const ThemeHeader({Key? key}) : super(key: key);
+  final SalonModel salonModel;
+
+  const ThemeHeader({Key? key, required this.salonModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +20,7 @@ class ThemeHeader extends StatelessWidget {
       children: [
         const SizedBox(height: 20),
         Text(
-          "Miami's Best",
+          salonModel.salonName, //"Miami's Best",
           style: GlamOneTheme.headLine1.copyWith(
             letterSpacing: 0.5,
             fontSize: DeviceConstraints.getResponsiveSize(context, 70.sp, 80.sp, 100.sp),

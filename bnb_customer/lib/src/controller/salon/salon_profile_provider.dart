@@ -5,6 +5,7 @@ import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/review.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/utils.dart';
+import 'package:bbblient/src/views/themes/glam_one/glam_one.dart';
 import 'package:flutter/material.dart';
 
 // todo make salons and masters profile responsiblity here from salonSearchProvider
@@ -33,6 +34,25 @@ class SalonProfileProvider with ChangeNotifier {
   }
 
   Map<String?, List<ServiceModel>> categoryServicesMap = {};
+
+  dynamic getSalonTheme() {
+    // There should ba a way of Identify Salon Themes,
+    // I'm using dummy numbers to check (can be changed later)
+
+    if (chosenSalon.selectedTheme == 1) {
+      return const GlamOneScreen();
+    }
+
+    if (chosenSalon.selectedTheme == 2) {
+      return Container(color: Colors.green);
+    }
+
+    if (chosenSalon.selectedTheme == 3) {
+      return Container(color: Colors.purple);
+    }
+
+    return null; // This should be the default theme if there's no theme number (todo: defaul theme base widget needs to be refactored)
+  }
 
   getSalonReviews({required String salonId}) async {
     salonReviews.clear();

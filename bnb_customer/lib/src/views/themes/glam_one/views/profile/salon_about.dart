@@ -56,7 +56,10 @@ class SalonAbout2 extends StatelessWidget {
                               fontSize: 15.5.sp,
                             ),
                           ),
-                          const OvalButton(text: 'Book Now'),
+                          OvalButton(
+                            text: 'Book Now',
+                            onTap: () {},
+                          ),
                         ],
                       ),
                     ),
@@ -91,6 +94,7 @@ class SalonAbout2 extends StatelessWidget {
                     height: 60.h,
                     textSize: 18.sp,
                     text: 'Book Now',
+                    onTap: () {},
                   ),
                   const SizedBox(height: 35),
                   SizedBox(

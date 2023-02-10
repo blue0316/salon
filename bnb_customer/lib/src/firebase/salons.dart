@@ -63,7 +63,11 @@ class SalonApi {
 
       var query = Collection.salons.where('isAvailableOnline', isEqualTo: true);
 
-      Stream<List<DocumentSnapshot>> stream = _geo.collection(collectionRef: query).within(center: GeoFirePoint(position.latitude, position.longitude), radius: radius, field: 'position');
+      Stream<List<DocumentSnapshot>> stream = _geo.collection(collectionRef: query).within(
+            center: GeoFirePoint(position.latitude, position.longitude),
+            radius: radius,
+            field: 'position',
+          );
       _salons = await stream.first;
       printIt("salon data");
       printIt(_salons.length);
@@ -74,7 +78,10 @@ class SalonApi {
           salonMap['salonId'] = doc.id;
           SalonModel salon = SalonModel.fromJson(salonMap as Map<String, dynamic>);
           if (salon.isAvailableOnline) {
-            salon.distanceFromCenter = _center.distance(lat: salon.position!.geoPoint!.latitude, lng: salon.position!.geoPoint!.longitude);
+            salon.distanceFromCenter = _center.distance(
+              lat: salon.position!.geoPoint!.latitude,
+              lng: salon.position!.geoPoint!.longitude,
+            );
             salons.add(salon);
           }
         } catch (e) {
