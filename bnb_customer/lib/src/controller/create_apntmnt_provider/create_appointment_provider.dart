@@ -768,10 +768,10 @@ class CreateAppointmentProvider with ChangeNotifier {
         print('salon masterrrr');
         Hours? workingHours;
 
-        if (chosenSalon!.irregularWorkingHours != null) {
-          if (chosenSalon!.irregularWorkingHours!.containsKey(DateFormat('yyyy-MM-dd').format(chosenDay).toString())) {
+        if (chosenSalon!.irregularWorkingHours != null&& chosenSalon!.irregularWorkingHours!.containsKey(
+            DateFormat('yyyy-MM-dd').format(chosenDay).toString())) {
             workingHours = chosenSalon!.irregularWorkingHours![DateFormat('yyyy-MM-dd').format(chosenDay).toString()];
-          }
+
         } else {
           workingHours = Time().getWorkingHoursFromWeekDay(
             chosenDay.weekday,
