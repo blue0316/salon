@@ -111,13 +111,13 @@ class PrevAndNext extends StatelessWidget {
         SvgPicture.asset(
           ThemeIcons.leftArrow,
           color: Colors.black,
-          height: 35.sp, // TODO: RESPONSIVE
+          height: 35.sp,
         ),
-        const SizedBox(width: 20), // TODO: RESPONSIVE
+        const SizedBox(width: 20),
         SvgPicture.asset(
           ThemeIcons.rightArrow,
           color: const Color(0XFF0A0A0A),
-          height: 35.sp, // TODO: RESPONSIVE
+          height: 35.sp,
         ),
       ],
     );
