@@ -1,5 +1,6 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
+import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
@@ -38,7 +39,13 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context).size;
 
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+    bool defaultTheme = theme == AppTheme.lightTheme;
+
     return Dialog(
+      backgroundColor: theme.dialogBackgroundColor,
       insetPadding: EdgeInsets.symmetric(
         horizontal: DeviceConstraints.getResponsiveSize(
           context,
@@ -68,6 +75,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                         fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 25.sp, 40.sp),
                         fontWeight: FontWeight.w600,
                         fontFamily: 'Gilroy',
+                        color: defaultTheme ? AppTheme.textBlack : Colors.white,
                       ),
                     ),
                     const Spacer(flex: 2),
@@ -101,12 +109,13 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                         DefaultButton(
                           label: 'Add to Apple Calendar',
                           borderRadius: 60,
-                          color: Colors.black,
+                          color: defaultTheme ? Colors.black : theme.primaryColor,
                           height: 60,
                           prefixIcon: SvgPicture.asset(
                             AppIcons.appleLogoSvg,
                             fit: BoxFit.cover,
                             height: 18.sp,
+                            color: defaultTheme ? Colors.white : Colors.black,
                           ),
                           onTap: () {},
                         ),
@@ -114,7 +123,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                         DefaultButton(
                           label: 'Add to Google Calendar',
                           borderRadius: 60,
-                          color: Colors.black,
+                          color: defaultTheme ? Colors.black : theme.primaryColor,
                           height: 60,
                           prefixIcon: SvgPicture.asset(
                             AppIcons.googleLogoSVG,
@@ -145,6 +154,10 @@ class TopDetails extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final CreateAppointmentProvider _createAppointment = ref.watch(createAppointmentProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+    bool defaultTheme = theme == AppTheme.lightTheme;
 
     final String _date = Time().getLocaleDate(
       _createAppointment.appointmentModel!.appointmentStartTime,
@@ -163,7 +176,10 @@ class TopDetails extends ConsumerWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          border: Border.all(color: Colors.black, width: 1.5),
+          border: Border.all(
+            color: defaultTheme ? Colors.black : Colors.white,
+            width: 1.5,
+          ),
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 15.h),
@@ -176,6 +192,7 @@ class TopDetails extends ConsumerWidget {
                 style: AppTheme.bodyText1.copyWith(
                   fontWeight: FontWeight.w600,
                   fontSize: 19.sp,
+                  color: defaultTheme ? AppTheme.textBlack : Colors.white,
                 ),
               ),
               const Space(factor: 1),
@@ -185,11 +202,17 @@ class TopDetails extends ConsumerWidget {
                 children: [
                   Text(
                     AppLocalizations.of(context)?.name.toCapitalized() ?? 'Name',
-                    style: AppTheme.bodyText1.copyWith(fontWeight: FontWeight.w500),
+                    style: AppTheme.bodyText1.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                    ),
                   ),
                   Text(
                     _createAppointment.nameController.text,
-                    style: AppTheme.bodyText2.copyWith(fontSize: 15.sp),
+                    style: AppTheme.bodyText2.copyWith(
+                      fontSize: 15.sp,
+                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                    ),
                   ),
                 ],
               ),
@@ -200,11 +223,17 @@ class TopDetails extends ConsumerWidget {
                 children: [
                   Text(
                     AppLocalizations.of(context)?.phoneNumber.toCapitalized() ?? 'Phone Number',
-                    style: AppTheme.bodyText1.copyWith(fontWeight: FontWeight.w500),
+                    style: AppTheme.bodyText1.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                    ),
                   ),
                   Text(
                     _createAppointment.phoneController.text,
-                    style: AppTheme.bodyText2.copyWith(fontSize: 15.sp),
+                    style: AppTheme.bodyText2.copyWith(
+                      fontSize: 15.sp,
+                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                    ),
                   ),
                 ],
               ),
@@ -215,11 +244,17 @@ class TopDetails extends ConsumerWidget {
                 children: [
                   Text(
                     AppLocalizations.of(context)?.email.toCapitalized() ?? 'Email',
-                    style: AppTheme.bodyText1.copyWith(fontWeight: FontWeight.w500),
+                    style: AppTheme.bodyText1.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                    ),
                   ),
                   Text(
                     _createAppointment.emailController.text,
-                    style: AppTheme.bodyText2.copyWith(fontSize: 15.sp),
+                    style: AppTheme.bodyText2.copyWith(
+                      fontSize: 15.sp,
+                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                    ),
                   ),
                 ],
               ),
@@ -230,12 +265,18 @@ class TopDetails extends ConsumerWidget {
                 children: [
                   Text(
                     AppLocalizations.of(context)?.appointment_tabbar_line2.toCapitalized() ?? 'Service',
-                    style: AppTheme.bodyText1.copyWith(fontWeight: FontWeight.w500),
+                    style: AppTheme.bodyText1.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                    ),
                   ),
                   Text(
                     // "Brows",
                     '${_createAppointment.appointmentModel!.services.length} services',
-                    style: AppTheme.bodyText2.copyWith(fontSize: 15.sp),
+                    style: AppTheme.bodyText2.copyWith(
+                      fontSize: 15.sp,
+                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                    ),
                   ),
                 ],
               ),
@@ -246,12 +287,18 @@ class TopDetails extends ConsumerWidget {
                 children: [
                   Text(
                     "Date",
-                    style: AppTheme.bodyText1.copyWith(fontWeight: FontWeight.w500),
+                    style: AppTheme.bodyText1.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                    ),
                   ),
                   Text(
                     // "Mon, November 7",
                     _date,
-                    style: AppTheme.bodyText2.copyWith(fontSize: 15.sp),
+                    style: AppTheme.bodyText2.copyWith(
+                      fontSize: 15.sp,
+                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                    ),
                   ),
                 ],
               ),
@@ -262,12 +309,18 @@ class TopDetails extends ConsumerWidget {
                 children: [
                   Text(
                     "Time",
-                    style: AppTheme.bodyText1.copyWith(fontWeight: FontWeight.w500),
+                    style: AppTheme.bodyText1.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                    ),
                   ),
                   Text(
                     // "11:00 - 12:00",
                     _time,
-                    style: AppTheme.bodyText2.copyWith(fontSize: 15.sp),
+                    style: AppTheme.bodyText2.copyWith(
+                      fontSize: 15.sp,
+                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                    ),
                   ),
                 ],
               ),
@@ -280,11 +333,17 @@ class TopDetails extends ConsumerWidget {
                 children: [
                   Text(
                     AppLocalizations.of(context)?.registration_line33.toCapitalized() ?? 'Salon Name',
-                    style: AppTheme.bodyText1.copyWith(fontWeight: FontWeight.w500),
+                    style: AppTheme.bodyText1.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                    ),
                   ),
                   Text(
                     _createAppointment.appointmentModel!.salon.name.toCapitalized(),
-                    style: AppTheme.bodyText2.copyWith(fontSize: 15.sp),
+                    style: AppTheme.bodyText2.copyWith(
+                      fontSize: 15.sp,
+                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                    ),
                   ),
                 ],
               ),
@@ -303,6 +362,10 @@ class BottomDetails extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final CreateAppointmentProvider _createAppointment = ref.watch(createAppointmentProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+    bool defaultTheme = theme == AppTheme.lightTheme;
 
     return Padding(
       padding: EdgeInsets.symmetric(
@@ -312,7 +375,7 @@ class BottomDetails extends ConsumerWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           border: Border.all(
-            color: Colors.black,
+            color: defaultTheme ? Colors.black : Colors.white,
             width: 1.5,
           ),
         ),
@@ -328,11 +391,17 @@ class BottomDetails extends ConsumerWidget {
                 children: [
                   Text(
                     "Order amount",
-                    style: AppTheme.bodyText1.copyWith(fontWeight: FontWeight.w500),
+                    style: AppTheme.bodyText1.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                    ),
                   ),
                   Text(
                     "${_createAppointment.appointmentModel!.priceAndDuration.price} ${Keys.uah}",
-                    style: AppTheme.bodyText2.copyWith(fontSize: 15.sp),
+                    style: AppTheme.bodyText2.copyWith(
+                      fontSize: 15.sp,
+                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                    ),
                   ),
                 ],
               ),
@@ -345,7 +414,7 @@ class BottomDetails extends ConsumerWidget {
                     "Discount 15%",
                     style: AppTheme.bodyText1.copyWith(
                       fontSize: 15.sp,
-                      color: Colors.red,
+                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -360,7 +429,7 @@ class BottomDetails extends ConsumerWidget {
                 ],
               ),
               SizedBox(height: 20.h),
-              const DashedDivider(),
+              DashedDivider(color: defaultTheme ? Colors.black : Colors.white),
               SizedBox(height: 20.h),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -368,12 +437,20 @@ class BottomDetails extends ConsumerWidget {
                 children: [
                   Text(
                     "Total",
-                    style: AppTheme.bodyText1.copyWith(fontSize: 18.sp, fontWeight: FontWeight.w700),
+                    style: AppTheme.bodyText1.copyWith(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      color: defaultTheme ? AppTheme.textBlack : theme.primaryColor,
+                    ),
                   ),
                   Text(
                     // "-\$00",
                     "${_createAppointment.appointmentModel!.priceAndDuration.price} ${Keys.uah}",
-                    style: AppTheme.bodyText1.copyWith(fontSize: 18.sp, fontWeight: FontWeight.w700),
+                    style: AppTheme.bodyText1.copyWith(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      color: defaultTheme ? AppTheme.textBlack : theme.primaryColor,
+                    ),
                   ),
                 ],
               ),

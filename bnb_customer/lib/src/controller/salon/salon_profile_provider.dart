@@ -4,6 +4,7 @@ import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/review.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
+import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/themes/glam_one/glam_one.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,8 @@ class SalonProfileProvider with ChangeNotifier {
 
   List<ReviewModel> salonReviews = [];
   List<ReviewModel> masterReviews = [];
+
+  ThemeData salonTheme = AppTheme.lightTheme;
 
   Future<SalonModel?> init(salonId) async {
     try {
@@ -40,6 +43,9 @@ class SalonProfileProvider with ChangeNotifier {
     // I'm using dummy numbers to check (can be changed later)
 
     if (chosenSalon.selectedTheme == 1) {
+      salonTheme = AppTheme.glamOneTheme;
+      notifyListeners();
+
       return const GlamOneScreen();
     }
 

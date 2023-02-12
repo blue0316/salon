@@ -64,7 +64,7 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
       decoration: const BoxDecoration(
         border: Border(
           bottom: BorderSide(
-            color: Colors.red, // Color(0XFF9D9D9D),
+            color: Color(0XFF9D9D9D),
             width: 1.3,
           ),
         ),
@@ -220,8 +220,9 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                                           Expanded(
                                                             flex: DeviceConstraints.getResponsiveSize(context, 1, 0, 0).toInt(),
                                                             child: Container(
-                                                              color: Colors.yellow,
+                                                              // color: Colors.yellow,
                                                               child: Text(
+                                                                // TODO: NOTE - Service name
                                                                 widget.services[index].translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
                                                                 style: Theme.of(context).textTheme.bodyText1!.copyWith(
                                                                       fontWeight: FontWeight.w500,
@@ -320,6 +321,8 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                                 ),
                                               SizedBox(width: DeviceConstraints.getResponsiveSize(context, 7, 20, 20)),
                                               Text(
+                                                // TODO: NOTE - Service PRICE
+
                                                 service.isFixedPrice ? "${service.priceAndDuration.price}${Keys.uah}" : "${service.priceAndDuration.price}${Keys.uah} - ${service.priceAndDurationMax!.price}${Keys.uah}",
                                                 style: Theme.of(context).textTheme.bodyText1!.copyWith(
                                                       fontWeight: FontWeight.w600,

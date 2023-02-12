@@ -1,4 +1,6 @@
+import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
+import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/images.dart';
@@ -8,7 +10,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class SalonContact extends StatefulWidget {
-  const SalonContact({Key? key}) : super(key: key);
+  final SalonModel salonModel;
+
+  const SalonContact({Key? key, required this.salonModel}) : super(key: key);
 
   @override
   State<SalonContact> createState() => _SalonContactState();
@@ -32,10 +36,11 @@ class _SalonContactState extends State<SalonContact> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+    final bool isSingleMaster = (widget.salonModel.ownerType == OwnerType.singleMaster);
 
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
+        horizontal: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
         vertical: 120,
       ),
       child: Column(
@@ -43,14 +48,14 @@ class _SalonContactState extends State<SalonContact> with SingleTickerProviderSt
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
-            "CONTACTS",
+            "${isSingleMaster ? "" : "OUR "} CONTACTS",
             style: GlamOneTheme.headLine2.copyWith(),
           ),
           const SizedBox(height: 50),
           SizedBox(
             height: DeviceConstraints.getResponsiveSize(context, 550.h, 500.h, 260.h),
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: (!isPortrait) ? 55.w : 0),
+              padding: EdgeInsets.symmetric(horizontal: (!isPortrait) ? 10.w : 0),
               child: (!isPortrait)
                   ? Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -58,27 +63,26 @@ class _SalonContactState extends State<SalonContact> with SingleTickerProviderSt
                       children: [
                         Expanded(
                           flex: 1,
-                          child: SizedBox(
-                            // height: 100,
-                            width: 200,
-                            // color: Colors.blue,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                ContactSection(),
-                                SizedBox(height: 10),
-                                VisitUs(),
-                                SizedBox(height: 10),
-                                SocialNetwork(),
-                              ],
-                            ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: const [
+                              ContactSection(),
+                              SizedBox(height: 10),
+                              VisitUs(),
+                              SizedBox(height: 10),
+                              SocialNetwork(),
+                            ],
                           ),
                         ),
-                        // SizedBox(width: 10),
+                        const SizedBox(width: 30),
+                        // Spacer(),
                         Expanded(
                           flex: 1,
-                          child: Image.asset(ThemeImages.map, fit: BoxFit.cover),
+                          child: SizedBox(
+                            height: 400.h,
+                            child: Image.asset(ThemeImages.map, fit: BoxFit.cover),
+                          ),
                         ),
                       ],
                     )
@@ -220,11 +224,13 @@ class ContactCard extends StatelessWidget {
             height: DeviceConstraints.getResponsiveSize(context, 18.sp, 18.sp, 16.sp),
           ),
           const SizedBox(width: 15),
-          Text(
-            value,
-            style: GlamOneTheme.bodyText1.copyWith(
-              color: Colors.white,
-              fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 18.sp, 16.sp),
+          Flexible(
+            child: Text(
+              value,
+              style: GlamOneTheme.bodyText1.copyWith(
+                color: Colors.white,
+                fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 18.sp, 16.sp),
+              ),
             ),
           ),
         ],

@@ -34,7 +34,7 @@ class _SalonShopState extends State<SalonShop> with SingleTickerProviderStateMix
       padding: EdgeInsets.only(
         left: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
         right: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
-        top: 50,
+        top: 10,
         bottom: 50,
       ),
       child: Column(

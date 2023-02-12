@@ -1,15 +1,17 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/views/themes/glam_one/views/profile/salon_team.dart';
 import 'package:bbblient/src/views/themes/images.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/color_constant.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/app_bar.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/header.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/profile/salon_about.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/profile/salon_contact.dart';
-import 'package:bbblient/src/views/themes/glam_one/views/profile/salon_price.dart';
+import 'package:bbblient/src/views/themes/glam_one/views/profile/salon_services.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/profile/salon_promotions.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/profile/salon_reviews.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/profile/salon_shop.dart';
@@ -37,10 +39,9 @@ class GlamOneScreen extends ConsumerStatefulWidget {
 class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
   @override
   Widget build(BuildContext context) {
-    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
-
     final _salonSearchProvider = ref.watch(salonSearchProvider);
     final _salonProfileProvider = ref.watch(salonProfileProvider);
+    final _createAppointmentProvider = ref.watch(createAppointmentProvider);
 
     return SafeArea(
       top: false,
@@ -70,7 +71,8 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                               SizedBox(
                                 width: double.infinity,
                                 child: Image.asset(
-                                  isPortrait ? ThemeImages.longBG : ThemeImages.shortBG,
+                                  // isPortrait ? ThemeImages.longBG : ThemeImages.shortBG,
+                                  ThemeImages.longBG,
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -98,18 +100,31 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                         ),
                         const SalonTags(),
                         const SalonPromotions(),
-                        const SalonAbout2(),
+                        SalonAbout2(
+                          salonModel: _salonProfileProvider.chosenSalon,
+                        ),
                         const SalonSponsors(),
-                        const SalonWorks(),
+                        SalonWorks(
+                          salonModel: _salonProfileProvider.chosenSalon,
+                        ),
                         SalonPrice(
                           salonModel: _salonProfileProvider.chosenSalon,
                           categories: _salonSearchProvider.categories,
+                          categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
                         ),
                         const SalonShop(),
+                        if (_salonProfileProvider.chosenSalon.ownerType != OwnerType.singleMaster)
+                          SalonTeam(
+                            salonModel: _salonProfileProvider.chosenSalon,
+                          ),
                         const SalonReviews(),
                         const WriteToUs(),
-                        const SalonContact(),
-                        const SalonSocials(),
+                        SalonContact(
+                          salonModel: _salonProfileProvider.chosenSalon,
+                        ),
+                        SalonSocials(
+                          salonModel: _salonProfileProvider.chosenSalon,
+                        ),
                         Column(
                           children: [
                             Padding(

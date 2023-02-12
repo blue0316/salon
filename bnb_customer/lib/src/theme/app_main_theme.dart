@@ -176,6 +176,14 @@ class AppTheme {
   static final ThemeData lightTheme = ThemeData(
     primaryColor: creamBrown,
     dialogBackgroundColor: Colors.white,
+    tabBarTheme: TabBarTheme(
+      unselectedLabelColor: Colors.black,
+      labelColor: Colors.white,
+      indicator: BoxDecoration(
+        borderRadius: BorderRadius.circular(50),
+        color: Colors.black,
+      ),
+    ),
     colorScheme: const ColorScheme(
       primary: creamBrown,
       secondary: creamBrownLight,
@@ -194,8 +202,12 @@ class AppTheme {
       backgroundColor: Colors.white,
       elevation: 1.2,
     ),
-    textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
-    inputDecorationTheme: InputDecorationTheme(hintStyle: hintStyle),
+    textSelectionTheme: const TextSelectionThemeData(
+      cursorColor: lightBlack,
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      hintStyle: hintStyle,
+    ),
     textTheme: TextTheme(
       headline1: headLine1,
       headline2: headLine2,
@@ -268,13 +280,21 @@ class AppTheme {
     hoverColor: milkeyGreyDark,
   );
 
-  static final ThemeData glamTheme = ThemeData(
+  static final ThemeData glamOneTheme = ThemeData(
     primaryColor: GlamOneTheme.primaryColor,
     scaffoldBackgroundColor: Colors.black,
     textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: Colors.white,
       elevation: 1.2,
+    ),
+    tabBarTheme: TabBarTheme(
+      unselectedLabelColor: Colors.white,
+      labelColor: Colors.black,
+      indicator: BoxDecoration(
+        borderRadius: BorderRadius.circular(50),
+        color: GlamOneTheme.primaryColor,
+      ),
     ),
     inputDecorationTheme: InputDecorationTheme(hintStyle: hintStyle),
     dialogBackgroundColor: Colors.black,

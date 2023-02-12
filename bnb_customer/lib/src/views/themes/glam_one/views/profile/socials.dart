@@ -1,3 +1,5 @@
+import 'package:bbblient/src/models/backend_codings/owner_type.dart';
+import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/icons.dart';
@@ -7,10 +9,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class SalonSocials extends StatelessWidget {
-  const SalonSocials({Key? key}) : super(key: key);
+  final SalonModel salonModel;
+
+  const SalonSocials({Key? key, required this.salonModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final bool isSingleMaster = (salonModel.ownerType == OwnerType.singleMaster);
+
     return Container(
       width: double.infinity,
       color: const Color(0XFFFFC692),
@@ -24,7 +30,7 @@ class SalonSocials extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: DeviceConstraints.getResponsiveSize(context, 20.w, 30.w, 50.w)),
               child: Center(
                 child: Text(
-                  'my social network'.toUpperCase(),
+                  '${isSingleMaster ? "my" : "our"} my social network'.toUpperCase(),
                   textAlign: TextAlign.center,
                   style: GlamOneTheme.headLine2.copyWith(
                     color: Colors.black,

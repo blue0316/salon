@@ -1,4 +1,6 @@
+import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
+import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/images.dart';
@@ -8,13 +10,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SalonWorks extends StatelessWidget {
-  const SalonWorks({Key? key}) : super(key: key);
+  final SalonModel salonModel;
+
+  const SalonWorks({Key? key, required this.salonModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
 
-// widget.salonModel.photosOfWork.
+    // Check if Salon is a single master
+    final bool isSingleMaster = (salonModel.ownerType == OwnerType.singleMaster);
+
     return Padding(
       padding: EdgeInsets.only(
         top: DeviceConstraints.getResponsiveSize(context, 40, 60, 70),
@@ -39,7 +45,7 @@ class SalonWorks extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "MY WORKS",
+                    "${isSingleMaster ? "MY" : "OUR"} WORKS",
                     style: GlamOneTheme.headLine2.copyWith(
                       color: Colors.black,
                       fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),

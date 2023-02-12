@@ -77,7 +77,7 @@ class SalonModel {
     required this.blockedTime,
     required this.searchTags,
     this.requestSalon = false,
-    this.selectedTheme = 11,
+    this.selectedTheme = 1,
   });
 
   SalonModel.fromJson(Map<String, dynamic> json) {
@@ -125,7 +125,7 @@ class SalonModel {
     searchTags = json['searchTags'] != null ? json['searchTags'].cast<String>() : [];
     additionalFeatures = json['additionalFeatures'] != null ? json['additionalFeatures'].cast<String>() : [];
     requestSalon = json['requestSalon'] ?? false;
-    selectedTheme = 11; // json['selectedTheme'] ?? 0; // 0 - the default theme
+    selectedTheme = 1; // json['selectedTheme'] ?? 0; // 0 - the default theme
   }
 
   Map<String, dynamic> toJson() {

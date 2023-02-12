@@ -158,9 +158,7 @@ class _BookingBottomSheetState extends ConsumerState<BookingBottomSheet> {
                 ? BnbMaterialButton(
                     onTap: () {
                       Navigator.of(context).pop();
-                      const BookingDialogWidget(
-                        themeNo: 0,
-                      ).show(context);
+                      const BookingDialogWidget().show(context);
                     },
                     title: "DIALOG",
                     minWidth: 1.sw - 48,

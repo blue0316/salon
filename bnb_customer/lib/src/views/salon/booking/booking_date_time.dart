@@ -1,5 +1,6 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
+import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
@@ -754,11 +755,12 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
   }
 }
 
-class TimeSlotContainer extends StatelessWidget {
+class TimeSlotContainer extends ConsumerWidget {
   final String time;
   final bool choosen;
   final bool valid;
   final Function onTap;
+
   const TimeSlotContainer({
     Key? key,
     required this.time,
@@ -768,7 +770,15 @@ class TimeSlotContainer extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+
+    // final Theme a = AppTheme as Theme;
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+    bool defaultTheme = theme == AppTheme.lightTheme;
+
+    Color x = defaultTheme ? AppTheme.textBlack : theme.primaryColor;
+
     return GestureDetector(
       onTap: () {
         if (valid) {
@@ -783,12 +793,22 @@ class TimeSlotContainer extends StatelessWidget {
         decoration: BoxDecoration(
           color: valid
               ? choosen
-                  ? AppTheme.textBlack
+                  ? x
                   : Colors.white
-              : const Color.fromARGB(255, 239, 239, 239),
+              : Colors.grey[300], // const Color.fromARGB(255, 239, 239, 239),
+          // color: valid
+          //     ? choosen
+          //         ? AppTheme.textBlack
+          //         : Colors.white
+          //     : const Color.fromARGB(255, 239, 239, 239),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: const Color.fromARGB(255, 239, 239, 239),
+            color: valid
+                ? choosen
+                    ? x
+                    : (Colors.grey[300]!)
+                : (Colors.grey[300]!),
+            // color: const Color.fromARGB(255, 239, 239, 239),
             width: 1,
           ),
         ),

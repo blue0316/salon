@@ -50,13 +50,13 @@ class _HomeState extends ConsumerState<Home> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              GestureDetector(
-                onTap: () => context.go(GlamOneScreen.route),
-                child: const Text(
-                  'THEME 1',
-                  style: TextStyle(fontSize: 30),
-                ),
-              ),
+              // GestureDetector(
+              //   onTap: () => context.go(GlamOneScreen.route),
+              //   child: const Text(
+              //     'THEME 1',
+              //     style: TextStyle(fontSize: 30),
+              //   ),
+              // ),
               const ConstrainedContainer(
                 margin: EdgeInsets.only(top: 20.0, left: AppTheme.margin, right: AppTheme.margin),
                 child: HomePageAppBar(),

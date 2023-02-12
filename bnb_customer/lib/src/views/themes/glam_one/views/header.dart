@@ -59,18 +59,24 @@ class ThemeHeader extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 250.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const GlamOneButton(
+        SizedBox(height: 150.h),
+        Wrap(
+          spacing: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 10.w),
+          runSpacing: DeviceConstraints.getResponsiveSize(context, 10.h, 20.w, 10.w),
+          children: const [
+            //  for (var slot in widget.createAppointment.morningTimeslots)
+            GlamOneButton(
               text: "Makeup",
             ),
-            SizedBox(width: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 10.w)),
-            const GlamOneButton(
+            GlamOneButton(
               text: "Hairdresser",
             ),
+            // GlamOneButton(
+            //   text: "Makeup",
+            // ),
+            // GlamOneButton(
+            //   text: "Hairdresser",
+            // ),
           ],
         ),
       ],

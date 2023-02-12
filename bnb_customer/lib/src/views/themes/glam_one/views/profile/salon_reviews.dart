@@ -102,47 +102,49 @@ class _SalonReviewsState extends State<SalonReviews> {
           const SizedBox(height: 40),
           SizedBox(
             height: 220.h,
-            child: (!isPortrait)
-                ? Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      ReviewCard(
-                        avatar: ThemeImages.review1,
-                        reviewUser: 'Jocelyn Francis',
-                        review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis.',
-                        reviewStars: 5,
-                      ),
-                      ReviewCard(
-                        avatar: ThemeImages.review2,
-                        reviewUser: 'Skylar Vetrovs',
-                        review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis.',
-                        reviewStars: 3.5,
-                      ),
-                      ReviewCard(
-                        avatar: ThemeImages.review3,
-                        reviewUser: 'Jocelyn Francis',
-                        review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis.',
-                        reviewStars: 5,
-                      ),
-                    ],
-                  )
-                : ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 3,
-                    itemBuilder: (context, index) {
-                      return const Padding(
-                        padding: EdgeInsets.only(right: 15),
-                        child: ReviewCard(
-                          avatar: ThemeImages.review3,
-                          reviewUser: 'Jocelyn Francis',
-                          review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis.',
-                          reviewStars: 5,
-                        ),
-                      );
-                    },
+            child:
+                // (!isPortrait)
+                //     ? Row(
+                //         crossAxisAlignment: CrossAxisAlignment.center,
+                //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //         children: const [
+                //           ReviewCard(
+                //             avatar: ThemeImages.review1,
+                //             reviewUser: 'Jocelyn Francis',
+                //             review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis.',
+                //             reviewStars: 5,
+                //           ),
+                //           ReviewCard(
+                //             avatar: ThemeImages.review2,
+                //             reviewUser: 'Skylar Vetrovs',
+                //             review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis.',
+                //             reviewStars: 3.5,
+                //           ),
+                //           ReviewCard(
+                //             avatar: ThemeImages.review3,
+                //             reviewUser: 'Jocelyn Francis',
+                //             review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis.',
+                //             reviewStars: 5,
+                //           ),
+                //         ],
+                //       )
+                // :
+                ListView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemCount: 3,
+              itemBuilder: (context, index) {
+                return const Padding(
+                  padding: EdgeInsets.only(right: 15),
+                  child: ReviewCard(
+                    avatar: ThemeImages.review3,
+                    reviewUser: 'Jocelyn Francis',
+                    review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis.',
+                    reviewStars: 5,
                   ),
+                );
+              },
+            ),
           ),
           SizedBox(height: 30.h),
         ],
@@ -167,7 +169,7 @@ class ReviewCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 350.h,
-      width: DeviceConstraints.getResponsiveSize(context, 250.w, 250.w, 100.w),
+      width: DeviceConstraints.getResponsiveSize(context, 260.w, 260.w, 110.w),
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
@@ -175,7 +177,7 @@ class ReviewCard extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: Container(
               margin: const EdgeInsets.only(top: 45),
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 5),
               decoration: BoxDecoration(border: Border.all(color: GlamOneTheme.primaryColor, width: 2)),
               child: Padding(
                 padding: const EdgeInsets.only(top: 30),
@@ -228,11 +230,7 @@ class ReviewCard extends StatelessWidget {
                             maxLines: 4,
                             textAlign: TextAlign.center,
                             overflow: TextOverflow.ellipsis,
-                            style: GlamOneTheme.subTitle1.copyWith(
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white,
-                            ),
+                            style: GlamOneTheme.subTitle1.copyWith(fontSize: 15.sp, fontWeight: FontWeight.w400, color: Colors.white, letterSpacing: -0.8),
                           ),
                         ),
                         Align(

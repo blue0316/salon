@@ -99,21 +99,21 @@ class _BNBTextFieldState extends State<BNBTextField> {
     return TextFormField(
       controller: widget.controller,
       autofillHints: widget.autofillHints,
-      style: Theme.of(context).inputDecorationTheme.labelStyle?.copyWith(
-            color: widget.textColor ?? AppTheme.textBlack,
-            fontSize: widget.textSize ?? 15.sp,
-            fontWeight: FontWeight.w600,
-          ),
+      style: AppTheme.bodyText1.copyWith(
+        color: widget.textColor ?? AppTheme.textBlack,
+        fontSize: widget.textSize ?? 15.sp,
+        fontWeight: FontWeight.w600,
+      ),
       textInputAction: widget.action ?? TextInputAction.next,
       onFieldSubmitted: widget.submit,
       keyboardType: widget.keyboardType ?? TextInputType.text,
       maxLines: widget.lines ?? 1,
       decoration: InputDecoration(
         hintText: widget.hint,
-        hintStyle: Theme.of(context).inputDecorationTheme.hintStyle?.copyWith(
-              color: widget.textColor ?? AppTheme.lightBlack,
-              fontSize: widget.textSize ?? 15.sp,
-            ),
+        hintStyle: AppTheme.bodyText1.copyWith(
+          color: widget.textColor?.withOpacity(0.6) ?? AppTheme.lightBlack,
+          fontSize: widget.textSize ?? 15.sp,
+        ),
         contentPadding: EdgeInsets.symmetric(
           vertical: widget.vPadding ?? 12.h,
           horizontal: widget.vPadding ?? 10.w,

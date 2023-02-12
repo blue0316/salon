@@ -30,10 +30,7 @@ class _FloatingBarState extends ConsumerState<FloatingBar> {
         //     return const BookingBottomSheet();
         //   },
         // );
-        BookingDialogWidget(
-          master: widget.master,
-          themeNo: widget.themeNo,
-        ).show(context);
+        BookingDialogWidget(master: widget.master).show(context);
       },
       child: Padding(
           padding: EdgeInsets.only(bottom: 100.h),
@@ -78,10 +75,7 @@ class _FloatingBarState extends ConsumerState<FloatingBar> {
                                     //     return const BookingBottomSheet();
                                     //   },
                                     // );
-                                    BookingDialogWidget(
-                                      master: widget.master,
-                                      themeNo: widget.themeNo,
-                                    ).show(context);
+                                    BookingDialogWidget(master: widget.master).show(context);
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.only(bottom: 1),

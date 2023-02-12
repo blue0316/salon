@@ -86,6 +86,7 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
     categories = await CategoryServicesApi().getCategories();
     final _createAppointmentProvider = ref.read(createAppointmentProvider);
     final repository = ref.watch(bnbProvider);
+    final _salonSearchProvider = ref.read(salonSearchProvider);
 
     repository.changeLocale(locale: Locale(widget.locale));
     if (widget.switchSalon) {
@@ -93,8 +94,10 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
         salonModel: salon,
         context: context,
         servicesFromSearch: widget.chosenServices,
+        categories: _salonSearchProvider.categories,
       );
       await _salonProfileProvider.getSalonReviews(salonId: widget.salonId);
+
       Future.delayed(const Duration(milliseconds: 1000), () async {
         if (mounted) {
           if (_createAppointmentProvider.chosenServices.isNotEmpty) {
@@ -165,232 +168,233 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
                 ? const ErrorScreen()
                 :
                 //  Check for theme
-                (_salonProfileProvider.getSalonTheme() == null)
-                    ? Stack(
-                        children: [
-                          SingleChildScrollView(
-                            controller: _mainScrollController,
-                            child: Column(
-                              children: [
-                                SaloonHeader(
-                                  salonModel: _salonProfileProvider.chosenSalon,
-                                ),
-                                // if (_salonProfileProvider
-                                //     .chosenSalon.photosOfWork.isNotEmpty)
-                                //   SalonBestWorks(
-                                //     salonModel: _salonProfileProvider.chosenSalon,
-                                //   ),
-                                Space(height: DeviceConstraints.getResponsiveSize(context, 40, 40, 40)),
-                                Loader(
-                                  //status: Status.loading,
-                                  status: Status.success,
-                                  iconPadding: const EdgeInsets.only(top: 100, bottom: 100),
-                                  child: Column(
-                                    children: [
-                                      // Padding(
-                                      //   padding: EdgeInsets.only(
-                                      //     left: DeviceConstraints.getResponsiveSize(context, 16, 24, 32),
-                                      //   ),
-                                      //   child: Row(
-                                      //     mainAxisAlignment: MainAxisAlignment.start,
-                                      //     children: [
-                                      //       Text(
-                                      //         "Promotions",
-                                      //         textAlign: TextAlign.left,
-                                      //         style: GoogleFonts.epilogue(
-                                      //           fontSize: DeviceConstraints.getResponsiveSize(context, 16, 16, 20),
-                                      //           fontWeight: FontWeight.w500,
-                                      //           color: Color(0xff89959F),
-                                      //         ),
-                                      //       ),
-                                      //     ],
-                                      //   ),
-                                      // ),
-                                      // Padding(
-                                      //   padding: EdgeInsets.only(
-                                      //     top: DeviceConstraints.getResponsiveSize(context, 16, 16, 24),
-                                      //     bottom: DeviceConstraints.getResponsiveSize(context, 16, 16, 24),
-                                      //     left: DeviceConstraints.getResponsiveSize(context, 16, 24, 32),
-                                      //   ),
-                                      //   child: PromotionScroll(),
-                                      // ),
-                                      // SERVICES - ABOUT - MASTERS - ALL WORKS
-                                      Padding(
-                                        padding: EdgeInsets.zero,
-                                        child: SizedBox(
-                                          height: 45.h,
-                                          child: ListView.builder(
-                                            itemCount: (_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon) ? saloonDetailsTitles.length : masterDetailsTitles.length,
-                                            scrollDirection: Axis.horizontal,
-                                            shrinkWrap: true,
-                                            controller: _scrollController,
-                                            itemBuilder: (_, index) {
-                                              return Padding(
-                                                padding: EdgeInsets.only(right: 4.w),
-                                                child: GestureDetector(
-                                                  onTap: () {
-                                                    setState(() {
-                                                      _pageController.jumpToPage(index);
-                                                      _activeTab = index;
-                                                    });
-                                                  },
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                      color: _activeTab == index ? Color.fromARGB(255, 239, 239, 239) : Theme.of(context).scaffoldBackgroundColor,
-                                                      borderRadius: BorderRadius.circular(50),
-                                                    ),
-                                                    child: Center(
-                                                      child: Padding(
-                                                        padding: EdgeInsets.symmetric(horizontal: 10.w),
-                                                        child: Text(
-                                                          (_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon)
-                                                              ? (AppLocalizations.of(context)?.localeName == 'uk')
-                                                                  ? saloonDetailsTitlesUK[index]
-                                                                  : saloonDetailsTitles[index].toCapitalized()
-                                                              : (AppLocalizations.of(context)?.localeName == 'uk')
-                                                                  ? masterDetailsTitlesUk[index]
-                                                                  : masterDetailsTitles[index].toCapitalized(),
-                                                          style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                                                color: _activeTab == index ? AppTheme.textBlack : AppTheme.lightGrey,
-                                                                fontWeight: _activeTab == index ? FontWeight.w500 : FontWeight.w400,
-                                                              ),
+                Stack(
+                    children: [
+                      (_salonProfileProvider.getSalonTheme() == null)
+                          ? SingleChildScrollView(
+                              controller: _mainScrollController,
+                              child: Column(
+                                children: [
+                                  SaloonHeader(
+                                    salonModel: _salonProfileProvider.chosenSalon,
+                                  ),
+                                  // if (_salonProfileProvider
+                                  //     .chosenSalon.photosOfWork.isNotEmpty)
+                                  //   SalonBestWorks(
+                                  //     salonModel: _salonProfileProvider.chosenSalon,
+                                  //   ),
+                                  Space(height: DeviceConstraints.getResponsiveSize(context, 40, 40, 40)),
+                                  Loader(
+                                    //status: Status.loading,
+                                    status: Status.success,
+                                    iconPadding: const EdgeInsets.only(top: 100, bottom: 100),
+                                    child: Column(
+                                      children: [
+                                        // Padding(
+                                        //   padding: EdgeInsets.only(
+                                        //     left: DeviceConstraints.getResponsiveSize(context, 16, 24, 32),
+                                        //   ),
+                                        //   child: Row(
+                                        //     mainAxisAlignment: MainAxisAlignment.start,
+                                        //     children: [
+                                        //       Text(
+                                        //         "Promotions",
+                                        //         textAlign: TextAlign.left,
+                                        //         style: GoogleFonts.epilogue(
+                                        //           fontSize: DeviceConstraints.getResponsiveSize(context, 16, 16, 20),
+                                        //           fontWeight: FontWeight.w500,
+                                        //           color: Color(0xff89959F),
+                                        //         ),
+                                        //       ),
+                                        //     ],
+                                        //   ),
+                                        // ),
+                                        // Padding(
+                                        //   padding: EdgeInsets.only(
+                                        //     top: DeviceConstraints.getResponsiveSize(context, 16, 16, 24),
+                                        //     bottom: DeviceConstraints.getResponsiveSize(context, 16, 16, 24),
+                                        //     left: DeviceConstraints.getResponsiveSize(context, 16, 24, 32),
+                                        //   ),
+                                        //   child: PromotionScroll(),
+                                        // ),
+                                        // SERVICES - ABOUT - MASTERS - ALL WORKS
+                                        Padding(
+                                          padding: EdgeInsets.zero,
+                                          child: SizedBox(
+                                            height: 45.h,
+                                            child: ListView.builder(
+                                              itemCount: (_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon) ? saloonDetailsTitles.length : masterDetailsTitles.length,
+                                              scrollDirection: Axis.horizontal,
+                                              shrinkWrap: true,
+                                              controller: _scrollController,
+                                              itemBuilder: (_, index) {
+                                                return Padding(
+                                                  padding: EdgeInsets.only(right: 4.w),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      setState(() {
+                                                        _pageController.jumpToPage(index);
+                                                        _activeTab = index;
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        color: _activeTab == index ? Color.fromARGB(255, 239, 239, 239) : Theme.of(context).scaffoldBackgroundColor,
+                                                        borderRadius: BorderRadius.circular(50),
+                                                      ),
+                                                      child: Center(
+                                                        child: Padding(
+                                                          padding: EdgeInsets.symmetric(horizontal: 10.w),
+                                                          child: Text(
+                                                            (_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon)
+                                                                ? (AppLocalizations.of(context)?.localeName == 'uk')
+                                                                    ? saloonDetailsTitlesUK[index]
+                                                                    : saloonDetailsTitles[index].toCapitalized()
+                                                                : (AppLocalizations.of(context)?.localeName == 'uk')
+                                                                    ? masterDetailsTitlesUk[index]
+                                                                    : masterDetailsTitles[index].toCapitalized(),
+                                                            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                                                  color: _activeTab == index ? AppTheme.textBlack : AppTheme.lightGrey,
+                                                                  fontWeight: _activeTab == index ? FontWeight.w500 : FontWeight.w400,
+                                                                ),
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                              );
-                                            },
+                                                );
+                                              },
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: DeviceConstraints.getResponsiveSize(context, 17.w, 0, 0)),
-                                        child: ExpandablePageView(
-                                          padEnds: false,
-                                          key: ValueKey("exp"),
-                                          controller: _pageController,
-                                          onPageChanged: (i) {
-                                            _reportTabChange(i);
-                                            setState(() {
-                                              _activeTab = i;
-                                            });
-                                          },
-                                          children: [
-                                            // Text(categories!.length.toString()),
-                                            Padding(
-                                              padding: const EdgeInsets.symmetric(horizontal: 10),
-                                              child: SalonServices(
-                                                key: const ValueKey("services"),
-                                                salonModel: _salonProfileProvider.chosenSalon,
-                                                categories: _salonSearchProvider.categories,
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.symmetric(horizontal: 10),
-                                              child: SalonAbout(
-                                                salonModel: _salonProfileProvider.chosenSalon,
-                                              ),
-                                            ),
-                                            if (_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon) ...[
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(horizontal: DeviceConstraints.getResponsiveSize(context, 17.w, 0, 0)),
+                                          child: ExpandablePageView(
+                                            padEnds: false,
+                                            key: ValueKey("exp"),
+                                            controller: _pageController,
+                                            onPageChanged: (i) {
+                                              _reportTabChange(i);
+                                              setState(() {
+                                                _activeTab = i;
+                                              });
+                                            },
+                                            children: [
+                                              // Text(categories!.length.toString()),
                                               Padding(
                                                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                                                child: SaloonMasters(
+                                                child: SalonServices(
+                                                  key: const ValueKey("services"),
+                                                  salonModel: _salonProfileProvider.chosenSalon,
+                                                  categories: _salonSearchProvider.categories,
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                                child: SalonAbout(
                                                   salonModel: _salonProfileProvider.chosenSalon,
                                                 ),
                                               ),
+                                              if (_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon) ...[
+                                                Padding(
+                                                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                                                  child: SaloonMasters(
+                                                    salonModel: _salonProfileProvider.chosenSalon,
+                                                  ),
+                                                ),
+                                              ],
+                                              Padding(
+                                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                                child: SaloonAllWorks(
+                                                  salonModel: _salonProfileProvider.chosenSalon,
+                                                ),
+                                              )
                                             ],
-                                            Padding(
-                                              padding: const EdgeInsets.symmetric(horizontal: 10),
-                                              child: SaloonAllWorks(
-                                                salonModel: _salonProfileProvider.chosenSalon,
-                                              ),
-                                            )
-                                          ],
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 80.h,
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          // -- BOOK NOW ---
-                          // Positioned(
-                          //   bottom: 0,
-                          //   right: 0,
-                          //   child: GestureDetector(
-                          //     key: const ValueKey("book-key"),
-                          //     onTap: () {
-                          //       if (_createAppointmentProvider.chosenServices.isNotEmpty) {
-                          //         Navigator.of(context).push(
-                          //           MaterialPageRoute(settings: RouteSettings(name: "Foo1"), builder: (_) => const BookingDateTime()),
-                          //         );
-                          //       } else {
-                          //         Utils().vibrateNegatively();
-                          //         showToast(
-                          //             // AppLocalizations.of(context)
-                          //             //       ?.pleaseChooseAService ??
-                          //             "Please choose a servicess");
-                          //       }
-                          //     },
-                          //     child: Container(
-                          //       width: 0.5.sw,
-                          //       height: 60.h,
-                          //       decoration: const BoxDecoration(
-                          //         color: AppTheme.creamBrown,
-                          //         borderRadius: BorderRadius.only(topLeft: Radius.circular(28)),
-                          //       ),
-                          //       child: Center(
-                          //         child: Text(
-                          //           AppLocalizations.of(context)?.bookNow ?? "Book Now",
-                          //           style: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.white),
-                          //         ),
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ),
+                                        SizedBox(
+                                          height: 80.h,
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                          : _salonProfileProvider.getSalonTheme(),
 
-                          // if (widget.showBackButton)
-                          //   Positioned(
-                          //     top: DeviceConstraints.getResponsiveSize(context, 10, 20, 30),
-                          //     left: DeviceConstraints.getResponsiveSize(context, 10, 20, 30),
-                          //     child: const SafeArea(
-                          //       child: BackButtonGlassMorphic(),
-                          //     ),
-                          //   ),
-                          // Positioned(
-                          //   top: DeviceConstraints.getResponsiveSize(context, 10, 20, 30),
-                          //   right: DeviceConstraints.getResponsiveSize(context, 10, 20, 30),
-                          //   child: SafeArea(
-                          //       child: GestureDetector(
-                          //     onTap: () async {
-                          //       checkUser(context, ref, () => _bnbProvider.toggleFav(_salonProfileProvider.chosenSalon.salonId));
-                          //     },
-                          //     child: Container(
-                          //         height: DeviceConstraints.getResponsiveSize(context, 32, 40, 48),
-                          //         width: DeviceConstraints.getResponsiveSize(context, 32, 40, 48),
-                          //         decoration: BoxDecoration(color: Colors.white38, borderRadius: BorderRadius.circular(8)),
-                          //         child: Padding(
-                          //           padding: EdgeInsets.all(
-                          //             DeviceConstraints.getResponsiveSize(context, 4, 6, 8),
-                          //           ),
-                          //           child: _bnbProvider.checkForFav(_salonProfileProvider.chosenSalon.salonId) ? SvgPicture.asset(AppIcons.heartfilledSVG) : SvgPicture.asset(AppIcons.heartemptySVG),
-                          //         )),
-                          //   )),
-                          // ),
-                          const Align(
-                            alignment: Alignment.bottomCenter,
-                            child: FloatingBar(
-                              themeNo: 0,
-                            ),
-                          )
-                        ],
+                      // -- BOOK NOW ---
+                      // Positioned(
+                      //   bottom: 0,
+                      //   right: 0,
+                      //   child: GestureDetector(
+                      //     key: const ValueKey("book-key"),
+                      //     onTap: () {
+                      //       if (_createAppointmentProvider.chosenServices.isNotEmpty) {
+                      //         Navigator.of(context).push(
+                      //           MaterialPageRoute(settings: RouteSettings(name: "Foo1"), builder: (_) => const BookingDateTime()),
+                      //         );
+                      //       } else {
+                      //         Utils().vibrateNegatively();
+                      //         showToast(
+                      //             // AppLocalizations.of(context)
+                      //             //       ?.pleaseChooseAService ??
+                      //             "Please choose a servicess");
+                      //       }
+                      //     },
+                      //     child: Container(
+                      //       width: 0.5.sw,
+                      //       height: 60.h,
+                      //       decoration: const BoxDecoration(
+                      //         color: AppTheme.creamBrown,
+                      //         borderRadius: BorderRadius.only(topLeft: Radius.circular(28)),
+                      //       ),
+                      //       child: Center(
+                      //         child: Text(
+                      //           AppLocalizations.of(context)?.bookNow ?? "Book Now",
+                      //           style: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.white),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+
+                      // if (widget.showBackButton)
+                      //   Positioned(
+                      //     top: DeviceConstraints.getResponsiveSize(context, 10, 20, 30),
+                      //     left: DeviceConstraints.getResponsiveSize(context, 10, 20, 30),
+                      //     child: const SafeArea(
+                      //       child: BackButtonGlassMorphic(),
+                      //     ),
+                      //   ),
+                      // Positioned(
+                      //   top: DeviceConstraints.getResponsiveSize(context, 10, 20, 30),
+                      //   right: DeviceConstraints.getResponsiveSize(context, 10, 20, 30),
+                      //   child: SafeArea(
+                      //       child: GestureDetector(
+                      //     onTap: () async {
+                      //       checkUser(context, ref, () => _bnbProvider.toggleFav(_salonProfileProvider.chosenSalon.salonId));
+                      //     },
+                      //     child: Container(
+                      //         height: DeviceConstraints.getResponsiveSize(context, 32, 40, 48),
+                      //         width: DeviceConstraints.getResponsiveSize(context, 32, 40, 48),
+                      //         decoration: BoxDecoration(color: Colors.white38, borderRadius: BorderRadius.circular(8)),
+                      //         child: Padding(
+                      //           padding: EdgeInsets.all(
+                      //             DeviceConstraints.getResponsiveSize(context, 4, 6, 8),
+                      //           ),
+                      //           child: _bnbProvider.checkForFav(_salonProfileProvider.chosenSalon.salonId) ? SvgPicture.asset(AppIcons.heartfilledSVG) : SvgPicture.asset(AppIcons.heartemptySVG),
+                      //         )),
+                      //   )),
+                      // ),
+                      const Align(
+                        alignment: Alignment.bottomCenter,
+                        child: FloatingBar(
+                          themeNo: 0,
+                        ),
                       )
-                    : _salonProfileProvider.getSalonTheme(),
+                    ],
+                  ),
       ),
     );
   }

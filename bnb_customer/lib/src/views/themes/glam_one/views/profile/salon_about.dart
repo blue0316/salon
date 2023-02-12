@@ -1,4 +1,6 @@
+import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
+import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/images.dart';
@@ -7,18 +9,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SalonAbout2 extends StatelessWidget {
-  const SalonAbout2({Key? key}) : super(key: key);
+  final SalonModel salonModel;
+
+  const SalonAbout2({Key? key, required this.salonModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+    final bool isSingleMaster = (salonModel.ownerType == OwnerType.singleMaster);
 
-    // DeviceConstraints.getResponsiveSize(context, 70.sp, 80.sp, 100.sp),
+    String about =
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem.";
+
     return Padding(
       padding: EdgeInsets.only(
-        left: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
-        right: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
-        top: DeviceConstraints.getResponsiveSize(context, 50, 80, 120),
+        left: DeviceConstraints.getResponsiveSize(context, 20.w, 10.w, 50.w),
+        right: DeviceConstraints.getResponsiveSize(context, 20.w, 10.w, 50.w),
+        top: DeviceConstraints.getResponsiveSize(context, 50, 50, 120),
         bottom: DeviceConstraints.getResponsiveSize(context, 25, 30, 50),
       ),
       child: SizedBox(
@@ -29,64 +36,80 @@ class SalonAbout2 extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Expanded(
-                    flex: 0,
-                    child: SizedBox(
-                      child: Image.asset(
-                        ThemeImages.makeup,
-                        fit: BoxFit.cover,
-                      ),
+                  Container(
+                    color: Colors.green,
+                    width: DeviceConstraints.getResponsiveSize(context, 50, 200.w, 200.w),
+                    child: Image.asset(
+                      ThemeImages.makeup,
+                      fit: BoxFit.cover,
                     ),
                   ),
-                  SizedBox(width: 25.w),
+                  SizedBox(width: DeviceConstraints.getResponsiveSize(context, 0, 20.w, 25.w)),
                   Expanded(
-                    flex: 2,
+                    flex: 3,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("ABOUT ME", style: GlamOneTheme.headLine2),
-                          const SizedBox(height: 10),
                           Text(
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem.",
-                            style: GlamOneTheme.bodyText2.copyWith(
-                              color: Colors.white,
-                              fontSize: 15.5.sp,
+                            "ABOUT ${isSingleMaster ? "ME" : "US"} ",
+                            style: GlamOneTheme.headLine2.copyWith(
+                              fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 30.sp, 50.sp),
                             ),
                           ),
+                          const SizedBox(height: 3),
+                          SizedBox(
+                            child: Text(
+                              about,
+                              style: GlamOneTheme.bodyText2.copyWith(
+                                color: Colors.white,
+                                fontSize: 15.5.sp,
+                              ),
+                              maxLines: DeviceConstraints.getResponsiveSize(context, 6, 7, 9).toInt(),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
                           OvalButton(
                             text: 'Book Now',
-                            onTap: () {},
+                            onTap: () {
+                              print(DeviceConstraints.getDeviceType(MediaQuery.of(context)));
+                            },
                           ),
                         ],
                       ),
                     ),
                   ),
-                  const Expanded(
-                    flex: 1,
-                    child: SizedBox(),
-                  ),
+                  if (DeviceConstraints.getDeviceType(MediaQuery.of(context)) != DeviceScreenType.tab)
+                    const Expanded(
+                      flex: 1,
+                      child: SizedBox(),
+                    ),
                 ],
               )
+            // : (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab)
+            //     ? Container(
+            //         color: Colors.red,
+            //       )
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    "ABOUT ME",
+                    "ABOUT ${isSingleMaster ? "ME" : "US"} ",
                     style: GlamOneTheme.headLine2.copyWith(
                       fontSize: 40.sp,
                     ),
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem.",
+                    about,
                     style: GlamOneTheme.bodyText2.copyWith(
                       color: Colors.white,
                       fontSize: 15.5.sp,
                     ),
+                    maxLines: 6,
                   ),
                   const SizedBox(height: 30),
                   OvalButton(
@@ -94,7 +117,9 @@ class SalonAbout2 extends StatelessWidget {
                     height: 60.h,
                     textSize: 18.sp,
                     text: 'Book Now',
-                    onTap: () {},
+                    onTap: () {
+                      print(DeviceConstraints.getDeviceType(MediaQuery.of(context)));
+                    },
                   ),
                   const SizedBox(height: 35),
                   SizedBox(

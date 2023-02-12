@@ -17,8 +17,8 @@ class SalonPromotions extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.only(
-        left: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
-        right: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
+        left: DeviceConstraints.getResponsiveSize(context, 20.w, 10.w, 50.w),
+        right: DeviceConstraints.getResponsiveSize(context, 20.w, 10.w, 50.w),
         top: 50,
         bottom: 50,
       ),
@@ -52,7 +52,7 @@ class SalonPromotions extends StatelessWidget {
           ),
           SizedBox(height: 50.h),
           SizedBox(
-            height: isPortrait ? 400.h : 260.h,
+            height: DeviceConstraints.getResponsiveSize(context, 400.h, 300.h, 280.h),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -70,7 +70,7 @@ class SalonPromotions extends StatelessWidget {
                             "Discounts 15%".toUpperCase(),
                             style: GlamOneTheme.headLine3.copyWith(
                               color: GlamOneTheme.deepOrange,
-                              fontSize: 35.sp,
+                              fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 25.sp, 35.sp),
                             ),
                           ),
                           Text(
@@ -134,7 +134,7 @@ class SalonPromotions extends StatelessWidget {
                                 ),
                               SizedBox(
                                 width: 350.h,
-                                height: 210.h,
+                                height: DeviceConstraints.getResponsiveSize(context, 210.h, 260.h, 250.h),
                                 child: Image.asset(
                                   _samples[index]['image'],
                                   fit: BoxFit.cover,
