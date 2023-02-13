@@ -41,7 +41,14 @@ class SalonPage extends ConsumerStatefulWidget {
   final List<ServiceModel> chosenServices;
   final bool showBackButton;
 
-  const SalonPage({Key? key, required this.salonId, this.locale = "uk", this.showBackButton = true, this.switchSalon = true, this.chosenServices = const []}) : super(key: key);
+  const SalonPage(
+      {Key? key,
+      required this.salonId,
+      this.locale = "uk",
+      this.showBackButton = true,
+      this.switchSalon = true,
+      this.chosenServices = const []})
+      : super(key: key);
   @override
   _SaloonProfileState createState() => _SaloonProfileState();
 }
@@ -69,14 +76,16 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
     printIt(_appProvider.firstRoute);
     final _salonSearchProvider = ref.read(salonSearchProvider);
 
-    _salonSearchProvider.init(widget.salonId).then((value) => WidgetsBinding.instance.addPostFrameCallback((_) async {
-          categories = value;
-        }));
+    _salonSearchProvider.init(widget.salonId).then(
+        (value) => WidgetsBinding.instance.addPostFrameCallback((_) async {
+              categories = value;
+            }));
     _salonProfileProvider = ref.read(salonProfileProvider);
-    _salonProfileProvider.init(widget.salonId).then((salon) => WidgetsBinding.instance.addPostFrameCallback((_) async {
-          // here we set the time interval instead of the 15mins preset available
-          await init(salon);
-        }));
+    _salonProfileProvider.init(widget.salonId).then(
+        (salon) => WidgetsBinding.instance.addPostFrameCallback((_) async {
+              // here we set the time interval instead of the 15mins preset available
+              await init(salon);
+            }));
   }
 
   init(salon) async {
@@ -100,7 +109,9 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
           if (_createAppointmentProvider.chosenServices.isNotEmpty) {
             setState(() {});
             await Future.delayed(const Duration(milliseconds: 300), () {
-              _mainScrollController.animateTo(300, duration: const Duration(milliseconds: 800), curve: Curves.ease);
+              _mainScrollController.animateTo(300,
+                  duration: const Duration(milliseconds: 800),
+                  curve: Curves.ease);
             });
           }
         }
@@ -131,7 +142,9 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
         }
       case 2:
         {
-          (_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon) ? currentPage = "salonMasters" : currentPage = "salonAllWorks";
+          (_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon)
+              ? currentPage = "salonMasters"
+              : currentPage = "salonAllWorks";
           break;
         }
       case 3:
@@ -173,11 +186,14 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
                               //   SalonBestWorks(
                               //     salonModel: _salonProfileProvider.chosenSalon,
                               //   ),
-                              Space(height: DeviceConstraints.getResponsiveSize(context, 40, 40, 40)),
+                              Space(
+                                  height: DeviceConstraints.getResponsiveSize(
+                                      context, 40, 40, 40)),
                               Loader(
                                 //status: Status.loading,
                                 status: Status.success,
-                                iconPadding: const EdgeInsets.only(top: 100, bottom: 100),
+                                iconPadding: const EdgeInsets.only(
+                                    top: 100, bottom: 100),
                                 child: Column(
                                   children: [
                                     // Padding(
@@ -213,39 +229,80 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
                                       child: SizedBox(
                                         height: 45.h,
                                         child: ListView.builder(
-                                          itemCount: (_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon) ? saloonDetailsTitles.length : masterDetailsTitles.length,
+                                          itemCount: (_salonProfileProvider
+                                                      .chosenSalon.ownerType ==
+                                                  OwnerType.salon)
+                                              ? saloonDetailsTitles.length
+                                              : masterDetailsTitles.length,
                                           scrollDirection: Axis.horizontal,
                                           shrinkWrap: true,
                                           controller: _scrollController,
                                           itemBuilder: (_, index) {
                                             return Padding(
-                                              padding: EdgeInsets.only(right: 4.w),
+                                              padding:
+                                                  EdgeInsets.only(right: 4.w),
                                               child: GestureDetector(
                                                 onTap: () {
                                                   setState(() {
-                                                    _pageController.jumpToPage(index);
+                                                    _pageController
+                                                        .jumpToPage(index);
                                                     _activeTab = index;
                                                   });
                                                 },
                                                 child: Container(
                                                   decoration: BoxDecoration(
-                                                    color: _activeTab == index ? Color.fromARGB(255, 239, 239, 239) : Theme.of(context).scaffoldBackgroundColor,
-                                                    borderRadius: BorderRadius.circular(50),
+                                                    color: _activeTab == index
+                                                        ? Color.fromARGB(
+                                                            255, 239, 239, 239)
+                                                        : Theme.of(context)
+                                                            .scaffoldBackgroundColor,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            50),
                                                   ),
                                                   child: Center(
                                                     child: Padding(
-                                                      padding: EdgeInsets.symmetric(horizontal: 10.w),
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 10.w),
                                                       child: Text(
-                                                        (_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon)
-                                                            ? (AppLocalizations.of(context)?.localeName == 'uk')
-                                                                ? saloonDetailsTitlesUK[index]
-                                                                : saloonDetailsTitles[index].toCapitalized()
-                                                            : (AppLocalizations.of(context)?.localeName == 'uk')
-                                                                ? masterDetailsTitlesUk[index]
-                                                                : masterDetailsTitles[index].toCapitalized(),
-                                                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                                              color: _activeTab == index ? AppTheme.textBlack : AppTheme.lightGrey,
-                                                              fontWeight: _activeTab == index ? FontWeight.w500 : FontWeight.w400,
+                                                        (_salonProfileProvider
+                                                                    .chosenSalon
+                                                                    .ownerType ==
+                                                                OwnerType.salon)
+                                                            ? (AppLocalizations.of(
+                                                                            context)
+                                                                        ?.localeName ==
+                                                                    'uk')
+                                                                ? saloonDetailsTitlesUK[
+                                                                    index]
+                                                                : saloonDetailsTitles[
+                                                                        index]
+                                                                    .toCapitalized()
+                                                            : (AppLocalizations.of(
+                                                                            context)
+                                                                        ?.localeName ==
+                                                                    'uk')
+                                                                ? masterDetailsTitlesUk[
+                                                                    index]
+                                                                : masterDetailsTitles[
+                                                                        index]
+                                                                    .toCapitalized(),
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText1!
+                                                            .copyWith(
+                                                              color: _activeTab == index
+                                                                  ? AppTheme
+                                                                      .textBlack
+                                                                  : AppTheme
+                                                                      .lightGrey,
+                                                              fontWeight: _activeTab ==
+                                                                      index
+                                                                  ? FontWeight
+                                                                      .w500
+                                                                  : FontWeight
+                                                                      .w400,
                                                             ),
                                                       ),
                                                     ),
@@ -258,11 +315,15 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: DeviceConstraints.getResponsiveSize(context, 17.w, 0, 0)),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: DeviceConstraints
+                                              .getResponsiveSize(
+                                                  context, 17.w, 0, 0)),
                                       child: ExpandablePageView(
                                         padEnds: false,
                                         key: ValueKey("exp"),
                                         controller: _pageController,
+                                        physics: NeverScrollableScrollPhysics(),
                                         onPageChanged: (i) {
                                           _reportTabChange(i);
                                           setState(() {
@@ -272,31 +333,44 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
                                         children: [
                                           // Text(categories!.length.toString()),
                                           Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 10),
                                             child: SalonServices(
                                               key: const ValueKey("services"),
-                                              salonModel: _salonProfileProvider.chosenSalon,
-                                              categories: _salonSearchProvider.categories,
+                                              salonModel: _salonProfileProvider
+                                                  .chosenSalon,
+                                              categories: _salonSearchProvider
+                                                  .categories,
                                             ),
                                           ),
                                           Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 10),
                                             child: SalonAbout(
-                                              salonModel: _salonProfileProvider.chosenSalon,
+                                              salonModel: _salonProfileProvider
+                                                  .chosenSalon,
                                             ),
                                           ),
-                                          if (_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon) ...[
+                                          if (_salonProfileProvider
+                                                  .chosenSalon.ownerType ==
+                                              OwnerType.salon) ...[
                                             Padding(
-                                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10),
                                               child: SaloonMasters(
-                                                salonModel: _salonProfileProvider.chosenSalon,
+                                                salonModel:
+                                                    _salonProfileProvider
+                                                        .chosenSalon,
                                               ),
                                             ),
                                           ],
                                           Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 10),
                                             child: SaloonAllWorks(
-                                              salonModel: _salonProfileProvider.chosenSalon,
+                                              salonModel: _salonProfileProvider
+                                                  .chosenSalon,
                                             ),
                                           )
                                         ],
@@ -375,7 +449,9 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
                         //         )),
                         //   )),
                         // ),
-                        const Align(alignment: Alignment.bottomCenter, child: FloatingBar())
+                        const Align(
+                            alignment: Alignment.bottomCenter,
+                            child: FloatingBar())
                       ],
                     )),
     );
@@ -421,12 +497,14 @@ class PromotionCard extends StatelessWidget {
                 Text(
                     promotionModel!.promotionTitle != null
                         ? promotionModel!.promotionTitle!
-                        : promotionModel!.promotionType == PromotionType.last_minute
+                        : promotionModel!.promotionType ==
+                                PromotionType.last_minute
                             ? "Last Minute"
                             : "",
                     textAlign: TextAlign.left,
                     style: GoogleFonts.epilogue(
-                      fontSize: DeviceConstraints.getResponsiveSize(context, 14, 16, 18),
+                      fontSize: DeviceConstraints.getResponsiveSize(
+                          context, 14, 16, 18),
                       fontWeight: FontWeight.w500,
                       color: Colors.white,
                     )),
@@ -437,7 +515,8 @@ class PromotionCard extends StatelessWidget {
                   "Discount: ${promotionModel!.promotionDiscount} ${promotionModel!.discountUnit == "PCT(%)" ? '%' : '₴'}",
                   style: Theme.of(context).textTheme.subtitle1!.copyWith(
                         color: Color(0xff89959F),
-                        fontSize: DeviceConstraints.getResponsiveSize(context, 12, 14, 16),
+                        fontSize: DeviceConstraints.getResponsiveSize(
+                            context, 12, 14, 16),
                         fontWeight: FontWeight.w500,
                       ),
                 ),
@@ -447,10 +526,12 @@ class PromotionCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Applies to" + getPromotionType(type: promotionModel!.promotionType!),
+                  "Applies to" +
+                      getPromotionType(type: promotionModel!.promotionType!),
                   style: Theme.of(context).textTheme.subtitle1!.copyWith(
                         color: Colors.white,
-                        fontSize: DeviceConstraints.getResponsiveSize(context, 12, 14, 16),
+                        fontSize: DeviceConstraints.getResponsiveSize(
+                            context, 12, 14, 16),
                         fontWeight: FontWeight.w500,
                       ),
                 ),
@@ -461,7 +542,8 @@ class PromotionCard extends StatelessWidget {
                   "Valid until.${Jiffy(promotionModel!.endDate).format("dd MMM yyyy")}",
                   style: Theme.of(context).textTheme.subtitle1!.copyWith(
                         color: Color(0xff89959F),
-                        fontSize: DeviceConstraints.getResponsiveSize(context, 10, 12, 14),
+                        fontSize: DeviceConstraints.getResponsiveSize(
+                            context, 10, 12, 14),
                       ),
                 ),
               ],
@@ -498,12 +580,15 @@ class PromotionScroll extends ConsumerWidget {
         itemCount: _createAppointmentProvider.salonPromotions.length,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          PromotionModel _promo = _createAppointmentProvider.salonPromotions[index];
+          PromotionModel _promo =
+              _createAppointmentProvider.salonPromotions[index];
           debugPrint('--------------------------');
           debugPrint(_promo.toString());
 
           return Padding(
-            padding: EdgeInsets.only(right: DeviceConstraints.getResponsiveSize(context, 15, 18, 24)),
+            padding: EdgeInsets.only(
+                right:
+                    DeviceConstraints.getResponsiveSize(context, 15, 18, 24)),
             child: GestureDetector(
               // onTap: () {
               //   setState(() {

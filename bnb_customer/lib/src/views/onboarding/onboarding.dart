@@ -22,7 +22,6 @@ class _OnBoardingState extends ConsumerState<OnBoarding> {
   final PageController _pageController = PageController();
 
   int _currentIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     final AppProvider _appProvider = ref.read(appProvider);
@@ -39,28 +38,44 @@ class _OnBoardingState extends ConsumerState<OnBoarding> {
             children: [
               OnBoardingPage(
                 imageUrl: AppIcons.onboardingFirstPNG,
-                title: AppLocalizations.of(context)?.appointmentInAfewtaps ?? "Appointment in a few taps",
-                subtitle: AppLocalizations.of(context)?.quicklyChooseFromWide ?? "quickly choose from wide range of services near you,and some more text, here suggest in group",
+                title: AppLocalizations.of(context)?.appointmentInAfewtaps ??
+                    "Appointment in a few taps",
+                subtitle: AppLocalizations.of(context)?.quicklyChooseFromWide ??
+                    "quickly choose from wide range of services near you,and some more text, here suggest in group",
               ),
               OnBoardingPage(
                 imageUrl: AppIcons.onboardingSecondPNG,
-                title: AppLocalizations.of(context)?.chooseByServicesPriceDistanceRating ?? "Choose by services, price, distance, rating",
-                subtitle: AppLocalizations.of(context)?.viewAllDetailsAboutService ?? "view all the details about a service, and some more text, here suggest in group",
+                title: AppLocalizations.of(context)
+                        ?.chooseByServicesPriceDistanceRating ??
+                    "Choose by services, price, distance, rating",
+                subtitle: AppLocalizations.of(context)
+                        ?.viewAllDetailsAboutService ??
+                    "view all the details about a service, and some more text, here suggest in group",
               ),
               OnBoardingPage(
                 imageUrl: AppIcons.onboardingThirdPNG,
-                title: AppLocalizations.of(context)?.seeSalonNMastersArpundYou ?? "See salons and masters around you",
-                subtitle: AppLocalizations.of(context)?.viewAllTheTopSalons ?? "view all the top salons and masters around you",
+                title:
+                    AppLocalizations.of(context)?.seeSalonNMastersArpundYou ??
+                        "See salons and masters around you",
+                subtitle: AppLocalizations.of(context)?.viewAllTheTopSalons ??
+                    "view all the top salons and masters around you",
               ),
               OnBoardingPage(
                 imageUrl: AppIcons.onboardingFourthPNG,
-                title: AppLocalizations.of(context)?.chooseMasterSalonBasedOnRealReview ?? "Choose master or salon based on real reviews",
-                subtitle: AppLocalizations.of(context)?.weHaveHonestReviews ?? "we have honest reviews by real users",
+                title: AppLocalizations.of(context)
+                        ?.chooseMasterSalonBasedOnRealReview ??
+                    "Choose master or salon based on real reviews",
+                subtitle: AppLocalizations.of(context)?.weHaveHonestReviews ??
+                    "we have honest reviews by real users",
               ),
               OnBoardingPage(
                 imageUrl: AppIcons.onboardingFifthPNG,
-                title: AppLocalizations.of(context)?.dontEverMissAppointmentsWithOurNotifications ?? "Don’t ever miss appointments with our notifications",
-                subtitle: AppLocalizations.of(context)?.weWillMakeSureToRemind ?? "We will make sure to remind you, decide how many and when you want to get notified",
+                title: AppLocalizations.of(context)
+                        ?.dontEverMissAppointmentsWithOurNotifications ??
+                    "Don’t ever miss appointments with our notifications",
+                subtitle: AppLocalizations.of(context)
+                        ?.weWillMakeSureToRemind ??
+                    "We will make sure to remind you, decide how many and when you want to get notified",
               ),
             ],
           ),
@@ -82,7 +97,8 @@ class _OnBoardingState extends ConsumerState<OnBoarding> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
                 child: SizedBox(
                   height: 60,
                   child: Row(
@@ -99,24 +115,31 @@ class _OnBoardingState extends ConsumerState<OnBoarding> {
                       TextButton(
                         key: const ValueKey("policy"),
                         onPressed: () {
-                          html.window.open("https://bowandbeautiful.com/privacy", "_blank");
+                          html.window.open(
+                              "https://bowandbeautiful.com/privacy", "_blank");
                         },
                         child: Text(
-                          AppLocalizations.of(context)?.policy ?? "Privacy Policy",
+                          AppLocalizations.of(context)?.policy ??
+                              "Privacy Policy",
                           style: const TextStyle(fontWeight: FontWeight.w400),
                         ),
                       ),
                       TextButton(
                         onPressed: () async {
                           if (_currentIndex < 4) {
-                            _pageController.animateToPage(_currentIndex + 1, duration: const Duration(milliseconds: 300), curve: Curves.ease);
+                            _pageController.animateToPage(_currentIndex + 1,
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.ease);
                           } else {
                             _appProvider.setSalonFirstTime();
                           }
                         },
                         child: Row(
                           children: [
-                            Text(_currentIndex == 4 ? AppLocalizations.of(context)?.getStarted ?? "Get Started" : AppLocalizations.of(context)?.next ?? "Next"),
+                            Text(_currentIndex == 4
+                                ? AppLocalizations.of(context)?.getStarted ??
+                                    "Get Started"
+                                : AppLocalizations.of(context)?.next ?? "Next"),
                             const Icon(
                               Icons.arrow_forward,
                               size: 16,
@@ -141,7 +164,8 @@ class OnBoardingPage extends StatelessWidget {
   final String? title;
   final String? subtitle;
 
-  const OnBoardingPage({Key? key, this.imageUrl, this.title, this.subtitle}) : super(key: key);
+  const OnBoardingPage({Key? key, this.imageUrl, this.title, this.subtitle})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -157,19 +181,26 @@ class OnBoardingPage extends StatelessWidget {
         Expanded(
           flex: 1,
           child: Padding(
-            padding: EdgeInsets.only(bottom: 30.w, top: 16, left: 16, right: 16),
+            padding:
+                EdgeInsets.only(bottom: 30.w, top: 16, left: 16, right: 16),
             child: Column(
               children: [
                 Text(
                   title!,
-                  style: Theme.of(context).textTheme.headline1!.copyWith(fontSize: 22, fontWeight: FontWeight.w500),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline1!
+                      .copyWith(fontSize: 22, fontWeight: FontWeight.w500),
                   textAlign: TextAlign.center,
                 ),
                 const Space(),
                 // todo write more stuff title
                 Text(
                   subtitle!,
-                  style: Theme.of(context).textTheme.headline1!.copyWith(fontSize: 16, fontWeight: FontWeight.w500),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline1!
+                      .copyWith(fontSize: 16, fontWeight: FontWeight.w500),
                   textAlign: TextAlign.center,
                 ),
               ],
