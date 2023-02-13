@@ -1,18 +1,17 @@
+import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/firebase/appointments.dart';
 import 'package:bbblient/src/firebase/bonus_referral_api.dart';
 import 'package:bbblient/src/firebase/category_services.dart';
 import 'package:bbblient/src/firebase/collections.dart';
 import 'package:bbblient/src/firebase/customer.dart';
-import 'package:bbblient/src/firebase/integration/beauty_pro.dart';
 import 'package:bbblient/src/firebase/master.dart';
-import 'package:bbblient/src/firebase/promotion_service.dart';
-import 'package:bbblient/src/firebase/salons.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/backend_codings/appointment.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/backend_codings/payment_methods.dart';
 import 'package:bbblient/src/models/backend_codings/working_hours.dart';
 import 'package:bbblient/src/models/bonus_model.dart';
+import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
 import 'package:bbblient/src/models/cat_sub_service/price_and_duration.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/customer/customer.dart';
@@ -28,6 +27,7 @@ import 'package:bbblient/src/utils/time.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
@@ -102,6 +102,14 @@ class CreateAppointmentProvider with ChangeNotifier {
   BeautyProConfig? beautyProConfig;
   Status slotsStatus = Status.init;
 
+  String countryCode = '';
+  String otp = '';
+
+  List<CategoryModel> categoriesAvailable = [];
+  List<List<ServiceModel>> servicesAvailable = [];
+
+  static final AuthProvider _authProvider = AuthProvider();
+
   // TextField Controllers on `Book Now` Dialog
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -110,7 +118,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   // PageView Controller on `Confirmation` Tab Bar
   final PageController confirmationPageController = PageController();
 
-  void verifyControllers() {
+  void verifyControllers(BuildContext context) async {
     if (nameController.text.isEmpty) {
       showToast('Name field cannot be empty', duration: const Duration(seconds: 3));
       return;
@@ -121,8 +129,20 @@ class CreateAppointmentProvider with ChangeNotifier {
       return;
     }
 
-    // Required fields have been filled
-    nextPageView(1);
+    if (_authProvider.otpStatus != Status.loading) {
+      await _authProvider.verifyPhone(
+        context: context,
+        countryCode: countryCode,
+        phoneNumber: phoneController.text.trim(),
+      );
+    } else {
+      showToast(AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
+    }
+
+    if (_authProvider.otpStatus == Status.success) {
+      // Required fields have been filled
+      nextPageView(1);
+    }
   }
 
   void nextPageView(int index) {
@@ -133,7 +153,17 @@ class CreateAppointmentProvider with ChangeNotifier {
     );
   }
 
-  setSalon({required SalonModel salonModel, required BuildContext context, required List<ServiceModel> servicesFromSearch}) async {
+  void changeCountryCode(String value) {
+    countryCode = value;
+    notifyListeners();
+  }
+
+  void changeOtp(String value) {
+    otp = value;
+    notifyListeners();
+  }
+
+  setSalon({required SalonModel salonModel, required BuildContext context, required List<ServiceModel> servicesFromSearch, required List<CategoryModel> categories}) async {
     chosenSalon = salonModel;
     //set time slot interval
 
@@ -148,6 +178,26 @@ class CreateAppointmentProvider with ChangeNotifier {
     _initCrm(salonId: salonModel.salonId);
     clearSlotsAndSlotsRequired();
     setUpSlots(day: chosenDay, context: context, showNotWorkingToast: false);
+    getSalonServices(categories: categories);
+    notifyListeners();
+  }
+
+  getSalonServices({required List<CategoryModel> categories}) async {
+    for (CategoryModel cat in categories) {
+      if (categoryServicesMap[cat.categoryId.toString()] != null && categoryServicesMap[cat.categoryId.toString()]!.isNotEmpty) {
+        final CategoryModel categoryModel = categories
+            .where(
+              (element) => element.categoryId == cat.categoryId.toString(),
+            )
+            .first;
+
+        categoriesAvailable.add(categoryModel);
+        List<ServiceModel> services = categoryServicesMap[cat.categoryId.toString()] ?? [];
+
+        servicesAvailable.add(services);
+      }
+    }
+
     notifyListeners();
   }
 
@@ -768,10 +818,8 @@ class CreateAppointmentProvider with ChangeNotifier {
         print('salon masterrrr');
         Hours? workingHours;
 
-        if (chosenSalon!.irregularWorkingHours != null&& chosenSalon!.irregularWorkingHours!.containsKey(
-            DateFormat('yyyy-MM-dd').format(chosenDay).toString())) {
-            workingHours = chosenSalon!.irregularWorkingHours![DateFormat('yyyy-MM-dd').format(chosenDay).toString()];
-
+        if (chosenSalon!.irregularWorkingHours != null && chosenSalon!.irregularWorkingHours!.containsKey(DateFormat('yyyy-MM-dd').format(chosenDay).toString())) {
+          workingHours = chosenSalon!.irregularWorkingHours![DateFormat('yyyy-MM-dd').format(chosenDay).toString()];
         } else {
           workingHours = Time().getWorkingHoursFromWeekDay(
             chosenDay.weekday,

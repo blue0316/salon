@@ -10,7 +10,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // SHOW SERVICES FAB
 class FloatingBar extends ConsumerStatefulWidget {
   final bool master;
-  const FloatingBar({Key? key, this.master = false}) : super(key: key);
+  final int themeNo;
+  const FloatingBar({Key? key, required this.themeNo, this.master = false}) : super(key: key);
 
   @override
   _FloatingBarState createState() => _FloatingBarState();

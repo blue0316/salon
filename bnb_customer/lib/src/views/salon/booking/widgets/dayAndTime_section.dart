@@ -2,6 +2,7 @@
 
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
+import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -36,6 +37,11 @@ class _DialogDateAndTimeSectionState extends ConsumerState<DialogDateAndTimeSect
   @override
   Widget build(BuildContext context) {
     final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+
+    // final Theme a = AppTheme as Theme;
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+    bool defaultTheme = theme == AppTheme.lightTheme;
 
     return Padding(
       padding: EdgeInsets.symmetric(
@@ -67,12 +73,24 @@ class _DialogDateAndTimeSectionState extends ConsumerState<DialogDateAndTimeSect
                         rangeSelectionMode: RangeSelectionMode.disabled,
                         locale: AppLocalizations.of(context)?.localeName ?? 'en',
                         calendarStyle: CalendarStyle(
-                          defaultTextStyle: AppTheme.calTextStyle2,
-                          todayTextStyle: AppTheme.calTextStyle2,
-                          holidayTextStyle: AppTheme.calTextStyle2,
-                          weekendTextStyle: AppTheme.calTextStyle2,
-                          outsideTextStyle: AppTheme.calTextStyle2,
-                          disabledTextStyle: AppTheme.calTextStyle2,
+                          defaultTextStyle: AppTheme.calTextStyle2.copyWith(
+                            color: defaultTheme ? Colors.black : Colors.white,
+                          ),
+                          todayTextStyle: AppTheme.calTextStyle2.copyWith(
+                            color: defaultTheme ? Colors.black : Colors.white,
+                          ),
+                          holidayTextStyle: AppTheme.calTextStyle2.copyWith(
+                            color: defaultTheme ? Colors.black : Colors.white,
+                          ),
+                          weekendTextStyle: AppTheme.calTextStyle2.copyWith(
+                            color: defaultTheme ? Colors.black : Colors.white,
+                          ),
+                          outsideTextStyle: AppTheme.calTextStyle2.copyWith(
+                            color: defaultTheme ? Colors.black : Colors.white,
+                          ),
+                          disabledTextStyle: AppTheme.calTextStyle2.copyWith(
+                            color: defaultTheme ? Colors.black : Colors.white,
+                          ),
                           selectedTextStyle: Theme.of(context).textTheme.headline2!.copyWith(
                                 fontSize: 15,
                                 color: Colors.black,
@@ -80,7 +98,7 @@ class _DialogDateAndTimeSectionState extends ConsumerState<DialogDateAndTimeSect
                               ),
                           isTodayHighlighted: false,
                           selectedDecoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 239, 239, 239),
+                            color: defaultTheme ? const Color.fromARGB(255, 239, 239, 239) : theme.primaryColor,
                             shape: BoxShape.rectangle,
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -133,30 +151,32 @@ class _DialogDateAndTimeSectionState extends ConsumerState<DialogDateAndTimeSect
                         },
                         headerStyle: HeaderStyle(
                           headerMargin: const EdgeInsets.symmetric(vertical: 10),
-                          titleTextStyle: AppTheme.calTextStyle2,
+                          titleTextStyle: AppTheme.calTextStyle2.copyWith(
+                            color: defaultTheme ? Colors.black : Colors.white,
+                          ),
                           formatButtonVisible: false,
                           leftChevronMargin: EdgeInsets.only(left: 0.2.sw),
                           rightChevronMargin: EdgeInsets.only(right: 0.2.sw),
                           titleCentered: true,
-                          leftChevronIcon: const Icon(
+                          leftChevronIcon: Icon(
                             Icons.arrow_back_ios,
-                            color: Colors.black,
+                            color: defaultTheme ? Colors.black : theme.primaryColor,
                             size: 18,
                           ),
-                          rightChevronIcon: const Icon(
+                          rightChevronIcon: Icon(
                             Icons.arrow_forward_ios,
-                            color: Colors.black,
-                            key: ValueKey("next"),
+                            color: defaultTheme ? Colors.black : theme.primaryColor,
+                            key: const ValueKey("next"),
                             size: 18,
                           ),
                         ),
                       ),
-                      const Space(factor: 0.6),
+                      const Space(factor: 0.5),
                       const Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Divider(color: AppTheme.grey, thickness: 1.5),
                       ),
-                      const Space(factor: 1),
+                      const Space(factor: 0.6),
                       Column(
                         children: [
                           SizedBox(
@@ -192,6 +212,7 @@ class _DialogDateAndTimeSectionState extends ConsumerState<DialogDateAndTimeSect
                                     style: Theme.of(context).textTheme.bodyText1!.copyWith(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w400,
+                                          color: defaultTheme ? AppTheme.creamBrown : Colors.white,
                                         ),
                                   ),
                                 ),
@@ -204,7 +225,9 @@ class _DialogDateAndTimeSectionState extends ConsumerState<DialogDateAndTimeSect
                               alignment: Alignment.centerLeft,
                               child: Text(
                                 AppLocalizations.of(context)?.morning ?? "Morning",
-                                style: Theme.of(context).textTheme.bodyText1,
+                                style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                                      color: defaultTheme ? AppTheme.creamBrown : Colors.white,
+                                    ),
                               ),
                             ),
                             SizedBox(height: 12.h),
@@ -230,7 +253,9 @@ class _DialogDateAndTimeSectionState extends ConsumerState<DialogDateAndTimeSect
                               alignment: Alignment.centerLeft,
                               child: Text(
                                 AppLocalizations.of(context)?.afternoon ?? "Afternoon",
-                                style: Theme.of(context).textTheme.bodyText1,
+                                style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                                      color: defaultTheme ? AppTheme.creamBrown : Colors.white,
+                                    ),
                               ),
                             ),
                             SizedBox(height: 12.h),
@@ -256,7 +281,9 @@ class _DialogDateAndTimeSectionState extends ConsumerState<DialogDateAndTimeSect
                               alignment: Alignment.centerLeft,
                               child: Text(
                                 AppLocalizations.of(context)?.evening ?? "Evening",
-                                style: Theme.of(context).textTheme.bodyText1,
+                                style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                                      color: defaultTheme ? AppTheme.creamBrown : Colors.white,
+                                    ),
                               ),
                             ),
                             SizedBox(height: 12.h),
@@ -297,7 +324,8 @@ class _DialogDateAndTimeSectionState extends ConsumerState<DialogDateAndTimeSect
                 widget.createAppointment.createAppointment2(context: context);
                 widget.tabController.animateTo(2);
               },
-              color: Colors.black,
+              color: defaultTheme ? Colors.black : theme.primaryColor,
+              textColor: defaultTheme ? Colors.white : Colors.black,
               height: 60,
               label: 'Next step',
             ),

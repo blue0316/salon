@@ -1,12 +1,13 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
+import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/utils/keys.dart';
 import 'package:bbblient/src/utils/time.dart';
-import 'package:bbblient/src/views/salon/booking/widgets/confirmation_tab.dart/confirmed.dart';
+import 'package:bbblient/src/views/salon/booking/widgets/confirmation_tab.dart/confirmed_dialog.dart';
 import 'package:bbblient/src/views/salon/booking/widgets/confirmation_tab.dart/widgets.dart';
 import 'package:bbblient/src/views/widgets/buttons.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
@@ -29,6 +30,10 @@ class _OrderListState extends ConsumerState<OrderList> {
   @override
   Widget build(BuildContext context) {
     final CreateAppointmentProvider appointment = ref.watch(createAppointmentProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+    bool defaultTheme = theme == AppTheme.lightTheme;
 
     final String _date = Time().getLocaleDate(
       appointment.appointmentModel!.appointmentStartTime,
@@ -49,7 +54,10 @@ class _OrderListState extends ConsumerState<OrderList> {
             children: [
               Text(
                 "Order List",
-                style: AppTheme.bodyText1.copyWith(fontSize: 20.sp),
+                style: AppTheme.bodyText1.copyWith(
+                  fontSize: 20.sp,
+                  color: defaultTheme ? Colors.black : Colors.white,
+                ),
               ),
               SizedBox(height: 10.h),
               // Text(
@@ -87,11 +95,14 @@ class _OrderListState extends ConsumerState<OrderList> {
                     return Padding(
                       padding: EdgeInsets.symmetric(horizontal: 5.h),
                       child: Container(
-                        width: DeviceConstraints.getResponsiveSize(context, 175.w, 155.w, 105.w),
+                        width: DeviceConstraints.getResponsiveSize(context, 175.w, 160.w, 105.w),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: defaultTheme ? Colors.white : Colors.transparent,
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(width: 1.5, color: Colors.black),
+                          border: Border.all(
+                            width: 1.5,
+                            color: defaultTheme ? Colors.black : theme.primaryColor,
+                          ),
                         ),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
@@ -114,6 +125,7 @@ class _OrderListState extends ConsumerState<OrderList> {
                                       style: AppTheme.bodyText1.copyWith(
                                         fontWeight: FontWeight.w600,
                                         fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 16.sp, 16.sp),
+                                        color: defaultTheme ? Colors.black : Colors.white,
                                       ),
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: DeviceConstraints.getResponsiveSize(context, 2, 1, 1).toInt(),
@@ -124,6 +136,7 @@ class _OrderListState extends ConsumerState<OrderList> {
                                     "${service.priceAndDuration.price}${Keys.uah}",
                                     // service.isFixedPrice ? "${service.priceAndDuration.price}${Keys.uah}" : "${service.priceAndDuration.price}${Keys.uah} - ${service.priceAndDurationMax!.price}${Keys.uah}",
                                     style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                          color: defaultTheme ? Colors.black : Colors.white,
                                           fontWeight: FontWeight.w700,
                                           fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 16.sp, 16.sp),
                                         ),
@@ -145,7 +158,7 @@ class _OrderListState extends ConsumerState<OrderList> {
                                     child: Center(
                                       child: SvgPicture.asset(
                                         AppIcons.clockSVG,
-                                        color: AppTheme.black,
+                                        color: defaultTheme ? Colors.black : theme.primaryColor,
                                       ),
                                     ),
                                   ),
@@ -160,7 +173,10 @@ class _OrderListState extends ConsumerState<OrderList> {
                                   //     :
                                   Text(
                                     "${service.priceAndDuration.duration} minutes",
-                                    style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14.sp),
+                                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                          fontSize: 14.sp,
+                                          color: defaultTheme ? Colors.black : Colors.white,
+                                        ),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                   ),
@@ -203,6 +219,7 @@ class _OrderListState extends ConsumerState<OrderList> {
               Text(
                 "You choosed:",
                 style: AppTheme.bodyText1.copyWith(
+                  color: defaultTheme ? Colors.black : Colors.white,
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w600,
                 ),
@@ -216,10 +233,18 @@ class _OrderListState extends ConsumerState<OrderList> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Service:", style: AppTheme.bodyText1),
+                      Text(
+                        "Service:",
+                        style: AppTheme.bodyText1.copyWith(
+                          color: defaultTheme ? Colors.black : Colors.white,
+                        ),
+                      ),
                       Text(
                         "${appointment.appointmentModel!.services.length} ${AppLocalizations.of(context)?.services.toCapitalized() ?? "services"}",
-                        style: AppTheme.bodyText2.copyWith(fontSize: 15.sp),
+                        style: AppTheme.bodyText2.copyWith(
+                          fontSize: 15.sp,
+                          color: defaultTheme ? Colors.black : Colors.white,
+                        ),
                       ),
                     ],
                   ),
@@ -228,10 +253,18 @@ class _OrderListState extends ConsumerState<OrderList> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Date:", style: AppTheme.bodyText1),
+                      Text(
+                        "Date:",
+                        style: AppTheme.bodyText1.copyWith(
+                          color: defaultTheme ? Colors.black : Colors.white,
+                        ),
+                      ),
                       Text(
                         _date,
-                        style: AppTheme.bodyText2.copyWith(fontSize: 15.sp),
+                        style: AppTheme.bodyText2.copyWith(
+                          fontSize: 15.sp,
+                          color: defaultTheme ? Colors.black : Colors.white,
+                        ),
                       ),
                     ],
                   ),
@@ -240,10 +273,18 @@ class _OrderListState extends ConsumerState<OrderList> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Time:", style: AppTheme.bodyText1),
+                      Text(
+                        "Time:",
+                        style: AppTheme.bodyText1.copyWith(
+                          color: defaultTheme ? Colors.black : Colors.white,
+                        ),
+                      ),
                       Text(
                         _time,
-                        style: AppTheme.bodyText2.copyWith(fontSize: 15.sp),
+                        style: AppTheme.bodyText2.copyWith(
+                          fontSize: 15.sp,
+                          color: defaultTheme ? Colors.black : Colors.white,
+                        ),
                       ),
                     ],
                   ),
@@ -255,6 +296,7 @@ class _OrderListState extends ConsumerState<OrderList> {
                 style: AppTheme.bodyText1.copyWith(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w600,
+                  color: defaultTheme ? Colors.black : Colors.white,
                 ),
               ),
               const SizedBox(height: 10),
@@ -266,11 +308,17 @@ class _OrderListState extends ConsumerState<OrderList> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Order amount:", style: AppTheme.bodyText1),
+                      Text("Order amount:",
+                          style: AppTheme.bodyText1.copyWith(
+                            color: defaultTheme ? Colors.black : Colors.white,
+                          )),
                       const SizedBox(height: 2),
                       Text(
                         "${appointment.appointmentModel!.priceAndDuration.price} ${Keys.uah}",
-                        style: AppTheme.bodyText2.copyWith(fontSize: 15.sp),
+                        style: AppTheme.bodyText2.copyWith(
+                          fontSize: 15.sp,
+                          color: defaultTheme ? Colors.black : Colors.white,
+                        ),
                       ),
                     ],
                   ),
@@ -279,7 +327,10 @@ class _OrderListState extends ConsumerState<OrderList> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Discount 15%:", style: AppTheme.bodyText1),
+                      Text("Discount 15%:",
+                          style: AppTheme.bodyText1.copyWith(
+                            color: defaultTheme ? Colors.black : Colors.white,
+                          )),
                       Text(
                         "-\$00",
                         style: AppTheme.bodyText2.copyWith(
@@ -307,6 +358,7 @@ class _OrderListState extends ConsumerState<OrderList> {
                     style: AppTheme.bodyText1.copyWith(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w700,
+                      color: defaultTheme ? Colors.black : theme.primaryColor,
                     ),
                   ),
                   Text(
@@ -314,6 +366,7 @@ class _OrderListState extends ConsumerState<OrderList> {
                     style: AppTheme.bodyText1.copyWith(
                       fontSize: 17.sp,
                       fontWeight: FontWeight.w700,
+                      color: defaultTheme ? Colors.black : theme.primaryColor,
                     ),
                   ),
                 ],
@@ -323,11 +376,11 @@ class _OrderListState extends ConsumerState<OrderList> {
                 // height: 100,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Colors.grey[100],
+                  color: defaultTheme ? Colors.grey[100] : const Color(0XFF202020),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 15),
                   child: TermsOfServiceText(),
                 ),
               ),
@@ -336,13 +389,20 @@ class _OrderListState extends ConsumerState<OrderList> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Checkbox(
-                    value: acceptTerms,
-                    onChanged: (value) {
-                      setState(() {
-                        acceptTerms = !acceptTerms;
-                      });
-                    },
+                  Theme(
+                    data: Theme.of(context).copyWith(
+                      unselectedWidgetColor: defaultTheme ? Colors.black : Colors.white,
+                    ),
+                    child: Checkbox(
+                      checkColor: Colors.white,
+                      fillColor: MaterialStateProperty.all(theme.primaryColor),
+                      value: acceptTerms,
+                      onChanged: (value) {
+                        setState(() {
+                          acceptTerms = !acceptTerms;
+                        });
+                      },
+                    ),
                   ),
                   const SizedBox(width: 10),
                   Text(
@@ -350,6 +410,7 @@ class _OrderListState extends ConsumerState<OrderList> {
                     style: AppTheme.headLine1.copyWith(
                       fontSize: 15.sp,
                       fontWeight: FontWeight.normal,
+                      color: defaultTheme ? AppTheme.black : Colors.white,
                     ),
                   ),
                 ],
@@ -366,12 +427,21 @@ class _OrderListState extends ConsumerState<OrderList> {
               DefaultButton(
                 borderRadius: 60,
                 onTap: () {
+                  if (!acceptTerms) {
+                    // Terms Checkbox is unchecked
+                    showToast("Please agree to the terms and conditions");
+                    return;
+                  }
+
                   // Pop current dialog
                   Navigator.of(context).pop();
 
-                  const ConfirmedDialog().show(context);
+                  ConfirmedDialog(
+                    appointment: appointment.appointmentModel!,
+                  ).show(context);
                 },
-                color: Colors.black,
+                color: defaultTheme ? Colors.black : theme.primaryColor,
+                textColor: defaultTheme ? Colors.white : Colors.black,
                 height: 60,
                 label: 'Book',
               ),
@@ -379,9 +449,9 @@ class _OrderListState extends ConsumerState<OrderList> {
               DefaultButton(
                 borderRadius: 60,
                 onTap: () => appointment.nextPageView(1),
-                color: Colors.white,
-                borderColor: Colors.black,
-                textColor: Colors.black,
+                color: defaultTheme ? Colors.white : Colors.transparent,
+                borderColor: defaultTheme ? Colors.black : theme.primaryColor,
+                textColor: defaultTheme ? Colors.black : theme.primaryColor,
                 height: 60,
                 label: 'Back',
               ),

@@ -1,5 +1,7 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
+import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
@@ -22,6 +24,11 @@ class _VerificationState extends ConsumerState<Verification> {
   @override
   Widget build(BuildContext context) {
     final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
+    final AuthProvider _auth = AuthProvider();
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+    bool defaultTheme = theme == AppTheme.lightTheme;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,12 +41,15 @@ class _VerificationState extends ConsumerState<Verification> {
               )?.phoneNumber.toCapitalized() ?? "Phone number"}",
           style: AppTheme.bodyText1.copyWith(
             fontSize: 17.sp,
+            color: defaultTheme ? Colors.black : Colors.white,
           ),
         ),
         SizedBox(height: 10.h),
         Text(
           "Please enter verification code",
-          style: AppTheme.bodyText2.copyWith(),
+          style: AppTheme.bodyText2.copyWith(
+            color: defaultTheme ? Colors.black : Colors.white,
+          ),
         ),
         const Spacer(),
         Padding(
@@ -54,27 +64,33 @@ class _VerificationState extends ConsumerState<Verification> {
                   padding: EdgeInsets.symmetric(
                     horizontal: DeviceConstraints.getResponsiveSize(context, 10, 25.w, 40.w).toDouble(),
                   ),
-                  child: const OTPField9(color: Colors.black),
+                  child: OTPField9(),
                 ),
                 SizedBox(height: 12.h),
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: AppLocalizations.of(context)?.registration_line17.toCapitalized() ?? "Didn't Receive an OTP? ",
-                        style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                              color: AppTheme.lightGrey,
-                            ),
-                      ),
-                      const TextSpan(text: '   '),
-                      TextSpan(
-                        text: "Resend",
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                              fontSize: 15.sp,
-                              decoration: TextDecoration.underline,
-                            ),
-                      ),
-                    ],
+                GestureDetector(
+                  onTap: () {
+                    // _auth.otp = '';
+                  },
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: AppLocalizations.of(context)?.registration_line17.toCapitalized() ?? "Didn't Receive an OTP? ",
+                          style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                                color: defaultTheme ? AppTheme.lightGrey : Colors.white,
+                              ),
+                        ),
+                        const TextSpan(text: '   '),
+                        TextSpan(
+                          text: "Resend",
+                          style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                fontSize: 15.sp,
+                                decoration: TextDecoration.underline,
+                                color: defaultTheme ? Colors.black : Colors.white,
+                              ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -85,8 +101,13 @@ class _VerificationState extends ConsumerState<Verification> {
         const Spacer(),
         DefaultButton(
           borderRadius: 60,
-          onTap: () => _createAppointmentProvider.nextPageView(2),
-          color: Colors.black,
+          onTap: () {
+            _auth.checkOtp(_createAppointmentProvider.otp);
+
+            _createAppointmentProvider.nextPageView(2);
+          },
+          color: defaultTheme ? Colors.black : theme.primaryColor,
+          textColor: defaultTheme ? Colors.white : Colors.black,
           height: 60,
           label: 'Next step',
         ),
@@ -94,9 +115,9 @@ class _VerificationState extends ConsumerState<Verification> {
         DefaultButton(
           borderRadius: 60,
           onTap: () => _createAppointmentProvider.nextPageView(0),
-          color: Colors.white,
-          borderColor: Colors.black,
-          textColor: Colors.black,
+          color: defaultTheme ? Colors.white : Colors.transparent,
+          borderColor: defaultTheme ? Colors.black : theme.primaryColor,
+          textColor: defaultTheme ? Colors.black : theme.primaryColor,
           height: 60,
           label: 'Back',
         ),
