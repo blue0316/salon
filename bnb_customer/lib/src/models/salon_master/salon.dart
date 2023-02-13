@@ -4,6 +4,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../backend_codings/working_hours.dart';
 
+// { // POSSIBLE THEME FORMAT IN DATABSE ??
+//   '0': 'default',
+//   '1': 'solo-glam',
+//   '2': 'glam-barbershop',
+//   '3': 'glam-gradient',
+//   '4': 'barbershop',
+//   '5': 'glam-light',
+// }
+
 class SalonModel {
   late String salonId = '';
   late String salonName;
