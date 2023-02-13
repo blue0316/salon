@@ -21,10 +21,18 @@ class Verification extends ConsumerStatefulWidget {
 }
 
 class _VerificationState extends ConsumerState<Verification> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    ref.read(authProvider);
+  }
   @override
   Widget build(BuildContext context) {
     final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
-    final AuthProvider _auth = AuthProvider();
+    final AuthProvider _auth = ref.watch(authProvider);
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
@@ -101,8 +109,8 @@ class _VerificationState extends ConsumerState<Verification> {
         const Spacer(),
         DefaultButton(
           borderRadius: 60,
-          onTap: () {
-            _auth.checkOtp(_createAppointmentProvider.otp);
+          onTap: () async{
+            await _auth.checkOtp(_createAppointmentProvider.otp);
 
             _createAppointmentProvider.nextPageView(2);
           },

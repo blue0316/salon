@@ -108,7 +108,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   List<CategoryModel> categoriesAvailable = [];
   List<List<ServiceModel>> servicesAvailable = [];
 
-  static final AuthProvider _authProvider = AuthProvider();
+
 
   // TextField Controllers on `Book Now` Dialog
   TextEditingController nameController = TextEditingController();
@@ -118,7 +118,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   // PageView Controller on `Confirmation` Tab Bar
   final PageController confirmationPageController = PageController();
 
-  void verifyControllers(BuildContext context) async {
+  void verifyControllers(BuildContext context,AuthProvider _authProvider) async {
     if (nameController.text.isEmpty) {
       showToast('Name field cannot be empty', duration: const Duration(seconds: 3));
       return;

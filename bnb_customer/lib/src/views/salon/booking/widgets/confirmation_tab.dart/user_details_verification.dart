@@ -18,6 +18,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class UserDetailsVerification extends ConsumerWidget {
   const UserDetailsVerification({Key? key}) : super(key: key);
 
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var sizeHeight = MediaQuery.of(context).size.height;
@@ -172,7 +173,8 @@ class UserDetailsVerification extends ConsumerWidget {
                   showToast(AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
                 }
 
-                _createAppointmentProvider.verifyControllers(context);
+                _createAppointmentProvider.verifyControllers(context,_authProvider
+                );
               },
               color: defaultTheme ? Colors.black : theme.primaryColor,
               textColor: defaultTheme ? Colors.white : Colors.black,
