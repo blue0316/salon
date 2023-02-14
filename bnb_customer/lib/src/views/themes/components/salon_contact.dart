@@ -1,24 +1,26 @@
+import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
-import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/images.dart';
 import 'package:bbblient/src/views/themes/icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-class SalonContact extends StatefulWidget {
+class SalonContact extends ConsumerStatefulWidget {
   final SalonModel salonModel;
 
   const SalonContact({Key? key, required this.salonModel}) : super(key: key);
 
   @override
-  State<SalonContact> createState() => _SalonContactState();
+  ConsumerState<SalonContact> createState() => _SalonContactState();
 }
 
-class _SalonContactState extends State<SalonContact> with SingleTickerProviderStateMixin {
+class _SalonContactState extends ConsumerState<SalonContact> with SingleTickerProviderStateMixin {
   TabController? tabController;
 
   @override
@@ -38,6 +40,9 @@ class _SalonContactState extends State<SalonContact> with SingleTickerProviderSt
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
     final bool isSingleMaster = (widget.salonModel.ownerType == OwnerType.singleMaster);
 
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
@@ -49,7 +54,9 @@ class _SalonContactState extends State<SalonContact> with SingleTickerProviderSt
         children: [
           Text(
             "${isSingleMaster ? "" : "OUR "} CONTACTS",
-            style: GlamOneTheme.headLine2.copyWith(),
+            style: theme.textTheme.headline2?.copyWith(
+                // fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),
+                ),
           ),
           const SizedBox(height: 50),
           SizedBox(
@@ -110,11 +117,14 @@ class _SalonContactState extends State<SalonContact> with SingleTickerProviderSt
   }
 }
 
-class SocialNetwork extends StatelessWidget {
+class SocialNetwork extends ConsumerWidget {
   const SocialNetwork({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -123,7 +133,7 @@ class SocialNetwork extends StatelessWidget {
           "SOCIAL NETWORK",
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.left,
-          style: GlamOneTheme.headLine4.copyWith(
+          style: theme.textTheme.headline2?.copyWith(
             fontSize: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
           ),
         ),
@@ -135,19 +145,19 @@ class SocialNetwork extends StatelessWidget {
             SvgPicture.asset(
               ThemeIcons.insta,
               height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
-              color: GlamOneTheme.deepOrange,
+              color: theme.dividerColor,
             ),
             const SizedBox(width: 20),
             SvgPicture.asset(
               ThemeIcons.tiktok,
               height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
-              color: GlamOneTheme.deepOrange,
+              color: theme.dividerColor,
             ),
             const SizedBox(width: 20),
             SvgPicture.asset(
               ThemeIcons.whatsapp,
               height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
-              color: GlamOneTheme.deepOrange,
+              color: theme.dividerColor,
             ),
           ],
         ),
@@ -156,11 +166,14 @@ class SocialNetwork extends StatelessWidget {
   }
 }
 
-class VisitUs extends StatelessWidget {
+class VisitUs extends ConsumerWidget {
   const VisitUs({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -169,34 +182,38 @@ class VisitUs extends StatelessWidget {
           "VISIT US",
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.left,
-          style: GlamOneTheme.headLine4.copyWith(
+          style: theme.textTheme.headline2?.copyWith(
             fontSize: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
           ),
         ),
         const SizedBox(height: 10),
-        const ContactCard(icon: ThemeIcons.mail, value: "500 Brickell Av, Miami Fl 33131"),
+        const ContactCard(
+          icon: ThemeIcons.mail,
+          value: "500 Brickell Av, Miami Fl 33131",
+        ),
       ],
     );
   }
 }
 
-class ContactSection extends StatelessWidget {
+class ContactSection extends ConsumerWidget {
   const ContactSection({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
-          "Contact",
+          "Contact".toUpperCase(),
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.left,
-          style: GlamOneTheme.headLine4.copyWith(
+          style: theme.textTheme.headline2?.copyWith(
             fontSize: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
-
-            // fontWeight: FontWeight.w600,
           ),
         ),
         const SizedBox(height: 10),
@@ -207,12 +224,15 @@ class ContactSection extends StatelessWidget {
   }
 }
 
-class ContactCard extends StatelessWidget {
+class ContactCard extends ConsumerWidget {
   final String icon, value;
   const ContactCard({Key? key, required this.icon, required this.value}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 7),
       child: Row(
@@ -222,12 +242,13 @@ class ContactCard extends StatelessWidget {
           SvgPicture.asset(
             icon,
             height: DeviceConstraints.getResponsiveSize(context, 18.sp, 18.sp, 16.sp),
+            color: theme.primaryColorDark,
           ),
           const SizedBox(width: 15),
           Flexible(
             child: Text(
               value,
-              style: GlamOneTheme.bodyText1.copyWith(
+              style: theme.textTheme.bodyText1?.copyWith(
                 color: Colors.white,
                 fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 18.sp, 16.sp),
               ),

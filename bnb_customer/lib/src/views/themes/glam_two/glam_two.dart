@@ -2,6 +2,7 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/views/themes/components/header_image.dart';
 import 'package:bbblient/src/views/themes/components/salon_about.dart';
 import 'package:bbblient/src/views/themes/components/salon_contact.dart';
 import 'package:bbblient/src/views/themes/components/salon_promotions.dart';
@@ -23,7 +24,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class GlamBarbershop extends ConsumerStatefulWidget {
-  static const route = '/glam-one';
+  static const route = '/glam-babershop';
 
   // final SalonModel salonModel;
 
@@ -65,14 +66,8 @@ class _GlamBarbershopState extends ConsumerState<GlamBarbershop> {
                             alignment: Alignment.topCenter,
                             children: [
                               // TOP BACKGROUND IMAGE
-                              SizedBox(
-                                width: double.infinity,
-                                child: Image.asset(
-                                  // isPortrait ? ThemeImages.longBG : ThemeImages.shortBG,
-                                  ThemeImages.longBG,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
+                              const ThemeHeaderImage(image: ThemeImages.longBG),
+
                               SizedBox(
                                 child: Align(
                                   alignment: Alignment.topCenter,
@@ -82,7 +77,9 @@ class _GlamBarbershopState extends ConsumerState<GlamBarbershop> {
                                       mainAxisSize: MainAxisSize.min,
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        const CustomAppBar(),
+                                        CustomAppBar(
+                                          salonModel: _salonProfileProvider.chosenSalon,
+                                        ),
                                         SizedBox(height: 70.h),
                                         ThemeHeader(
                                           salonModel: _salonProfileProvider.chosenSalon,

@@ -1,18 +1,25 @@
-import 'package:bbblient/src/theme/glam_one.dart';
+import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class SalonSponsors extends StatelessWidget {
+class SalonSponsors extends ConsumerWidget {
   const SalonSponsors({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
+    // final int? themeNo = _salonProfileProvider.chosenSalon.selectedTheme;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 50),
       child: Column(
         children: [
-          const Divider(color: Color(0XFFF48B72), thickness: 2),
-          Container(
+          Divider(color: theme.dividerColor, thickness: 2),
+          SizedBox(
             height: 60,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
@@ -29,8 +36,8 @@ class SalonSponsors extends StatelessWidget {
                         padding: const EdgeInsets.only(right: 10),
                         child: Text(
                           tags[index],
-                          style: GlamOneTheme.bodyText1.copyWith(
-                            color: const Color(0XFFF48B72),
+                          style: theme.textTheme.bodyText1?.copyWith(
+                            color: theme.dividerColor,
                             fontSize: 18.sp,
                           ),
                         ),
@@ -38,7 +45,10 @@ class SalonSponsors extends StatelessWidget {
                       Container(
                         height: 8.h,
                         width: 8.h,
-                        decoration: const BoxDecoration(shape: BoxShape.circle, color: Color(0XFFF48B72)),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: theme.dividerColor,
+                        ),
                       ),
                     ],
                   ),
@@ -46,7 +56,7 @@ class SalonSponsors extends StatelessWidget {
               }),
             ),
           ),
-          const Divider(color: Color(0XFFF48B72), thickness: 2),
+          Divider(color: theme.dividerColor, thickness: 2),
         ],
       ),
     );

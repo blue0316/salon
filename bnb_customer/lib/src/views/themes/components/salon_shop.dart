@@ -1,19 +1,21 @@
-import 'package:bbblient/src/theme/glam_one.dart';
+import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/images.dart';
 import 'package:bbblient/src/views/themes/icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class SalonShop extends StatefulWidget {
+class SalonShop extends ConsumerStatefulWidget {
   const SalonShop({Key? key}) : super(key: key);
 
   @override
-  State<SalonShop> createState() => _SalonShopState();
+  ConsumerState<SalonShop> createState() => _SalonShopState();
 }
 
-class _SalonShopState extends State<SalonShop> with SingleTickerProviderStateMixin {
+class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProviderStateMixin {
   TabController? shopTabController;
 
   @override
@@ -30,6 +32,9 @@ class _SalonShopState extends State<SalonShop> with SingleTickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
     return Padding(
       padding: EdgeInsets.only(
         left: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
@@ -47,7 +52,7 @@ class _SalonShopState extends State<SalonShop> with SingleTickerProviderStateMix
             children: [
               Text(
                 "SHOP",
-                style: GlamOneTheme.headLine2.copyWith(
+                style: theme.textTheme.headline2?.copyWith(
                   fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),
                 ),
               ),
@@ -55,15 +60,27 @@ class _SalonShopState extends State<SalonShop> with SingleTickerProviderStateMix
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SvgPicture.asset(
-                    ThemeIcons.leftArrow,
-                    height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
-                  ),
+                  (_salonProfileProvider.chosenSalon.selectedTheme != 2)
+                      ? SvgPicture.asset(
+                          ThemeIcons.leftArrow,
+                          height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                        )
+                      : Icon(
+                          Icons.arrow_back,
+                          size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                          color: Colors.white,
+                        ),
                   SizedBox(width: DeviceConstraints.getResponsiveSize(context, 15, 30, 40)),
-                  SvgPicture.asset(
-                    ThemeIcons.rightArrow,
-                    height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
-                  ),
+                  (_salonProfileProvider.chosenSalon.selectedTheme != 2)
+                      ? SvgPicture.asset(
+                          ThemeIcons.rightArrow,
+                          height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                        )
+                      : Icon(
+                          Icons.arrow_forward,
+                          size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                          color: Colors.white,
+                        ),
                 ],
               ),
             ],
@@ -75,21 +92,24 @@ class _SalonShopState extends State<SalonShop> with SingleTickerProviderStateMix
               alignment: Alignment.centerLeft,
               child: SizedBox(
                 height: 60.h,
-                child: TabBar(
-                  controller: shopTabController,
-                  unselectedLabelColor: GlamOneTheme.primaryColor,
-                  labelColor: GlamOneTheme.deepOrange,
-                  labelStyle: GlamOneTheme.bodyText1.copyWith(
-                    color: GlamOneTheme.deepOrange,
-                    fontWeight: FontWeight.w600,
+                child: Theme(
+                  data: theme,
+                  child: TabBar(
+                    controller: shopTabController,
+                    // unselectedLabelColor: theme.primaryColor,
+                    // labelColor: GlamOneTheme.deepOrange,
+                    // labelStyle: theme.textTheme.bodyText1?.copyWith(
+                    //   color: GlamOneTheme.deepOrange,
+                    //   fontWeight: FontWeight.w600,
+                    // ),
+                    // indicatorColor: GlamOneTheme.deepOrange,
+                    isScrollable: true,
+                    tabs: const [
+                      Tab(text: 'All'),
+                      Tab(text: 'Hair'),
+                      Tab(text: 'Makeup'),
+                    ],
                   ),
-                  indicatorColor: GlamOneTheme.deepOrange,
-                  isScrollable: true,
-                  tabs: const [
-                    Tab(text: 'All'),
-                    Tab(text: 'Hair'),
-                    Tab(text: 'Makeup'),
-                  ],
                 ),
               ),
             ),
@@ -144,7 +164,7 @@ class _SalonShopState extends State<SalonShop> with SingleTickerProviderStateMix
   }
 }
 
-class ShopCard extends StatelessWidget {
+class ShopCard extends ConsumerWidget {
   final String itemTitle, itemImage, itemAmount;
 
   const ShopCard({
@@ -155,7 +175,11 @@ class ShopCard extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+    final int? themeNo = _salonProfileProvider.chosenSalon.selectedTheme;
+
     return Padding(
       padding: const EdgeInsets.only(right: 20),
       child: SizedBox(
@@ -176,16 +200,16 @@ class ShopCard extends StatelessWidget {
               children: [
                 Text(
                   itemTitle,
-                  style: GlamOneTheme.bodyText1.copyWith(
-                    color: GlamOneTheme.deepOrange,
+                  style: theme.textTheme.bodyText1?.copyWith(
+                    color: theme.primaryColorDark,
                     fontSize: 14.sp,
                   ),
                 ),
                 // Spacer(),
                 Text(
                   itemAmount,
-                  style: GlamOneTheme.headLine3.copyWith(
-                    color: GlamOneTheme.primaryColor,
+                  style: theme.textTheme.headline3?.copyWith(
+                    color: theme.primaryColorLight,
                     fontSize: 14.sp,
                     letterSpacing: 1,
                   ),

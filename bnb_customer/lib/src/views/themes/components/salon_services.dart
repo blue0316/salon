@@ -1,4 +1,5 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
@@ -7,10 +8,11 @@ import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/keys.dart';
 import 'package:bbblient/src/views/salon/booking/booking_dialog.dart';
+import 'package:bbblient/src/views/themes/components/widgets.dart/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:bbblient/src/views/themes/glam_one/core/utils/oval_button.dart';
+import 'package:bbblient/src/views/themes/components/widgets.dart/oval_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SalonPrice extends ConsumerStatefulWidget {
@@ -46,6 +48,8 @@ class _SalonPriceState extends ConsumerState<SalonPrice> with SingleTickerProvid
   @override
   Widget build(BuildContext context) {
     final _createAppointmentProvider = ref.read(createAppointmentProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
 
     // Check if Salon is a single master
     final bool isSingleMaster = (widget.salonModel.ownerType == OwnerType.singleMaster);
@@ -65,7 +69,7 @@ class _SalonPriceState extends ConsumerState<SalonPrice> with SingleTickerProvid
           children: [
             Text(
               "${isSingleMaster ? "" : "OUR "}PRICE",
-              style: GlamOneTheme.headLine2.copyWith(),
+              style: theme.textTheme.headline2?.copyWith(),
             ),
 
             const SizedBox(height: 50),
@@ -77,13 +81,13 @@ class _SalonPriceState extends ConsumerState<SalonPrice> with SingleTickerProvid
                   height: 60.h,
                   child: TabBar(
                     controller: tabController,
-                    unselectedLabelColor: GlamOneTheme.primaryColor,
+                    unselectedLabelColor: theme.primaryColor,
                     labelColor: Colors.black,
-                    labelStyle: GlamOneTheme.bodyText1.copyWith(
+                    labelStyle: theme.textTheme.bodyText1?.copyWith(
                       color: Colors.black,
                       fontWeight: FontWeight.w600,
                     ),
-                    indicator: const BoxDecoration(color: GlamOneTheme.primaryColor),
+                    indicator: BoxDecoration(color: theme.primaryColor),
                     isScrollable: true,
                     labelPadding: const EdgeInsets.symmetric(horizontal: 50),
                     tabs: _createAppointmentProvider.categoriesAvailable
@@ -147,8 +151,8 @@ class ServiceAndPrice extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final _salonProfileProvider = ref.watch(salonProfileProvider);
-    // final _salonSearchProvider = ref.watch(salonSearchProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
 
     return SizedBox(
       // height: 100,
@@ -162,16 +166,16 @@ class ServiceAndPrice extends ConsumerWidget {
             children: [
               Text(
                 'SERVICE',
-                style: GlamOneTheme.headLine3.copyWith(
-                  color: GlamOneTheme.primaryColor,
+                style: theme.textTheme.headline3?.copyWith(
+                  color: theme.primaryColor,
                   fontSize: 20.sp,
                   letterSpacing: 1,
                 ),
               ),
               Text(
                 'PRICE',
-                style: GlamOneTheme.headLine3.copyWith(
-                  color: GlamOneTheme.primaryColor,
+                style: theme.textTheme.headline3?.copyWith(
+                  color: theme.primaryColor,
                   fontSize: 20.sp,
                   letterSpacing: 1,
                 ),
@@ -191,13 +195,21 @@ class ServiceAndPrice extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 35),
-          OvalButton(
-            width: 180.h,
-            height: 60.h,
-            textSize: 18.sp,
-            text: 'Book Now',
-            onTap: () => const BookingDialogWidget().show(context),
-          ),
+          (_salonProfileProvider.chosenSalon.selectedTheme == 2)
+              ? SquareButton(
+                  text: 'BOOK NOW',
+                  height: 60.h,
+                  buttonColor: theme.primaryColor,
+                  borderColor: Colors.transparent,
+                  onTap: () {},
+                )
+              : OvalButton(
+                  width: 180.h,
+                  height: 60.h,
+                  textSize: 18.sp,
+                  text: 'Book Now',
+                  onTap: () => const BookingDialogWidget().show(context),
+                )
         ],
       ),
     );
@@ -212,6 +224,8 @@ class ServiceTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
@@ -241,8 +255,8 @@ class ServiceTile extends ConsumerWidget {
                       children: [
                         Text(
                           service.translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
-                          style: GlamOneTheme.bodyText1.copyWith(
-                            color: GlamOneTheme.primaryColor,
+                          style: theme.textTheme.bodyText1?.copyWith(
+                            color: theme.primaryColor,
                             fontSize: 15.sp,
                           ),
                         ),
@@ -250,13 +264,17 @@ class ServiceTile extends ConsumerWidget {
                         Icon(
                           Icons.check,
                           size: 20.sp,
-                          color: _createAppointmentProvider.isAdded(serviceModel: service) ? GlamOneTheme.deepOrange : Colors.transparent,
+                          color: _createAppointmentProvider.isAdded(
+                            serviceModel: service,
+                          )
+                              ? theme.primaryColorDark //  GlamOneTheme.deepOrange
+                              : Colors.transparent,
                         ),
                       ],
                     ),
                     Text(
                       service.isFixedPrice ? "${service.priceAndDuration.price}${Keys.uah}" : "${service.priceAndDuration.price}${Keys.uah} - ${service.priceAndDurationMax!.price}${Keys.uah}",
-                      style: GlamOneTheme.bodyText1.copyWith(
+                      style: theme.textTheme.bodyText1?.copyWith(
                         color: Colors.white,
                         fontSize: 15.sp,
                       ),
@@ -264,8 +282,8 @@ class ServiceTile extends ConsumerWidget {
                   ],
                 ),
                 const SizedBox(height: 10),
-                const Divider(
-                  color: GlamOneTheme.primaryColor,
+                Divider(
+                  color: theme.primaryColor,
                   thickness: 2,
                 ),
               ],

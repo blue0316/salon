@@ -1,6 +1,8 @@
 // ignore_for_file: use_full_hex_values_for_flutter_colors
 
+import 'package:bbblient/src/theme/glam_barbershop.dart';
 import 'package:bbblient/src/theme/glam_one.dart';
+import 'package:bbblient/src/views/themes/glam_two/glam_two.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -280,29 +282,34 @@ class AppTheme {
     hoverColor: milkeyGreyDark,
   );
 
+  // Theme 1
   static final ThemeData glamOneTheme = ThemeData(
     primaryColor: GlamOneTheme.primaryColor,
+    primaryColorDark: GlamOneTheme.deepOrange,
+    primaryColorLight: GlamOneTheme.primaryColor,
+    // backgroundColor: GlamOneTheme.primaryColor,
     scaffoldBackgroundColor: Colors.black,
     textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
-    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      backgroundColor: Colors.white,
-      elevation: 1.2,
-    ),
+
     tabBarTheme: TabBarTheme(
-      unselectedLabelColor: Colors.white,
-      labelColor: Colors.black,
-      indicator: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
-        color: GlamOneTheme.primaryColor,
+      unselectedLabelColor: GlamOneTheme.primaryColor,
+      labelColor: GlamOneTheme.deepOrange,
+      labelStyle: GlamBarberShopTheme.bodyText1.copyWith(
+        color: GlamOneTheme.deepOrange,
+        fontWeight: FontWeight.w600,
+      ),
+      indicator: const BoxDecoration(
+        border: Border(bottom: BorderSide(width: 1.5, color: GlamOneTheme.deepOrange)),
       ),
     ),
-    inputDecorationTheme: InputDecorationTheme(hintStyle: hintStyle),
     dialogBackgroundColor: Colors.black,
+    cardColor: GlamOneTheme.primaryColor,
     colorScheme: ColorScheme(
       primary: (Colors.pink[900])!,
-      secondary: creamBrownLight,
+      secondary: Colors.black, // Color of title text on cards
+      onSecondaryContainer: Colors.black, // Color of sub text on cards
       surface: Colors.white,
-      background: milkeyGrey,
+      background: GlamOneTheme.primaryColor,
       error: redishPink,
       onPrimary: (Colors.green[900])!,
       onSecondary: creamBrownLight,
@@ -322,6 +329,7 @@ class AppTheme {
       bodyText2: GlamOneTheme.bodyText2,
       //text-field style
       subtitle1: GlamOneTheme.subTitle1,
+      subtitle2: GlamOneTheme.subTitle2, // Sub text under a section title in a section container
     ),
     appBarTheme: AppBarTheme(
       backgroundColor: Colors.white,
@@ -330,7 +338,110 @@ class AppTheme {
         color: textBlack,
       ),
     ),
+
+    dividerColor: const Color(0XFFF48B72),
+
+    inputDecorationTheme: InputDecorationTheme(
+      labelStyle: GlamOneTheme.bodyText1.copyWith(color: Colors.black),
+      border: OutlineInputBorder(
+        borderSide: const BorderSide(color: Colors.black, width: 1),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: const BorderSide(color: Colors.black, width: 1),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: const BorderSide(color: Colors.black, width: 1),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      hintStyle: GlamOneTheme.bodyText1.copyWith(color: Colors.black),
+    ),
+
+    // Stop
+    focusColor: lightGrey,
+    highlightColor: milkeyGreyDark,
+    splashColor: milkeyGreyDark,
+    hoverColor: milkeyGreyDark,
+  );
+
+  // Theme 2
+  static final ThemeData barbershopTheme = ThemeData(
+    primaryColor: GlamBarberShopTheme.primaryColor,
+    primaryColorDark: GlamBarberShopTheme.primaryColor,
+    primaryColorLight: Colors.white,
+
+    // backgroundColor: Colors.black,
+    scaffoldBackgroundColor: Colors.black,
+    textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
+
+    tabBarTheme: TabBarTheme(
+      unselectedLabelColor: Colors.white,
+      labelColor: GlamBarberShopTheme.primaryColor,
+      labelStyle: GlamBarberShopTheme.bodyText1.copyWith(
+        color: GlamBarberShopTheme.primaryColor,
+        fontWeight: FontWeight.w600,
+      ),
+      indicator: const BoxDecoration(
+        border: Border(bottom: BorderSide(width: 1.5, color: Colors.white)),
+      ),
+    ),
+    dialogBackgroundColor: Colors.black,
+    cardColor: Colors.black,
+    colorScheme: ColorScheme(
+      primary: (Colors.pink[900])!,
+      secondary: GlamBarberShopTheme.primaryColor, // Color of title text on cards
+      onSecondaryContainer: Colors.white, // Color of sub text on cards
+
+      surface: Colors.white,
+      background: Colors.black,
+      error: redishPink,
+      onPrimary: (Colors.green[900])!,
+      onSecondary: creamBrownLight,
+      onSurface: lightGrey,
+      onBackground: lightGrey,
+      onError: redishPink,
+      brightness: Brightness.light,
+    ),
+    textTheme: TextTheme(
+      headline1: GlamBarberShopTheme.headLine1,
+      headline2: GlamBarberShopTheme.headLine2,
+      headline3: GlamBarberShopTheme.headLine3,
+      headline4: GlamBarberShopTheme.headLine4,
+      headline5: GlamBarberShopTheme.headLine5,
+
+      bodyText1: GlamBarberShopTheme.bodyText1,
+      bodyText2: GlamBarberShopTheme.bodyText2,
+      //text-field style
+      subtitle1: GlamBarberShopTheme.subTitle1,
+      subtitle2: GlamBarberShopTheme.subTitle2, // Sub text under a section title in a section container
+    ),
     dividerColor: Colors.white,
+
+    inputDecorationTheme: InputDecorationTheme(
+      labelStyle: GlamBarberShopTheme.bodyText1.copyWith(color: Colors.white),
+      border: const OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.white, width: 1),
+      ),
+      enabledBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.white, width: 1),
+      ),
+      focusedBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.white, width: 1),
+      ),
+      hintStyle: GlamBarberShopTheme.bodyText1.copyWith(color: Colors.white),
+    ),
+    hintColor: Colors.white,
+
+    // Stop
+
+    appBarTheme: AppBarTheme(
+      backgroundColor: Colors.white,
+      titleTextStyle: bodyText1,
+      iconTheme: const IconThemeData(
+        color: textBlack,
+      ),
+    ),
     focusColor: lightGrey,
     highlightColor: milkeyGreyDark,
     splashColor: milkeyGreyDark,

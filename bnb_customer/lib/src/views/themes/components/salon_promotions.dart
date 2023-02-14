@@ -1,19 +1,26 @@
+import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/views/themes/components/widgets.dart/button.dart';
 import 'package:bbblient/src/views/themes/images.dart';
 import 'package:bbblient/src/views/themes/icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:bbblient/src/views/themes/glam_one/core/utils/oval_button.dart';
+import 'package:bbblient/src/views/themes/components/widgets.dart/oval_button.dart';
 
-class SalonPromotions extends StatelessWidget {
+class SalonPromotions extends ConsumerWidget {
   const SalonPromotions({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
 
     return Padding(
       padding: EdgeInsets.only(
@@ -31,21 +38,33 @@ class SalonPromotions extends StatelessWidget {
             children: [
               Text(
                 "PROMOTIONS",
-                style: GlamOneTheme.headLine2.copyWith(
+                style: theme.textTheme.headline2?.copyWith(
                   fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),
                 ),
               ),
               Row(
                 children: [
-                  SvgPicture.asset(
-                    ThemeIcons.leftArrow,
-                    height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
-                  ),
+                  (_salonProfileProvider.chosenSalon.selectedTheme != 2)
+                      ? SvgPicture.asset(
+                          ThemeIcons.leftArrow,
+                          height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                        )
+                      : Icon(
+                          Icons.arrow_back,
+                          size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                          color: Colors.white,
+                        ),
                   SizedBox(width: DeviceConstraints.getResponsiveSize(context, 15, 30, 40)),
-                  SvgPicture.asset(
-                    ThemeIcons.rightArrow,
-                    height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
-                  ),
+                  (_salonProfileProvider.chosenSalon.selectedTheme != 2)
+                      ? SvgPicture.asset(
+                          ThemeIcons.rightArrow,
+                          height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                        )
+                      : Icon(
+                          Icons.arrow_forward,
+                          size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                          color: Colors.white,
+                        ),
                 ],
               ),
             ],
@@ -68,22 +87,32 @@ class SalonPromotions extends StatelessWidget {
                         children: [
                           Text(
                             "Discounts 15%".toUpperCase(),
-                            style: GlamOneTheme.headLine3.copyWith(
+                            style: theme.textTheme.headline3?.copyWith(
                               color: GlamOneTheme.deepOrange,
                               fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 25.sp, 35.sp),
                             ),
                           ),
                           Text(
                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad litora torquent.",
-                            style: GlamOneTheme.bodyText2.copyWith(
+                            style: theme.textTheme.bodyText2?.copyWith(
                               color: Colors.white,
                               fontSize: 15.sp,
                             ),
                           ),
-                          OvalButton(
-                            text: 'Get a discount',
-                            onTap: () {},
-                          ),
+                          (_salonProfileProvider.chosenSalon.selectedTheme == 2)
+                              ? SquareButton(
+                                  text: 'GET A DISCOUNT',
+                                  height: 50.h,
+                                  buttonColor: Colors.transparent,
+                                  borderColor: Colors.white,
+                                  textColor: Colors.white,
+                                  textSize: 15.sp,
+                                  onTap: () {},
+                                )
+                              : OvalButton(
+                                  text: 'Get a discount',
+                                  onTap: () {},
+                                ),
                         ],
                       ),
                     ),
@@ -112,7 +141,7 @@ class SalonPromotions extends StatelessWidget {
                                   children: [
                                     Text(
                                       "Discounts 15%".toUpperCase(),
-                                      style: GlamOneTheme.headLine3.copyWith(
+                                      style: theme.textTheme.headline3?.copyWith(
                                         color: GlamOneTheme.deepOrange,
                                         fontSize: 30.sp,
                                       ),
@@ -121,7 +150,7 @@ class SalonPromotions extends StatelessWidget {
                                       width: 200.w,
                                       child: Text(
                                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad litora torquent.",
-                                        style: GlamOneTheme.bodyText2.copyWith(
+                                        style: theme.textTheme.bodyText2?.copyWith(
                                           color: Colors.white,
                                           fontSize: 15.sp,
                                         ),
@@ -142,7 +171,7 @@ class SalonPromotions extends StatelessWidget {
                               ),
                               Text(
                                 _samples[index]['title'],
-                                style: GlamOneTheme.headLine3.copyWith(
+                                style: theme.textTheme.headline3?.copyWith(
                                   color: GlamOneTheme.primaryColor,
                                   fontSize: 20.sp,
                                   letterSpacing: 1.1,
@@ -161,13 +190,24 @@ class SalonPromotions extends StatelessWidget {
           if (isPortrait) const SizedBox(height: 30),
           if (isPortrait)
             Center(
-              child: OvalButton(
-                width: 180.h,
-                height: 60.h,
-                textSize: 18.sp,
-                text: 'Get a discount',
-                onTap: () {},
-              ),
+              child: (_salonProfileProvider.chosenSalon.selectedTheme == 2)
+                  ? SquareButton(
+                      text: 'GET A DISCOUNT',
+                      height: 50.h,
+                      width: 250.h,
+                      buttonColor: Colors.transparent,
+                      borderColor: Colors.white,
+                      textColor: Colors.white,
+                      textSize: 15.sp,
+                      onTap: () {},
+                    )
+                  : OvalButton(
+                      width: 180.h,
+                      height: 60.h,
+                      textSize: 18.sp,
+                      text: 'Get a discount',
+                      onTap: () {},
+                    ),
             ),
         ],
       ),

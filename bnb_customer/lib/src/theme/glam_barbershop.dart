@@ -3,12 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class GlamOneTheme {
-  static const primaryColor = Color(0XFFFFC692);
-  static const deepOrange = Color(0XFFF48B72);
+class GlamBarberShopTheme {
+  static const primaryColor = Color(0XFFDDC686);
 
   static final TextStyle headLine1 = TextStyle(
-    fontFamily: "VASQUZ",
+    fontFamily: "VASQUZ", // TODO: CHANGE TO UNDERRATED
     fontSize: 100.sp,
     fontWeight: FontWeight.w600,
     color: primaryColor,
@@ -83,12 +82,11 @@ class GlamOneTheme {
     fontWeight: FontWeight.w500,
   );
 
-  // Sub Text under a Section Title
   static final TextStyle subTitle2 = TextStyle(
     fontFamily: "Gilroy",
     fontSize: 17.5.sp,
     fontWeight: FontWeight.w400,
-    color: Colors.black,
+    color: Colors.white,
   );
 
   static const BoxDecoration orangeGradient = BoxDecoration(

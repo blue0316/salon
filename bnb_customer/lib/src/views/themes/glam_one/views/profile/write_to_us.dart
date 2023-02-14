@@ -1,20 +1,23 @@
+import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/views/themes/components/widgets.dart/button.dart';
 import 'package:bbblient/src/views/themes/images.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/profile/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:bbblient/src/views/themes/glam_one/core/utils/custom_button.dart';
 
-class WriteToUs extends StatefulWidget {
+class WriteToUs extends ConsumerStatefulWidget {
   const WriteToUs({Key? key}) : super(key: key);
 
   @override
-  State<WriteToUs> createState() => _WriteToUsState();
+  ConsumerState<WriteToUs> createState() => _WriteToUsState();
 }
 
-class _WriteToUsState extends State<WriteToUs> {
+class _WriteToUsState extends ConsumerState<WriteToUs> {
   TextEditingController group2816Controller = TextEditingController();
 
   TextEditingController group2747Controller = TextEditingController();
@@ -27,11 +30,15 @@ class _WriteToUsState extends State<WriteToUs> {
   Widget build(BuildContext context) {
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
 
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+    final int? themeNo = _salonProfileProvider.chosenSalon.selectedTheme;
+
     return Form(
       key: _formKey,
       child: Container(
         width: double.infinity,
-        color: const Color(0XFFFFC692),
+        color: theme.cardColor,
         child: Padding(
           padding: EdgeInsets.symmetric(
             horizontal: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
@@ -44,8 +51,8 @@ class _WriteToUsState extends State<WriteToUs> {
               Text(
                 "Write to us and we will help you decide on the service".toUpperCase(),
                 textAlign: TextAlign.center,
-                style: GlamOneTheme.headLine2.copyWith(
-                  color: Colors.black,
+                style: theme.textTheme.headline2?.copyWith(
+                  color: theme.colorScheme.secondary,
                   fontWeight: FontWeight.w600,
                   fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 45.sp, 60.sp),
                 ),
@@ -74,12 +81,12 @@ class _WriteToUsState extends State<WriteToUs> {
                               children: [
                                 TextSpan(
                                   text: "Name",
-                                  style: GlamOneTheme.bodyText2.copyWith(color: Colors.black),
+                                  style: theme.textTheme.subtitle2?.copyWith(fontSize: 15.sp),
                                 ),
                                 TextSpan(
-                                  text: "*",
-                                  style: GlamOneTheme.bodyText2.copyWith(
-                                    color: GlamOneTheme.deepOrange,
+                                  text: " *",
+                                  style: theme.textTheme.bodyText2?.copyWith(
+                                    color: theme.primaryColor,
                                     fontWeight: FontWeight.w800,
                                   ),
                                 ),
@@ -107,12 +114,12 @@ class _WriteToUsState extends State<WriteToUs> {
                               children: [
                                 TextSpan(
                                   text: "Phone",
-                                  style: GlamOneTheme.bodyText2.copyWith(color: Colors.black),
+                                  style: theme.textTheme.subtitle2?.copyWith(fontSize: 15.sp),
                                 ),
                                 TextSpan(
-                                  text: "*",
+                                  text: " *",
                                   style: GlamOneTheme.bodyText2.copyWith(
-                                    color: GlamOneTheme.deepOrange,
+                                    color: theme.primaryColor,
                                     fontWeight: FontWeight.w800,
                                   ),
                                 ),
@@ -140,12 +147,12 @@ class _WriteToUsState extends State<WriteToUs> {
                               children: [
                                 TextSpan(
                                   text: "Email",
-                                  style: GlamOneTheme.bodyText2.copyWith(color: Colors.black),
+                                  style: theme.textTheme.subtitle2?.copyWith(fontSize: 15.sp),
                                 ),
                                 TextSpan(
-                                  text: "*",
-                                  style: GlamOneTheme.bodyText2.copyWith(
-                                    color: GlamOneTheme.deepOrange,
+                                  text: " *",
+                                  style: theme.textTheme.bodyText2?.copyWith(
+                                    color: theme.primaryColor,
                                     fontWeight: FontWeight.w800,
                                   ),
                                 ),
@@ -166,13 +173,26 @@ class _WriteToUsState extends State<WriteToUs> {
                       const SizedBox(height: 20),
                       Align(
                         alignment: Alignment.center,
-                        child: CustomButton(
+                        child: SquareButton(
                           height: 51,
                           width: (isPortrait) ? 350.w : 70.w,
                           text: "Submit an inquiry",
-                          margin: const EdgeInsets.only(top: 30, bottom: 5),
-                          variant: ButtonVariant.FillDeeporange300,
+                          onTap: () {},
+                          buttonColor: theme.primaryColorDark,
+                          borderColor: theme.primaryColorDark,
+                          borderRadius: (themeNo == 2) ? 0 : 25,
                         ),
+                        // child: CustomButton(
+                        //   height: 51,
+                        //   width: (isPortrait) ? 350.w : 70.w,
+                        //   text: "Submit an inquiry",
+                        //   margin: const EdgeInsets.only(top: 30, bottom: 5),
+                        //   variant: ButtonVariant.FillDeeporange300,
+
+                        // ),
+
+                        //  (_salonProfileProvider.chosenSalon.selectedTheme == 2)
+                        //       ?
                       ),
                     ],
                   ),

@@ -7,6 +7,7 @@ import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/themes/glam_one/glam_one.dart';
+import 'package:bbblient/src/views/themes/glam_two/glam_two.dart';
 import 'package:flutter/material.dart';
 
 // todo make salons and masters profile responsiblity here from salonSearchProvider
@@ -50,7 +51,10 @@ class SalonProfileProvider with ChangeNotifier {
     }
 
     if (chosenSalon.selectedTheme == 2) {
-      return Container(color: Colors.green);
+      salonTheme = AppTheme.barbershopTheme;
+      notifyListeners();
+
+      return const GlamBarbershop();
     }
 
     if (chosenSalon.selectedTheme == 3) {

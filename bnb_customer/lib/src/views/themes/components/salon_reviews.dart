@@ -1,30 +1,33 @@
-import 'package:bbblient/src/models/enums/device_screen_type.dart';
+import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/images.dart';
 import 'package:bbblient/src/views/themes/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class SalonReviews extends StatefulWidget {
+class SalonReviews extends ConsumerStatefulWidget {
   const SalonReviews({Key? key}) : super(key: key);
 
   @override
-  State<SalonReviews> createState() => _SalonReviewsState();
+  ConsumerState<SalonReviews> createState() => _SalonReviewsState();
 }
 
-class _SalonReviewsState extends State<SalonReviews> {
+class _SalonReviewsState extends ConsumerState<SalonReviews> {
   @override
   Widget build(BuildContext context) {
-    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
 
     return Padding(
       padding: EdgeInsets.only(
         left: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
         right: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
-        // top: 50,
+        top: 60,
         bottom: 100,
       ),
       child: Column(
@@ -37,7 +40,7 @@ class _SalonReviewsState extends State<SalonReviews> {
             children: [
               Text(
                 "REVIEWS",
-                style: GlamOneTheme.headLine2.copyWith(
+                style: theme.textTheme.headline2?.copyWith(
                   fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),
                 ),
               ),
@@ -45,15 +48,27 @@ class _SalonReviewsState extends State<SalonReviews> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SvgPicture.asset(
-                    ThemeIcons.leftArrow,
-                    height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
-                  ),
+                  (_salonProfileProvider.chosenSalon.selectedTheme != 2)
+                      ? SvgPicture.asset(
+                          ThemeIcons.leftArrow,
+                          height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                        )
+                      : Icon(
+                          Icons.arrow_back,
+                          size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                          color: Colors.white,
+                        ),
                   SizedBox(width: DeviceConstraints.getResponsiveSize(context, 15, 30, 40)),
-                  SvgPicture.asset(
-                    ThemeIcons.rightArrow,
-                    height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
-                  ),
+                  (_salonProfileProvider.chosenSalon.selectedTheme != 2)
+                      ? SvgPicture.asset(
+                          ThemeIcons.rightArrow,
+                          height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                        )
+                      : Icon(
+                          Icons.arrow_forward,
+                          size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                          color: Colors.white,
+                        ),
                 ],
               ),
             ],
@@ -65,7 +80,7 @@ class _SalonReviewsState extends State<SalonReviews> {
             children: [
               Text(
                 "4,5",
-                style: GlamOneTheme.bodyText1.copyWith(),
+                style: theme.textTheme.bodyText1?.copyWith(),
               ),
               const SizedBox(width: 15),
               RatingBar.builder(
@@ -82,9 +97,9 @@ class _SalonReviewsState extends State<SalonReviews> {
                 unratedColor: Colors.blue,
                 onRatingUpdate: (rating) {},
                 itemBuilder: (context, _) {
-                  return const Icon(
+                  return Icon(
                     Icons.star,
-                    color: GlamOneTheme.deepOrange,
+                    color: theme.primaryColorDark,
                   );
                 },
               ),
@@ -93,7 +108,7 @@ class _SalonReviewsState extends State<SalonReviews> {
                 "23 Reviews",
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.left,
-                style: GlamOneTheme.bodyText2.copyWith(
+                style: theme.textTheme.bodyText2?.copyWith(
                   decoration: TextDecoration.underline,
                 ),
               ),
@@ -153,7 +168,7 @@ class _SalonReviewsState extends State<SalonReviews> {
   }
 }
 
-class ReviewCard extends StatelessWidget {
+class ReviewCard extends ConsumerWidget {
   final String avatar, reviewUser, review;
   final double reviewStars;
 
@@ -166,7 +181,10 @@ class ReviewCard extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
     return SizedBox(
       height: 350.h,
       width: DeviceConstraints.getResponsiveSize(context, 260.w, 260.w, 110.w),
@@ -188,7 +206,7 @@ class ReviewCard extends StatelessWidget {
                       flex: 0,
                       child: Text(
                         reviewUser.toUpperCase(),
-                        style: GlamOneTheme.bodyText1.copyWith(
+                        style: theme.textTheme.bodyText1?.copyWith(
                           fontSize: 20.sp,
                           fontWeight: FontWeight.w600,
                         ),
@@ -209,9 +227,9 @@ class ReviewCard extends StatelessWidget {
                         updateOnDrag: true,
                         onRatingUpdate: (rating) {},
                         itemBuilder: (context, _) {
-                          return const Icon(
+                          return Icon(
                             Icons.star,
-                            color: GlamOneTheme.deepOrange,
+                            color: theme.primaryColorDark,
                           );
                         },
                       ),
@@ -221,7 +239,11 @@ class ReviewCard extends StatelessWidget {
                       children: [
                         Align(
                           alignment: Alignment.bottomLeft,
-                          child: SvgPicture.asset(ThemeIcons.leftQuote, height: 15),
+                          child: SvgPicture.asset(
+                            ThemeIcons.leftQuote,
+                            height: 15,
+                            color: theme.primaryColor,
+                          ),
                         ),
                         SizedBox(
                           width: DeviceConstraints.getResponsiveSize(context, 200.w, 200.w, 80.w),
@@ -230,12 +252,16 @@ class ReviewCard extends StatelessWidget {
                             maxLines: 4,
                             textAlign: TextAlign.center,
                             overflow: TextOverflow.ellipsis,
-                            style: GlamOneTheme.subTitle1.copyWith(fontSize: 15.sp, fontWeight: FontWeight.w400, color: Colors.white, letterSpacing: -0.8),
+                            style: theme.textTheme.subtitle1?.copyWith(fontSize: 15.sp, fontWeight: FontWeight.w400, color: Colors.white, letterSpacing: -0.8),
                           ),
                         ),
                         Align(
                           alignment: Alignment.topRight,
-                          child: SvgPicture.asset(ThemeIcons.rightQuote, height: 15),
+                          child: SvgPicture.asset(
+                            ThemeIcons.rightQuote,
+                            height: 15,
+                            color: theme.primaryColor,
+                          ),
                         ),
                       ],
                     ),
@@ -249,7 +275,7 @@ class ReviewCard extends StatelessWidget {
             width: 60.h,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(color: GlamOneTheme.primaryColor, width: 2),
+              border: Border.all(color: theme.primaryColor, width: 2),
             ),
             child: Image.asset(
               avatar,
