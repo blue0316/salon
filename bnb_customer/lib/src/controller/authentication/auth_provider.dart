@@ -263,6 +263,7 @@ class AuthProvider with ChangeNotifier {
     required String countryCode,
   }) async {
     String _phone = "$countryCode$phoneNumber";
+    print(_phone);
     // debugPrint('#####################################');
 
     // debugPrint(countryCode);
@@ -278,8 +279,23 @@ class AuthProvider with ChangeNotifier {
     otpStatus = Status.loading;
     notifyListeners();
     try {
-      phoneVerificationResult = await _auth.signInWithPhoneNumber(_phone.trim());
-      notifyListeners();
+      if (kIsWeb) {
+        webOTPConfirmationResult = await _auth.signInWithPhoneNumber(_phone.trim());
+        notifyListeners();
+        print('${webOTPConfirmationResult}web result');
+        final customerExists = await CustomerApi().checkIfCustomerExists(_phone.trim());
+        if (!customerExists) {
+          isNewUser = true;
+          notifyListeners();
+        }
+        notifyListeners();
+
+        _showOTPScreen();
+      }else{
+        phoneVerificationResult = await _auth.signInWithPhoneNumber(_phone.trim());
+        notifyListeners();
+      }
+
 
       _showOTPScreen();
     } on FirebaseAuthException catch (e) {
@@ -306,14 +322,29 @@ class AuthProvider with ChangeNotifier {
     // print(phoneVerificationResult?.verificationId);
 
     try {
-      dynamic kk = await phoneVerificationResult?.confirm(confirmOtp);
+      UserCredential? _userResult = await  webOTPConfirmationResult?.confirm(confirmOtp.trim());
 
-      print(kk);
+      print(_userResult);
 
       print('**************************************');
 
-      print(kk);
+      print(_userResult);
       print('*********** ***************************');
+      if (_userResult != null && _userResult.user != null) {
+        printIt(_userResult.user);
+       // await callBack();
+        userLoggedIn = true;
+        loginStatus = Status.success;
+        printIt("New Login Status");
+        printIt(loginStatus);
+        notifyListeners();
+      } else {
+        loginStatus = Status.failed;
+        printIt(" Login Status failed");
+        printIt(loginStatus);
+        notifyListeners();
+       // showToast(AppLocalizations.of(context)?.errorOccurred ?? 'error occurred');
+      }
     } on FirebaseAuthException catch (e) {
       loginStatus = Status.failed;
       notifyListeners();
