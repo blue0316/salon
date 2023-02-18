@@ -749,5 +749,12 @@
   "specialistStudio":"Specialist studio",
   "singleMaster":"Single master",
   "pleasefillInYourName":"Please fill in your name",
-  "resendVerificationCode":"The SMS code has expired. Please re-send the verification code to try again"
+  "resendVerificationCode":"The SMS code has expired. Please re-send the verification code to try again",
+  "promotions": "Promotions",
+  "aboutMe": "About Me",
+  "aboutUs": "About Us",
+  "myWorks": "My Works",
+  "ourWorks": "Our Works",
+  "ourTeam": "Our Team",
+  "ourPrice": "Our Price"
 }

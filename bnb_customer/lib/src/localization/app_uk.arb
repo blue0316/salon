@@ -756,10 +756,15 @@
   "instant": "Онлайн-запис",
   "requestInfo": "Запит на час, який підтвердить салон",
   "instantInfo": "Онлайн-запис без додаткових підтверджень",
-
-   "specialistStudio":"Майстер у салоні",
-   "singleMaster":"Майстер вдома",
-
-   "pleasefillInYourName":"Будь ласка, введіть своє ім’я",
-  "resendVerificationCode":"Термін дії коду минув. Будь ласка, отримайте новий код "
+  "specialistStudio":"Майстер у салоні",
+  "singleMaster":"Майстер вдома",
+  "pleasefillInYourName":"Будь ласка, введіть своє ім’я",
+  "resendVerificationCode":"Термін дії коду минув. Будь ласка, отримайте новий код ",
+  "promotions": "Promotions",
+  "aboutMe": "About Me",
+  "aboutUs": "About Us",
+  "myWorks": "My Works",
+  "ourWorks": "Our Works",
+  "ourTeam": "Our Team",
+  "ourPrice": "Our Price"
 }
