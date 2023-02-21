@@ -133,8 +133,8 @@ class _OrderListState extends ConsumerState<OrderList> {
                                   ),
                                   const Spacer(),
                                   Text(
-                                    "${service.priceAndDuration.price}${Keys.uah}",
-                                    // service.isFixedPrice ? "${service.priceAndDuration.price}${Keys.uah}" : "${service.priceAndDuration.price}${Keys.uah} - ${service.priceAndDurationMax!.price}${Keys.uah}",
+                                    "${Keys.dollars}${service.priceAndDuration.price}",
+                                    // service.isFixedPrice ? "${Keys.dollars}${service.priceAndDuration.price}" : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}",
                                     style: Theme.of(context).textTheme.bodyText1!.copyWith(
                                           color: defaultTheme ? Colors.black : Colors.white,
                                           fontWeight: FontWeight.w700,
@@ -314,12 +314,13 @@ class _OrderListState extends ConsumerState<OrderList> {
                           )),
                       const SizedBox(height: 2),
                       Text(
+
                         "${appointment.appointmentModel!.priceAndDuration.price} ${Keys.uah}",
                         style: AppTheme.bodyText2.copyWith(
                           fontSize: 15.sp,
                           color: defaultTheme ? Colors.black : Colors.white,
-                        ),
-                      ),
+                        )),
+
                     ],
                   ),
                   const SizedBox(height: 2),
@@ -362,7 +363,7 @@ class _OrderListState extends ConsumerState<OrderList> {
                     ),
                   ),
                   Text(
-                    "${appointment.appointmentModel!.priceAndDuration.price} ${Keys.uah}",
+                    "${Keys.dollars}${appointment.appointmentModel!.priceAndDuration.price}",
                     style: AppTheme.bodyText1.copyWith(
                       fontSize: 17.sp,
                       fontWeight: FontWeight.w700,

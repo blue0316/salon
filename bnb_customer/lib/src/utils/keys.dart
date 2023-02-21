@@ -27,6 +27,7 @@ class Keys {
   static const bookRestricted = "bookRestricted";
   static const String user = 'user';
   static const String min = "min";
+  static const String dollars = "\$";
   static const String uah = "₴";
   static const String sign_in = "sign_in";
   static const String signed_in_successfully = "signed_in_successfully";
