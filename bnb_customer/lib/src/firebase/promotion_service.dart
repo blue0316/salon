@@ -7,27 +7,41 @@ import '../utils/utils.dart';
 
 class PromotionServiceApi {
   PromotionServiceApi._privateConstructor();
-  static final PromotionServiceApi _instance =
-      PromotionServiceApi._privateConstructor();
+  static final PromotionServiceApi _instance = PromotionServiceApi._privateConstructor();
   factory PromotionServiceApi() {
     return _instance;
   }
 
-  Future<List<PromotionModel>> getMasterActivePromtions(
-      {required String salonId}) async {
+  Future<List<PromotionModel>> getSalonPromotions({required String salonId}) async {
+    QuerySnapshot _response = await Collection.promotions.where('salonId', isEqualTo: salonId).get();
+
+    List<PromotionModel> salonPromotions = [];
+    for (QueryDocumentSnapshot doc in _response.docs) {
+      try {
+        PromotionModel _promotionModel = PromotionModel.fromJson(doc.data() as Map<String, dynamic>);
+
+        if (_promotionModel.activeStatus == true) {
+          // Only show active promotions
+          salonPromotions.add(_promotionModel);
+        }
+      } catch (e) {
+        printIt(e);
+      }
+    }
+
+    return salonPromotions;
+  }
+
+  Future<List<PromotionModel>> getMasterActivePromtions({required String salonId}) async {
     try {
-      QuerySnapshot _response = await Collection.promotions
-          .where('salonId', isEqualTo: salonId)
-          .where('activeStatus', isEqualTo: true)
-          .get();
+      QuerySnapshot _response = await Collection.promotions.where('salonId', isEqualTo: salonId).where('activeStatus', isEqualTo: true).get();
       List<PromotionModel> allPromotions = [];
       for (DocumentSnapshot doc in _response.docs) {
         Map _temp = doc.data() as Map<dynamic, dynamic>;
         _temp['promoDocId'] = doc.id;
         PromotionModel? promotionModel;
         try {
-          promotionModel =
-              PromotionModel.fromJson(_temp as Map<String, dynamic>);
+          promotionModel = PromotionModel.fromJson(_temp as Map<String, dynamic>);
         } catch (e) {
           printIt(e);
         }

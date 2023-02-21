@@ -1,3 +1,4 @@
+import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/review.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -63,7 +64,11 @@ class SalonApi {
 
       var query = Collection.salons.where('isAvailableOnline', isEqualTo: true);
 
-      Stream<List<DocumentSnapshot>> stream = _geo.collection(collectionRef: query).within(center: GeoFirePoint(position.latitude, position.longitude), radius: radius, field: 'position');
+      Stream<List<DocumentSnapshot>> stream = _geo.collection(collectionRef: query).within(
+            center: GeoFirePoint(position.latitude, position.longitude),
+            radius: radius,
+            field: 'position',
+          );
       _salons = await stream.first;
       printIt("salon data");
       printIt(_salons.length);
@@ -74,7 +79,10 @@ class SalonApi {
           salonMap['salonId'] = doc.id;
           SalonModel salon = SalonModel.fromJson(salonMap as Map<String, dynamic>);
           if (salon.isAvailableOnline) {
-            salon.distanceFromCenter = _center.distance(lat: salon.position!.geoPoint!.latitude, lng: salon.position!.geoPoint!.longitude);
+            salon.distanceFromCenter = _center.distance(
+              lat: salon.position!.geoPoint!.latitude,
+              lng: salon.position!.geoPoint!.longitude,
+            );
             salons.add(salon);
           }
         } catch (e) {
@@ -204,6 +212,26 @@ class SalonApi {
     }
     return allReviews;
   }
+
+  // Get Salon Services
+  // Future<List<ServiceModel>> getSalonServices({required String salonId}) async {
+  //   //   QuerySnapshot _response = await Collection.services.where('salonId', isEqualTo: salonId).get();
+
+  //   List<ServiceModel> allServices = [];
+  //   //   for (QueryDocumentSnapshot doc in _response.docs) {
+  //   //     try {
+  //   //       ServiceModel _serviceModel = ServiceModel.fromJson(doc.data() as Map<String, dynamic>);
+  //   //       print('##################');
+  //   //       print(_serviceModel.serviceName);
+  //   //       print('##################');
+  //   //       _serviceModel.serviceId = doc.id;
+  //   //       allServices.add(_serviceModel);
+  //   //     } catch (e) {
+  //   //       printIt(e);
+  //   //     }
+  //   //   }
+  //   return allServices;
+  // }
 
   Future updateSalonBlockedTime(SalonModel salon) async {
     try {

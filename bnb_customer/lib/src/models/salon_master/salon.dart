@@ -4,6 +4,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../backend_codings/working_hours.dart';
 
+// { // POSSIBLE THEME FORMAT IN DATABSE ??
+//   '0': 'default',
+//   '1': 'solo-glam',
+//   '2': 'glam-barbershop',
+//   '3': 'glam-gradient',
+//   '4': 'barbershop',
+//   '5': 'glam-light',
+// }
+
 class SalonModel {
   late String salonId = '';
   late String salonName;
@@ -40,6 +49,7 @@ class SalonModel {
   late Map<String, dynamic> blockedTime = {};
   late List<String> searchTags = [];
   late bool requestSalon;
+  // late int? selectedTheme; // THEME SELECTED BY SALON OWNER
 
   SalonModel({
     required this.salonId,
@@ -76,34 +86,27 @@ class SalonModel {
     required this.blockedTime,
     required this.searchTags,
     this.requestSalon = false,
+    // this.selectedTheme = 1,
   });
 
   SalonModel.fromJson(Map<String, dynamic> json) {
     salonId = json['salonId'];
     salonName = json['salonName'] ?? '';
     appointmentsLeadTime = json['appointmentsLeadTime'];
-    categoryId = json['categoryId'] == null
-        ? []
-        : categoryId = json['categoryId'].cast<String>();
+    categoryId = json['categoryId'] == null ? [] : categoryId = json['categoryId'].cast<String>();
 
-    parentServiceId = json['parentServiceId'] == null
-        ? []
-        : parentServiceId = json['parentServiceId'].cast<String>();
+    parentServiceId = json['parentServiceId'] == null ? [] : parentServiceId = json['parentServiceId'].cast<String>();
     timeSlotsInterval = json['timeSlotsInterval'];
     bookingRestrictionDays = json['bookingRestrictionDays'];
-    createdAt =
-        json['createdAt'] != null ? json['createdAt'].toDate() : DateTime(1990);
+    createdAt = json['createdAt'] != null ? json['createdAt'].toDate() : DateTime(1990);
     address = json['address'] ?? '';
     ownerType = json['ownerType'] ?? OwnerType.salon;
     workStation = json['workStation'];
     isAvailableOnline = json['isAvailableOnline'] ?? false;
     links = json['links'] != null ? Links.fromJson(json['links']) : null;
-    position =
-        json['position'] != null ? Position.fromJson(json['position']) : null;
+    position = json['position'] != null ? Position.fromJson(json['position']) : null;
     workingHours = WorkingHoursModel.fromJson(json['workingHours']);
-    irregularWorkingHours = json['irregularWorkingHours'] != null
-        ? mapIrregularHours(json['irregularWorkingHours'])
-        : null;
+    irregularWorkingHours = json['irregularWorkingHours'] != null ? mapIrregularHours(json['irregularWorkingHours']) : null;
     salonWebSite = json['salonWebSite'] ?? '';
     phoneNumber = json['phoneNumber'];
     email = json['email'] ?? '';
@@ -122,23 +125,16 @@ class SalonModel {
       photosOfWork = json['photosOfWork'].cast<String>();
     }
     preferredGender = json['preferredGender'];
-    rating =
-        json['rating'] != null ? double.parse(json['rating'].toString()) : 0;
-    avgRating = json['avgRating'] != null
-        ? double.parse(json['avgRating'].toString())
-        : 0;
-    reviewCount = json['reviewCount'] != null
-        ? double.parse(json['reviewCount'].toString())
-        : 0;
+    rating = json['rating'] != null ? double.parse(json['rating'].toString()) : 0;
+    avgRating = json['avgRating'] != null ? double.parse(json['avgRating'].toString()) : 0;
+    reviewCount = json['reviewCount'] != null ? double.parse(json['reviewCount'].toString()) : 0;
     distanceFromCenter = json['distanceFromCenter'];
     fcmToken = json['fcmToken'] ?? '';
     blockedTime = json['blockedTime'] ?? {};
-    searchTags =
-        json['searchTags'] != null ? json['searchTags'].cast<String>() : [];
-    additionalFeatures = json['additionalFeatures'] != null
-        ? json['additionalFeatures'].cast<String>()
-        : [];
+    searchTags = json['searchTags'] != null ? json['searchTags'].cast<String>() : [];
+    additionalFeatures = json['additionalFeatures'] != null ? json['additionalFeatures'].cast<String>() : [];
     requestSalon = json['requestSalon'] ?? false;
+    // selectedTheme = 1; // json['selectedTheme'] ?? 0; // 0 - the default theme
   }
 
   Map<String, dynamic> toJson() {
@@ -146,9 +142,7 @@ class SalonModel {
     // data['salonId'] = this.salonId;
     data['salonName'] = salonName;
     data['salonName'] = salonName;
-    createdAt = data['createdAt'] != null
-        ? data['createdAt']?.toDate()
-        : DateTime.now();
+    createdAt = data['createdAt'] != null ? data['createdAt']?.toDate() : DateTime.now();
     data['categoryId'] = categoryId;
     data['appointmentsLeadTime'] = appointmentsLeadTime;
     data['parentServiceId'] = parentServiceId;
@@ -181,6 +175,7 @@ class SalonModel {
     data['searchTags'] = searchTags;
     data['additionalFeatures'] = additionalFeatures;
     data['requestSalon'] = requestSalon;
+    // data['selectedTheme'] = selectedTheme;
     return data;
   }
 
@@ -241,12 +236,7 @@ class Links {
   String? whatsapp;
   String? instagram;
 
-  Links(Map map,
-      {this.facebookMessenger,
-      this.viber,
-      this.telegram,
-      this.whatsapp,
-      this.instagram});
+  Links(Map map, {this.facebookMessenger, this.viber, this.telegram, this.whatsapp, this.instagram});
 
   Links.fromJson(Map<String, dynamic> json) {
     facebookMessenger = json['facebookMessenger'];

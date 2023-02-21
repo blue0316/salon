@@ -131,6 +131,7 @@ class BnbRatings extends StatelessWidget {
       );
     } else {
       return RatingBar.builder(
+        unratedColor: Colors.white, // Changed to reflect properly on Booking Dialog //TODO - WORK ON THIS ON OTHER SCREENS
         initialRating: rating,
         minRating: 0,
         direction: Axis.horizontal,

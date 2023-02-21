@@ -4,6 +4,7 @@ import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/chat/image_preview.dart';
+import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -71,21 +72,25 @@ class _SaloonAllWorksState extends State<SaloonAllWorks> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Container(
-                              height: DeviceConstraints.getResponsiveSize(context, 100, 150, 200),
-                              width: DeviceConstraints.getResponsiveSize(context, 150, 250, 400),
-                              decoration: const BoxDecoration(color: Colors.green),
-                              // child: CachedImage(
-                              //   url: widget.salonModel.photosOfWork[index],
-                              // ),
+                            SizedBox(
+                              height: DeviceConstraints.getResponsiveSize(context, 150, 200, 200),
+                              width: DeviceConstraints.getResponsiveSize(context, 200, 300, 400),
+                              // decoration: const BoxDecoration(color: Colors.green),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(15),
+                                child: CachedImage(
+                                  url: widget.salonModel.photosOfWork[index],
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
                             ),
-                            const SizedBox(height: 15),
-                            Text(
-                              'Lorem ipsum dolor sit amet',
-                              style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                  // fontSize: 30.sp,
-                                  ),
-                            ),
+                            // const SizedBox(height: 15),
+                            // Text(
+                            //   'Lorem ipsum dolor sit amet',
+                            //   style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                            //       // fontSize: 30.sp,
+                            //       ),
+                            // ),
                           ],
                         ),
                       );

@@ -62,7 +62,12 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
 
     return Container(
       decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(color: Color(0XFF9D9D9D), width: 1.3)),
+        border: Border(
+          bottom: BorderSide(
+            color: Color(0XFF9D9D9D),
+            width: 1.3,
+          ),
+        ),
       ),
       child: ExpansionTile(
         initiallyExpanded: widget.initiallyExpanded,
@@ -103,7 +108,7 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                         ),
                   ),
                   const SizedBox(height: 5),
-                  if (DeviceConstraints.getDeviceType(mediaQuery) == DeviceScreenType.portrait && widget.services.length == 5) // TODO: REMOVE THE OTHER CHECK (JUST A PLACEHOLDER)
+                  if (DeviceConstraints.getDeviceType(mediaQuery) == DeviceScreenType.portrait)
                     Container(
                       decoration: BoxDecoration(
                         color: const Color.fromARGB(255, 239, 239, 239),
@@ -123,7 +128,7 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                 ],
               ),
               if (DeviceConstraints.getDeviceType(mediaQuery) != DeviceScreenType.portrait) const SizedBox(width: 25),
-              if (DeviceConstraints.getDeviceType(mediaQuery) != DeviceScreenType.portrait && widget.services.length == 5) // TODO: REMOVE THE OTHER CHECK (JUST A PLACEHOLDER)
+              if (DeviceConstraints.getDeviceType(mediaQuery) != DeviceScreenType.portrait)
                 Container(
                   decoration: BoxDecoration(
                     color: const Color.fromARGB(255, 239, 239, 239),
@@ -214,17 +219,14 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                                         children: [
                                                           Expanded(
                                                             flex: DeviceConstraints.getResponsiveSize(context, 1, 0, 0).toInt(),
-                                                            child: SizedBox(
-                                                              // color: Colors.yellow,
-                                                              child: Text(
-                                                                widget.services[index].translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
-                                                                style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                                                      fontWeight: FontWeight.w500,
-                                                                      fontSize: 16.sp,
-                                                                    ),
-                                                                overflow: TextOverflow.ellipsis,
-                                                                maxLines: 2,
-                                                              ),
+                                                            child: Text(
+                                                              widget.services[index].translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
+                                                              style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                                                    fontWeight: FontWeight.w500,
+                                                                    fontSize: 16.sp,
+                                                                  ),
+                                                              overflow: TextOverflow.ellipsis,
+                                                              maxLines: 2,
                                                             ),
                                                           ),
                                                           SizedBox(width: DeviceConstraints.getResponsiveSize(context, 2, 10, 10)),
@@ -328,12 +330,17 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                                 ),
                                               SizedBox(width: DeviceConstraints.getResponsiveSize(context, 7, 20, 20)),
                                               Text(
-                                                service.isFixedPrice
+                                                // TODO: NOTE - Service PRICE
+
+                                                
+
+                                            service.isFixedPrice
                                                     ? "${Keys.dollars}${service.priceAndDuration.price}"
                                                     :service.isPriceStartAt ?
                                                     "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}∞"
 
                                                     : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}",
+
                                                 style: Theme.of(context).textTheme.bodyText1!.copyWith(
                                                       fontWeight: FontWeight.w600,
                                                       fontSize: 16.sp,

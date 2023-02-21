@@ -62,6 +62,9 @@ class PromotionModel {
 
   // Map<String, dynamic>? itemDimensions;
 
+  // promotion description
+  String? promotionImage;
+
   PromotionModel(
       {this.promotionTitle,
       this.promotionDiscount,
@@ -87,6 +90,7 @@ class PromotionModel {
     // itemDimensions = json['itemDimensions'] ?? "";
     // productAid = json['aid'] ?? "";
     promotionDiscount = json['promotionDiscount'] ?? 0.0;
+    promotionImage = json['promotionImage'] ?? 'assets/themes/glam_one/images/lady_wide.png';
     discountUnit = json['discountUnit'] ?? "";
     promotionType = json["promotionType"] ?? "";
     salonId = json['salonId'] ?? "";
@@ -157,4 +161,5 @@ class PromotionType {
   static const String visit = 'visit';
   static const String happy_hour = 'happy_hour';
   static const String last_minute = 'last_minute';
+  static const String happy_friday = 'happy_friday';
 }

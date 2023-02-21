@@ -14,6 +14,7 @@ import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/chat/chat_list.dart';
 import 'package:bbblient/src/views/home/widgets/banner_scroll.dart';
 import 'package:bbblient/src/views/registration/authenticate/login.dart';
+import 'package:bbblient/src/views/themes/glam_one/glam_one.dart';
 
 import 'package:bbblient/src/views/widgets/salon_widgets.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
@@ -49,9 +50,25 @@ class _HomeState extends ConsumerState<Home> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const ConstrainedContainer(margin: EdgeInsets.only(top: 20.0, left: AppTheme.margin, right: AppTheme.margin), child: HomePageAppBar()),
-              const ConstrainedContainer(margin: EdgeInsets.only(top: 30, left: AppTheme.margin, right: AppTheme.margin), child: SearchField()),
-              const ConstrainedContainer(margin: EdgeInsets.only(left: AppTheme.margin, right: AppTheme.margin), child: BannerScroll()),
+              // GestureDetector(
+              //   onTap: () => context.go(GlamOneScreen.route),
+              //   child: const Text(
+              //     'THEME 1',
+              //     style: TextStyle(fontSize: 30),
+              //   ),
+              // ),
+              const ConstrainedContainer(
+                margin: EdgeInsets.only(top: 20.0, left: AppTheme.margin, right: AppTheme.margin),
+                child: HomePageAppBar(),
+              ),
+              const ConstrainedContainer(
+                margin: EdgeInsets.only(top: 30, left: AppTheme.margin, right: AppTheme.margin),
+                child: SearchField(),
+              ),
+              const ConstrainedContainer(
+                margin: EdgeInsets.only(left: AppTheme.margin, right: AppTheme.margin),
+                child: BannerScroll(),
+              ),
               Space(
                 factor: 1.h,
               ),

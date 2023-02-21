@@ -173,7 +173,10 @@ class _MasterProfileState extends ConsumerState<MasterProfile> {
           // ),
           const Align(
             alignment: Alignment.bottomCenter,
-            child: FloatingBar(master: true),
+            child: FloatingBar(
+              master: true,
+              themeNo: 0,
+            ),
           ),
         ],
       ),
