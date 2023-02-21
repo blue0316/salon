@@ -95,7 +95,7 @@ class _BookingBottomSheetState extends ConsumerState<BookingBottomSheet> {
                               ),
                             ),
                             Text(
-                              "${_createAppointmentProvider.chosenServices[index].priceAndDuration.price} ${Keys.uah}",
+                              "${Keys.dollars}${_createAppointmentProvider.chosenServices[index].priceAndDuration.price}",
                               style: AppTheme.bodyText1,
                             ),
                             IconButton(
@@ -131,7 +131,7 @@ class _BookingBottomSheetState extends ConsumerState<BookingBottomSheet> {
                     style: AppTheme.headLine4,
                   ),
                   Text(
-                    "${_createAppointmentProvider.totalPrice} ${Keys.uah}",
+                    "${Keys.dollars}${_createAppointmentProvider.totalPrice}",
                     style: AppTheme.headLine3,
                   ),
                 ],
@@ -256,7 +256,7 @@ class _BookingBottomSheetFinalState extends ConsumerState<BookingBottomSheetFina
                               ),
                             ),
                             Text(
-                              "${_createAppointmentProvider.chosenServices[index].priceAndDuration.price} ${Keys.uah}",
+                              "${Keys.dollars}${_createAppointmentProvider.chosenServices[index].priceAndDuration.price}",
                               style: AppTheme.bodyText1.copyWith(color: valid ? Colors.black : Colors.grey),
                             ),
                             IconButton(
@@ -319,7 +319,7 @@ class _BookingBottomSheetFinalState extends ConsumerState<BookingBottomSheetFina
                     style: AppTheme.headLine4,
                   ),
                   Text(
-                    _createAppointmentProvider.chosenMaster == null ? "${_createAppointmentProvider.totalPrice} ${Keys.uah}" : "${_createAppointmentProvider.mastersPriceDurationMap[_createAppointmentProvider.chosenMaster?.masterId]?.price} ${Keys.uah}",
+                    _createAppointmentProvider.chosenMaster == null ? "${Keys.dollars}${_createAppointmentProvider.totalPrice}" : "${Keys.dollars}${_createAppointmentProvider.mastersPriceDurationMap[_createAppointmentProvider.chosenMaster?.masterId]?.price}",
                     // "${_createAppointmentProvider.totalPrice} ${Keys.uah}",
                     style: AppTheme.headLine3,
                   ),

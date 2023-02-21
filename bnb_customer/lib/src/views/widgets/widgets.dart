@@ -138,7 +138,7 @@ class BnbRatings extends StatelessWidget {
         itemCount: 5,
         itemPadding: const EdgeInsets.symmetric(horizontal: 0.0),
         itemBuilder: (context, _) {
-          return SvgPicture.asset('assets/icons/flutterRating.svg');
+          return SvgPicture.asset('assets/icons/flutterRating.svg',color: AppTheme.bookingYellow,);
         },
         onRatingUpdate: (rating) {
           onRatingUpdate!();

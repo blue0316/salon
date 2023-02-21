@@ -117,7 +117,7 @@ class _PaymentBonusConfirmationState extends ConsumerState<PaymentBonusConfirmat
                     if (double.parse(_createAppointment.appointmentModel?.priceAndDuration.price ?? "0").toInt() <= 299) ...[
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 24.w),
-                        child: Text("${AppLocalizations.of(context)?.bonusValidAbove} 300 ${Keys.uah}", style: Theme.of(context).textTheme.subtitle1),
+                        child: Text("${AppLocalizations.of(context)?.bonusValidAbove} ${Keys.dollars}300", style: Theme.of(context).textTheme.subtitle1),
                       ),
                     ],
                   ],
@@ -157,7 +157,7 @@ class _PaymentBonusConfirmationState extends ConsumerState<PaymentBonusConfirmat
                                 children: [
                                   if (_createAppointment.chosenBonus != null) ...[
                                     Text(
-                                      "${_createAppointment.appointmentModel?.priceAndDuration.price} ${Keys.uah}",
+                                      "${Keys.dollars}${_createAppointment.appointmentModel?.priceAndDuration.price}",
                                       style: Theme.of(context).textTheme.subtitle1!.copyWith(
                                             color: AppTheme.lightGrey,
                                             fontSize: 18.sp,
@@ -167,7 +167,7 @@ class _PaymentBonusConfirmationState extends ConsumerState<PaymentBonusConfirmat
                                   ],
                                   if (_createAppointment.chosenBonus != null) ...[
                                     Text(
-                                      "${double.parse(_createAppointment.appointmentModel?.priceAndDuration.price ?? "0") - _createAppointment.chosenBonus!.amount} ${Keys.uah}",
+                                      "${Keys.dollars}${double.parse(_createAppointment.appointmentModel?.priceAndDuration.price ?? "0") - _createAppointment.chosenBonus!.amount}",
                                       style: Theme.of(context).textTheme.subtitle1!.copyWith(
                                             color: AppTheme.textBlack,
                                             fontSize: 32.sp,
@@ -176,7 +176,7 @@ class _PaymentBonusConfirmationState extends ConsumerState<PaymentBonusConfirmat
                                   ],
                                   if (_createAppointment.chosenBonus == null) ...[
                                     Text(
-                                      "${_createAppointment.appointmentModel?.priceAndDuration.price} ${Keys.uah}",
+                                      "${Keys.dollars}${_createAppointment.appointmentModel?.priceAndDuration.price}",
                                       style: Theme.of(context).textTheme.subtitle1!.copyWith(
                                             color: AppTheme.textBlack,
                                             fontSize: 32.sp,
@@ -249,7 +249,7 @@ class _PaymentBonusConfirmationState extends ConsumerState<PaymentBonusConfirmat
                                               ),
                                             ),
                                             Text(
-                                              int.parse(service.priceAndDurationMax!.price) > 0 ? "${service.priceAndDurationMax!.price} ${Keys.uah}" : "${service.priceAndDuration.price} ${Keys.uah}",
+                                              int.parse(service.priceAndDurationMax!.price) > 0 ? "${Keys.dollars}${service.priceAndDurationMax!.price}" : "${Keys.dollars}${service.priceAndDuration.price}",
                                               style: AppTheme.bodyText1,
                                             ),
                                           ],
@@ -271,7 +271,7 @@ class _PaymentBonusConfirmationState extends ConsumerState<PaymentBonusConfirmat
                                         if (_createAppointment.chosenBonus == null) ...[const SizedBox()],
                                         if (_createAppointment.chosenBonus != null) ...[
                                           Text(
-                                            "${_createAppointment.chosenBonus!.amount} ${Keys.uah}",
+                                            "${Keys.dollars}${_createAppointment.chosenBonus!.amount}",
                                             style: AppTheme.bodyText1,
                                           ),
                                         ]

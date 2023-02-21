@@ -278,6 +278,15 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                                             overflow: TextOverflow.ellipsis,
                                                             maxLines: 1,
                                                           )
+                                                    :service.isPriceStartAt ?
+                                                    Text(
+                                                      "${service.priceAndDuration.duration} minutes - ∞ minutes",
+                                                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                                        fontSize: 16.sp,
+                                                      ),
+                                                      overflow: TextOverflow.ellipsis,
+                                                      maxLines: 1,
+                                                    )
                                                         : Text(
                                                             "${service.priceAndDuration.duration} minutes - ${service.priceAndDurationMax!.duration} minutes",
                                                             style: Theme.of(context).textTheme.bodyText1!.copyWith(
@@ -303,7 +312,11 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                               // PREVIOUS PRICE
                                               if (service.priceAndDuration.price == '200') // TODO: REMOVE THIS
                                                 Text(
-                                                  service.isFixedPrice ? "${service.priceAndDuration.price}${Keys.uah}" : "${service.priceAndDuration.price}${Keys.uah} - ${service.priceAndDurationMax!.price}${Keys.uah}",
+                                                  service.isFixedPrice
+                                                      ? "${Keys.dollars}${service.priceAndDuration.price}"
+                                                      :service.isPriceStartAt ?
+                                                  "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}∞"
+                                                      : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}",
                                                   style: Theme.of(context).textTheme.bodyText1!.copyWith(
                                                         fontWeight: FontWeight.w400,
                                                         fontSize: 12.5.sp,
@@ -315,7 +328,12 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                                 ),
                                               SizedBox(width: DeviceConstraints.getResponsiveSize(context, 7, 20, 20)),
                                               Text(
-                                                service.isFixedPrice ? "${service.priceAndDuration.price}${Keys.uah}" : "${service.priceAndDuration.price}${Keys.uah} - ${service.priceAndDurationMax!.price}${Keys.uah}",
+                                                service.isFixedPrice
+                                                    ? "${Keys.dollars}${service.priceAndDuration.price}"
+                                                    :service.isPriceStartAt ?
+                                                    "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}∞"
+
+                                                    : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}",
                                                 style: Theme.of(context).textTheme.bodyText1!.copyWith(
                                                       fontWeight: FontWeight.w600,
                                                       fontSize: 16.sp,

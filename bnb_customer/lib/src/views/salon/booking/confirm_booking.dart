@@ -205,7 +205,7 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    "${appointment.priceAndDuration.price} ${Keys.uah}",
+                                                    "${Keys.dollars}${appointment.priceAndDuration.price}",
                                                     style: Theme.of(context).textTheme.headline4!.copyWith(color: AppTheme.textBlack),
                                                     maxLines: 1,
                                                   ),
