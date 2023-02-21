@@ -4,31 +4,40 @@ import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
-import 'package:bbblient/src/views/themes/images.dart';
 import 'package:bbblient/src/views/themes/icons.dart';
+import 'package:bbblient/src/views/widgets/image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class SalonWorks extends ConsumerWidget {
+class SalonWorks extends ConsumerStatefulWidget {
   final SalonModel salonModel;
 
   const SalonWorks({Key? key, required this.salonModel}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<SalonWorks> createState() => _SalonWorksState();
+}
+
+class _SalonWorksState extends ConsumerState<SalonWorks> {
+  final CarouselController _controller = CarouselController();
+
+  @override
+  Widget build(BuildContext context) {
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     // Check if Salon is a single master
-    final bool isSingleMaster = (salonModel.ownerType == OwnerType.singleMaster);
+    final bool isSingleMaster = (widget.salonModel.ownerType == OwnerType.singleMaster);
 
     return Padding(
       padding: EdgeInsets.only(
-        top: DeviceConstraints.getResponsiveSize(context, 40, 60, 70),
-        bottom: DeviceConstraints.getResponsiveSize(context, 30, 40, 50),
+        top: DeviceConstraints.getResponsiveSize(context, 40, 50, 50),
+        bottom: DeviceConstraints.getResponsiveSize(context, 50, 50, 60),
       ),
       child: Container(
         width: double.infinity,
@@ -49,14 +58,18 @@ class SalonWorks extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "${isSingleMaster ? "MY" : "OUR"} WORKS",
+                    isSingleMaster ? (AppLocalizations.of(context)?.myWorks ?? 'My Works') : (AppLocalizations.of(context)?.ourWorks ?? 'Our Works').toUpperCase(),
                     style: theme.textTheme.headline2?.copyWith(
                       color: theme.colorScheme.secondary,
                       fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),
                     ),
                   ),
                   if (isPortrait) const Spacer(),
-                  if (isPortrait) const PrevAndNext(),
+                  if (isPortrait)
+                    PrevAndNext(
+                      backOnTap: () => _controller.previousPage(),
+                      forwardOnTap: () => _controller.nextPage(),
+                    ),
                 ],
               ),
               const SizedBox(height: 20),
@@ -67,33 +80,46 @@ class SalonWorks extends ConsumerWidget {
                   SizedBox(
                     width: DeviceConstraints.getResponsiveSize(context, 350.w, 150.w, 150.w),
                     child: Text(
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.",
+                      widget.salonModel.description,
                       style: theme.textTheme.subtitle2?.copyWith(
                         fontSize: 17.5.sp,
                       ),
                     ),
                   ),
-                  if (!isPortrait) const PrevAndNext(),
+                  if (!isPortrait)
+                    PrevAndNext(
+                      backOnTap: () => _controller.previousPage(),
+                      forwardOnTap: () => _controller.nextPage(),
+                    ),
                 ],
               ),
               SizedBox(height: DeviceConstraints.getResponsiveSize(context, 50, 50, 35)),
-              SizedBox(
-                height: 255.h,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  physics: const BouncingScrollPhysics(),
-                  separatorBuilder: (context, index) {
-                    return SizedBox(width: DeviceConstraints.getResponsiveSize(context, 10, 10, 25));
-                  },
-                  itemCount: ladyImages.length,
-                  itemBuilder: (context, index) {
-                    return Image.asset(
-                      ladyImages[index],
-                      fit: BoxFit.cover,
-                    );
-                  },
-                ),
-              ),
+              (widget.salonModel.photosOfWork.isNotEmpty)
+                  ? SizedBox(
+                      height: 260.h,
+                      child: CarouselSlider(
+                        carouselController: _controller,
+                        options: CarouselOptions(
+                          scrollPhysics: const AlwaysScrollableScrollPhysics(),
+                          autoPlay: true,
+                          pauseAutoPlayOnTouch: true,
+                          viewportFraction: DeviceConstraints.getResponsiveSize(context, 0.6, 0.6, 0.3),
+                          height: 260.h,
+                        ),
+                        items: widget.salonModel.photosOfWork
+                            .map(
+                              (item) => Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 20),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: CachedImage(width: 200.w, url: item, fit: BoxFit.cover),
+                                ),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    )
+                  : SizedBox(height: 20.h),
             ],
           ),
         ),
@@ -103,57 +129,92 @@ class SalonWorks extends ConsumerWidget {
 }
 
 class PrevAndNext extends ConsumerWidget {
-  const PrevAndNext({Key? key}) : super(key: key);
+  final VoidCallback backOnTap;
+  final VoidCallback forwardOnTap;
+
+  const PrevAndNext({Key? key, required this.backOnTap, required this.forwardOnTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
-    return Row(
-      children: [
-        (_salonProfileProvider.chosenSalon.selectedTheme != 2)
-            ? SvgPicture.asset(
-                ThemeIcons.leftArrow,
-                color: Colors.black,
-                height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
-              )
-            : Icon(
-                Icons.arrow_back,
-                size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
-                color: Colors.white,
-              ),
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: Row(
+        children: [
+          GestureDetector(
+            onTap: backOnTap,
+            child: ((_salonProfileProvider.theme != '2'))
+                ? SvgPicture.asset(
+                    ThemeIcons.leftArrow,
+                    color: Colors.black,
+                    height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                  )
+                : Icon(
+                    Icons.arrow_back,
+                    size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                    color: Colors.white,
+                  ),
+          ),
 
-        // const SizedBox(width: 20),
-        SizedBox(width: DeviceConstraints.getResponsiveSize(context, 15, 30, 40)),
+          // const SizedBox(width: 20),
+          SizedBox(width: DeviceConstraints.getResponsiveSize(context, 15, 30, 40)),
 
-        (_salonProfileProvider.chosenSalon.selectedTheme != 2)
-            ? SvgPicture.asset(
-                ThemeIcons.rightArrow,
-                height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
-              )
-            : Icon(
-                Icons.arrow_forward,
-                size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
-                color: Colors.white,
-              ),
-        // SvgPicture.asset(
-        //   ThemeIcons.rightArrow,
-        //   color: const Color(0XFF0A0A0A),
-        //   height: 35.sp,
-        // ),
-      ],
+          GestureDetector(
+            onTap: forwardOnTap,
+            child: ((_salonProfileProvider.theme != '2'))
+                ? SvgPicture.asset(
+                    ThemeIcons.rightArrow,
+                    height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                  )
+                : Icon(
+                    Icons.arrow_forward,
+                    size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                    color: Colors.white,
+                  ),
+          ),
+          // SvgPicture.asset(
+          //   ThemeIcons.rightArrow,
+          //   color: const Color(0XFF0A0A0A),
+          //   height: 35.sp,
+          // ),
+        ],
+      ),
     );
   }
 }
 
-List<String> ladyImages = [
-  ThemeImages.lady1,
-  ThemeImages.lady2,
-  ThemeImages.lady3,
-  ThemeImages.lady4,
-  ThemeImages.lady1,
-  ThemeImages.lady2,
-  ThemeImages.lady3,
-  ThemeImages.lady2,
-  ThemeImages.lady3,
-];
+// List<String> ladyImages = [
+//   ThemeImages.lady1,
+//   ThemeImages.lady2,
+//   ThemeImages.lady3,
+//   ThemeImages.lady4,
+//   ThemeImages.lady1,
+//   ThemeImages.lady2,
+//   ThemeImages.lady3,
+//   ThemeImages.lady2,
+//   ThemeImages.lady3,
+// ];
+
+
+                      // ListView.separated(
+                      //   scrollDirection: Axis.horizontal,
+                      //   physics: const BouncingScrollPhysics(),
+                      //   separatorBuilder: (context, index) {
+                      //     return SizedBox(
+                      //       width: DeviceConstraints.getResponsiveSize(context, 10, 10, 25),
+                      //     );
+                      //   },
+                      //   itemCount: widget.salonModel.photosOfWork.length,
+                      //   itemBuilder: (context, index) {
+                      //     return InkWell(
+                      //       onTap: () {
+                      //         print(widget.salonModel.photosOfWork[index]);
+                      //       },
+                      //       child: CachedImage(
+                      //         url: widget.salonModel.photosOfWork[index],
+                      //         fit: BoxFit.cover,
+                      //       ),
+                      //     );x
+                      //   },
+                      // ),

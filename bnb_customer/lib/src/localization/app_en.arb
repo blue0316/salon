@@ -756,5 +756,12 @@
   "myWorks": "My Works",
   "ourWorks": "Our Works",
   "ourTeam": "Our Team",
-  "ourPrice": "Our Price"
+  "ourPrice": "Our Price",
+  "ourContacts": "Our Contacts",
+  "socialNetwork": "Social Network",
+  "ourSocialNetwork": "Our Social Network",
+  "visit": "Visit",
+  "writeToUsAndWeWillHelpYouDecideOnTheService": "Write to us and we will help you decide on the service",
+  "submitEnquiry": "Submit an Enquiry",
+  "emptyFields": "Fields cannot be empty, please fill required fields"
 }

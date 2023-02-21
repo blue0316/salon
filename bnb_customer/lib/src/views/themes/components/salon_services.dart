@@ -4,7 +4,6 @@ import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
-import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/keys.dart';
 import 'package:bbblient/src/views/salon/booking/booking_dialog.dart';
@@ -33,6 +32,7 @@ class SalonPrice extends ConsumerStatefulWidget {
 
 class _SalonPriceState extends ConsumerState<SalonPrice> with SingleTickerProviderStateMixin {
   TabController? tabController;
+  int _selectedTabbar = 0;
 
   @override
   void initState() {
@@ -68,76 +68,112 @@ class _SalonPriceState extends ConsumerState<SalonPrice> with SingleTickerProvid
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              "${isSingleMaster ? "" : "OUR "}PRICE",
+              isSingleMaster ? (AppLocalizations.of(context)?.price ?? 'Price') : (AppLocalizations.of(context)?.ourPrice ?? 'Our Price').toUpperCase(),
               style: theme.textTheme.headline2?.copyWith(),
             ),
 
             const SizedBox(height: 50),
-            Expanded(
-              flex: 0,
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: SizedBox(
-                  height: 60.h,
-                  child: TabBar(
-                    controller: tabController,
-                    unselectedLabelColor: theme.primaryColor,
-                    labelColor: Colors.black,
-                    labelStyle: theme.textTheme.bodyText1?.copyWith(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    indicator: BoxDecoration(color: theme.primaryColor),
-                    isScrollable: true,
-                    labelPadding: const EdgeInsets.symmetric(horizontal: 50),
-                    tabs: _createAppointmentProvider.categoriesAvailable
-                        .map(
-                          (item) => Tab(text: item.categoryName),
-                        )
-                        .toList(),
+            (_createAppointmentProvider.categoriesAvailable.isNotEmpty)
+                ? Expanded(
+                    flex: 0,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: SizedBox(
+                        height: 60.h,
+                        child: TabBar(
+                          onTap: (index) {
+                            setState(() {
+                              _selectedTabbar = index;
+                            });
+                          },
+                          controller: tabController,
+                          unselectedLabelColor: theme.primaryColor,
+                          labelColor: Colors.black,
+                          labelStyle: theme.textTheme.bodyText1?.copyWith(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          indicator: BoxDecoration(
+                            color: theme.primaryColor,
+                            border: Border(
+                              bottom: BorderSide(width: 1.5, color: theme.primaryColorDark),
+                            ),
+                          ),
+                          isScrollable: true,
+                          labelPadding: const EdgeInsets.symmetric(horizontal: 50),
+                          tabs: _createAppointmentProvider.categoriesAvailable
+                              .map(
+                                (item) => Tab(text: item.categoryName),
+                              )
+                              .toList(),
 
-                    //     const [
-                    //   Tab(text: 'Haircut'),
-                    //   Tab(text: 'Make up'),
-                    // ],
+                          //     const [
+                          //   Tab(text: 'Haircut'),
+                          //   Tab(text: 'Make up'),
+                          // ],
+                        ),
+                      ),
+                    ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    child: Center(
+                      child: Text(
+                        // (AppLocalizations.of(context)?.shop ?? 'Shop').toUpperCase(),
+                        'No items available for sale', // TODO: -- LOCALIZATION
+                        style: theme.textTheme.bodyText1?.copyWith(
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
 
             SizedBox(height: 30.h),
+            (_createAppointmentProvider.categoriesAvailable.isNotEmpty)
+                ? Builder(
+                    builder: (_) {
+                      for (List<ServiceModel> serviceList in _createAppointmentProvider.servicesAvailable) {
+                        if (_selectedTabbar == _createAppointmentProvider.servicesAvailable.indexOf(serviceList)) {
+                          return ServiceAndPrice(listOfServices: serviceList);
+                        }
+                      }
 
+                      return const SizedBox.shrink();
+                    },
+                  )
+                : const SizedBox.shrink(),
             // -- TAB BAR VIEW
-            Expanded(
-              flex: 0,
-              child: SizedBox(
-                // Find the longest list length to set height of tab bar view
-                height: _createAppointmentProvider.servicesAvailable.reduce((a, b) => a.length > b.length ? a : b).length * 100,
-                // . length * 200, // 400,
-                width: double.infinity,
-                child: TabBarView(
-                  controller: tabController,
-                  physics: const NeverScrollableScrollPhysics(),
+            // Expanded(
+            //   flex: 0,
+            //   child: Container(
+            //     color: Colors.blue,
+            //     // Find the longest list length to set height of tab bar view
+            //     height: (_createAppointmentProvider.servicesAvailable.reduce((a, b) => a.length > b.length ? a : b).length * 220).h,
+            //     // . length * 200, // 400,
+            //     width: double.infinity,
+            //     child: TabBarView(
+            //       controller: tabController,
+            //       physics: const NeverScrollableScrollPhysics(),
 
-                  children: _createAppointmentProvider.servicesAvailable
-                      .map(
-                        (item) => ServiceAndPrice(listOfServices: item),
-                      )
-                      .toList(),
+            //       children: _createAppointmentProvider.servicesAvailable
+            //           .map(
+            //             (item) => ServiceAndPrice(listOfServices: item),
+            //           )
+            //           .toList(),
 
-                  // children: [
-                  //   ServiceAndPrice(
-                  //     listOfServices: [],
-                  //   ),
-                  //   Container(
-                  //     height: 100,
-                  //     width: double.infinity,
-                  //     color: Colors.yellow,
-                  //   ),
-                  // ],
-                ),
-              ),
-            ),
+            //       // children: [
+            //       //   ServiceAndPrice(
+            //       //     listOfServices: [],
+            //       //   ),
+            //       //   Container(
+            //       //     height: 100,
+            //       //     width: double.infinity,
+            //       //     color: Colors.yellow,
+            //       //   ),
+            //       // ],
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
@@ -165,7 +201,7 @@ class ServiceAndPrice extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'SERVICE',
+                AppLocalizations.of(context)?.service ?? 'Service'.toUpperCase(),
                 style: theme.textTheme.headline3?.copyWith(
                   color: theme.primaryColor,
                   fontSize: 20.sp,
@@ -173,7 +209,7 @@ class ServiceAndPrice extends ConsumerWidget {
                 ),
               ),
               Text(
-                'PRICE',
+                AppLocalizations.of(context)?.price ?? 'Price'.toUpperCase(),
                 style: theme.textTheme.headline3?.copyWith(
                   color: theme.primaryColor,
                   fontSize: 20.sp,
@@ -195,13 +231,13 @@ class ServiceAndPrice extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 35),
-          (_salonProfileProvider.chosenSalon.selectedTheme == 2)
+          (_salonProfileProvider.theme == '2')
               ? SquareButton(
                   text: 'BOOK NOW',
                   height: 60.h,
                   buttonColor: theme.primaryColor,
                   borderColor: Colors.transparent,
-                  onTap: () {},
+                  onTap: () => const BookingDialogWidget().show(context),
                 )
               : OvalButton(
                   width: 180.h,
@@ -257,7 +293,7 @@ class ServiceTile extends ConsumerWidget {
                           service.translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
                           style: theme.textTheme.bodyText1?.copyWith(
                             color: theme.primaryColor,
-                            fontSize: 15.sp,
+                            fontSize: 20.sp,
                           ),
                         ),
                         const SizedBox(width: 30),
@@ -276,7 +312,7 @@ class ServiceTile extends ConsumerWidget {
                       service.isFixedPrice ? "${service.priceAndDuration.price}${Keys.uah}" : "${service.priceAndDuration.price}${Keys.uah} - ${service.priceAndDurationMax!.price}${Keys.uah}",
                       style: theme.textTheme.bodyText1?.copyWith(
                         color: Colors.white,
-                        fontSize: 15.sp,
+                        fontSize: 20.sp,
                       ),
                     ),
                   ],

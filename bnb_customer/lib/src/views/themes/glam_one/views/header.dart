@@ -8,6 +8,7 @@ import 'package:bbblient/src/views/themes/components/widgets.dart/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ThemeHeader extends ConsumerWidget {
   final SalonModel salonModel;
@@ -20,6 +21,8 @@ class ThemeHeader extends ConsumerWidget {
 
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+
+    final _createAppointmentProvider = ref.watch(createAppointmentProvider);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -43,24 +46,38 @@ class ThemeHeader extends ConsumerWidget {
           textAlign: TextAlign.center,
         ),
         SizedBox(height: DeviceConstraints.getResponsiveSize(context, 40.h, 40.h, 40.h)),
-        (_salonProfileProvider.chosenSalon.selectedTheme == 1)
-            ? Stack(
-                alignment: Alignment.center,
-                children: [
-                  const RotatedBookNow(),
-                  Text(
-                    "Book Now",
-                    style: GlamOneTheme.bodyText1.copyWith(),
-                  ),
-                ],
-              )
-            : (_salonProfileProvider.chosenSalon.selectedTheme == 5)
-                ? const SizedBox()
-                : SquareButton(
-                    text: 'BOOK NOW',
-                    height: 65.h,
-                    onTap: () {},
-                  ),
+        // (_salonProfileProvider.chosenSalon.selectedTheme == 1)
+        //     ? RotatedBookNow(
+        //         buttonText: AppLocalizations.of(context)?.bookNow ?? "Book Now",
+        //         onTap: () {
+        //           print(_createAppointmentProvider.salonPromotions);
+        //           // print(_createAppointmentProvider.salonServices.length);
+        //           // print(_createAppointmentProvider.salonServices[0].serviceName);
+        //         },
+        //       )
+        //     : (_salonProfileProvider.chosenSalon.selectedTheme == 5)
+        //         ? const SizedBox()
+        //         : SquareButton(
+        //             text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
+        //             height: 65.h,
+        //             onTap: () {
+        //               // print(_salonProfileProvider.chosenSalon.profilePics);
+
+        //               // print(_salonProfileProvider.chosenSalon.profilePics[0]);
+
+        //               // print(salonModel.serv);
+
+        //               // print(salonModel.salonName);
+        //               // print(salonModel.ownerType);
+        //               // print(salonModel.fcmToken);
+        //               // print(salonModel.email);
+        //               // print(salonModel.locale);
+        //               // print(salonModel.email);
+        //               // print(salonModel.links?.whatsapp);
+        //               // print(salonModel.phoneNumber);
+        //             },
+        //           ),
+
         SizedBox(height: DeviceConstraints.getResponsiveSize(context, 100.h, 100.h, 150.h)),
         Padding(
           padding: EdgeInsets.symmetric(
@@ -70,41 +87,48 @@ class ThemeHeader extends ConsumerWidget {
             spacing: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 10.w),
             runSpacing: DeviceConstraints.getResponsiveSize(context, 10.h, 20.w, 10.w),
             alignment: WrapAlignment.center,
-            children: [
-              //  for (var slot in widget.createAppointment.morningTimeslots)
-              const GlamOneButton(
-                text: "Makeup",
-              ),
-              const GlamOneButton(
-                text: "Hairdresser",
-              ),
+            children: _createAppointmentProvider.categoriesAvailable
+                .map(
+                  (item) => GlamOneWrap(
+                    text: item.translations[AppLocalizations.of(context)?.localeName ?? 'en'],
+                  ),
+                )
+                .toList(),
 
-              // TODO: REMOVE ALL THESE (TEMPORARY FOR UI)
-              if (_salonProfileProvider.chosenSalon.selectedTheme == 2)
-                const GlamOneButton(
-                  text: "Esthetician",
-                ),
-              if (_salonProfileProvider.chosenSalon.selectedTheme == 2)
-                const GlamOneButton(
-                  text: "Injectable & Med Spa",
-                ),
-              if (_salonProfileProvider.chosenSalon.selectedTheme == 2)
-                const GlamOneButton(
-                  text: "Nail Artist",
-                ),
-              if (_salonProfileProvider.chosenSalon.selectedTheme == 2)
-                const GlamOneButton(
-                  text: "Massage",
-                ),
-              if (_salonProfileProvider.chosenSalon.selectedTheme == 2)
-                const GlamOneButton(
-                  text: "Epilation",
-                ),
-              if (_salonProfileProvider.chosenSalon.selectedTheme == 2)
-                const GlamOneButton(
-                  text: "Eyebrow makeup",
-                ),
-            ],
+            // [
+            // const GlamOneWrap(
+            //   text: "Makeup",
+            // ),
+            // const GlamOneWrap(
+            //   text: "Hairdresser",
+            // ),
+
+            // // TODO: REMOVE ALL THESE (TEMPORARY FOR UI)
+            // if (_salonProfileProvider.chosenSalon.selectedTheme == 2)
+            //   const GlamOneWrap(
+            //     text: "Esthetician",
+            //   ),
+            // if (_salonProfileProvider.chosenSalon.selectedTheme == 2)
+            //   const GlamOneWrap(
+            //     text: "Injectable & Med Spa",
+            //   ),
+            // if (_salonProfileProvider.chosenSalon.selectedTheme == 2)
+            //   const GlamOneWrap(
+            //     text: "Nail Artist",
+            //   ),
+            // if (_salonProfileProvider.chosenSalon.selectedTheme == 2)
+            //   const GlamOneWrap(
+            //     text: "Massage",
+            //   ),
+            // if (_salonProfileProvider.chosenSalon.selectedTheme == 2)
+            //   const GlamOneWrap(
+            //     text: "Epilation",
+            //   ),
+            // if (_salonProfileProvider.chosenSalon.selectedTheme == 2)
+            //   const GlamOneWrap(
+            //     text: "Eyebrow makeup",
+            //   ),
+            // ],
           ),
         ),
       ],
@@ -113,38 +137,54 @@ class ThemeHeader extends ConsumerWidget {
 }
 
 class RotatedBookNow extends StatelessWidget {
-  const RotatedBookNow({Key? key}) : super(key: key);
+  final VoidCallback onTap;
+  final String buttonText;
+  const RotatedBookNow({Key? key, required this.onTap, required this.buttonText}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return RotationTransition(
-      turns: const AlwaysStoppedAnimation(175 / 360), // (15 / 360),
-      child: Container(
-        width: 170.h,
-        height: 65.h,
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: GlamOneTheme.primaryColor,
-            width: 1.5,
-          ),
-          borderRadius: BorderRadius.circular(170),
-        ),
-      ),
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+          onTap: onTap,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              RotationTransition(
+                turns: const AlwaysStoppedAnimation(175 / 360), // (15 / 360),
+                child: Container(
+                  width: 170.h,
+                  height: 65.h,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: GlamOneTheme.primaryColor,
+                      width: 1.5,
+                    ),
+                    borderRadius: BorderRadius.circular(170),
+                  ),
+                ),
+              ),
+              Text(
+                buttonText,
+                style: GlamOneTheme.bodyText1.copyWith(),
+              ),
+            ],
+          )),
     );
   }
 }
 
-class GlamOneButton extends StatelessWidget {
+class GlamOneWrap extends StatelessWidget {
   final String text;
   final VoidCallback? onTap;
-  const GlamOneButton({Key? key, required this.text, this.onTap}) : super(key: key);
+  const GlamOneWrap({Key? key, required this.text, this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 120.h,
+        width: 150.h,
         height: 50.h,
         decoration: BoxDecoration(
           border: Border.all(color: Colors.white, width: 1.5),

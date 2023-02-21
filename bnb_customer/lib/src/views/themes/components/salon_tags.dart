@@ -14,7 +14,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 // };
 
 class SalonTags extends ConsumerWidget {
-  const SalonTags({Key? key}) : super(key: key);
+  final List<String> additionalFeatures;
+  const SalonTags({Key? key, required this.additionalFeatures}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -33,7 +34,7 @@ class SalonTags extends ConsumerWidget {
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
-              itemCount: tags.length,
+              itemCount: additionalFeatures.length,
               itemBuilder: ((context, index) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -44,7 +45,7 @@ class SalonTags extends ConsumerWidget {
                       Padding(
                         padding: const EdgeInsets.only(right: 10),
                         child: Text(
-                          tags[index],
+                          convertLowerCamelCase(additionalFeatures[index]),
                           style: theme.textTheme.bodyText1?.copyWith(
                             color: theme.dividerColor,
                             fontSize: 18.sp,
@@ -72,19 +73,33 @@ class SalonTags extends ConsumerWidget {
   }
 }
 
-List<String> tags = [
-  'Coffee/Tea',
-  'Pet friendly',
-  'Parking',
-  'covid-19 vaccinated',
-  'Medical degree',
-  'instruments sterilization',
-  'Disposable materials only',
-  'Pet friendly',
-  'Parking',
-  'covid-19 vaccinated',
-  'Medical degree',
-  'Medical degree',
-  'instruments sterilization',
-  'Disposable materials only',
-];
+String convertLowerCamelCase(String input) {
+  var output = '';
+  for (var i = 0; i < input.length; i++) {
+    if (i == 0) {
+      output += input[i].toLowerCase();
+    } else if (input[i].toUpperCase() == input[i]) {
+      output += ' ' + input[i].toLowerCase();
+    } else {
+      output += input[i];
+    }
+  }
+  return output.toLowerCase();
+}
+
+// List<String> tags = [
+//   'Coffee/Tea',
+//   'Pet friendly',
+//   'Parking',
+//   'covid-19 vaccinated',
+//   'Medical degree',
+//   'instruments sterilization',
+//   'Disposable materials only',
+//   'Pet friendly',
+//   'Parking',
+//   'covid-19 vaccinated',
+//   'Medical degree',
+//   'Medical degree',
+//   'instruments sterilization',
+//   'Disposable materials only',
+// ];

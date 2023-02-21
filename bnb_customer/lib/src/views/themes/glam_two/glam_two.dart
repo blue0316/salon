@@ -1,5 +1,6 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
+import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/components/header_image.dart';
@@ -38,8 +39,10 @@ class _GlamBarbershopState extends ConsumerState<GlamBarbershop> {
   @override
   Widget build(BuildContext context) {
     final _salonSearchProvider = ref.watch(salonSearchProvider);
-    final _salonProfileProvider = ref.watch(salonProfileProvider);
     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
+
+    final _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonModel chosenSalon = _salonProfileProvider.chosenSalon;
 
     return SafeArea(
       top: false,
@@ -66,7 +69,7 @@ class _GlamBarbershopState extends ConsumerState<GlamBarbershop> {
                             alignment: Alignment.topCenter,
                             children: [
                               // TOP BACKGROUND IMAGE
-                              const ThemeHeaderImage(image: ThemeImages.longBG),
+                              const ThemeHeaderImage(),
 
                               SizedBox(
                                 child: Align(
@@ -77,7 +80,7 @@ class _GlamBarbershopState extends ConsumerState<GlamBarbershop> {
                                       mainAxisSize: MainAxisSize.min,
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        CustomAppBar(
+                                        ThemeAppBar(
                                           salonModel: _salonProfileProvider.chosenSalon,
                                         ),
                                         SizedBox(height: 70.h),
@@ -92,33 +95,30 @@ class _GlamBarbershopState extends ConsumerState<GlamBarbershop> {
                             ],
                           ),
                         ),
-                        const SalonTags(),
-                        const SalonPromotions(),
-                        SalonAbout2(
-                          salonModel: _salonProfileProvider.chosenSalon,
-                        ),
+                        if (chosenSalon.additionalFeatures.isNotEmpty)
+                          SalonTags(
+                            additionalFeatures: chosenSalon.additionalFeatures,
+                          ),
+                        if (_createAppointmentProvider.salonPromotions.isNotEmpty) const SalonPromotions(),
+                        SalonAbout2(salonModel: chosenSalon),
                         const SalonSponsors(),
-                        SalonWorks(
-                          salonModel: _salonProfileProvider.chosenSalon,
-                        ),
+                        SalonWorks(salonModel: chosenSalon),
                         SalonPrice(
-                          salonModel: _salonProfileProvider.chosenSalon,
+                          salonModel: chosenSalon,
                           categories: _salonSearchProvider.categories,
                           categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
                         ),
                         const SalonShop(),
                         if (_salonProfileProvider.chosenSalon.ownerType != OwnerType.singleMaster)
                           SalonTeam(
-                            salonModel: _salonProfileProvider.chosenSalon,
+                            salonModel: chosenSalon,
                           ),
-                        const SalonReviews(),
-                        const WriteToUs(),
-                        SalonContact(
-                          salonModel: _salonProfileProvider.chosenSalon,
-                        ),
-                        SalonSocials(
-                          salonModel: _salonProfileProvider.chosenSalon,
-                        ),
+                        SalonReviews(salonModel: chosenSalon),
+                        WriteToUs(salonModel: chosenSalon),
+                        SalonContact(salonModel: chosenSalon),
+                        // SalonSocials(
+                        //   salonModel: chosenSalon,
+                        // ),
                         Column(
                           children: [
                             Padding(

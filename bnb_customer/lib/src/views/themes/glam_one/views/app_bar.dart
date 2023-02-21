@@ -3,14 +3,16 @@ import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/icons.dart';
+import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class CustomAppBar extends StatelessWidget {
+class ThemeAppBar extends StatelessWidget {
   final SalonModel salonModel;
 
-  const CustomAppBar({Key? key, required this.salonModel}) : super(key: key);
+  const ThemeAppBar({Key? key, required this.salonModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,16 +29,28 @@ class CustomAppBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               if (!isPortrait)
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SvgPicture.asset(ThemeIcons.insta, height: 25.h),
-                    const SizedBox(width: 20),
-                    SvgPicture.asset(ThemeIcons.tiktok, height: 25.h, color: Colors.white),
-                    const SizedBox(width: 20),
-                    SvgPicture.asset(ThemeIcons.whatsapp, height: 25.h, color: Colors.white),
-                  ],
+                MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Socials(
+                        socialIcon: ThemeIcons.insta,
+                        socialUrl: salonModel.links?.instagram,
+                      ),
+                      const SizedBox(width: 20),
+                      Socials(
+                        socialIcon: ThemeIcons.insta,
+                        socialUrl: salonModel.links?.facebookMessenger,
+                      ),
+                      const SizedBox(width: 20),
+                      Socials(
+                        socialIcon: ThemeIcons.whatsapp,
+                        socialUrl: salonModel.links?.whatsapp,
+                      ),
+                    ],
+                  ),
                 ),
               if (!isPortrait) const Spacer(),
               Text(
@@ -60,6 +74,40 @@ class CustomAppBar extends StatelessWidget {
             decoration: const BoxDecoration(color: Colors.white),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class Socials extends StatelessWidget {
+  final String socialIcon;
+  final String? socialUrl;
+  final Color? color;
+  final double? height;
+
+  const Socials({Key? key, required this.socialIcon, required this.socialUrl, this.color, this.height}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: () async {
+          String instaUrl = socialUrl ?? '';
+
+          Uri uri = Uri.parse(instaUrl);
+          debugPrint("launching Insta Url: $uri");
+          if (await canLaunchUrl(uri)) {
+            await launchUrl(uri);
+          } else {
+            showToast("No social page for this profile");
+          }
+        },
+        child: SvgPicture.asset(
+          socialIcon,
+          height: height ?? 25.h,
+          color: color,
+        ),
       ),
     );
   }

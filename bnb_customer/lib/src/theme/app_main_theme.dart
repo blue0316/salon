@@ -185,6 +185,7 @@ class AppTheme {
         borderRadius: BorderRadius.circular(50),
         color: Colors.black,
       ),
+      labelStyle: AppTheme.bodyText1,
     ),
     colorScheme: const ColorScheme(
       primary: creamBrown,
@@ -233,6 +234,7 @@ class AppTheme {
     highlightColor: milkeyGreyDark,
     splashColor: milkeyGreyDark,
     hoverColor: milkeyGreyDark,
+    unselectedWidgetColor: const Color.fromARGB(255, 239, 239, 239), // Color for not valid time slot container
   );
 
   static final ThemeData darkTheme = ThemeData(
@@ -290,16 +292,16 @@ class AppTheme {
     // backgroundColor: GlamOneTheme.primaryColor,
     scaffoldBackgroundColor: Colors.black,
     textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
-
     tabBarTheme: TabBarTheme(
-      unselectedLabelColor: GlamOneTheme.primaryColor,
-      labelColor: GlamOneTheme.deepOrange,
+      unselectedLabelColor: Colors.white,
+      labelColor: Colors.black,
       labelStyle: GlamBarberShopTheme.bodyText1.copyWith(
-        color: GlamOneTheme.deepOrange,
+        color: Colors.black,
         fontWeight: FontWeight.w600,
       ),
-      indicator: const BoxDecoration(
-        border: Border(bottom: BorderSide(width: 1.5, color: GlamOneTheme.deepOrange)),
+      indicator: BoxDecoration(
+        borderRadius: BorderRadius.circular(50),
+        color: GlamOneTheme.primaryColor,
       ),
     ),
     dialogBackgroundColor: Colors.black,
@@ -307,7 +309,7 @@ class AppTheme {
     colorScheme: ColorScheme(
       primary: (Colors.pink[900])!,
       secondary: Colors.black, // Color of title text on cards
-      onSecondaryContainer: Colors.black, // Color of sub text on cards
+      onSecondaryContainer: Colors.black, // Color of sub text on cardsf
       surface: Colors.white,
       background: GlamOneTheme.primaryColor,
       error: redishPink,
@@ -338,9 +340,7 @@ class AppTheme {
         color: textBlack,
       ),
     ),
-
     dividerColor: const Color(0XFFF48B72),
-
     inputDecorationTheme: InputDecorationTheme(
       labelStyle: GlamOneTheme.bodyText1.copyWith(color: Colors.black),
       border: OutlineInputBorder(
@@ -357,7 +357,7 @@ class AppTheme {
       ),
       hintStyle: GlamOneTheme.bodyText1.copyWith(color: Colors.black),
     ),
-
+    unselectedWidgetColor: Colors.grey[700], // Color for not valid time slot container
     // Stop
     focusColor: lightGrey,
     highlightColor: milkeyGreyDark,
@@ -377,13 +377,14 @@ class AppTheme {
 
     tabBarTheme: TabBarTheme(
       unselectedLabelColor: Colors.white,
-      labelColor: GlamBarberShopTheme.primaryColor,
+      labelColor: Colors.black,
       labelStyle: GlamBarberShopTheme.bodyText1.copyWith(
-        color: GlamBarberShopTheme.primaryColor,
+        color: Colors.black,
         fontWeight: FontWeight.w600,
       ),
-      indicator: const BoxDecoration(
-        border: Border(bottom: BorderSide(width: 1.5, color: Colors.white)),
+      indicator: BoxDecoration(
+        borderRadius: BorderRadius.circular(50),
+        color: GlamBarberShopTheme.primaryColor,
       ),
     ),
     dialogBackgroundColor: Colors.black,
@@ -432,6 +433,7 @@ class AppTheme {
       hintStyle: GlamBarberShopTheme.bodyText1.copyWith(color: Colors.white),
     ),
     hintColor: Colors.white,
+    unselectedWidgetColor: Colors.grey[700], // Color for not valid time slot container
 
     // Stop
 

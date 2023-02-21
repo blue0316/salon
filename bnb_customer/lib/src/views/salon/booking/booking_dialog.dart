@@ -147,9 +147,13 @@ class _BookingDialogWidgetState<T> extends ConsumerState<BookingDialogWidget<T>>
                                 controller: bookingTabController,
                                 // unselectedLabelColor: Colors.black,
                                 // labelColor: Colors.white,
-                                labelStyle: AppTheme.bodyText1.copyWith(
+                                labelStyle: theme.tabBarTheme.labelStyle!.copyWith(
                                   fontSize: DeviceConstraints.getResponsiveSize(context, 15.h, 15.h, 15.sp),
                                 ),
+
+                                // AppTheme.bodyText1.copyWith(
+                                //   fontSize: DeviceConstraints.getResponsiveSize(context, 15.h, 15.h, 15.sp),
+                                // ),
                                 // indicator: BoxDecoration(
                                 //   borderRadius: BorderRadius.circular(50),
                                 //   color: Colors.black,

@@ -1,3 +1,4 @@
+import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/review.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -211,6 +212,26 @@ class SalonApi {
     }
     return allReviews;
   }
+
+  // Get Salon Services
+  // Future<List<ServiceModel>> getSalonServices({required String salonId}) async {
+  //   //   QuerySnapshot _response = await Collection.services.where('salonId', isEqualTo: salonId).get();
+
+  //   List<ServiceModel> allServices = [];
+  //   //   for (QueryDocumentSnapshot doc in _response.docs) {
+  //   //     try {
+  //   //       ServiceModel _serviceModel = ServiceModel.fromJson(doc.data() as Map<String, dynamic>);
+  //   //       print('##################');
+  //   //       print(_serviceModel.serviceName);
+  //   //       print('##################');
+  //   //       _serviceModel.serviceId = doc.id;
+  //   //       allServices.add(_serviceModel);
+  //   //     } catch (e) {
+  //   //       printIt(e);
+  //   //     }
+  //   //   }
+  //   return allServices;
+  // }
 
   Future updateSalonBlockedTime(SalonModel salon) async {
     try {

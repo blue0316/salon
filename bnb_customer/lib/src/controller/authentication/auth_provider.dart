@@ -291,11 +291,10 @@ class AuthProvider with ChangeNotifier {
         notifyListeners();
 
         _showOTPScreen();
-      }else{
+      } else {
         phoneVerificationResult = await _auth.signInWithPhoneNumber(_phone.trim());
         notifyListeners();
       }
-
 
       _showOTPScreen();
     } on FirebaseAuthException catch (e) {
@@ -315,24 +314,15 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<void> checkOtp(String confirmOtp) async {
-    print('**************************************');
-    print(confirmOtp);
-    print('**************************************');
     // print(phoneVerificationResult.toString());
     // print(phoneVerificationResult?.verificationId);
 
     try {
-      UserCredential? _userResult = await  webOTPConfirmationResult?.confirm(confirmOtp.trim());
+      UserCredential? _userResult = await webOTPConfirmationResult?.confirm(confirmOtp.trim());
 
-      print(_userResult);
-
-      print('**************************************');
-
-      print(_userResult);
-      print('*********** ***************************');
       if (_userResult != null && _userResult.user != null) {
         printIt(_userResult.user);
-       // await callBack();
+        // await callBack();
         userLoggedIn = true;
         loginStatus = Status.success;
         printIt("New Login Status");
@@ -343,7 +333,7 @@ class AuthProvider with ChangeNotifier {
         printIt(" Login Status failed");
         printIt(loginStatus);
         notifyListeners();
-       // showToast(AppLocalizations.of(context)?.errorOccurred ?? 'error occurred');
+        // showToast(AppLocalizations.of(context)?.errorOccurred ?? 'error occurred');
       }
     } on FirebaseAuthException catch (e) {
       loginStatus = Status.failed;
@@ -374,9 +364,6 @@ class AuthProvider with ChangeNotifier {
       if (kIsWeb) {
         printIt("It's webbb");
         _userResult = await webOTPConfirmationResult?.confirm(otp);
-        print('**************************************');
-        print(_userResult);
-        print('**************************************');
 
         phoneNoController.clear();
       } else {

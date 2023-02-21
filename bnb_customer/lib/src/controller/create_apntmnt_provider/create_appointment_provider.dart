@@ -3,8 +3,8 @@ import 'package:bbblient/src/firebase/appointments.dart';
 import 'package:bbblient/src/firebase/bonus_referral_api.dart';
 import 'package:bbblient/src/firebase/category_services.dart';
 import 'package:bbblient/src/firebase/collections.dart';
-import 'package:bbblient/src/firebase/customer.dart';
 import 'package:bbblient/src/firebase/master.dart';
+import 'package:bbblient/src/firebase/promotion_service.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/backend_codings/appointment.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
@@ -17,6 +17,7 @@ import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/customer/customer.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/integration/beauty_pro/beauty_pro.dart';
+import 'package:bbblient/src/models/products.dart';
 import 'package:bbblient/src/models/promotions/promotion_service.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/models/review.dart';
@@ -27,10 +28,10 @@ import 'package:bbblient/src/utils/time.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
+import 'package:collection/collection.dart';
 
 class CreateAppointmentProvider with ChangeNotifier {
   Status loadingStatus = Status.loading;
@@ -39,6 +40,9 @@ class CreateAppointmentProvider with ChangeNotifier {
   List<ServiceModel> salonServices = [];
   List<MasterModel> salonMasters = [];
   List<ReviewModel> salonReviews = [];
+
+  // Products
+  List<ProductModel> salonProductsBrand = [];
 
   ///all the slots below
   List<String> allSlots = [];
@@ -51,7 +55,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 
   ///Promotion Variables
   // PromotionModel? chosenPromotion;
-  List<ServiceModel> salonPromotionServices = [];
+  List<ServiceModel> xsalonPromotionServices = [];
   List<PromotionModel> salonPromotions = [];
   Map<String, List<ServiceModel>> categoryPromotionServicesMap = {};
   PromotionModel? selectedPromotion;
@@ -108,8 +112,6 @@ class CreateAppointmentProvider with ChangeNotifier {
   List<CategoryModel> categoriesAvailable = [];
   List<List<ServiceModel>> servicesAvailable = [];
 
-
-
   // TextField Controllers on `Book Now` Dialog
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -118,7 +120,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   // PageView Controller on `Confirmation` Tab Bar
   final PageController confirmationPageController = PageController();
 
-  void verifyControllers(BuildContext context,AuthProvider _authProvider) async {
+  void verifyControllers(BuildContext context, AuthProvider _authProvider) async {
     if (nameController.text.isEmpty) {
       showToast('Name field cannot be empty', duration: const Duration(seconds: 3));
       return;
@@ -183,18 +185,20 @@ class CreateAppointmentProvider with ChangeNotifier {
   }
 
   getSalonServices({required List<CategoryModel> categories}) async {
+    categoriesAvailable.clear();
+    servicesAvailable.clear();
     for (CategoryModel cat in categories) {
       if (categoryServicesMap[cat.categoryId.toString()] != null && categoryServicesMap[cat.categoryId.toString()]!.isNotEmpty) {
-        final CategoryModel categoryModel = categories
-            .where(
-              (element) => element.categoryId == cat.categoryId.toString(),
-            )
-            .first;
+        final CategoryModel? categoryModel = categories.firstWhereOrNull(
+          (element) => element.categoryId == cat.categoryId.toString(),
+        );
 
-        categoriesAvailable.add(categoryModel);
-        List<ServiceModel> services = categoryServicesMap[cat.categoryId.toString()] ?? [];
+        if (categoryModel != null) {
+          categoriesAvailable.add(categoryModel);
+          List<ServiceModel> services = categoryServicesMap[cat.categoryId.toString()] ?? [];
 
-        servicesAvailable.add(services);
+          servicesAvailable.add(services);
+        }
       }
     }
 
@@ -291,7 +295,9 @@ class CreateAppointmentProvider with ChangeNotifier {
     printIt(salonModel.toJson());
     if (salonModel.ownerType == OwnerType.singleMaster) {
       List<ServiceModel> _servicesList = await CategoryServicesApi().getSalonServices(salonId: salonModel.salonId);
-      salonServices = _servicesList;
+
+      salonServices = _servicesList; // _clearProvider not clearing list // TODO: FIX LATER
+
       _servicesValidList = _servicesList;
       //Saving these for promotion
       // List<PromotionModel> _promotionList = await PromotionServiceApi()
@@ -304,6 +310,9 @@ class CreateAppointmentProvider with ChangeNotifier {
     } else {
       List<MasterModel> _masters = await MastersApi().getAllMaster(salonModel.salonId);
       List<ServiceModel> _servicesList = await CategoryServicesApi().getSalonServices(salonId: salonModel.salonId);
+
+      salonServices = _servicesList; // _clearProvider not clearing list // TODO: FIX LATER
+
       if (_servicesList.isNotEmpty && _masters.isNotEmpty) {
         for (MasterModel master in _masters) {
           _mastersServices.addAll(master.serviceIds ?? []);
@@ -363,6 +372,10 @@ class CreateAppointmentProvider with ChangeNotifier {
         }
       }
     }
+
+    salonPromotions = await PromotionServiceApi().getSalonPromotions(salonId: salonModel.salonId);
+
+    notifyListeners();
   }
 
   _initCrm({required String salonId}) async {
@@ -388,12 +401,16 @@ class CreateAppointmentProvider with ChangeNotifier {
     salonServices.clear();
     salonReviews.clear();
     chosenServices.clear();
+    categoriesAvailable.clear();
+    servicesAvailable.clear();
     totalPrice = 0;
     totalMinutes = 0;
     totalTimeWithMaster = 0;
     totalPriceWithMaster = 0;
     appointmentModel = null;
     chosenMaster = null;
+
+    salonProductsBrand = [];
 
     notifyListeners();
   }

@@ -3,14 +3,15 @@ import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
-import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/components/widgets.dart/button.dart';
 import 'package:bbblient/src/views/themes/images.dart';
 import 'package:bbblient/src/views/themes/components/widgets.dart/oval_button.dart';
+import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SalonAbout2 extends ConsumerWidget {
   final SalonModel salonModel;
@@ -24,9 +25,6 @@ class SalonAbout2 extends ConsumerWidget {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-
-    String about =
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem.";
 
     return Padding(
       padding: EdgeInsets.only(
@@ -43,12 +41,19 @@ class SalonAbout2 extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Container(
-                    // color: Colors.green,
+                  SizedBox(
                     width: DeviceConstraints.getResponsiveSize(context, 50, 200.w, 200.w),
-                    child: Image.asset(
-                      ThemeImages.makeup,
-                      fit: BoxFit.cover,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: (salonModel.photosOfWork.isNotEmpty && salonModel.photosOfWork[0] != '')
+                          ? CachedImage(
+                              url: salonModel.photosOfWork[0],
+                              fit: BoxFit.cover,
+                            )
+                          : Image.asset(
+                              ThemeImages.makeup,
+                              fit: BoxFit.cover,
+                            ),
                     ),
                   ),
                   SizedBox(width: DeviceConstraints.getResponsiveSize(context, 0, 20.w, 25.w)),
@@ -61,7 +66,7 @@ class SalonAbout2 extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "ABOUT ${isSingleMaster ? "ME" : "US"} ",
+                            isSingleMaster ? (AppLocalizations.of(context)?.aboutMe ?? 'About Me') : (AppLocalizations.of(context)?.aboutUs ?? 'About Us').toUpperCase(),
                             style: theme.textTheme.headline2?.copyWith(
                               fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 30.sp, 50.sp),
                             ),
@@ -69,7 +74,7 @@ class SalonAbout2 extends ConsumerWidget {
                           const SizedBox(height: 3),
                           SizedBox(
                             child: Text(
-                              about,
+                              (salonModel.description != '') ? salonModel.description : 'No description yet',
                               style: theme.textTheme.bodyText2?.copyWith(
                                 color: Colors.white,
                                 fontSize: 15.5.sp,
@@ -78,16 +83,16 @@ class SalonAbout2 extends ConsumerWidget {
                             ),
                           ),
                           const SizedBox(height: 20),
-                          (_salonProfileProvider.chosenSalon.selectedTheme == 2)
-                              ? SquareButton(
-                                  text: 'BOOK NOW',
-                                  // height: 60.h,
-                                  onTap: () {},
-                                )
-                              : OvalButton(
-                                  text: 'Book Now',
-                                  onTap: () {},
-                                ),
+                          // (_salonProfileProvider.chosenSalon.selectedTheme == 2)
+                          //     ? SquareButton(
+                          //         text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
+                          //         // height: 60.h,
+                          //         onTap: () {},
+                          //       )
+                          //     : OvalButton(
+                          //         text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
+                          //         onTap: () {},
+                          //       ),
                         ],
                       ),
                     ),
@@ -108,14 +113,14 @@ class SalonAbout2 extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    "ABOUT ${isSingleMaster ? "ME" : "US"} ",
+                    "${AppLocalizations.of(context)?.about} ${isSingleMaster ? "ME" : "US"}".toUpperCase(),
                     style: theme.textTheme.headline2?.copyWith(
                       fontSize: 40.sp,
                     ),
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    about,
+                    (salonModel.description != '') ? salonModel.description : 'No description yet',
                     style: theme.textTheme.bodyText2?.copyWith(
                       color: Colors.white,
                       fontSize: 15.5.sp,
@@ -123,9 +128,9 @@ class SalonAbout2 extends ConsumerWidget {
                     maxLines: 6,
                   ),
                   const SizedBox(height: 30),
-                  (_salonProfileProvider.chosenSalon.selectedTheme == 2)
+                  (_salonProfileProvider.theme == '2')
                       ? SquareButton(
-                          text: 'BOOK NOW',
+                          text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
                           // height: 60.h,
                           onTap: () {},
                         )
@@ -133,17 +138,26 @@ class SalonAbout2 extends ConsumerWidget {
                           width: 180.h,
                           height: 60.h,
                           textSize: 18.sp,
-                          text: 'Book Now',
+                          text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
                           onTap: () {
-                            print(DeviceConstraints.getDeviceType(MediaQuery.of(context)));
+                            // print(DeviceConstraints.getDeviceType(MediaQuery.of(context)));
                           },
                         ),
                   const SizedBox(height: 35),
                   SizedBox(
                     height: 300.h,
-                    child: Image.asset(
-                      ThemeImages.makeup,
-                      fit: BoxFit.cover,
+                    width: double.infinity,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: (salonModel.photosOfWork.isNotEmpty && salonModel.photosOfWork[0] != '')
+                          ? CachedImage(
+                              url: salonModel.photosOfWork[0],
+                              fit: BoxFit.cover,
+                            )
+                          : Image.asset(
+                              ThemeImages.makeup,
+                              fit: BoxFit.cover,
+                            ),
                     ),
                   ),
                 ],

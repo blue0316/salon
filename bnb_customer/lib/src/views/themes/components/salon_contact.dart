@@ -4,12 +4,14 @@ import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/views/themes/glam_one/views/app_bar.dart';
 import 'package:bbblient/src/views/themes/images.dart';
 import 'package:bbblient/src/views/themes/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SalonContact extends ConsumerStatefulWidget {
   final SalonModel salonModel;
@@ -53,10 +55,15 @@ class _SalonContactState extends ConsumerState<SalonContact> with SingleTickerPr
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
-            "${isSingleMaster ? "" : "OUR "} CONTACTS",
-            style: theme.textTheme.headline2?.copyWith(
-                // fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),
-                ),
+            // "${isSingleMaster ? "" : "OUR "} CONTACTS",
+            isSingleMaster
+                ? (AppLocalizations.of(context)?.contacts ?? 'Contacts')
+                : (AppLocalizations.of(
+                          context,
+                        )?.ourContacts ??
+                        'Our Contacts')
+                    .toUpperCase(),
+            style: theme.textTheme.headline2,
           ),
           const SizedBox(height: 50),
           SizedBox(
@@ -73,12 +80,12 @@ class _SalonContactState extends ConsumerState<SalonContact> with SingleTickerPr
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
-                              ContactSection(),
-                              SizedBox(height: 10),
-                              VisitUs(),
-                              SizedBox(height: 10),
-                              SocialNetwork(),
+                            children: [
+                              ContactSection(salonModel: widget.salonModel),
+                              const SizedBox(height: 10),
+                              VisitUs(salonModel: widget.salonModel),
+                              const SizedBox(height: 10),
+                              SocialNetwork(salonModel: widget.salonModel),
                             ],
                           ),
                         ),
@@ -102,11 +109,11 @@ class _SalonContactState extends ConsumerState<SalonContact> with SingleTickerPr
                           child: Image.asset(ThemeImages.map, fit: BoxFit.cover),
                         ),
                         const SizedBox(height: 30),
-                        const ContactSection(),
+                        ContactSection(salonModel: widget.salonModel),
                         const SizedBox(height: 30),
-                        const VisitUs(),
+                        VisitUs(salonModel: widget.salonModel),
                         const SizedBox(height: 30),
-                        const SocialNetwork(),
+                        SocialNetwork(salonModel: widget.salonModel),
                       ],
                     ),
             ),
@@ -117,87 +124,10 @@ class _SalonContactState extends ConsumerState<SalonContact> with SingleTickerPr
   }
 }
 
-class SocialNetwork extends ConsumerWidget {
-  const SocialNetwork({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
-    final ThemeData theme = _salonProfileProvider.salonTheme;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Text(
-          "SOCIAL NETWORK",
-          overflow: TextOverflow.ellipsis,
-          textAlign: TextAlign.left,
-          style: theme.textTheme.headline2?.copyWith(
-            fontSize: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
-          ),
-        ),
-        const SizedBox(height: 10),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SvgPicture.asset(
-              ThemeIcons.insta,
-              height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
-              color: theme.dividerColor,
-            ),
-            const SizedBox(width: 20),
-            SvgPicture.asset(
-              ThemeIcons.tiktok,
-              height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
-              color: theme.dividerColor,
-            ),
-            const SizedBox(width: 20),
-            SvgPicture.asset(
-              ThemeIcons.whatsapp,
-              height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
-              color: theme.dividerColor,
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class VisitUs extends ConsumerWidget {
-  const VisitUs({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
-    final ThemeData theme = _salonProfileProvider.salonTheme;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Text(
-          "VISIT US",
-          overflow: TextOverflow.ellipsis,
-          textAlign: TextAlign.left,
-          style: theme.textTheme.headline2?.copyWith(
-            fontSize: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
-          ),
-        ),
-        const SizedBox(height: 10),
-        const ContactCard(
-          icon: ThemeIcons.mail,
-          value: "500 Brickell Av, Miami Fl 33131",
-        ),
-      ],
-    );
-  }
-}
-
 class ContactSection extends ConsumerWidget {
-  const ContactSection({Key? key}) : super(key: key);
+  final SalonModel salonModel;
+
+  const ContactSection({Key? key, required this.salonModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -209,7 +139,7 @@ class ContactSection extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
-          "Contact".toUpperCase(),
+          AppLocalizations.of(context)?.contacts ?? 'Contacts'.toUpperCase(),
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.left,
           style: theme.textTheme.headline2?.copyWith(
@@ -217,8 +147,8 @@ class ContactSection extends ConsumerWidget {
           ),
         ),
         const SizedBox(height: 10),
-        const ContactCard(icon: ThemeIcons.phone, value: "(000) 000-0000"),
-        const ContactCard(icon: ThemeIcons.mail, value: "miamibeauty@gmail.com"),
+        ContactCard(icon: ThemeIcons.phone, value: salonModel.phoneNumber),
+        ContactCard(icon: ThemeIcons.mail, value: salonModel.email ?? 'N/A'),
       ],
     );
   }
@@ -241,21 +171,105 @@ class ContactCard extends ConsumerWidget {
         children: [
           SvgPicture.asset(
             icon,
-            height: DeviceConstraints.getResponsiveSize(context, 18.sp, 18.sp, 16.sp),
+            height: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
             color: theme.primaryColorDark,
           ),
           const SizedBox(width: 15),
           Flexible(
             child: Text(
               value,
-              style: theme.textTheme.bodyText1?.copyWith(
-                color: Colors.white,
-                fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 18.sp, 16.sp),
-              ),
+              style: theme.textTheme.bodyText1?.copyWith(color: Colors.white, fontSize: 20.sp),
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class VisitUs extends ConsumerWidget {
+  final SalonModel salonModel;
+
+  const VisitUs({Key? key, required this.salonModel}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Text(
+          // "VISIT US",
+          AppLocalizations.of(context)?.visit ?? 'Visit'.toUpperCase(),
+
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.left,
+          style: theme.textTheme.headline2?.copyWith(
+            fontSize: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
+          ),
+        ),
+        const SizedBox(height: 10),
+        ContactCard(icon: ThemeIcons.mail, value: salonModel.address),
+      ],
+    );
+  }
+}
+
+class SocialNetwork extends ConsumerWidget {
+  final SalonModel salonModel;
+
+  const SocialNetwork({Key? key, required this.salonModel}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Text(
+          // "SOCIAL NETWORK",
+          AppLocalizations.of(context)?.socialNetwork ?? 'Social Network'.toUpperCase(),
+
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.left,
+          style: theme.textTheme.headline2?.copyWith(
+            fontSize: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
+          ),
+        ),
+        const SizedBox(height: 10),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Socials(
+              socialIcon: ThemeIcons.insta,
+              socialUrl: salonModel.links?.instagram,
+              height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
+              color: theme.dividerColor,
+            ),
+            const SizedBox(width: 20),
+            Socials(
+              socialIcon: ThemeIcons.tiktok,
+              socialUrl: salonModel.links?.facebookMessenger,
+              height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
+              color: theme.dividerColor,
+            ),
+            const SizedBox(width: 20),
+            Socials(
+              socialIcon: ThemeIcons.whatsapp,
+              socialUrl: salonModel.links?.whatsapp,
+              height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
+              color: theme.dividerColor,
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

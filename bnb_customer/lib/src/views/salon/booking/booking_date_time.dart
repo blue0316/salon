@@ -795,7 +795,7 @@ class TimeSlotContainer extends ConsumerWidget {
               ? choosen
                   ? x
                   : Colors.white
-              : Colors.grey[300], // const Color.fromARGB(255, 239, 239, 239),
+              : theme.unselectedWidgetColor, // const Color.fromARGB(255, 239, 239, 239),
           // color: valid
           //     ? choosen
           //         ? AppTheme.textBlack
@@ -807,7 +807,8 @@ class TimeSlotContainer extends ConsumerWidget {
                 ? choosen
                     ? x
                     : (Colors.grey[300]!)
-                : (Colors.grey[300]!),
+                : theme.unselectedWidgetColor,
+            // (Colors.grey[300]!),
             // color: const Color.fromARGB(255, 239, 239, 239),
             width: 1,
           ),
