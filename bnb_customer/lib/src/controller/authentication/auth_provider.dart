@@ -197,6 +197,10 @@ class AuthProvider with ChangeNotifier {
       try {
         if (kIsWeb) {
           webOTPConfirmationResult = await _auth.signInWithPhoneNumber(_phone.trim());
+
+          print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+          print(webOTPConfirmationResult);
+          print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
           final customerExists = await CustomerApi().checkIfCustomerExists(_phone.trim());
           if (!customerExists) {
             isNewUser = true;

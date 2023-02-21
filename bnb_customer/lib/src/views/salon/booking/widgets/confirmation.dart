@@ -29,9 +29,9 @@ class ConfirmationSection extends ConsumerWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 controller: _createAppointmentProvider.confirmationPageController,
                 children: const [
+                  OrderList(),
                   UserDetailsVerification(),
                   Verification(),
-                  OrderList(),
                 ],
               ),
             ),

@@ -69,11 +69,29 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Spacer(flex: 2),
+                    // Text(
+                    //   (DeviceConstraints.getDeviceType(MediaQuery.of(context)) != DeviceScreenType.portrait) ? 'ONLINE BOOKING' : 'Online Booking',
+                    //   style: AppTheme.bodyText1.copyWith(
+                    //     fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 25.sp, 40.sp),
+                    //     fontWeight: FontWeight.w600,
+                    //     fontFamily: 'Gilroy',
+                    //     color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                    //   ),
+                    // ),
                     Text(
-                      (DeviceConstraints.getDeviceType(MediaQuery.of(context)) != DeviceScreenType.portrait) ? 'ONLINE BOOKING' : 'Online Booking',
+                      'Success',
                       style: AppTheme.bodyText1.copyWith(
                         fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 25.sp, 40.sp),
                         fontWeight: FontWeight.w600,
+                        fontFamily: 'Gilroy',
+                        color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 100),
+                    Text(
+                      'Booking was successful',
+                      style: AppTheme.bodyText1.copyWith(
+                        fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 30.sp),
                         fontFamily: 'Gilroy',
                         color: defaultTheme ? AppTheme.textBlack : Colors.white,
                       ),
@@ -97,46 +115,46 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                 Space(factor: DeviceConstraints.getResponsiveSize(context, 2, 1, 1).toDouble()),
                 const BottomDetails(),
                 // const SizedBox(height: 20),
-                const Spacer(),
-                Expanded(
-                  flex: 0,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: DeviceConstraints.getResponsiveSize(context, 0, 20.w, 20.w),
-                    ),
-                    child: Column(
-                      children: [
-                        DefaultButton(
-                          label: 'Add to Apple Calendar',
-                          borderRadius: 60,
-                          color: defaultTheme ? Colors.black : theme.primaryColor,
-                          height: 60,
-                          prefixIcon: SvgPicture.asset(
-                            AppIcons.appleLogoSvg,
-                            fit: BoxFit.cover,
-                            height: 18.sp,
-                            color: defaultTheme ? Colors.white : Colors.black,
-                          ),
-                          onTap: () {},
-                        ),
-                        SizedBox(height: 10.h),
-                        DefaultButton(
-                          label: 'Add to Google Calendar',
-                          borderRadius: 60,
-                          color: defaultTheme ? Colors.black : theme.primaryColor,
-                          height: 60,
-                          prefixIcon: SvgPicture.asset(
-                            AppIcons.googleLogoSVG,
-                            fit: BoxFit.cover,
-                            height: 18.sp,
-                          ),
-                          onTap: () {},
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 15.h),
+                // const Spacer(),
+                // Expanded(
+                //   flex: 0,
+                //   child: Padding(
+                //     padding: EdgeInsets.symmetric(
+                //       horizontal: DeviceConstraints.getResponsiveSize(context, 0, 20.w, 20.w),
+                //     ),
+                //     child: Column(
+                //       children: [
+                //         DefaultButton(
+                //           label: 'Add to Apple Calendar',
+                //           borderRadius: 60,
+                //           color: defaultTheme ? Colors.black : theme.primaryColor,
+                //           height: 60,
+                //           prefixIcon: SvgPicture.asset(
+                //             AppIcons.appleLogoSvg,
+                //             fit: BoxFit.cover,
+                //             height: 18.sp,
+                //             color: defaultTheme ? Colors.white : Colors.black,
+                //           ),
+                //           onTap: () {},
+                //         ),
+                //         SizedBox(height: 10.h),
+                //         DefaultButton(
+                //           label: 'Add to Google Calendar',
+                //           borderRadius: 60,
+                //           color: defaultTheme ? Colors.black : theme.primaryColor,
+                //           height: 60,
+                //           prefixIcon: SvgPicture.asset(
+                //             AppIcons.googleLogoSVG,
+                //             fit: BoxFit.cover,
+                //             height: 18.sp,
+                //           ),
+                //           onTap: () {},
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                // SizedBox(height: 15.h),
               ],
             ),
           ),

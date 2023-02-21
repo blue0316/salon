@@ -127,7 +127,7 @@ class CreateAppointmentProvider with ChangeNotifier {
     }
 
     if (phoneController.text.isEmpty) {
-      showToast('Name field cannot be empty', duration: const Duration(seconds: 3));
+      showToast('Phone field cannot be empty', duration: const Duration(seconds: 3));
       return;
     }
 
@@ -143,7 +143,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 
     if (_authProvider.otpStatus == Status.success) {
       // Required fields have been filled
-      nextPageView(1);
+      nextPageView(2);
     }
   }
 
@@ -1133,11 +1133,40 @@ class CreateAppointmentProvider with ChangeNotifier {
       printIt("Chosen Slots");
       printIt(chosenSlots);
 
-      DateTime _startTime = DateTime(chosenDay.year, chosenDay.month, chosenDay.day, int.parse(chosenSlots.first.split(':')[0]), int.parse(chosenSlots.first.split(':')[1]));
+      DateTime _startTime = DateTime(
+        chosenDay.year,
+        chosenDay.month,
+        chosenDay.day,
+        int.parse(chosenSlots.first.split(':')[0]),
+        int.parse(chosenSlots.first.split(':')[1]),
+      );
 
-      DateTime _endTime = _startTime.add(Duration(minutes: int.parse(_totalPriceAndDuration.duration)));
+      DateTime _endTime = _startTime.add(
+        Duration(minutes: int.parse(_totalPriceAndDuration.duration)),
+      );
 
-      final List<Service> _services = chosenSalon!.ownerType == OwnerType.singleMaster ? chosenServices.map((element) => Service.fromService(serviceModel: element)).toList() : mastersServicesMap[chosenMaster!.masterId]!.map((element) => Service.fromService(serviceModel: element, masterPriceAndDuration: chosenMaster!.servicesPriceAndDurationMax![element.serviceId])).toList();
+      print('*******************************************************');
+      print(chosenMaster!.masterId);
+      print('hmmmmm');
+      print(mastersServicesMap[chosenMaster!.masterId]![0].priceAndDurationMax);
+      print(chosenMaster!);
+      print(chosenMaster!.servicesPriceAndDurationMax);
+      print('*******************************************************');
+
+      print('*******************************************************');
+
+      final List<Service> _services = chosenSalon!.ownerType == OwnerType.singleMaster
+          ? chosenServices.map((element) => Service.fromService(serviceModel: element)).toList()
+          : mastersServicesMap[chosenMaster!.masterId]!
+              .map((element) => Service.fromService(
+                    serviceModel: element,
+                    masterPriceAndDuration: chosenMaster!.servicesPriceAndDurationMax![element.serviceId],
+                  ))
+              .toList();
+
+      print('*******************************************************');
+      print(_services);
+      print('*******************************************************');
 
       appointmentModel = AppointmentModel(
         appointmentStartTime: _startTime,

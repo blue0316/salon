@@ -1,6 +1,12 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/controller/appointment/apointment_provider.dart';
+import 'package:bbblient/src/controller/authentication/auth_provider.dart';
+import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
+import 'package:bbblient/src/controller/home/salon_search_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
+import 'package:bbblient/src/firebase/dynamic_link.dart';
+import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
@@ -26,9 +32,33 @@ class OrderList extends ConsumerStatefulWidget {
 
 class _OrderListState extends ConsumerState<OrderList> {
   bool acceptTerms = false;
+  // late AuthProvider _auth;
+
+  // refreshAccount() async {
+  //   BnbProvider _bnbProvider = ref.read(bnbProvider);
+
+  //   SalonSearchProvider _salonSearchProvider = ref.read(salonSearchProvider);
+
+  //   AppointmentProvider _appointmentProvider = ref.read(appointmentProvider);
+
+  //   await _auth.getUserInfo(context: context);
+
+  //   //await _salonSearchProvider.initialize();
+  //   await _bnbProvider.initializeApp(customerModel: _auth.currentCustomer, lang: _bnbProvider.getLocale);
+
+  //   if (_auth.userLoggedIn) {
+  //     await DynamicLinksApi().handleDynamicLink(context: context, bonusSettings: _bnbProvider.bonusSettings);
+
+  //     await _appointmentProvider.loadAppointments(
+  //       customerId: _auth.currentCustomer?.customerId ?? '',
+  //       salonSearchProvider: _salonSearchProvider,
+  //     );
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
+    final AuthProvider _auth = ref.watch(authProvider);
     final CreateAppointmentProvider appointment = ref.watch(createAppointmentProvider);
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
@@ -426,24 +456,19 @@ class _OrderListState extends ConsumerState<OrderList> {
             children: [
               DefaultButton(
                 borderRadius: 60,
-                onTap: () {
+                onTap: () async {
                   if (!acceptTerms) {
                     // Terms Checkbox is unchecked
                     showToast("Please agree to the terms and conditions");
                     return;
                   }
 
-                  // Pop current dialog
-                  Navigator.of(context).pop();
-
-                  ConfirmedDialog(
-                    appointment: appointment.appointmentModel!,
-                  ).show(context);
+                  appointment.nextPageView(1);
                 },
                 color: defaultTheme ? Colors.black : theme.primaryColor,
                 textColor: defaultTheme ? Colors.white : Colors.black,
                 height: 60,
-                label: 'Book',
+                label: AppLocalizations.of(context)?.book ?? 'Book',
               ),
               SizedBox(height: 15.h),
               DefaultButton(
@@ -453,7 +478,7 @@ class _OrderListState extends ConsumerState<OrderList> {
                 borderColor: defaultTheme ? Colors.black : theme.primaryColor,
                 textColor: defaultTheme ? Colors.black : theme.primaryColor,
                 height: 60,
-                label: 'Back',
+                label: AppLocalizations.of(context)?.back ?? 'Back',
               ),
             ],
           ),

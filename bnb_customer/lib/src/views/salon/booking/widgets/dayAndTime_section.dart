@@ -327,7 +327,9 @@ class _DialogDateAndTimeSectionState extends ConsumerState<DialogDateAndTimeSect
               color: defaultTheme ? Colors.black : theme.primaryColor,
               textColor: defaultTheme ? Colors.white : Colors.black,
               height: 60,
-              label: 'Next step',
+              label: AppLocalizations.of(context)?.next ?? 'Next',
+
+              // label: 'Next step',
             ),
           ],
         ),
