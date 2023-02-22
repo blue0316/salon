@@ -271,7 +271,8 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                                       ),
                                                     ),
                                                     const SizedBox(width: 10),
-                                                    service.isFixedPrice // TODO: REMOVE THIS (PLACEHOLDER UI)
+                                                    service.isFixedDuration != null ?
+                                                    service.isFixedDuration
                                                         ? Text(
                                                             "${service.priceAndDuration.duration} minutes",
                                                             style: Theme.of(context).textTheme.bodyText1!.copyWith(
@@ -280,15 +281,6 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                                             overflow: TextOverflow.ellipsis,
                                                             maxLines: 1,
                                                           )
-                                                    :service.isPriceStartAt ?
-                                                    Text(
-                                                      "${service.priceAndDuration.duration} minutes - ∞ minutes",
-                                                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                                        fontSize: 16.sp,
-                                                      ),
-                                                      overflow: TextOverflow.ellipsis,
-                                                      maxLines: 1,
-                                                    )
                                                         : Text(
                                                             "${service.priceAndDuration.duration} minutes - ${service.priceAndDurationMax!.duration} minutes",
                                                             style: Theme.of(context).textTheme.bodyText1!.copyWith(
@@ -296,7 +288,15 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                                                 ),
                                                             overflow: TextOverflow.ellipsis,
                                                             maxLines: 1,
-                                                          ),
+                                                          )
+                                                        : Text(
+                                                      "${service.priceAndDuration.duration} minutes",
+                                                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                                        fontSize: 15.sp,
+                                                      ),
+                                                      overflow: TextOverflow.ellipsis,
+                                                      maxLines: 1,
+                                                    ),
                                                   ],
                                                 ),
                                               ],
