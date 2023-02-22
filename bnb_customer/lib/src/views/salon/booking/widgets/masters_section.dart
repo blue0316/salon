@@ -148,7 +148,7 @@ class _DialogMastersSectionState extends ConsumerState<DialogMastersSection> {
                                         ),
                                         const Spacer(),
                                         Text(
-                                          service.isFixedPrice ? "${service.priceAndDuration.price}${Keys.uah}" : "${service.priceAndDuration.price}${Keys.uah} - ${service.priceAndDurationMax!.price}${Keys.uah}",
+                                          service.isFixedPrice ? "${Keys.dollars}${service.priceAndDuration.price}" : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}",
                                           style: Theme.of(context).textTheme.bodyText1!.copyWith(
                                                 fontWeight: FontWeight.w700,
                                                 fontSize: 16.sp,
@@ -368,7 +368,7 @@ class AvailableMasters extends ConsumerWidget {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              "${createAppointment.mastersPriceDurationMap[createAppointment.availableMasters[index].masterId]?.price} ${Keys.uah}",
+                              "${Keys.dollars}${createAppointment.mastersPriceDurationMap[createAppointment.availableMasters[index].masterId]?.price}",
                               style: Theme.of(context).textTheme.bodyText2!.copyWith(
                                     color: defaultTheme ? AppTheme.textBlack : Colors.white,
                                     fontWeight: FontWeight.w500,

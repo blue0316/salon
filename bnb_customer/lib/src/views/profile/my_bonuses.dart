@@ -96,7 +96,7 @@ class _MyBonusesState extends ConsumerState<MyBonuses> {
                               style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w600),
                             ),
                             Text(
-                              " (${_bnbProvider.totalBonus} ${Keys.uah})",
+                              " (${Keys.dollars}${_bnbProvider.totalBonus})",
                               style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w400),
                             ),
                           ],
@@ -165,7 +165,7 @@ class _MyBonusesState extends ConsumerState<MyBonuses> {
                                       RichText(
                                         text: TextSpan(text: "0 ", style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 30.sp), children: [
                                           TextSpan(
-                                            text: Keys.uah,
+                                            text: Keys.dollars,
                                             style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 12.sp),
                                           )
                                         ]),
@@ -209,7 +209,7 @@ class _MyBonusesState extends ConsumerState<MyBonuses> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    "${AppLocalizations.of(context)?.bonusRuleSecond ?? ""} 300 ${Keys.uah}",
+                                    "${AppLocalizations.of(context)?.bonusRuleSecond ?? ""} ${Keys.dollars}300",
                                     maxLines: 3,
                                     overflow: TextOverflow.ellipsis,
                                     style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w400),
@@ -289,7 +289,7 @@ class BonusCard extends StatelessWidget {
                 RichText(
                   text: TextSpan(text: "${bonus.amount}", style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 30.sp), children: [
                     TextSpan(
-                      text: Keys.uah,
+                      text: Keys.dollars,
                       style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 12.sp),
                     )
                   ]),

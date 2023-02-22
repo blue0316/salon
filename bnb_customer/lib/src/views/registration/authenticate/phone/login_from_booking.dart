@@ -230,7 +230,7 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
                         ),
                         Expanded(
                           child: Text(
-                            "${appointment.priceAndDuration.price} ${Keys.uah}",
+                            "${Keys.dollars}${appointment.priceAndDuration.price}",
                             style: AppTheme.appointmentSubtitle,
                             maxLines: 1,
                           ),

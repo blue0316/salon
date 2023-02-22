@@ -78,7 +78,7 @@ class DynamicLinksApi {
       ),
       socialMetaTagParameters: SocialMetaTagParameters(
         //!! show total bonuses
-        title: "${AppLocalizations.of(context)?.joinbnbAndGetBonus ?? 'Join bnb to take care of yourself with a '} ${bonusSettings.referralBonusesAmounts.first} ${Keys.uah} ${AppLocalizations.of(context)?.bonus ?? 'bonus'} ",
+        title: "${AppLocalizations.of(context)?.joinbnbAndGetBonus ?? 'Join bnb to take care of yourself with a '} ${Keys.dollars}${bonusSettings.referralBonusesAmounts.first} ${AppLocalizations.of(context)?.bonus ?? 'bonus'} ",
         description: "${AppLocalizations.of(context)?.inviteWithinADayFirst ?? 'Download the bnb app now. invite your friends to join within your first '} ${bonusSettings.doubleHours} ${AppLocalizations.of(context)?.inviteWithinADaySecond ?? 'hours with us to get more bonuses'}",
         imageUrl: Uri.parse('https://firebasestorage.googleapis.com/v0/b/bowandbeautiful-3372d.appspot.com/o/banners%2F2-1.png?alt=media&token=b7494c22-c676-447d-aa79-22cf8d0510bd'),
       ),

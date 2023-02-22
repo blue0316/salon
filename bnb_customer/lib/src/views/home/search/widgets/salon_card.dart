@@ -128,7 +128,7 @@ class SalonSearchCard extends StatelessWidget {
                       style: AppTheme.bodyText1.copyWith(fontSize: 14),
                     ),
                     Text(
-                      "${serviceModel.priceAndDuration.price} ${Keys.uah}",
+                      "${Keys.dollars}${serviceModel.priceAndDuration.price}",
                       style: AppTheme.bodyText1.copyWith(fontSize: 14),
                     ),
                   ],
