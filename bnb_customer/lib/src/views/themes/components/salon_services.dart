@@ -309,7 +309,9 @@ class ServiceTile extends ConsumerWidget {
                       ],
                     ),
                     Text(
-                      service.isFixedPrice ? "${service.priceAndDuration.price}${Keys.uah}" : "${service.priceAndDuration.price}${Keys.uah} - ${service.priceAndDurationMax!.price}${Keys.uah}",
+                      service.isFixedPrice
+                          ? "${Keys.dollars}${service.priceAndDuration.price}"
+                          : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}",
                       style: theme.textTheme.bodyText1?.copyWith(
                         color: Colors.white,
                         fontSize: 20.sp,

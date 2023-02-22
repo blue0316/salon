@@ -116,7 +116,7 @@ class _OrderListState extends ConsumerState<OrderList> {
                               // -- SERVICE TITLE AND PRICE
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   SizedBox(
                                     width: DeviceConstraints.getResponsiveSize(context, 85.w, 75.w, 70.w),
@@ -131,7 +131,6 @@ class _OrderListState extends ConsumerState<OrderList> {
                                       maxLines: DeviceConstraints.getResponsiveSize(context, 2, 1, 1).toInt(),
                                     ),
                                   ),
-                                  const Spacer(),
                                   Text(
                                     "${Keys.dollars}${service.priceAndDuration.price}",
                                     // service.isFixedPrice ? "${Keys.dollars}${service.priceAndDuration.price}" : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}",

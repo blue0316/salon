@@ -148,7 +148,12 @@ class _DialogMastersSectionState extends ConsumerState<DialogMastersSection> {
                                         ),
                                         const Spacer(),
                                         Text(
-                                          service.isFixedPrice ? "${Keys.dollars}${service.priceAndDuration.price}" : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}",
+                                          service.isFixedPrice
+                                              ? "${Keys.dollars}${service.priceAndDuration.price}"
+                                          : service.isPriceRange?
+                                              "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}"
+                                          :"${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}∞",
+
                                           style: Theme.of(context).textTheme.bodyText1!.copyWith(
                                                 fontWeight: FontWeight.w700,
                                                 fontSize: 16.sp,
@@ -177,7 +182,8 @@ class _DialogMastersSectionState extends ConsumerState<DialogMastersSection> {
                                           ),
                                         ),
                                         const SizedBox(width: 10),
-                                        service.isFixedPrice
+                                        (service.isFixedDuration != null) ?
+                                        service.isFixedDuration
                                             ? Text(
                                                 "${service.priceAndDuration.duration} minutes",
                                                 style: Theme.of(context).textTheme.bodyText1!.copyWith(
@@ -195,7 +201,16 @@ class _DialogMastersSectionState extends ConsumerState<DialogMastersSection> {
                                                     ),
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 1,
-                                              ),
+                                              )
+                                        :Text(
+                                          "${service.priceAndDuration.duration} minutes",
+                                          style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                            fontSize: 14.sp,
+                                            color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                        ),
                                         const Spacer(),
                                         (service.description == null || service.description == "")
                                             ? const SizedBox(width: 15)
