@@ -170,7 +170,8 @@ class _VerificationState extends ConsumerState<Verification> {
                         await _createAppointmentProvider.createAppointment(customerModel: _auth.currentCustomer!, context: context);
                         print('here 4');
                         bool _success = await _createAppointmentProvider.finishBooking(context: context, customerModel: _auth.currentCustomer!);
-
+                        print('555');
+                        print('success: $_success');
                         if (_success) {
                           // Pop current dialog
                           Navigator.of(context).pop();

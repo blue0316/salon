@@ -1,21 +1,20 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
-import 'package:bbblient/src/views/salon/booking/widgets/confirmation.dart';
+import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/service_tab/service_tab.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'widgets/dayAndTime_section.dart';
-import 'widgets/masters_section.dart';
 
-class BookingDialogWidget<T> extends ConsumerStatefulWidget {
+import 'widgets/day_and_time/day_and_time.dart';
+
+class BookingDialogWidget222<T> extends ConsumerStatefulWidget {
   final bool master;
-  const BookingDialogWidget({Key? key, this.master = false}) : super(key: key);
+  const BookingDialogWidget222({Key? key, this.master = false}) : super(key: key);
 
   Future<void> show(BuildContext context) async {
     await showDialog<T>(
@@ -25,10 +24,10 @@ class BookingDialogWidget<T> extends ConsumerStatefulWidget {
   }
 
   @override
-  ConsumerState<BookingDialogWidget<T>> createState() => _BookingDialogWidgetState<T>();
+  ConsumerState<BookingDialogWidget222<T>> createState() => _BookingDialogWidget222State<T>();
 }
 
-class _BookingDialogWidgetState<T> extends ConsumerState<BookingDialogWidget<T>> with SingleTickerProviderStateMixin {
+class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget222<T>> with SingleTickerProviderStateMixin {
   TabController? bookingTabController;
   late CreateAppointmentProvider createAppointment11;
 
@@ -57,11 +56,10 @@ class _BookingDialogWidgetState<T> extends ConsumerState<BookingDialogWidget<T>>
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context).size;
-
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool defaultTheme = theme == AppTheme.lightTheme;
+    bool defaultTheme = (theme == AppTheme.lightTheme);
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
@@ -95,8 +93,8 @@ class _BookingDialogWidgetState<T> extends ConsumerState<BookingDialogWidget<T>>
                                   context,
                                 )) !=
                                 DeviceScreenType.portrait)
-                            ? 'ONLINE BOOKING'
-                            : 'Online Booking',
+                            ? 'ONLINE BOOKING 22'
+                            : 'Online Booking 22',
                         style: AppTheme.bodyText1.copyWith(
                           fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 25.sp, 40.sp),
                           fontWeight: FontWeight.w600,
@@ -159,10 +157,7 @@ class _BookingDialogWidgetState<T> extends ConsumerState<BookingDialogWidget<T>>
                                 //   color: Colors.black,
                                 // ),
                                 tabs: const [
-                                  Tab(
-                                    // text: (_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon && widget.master == false) ? 'Masters' : 'Services',
-                                    text: 'Services',
-                                  ),
+                                  Tab(text: 'Service'),
                                   Tab(text: 'Day & Time'),
                                   Tab(text: 'Confirm'),
                                 ],
@@ -183,21 +178,14 @@ class _BookingDialogWidgetState<T> extends ConsumerState<BookingDialogWidget<T>>
                         controller: bookingTabController,
                         physics: const NeverScrollableScrollPhysics(),
                         children: [
-                          // -- MASTERS --
-                          DialogMastersSection(
-                            master: widget.master,
-                            tabController: bookingTabController!,
-                            // createAppointment: createAppointment,
-                          ),
+                          // Service
+                          ServiceTab(tabController: bookingTabController!),
 
-                          // -- DAY AND TIME --
-                          DialogDateAndTimeSection(
-                            tabController: bookingTabController!,
-                            createAppointment11: createAppointment11,
-                          ),
+                          // Day And Time
+                          const DayAndTime(),
 
-                          // -- CONFIRMATION --
-                          const ConfirmationSection(),
+                          // Confirm
+                          Container(height: 100, color: Colors.yellow),
                         ],
                       ),
                     ),

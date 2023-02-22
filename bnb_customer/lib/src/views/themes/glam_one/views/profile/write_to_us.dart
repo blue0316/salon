@@ -91,7 +91,7 @@ class _WriteToUsState extends ConsumerState<WriteToUs> {
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text: AppLocalizations.of(context)?.name ?? "Name".toCapitalized(), // "Name",
+                                  text: AppLocalizations.of(context)?.name ?? "Name".toUpperCase(), // "Name",
                                   style: theme.textTheme.subtitle2?.copyWith(fontSize: 15.sp),
                                 ),
                                 TextSpan(
@@ -109,7 +109,7 @@ class _WriteToUsState extends ConsumerState<WriteToUs> {
                             width: (isPortrait) ? 350.w : 100.w,
                             focusNode: FocusNode(),
                             controller: _salonProfileProvider.nameController,
-                            hintText: AppLocalizations.of(context)?.name ?? "Name".toCapitalized(), // "Name",
+                            hintText: AppLocalizations.of(context)?.name ?? "Name".toUpperCase(), // "Name",
                             margin: const EdgeInsets.only(top: 10),
                             contentPadding: 20,
                           ),
@@ -124,7 +124,7 @@ class _WriteToUsState extends ConsumerState<WriteToUs> {
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text: AppLocalizations.of(context)?.phone ?? "Phone".toCapitalized(), // "Phone",
+                                  text: AppLocalizations.of(context)?.phone ?? "Phone".toUpperCase(), // "Phone",
                                   style: theme.textTheme.subtitle2?.copyWith(fontSize: 15.sp),
                                 ),
                                 TextSpan(
@@ -142,7 +142,7 @@ class _WriteToUsState extends ConsumerState<WriteToUs> {
                             width: (isPortrait) ? 350.w : 100.w,
                             focusNode: FocusNode(),
                             controller: _salonProfileProvider.phoneController,
-                            hintText: AppLocalizations.of(context)?.phone ?? "Phone".toCapitalized(), // "Phone",
+                            hintText: AppLocalizations.of(context)?.phone ?? "Phone".toUpperCase(), // "Phone",
                             contentPadding: 20,
                             margin: const EdgeInsets.only(top: 10),
                           ),
@@ -157,7 +157,7 @@ class _WriteToUsState extends ConsumerState<WriteToUs> {
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text: AppLocalizations.of(context)?.email ?? "Email".toCapitalized(), // "Email",
+                                  text: AppLocalizations.of(context)?.email ?? "Request".toUpperCase(), // "Email",
                                   style: theme.textTheme.subtitle2?.copyWith(fontSize: 15.sp),
                                 ),
                                 TextSpan(
@@ -174,8 +174,8 @@ class _WriteToUsState extends ConsumerState<WriteToUs> {
                           CustomTextFormField(
                             width: (isPortrait) ? 350.w : 100.w,
                             focusNode: FocusNode(),
-                            controller: _salonProfileProvider.emailController,
-                            hintText: AppLocalizations.of(context)?.email ?? "Email".toCapitalized(), // "Email",
+                            controller: _salonProfileProvider.requestController,
+                            hintText: AppLocalizations.of(context)?.email ?? "Request".toUpperCase(), // "Email",
                             contentPadding: 20,
                             margin: const EdgeInsets.only(top: 10),
                           ),

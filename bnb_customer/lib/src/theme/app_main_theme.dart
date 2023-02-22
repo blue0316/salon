@@ -291,86 +291,86 @@ class AppTheme {
     hoverColor: milkeyGreyDark,
   );
 
-  // Theme 1
-  static final ThemeData glamOneTheme = ThemeData(
-    primaryColor: GlamOneTheme.primaryColor,
-    primaryColorDark: GlamOneTheme.deepOrange,
-    primaryColorLight: GlamOneTheme.primaryColor,
-    // backgroundColor: GlamOneTheme.primaryColor,
-    scaffoldBackgroundColor: Colors.black,
-    textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
-    tabBarTheme: TabBarTheme(
-      unselectedLabelColor: Colors.white,
-      labelColor: Colors.black,
-      labelStyle: GlamBarberShopTheme.bodyText1.copyWith(
-        color: Colors.black,
-        fontWeight: FontWeight.w600,
-      ),
-      indicator: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
-        color: GlamOneTheme.primaryColor,
-      ),
-    ),
-    dialogBackgroundColor: Colors.black,
-    cardColor: GlamOneTheme.primaryColor,
-    colorScheme: ColorScheme(
-      primary: (Colors.pink[900])!,
-      secondary: Colors.black, // Color of title text on cards
-      onSecondaryContainer: Colors.black, // Color of sub text on cardsf
-      surface: Colors.white,
-      background: GlamOneTheme.primaryColor,
-      error: redishPink,
-      onPrimary: (Colors.green[900])!,
-      onSecondary: creamBrownLight,
-      onSurface: lightGrey,
-      onBackground: lightGrey,
-      onError: redishPink,
-      brightness: Brightness.light,
-    ),
-    textTheme: TextTheme(
-      headline1: GlamOneTheme.headLine1,
-      headline2: GlamOneTheme.headLine2,
-      headline3: GlamOneTheme.headLine3,
-      headline4: GlamOneTheme.headLine4,
-      headline5: GlamOneTheme.headLine5,
+  // // Theme 1
+  // static final ThemeData glamOneTheme = ThemeData(
+  //   primaryColor: GlamOneTheme.primaryColor,
+  //   primaryColorDark: GlamOneTheme.deepOrange,
+  //   primaryColorLight: GlamOneTheme.primaryColor,
+  //   // backgroundColor: GlamOneTheme.primaryColor,
+  //   scaffoldBackgroundColor: Colors.black,
+  //   textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
+  //   tabBarTheme: TabBarTheme(
+  //     unselectedLabelColor: Colors.white,
+  //     labelColor: Colors.black,
+  //     labelStyle: GlamBarberShopTheme.bodyText1.copyWith(
+  //       color: Colors.black,
+  //       fontWeight: FontWeight.w600,
+  //     ),
+  //     indicator: BoxDecoration(
+  //       borderRadius: BorderRadius.circular(50),
+  //       color: GlamOneTheme.primaryColor,
+  //     ),
+  //   ),
+  //   dialogBackgroundColor: Colors.black,
+  //   cardColor: GlamOneTheme.primaryColor,
+  //   colorScheme: ColorScheme(
+  //     primary: (Colors.pink[900])!,
+  //     secondary: Colors.black, // Color of title text on cards
+  //     onSecondaryContainer: Colors.black, // Color of sub text on cardsf
+  //     surface: Colors.white,
+  //     background: GlamOneTheme.primaryColor,
+  //     error: redishPink,
+  //     onPrimary: (Colors.green[900])!,
+  //     onSecondary: creamBrownLight,
+  //     onSurface: lightGrey,
+  //     onBackground: lightGrey,
+  //     onError: redishPink,
+  //     brightness: Brightness.light,
+  //   ),
+  //   textTheme: TextTheme(
+  //     headline1: GlamOneTheme.headLine1,
+  //     headline2: GlamOneTheme.headLine2,
+  //     headline3: GlamOneTheme.headLine3,
+  //     headline4: GlamOneTheme.headLine4,
+  //     headline5: GlamOneTheme.headLine5,
 
-      bodyText1: GlamOneTheme.bodyText1,
-      bodyText2: GlamOneTheme.bodyText2,
-      //text-field style
-      subtitle1: GlamOneTheme.subTitle1,
-      subtitle2: GlamOneTheme.subTitle2, // Sub text under a section title in a section container
-    ),
-    appBarTheme: AppBarTheme(
-      backgroundColor: Colors.white,
-      titleTextStyle: bodyText1,
-      iconTheme: const IconThemeData(
-        color: textBlack,
-      ),
-    ),
-    dividerColor: const Color(0XFFF48B72),
-    inputDecorationTheme: InputDecorationTheme(
-      labelStyle: GlamOneTheme.bodyText1.copyWith(color: Colors.black),
-      border: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.black, width: 1),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.black, width: 1),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.black, width: 1),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      hintStyle: GlamOneTheme.bodyText1.copyWith(color: Colors.black),
-    ),
-    unselectedWidgetColor: Colors.grey[700], // Color for not valid time slot container
-    // Stop
-    focusColor: lightGrey,
-    highlightColor: milkeyGreyDark,
-    splashColor: milkeyGreyDark,
-    hoverColor: milkeyGreyDark,
-  );
+  //     bodyText1: GlamOneTheme.bodyText1,
+  //     bodyText2: GlamOneTheme.bodyText2,
+  //     //text-field style
+  //     subtitle1: GlamOneTheme.subTitle1,
+  //     subtitle2: GlamOneTheme.subTitle2, // Sub text under a section title in a section container
+  //   ),
+  //   appBarTheme: AppBarTheme(
+  //     backgroundColor: Colors.white,
+  //     titleTextStyle: bodyText1,
+  //     iconTheme: const IconThemeData(
+  //       color: textBlack,
+  //     ),
+  //   ),
+  //   dividerColor: const Color(0XFFF48B72),
+  //   inputDecorationTheme: InputDecorationTheme(
+  //     labelStyle: GlamOneTheme.bodyText1.copyWith(color: Colors.black),
+  //     border: OutlineInputBorder(
+  //       borderSide: const BorderSide(color: Colors.black, width: 1),
+  //       borderRadius: BorderRadius.circular(20),
+  //     ),
+  //     enabledBorder: OutlineInputBorder(
+  //       borderSide: const BorderSide(color: Colors.black, width: 1),
+  //       borderRadius: BorderRadius.circular(20),
+  //     ),
+  //     focusedBorder: OutlineInputBorder(
+  //       borderSide: const BorderSide(color: Colors.black, width: 1),
+  //       borderRadius: BorderRadius.circular(20),
+  //     ),
+  //     hintStyle: GlamOneTheme.bodyText1.copyWith(color: Colors.black),
+  //   ),
+  //   unselectedWidgetColor: Colors.grey[700], // Color for not valid time slot container
+  //   // Stop
+  //   focusColor: lightGrey,
+  //   highlightColor: milkeyGreyDark,
+  //   splashColor: milkeyGreyDark,
+  //   hoverColor: milkeyGreyDark,
+  // );
 
   // Theme 2
   static final ThemeData barbershopTheme = ThemeData(

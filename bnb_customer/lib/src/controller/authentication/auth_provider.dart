@@ -354,6 +354,9 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<Status> signIn({required BuildContext context, required WidgetRef ref, required callBack}) async {
+    print(otp);
+    print(verificationCode);
+    print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
     printIt(otp);
     printIt(verificationCode);
     BnbProvider _bnbProvider = ref.read(bnbProvider);

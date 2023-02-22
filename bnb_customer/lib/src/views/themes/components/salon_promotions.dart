@@ -76,7 +76,7 @@ class _SalonPromotionsState extends ConsumerState<SalonPromotions> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Discounts ${_createAppointmentProvider.salonPromotions[0].promotionDiscount} ${_createAppointmentProvider.salonPromotions[0].discountUnit == "PCT(%)" ? '%' : '₴'}".toUpperCase(),
+                            "${AppLocalizations.of(context)?.discounts ?? "Discounts"}  ${_createAppointmentProvider.salonPromotions[0].promotionDiscount} ${_createAppointmentProvider.salonPromotions[0].discountUnit == "PCT(%)" ? '%' : '₴'}".toUpperCase(),
                             style: theme.textTheme.headline3?.copyWith(
                               // color: GlamOneTheme.deepOrange,
                               fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 25.sp, 35.sp),
@@ -139,6 +139,7 @@ class _SalonPromotionsState extends ConsumerState<SalonPromotions> {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
+                                          // TODO - LOCALIZATIONS
                                           "Discounts ${item.promotionDiscount} ${item.discountUnit == "PCT(%)" ? '%' : '₴'}".toUpperCase(),
                                           style: theme.textTheme.headline3?.copyWith(
                                             // color: GlamOneTheme.deepOrange,

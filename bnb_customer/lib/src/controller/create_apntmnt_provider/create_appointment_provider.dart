@@ -1145,7 +1145,7 @@ class CreateAppointmentProvider with ChangeNotifier {
         Duration(minutes: int.parse(_totalPriceAndDuration.duration)),
       );
 
-      print('*******************************************************');
+      print('**************************************n*****************');
       print(chosenMaster!.masterId);
       print('hmmmmm');
       print(mastersServicesMap[chosenMaster!.masterId]![0].priceAndDurationMax);
@@ -1158,10 +1158,12 @@ class CreateAppointmentProvider with ChangeNotifier {
       final List<Service> _services = chosenSalon!.ownerType == OwnerType.singleMaster
           ? chosenServices.map((element) => Service.fromService(serviceModel: element)).toList()
           : mastersServicesMap[chosenMaster!.masterId]!
-              .map((element) => Service.fromService(
-                    serviceModel: element,
-                    masterPriceAndDuration: chosenMaster!.servicesPriceAndDurationMax![element.serviceId],
-                  ))
+              .map(
+                (element) => Service.fromService(
+                  serviceModel: element,
+                  masterPriceAndDuration: (chosenMaster!.servicesPriceAndDuration == null) ? chosenMaster!.servicesPriceAndDurationMax![element.serviceId] : chosenMaster!.servicesPriceAndDuration![element.serviceId],
+                ),
+              )
               .toList();
 
       print('*******************************************************');

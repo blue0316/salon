@@ -11,9 +11,11 @@ import 'package:bbblient/src/models/products.dart';
 import 'package:bbblient/src/models/review.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
+import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/themes/glam_one/glam_one.dart';
 import 'package:bbblient/src/views/themes/glam_two/glam_two.dart';
+import 'package:bbblient/src/views/themes/utils/theme_color.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -39,13 +41,14 @@ class SalonProfileProvider with ChangeNotifier {
 
   // List<ServiceModel> salonServices = [];
 
+  Map<String, dynamic> themeSettings = {};
   ThemeData salonTheme = AppTheme.lightTheme;
   String? theme;
 
   Status enquiryStatus = Status.init;
 
   final TextEditingController nameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController requestController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -54,7 +57,9 @@ class SalonProfileProvider with ChangeNotifier {
       loadingStatus = Status.loading;
       chosenSalon = (await _salonApi.getSalonFromId(salonId))!;
       // await Time().setTimeSlot(chosenSalon.timeSlotsInterval);
-      theme = await CustomerWebSettingsApi().getSalonTheme(salonId: salonId);
+      themeSettings = await CustomerWebSettingsApi().getSalonTheme(salonId: salonId);
+      theme = themeSettings['id'];
+
       await getSalonReviews(salonId: salonId);
       await getProductsData(context, salonId: salonId);
       // await getSalonServices(salonId: salonId);
@@ -69,7 +74,7 @@ class SalonProfileProvider with ChangeNotifier {
 
   dynamic getTheme() {
     if (theme == '1') {
-      salonTheme = AppTheme.glamOneTheme;
+      salonTheme = getGlamDataTheme(themeSettings['colorCode']);
       notifyListeners();
 
       return const GlamOneScreen();
@@ -112,7 +117,7 @@ class SalonProfileProvider with ChangeNotifier {
 
   // Send Enquiry to Firebase
   void sendEnquiryToSalon(BuildContext context, {required String salonId}) async {
-    if (nameController.text == '' || phoneController.text == '' || emailController.text == '') {
+    if (nameController.text == '' || phoneController.text == '' || requestController.text == '') {
       showToast(AppLocalizations.of(context)?.emptyFields ?? "Fields cannot be empty, please fill required fields");
       return;
     }
@@ -124,7 +129,7 @@ class SalonProfileProvider with ChangeNotifier {
       EnquiryModel _newEnquiry = EnquiryModel(
         customerName: nameController.text,
         customerPhone: phoneController.text,
-        customerEmail: emailController.text,
+        customerRequest: requestController.text,
         salonId: salonId,
         createdAt: DateTime.now(),
         status: AppointmentStatus.requested,
@@ -166,10 +171,6 @@ class SalonProfileProvider with ChangeNotifier {
     // Split into categories
     for (ProductModel product in allProducts) {
       for (String? productCategoryId in (product.categoryIdList ?? [])) {
-        // print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-        // print(productCategoryId);
-        // print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-
         ProductCategoryModel? found = allProductCategories.firstWhereOrNull(
           (cat) => cat.categoryId == productCategoryId,
         );
@@ -187,9 +188,6 @@ class SalonProfileProvider with ChangeNotifier {
     }
 
     notifyListeners();
-    // print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-    // print(tabs);
-    // print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
   }
 
   // Future _initSalon({required SalonModel salonModel}) async {

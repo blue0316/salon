@@ -60,7 +60,7 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        backgroundColor: Colors.green,
+        // backgroundColor: Colors.green,
         body: SafeArea(
           bottom: false,
           child: Stack(

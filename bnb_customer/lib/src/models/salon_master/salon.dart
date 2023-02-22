@@ -23,7 +23,7 @@ class SalonModel {
   late Position? position;
   late String? salonWebSite;
   late String phoneNumber;
-  late String? email;
+  late String email;
   late String description = '';
   late String preferredGender = PreferredGender.all;
   late double rating = 0.0;
@@ -65,7 +65,7 @@ class SalonModel {
     this.isProfileImage = false,
     this.salonWebSite,
     required this.phoneNumber,
-    this.email,
+    required this.email,
     required this.categoryId,
     required this.parentServiceId,
     required this.description,

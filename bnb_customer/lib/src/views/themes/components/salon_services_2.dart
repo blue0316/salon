@@ -6,7 +6,7 @@ import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/keys.dart';
-import 'package:bbblient/src/views/salon/booking/booking_dialog.dart';
+import 'package:bbblient/src/views/salon/booking/dialog_flow/booking_dialog_2.dart';
 import 'package:bbblient/src/views/themes/components/widgets.dart/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,12 +14,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:bbblient/src/views/themes/components/widgets.dart/oval_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class SalonPrice extends ConsumerStatefulWidget {
+class SalonPrice222 extends ConsumerStatefulWidget {
   final SalonModel salonModel;
   final List<CategoryModel> categories;
   final Map<String, List<ServiceModel>> categoryServicesMapNAWA;
 
-  const SalonPrice({
+  const SalonPrice222({
     Key? key,
     required this.salonModel,
     required this.categories,
@@ -27,10 +27,10 @@ class SalonPrice extends ConsumerStatefulWidget {
   }) : super(key: key);
 
   @override
-  _SalonPriceState createState() => _SalonPriceState();
+  _SalonPrice222State createState() => _SalonPrice222State();
 }
 
-class _SalonPriceState extends ConsumerState<SalonPrice> with SingleTickerProviderStateMixin {
+class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTickerProviderStateMixin {
   TabController? tabController;
   int _selectedTabbar = 0;
 
@@ -71,7 +71,6 @@ class _SalonPriceState extends ConsumerState<SalonPrice> with SingleTickerProvid
               isSingleMaster ? (AppLocalizations.of(context)?.price ?? 'Price') : (AppLocalizations.of(context)?.ourPrice ?? 'Our Price').toUpperCase(),
               style: theme.textTheme.headline2?.copyWith(),
             ),
-
             const SizedBox(height: 50),
             (_createAppointmentProvider.categoriesAvailable.isNotEmpty)
                 ? Expanded(
@@ -106,11 +105,6 @@ class _SalonPriceState extends ConsumerState<SalonPrice> with SingleTickerProvid
                                 (item) => Tab(text: item.categoryName),
                               )
                               .toList(),
-
-                          //     const [
-                          //   Tab(text: 'Haircut'),
-                          //   Tab(text: 'Make up'),
-                          // ],
                         ),
                       ),
                     ),
@@ -119,15 +113,13 @@ class _SalonPriceState extends ConsumerState<SalonPrice> with SingleTickerProvid
                     padding: const EdgeInsets.symmetric(vertical: 20),
                     child: Center(
                       child: Text(
-                        // (AppLocalizations.of(context)?.noServicesAvailable ?? 'No services available').toUpperCase(),
-                        'No services available', // TODO: -- LOCALIZATION
+                        (AppLocalizations.of(context)?.noServicesAvailable ?? 'No services available').toUpperCase(),
                         style: theme.textTheme.bodyText1?.copyWith(
                           fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
                         ),
                       ),
                     ),
                   ),
-
             SizedBox(height: 30.h),
             (_createAppointmentProvider.categoriesAvailable.isNotEmpty)
                 ? Builder(
@@ -142,38 +134,6 @@ class _SalonPriceState extends ConsumerState<SalonPrice> with SingleTickerProvid
                     },
                   )
                 : const SizedBox.shrink(),
-            // -- TAB BAR VIEW
-            // Expanded(
-            //   flex: 0,
-            //   child: Container(
-            //     color: Colors.blue,
-            //     // Find the longest list length to set height of tab bar view
-            //     height: (_createAppointmentProvider.servicesAvailable.reduce((a, b) => a.length > b.length ? a : b).length * 220).h,
-            //     // . length * 200, // 400,
-            //     width: double.infinity,
-            //     child: TabBarView(
-            //       controller: tabController,
-            //       physics: const NeverScrollableScrollPhysics(),
-
-            //       children: _createAppointmentProvider.servicesAvailable
-            //           .map(
-            //             (item) => ServiceAndPrice(listOfServices: item),
-            //           )
-            //           .toList(),
-
-            //       // children: [
-            //       //   ServiceAndPrice(
-            //       //     listOfServices: [],
-            //       //   ),
-            //       //   Container(
-            //       //     height: 100,
-            //       //     width: double.infinity,
-            //       //     color: Colors.yellow,
-            //       //   ),
-            //       // ],
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),
@@ -237,14 +197,15 @@ class ServiceAndPrice extends ConsumerWidget {
                   height: 60.h,
                   buttonColor: theme.primaryColor,
                   borderColor: Colors.transparent,
-                  onTap: () => const BookingDialogWidget().show(context),
+                  textColor: theme.primaryColor,
+                  onTap: () => const BookingDialogWidget222().show(context),
                 )
               : OvalButton(
                   width: 180.h,
                   height: 60.h,
                   textSize: 18.sp,
                   text: 'Book Now',
-                  onTap: () => const BookingDialogWidget().show(context),
+                  onTap: () => const BookingDialogWidget222().show(context),
                 )
         ],
       ),
@@ -263,68 +224,56 @@ class ServiceTile extends ConsumerWidget {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: GestureDetector(
-        onTap: () {
-          _createAppointmentProvider.toggleService(
-            serviceModel: service,
-            clearChosenMaster: false,
-            context: context,
-          );
-        },
-        child: Container(
-          color: Colors.transparent,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 15),
-            child: Column(
+    return Container(
+      color: Colors.transparent,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          service.translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
-                          style: theme.textTheme.bodyText1?.copyWith(
-                            color: theme.primaryColor,
-                            fontSize: 20.sp,
-                          ),
-                        ),
-                        const SizedBox(width: 30),
-                        Icon(
-                          Icons.check,
-                          size: 20.sp,
-                          color: _createAppointmentProvider.isAdded(
-                            serviceModel: service,
-                          )
-                              ? theme.primaryColorDark //  GlamOneTheme.deepOrange
-                              : Colors.transparent,
-                        ),
-                      ],
-                    ),
                     Text(
-                      service.isFixedPrice ? "${service.priceAndDuration.price}${Keys.uah}" : "${service.priceAndDuration.price}${Keys.uah} - ${service.priceAndDurationMax!.price}${Keys.uah}",
+                      service.translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
                       style: theme.textTheme.bodyText1?.copyWith(
-                        color: Colors.white,
+                        color: theme.primaryColor,
                         fontSize: 20.sp,
                       ),
                     ),
+                    const SizedBox(width: 30),
+                    Icon(
+                      Icons.check,
+                      size: 20.sp,
+                      color: _createAppointmentProvider.isAdded(
+                        serviceModel: service,
+                      )
+                          ? theme.primaryColorDark //  GlamOneTheme.deepOrange
+                          : Colors.transparent,
+                    ),
                   ],
                 ),
-                const SizedBox(height: 10),
-                Divider(
-                  color: theme.primaryColor,
-                  thickness: 2,
+                Text(
+                  service.isFixedPrice ? "${service.priceAndDuration.price}${Keys.uah}" : "${service.priceAndDuration.price}${Keys.uah} - ${service.priceAndDurationMax!.price}${Keys.uah}",
+                  style: theme.textTheme.bodyText1?.copyWith(
+                    color: Colors.white,
+                    fontSize: 20.sp,
+                  ),
                 ),
               ],
             ),
-          ),
+            const SizedBox(height: 10),
+            Divider(
+              color: theme.primaryColor,
+              thickness: 2,
+            ),
+          ],
         ),
       ),
     );

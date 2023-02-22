@@ -59,7 +59,7 @@ class SalonTeam extends ConsumerWidget {
               Space(factor: DeviceConstraints.getResponsiveSize(context, 0.8, 1.3, 1.5)),
               Center(
                 child: Container(
-                  height: 255.h,
+                  height: 185.h,
                   alignment: Alignment.center,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
@@ -76,20 +76,43 @@ class SalonTeam extends ConsumerWidget {
                       // Find Master Service
                       // a master might have multiple services (but I just picked the first index to show on landing page)
                       List<CategoryModel> categories = _salonSearchProvider.categories; // All available Categories
-                      String masterCategoryId = _filteredMasters[index].categoryIds![0]; // Master category id
 
+                      // Previous implementation to show only one service
+                      // String masterCategoryId = _filteredMasters[index].categoryIds![0]; // Master category id
                       // Find master category id in all categories and pick the first one to display
-                      String? masterService = categories
-                          .firstWhere(
-                            (item) => item.categoryId == masterCategoryId,
-                          )
-                          .translations[AppLocalizations.of(context)?.localeName];
+                      // String? masterService = categories
+                      //     .firstWhere(
+                      //       (item) => item.categoryId == masterCategoryId,
+                      //     )
+                      //     .translations[AppLocalizations.of(context)?.localeName];
+
+                      List<String> masterCategoryIds = _filteredMasters[index].categoryIds!;
+                      if (masterCategoryIds.length > 2) {
+                        masterCategoryIds.removeRange(2, masterCategoryIds.length);
+                      }
+
+                      List<CategoryModel> masterCategories = [];
+                      for (String id in masterCategoryIds) {
+                        masterCategories.add(categories.firstWhere((element) => element.categoryId == id));
+                      }
 
                       if (_filteredMasters.isNotEmpty) {
-                        return TeamMember(
-                          name: Utils().getNameMaster(_filteredMasters[index].personalInfo),
-                          service: masterService, // "Hairdresser",
-                          image: _filteredMasters[index].profilePicUrl,
+                        return InkWell(
+                          onTap: () {
+                            // print('####');
+                            // print(_salonSearchProvider.categories);
+                            // print(_filteredMasters[index].categoryIds);
+                            print('####');
+                            print(masterCategories);
+                            print(masterCategories[0].categoryId);
+                            print(masterCategories[1].categoryId);
+                            print('####');
+                          },
+                          child: TeamMember(
+                            name: Utils().getNameMaster(_filteredMasters[index].personalInfo),
+                            services: masterCategories, // masterService, // "Hairdresser",
+                            image: _filteredMasters[index].profilePicUrl,
+                          ),
                         );
                       } else {
                         return const SizedBox();
@@ -107,12 +130,13 @@ class SalonTeam extends ConsumerWidget {
 }
 
 class TeamMember extends ConsumerWidget {
-  final String? name, service, image;
+  final String? name, image;
+  final List<CategoryModel> services;
 
   const TeamMember({
     Key? key,
     required this.name,
-    required this.service,
+    required this.services,
     required this.image,
   }) : super(key: key);
 
@@ -123,61 +147,77 @@ class TeamMember extends ConsumerWidget {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        (image != null && image != '')
-            ? Container(
-                height: 100,
-                width: 100,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppTheme.white, // coolGrey,
+        Expanded(
+          flex: 0,
+          child: SizedBox(
+            // height: 140.h,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                (image != null && image != '')
+                    ? Container(
+                        height: 100,
+                        width: 100,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppTheme.white, // coolGrey,
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: CachedImage(url: image!, fit: BoxFit.cover),
+                        ),
+                      )
+                    : Container(
+                        height: 100,
+                        width: 100,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: Image.asset(AppIcons.masterDefaultAvtar, fit: BoxFit.cover),
+                        ),
+                      ),
+                const SizedBox(height: 15),
+                Text(
+                  name ?? '',
+                  style: theme.textTheme.bodyText1?.copyWith(
+                    color: theme.colorScheme.secondary,
+                    fontSize: 17.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  maxLines: 1,
                 ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                  child: CachedImage(url: image!, fit: BoxFit.cover),
-                ),
-              )
-            : Container(
-                height: 100,
-                width: 100,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white,
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                  child: Image.asset(AppIcons.masterDefaultAvtar, fit: BoxFit.cover),
-                ),
-              ),
-        const SizedBox(height: 15),
-        Text(
-          name ?? '',
-          style: theme.textTheme.bodyText1?.copyWith(
-            color: theme.colorScheme.secondary,
-            fontSize: 17.sp,
-            fontWeight: FontWeight.w600,
+                // Text(
+                //   service ?? '',
+                //   style: theme.textTheme.subtitle2?.copyWith(
+                //     fontSize: 15.sp,
+                //   ),
+                // ),
+              ],
+            ),
           ),
         ),
-        Text(
-          service ?? '',
-          style: theme.textTheme.subtitle2?.copyWith(
-            fontSize: 15.sp,
-          ),
+        const SizedBox(height: 5),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: services
+              .map(
+                (item) => Text(
+                  item.translations[AppLocalizations.of(context)?.localeName] ?? '',
+                  style: theme.textTheme.subtitle2?.copyWith(
+                    fontSize: 15.sp,
+                  ),
+                ),
+              )
+              .toList(),
         ),
       ],
     );
   }
 }
-
-
-        // ? CircleAvatar(
-        //     radius: DeviceConstraints.getResponsiveSize(context, 50, 50, 50),
-        //     backgroundColor: AppTheme.coolGrey,
-        //     backgroundImage: NetworkImage(image!),
-        //   )
-        // : CircleAvatar(
-        //     radius: DeviceConstraints.getResponsiveSize(context, 50, 50, 50),
-        //     backgroundColor: AppTheme.white,
-        //     backgroundImage: const AssetImage(AppIcons.masterDefaultAvtar),
-        //   ),

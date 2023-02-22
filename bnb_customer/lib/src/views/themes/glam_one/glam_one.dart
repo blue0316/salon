@@ -9,6 +9,7 @@ import 'package:bbblient/src/views/themes/components/salon_contact.dart';
 import 'package:bbblient/src/views/themes/components/salon_promotions.dart';
 import 'package:bbblient/src/views/themes/components/salon_reviews.dart';
 import 'package:bbblient/src/views/themes/components/salon_services.dart';
+import 'package:bbblient/src/views/themes/components/salon_services_2.dart';
 import 'package:bbblient/src/views/themes/components/salon_shop.dart';
 import 'package:bbblient/src/views/themes/components/salon_sponsors.dart';
 import 'package:bbblient/src/views/themes/components/salon_tags.dart';
@@ -60,85 +61,85 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          height: DeviceConstraints.getResponsiveSize(context, 1000.h, 1000.h, 1000.h),
-                          width: double.infinity,
-                          child: Stack(
-                            alignment: Alignment.topCenter,
-                            children: [
-                              // TOP BACKGROUND IMAGE
-                              const ThemeHeaderImage(),
-                              SizedBox(
-                                child: Align(
-                                  alignment: Alignment.topCenter,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 25.w, right: 25.w, top: 40.h),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        // InkWell(
-                                        //   child: Container(
-                                        //     height: 100,
-                                        //     width: 600,
-                                        //     color: Colors.green,
-                                        //   ),
-                                        //   onTap: () {
-                                        //     print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+                        // SizedBox(
+                        //   height: DeviceConstraints.getResponsiveSize(context, 1000.h, 1000.h, 1000.h),
+                        //   width: double.infinity,
+                        //   child: Stack(
+                        //     alignment: Alignment.topCenter,
+                        //     children: [
+                        //       // TOP BACKGROUND IMAGE
+                        //       const ThemeHeaderImage(),
+                        //       SizedBox(
+                        //         child: Align(
+                        //           alignment: Alignment.topCenter,
+                        //           child: Padding(
+                        //             padding: EdgeInsets.only(left: 25.w, right: 25.w, top: 40.h),
+                        //             child: Column(
+                        //               mainAxisSize: MainAxisSize.min,
+                        //               mainAxisAlignment: MainAxisAlignment.start,
+                        //               children: [
+                        //                 // InkWell(
+                        //                 //   child: Container(
+                        //                 //     height: 100,
+                        //                 //     width: 600,
+                        //                 //     color: Colors.green,
+                        //                 //   ),
+                        //                 //   onTap: () {
+                        //                 //     print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
 
-                                        //     // print(_salonSearchProvider.categories);
-                                        //     print(_createAppointmentProvider.categoryServicesMap);
-                                        //     print(_createAppointmentProvider.servicesAvailable);
+                        //                 //     // print(_salonSearchProvider.categories);
+                        //                 //     print(_createAppointmentProvider.categoryServicesMap);
+                        //                 //     print(_createAppointmentProvider.servicesAvailable);
 
-                                        //     print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-                                        //   },
-                                        // ),
-                                        ThemeAppBar(salonModel: chosenSalon),
-                                        SizedBox(height: 70.h),
-                                        ThemeHeader(salonModel: chosenSalon),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        if (chosenSalon.additionalFeatures.isNotEmpty)
-                          SalonTags(
-                            additionalFeatures: chosenSalon.additionalFeatures,
-                          ),
-                        if (_createAppointmentProvider.salonPromotions.isNotEmpty) const SalonPromotions(),
-                        SalonAbout2(salonModel: chosenSalon),
-                        const SalonSponsors(),
-                        SalonWorks(salonModel: chosenSalon),
-                        SalonPrice(
+                        //                 //     print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+                        //                 //   },
+                        //                 // ),
+                        //                 ThemeAppBar(salonModel: chosenSalon),
+                        //                 SizedBox(height: 70.h),
+                        //                 ThemeHeader(salonModel: chosenSalon),
+                        //               ],
+                        //             ),
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
+                        // if (chosenSalon.additionalFeatures.isNotEmpty)
+                        //   SalonTags(
+                        //     additionalFeatures: chosenSalon.additionalFeatures,
+                        //   ),
+                        // if (_createAppointmentProvider.salonPromotions.isNotEmpty) const SalonPromotions(),
+                        // SalonAbout2(salonModel: chosenSalon),
+                        // const SalonSponsors(),
+                        // SalonWorks(salonModel: chosenSalon),
+                        SalonPrice222(
                           salonModel: chosenSalon,
                           categories: _salonSearchProvider.categories,
                           categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
                         ),
-                        const SalonShop(),
-                        if (_salonProfileProvider.chosenSalon.ownerType != OwnerType.singleMaster)
-                          SalonTeam(
-                            salonModel: chosenSalon,
-                          ),
-                        SalonReviews(salonModel: chosenSalon),
-                        WriteToUs(salonModel: chosenSalon),
-                        SalonContact(salonModel: chosenSalon),
-                        // SalonSocials(
-                        //   salonModel: chosenSalon,
+                        // const SalonShop(),
+                        // if (_salonProfileProvider.chosenSalon.ownerType != OwnerType.singleMaster)
+                        //   SalonTeam(
+                        //     salonModel: chosenSalon,
+                        //   ),
+                        // SalonReviews(salonModel: chosenSalon),
+                        // WriteToUs(salonModel: chosenSalon),
+                        // SalonContact(salonModel: chosenSalon),
+                        // // SalonSocials(
+                        // //   salonModel: chosenSalon,
+                        // // ),
+                        // Column(
+                        //   children: [
+                        //     Padding(
+                        //       padding: const EdgeInsets.only(top: 19, bottom: 19),
+                        //       child: Text(
+                        //         "Design by GlamIris",
+                        //         style: GlamOneTheme.bodyText1.copyWith(fontSize: 18.sp),
+                        //       ),
+                        //     ),
+                        //   ],
                         // ),
-                        Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 19, bottom: 19),
-                              child: Text(
-                                "Design by GlamIris",
-                                style: GlamOneTheme.bodyText1.copyWith(fontSize: 18.sp),
-                              ),
-                            ),
-                          ],
-                        ),
                       ],
                     ),
                   ),

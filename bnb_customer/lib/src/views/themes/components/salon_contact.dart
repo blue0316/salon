@@ -147,8 +147,8 @@ class ContactSection extends ConsumerWidget {
           ),
         ),
         const SizedBox(height: 10),
-        ContactCard(icon: ThemeIcons.phone, value: salonModel.phoneNumber),
-        ContactCard(icon: ThemeIcons.mail, value: salonModel.email ?? 'N/A'),
+        if (salonModel.phoneNumber != '') ContactCard(icon: ThemeIcons.phone, value: salonModel.phoneNumber),
+        if (salonModel.email != '') ContactCard(icon: ThemeIcons.mail, value: salonModel.email),
       ],
     );
   }
@@ -239,7 +239,7 @@ class SocialNetwork extends ConsumerWidget {
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.left,
           style: theme.textTheme.headline2?.copyWith(
-            fontSize: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
+            fontSize: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 26.sp),
           ),
         ),
         const SizedBox(height: 10),
@@ -250,21 +250,21 @@ class SocialNetwork extends ConsumerWidget {
             Socials(
               socialIcon: ThemeIcons.insta,
               socialUrl: salonModel.links?.instagram,
-              height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
+              height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 26.sp),
               color: theme.dividerColor,
             ),
             const SizedBox(width: 20),
             Socials(
               socialIcon: ThemeIcons.tiktok,
               socialUrl: salonModel.links?.facebookMessenger,
-              height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
+              height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 26.sp),
               color: theme.dividerColor,
             ),
             const SizedBox(width: 20),
             Socials(
               socialIcon: ThemeIcons.whatsapp,
               socialUrl: salonModel.links?.whatsapp,
-              height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
+              height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 26.sp),
               color: theme.dividerColor,
             ),
           ],

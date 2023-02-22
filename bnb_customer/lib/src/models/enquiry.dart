@@ -6,8 +6,8 @@ class EnquiryModel {
   // Customer phone
   late String customerPhone;
 
-  // Customer email
-  late String customerEmail;
+  // Customer request
+  late String customerRequest;
 
   // Salon
   late String salonId;
@@ -21,7 +21,7 @@ class EnquiryModel {
   EnquiryModel({
     required this.customerName,
     required this.customerPhone,
-    required this.customerEmail,
+    required this.customerRequest,
     required this.salonId,
     required this.createdAt,
     required this.status,
@@ -30,7 +30,7 @@ class EnquiryModel {
   EnquiryModel.fromJson(Map<String, dynamic> json) {
     customerName = json['customerName'];
     customerPhone = json['customerPhone'];
-    customerEmail = json['customerEmail'];
+    customerRequest = json['customerRequest'];
     salonId = json['salonId'];
     createdAt = json['createdAt'].toDate();
     status = json['status'];
@@ -40,7 +40,7 @@ class EnquiryModel {
     final Map<String, dynamic> data = {};
     data['customerName'] = customerName;
     data['customerPhone'] = customerPhone;
-    data['customerEmail'] = customerEmail;
+    data['customerRequest'] = customerRequest;
     data['salonId'] = salonId;
     data['createdAt'] = createdAt;
     data['status'] = status;

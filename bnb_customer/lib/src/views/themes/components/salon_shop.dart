@@ -115,8 +115,7 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
                       padding: const EdgeInsets.symmetric(vertical: 20),
                       child: Center(
                         child: Text(
-                          // (AppLocalizations.of(context)?.shop ?? 'Shop').toUpperCase(),
-                          'No items available for sale', // TODO: -- LOCALIZATION
+                          (AppLocalizations.of(context)?.noItemsAvailable ?? 'No items available for sale').toUpperCase(),
                           style: theme.textTheme.bodyText1?.copyWith(
                             fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
                           ),

@@ -10,7 +10,7 @@ class CustomerWebSettingsApi {
     return _instance;
   }
 
-  Future<String?> getSalonTheme({required String salonId}) async {
+  Future<Map<String, dynamic>> getSalonTheme({required String salonId}) async {
     try {
       String salonTheme = '';
 
@@ -23,12 +23,12 @@ class CustomerWebSettingsApi {
 
       Map<String, dynamic> _temp = _response.docs[0].data() as Map<String, dynamic>;
 
-      salonTheme = _temp['theme'];
+      // salonTheme = _temp['theme']['id'];
 
-      return salonTheme;
+      return _temp['theme'];
     } catch (e) {
       printIt('Error on getSalonTheme() - ${e.toString()}');
     }
-    return null;
+    return {};
   }
 }

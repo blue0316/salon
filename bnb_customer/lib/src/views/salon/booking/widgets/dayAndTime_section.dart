@@ -16,9 +16,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DialogDateAndTimeSection extends ConsumerStatefulWidget {
-  final CreateAppointmentProvider createAppointment;
   final TabController tabController;
-  const DialogDateAndTimeSection({Key? key, required this.tabController, required this.createAppointment}) : super(key: key);
+  final CreateAppointmentProvider createAppointment11;
+  const DialogDateAndTimeSection({Key? key, required this.tabController, required this.createAppointment11}) : super(key: key);
 
   @override
   ConsumerState<DialogDateAndTimeSection> createState() => _DialogDateAndTimeSectionState();
@@ -38,6 +38,7 @@ class _DialogDateAndTimeSectionState extends ConsumerState<DialogDateAndTimeSect
   Widget build(BuildContext context) {
     final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final _auth = ref.watch(authProvider);
 
     // final Theme a = AppTheme as Theme;
     final ThemeData theme = _salonProfileProvider.salonTheme;
@@ -61,10 +62,10 @@ class _DialogDateAndTimeSectionState extends ConsumerState<DialogDateAndTimeSect
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TableCalendar(
-                        focusedDay: widget.createAppointment.chosenDay,
+                        focusedDay: _createAppointmentProvider.chosenDay,
                         firstDay: _today,
                         lastDay: _lastDay,
-                        selectedDayPredicate: (day) => isSameDay(widget.createAppointment.chosenDay, day),
+                        selectedDayPredicate: (day) => isSameDay(_createAppointmentProvider.chosenDay, day),
                         calendarFormat: CalendarFormat.week,
                         startingDayOfWeek: StartingDayOfWeek.monday,
                         weekendDays: const [],
@@ -133,15 +134,15 @@ class _DialogDateAndTimeSectionState extends ConsumerState<DialogDateAndTimeSect
                           outsideDaysVisible: false,
                         ),
                         onDaySelected: (start, end) {
-                          if ((widget.createAppointment.chosenSalon!.bookingRestrictionDays != null
+                          if ((_createAppointmentProvider.chosenSalon!.bookingRestrictionDays != null
                               ? (DateTime.now()
                                   .add(Duration(
-                                    days: widget.createAppointment.chosenSalon!.bookingRestrictionDays!,
+                                    days: _createAppointmentProvider.chosenSalon!.bookingRestrictionDays!,
                                   ))
                                   .isAfter(start))
                               : true)) {
                             setState(() {
-                              widget.createAppointment.setUpSlots(day: start, context: context, showNotWorkingToast: true);
+                              _createAppointmentProvider.setUpSlots(day: start, context: context, showNotWorkingToast: true);
                             });
                           } else {
                             showToast(
@@ -182,7 +183,7 @@ class _DialogDateAndTimeSectionState extends ConsumerState<DialogDateAndTimeSect
                           SizedBox(
                             width: 1.sw,
                           ),
-                          if (widget.createAppointment.slotsStatus == Status.loading) ...[
+                          if (_createAppointmentProvider.slotsStatus == Status.loading) ...[
                             SizedBox(
                               height: 100.h,
                               child: Center(
@@ -197,7 +198,7 @@ class _DialogDateAndTimeSectionState extends ConsumerState<DialogDateAndTimeSect
                               ),
                             ),
                           ],
-                          if (widget.createAppointment.eveningTimeslots.isEmpty && widget.createAppointment.morningTimeslots.isEmpty && widget.createAppointment.eveningTimeslots.isEmpty && widget.createAppointment.slotsStatus != Status.loading) ...[
+                          if (_createAppointmentProvider.eveningTimeslots.isEmpty && _createAppointmentProvider.morningTimeslots.isEmpty && _createAppointmentProvider.eveningTimeslots.isEmpty && _createAppointmentProvider.slotsStatus != Status.loading) ...[
                             SizedBox(
                               height: 100.h,
                               width: 1.sw,
@@ -219,7 +220,7 @@ class _DialogDateAndTimeSectionState extends ConsumerState<DialogDateAndTimeSect
                               ),
                             )
                           ],
-                          if (widget.createAppointment.morningTimeslots.isNotEmpty) ...[
+                          if (_createAppointmentProvider.morningTimeslots.isNotEmpty) ...[
                             SizedBox(height: 28.h),
                             Align(
                               alignment: Alignment.centerLeft,
@@ -235,19 +236,19 @@ class _DialogDateAndTimeSectionState extends ConsumerState<DialogDateAndTimeSect
                               spacing: 10.h,
                               runSpacing: 10.w,
                               children: [
-                                for (var slot in widget.createAppointment.morningTimeslots)
+                                for (var slot in _createAppointmentProvider.morningTimeslots)
                                   TimeSlotContainer(
                                     time: slot,
-                                    valid: widget.createAppointment.validSlots.contains(slot),
-                                    choosen: widget.createAppointment.chosenSlots.contains(slot),
+                                    valid: _createAppointmentProvider.validSlots.contains(slot),
+                                    choosen: _createAppointmentProvider.chosenSlots.contains(slot),
                                     onTap: () async {
-                                      await widget.createAppointment.chooseSlot(slot, context);
+                                      await _createAppointmentProvider.chooseSlot(slot, context);
                                     },
                                   ),
                               ],
                             ),
                           ],
-                          if (widget.createAppointment.afternoonTimeslots.isNotEmpty) ...[
+                          if (_createAppointmentProvider.afternoonTimeslots.isNotEmpty) ...[
                             SizedBox(height: 28.h),
                             Align(
                               alignment: Alignment.centerLeft,
@@ -263,19 +264,19 @@ class _DialogDateAndTimeSectionState extends ConsumerState<DialogDateAndTimeSect
                               spacing: 10.h,
                               runSpacing: 10.w,
                               children: [
-                                for (var slot in widget.createAppointment.afternoonTimeslots)
+                                for (var slot in _createAppointmentProvider.afternoonTimeslots)
                                   TimeSlotContainer(
                                     time: slot,
-                                    valid: widget.createAppointment.validSlots.contains(slot),
-                                    choosen: widget.createAppointment.chosenSlots.contains(slot),
+                                    valid: _createAppointmentProvider.validSlots.contains(slot),
+                                    choosen: _createAppointmentProvider.chosenSlots.contains(slot),
                                     onTap: () async {
-                                      await widget.createAppointment.chooseSlot(slot, context);
+                                      await _createAppointmentProvider.chooseSlot(slot, context);
                                     },
                                   ),
                               ],
                             ),
                           ],
-                          if (widget.createAppointment.eveningTimeslots.isNotEmpty) ...[
+                          if (_createAppointmentProvider.eveningTimeslots.isNotEmpty) ...[
                             SizedBox(height: 28.h),
                             Align(
                               alignment: Alignment.centerLeft,
@@ -291,13 +292,13 @@ class _DialogDateAndTimeSectionState extends ConsumerState<DialogDateAndTimeSect
                               spacing: 10.h,
                               runSpacing: 10.w,
                               children: [
-                                for (var slot in widget.createAppointment.eveningTimeslots)
+                                for (var slot in _createAppointmentProvider.eveningTimeslots)
                                   TimeSlotContainer(
                                     time: slot,
-                                    valid: widget.createAppointment.validSlots.contains(slot),
-                                    choosen: widget.createAppointment.chosenSlots.contains(slot),
+                                    valid: _createAppointmentProvider.validSlots.contains(slot),
+                                    choosen: _createAppointmentProvider.chosenSlots.contains(slot),
                                     onTap: () async {
-                                      await widget.createAppointment.chooseSlot(slot, context);
+                                      await _createAppointmentProvider.chooseSlot(slot, context);
                                     },
                                   ),
                               ],
@@ -315,14 +316,22 @@ class _DialogDateAndTimeSectionState extends ConsumerState<DialogDateAndTimeSect
             DefaultButton(
               borderRadius: 60,
               onTap: () {
-                if (widget.createAppointment.chosenSlots.contains('') || widget.createAppointment.chosenSlots.isEmpty) {
+                if (_createAppointmentProvider.chosenSlots.contains('') || _createAppointmentProvider.chosenSlots.isEmpty) {
                   showToast(AppLocalizations.of(context)?.chooseSlots ?? "choose slots");
                   return;
                 }
 
-                debugPrint('Next Step');
-                widget.createAppointment.createAppointment2(context: context);
-                widget.tabController.animateTo(2);
+                _auth.createAppointmentProvider(widget.createAppointment11);
+                bool moveAhead = widget.createAppointment11.checkSlotsAndMaster(context: context);
+
+                if (moveAhead) {
+                  widget.createAppointment11.createAppointment2(context: context);
+                  widget.tabController.animateTo(2);
+                }
+
+                // debugPrint('Next Step');
+                // _createAppointmentProvider.createAppointment2(context: context);
+                // widget.tabController.animateTo(2);
               },
               color: defaultTheme ? Colors.black : theme.primaryColor,
               textColor: defaultTheme ? Colors.white : Colors.black,

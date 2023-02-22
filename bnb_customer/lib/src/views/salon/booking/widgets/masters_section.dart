@@ -22,14 +22,14 @@ import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 
 class DialogMastersSection extends ConsumerStatefulWidget {
-  final CreateAppointmentProvider createAppointment;
+  // final CreateAppointmentProvider createAppointment;
   final TabController tabController;
   final bool master;
 
   const DialogMastersSection({
     Key? key,
     required this.tabController,
-    required this.createAppointment,
+    // required this.createAppointment,
     this.master = false,
   }) : super(key: key);
 
@@ -39,6 +39,22 @@ class DialogMastersSection extends ConsumerStatefulWidget {
 
 class _DialogMastersSectionState extends ConsumerState<DialogMastersSection> {
   final ScrollController _mastresListController = ScrollController();
+  late CreateAppointmentProvider createAppointment;
+
+  @override
+  void initState() {
+    super.initState();
+    setUpMasterPrice();
+  }
+
+  setUpMasterPrice() {
+    createAppointment = ref.read(createAppointmentProvider);
+    if (createAppointment.chosenMaster != null) {
+      Future.delayed(const Duration(milliseconds: 300), () {
+        createAppointment.chooseMaster(masterModel: createAppointment.chosenMaster!, context: context);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -234,7 +250,7 @@ class _DialogMastersSectionState extends ConsumerState<DialogMastersSection> {
                   // -- SELECT MASTER
                   if (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.salon && widget.master == false)
                     AvailableMasters(
-                      createAppointment: widget.createAppointment,
+                      createAppointment: createAppointment,
                       mastresListController: _mastresListController,
                     ),
                 ],
@@ -244,7 +260,7 @@ class _DialogMastersSectionState extends ConsumerState<DialogMastersSection> {
             DefaultButton(
               borderRadius: 60,
               onTap: () {
-                final bool isMasterNull = widget.createAppointment.chosenMaster == null && widget.createAppointment.chosenSalon!.ownerType == OwnerType.salon;
+                final bool isMasterNull = createAppointment.chosenMaster == null && createAppointment.chosenSalon!.ownerType == OwnerType.salon;
 
                 // print(isMasterNull);
                 // print(widget.createAppointment.chosenSalon!.ownerType);

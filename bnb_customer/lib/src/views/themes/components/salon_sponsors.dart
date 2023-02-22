@@ -27,7 +27,7 @@ class SalonSponsors extends ConsumerWidget {
               ? Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Text(
-                    'No brands available for this profile',
+                    AppLocalizations.of(context)?.noBrandsForThisProfile ?? "No brands available for this profile",
                     style: theme.textTheme.bodyText1?.copyWith(
                       color: theme.dividerColor,
                       fontSize: 18.sp,

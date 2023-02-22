@@ -172,7 +172,6 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
                 :
                 //  Check for theme
                 Stack(
-                    // TODO: REMOVE (UNNECESSARY)
                     children: [
                       (_salonProfileProvider.getTheme() == null)
                           ? SingleChildScrollView(
@@ -391,12 +390,14 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
                       //         )),
                       //   )),
                       // ),
-                      // const Align(
-                      //   alignment: Alignment.bottomCenter,
-                      //   child: FloatingBar(
-                      //     themeNo: 0,
-                      //   ),
-                      // )
+                      (_salonProfileProvider.getTheme() == null)
+                          ? const Align(
+                              alignment: Alignment.bottomCenter,
+                              child: FloatingBar(
+                                themeNo: 0,
+                              ),
+                            )
+                          : SizedBox.shrink(),
                     ],
                   ),
       ),

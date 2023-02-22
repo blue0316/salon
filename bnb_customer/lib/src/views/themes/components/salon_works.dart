@@ -64,33 +64,11 @@ class _SalonWorksState extends ConsumerState<SalonWorks> {
                       fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),
                     ),
                   ),
-                  if (isPortrait) const Spacer(),
-                  if (isPortrait)
-                    PrevAndNext(
-                      backOnTap: () => _controller.previousPage(),
-                      forwardOnTap: () => _controller.nextPage(),
-                    ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: DeviceConstraints.getResponsiveSize(context, 350.w, 150.w, 150.w),
-                    child: Text(
-                      widget.salonModel.description,
-                      style: theme.textTheme.subtitle2?.copyWith(
-                        fontSize: 17.5.sp,
-                      ),
-                    ),
+                  const Spacer(),
+                  PrevAndNext(
+                    backOnTap: () => _controller.previousPage(),
+                    forwardOnTap: () => _controller.nextPage(),
                   ),
-                  if (!isPortrait)
-                    PrevAndNext(
-                      backOnTap: () => _controller.previousPage(),
-                      forwardOnTap: () => _controller.nextPage(),
-                    ),
                 ],
               ),
               SizedBox(height: DeviceConstraints.getResponsiveSize(context, 50, 50, 35)),

@@ -12,7 +12,7 @@ class OTPField9 extends ConsumerWidget {
   const OTPField9({Key? key, this.color}) : super(key: key);
   @override
   Widget build(BuildContext context, ref) {
-    // final _auth = ref.watch(authProvider);
+    final _auth = ref.watch(authProvider);
     final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
@@ -51,7 +51,7 @@ class OTPField9 extends ConsumerWidget {
         // _auth.checkOtp(val);
       },
       onChanged: (val) {
-        // _auth.otp = val;
+        _auth.otp = val;
       },
       beforeTextPaste: (text) {
         //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.

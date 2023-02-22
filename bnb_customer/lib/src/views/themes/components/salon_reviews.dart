@@ -177,8 +177,7 @@ class _SalonReviewsState extends ConsumerState<SalonReviews> {
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Center(
                     child: Text(
-                      // (AppLocalizations.of(context)?.shop ?? 'Shop').toUpperCase(),
-                      'No reviews available yet', // TODO: -- LOCALIZATION
+                      (AppLocalizations.of(context)?.noReviews ?? 'No reviews').toUpperCase(),
                       style: theme.textTheme.bodyText1?.copyWith(
                         fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
                       ),
@@ -220,7 +219,9 @@ class ReviewCard extends ConsumerWidget {
             child: Container(
               margin: const EdgeInsets.only(top: 45),
               padding: const EdgeInsets.symmetric(horizontal: 5),
-              decoration: BoxDecoration(border: Border.all(color: GlamOneTheme.primaryColor, width: 2)),
+              decoration: BoxDecoration(
+                border: Border.all(color: theme.primaryColor, width: 2),
+              ),
               child: Padding(
                 padding: const EdgeInsets.only(top: 30),
                 child: Column(

@@ -41,7 +41,7 @@ class ThemeAppBar extends StatelessWidget {
                       ),
                       const SizedBox(width: 20),
                       Socials(
-                        socialIcon: ThemeIcons.insta,
+                        socialIcon: ThemeIcons.tiktok,
                         socialUrl: salonModel.links?.facebookMessenger,
                       ),
                       const SizedBox(width: 20),

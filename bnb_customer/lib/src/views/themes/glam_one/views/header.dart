@@ -136,13 +136,16 @@ class ThemeHeader extends ConsumerWidget {
   }
 }
 
-class RotatedBookNow extends StatelessWidget {
+class RotatedBookNow extends ConsumerWidget {
   final VoidCallback onTap;
   final String buttonText;
   const RotatedBookNow({Key? key, required this.onTap, required this.buttonText}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
@@ -157,7 +160,7 @@ class RotatedBookNow extends StatelessWidget {
                   height: 65.h,
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: GlamOneTheme.primaryColor,
+                      color: theme.primaryColor,
                       width: 1.5,
                     ),
                     borderRadius: BorderRadius.circular(170),
@@ -166,7 +169,7 @@ class RotatedBookNow extends StatelessWidget {
               ),
               Text(
                 buttonText,
-                style: GlamOneTheme.bodyText1.copyWith(),
+                style: theme.textTheme.bodyText1!.copyWith(),
               ),
             ],
           )),

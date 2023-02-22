@@ -152,18 +152,18 @@ class _BookingBottomSheetState extends ConsumerState<BookingBottomSheet> {
                   )
                 : const SizedBox(height: 40),
 
-            /// --- TESTING --- ////
-            const SizedBox(height: 50),
-            widget.showBookButton
-                ? BnbMaterialButton(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      const BookingDialogWidget().show(context);
-                    },
-                    title: "DIALOG",
-                    minWidth: 1.sw - 48,
-                  )
-                : const SizedBox(height: 40)
+            // /// --- TESTING --- ////
+            // const SizedBox(height: 50),
+            // widget.showBookButton
+            //     ? BnbMaterialButton(
+            //         onTap: () {
+            //           Navigator.of(context).pop();
+            //           const BookingDialogWidget().show(context);
+            //         },
+            //         title: "DIALOG",
+            //         minWidth: 1.sw - 48,
+            //       )
+            // : const SizedBox(height: 40)
           ],
         ),
       ),
