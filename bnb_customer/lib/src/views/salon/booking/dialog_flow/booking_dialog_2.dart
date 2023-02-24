@@ -4,12 +4,14 @@ import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/utils/extensions/exstension.dart';
+import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/confirm/confirm.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/service_tab/service_tab.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'widgets/day_and_time/day_and_time.dart';
 
 class BookingDialogWidget222<T> extends ConsumerStatefulWidget {
@@ -69,7 +71,7 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
           horizontal: DeviceConstraints.getResponsiveSize(
             context,
             0,
-            mediaQuery.width / 6,
+            mediaQuery.width / 5,
             mediaQuery.width / 6,
           ),
           vertical: DeviceConstraints.getResponsiveSize(context, 0, 50.h, 50.h),
@@ -93,8 +95,8 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
                                   context,
                                 )) !=
                                 DeviceScreenType.portrait)
-                            ? 'ONLINE BOOKING 22'
-                            : 'Online Booking 22',
+                            ? 'ONLINE BOOKING'
+                            : 'Online Booking', // TODO - LOCALIZATIONS
                         style: AppTheme.bodyText1.copyWith(
                           fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 25.sp, 40.sp),
                           fontWeight: FontWeight.w600,
@@ -143,23 +145,20 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
                               data: ThemeData(tabBarTheme: theme.tabBarTheme),
                               child: TabBar(
                                 controller: bookingTabController,
-                                // unselectedLabelColor: Colors.black,
-                                // labelColor: Colors.white,
                                 labelStyle: theme.tabBarTheme.labelStyle!.copyWith(
-                                  fontSize: DeviceConstraints.getResponsiveSize(context, 15.h, 15.h, 15.sp),
+                                  fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 18.sp, 18.sp),
                                 ),
-
-                                // AppTheme.bodyText1.copyWith(
-                                //   fontSize: DeviceConstraints.getResponsiveSize(context, 15.h, 15.h, 15.sp),
-                                // ),
-                                // indicator: BoxDecoration(
-                                //   borderRadius: BorderRadius.circular(50),
-                                //   color: Colors.black,
-                                // ),
-                                tabs: const [
-                                  Tab(text: 'Service'),
-                                  Tab(text: 'Day & Time'),
-                                  Tab(text: 'Confirm'),
+                                tabs: [
+                                  Tab(
+                                    // text: (_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon && widget.master == false) ? 'Masters' : 'Services',
+                                    text: AppLocalizations.of(context)?.services ?? 'Services',
+                                  ),
+                                  const Tab(
+                                    text: 'Day & Time', // TODO - LOCALIZATIONS
+                                  ),
+                                  Tab(
+                                    text: AppLocalizations.of(context)?.registration_line16 ?? 'Confirm',
+                                  ),
                                 ],
                               ),
                             ),
@@ -182,10 +181,10 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
                           ServiceTab(tabController: bookingTabController!),
 
                           // Day And Time
-                          const DayAndTime(),
+                          DayAndTime(tabController: bookingTabController!),
 
                           // Confirm
-                          Container(height: 100, color: Colors.yellow),
+                          Confirmation(bookingTabController: bookingTabController!),
                         ],
                       ),
                     ),

@@ -78,7 +78,7 @@ class TermsOfServiceText extends ConsumerWidget {
           TextSpan(
             text: "We have updated our ",
             style: AppTheme.bodyText1.copyWith(
-              fontSize: 15.sp,
+              fontSize: 20.sp,
               fontWeight: FontWeight.w400,
               color: defaultTheme ? Colors.black : Colors.white,
             ),
@@ -86,7 +86,7 @@ class TermsOfServiceText extends ConsumerWidget {
           TextSpan(
             text: "Terms of Service ",
             style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                  fontSize: 15.sp,
+                  fontSize: 20.sp,
                   fontWeight: FontWeight.w600,
                   color: defaultTheme ? Colors.black : Colors.white,
                 ),

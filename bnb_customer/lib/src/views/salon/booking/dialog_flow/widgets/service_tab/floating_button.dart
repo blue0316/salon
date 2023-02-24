@@ -23,7 +23,7 @@ class FloatingButton extends ConsumerWidget {
 
     return noOfServices != 0
         ? Padding(
-            padding: EdgeInsets.only(bottom: 30.h),
+            padding: EdgeInsets.only(bottom: 10.h),
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 200),
               transitionBuilder: (Widget child, Animation<double> animation) {

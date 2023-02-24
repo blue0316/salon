@@ -238,7 +238,8 @@ class AppTheme {
     ),
     dividerColor: Colors.white,
     focusColor: lightGrey,
-    highlightColor: milkeyGreyDark,
+    highlightColor: const Color.fromARGB(255, 239, 239, 239), // Color to select services on booking dialog
+
     splashColor: milkeyGreyDark,
     hoverColor: milkeyGreyDark,
     unselectedWidgetColor: const Color.fromARGB(255, 239, 239, 239), // Color for not valid time slot container
@@ -441,7 +442,7 @@ class AppTheme {
     ),
     hintColor: Colors.white,
     unselectedWidgetColor: Colors.grey[700], // Color for not valid time slot container
-
+    highlightColor: GlamBarberShopTheme.primaryColor,
     // Stop
 
     appBarTheme: AppBarTheme(
@@ -452,7 +453,6 @@ class AppTheme {
       ),
     ),
     focusColor: lightGrey,
-    highlightColor: milkeyGreyDark,
     splashColor: milkeyGreyDark,
     hoverColor: milkeyGreyDark,
   );

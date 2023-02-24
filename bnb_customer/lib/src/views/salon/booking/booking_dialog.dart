@@ -1,10 +1,10 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/salon/booking/widgets/confirmation.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'widgets/dayAndTime_section.dart';
 import 'widgets/masters_section.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BookingDialogWidget<T> extends ConsumerStatefulWidget {
   final bool master;
@@ -95,7 +96,7 @@ class _BookingDialogWidgetState<T> extends ConsumerState<BookingDialogWidget<T>>
                                   context,
                                 )) !=
                                 DeviceScreenType.portrait)
-                            ? 'ONLINE BOOKING'
+                            ? 'ONLINE BOOKING' // TODO - LOCALIZATIONS
                             : 'Online Booking',
                         style: AppTheme.bodyText1.copyWith(
                           fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 25.sp, 40.sp),
@@ -158,13 +159,17 @@ class _BookingDialogWidgetState<T> extends ConsumerState<BookingDialogWidget<T>>
                                 //   borderRadius: BorderRadius.circular(50),
                                 //   color: Colors.black,
                                 // ),
-                                tabs: const [
+                                tabs: [
                                   Tab(
                                     // text: (_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon && widget.master == false) ? 'Masters' : 'Services',
-                                    text: 'Services',
+                                    text: AppLocalizations.of(context)?.services ?? 'Services',
                                   ),
-                                  Tab(text: 'Day & Time'),
-                                  Tab(text: 'Confirm'),
+                                  const Tab(
+                                    text: 'Day & Time', // TODO - LOCALIZATIONS
+                                  ),
+                                  Tab(
+                                    text: AppLocalizations.of(context)?.confirm ?? 'Confirm'.toCapitalized(),
+                                  ),
                                 ],
                               ),
                             ),

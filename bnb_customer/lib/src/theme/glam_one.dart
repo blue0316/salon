@@ -93,7 +93,7 @@ class GlamOneTheme {
     unselectedWidgetColor: Colors.grey[700], // Color for not valid time slot container
     // Stop
     focusColor: lightGrey,
-    highlightColor: lightGrey,
+    highlightColor: primaryColor1,
     splashColor: lightGrey,
     hoverColor: lightGrey,
   );
@@ -174,7 +174,8 @@ class GlamOneTheme {
     unselectedWidgetColor: Colors.grey[700], // Color for not valid time slot container
     // Stop
     focusColor: lightGrey,
-    highlightColor: lightGrey,
+    highlightColor: primaryColor1,
+
     splashColor: lightGrey,
     hoverColor: lightGrey,
   );

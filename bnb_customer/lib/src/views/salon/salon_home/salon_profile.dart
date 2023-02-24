@@ -390,7 +390,7 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
                       //         )),
                       //   )),
                       // ),
-<<<<<<< HEAD
+
                       (_salonProfileProvider.getTheme() == null)
                           ? const Align(
                               alignment: Alignment.bottomCenter,
@@ -399,16 +399,6 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
                               ),
                             )
                           : SizedBox.shrink(),
-=======
-                      (_salonProfileProvider.getTheme() == null) ?
-                      const Align(
-                        alignment: Alignment.bottomCenter,
-                        child: FloatingBar(
-                          themeNo: 0,
-                        ),
-                      )
-                          :SizedBox.shrink(),
->>>>>>> 60b223800974b2254947803b98e0ebf98386bf0e
                     ],
                   ),
       ),

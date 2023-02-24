@@ -37,14 +37,14 @@ class ThemeHeader extends ConsumerWidget {
           ),
           textAlign: TextAlign.center,
         ),
-        if (isPortrait) const SizedBox(height: 20),
-        Text(
-          "Beauty Salon",
-          style: theme.textTheme.headline2?.copyWith(
-            letterSpacing: 0.5,
-          ),
-          textAlign: TextAlign.center,
-        ),
+        // if (isPortrait) const SizedBox(height: 20),
+        // Text(
+        //   "Beauty Salon",
+        //   style: theme.textTheme.headline2?.copyWith(
+        //     letterSpacing: 0.5,
+        //   ),
+        //   textAlign: TextAlign.center,
+        // ),
         SizedBox(height: DeviceConstraints.getResponsiveSize(context, 40.h, 40.h, 40.h)),
         // (_salonProfileProvider.chosenSalon.selectedTheme == 1)
         //     ? RotatedBookNow(

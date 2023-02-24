@@ -46,7 +46,7 @@ class OvalButton extends ConsumerWidget {
             child: Center(
               child: Text(
                 text,
-                style: GlamOneTheme.bodyText2.copyWith(
+                style: theme.textTheme.bodyText2!.copyWith(
                   fontSize: textSize ?? 14.sp,
                 ),
               ),

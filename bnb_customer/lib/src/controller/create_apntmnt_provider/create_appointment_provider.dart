@@ -514,8 +514,9 @@ class CreateAppointmentProvider with ChangeNotifier {
       notifyListeners();
       return 'choosen';
     } else {
-      printIt(totalPriceWithMaster);
-      printIt(totalTimeWithMaster);
+      printIt('Total Price With Master - $totalPriceWithMaster');
+      printIt('Total Time With Master - $totalTimeWithMaster');
+
       notifyListeners();
       return "Services Not available";
     }
@@ -548,14 +549,12 @@ class CreateAppointmentProvider with ChangeNotifier {
 
             _service.priceAndDurationMax!.duration = masterModel.servicesPriceAndDurationMax?[serviceModel.serviceId]?.duration ?? '0';
             _service.priceAndDurationMax!.price = masterModel.servicesPriceAndDurationMax?[serviceModel.serviceId]?.price ?? "0";
-            _totalDurationMax = _totalDurationMax + (
-                (serviceModel.isFixedDuration != null) ?
-                !serviceModel.isFixedDuration
-                ? int.parse(serviceModel.priceAndDurationMax!.duration)
-                : (int.tryParse(masterModel.servicesPriceAndDuration?[serviceModel.serviceId]?.duration ?? '0') ?? 0)
-            : int.parse(serviceModel.priceAndDurationMax!.duration)
-
-            );
+            _totalDurationMax = _totalDurationMax +
+                ((serviceModel.isFixedDuration != null)
+                    ? !serviceModel.isFixedDuration
+                        ? int.parse(serviceModel.priceAndDurationMax!.duration)
+                        : (int.tryParse(masterModel.servicesPriceAndDuration?[serviceModel.serviceId]?.duration ?? '0') ?? 0)
+                    : int.parse(serviceModel.priceAndDurationMax!.duration));
 
             _totalPriceMax = _totalPriceMax + (!serviceModel.isFixedPrice ? int.parse(serviceModel.priceAndDurationMax!.price) : (int.tryParse(masterModel.servicesPriceAndDuration?[serviceModel.serviceId]?.price ?? "0") ?? 0));
             _services.add(_service);
@@ -565,10 +564,9 @@ class CreateAppointmentProvider with ChangeNotifier {
           duration: _totalDuration.toString(),
           price: _totalPrice.toString(),
         );
-        print("totoal Duration: "+_totalDuration.toString());
-        print("totoal DurationMax: "+_totalDurationMax.toString());
-        printIt(_totalDuration.toString());
-        printIt(_totalDurationMax.toString());
+        printIt("totoal Duration: " + _totalDuration.toString());
+        printIt("totoal DurationMax: " + _totalDurationMax.toString());
+
         mastersPriceDurationMapMax[masterModel.masterId] = PriceAndDurationModel(
           duration: _totalDurationMax.toString(),
           price: _totalPriceMax.toString(),
@@ -642,6 +640,15 @@ class CreateAppointmentProvider with ChangeNotifier {
     }
   }
 
+  // Highlight Category Tab if a service on that category has been selected
+  bool isCategoryServiceAdded({required CategoryModel categoryModel}) {
+    int index = chosenServices.indexWhere((element) => element.categoryId == categoryModel.categoryId);
+    if (index == -1) {
+      return false;
+    }
+    return true;
+  }
+
   calculateAvailableMasters({required DateTime day}) {
     if (salonMasters.isNotEmpty) {
       availableMasters.clear();
@@ -682,7 +689,6 @@ class CreateAppointmentProvider with ChangeNotifier {
     slotsStatus = Status.loading;
     notifyListeners();
     if (beautyProActive && chosenMaster != null) {
-      print("na here 1");
       printIt('fatching slots from beauty pro');
       Map<String, List<String>>? slots = await BeautyProEngine().getMasterSlots(day);
       printIt("beauty pro result $slots");
@@ -991,13 +997,12 @@ class CreateAppointmentProvider with ChangeNotifier {
     totalMinutesWithFixed = 0;
     for (ServiceModel serviceModel in chosenServices) {
       printIt(serviceModel.toJson());
-      totalMinutes = totalMinutes + (
-          serviceModel.isFixedDuration != null ?
-          !serviceModel.isFixedDuration
-              ? int.parse(serviceModel.priceAndDurationMax!.duration)
-              : int.parse(serviceModel.priceAndDuration.duration)
-      : int.parse(serviceModel.priceAndDuration.duration)
-      );
+      totalMinutes = totalMinutes +
+          (serviceModel.isFixedDuration != null
+              ? !serviceModel.isFixedDuration
+                  ? int.parse(serviceModel.priceAndDurationMax!.duration)
+                  : int.parse(serviceModel.priceAndDuration.duration)
+              : int.parse(serviceModel.priceAndDuration.duration));
       totalMinutesWithFixed = totalMinutesWithFixed + int.parse(serviceModel.priceAndDuration.duration);
       printIt(totalMinutes);
       notifyListeners();

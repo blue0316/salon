@@ -4,6 +4,7 @@ import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/service_tab/service_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -45,7 +46,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
 
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 20.w),
+        horizontal: DeviceConstraints.getResponsiveSize(context, 17.w, 20.w, 20.w),
       ),
       child: Stack(
         children: [
@@ -56,7 +57,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                 // AppLocalizations.of(context)?.availableMasters.toCapitalized() ?? 'Available masters',
                 'Select a service',
                 style: theme.textTheme.bodyText1!.copyWith(
-                  fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 30.sp, 30.sp),
+                  fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
                   color: defaultTheme ? AppTheme.textBlack : Colors.white,
                 ),
               ),
@@ -64,7 +65,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
               Padding(
                 padding: EdgeInsets.zero,
                 child: SizedBox(
-                  height: 45.h,
+                  height: DeviceConstraints.getResponsiveSize(context, 45.h, 50.h, 50.h),
                   child: ListView.builder(
                     itemCount: _createAppointmentProvider.categoriesAvailable.length + 1,
                     scrollDirection: Axis.horizontal,
@@ -80,8 +81,14 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                         ..._createAppointmentProvider.categoriesAvailable,
                       ];
 
+                      bool isServiceAddedBelogingToCategory = _createAppointmentProvider.isCategoryServiceAdded(categoryModel: catList[index]);
+                      // Color selectedColor = theme.highlightColor;
+                      Color selectedColor = defaultTheme ? const Color.fromARGB(255, 239, 239, 239) : const Color(0XFF202020);
+
                       return Padding(
-                        padding: EdgeInsets.only(right: 4.w),
+                        padding: EdgeInsets.only(
+                          right: DeviceConstraints.getResponsiveSize(context, 15.w, 10.w, 7.w),
+                        ),
                         child: GestureDetector(
                           onTap: () {
                             setState(() {
@@ -91,17 +98,22 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                           },
                           child: Container(
                             decoration: BoxDecoration(
-                              color: _activeTab == index ? const Color.fromARGB(255, 239, 239, 239) : Theme.of(context).scaffoldBackgroundColor,
+                              color: isServiceAddedBelogingToCategory ? selectedColor : Colors.transparent,
+                              border: isServiceAddedBelogingToCategory ? null : Border.all(color: Colors.white, width: 1.4),
+
+                              // color: _activeTab == index ? const Color.fromARGB(255, 239, 239, 239) : Theme.of(context).scaffoldBackgroundColor,
                               borderRadius: BorderRadius.circular(50),
                             ),
                             child: Center(
                               child: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: DeviceConstraints.getResponsiveSize(context, 25.w, 15.w, 10.w),
+                                ),
                                 child: Text(
                                   catList[index].translations[AppLocalizations.of(context)?.localeName ?? 'en'],
                                   style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                        color: _activeTab == index ? AppTheme.textBlack : AppTheme.lightGrey,
-                                        fontWeight: _activeTab == index ? FontWeight.w500 : FontWeight.w400,
+                                        color: Colors.white, // _activeTab == index ? AppTheme.textBlack : AppTheme.lightGrey,
+                                        fontWeight: FontWeight.w400, // _activeTab == index ? FontWeight.w500 : FontWeight.w400,
                                       ),
                                 ),
                               ),
@@ -113,7 +125,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                   ),
                 ),
               ),
-              SizedBox(height: DeviceConstraints.getResponsiveSize(context, 15.h, 25.h, 35.h)),
+              SizedBox(height: DeviceConstraints.getResponsiveSize(context, 15.h, 15.h, 15.h)),
               Expanded(
                 child: PageView(
                     controller: _pageController,
@@ -125,49 +137,45 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                     },
                     children: [
                       // All Section
-                      Container(
-                        // color: Colors.orangeAccent[100],
-                        // height: 100,
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: _salonSearchProvider.categories.length,
-                          itemBuilder: (context, index) {
-                            if (_createAppointmentProvider.categoryServicesMap[_salonSearchProvider.categories[index].categoryId.toString()] != null && _createAppointmentProvider.categoryServicesMap[_salonSearchProvider.categories[index].categoryId.toString()]!.isNotEmpty) {
-                              final CategoryModel categoryModel = _salonSearchProvider.categories
-                                  .where((
-                                    element,
-                                  ) =>
-                                      element.categoryId == _salonSearchProvider.categories[index].categoryId.toString())
-                                  .first;
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: _salonSearchProvider.categories.length,
+                        itemBuilder: (context, index) {
+                          if (_createAppointmentProvider.categoryServicesMap[_salonSearchProvider.categories[index].categoryId.toString()] != null && _createAppointmentProvider.categoryServicesMap[_salonSearchProvider.categories[index].categoryId.toString()]!.isNotEmpty) {
+                            final CategoryModel categoryModel = _salonSearchProvider.categories
+                                .where((
+                                  element,
+                                ) =>
+                                    element.categoryId == _salonSearchProvider.categories[index].categoryId.toString())
+                                .first;
 
-                              List<ServiceModel> services = _createAppointmentProvider.categoryServicesMap[_salonSearchProvider.categories[index].categoryId.toString()] ?? [];
+                            List<ServiceModel> services = _createAppointmentProvider.categoryServicesMap[_salonSearchProvider.categories[index].categoryId.toString()] ?? [];
 
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  const SizedBox(height: 20),
-                                  const Divider(color: Colors.white, thickness: 1.5),
-                                  SizedBox(height: DeviceConstraints.getResponsiveSize(context, 20.h, 30.h, 40.h)),
-                                  Text(
-                                    categoryModel.categoryName,
-                                    style: theme.textTheme.bodyText1!.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 30.sp, 30.sp),
-                                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
-                                    ),
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                SizedBox(height: DeviceConstraints.getResponsiveSize(context, 15.h, 15.h, 15.h)),
+                                const Divider(color: Colors.white, thickness: 1.3),
+                                SizedBox(height: DeviceConstraints.getResponsiveSize(context, 20.h, 20.h, 20.h)),
+                                Text(
+                                  categoryModel.categoryName,
+                                  style: theme.textTheme.bodyText1!.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                                    color: defaultTheme ? AppTheme.textBlack : Colors.white,
                                   ),
-                                  SizedBox(
-                                    height: DeviceConstraints.getResponsiveSize(context, 15, 30, 30),
-                                  ),
-                                  ServiceList(services: services),
-                                ],
-                              );
-                            } else {
-                              return const SizedBox();
-                            }
-                          },
-                        ),
+                                ),
+                                SizedBox(
+                                  height: DeviceConstraints.getResponsiveSize(context, 15.h, 12.h, 10.h),
+                                ),
+                                ServiceList(services: services),
+                              ],
+                            );
+                          } else {
+                            return const SizedBox();
+                          }
+                        },
                       ),
 
                       // Other Page views
@@ -208,93 +216,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                     // }).toList(),
                     ),
               ),
-              // Expanded(
-              //   child: ExpandablePageView(
-              //     padEnds: false,
-              //     physics: const NeverScrollableScrollPhysics(),
-              //     key: const ValueKey("exp"),
-              //     controller: _pageController,
-              //     onPageChanged: (i) {
-              //       // _reportTabChange(i);
-              //       setState(() {
-              //         _activeTab = i;
-              //       });
-              //     },
-              //     children: services.map((services) {
-              //       return InkWell(
-              //         onTap: () {
-              //           print(_createAppointmentProvider.servicesAvailable.length);
-              //           print(allServices.length);
-              //         },
-              //         child: Column(
-              //           // height: MediaQuery.of(context).size.height,
-              //           // color: Colors.blue,
-              //           children: [
-              //             Expanded(
-              //               child: ListView.builder(
-              //                 itemCount: services.length,
-              //                 shrinkWrap: true,
-              //                 itemBuilder: (context, index) {
-              //                   final ServiceModel service = services[index];
-              //                   return Padding(
-              //                     padding: const EdgeInsets.symmetric(vertical: 20),
-              //                     child: Text(
-              //                       service.serviceName,
-              //                       style: const TextStyle(
-              //                         fontSize: 30,
-              //                       ),
-              //                     ),
-              //                   );
-              //                 },
-              //               ),
-              //             ),
-              //           ],
-              //         ),
-              //       );
-              //     }).toList(),
-              //     // children: [
-              //     //   Container(
-              //     //     height: MediaQuery.of(context).size.height,
-              //     //     color: Colors.amber,
-              //     //     child: ListView(
-              //     //       shrinkWrap: true,
-              //     //       children: const [
-              //     //         // Container(height: 300, width: 400, color: Colors.white),
-              //     //         // Container(height: 300, width: 400, color: Colors.yellow),
-              //     //         // Container(height: 300, width: 400, color: Colors.teal),
-              //     //         // Container(height: 300, width: 400, color: Colors.black12),
-              //     //       ],
-              //     //     ),
-              //     //   ),
-              //     //   Container(
-              //     //     height: MediaQuery.of(context).size.height,
-              //     //     color: Colors.amber,
-              //     //     child: ListView(
-              //     //       shrinkWrap: true,
-              //     //       children: const [
-              //     //         // Container(height: 300, width: 400, color: Colors.white),
-              //     //         // Container(height: 300, width: 400, color: Colors.yellow),
-              //     //         // Container(height: 300, width: 400, color: Colors.teal),
-              //     //         // Container(height: 300, width: 400, color: Colors.black12),
-              //     //       ],
-              //     //     ),
-              //     //   ),
-              //     //   Container(
-              //     //     height: MediaQuery.of(context).size.height,
-              //     //     color: Colors.amber,
-              //     //     child: ListView(
-              //     //       shrinkWrap: true,
-              //     //       children: const [
-              //     //         // Container(height: 300, width: 400, color: Colors.white),
-              //     //         // Container(height: 300, width: 400, color: Colors.yellow),
-              //     //         // Container(height: 300, width: 400, color: Colors.teal),
-              //     //         // Container(height: 300, width: 400, color: Colors.black12),
-              //     //       ],
-              //     //     ),
-              //     //   ),
-              //     // ],
-              //   ),
-              // ),
+              // SizedBox(height: 100.h),
             ],
           ),
           Align(
