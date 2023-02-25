@@ -9,6 +9,7 @@ import 'package:bbblient/src/views/themes/components/salon_contact.dart';
 import 'package:bbblient/src/views/themes/components/salon_promotions.dart';
 import 'package:bbblient/src/views/themes/components/salon_reviews.dart';
 import 'package:bbblient/src/views/themes/components/salon_services.dart';
+import 'package:bbblient/src/views/themes/components/salon_services_2.dart';
 import 'package:bbblient/src/views/themes/components/salon_shop.dart';
 import 'package:bbblient/src/views/themes/components/salon_sponsors.dart';
 import 'package:bbblient/src/views/themes/components/salon_tags.dart';
@@ -103,7 +104,7 @@ class _GlamBarbershopState extends ConsumerState<GlamBarbershop> {
                         SalonAbout2(salonModel: chosenSalon),
                         const SalonSponsors(),
                         SalonWorks(salonModel: chosenSalon),
-                        SalonPrice(
+                        SalonPrice222(
                           salonModel: chosenSalon,
                           categories: _salonSearchProvider.categories,
                           categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,

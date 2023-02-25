@@ -14,6 +14,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:bbblient/src/views/themes/components/widgets.dart/oval_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+
+// FORMER FILE 
 class SalonPrice extends ConsumerStatefulWidget {
   final SalonModel salonModel;
   final List<CategoryModel> categories;
