@@ -410,20 +410,3 @@ class _SaloonHeaderState extends ConsumerState<SaloonHeader> {
   }
 }
 
-
-
-class SalonHeader extends ConsumerStatefulWidget {
-  const SalonHeader({Key? key}) : super(key:key );
-
-  @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _SalonHeaderState();
-}
-
-class _SalonHeaderState extends ConsumerState<SalonHeader> {
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-
