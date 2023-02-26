@@ -1,6 +1,5 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/models/banner_model.dart';
-import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -17,8 +16,7 @@ class BannerScroll extends ConsumerWidget {
     final _bnbProvider = ref.watch(bnbProvider);
 
     if (_bnbProvider.generalBanners.isEmpty) {
-      return SizedBox(
-          height: 144.h, child: const Center(child:  BannerLoading()));
+      return SizedBox(height: 144.h, child: const Center(child: BannerLoading()));
     }
     //generates and returns the list of banners
     List<Widget> showBannersList() {
@@ -40,15 +38,13 @@ class BannerScroll extends ConsumerWidget {
                 width: 0.00000001,
                 child: FadeInImage.memoryNetwork(
                   placeholder: kTransparentImage,
-                  image: upComingBanner
-                      .urls[AppLocalizations.of(context)?.localeName ?? 'en'],
+                  image: upComingBanner.urls[AppLocalizations.of(context)?.localeName ?? 'en'],
                 ),
               ),
             const BannerLoading(),
             FadeInImage.memoryNetwork(
               placeholder: kTransparentImage,
-              image: banner
-                  .urls[AppLocalizations.of(context)?.localeName ?? 'en'],
+              image: banner.urls[AppLocalizations.of(context)?.localeName ?? 'en'],
             ),
           ],
         ));
@@ -58,7 +54,7 @@ class BannerScroll extends ConsumerWidget {
 
     return CarouselSlider(
         options: CarouselOptions(
-          viewportFraction: DeviceConstraints.getResponsiveSize(context, 1,1, 0.5),
+          viewportFraction: DeviceConstraints.getResponsiveSize(context, 1, 1, 0.5),
           autoPlay: true,
           enlargeCenterPage: true,
           height: 144,

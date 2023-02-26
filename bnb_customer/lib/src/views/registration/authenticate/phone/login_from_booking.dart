@@ -1,4 +1,13 @@
-import 'package:bbblient/main.dart';
+// ignore_for_file: avoid_web_libraries_in_flutter, unused_local_variable
+
+import 'dart:html' as html;
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/app_provider.dart';
 import 'package:bbblient/src/controller/appointment/apointment_provider.dart';
@@ -19,14 +28,6 @@ import 'package:bbblient/src/views/registration/authenticate/phone/otp.dart';
 import 'package:bbblient/src/views/widgets/buttons.dart';
 import 'package:bbblient/src/views/widgets/dialogues/dialogue_function.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
-import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class LoginFromBooking extends ConsumerStatefulWidget {
   final AppointmentModel? appointment;
@@ -59,12 +60,10 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
     await _auth.getUserInfo(context: context);
 
     //await _salonSearchProvider.initialize();
-    await _bnbProvider.initializeApp(
-        customerModel: _auth.currentCustomer, lang: _bnbProvider.getLocale);
+    await _bnbProvider.initializeApp(customerModel: _auth.currentCustomer, lang: _bnbProvider.getLocale);
 
     if (_auth.userLoggedIn) {
-      await DynamicLinksApi().handleDynamicLink(
-          context: context, bonusSettings: _bnbProvider.bonusSettings);
+      await DynamicLinksApi().handleDynamicLink(context: context, bonusSettings: _bnbProvider.bonusSettings);
 
       await _appointmentProvider.loadAppointments(
         customerId: _auth.currentCustomer?.customerId ?? '',
@@ -117,20 +116,15 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
                   height: 180.h,
                   width: 327,
 
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(4),
-                      shape: BoxShape.rectangle,
-                      boxShadow: const [
-                        BoxShadow(
-                            color: Color(0xffF0F0F0), // shadow color
-                            blurRadius: 2, // shadow radius
-                            offset: Offset(2, 5), // shadow offset
-                            spreadRadius:
-                                0.1, // The amount the box should be inflated prior to applying the blur
-                            blurStyle: BlurStyle.normal // set blur style
-                            ),
-                      ]),
+                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(4), shape: BoxShape.rectangle, boxShadow: const [
+                    BoxShadow(
+                        color: Color(0xffF0F0F0), // shadow color
+                        blurRadius: 2, // shadow radius
+                        offset: Offset(2, 5), // shadow offset
+                        spreadRadius: 0.1, // The amount the box should be inflated prior to applying the blur
+                        blurStyle: BlurStyle.normal // set blur style
+                        ),
+                  ]),
                   // color: AppTheme.white,
                   child: Column(children: [
                     const Gap(10),
@@ -154,22 +148,17 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
                                   autofocus: false,
                                   onChanged: (val) {
                                     _auth.firstName = val;
-                                    printIt(
-                                        'This is my firstName ${_auth.lastName}');
+                                    printIt('This is my firstName ${_auth.lastName}');
                                   },
                                   keyboardType: TextInputType.name,
                                   decoration: InputDecoration(
                                     border: border,
                                     enabledBorder: border,
                                     focusedBorder: border,
-                                    hintText: AppLocalizations.of(context)
-                                            ?.firstName ??
-                                        "Enter First Name",
+                                    hintText: AppLocalizations.of(context)?.firstName ?? "Enter First Name",
                                   ),
                                 ),
-                                decoration: BoxDecoration(
-                                    color: AppTheme.lightGrey2,
-                                    border: Border.all(color: AppTheme.grey))),
+                                decoration: BoxDecoration(color: AppTheme.lightGrey2, border: Border.all(color: AppTheme.grey))),
                           ),
                           const Spacer(),
                           Expanded(
@@ -182,22 +171,17 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
                                   autofocus: false,
                                   onChanged: (val) {
                                     _auth.lastName = val;
-                                    printIt(
-                                        'This is my lastName ${_auth.lastName}');
+                                    printIt('This is my lastName ${_auth.lastName}');
                                   },
                                   keyboardType: TextInputType.name,
                                   decoration: InputDecoration(
                                     border: border,
                                     enabledBorder: border,
                                     focusedBorder: border,
-                                    hintText: AppLocalizations.of(context)
-                                            ?.lastName ??
-                                        "Enter Last Name",
+                                    hintText: AppLocalizations.of(context)?.lastName ?? "Enter Last Name",
                                   ),
                                 ),
-                                decoration: BoxDecoration(
-                                    color: AppTheme.lightGrey2,
-                                    border: Border.all(color: AppTheme.grey))),
+                                decoration: BoxDecoration(color: AppTheme.lightGrey2, border: Border.all(color: AppTheme.grey))),
                           )
                         ],
                       ),
@@ -205,8 +189,7 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
                     const Spacer(),
                     Container(width: 265.w, color: AppTheme.midGrey, height: 1),
                     const Gap(10),
-                    Text(AppLocalizations.of(context)?.fillDetails ??'Please fill in your details here...',
-                        style: AppTheme.bodyText2),
+                    Text(AppLocalizations.of(context)?.fillDetails ?? 'Please fill in your details here...', style: AppTheme.bodyText2),
                     const Gap(10),
                   ]),
                 ),
@@ -228,9 +211,7 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
                         for (Service s in appointment.services)
                           Expanded(
                             child: Text(
-                              s.translations[
-                                  AppLocalizations.of(context)?.localeName ??
-                                      'en'],
+                              s.translations[AppLocalizations.of(context)?.localeName ?? 'en'],
                               style: AppTheme.appointmentSubtitle,
                               maxLines: 1,
                             ),
@@ -249,7 +230,7 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
                         ),
                         Expanded(
                           child: Text(
-                            "${appointment.priceAndDuration.price} ${Keys.uah}",
+                            "${Keys.dollars}${appointment.priceAndDuration.price}",
                             style: AppTheme.appointmentSubtitle,
                             maxLines: 1,
                           ),
@@ -269,10 +250,7 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
                           Expanded(
                             child: Text(
                               appointment.salon.name,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline4!
-                                  .copyWith(color: AppTheme.textBlack),
+                              style: Theme.of(context).textTheme.headline4!.copyWith(color: AppTheme.textBlack),
                               maxLines: 1,
                             ),
                           )
@@ -287,8 +265,7 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    AppLocalizations.of(context)?.master ??
-                                        "Master",
+                                    AppLocalizations.of(context)?.master ?? "Master",
                                     style: AppTheme.appointmentTitleStyle,
                                   ),
                                 ),
@@ -304,15 +281,11 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
                         ],
                       ),
                     ],
-                    if (appointment.salonOwnerType ==
-                        OwnerType.singleMaster) ...[
+                    if (appointment.salonOwnerType == OwnerType.singleMaster) ...[
                       Row(
                         children: [
                           Expanded(
-                            child: Text(
-                                AppLocalizations.of(context)?.master ??
-                                    "Master",
-                                style: AppTheme.appointmentTitleStyle),
+                            child: Text(AppLocalizations.of(context)?.master ?? "Master", style: AppTheme.appointmentTitleStyle),
                           ),
                           Expanded(
                             child: Text(
@@ -342,21 +315,11 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
                   }
 
                   if (_auth.loginStatus != Status.loading) {
-                    await _auth
-                        .signIn(
-                            context: context,
-                            ref: ref,
-                            callBack: refreshAccount)
-                        .then((value) async {
+                    await _auth.signIn(context: context, ref: ref, callBack: refreshAccount).then((value) async {
+                      _auth.getUserInfo(context: context);
                       _auth.createAppointmentProvider(_createAppointment);
-                      _createAppointment.createAppointment(
-                          customerModel: _auth.currentCustomer!,
-                          context: context);
-                      bool _success = await _createAppointment.finishBooking(
-                          context: context,
-                          customerModel: _authProvider.currentCustomer!);
-                      showToast(  AppLocalizations.of(context)?.booked ??'booked');
-
+                      await _createAppointment.createAppointment(customerModel: _auth.currentCustomer!, context: context);
+                      bool _success = await _createAppointment.finishBooking(context: context, customerModel: _auth.currentCustomer!);
 
                       if (_success) {
                         showMyDialog(
@@ -368,28 +331,14 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Text(
-                                  AppLocalizations.of(context)?.success ??
-                                      "Success",
+                                  AppLocalizations.of(context)?.success ?? "Success",
                                   style: AppTheme.appointmentSubtitle,
                                 ),
                                 const Gap(10),
-                                SizedBox(
-                                    height: 150.h,
-                                    width: 150.w,
-                                    child: Image.asset(
-                                        AppIcons.bookingConfirmedPNG)),
+                                SizedBox(height: 150.h, width: 150.w, child: Image.asset(AppIcons.bookingConfirmedPNG)),
                                 const Gap(10),
                                 Text(
-                                  (_createAppointment
-                                                  .appointmentModel?.status ??
-                                              "") ==
-                                          AppointmentStatus.requested
-                                      ? AppLocalizations.of(context)
-                                              ?.requestConfirmed ??
-                                          "Request Confirmed"
-                                      : AppLocalizations.of(context)
-                                              ?.bookingConfirmed ??
-                                          "Your booking has been confirmed",
+                                  (_createAppointment.appointmentModel?.status ?? "") == AppointmentStatus.requested ? AppLocalizations.of(context)?.requestConfirmed ?? "Request Confirmed" : AppLocalizations.of(context)?.bookingConfirmed ?? "Your booking has been confirmed",
                                   textAlign: TextAlign.center,
                                   style: AppTheme.appointmentTitleStyle,
                                 ),
@@ -399,19 +348,24 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
                                   onTap: () {
                                     // print(object)
                                     if (_appProvider.firstRoute != null) {
-                                      printIt(
-                                          "Going back to : ${_appProvider.firstRoute}");
-                                      context.pop();
-                                      context.push(
-                                          '${NavigatorPage.redirect}${_appProvider.firstRoute!}');
+                                      // printIt("loginBook");
+                                      printIt("Going back to : ${_appProvider.firstRoute}");
+
+                                      // context.pop();
+                                      // Navigator.popUntil(
+                                      //     context, ModalRoute.withName("Foo1"));
+                                      // if (kIsWeb) {
+                                      html.window.open("https://bowandbeautiful.com${_appProvider.firstRoute}", "_self");
+                                      // } else {
+                                      //   context.pop();
+                                      //   context.push(
+                                      //       '${NavigatorPage.redirect}${_appProvider.firstRoute!}');
+                                      // }
                                     } else {
-                                      Navigator.of(context).popUntil(
-                                          (Route<dynamic> route) =>
-                                              route.isFirst);
+                                      Navigator.of(context).popUntil((Route<dynamic> route) => route.isFirst);
                                     }
                                   },
-                                  title: AppLocalizations.of(context)?.great ??
-                                      'Great',
+                                  title: AppLocalizations.of(context)?.great ?? 'Great',
                                   minWidth: 150.w,
                                 ),
                               ],
@@ -430,8 +384,8 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
                     //   null;
                     // }
                   } else {
-                    showToast(AppLocalizations.of(context)?.pleaseWait ??
-                        "Please wait");
+                    // showToast(AppLocalizations.of(context)?.pleaseWait ??
+                    //     "Please wait");
                   }
                 },
                 child: (_auth.loginStatus == Status.loading)
@@ -444,11 +398,8 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
                             color: AppTheme.white,
                           ),
                         ))
-                    : Text(AppLocalizations.of(context)?.verifyAndBook ??'Verify and book',
-                        style: AppTheme.calTextStyle),
-                style: ElevatedButton.styleFrom(
-                    primary: AppTheme.lightBlack,
-                    fixedSize: const Size(311, 48)),
+                    : Text(AppLocalizations.of(context)?.verifyAndBook ?? 'Verify and book', style: AppTheme.calTextStyle),
+                style: ElevatedButton.styleFrom(backgroundColor: AppTheme.lightBlack, fixedSize: const Size(311, 48)),
               ),
               Gap(24.h),
               GestureDetector(
@@ -465,16 +416,14 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
                 },
                 child: RichText(
                   text: TextSpan(
-                    text: AppLocalizations.of(context)?.nootp ??
-                        'Didn’t Receive an OTP? ',
+                    text: AppLocalizations.of(context)?.nootp ?? 'Didn’t Receive an OTP? ',
                     style: const TextStyle(
                       color: AppTheme.grey1,
                       fontFamily: "Montserrat",
                     ),
                     children: <TextSpan>[
                       TextSpan(
-                          text:
-                              AppLocalizations.of(context)?.resend ?? "Resend",
+                          text: AppLocalizations.of(context)?.resend ?? "Resend",
                           style: const TextStyle(
                             fontWeight: FontWeight.w500,
                             color: AppTheme.btnColor,

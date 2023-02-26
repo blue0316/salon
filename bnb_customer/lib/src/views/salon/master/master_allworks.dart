@@ -1,13 +1,13 @@
+import 'package:bbblient/src/models/enums/profile_datails_tabs.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
-import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/chat/image_preview.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
+import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../../../utils/icons.dart';
 
 class MasterAllWorks extends StatefulWidget {
   final MasterModel master;
@@ -29,17 +29,33 @@ class _MasterAllWorksState extends State<MasterAllWorks> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: EdgeInsets.only(left: 24.0.w, right: 28.w, top: 28.h),
-          child: Row(
+    return ConstrainedContainer(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(height: 20.h),
+          Text(
+            (AppLocalizations.of(context)?.localeName == 'uk') ? masterDetailsTitles[2] : masterDetailsTitles[2].toCapitalized(),
+            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 30.sp,
+                  letterSpacing: -1,
+                ),
+          ),
+          const Space(factor: 2),
+          const Divider(color: Color(0XFF9D9D9D), thickness: 1.3),
+          const Space(factor: 0.5),
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("${AppLocalizations.of(context)?.all ?? "all"} (${widget.master.photosOfWork?.length ?? 0})"),
-              SizedBox(
-                width: 16.w,
+              Text(
+                "${AppLocalizations.of(context)?.all ?? "all"} (${widget.master.photosOfWork?.length ?? 0})",
+                style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                    // fontSize: 30.sp,
+                    ),
               ),
+              SizedBox(width: 16.w),
 
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.end,
@@ -69,43 +85,45 @@ class _MasterAllWorksState extends State<MasterAllWorks> {
               // ),
             ],
           ),
-        ),
-        SizedBox(
-          height: 4.h,
-        ),
-        (widget.master.photosOfWork != null && (widget.master.photosOfWork?.isNotEmpty ?? false))
-            ? GridView.builder(
-                gridDelegate:   SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: DeviceConstraints.getResponsiveSize(context, 2, 3, 4).toInt(),
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 12,
-                ),
-                shrinkWrap: true,
-                primary: false,
-                itemCount: widget.master.photosOfWork!.length,
-                controller: _gridViewScrollController,
-                padding: EdgeInsets.all(20.w),
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ImagePreview(
-                                    imageUrls: widget.master.photosOfWork,
-                                    index: index,
-                                  )));
-                    },
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child:CachedImage( url: widget.master.photosOfWork![index],),
-
-                    ),
-                  );
-                }) : SizedBox(
-                height: 0.5.sh,
-              )
-      ],
+          SizedBox(
+            height: 4.h,
+          ),
+          (widget.master.photosOfWork != null && (widget.master.photosOfWork?.isNotEmpty ?? false))
+              ? GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: DeviceConstraints.getResponsiveSize(context, 2, 3, 4).toInt(),
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                  ),
+                  shrinkWrap: true,
+                  primary: false,
+                  itemCount: widget.master.photosOfWork!.length,
+                  controller: _gridViewScrollController,
+                  padding: EdgeInsets.all(20.w),
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ImagePreview(
+                                      imageUrls: widget.master.photosOfWork,
+                                      index: index,
+                                    )));
+                      },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: CachedImage(
+                          url: widget.master.photosOfWork![index],
+                        ),
+                      ),
+                    );
+                  })
+              : SizedBox(
+                  height: 0.5.sh,
+                )
+        ],
+      ),
     );
   }
 }

@@ -25,14 +25,14 @@ class CardTmbnl extends StatelessWidget {
                   backgroundColor: Colors.white,
                   radius: 10,
                   child: selected
-                      ? Center(
+                      ? const Center(
                           child: Icon(
                             Icons.check,
                             size: 18,
                             color: AppTheme.textBlack,
                           ),
                         )
-                      : SizedBox(),
+                      : const SizedBox(),
                 ),
               ))
         ],

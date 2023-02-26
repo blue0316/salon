@@ -26,12 +26,10 @@ showAppointmentDetails(
   return showDialog(
       context: context,
       builder: (context) {
-        final String _date =
-            Time().getLocaleDate(appointment.appointmentStartTime, 'uk');
+        final String _date = Time().getLocaleDate(appointment.appointmentStartTime, 'uk');
         final String _time = Time().getAppointmentStartEndTime(appointment)!;
         return Dialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           child: Container(
             width: 340.w,
             decoration: BoxDecoration(
@@ -45,9 +43,7 @@ showAppointmentDetails(
                   height: 44.h,
                   decoration: const BoxDecoration(
                     color: AppTheme.lightBlack,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(12),
-                        topRight: Radius.circular(12)),
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12)),
                   ),
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 12.w),
@@ -56,20 +52,11 @@ showAppointmentDetails(
                       children: [
                         Text(
                           _date,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline3!
-                              .copyWith(fontSize: 16, color: Colors.white),
+                          style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: 16, color: Colors.white),
                         ),
                         Text(
                           _time,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline3!
-                              .copyWith(
-                                  fontSize: 16,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.normal),
+                          style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: 16, color: Colors.white, fontWeight: FontWeight.normal),
                         ),
                       ],
                     ),
@@ -81,13 +68,12 @@ showAppointmentDetails(
                 SizedBox(
                   height: 0.6.sh,
                   child: Scrollbar(
-                    isAlwaysShown: true,
+                    thumbVisibility: true,
                     child: ListView(
                       shrinkWrap: true,
                       children: [
                         Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 28.w, vertical: 12.h),
+                          padding: EdgeInsets.symmetric(horizontal: 28.w, vertical: 12.h),
                           child: Row(
                             children: [
                               CircleAvatar(
@@ -103,141 +89,71 @@ showAppointmentDetails(
                                 child: Padding(
                                   padding: EdgeInsets.only(left: 16.0.w),
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      if (appointment.status ==
-                                          AppointmentStatus.requested) ...[
+                                      if (appointment.status == AppointmentStatus.requested) ...[
                                         Text(
-                                          AppLocalizations.of(context)
-                                                  ?.requested ??
-                                              '',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline4!
-                                              .copyWith(
-                                                  color:
-                                                      AppTheme.redishWarning),
+                                          AppLocalizations.of(context)?.requested ?? '',
+                                          style: Theme.of(context).textTheme.headline4!.copyWith(color: AppTheme.redishWarning),
                                           maxLines: 1,
                                         ),
                                       ],
-                                      if (appointment.status ==
-                                          AppointmentStatus.cancelled) ...[
-                                        if (appointment.updates.last ==
-                                            AppointmentUpdates
-                                                .cancelledByCustomer) ...[
+                                      if (appointment.status == AppointmentStatus.cancelled) ...[
+                                        if (appointment.updates.last == AppointmentUpdates.cancelledByCustomer) ...[
                                           Text(
-                                            AppLocalizations.of(context)
-                                                    ?.cancelledByYou ??
-                                                '',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headline4!
-                                                .copyWith(
-                                                    color: AppTheme.redishPink),
+                                            AppLocalizations.of(context)?.cancelledByYou ?? '',
+                                            style: Theme.of(context).textTheme.headline4!.copyWith(color: AppTheme.redishPink),
                                             maxLines: 1,
                                           ),
                                         ],
-                                        if (appointment.updates.last ==
-                                            AppointmentUpdates
-                                                .cancelledBySalon) ...[
+                                        if (appointment.updates.last == AppointmentUpdates.cancelledBySalon) ...[
                                           Text(
-                                            '${AppLocalizations.of(context)?.cancelledBy ?? ''} ${appointment.salonOwnerType == OwnerType.singleMaster ? {
-                                                AppLocalizations.of(context)
-                                                        ?.master ??
-                                                    ''
-                                              } : {
-                                                AppLocalizations.of(context)
-                                                        ?.salon ??
-                                                    ''
-                                              }}',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headline4!
-                                                .copyWith(
-                                                    color: AppTheme.redishPink),
+                                            '${AppLocalizations.of(context)?.cancelledBy ?? ''} ${appointment.salonOwnerType == OwnerType.singleMaster ? {AppLocalizations.of(context)?.master ?? ''} : {AppLocalizations.of(context)?.salon ?? ''}}',
+                                            style: Theme.of(context).textTheme.headline4!.copyWith(color: AppTheme.redishPink),
                                             maxLines: 1,
                                           ),
                                         ],
                                       ],
-                                      if (appointment.status ==
-                                          AppointmentStatus.active) ...[
+                                      if (appointment.status == AppointmentStatus.active) ...[
                                         Text(
-                                          AppLocalizations.of(context)
-                                                  ?.active ??
-                                              '--',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline4!
-                                              .copyWith(color: AppTheme.green),
+                                          AppLocalizations.of(context)?.active ?? '--',
+                                          style: Theme.of(context).textTheme.headline4!.copyWith(color: AppTheme.green),
                                           maxLines: 1,
                                         ),
                                       ],
-                                      if (appointment.status ==
-                                          AppointmentStatus.completed) ...[
+                                      if (appointment.status == AppointmentStatus.completed) ...[
                                         Text(
-                                          AppLocalizations.of(context)
-                                                  ?.completed ??
-                                              'Completed',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline4!
-                                              .copyWith(
-                                                  color:
-                                                      AppTheme.creamBrownLight),
+                                          AppLocalizations.of(context)?.completed ?? 'Completed',
+                                          style: Theme.of(context).textTheme.headline4!.copyWith(color: AppTheme.creamBrownLight),
                                           maxLines: 1,
                                         ),
                                       ],
-                                      if (appointment.status ==
-                                          AppointmentStatus.checkedIn) ...[
+                                      if (appointment.status == AppointmentStatus.checkedIn) ...[
                                         Text(
-                                          AppLocalizations.of(context)
-                                                  ?.checkedIn ??
-                                              'Checked In',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline4!
-                                              .copyWith(
-                                                  color: AppTheme.textBlack),
+                                          AppLocalizations.of(context)?.checkedIn ?? 'Checked In',
+                                          style: Theme.of(context).textTheme.headline4!.copyWith(color: AppTheme.textBlack),
                                           maxLines: 1,
                                         ),
                                       ],
-                                      if (appointment.status ==
-                                          AppointmentStatus.noShow) ...[
+                                      if (appointment.status == AppointmentStatus.noShow) ...[
                                         Text(
-                                          AppLocalizations.of(context)
-                                                  ?.missed ??
-                                              'Missed',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline4!
-                                              .copyWith(
-                                                  color: AppTheme.redishPink),
+                                          AppLocalizations.of(context)?.missed ?? 'Missed',
+                                          style: Theme.of(context).textTheme.headline4!.copyWith(color: AppTheme.redishPink),
                                           maxLines: 1,
                                         ),
                                       ],
-                                      if (appointment.status ==
-                                          AppointmentStatus.pending) ...[
+                                      if (appointment.status == AppointmentStatus.pending) ...[
                                         Text(
-                                          AppLocalizations.of(context)
-                                                  ?.pending ??
-                                              'Pending',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline4!
-                                              .copyWith(
+                                          AppLocalizations.of(context)?.pending ?? 'Pending',
+                                          style: Theme.of(context).textTheme.headline4!.copyWith(
                                                 color: AppTheme.yellow,
                                               ),
                                           maxLines: 1,
                                         ),
                                       ],
                                       Text(
-                                        AppLocalizations.of(context)?.status ??
-                                            "Status",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline4!
-                                            .copyWith(fontSize: 14),
+                                        AppLocalizations.of(context)?.status ?? "Status",
+                                        style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 14),
                                       )
                                     ],
                                   ),
@@ -250,8 +166,7 @@ showAppointmentDetails(
                           height: 12.h,
                         ),
                         Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 28.w, vertical: 12.h),
+                          padding: EdgeInsets.symmetric(horizontal: 28.w, vertical: 12.h),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -261,39 +176,24 @@ showAppointmentDetails(
                                 backgroundColor: AppTheme.creamBrownLight,
                                 child: Padding(
                                   padding: EdgeInsets.all(16.r),
-                                  child: SvgPicture.asset(
-                                      AppIcons.getIconFromCategoryId(
-                                          id: appointment
-                                              .services.first.categoryId)),
+                                  child: SvgPicture.asset(AppIcons.getIconFromCategoryId(id: appointment.services.first.categoryId)),
                                 ),
                               ),
                               Expanded(
                                 child: Padding(
                                   padding: EdgeInsets.only(left: 16.0.w),
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       for (Service s in appointment.services)
                                         Text(
-                                          s.translations[
-                                              AppLocalizations.of(context)
-                                                  ?.localeName
-                                                  .toString()
-                                                  .toLowerCase()],
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline4!
-                                              .copyWith(
-                                                  color: AppTheme.textBlack),
+                                          s.translations[AppLocalizations.of(context)?.localeName.toString().toLowerCase()],
+                                          style: Theme.of(context).textTheme.headline4!.copyWith(color: AppTheme.textBlack),
                                           maxLines: 1,
                                         ),
                                       Text(
                                         "${AppLocalizations.of(context)?.service} (${appointment.services.length})",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline4!
-                                            .copyWith(fontSize: 14),
+                                        style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 14),
                                       )
                                     ],
                                   ),
@@ -303,8 +203,7 @@ showAppointmentDetails(
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 28.w, vertical: 12.h),
+                          padding: EdgeInsets.symmetric(horizontal: 28.w, vertical: 12.h),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -320,25 +219,16 @@ showAppointmentDetails(
                                 child: Padding(
                                   padding: EdgeInsets.only(left: 16.0.w),
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "${appointment.priceAndDuration.price} ${Keys.uah}",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline4!
-                                            .copyWith(
-                                                color: AppTheme.textBlack),
+                                        "${Keys.dollars}${appointment.priceAndDuration.price}",
+                                        style: Theme.of(context).textTheme.headline4!.copyWith(color: AppTheme.textBlack),
                                         maxLines: 1,
                                       ),
                                       Text(
-                                        AppLocalizations.of(context)?.price ??
-                                            "Price",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline4!
-                                            .copyWith(fontSize: 14),
+                                        AppLocalizations.of(context)?.price ?? "Price",
+                                        style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 14),
                                       )
                                     ],
                                   ),
@@ -348,8 +238,7 @@ showAppointmentDetails(
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 28.w, vertical: 12.h),
+                          padding: EdgeInsets.symmetric(horizontal: 28.w, vertical: 12.h),
                           child: Row(
                             children: [
                               CircleAvatar(
@@ -364,25 +253,16 @@ showAppointmentDetails(
                                 child: Padding(
                                   padding: EdgeInsets.only(left: 16.0.w),
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         appointment.salon.name,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline4!
-                                            .copyWith(
-                                                color: AppTheme.textBlack),
+                                        style: Theme.of(context).textTheme.headline4!.copyWith(color: AppTheme.textBlack),
                                         maxLines: 1,
                                       ),
                                       Text(
-                                        AppLocalizations.of(context)?.salon ??
-                                            "Salon",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline4!
-                                            .copyWith(fontSize: 14),
+                                        AppLocalizations.of(context)?.salon ?? "Salon",
+                                        style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 14),
                                       )
                                     ],
                                   ),
@@ -392,8 +272,7 @@ showAppointmentDetails(
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 28.w, vertical: 12.h),
+                          padding: EdgeInsets.symmetric(horizontal: 28.w, vertical: 12.h),
                           child: Row(
                             children: [
                               CircleAvatar(
@@ -412,24 +291,15 @@ showAppointmentDetails(
                                 child: Padding(
                                   padding: EdgeInsets.only(left: 16.0.w),
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         appointment.master!.name,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline4!
-                                            .copyWith(
-                                                color: AppTheme.textBlack),
+                                        style: Theme.of(context).textTheme.headline4!.copyWith(color: AppTheme.textBlack),
                                       ),
                                       Text(
-                                        AppLocalizations.of(context)?.master ??
-                                            "Master",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline4!
-                                            .copyWith(fontSize: 14),
+                                        AppLocalizations.of(context)?.master ?? "Master",
+                                        style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 14),
                                       )
                                     ],
                                   ),
@@ -439,8 +309,7 @@ showAppointmentDetails(
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 28.w, vertical: 12.h),
+                          padding: EdgeInsets.symmetric(horizontal: 28.w, vertical: 12.h),
                           child: Row(
                             children: [
                               CircleAvatar(
@@ -448,32 +317,22 @@ showAppointmentDetails(
                                 backgroundColor: AppTheme.creamBrownLight,
                                 child: Padding(
                                   padding: EdgeInsets.all(17.r),
-                                  child: SvgPicture.asset(
-                                      AppIcons.locationMarkerWhiteSVG),
+                                  child: SvgPicture.asset(AppIcons.locationMarkerWhiteSVG),
                                 ),
                               ),
                               Expanded(
                                 child: Padding(
                                   padding: EdgeInsets.only(left: 16.0.w),
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         appointment.salon.address,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline4!
-                                            .copyWith(
-                                                color: AppTheme.textBlack),
+                                        style: Theme.of(context).textTheme.headline4!.copyWith(color: AppTheme.textBlack),
                                       ),
                                       Text(
-                                        AppLocalizations.of(context)?.address ??
-                                            "Address",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline4!
-                                            .copyWith(fontSize: 14),
+                                        AppLocalizations.of(context)?.address ?? "Address",
+                                        style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 14),
                                       )
                                     ],
                                   ),
@@ -504,8 +363,7 @@ showAppointmentDetails(
                             if (salon != null) {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      MapViewSingleSalon(salon: salon),
+                                  builder: (context) => MapViewSingleSalon(salon: salon),
                                 ),
                               );
                             } else {
@@ -524,8 +382,7 @@ showAppointmentDetails(
                           color: AppTheme.coolerGrey,
                         ),
                         GestureDetector(
-                          onTap: () =>
-                              Utils().launchCaller(appointment.salon.phoneNo),
+                          onTap: () => Utils().launchCaller(appointment.salon.phoneNo),
                           child: SizedBox(
                             height: 31.h,
                             width: 31.h,
@@ -539,73 +396,50 @@ showAppointmentDetails(
                       color: AppTheme.coolerGrey,
                     ),
                     Padding(
-                      padding: EdgeInsets.only(
-                          top: 16.h, left: 20.w, right: 20.w, bottom: 16.h),
+                      padding: EdgeInsets.only(top: 16.h, left: 20.w, right: 20.w, bottom: 16.h),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          if (appointment.status ==
-                              AppointmentStatus.active) ...[
-                            appointment.appointmentStartTime
-                                        .difference(DateTime.now())
-                                        .inHours >=
-                                    0
+                          if (appointment.status == AppointmentStatus.active) ...[
+                            appointment.appointmentStartTime.difference(DateTime.now()).inHours >= 0
                                 ? Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 6.0),
+                                    padding: const EdgeInsets.symmetric(horizontal: 6.0),
                                     child: TextButton(
                                       onPressed: () {
                                         Navigator.pop(context);
                                         showCancelDialog(context, appointment);
                                       },
                                       child: Text(
-                                        AppLocalizations.of(context)?.cancel ??
-                                            "Cancel",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline3!
-                                            .copyWith(fontSize: 16.sp),
+                                        AppLocalizations.of(context)?.cancel ?? "Cancel",
+                                        style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: 16.sp),
                                       ),
                                     ),
                                   )
                                 : const SizedBox(),
                           ],
-                          if (!appointment.masterReviewed &&
-                              !appointment.salonReviewed) ...[
-                            DateTime.now()
-                                        .difference(
-                                            appointment.appointmentStartTime)
-                                        .inHours >=
-                                    0
+                          if (!appointment.masterReviewed && !appointment.salonReviewed) ...[
+                            DateTime.now().difference(appointment.appointmentStartTime).inHours >= 0
                                 ? Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 6.0),
+                                    padding: const EdgeInsets.symmetric(horizontal: 6.0),
                                     child: TextButton(
                                       onPressed: () {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) =>
-                                                    MakeReview(
-                                                      appointmentModel:
-                                                          appointment,
+                                                builder: (context) => MakeReview(
+                                                      appointmentModel: appointment,
                                                     )));
                                       },
                                       child: Text(
-                                        AppLocalizations.of(context)?.review ??
-                                            "Review",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline3!
-                                            .copyWith(fontSize: 18.sp),
+                                        AppLocalizations.of(context)?.review ?? "Review",
+                                        style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: 18.sp),
                                       ),
                                     ),
                                   )
                                 : const SizedBox(),
                           ],
                           Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 6.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 6.0),
                             child: BnbMaterialButton(
                               onTap: () {
                                 Navigator.pop(context);
@@ -654,8 +488,7 @@ showCancelDialog(BuildContext context, AppointmentModel appointment) {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16.h),
                           child: Text(
-                            AppLocalizations.of(context)?.cancelVisitQuestion ??
-                                "Are you sure you want to cancel your visit ?",
+                            AppLocalizations.of(context)?.cancelVisitQuestion ?? "Are you sure you want to cancel your visit ?",
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.headline3,
                           ),
@@ -673,38 +506,25 @@ showCancelDialog(BuildContext context, AppointmentModel appointment) {
                                 },
                                 child: Text(
                                   AppLocalizations.of(context)?.no ?? "No",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline3!
-                                      .copyWith(fontSize: 18.sp),
+                                  style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: 18.sp),
                                 ),
                               ),
                               BnbMaterialButton(
                                 onTap: () async {
-                                  EasyDebounce.debounce("cancel Booking",
-                                      const Duration(milliseconds: 200),
-                                      () async {
-                                    String cancelled = await AppointmentApi()
-                                        .cancelAppointment(
-                                            appointmentModel: appointment,
-                                            context: context);
+                                  EasyDebounce.debounce("cancel Booking", const Duration(milliseconds: 200), () async {
+                                    String cancelled = await AppointmentApi().cancelAppointment(appointmentModel: appointment, context: context);
                                     if (cancelled == 'cancelled') {
-                                      Duration? _difference = appointment
-                                          .appointmentStartTime
-                                          .difference(DateTime.now());
+                                      Duration? _difference = appointment.appointmentStartTime.difference(DateTime.now());
                                       int hours = _difference.inHours;
                                       if (hours >= 0 && hours <= 2) {
                                         Navigator.pop(context);
-                                        showLessThenTwohoursCancelDialoge(
-                                            context);
+                                        showLessThenTwohoursCancelDialoge(context);
                                       } else if (hours >= 2 && hours <= 24) {
                                         Navigator.pop(context);
-                                        showLessThen24hoursCancelDialoge(
-                                            context);
+                                        showLessThen24hoursCancelDialoge(context);
                                       } else if (hours >= 24) {
                                         Navigator.pop(context);
-                                        showMoreThen24hoursCancelDialoge(
-                                            context);
+                                        showMoreThen24hoursCancelDialoge(context);
                                       }
                                     } else {
                                       Navigator.pop(context);
@@ -712,9 +532,7 @@ showCancelDialog(BuildContext context, AppointmentModel appointment) {
                                     }
                                   });
                                 },
-                                title:
-                                    AppLocalizations.of(context)?.yesCancel ??
-                                        "Yes Cancel",
+                                title: AppLocalizations.of(context)?.yesCancel ?? "Yes Cancel",
                                 minWidth: 100,
                               ),
                             ],
@@ -734,8 +552,7 @@ showCalenderEmpty(BuildContext context) {
       context: context,
       builder: (context) {
         return Dialog(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             child: Container(
               height: 538,
               width: 340,
@@ -747,13 +564,11 @@ showCalenderEmpty(BuildContext context) {
                 children: [
                   const CancelButtonTopRight(),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 51.0, vertical: 41),
+                    padding: const EdgeInsets.symmetric(horizontal: 51.0, vertical: 41),
                     child: Image.asset(AppIcons.calendarEmptyPNG),
                   ),
                   Text(
-                    AppLocalizations.of(context)?.calenderEmpty ??
-                        "Your calendar is\nempty yet",
+                    AppLocalizations.of(context)?.calenderEmpty ?? "Your calendar is\nempty yet",
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.headline3,
                   ),
@@ -763,13 +578,9 @@ showCalenderEmpty(BuildContext context) {
                   SizedBox(
                     width: 240,
                     child: Text(
-                      AppLocalizations.of(context)?.allAppointmentsHere ??
-                          "Choose a service and a master. All your booked apointments will be here.",
+                      AppLocalizations.of(context)?.allAppointmentsHere ?? "Choose a service and a master. All your booked apointments will be here.",
                       textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline3!
-                          .copyWith(fontSize: 13, fontWeight: FontWeight.w300),
+                      style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: 13, fontWeight: FontWeight.w300),
                     ),
                   ),
                   const SizedBox(
@@ -780,15 +591,10 @@ showCalenderEmpty(BuildContext context) {
                     color: AppTheme.creamBrown,
                     height: 52,
                     minWidth: 240,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     child: Text(
-                      AppLocalizations.of(context)?.goToCategories ??
-                          "Go to categories",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline3!
-                          .copyWith(color: Colors.white, fontSize: 18.sp),
+                      AppLocalizations.of(context)?.goToCategories ?? "Go to categories",
+                      style: Theme.of(context).textTheme.headline3!.copyWith(color: Colors.white, fontSize: 18.sp),
                     ),
                   ),
                 ],
@@ -802,8 +608,7 @@ showMoreThen24hoursCancelDialoge(BuildContext context) {
       context: context,
       builder: (context) {
         return Dialog(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             child: Container(
               height: 428,
               width: 340,
@@ -815,8 +620,7 @@ showMoreThen24hoursCancelDialoge(BuildContext context) {
                 children: [
                   const CancelButtonTopRight(),
                   Padding(
-                    padding: const EdgeInsets.only(
-                        right: 51.0, left: 51, top: 21, bottom: 40),
+                    padding: const EdgeInsets.only(right: 51.0, left: 51, top: 21, bottom: 40),
                     child: SizedBox(
                       height: 80,
                       width: 80,
@@ -824,9 +628,7 @@ showMoreThen24hoursCancelDialoge(BuildContext context) {
                     ),
                   ),
                   Text(
-                    AppLocalizations.of(context)
-                            ?.twentyFourHoursMoreBeforeTheAppointment ??
-                        "More than 24 hours before the appointment",
+                    AppLocalizations.of(context)?.twentyFourHoursMoreBeforeTheAppointment ?? "More than 24 hours before the appointment",
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.headline3,
                   ),
@@ -836,13 +638,9 @@ showMoreThen24hoursCancelDialoge(BuildContext context) {
                   SizedBox(
                     width: 240,
                     child: Text(
-                      AppLocalizations.of(context)?.priorWarningThanks ??
-                          "It’s a pity your plans have changed. Thank you for a prior warning. You just put a coin in your karma bank !",
+                      AppLocalizations.of(context)?.priorWarningThanks ?? "It’s a pity your plans have changed. Thank you for a prior warning. You just put a coin in your karma bank !",
                       textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline3!
-                          .copyWith(fontSize: 13, fontWeight: FontWeight.w300),
+                      style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: 13, fontWeight: FontWeight.w300),
                     ),
                   ),
                   const SizedBox(
@@ -855,14 +653,10 @@ showMoreThen24hoursCancelDialoge(BuildContext context) {
                     color: AppTheme.creamBrown,
                     height: 52,
                     minWidth: 240,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     child: Text(
                       AppLocalizations.of(context)?.okey ?? "Okey",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline3!
-                          .copyWith(color: Colors.white, fontSize: 18.sp),
+                      style: Theme.of(context).textTheme.headline3!.copyWith(color: Colors.white, fontSize: 18.sp),
                     ),
                   ),
                 ],
@@ -876,8 +670,7 @@ showLessThen24hoursCancelDialoge(BuildContext context) {
       context: context,
       builder: (context) {
         return Dialog(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             child: Container(
               height: 478,
               width: 340,
@@ -889,8 +682,7 @@ showLessThen24hoursCancelDialoge(BuildContext context) {
                 children: [
                   const CancelButtonTopRight(),
                   Padding(
-                    padding: const EdgeInsets.only(
-                        right: 51.0, left: 51, top: 21, bottom: 40),
+                    padding: const EdgeInsets.only(right: 51.0, left: 51, top: 21, bottom: 40),
                     child: SizedBox(
                       height: 80,
                       width: 80,
@@ -898,9 +690,7 @@ showLessThen24hoursCancelDialoge(BuildContext context) {
                     ),
                   ),
                   Text(
-                    AppLocalizations.of(context)
-                            ?.twentyFourHoursLessBeforeTheAppointment ??
-                        "Less than 24 hours before the appointment",
+                    AppLocalizations.of(context)?.twentyFourHoursLessBeforeTheAppointment ?? "Less than 24 hours before the appointment",
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.headline3,
                   ),
@@ -910,13 +700,9 @@ showLessThen24hoursCancelDialoge(BuildContext context) {
                   SizedBox(
                     width: 240,
                     child: Text(
-                      AppLocalizations.of(context)?.thanksForCanceling ??
-                          "Life is unpredictable, we know. Thanks for canceling. If next time you do it at least 1 day before – you'll put a coin in your karma bank and others will have a chance to book a service instead of you 🙂",
+                      AppLocalizations.of(context)?.thanksForCanceling ?? "Life is unpredictable, we know. Thanks for canceling. If next time you do it at least 1 day before – you'll put a coin in your karma bank and others will have a chance to book a service instead of you 🙂",
                       textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline3!
-                          .copyWith(fontSize: 13, fontWeight: FontWeight.w300),
+                      style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: 13, fontWeight: FontWeight.w300),
                     ),
                   ),
                   const SizedBox(
@@ -929,14 +715,10 @@ showLessThen24hoursCancelDialoge(BuildContext context) {
                     color: AppTheme.creamBrown,
                     height: 52,
                     minWidth: 240,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     child: Text(
                       AppLocalizations.of(context)?.okey ?? "Okey",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline3!
-                          .copyWith(color: Colors.white, fontSize: 18.sp),
+                      style: Theme.of(context).textTheme.headline3!.copyWith(color: Colors.white, fontSize: 18.sp),
                     ),
                   ),
                 ],
@@ -950,8 +732,7 @@ showLessThenTwohoursCancelDialoge(BuildContext context) {
       context: context,
       builder: (context) {
         return Dialog(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             child: Container(
               height: 478,
               width: 340,
@@ -963,8 +744,7 @@ showLessThenTwohoursCancelDialoge(BuildContext context) {
                 children: [
                   const CancelButtonTopRight(),
                   Padding(
-                    padding: const EdgeInsets.only(
-                        right: 51.0, left: 51, top: 21, bottom: 40),
+                    padding: const EdgeInsets.only(right: 51.0, left: 51, top: 21, bottom: 40),
                     child: SizedBox(
                       height: 80,
                       width: 80,
@@ -972,9 +752,7 @@ showLessThenTwohoursCancelDialoge(BuildContext context) {
                     ),
                   ),
                   Text(
-                    AppLocalizations.of(context)
-                            ?.twoHoursBeforeTheAppointment ??
-                        "Two or less hours before the appointment",
+                    AppLocalizations.of(context)?.twoHoursBeforeTheAppointment ?? "Two or less hours before the appointment",
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.headline3,
                   ),
@@ -984,14 +762,9 @@ showLessThenTwohoursCancelDialoge(BuildContext context) {
                   SizedBox(
                     width: 240,
                     child: Text(
-                      AppLocalizations.of(context)
-                              ?.mostPeopleCancelLastMinute ??
-                          "Most people cancel at the last minute in two cases: either they forgot or something happened. So we hope you are safe and sound. If you forgot, make sure you turn your notification on. Take care and try to warn your master earlier next time!",
+                      AppLocalizations.of(context)?.mostPeopleCancelLastMinute ?? "Most people cancel at the last minute in two cases: either they forgot or something happened. So we hope you are safe and sound. If you forgot, make sure you turn your notification on. Take care and try to warn your master earlier next time!",
                       textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline3!
-                          .copyWith(fontSize: 13, fontWeight: FontWeight.w300),
+                      style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: 13, fontWeight: FontWeight.w300),
                     ),
                   ),
                   const SizedBox(
@@ -1004,14 +777,10 @@ showLessThenTwohoursCancelDialoge(BuildContext context) {
                     color: AppTheme.creamBrown,
                     height: 52,
                     minWidth: 240,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     child: Text(
                       AppLocalizations.of(context)?.okey ?? "Okey",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline3!
-                          .copyWith(color: Colors.white, fontSize: 18.sp),
+                      style: Theme.of(context).textTheme.headline3!.copyWith(color: Colors.white, fontSize: 18.sp),
                     ),
                   ),
                 ],
@@ -1027,8 +796,7 @@ saloonChangedDialoge(
       context: context,
       builder: (context) {
         return Dialog(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             child: Container(
               height: 478,
               width: 340,
@@ -1040,8 +808,7 @@ saloonChangedDialoge(
                 children: [
                   const CancelButtonTopRight(),
                   Padding(
-                    padding: const EdgeInsets.only(
-                        right: 51.0, left: 51, top: 21, bottom: 40),
+                    padding: const EdgeInsets.only(right: 51.0, left: 51, top: 21, bottom: 40),
                     child: SizedBox(
                       height: 80,
                       width: 80,
@@ -1049,9 +816,7 @@ saloonChangedDialoge(
                     ),
                   ),
                   Text(
-                    AppLocalizations.of(context)
-                            ?.salonOrMasterDeletedYourAppointment ??
-                        "Salon/Master canceled your appointment.",
+                    AppLocalizations.of(context)?.salonOrMasterDeletedYourAppointment ?? "Salon/Master canceled your appointment.",
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.headline3,
                   ),
@@ -1065,14 +830,10 @@ saloonChangedDialoge(
                     color: AppTheme.creamBrown,
                     height: 52,
                     minWidth: 240,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     child: Text(
                       AppLocalizations.of(context)?.okey ?? "Okey",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline3!
-                          .copyWith(color: Colors.white, fontSize: 18.sp),
+                      style: Theme.of(context).textTheme.headline3!.copyWith(color: Colors.white, fontSize: 18.sp),
                     ),
                   ),
                 ],

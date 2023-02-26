@@ -1,12 +1,25 @@
+import 'package:bbblient/src/firebase/customer_web_settings.dart';
+import 'package:bbblient/src/firebase/enquiry.dart';
 import 'package:bbblient/src/firebase/master.dart';
+import 'package:bbblient/src/firebase/products.dart';
 import 'package:bbblient/src/firebase/salons.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
+import 'package:bbblient/src/models/enquiry.dart';
+import 'package:bbblient/src/models/enums/appointment_status.dart';
 import 'package:bbblient/src/models/enums/status.dart';
+import 'package:bbblient/src/models/products.dart';
 import 'package:bbblient/src/models/review.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
-import 'package:bbblient/src/utils/time.dart';
+import 'package:bbblient/src/theme/app_main_theme.dart';
+import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:bbblient/src/utils/utils.dart';
+import 'package:bbblient/src/views/themes/glam_one/glam_one.dart';
+import 'package:bbblient/src/views/themes/glam_two/glam_two.dart';
+import 'package:bbblient/src/views/themes/utils/theme_color.dart';
+import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:collection/collection.dart';
 
 // todo make salons and masters profile responsiblity here from salonSearchProvider
 class SalonProfileProvider with ChangeNotifier {
@@ -18,32 +31,162 @@ class SalonProfileProvider with ChangeNotifier {
   List<ReviewModel> salonReviews = [];
   List<ReviewModel> masterReviews = [];
 
-  Future<SalonModel?> init(salonId) async {
+  Map<String?, List<ServiceModel>> categoryServicesMap = {};
+
+  // Products
+  List<ProductCategoryModel> allProductCategories = [];
+  List<ProductModel> allProducts = [];
+  List<ProductBrandModel> allProductBrands = [];
+  Map<String, List<ProductModel>> tabs = {}; // Populating products tab
+
+  // List<ServiceModel> salonServices = [];
+
+  Map<String, dynamic> themeSettings = {};
+  ThemeData salonTheme = AppTheme.lightTheme;
+  String? theme;
+
+  Status enquiryStatus = Status.init;
+
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController requestController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  Future<SalonModel?> init(context, salonId) async {
     try {
       loadingStatus = Status.loading;
       chosenSalon = (await _salonApi.getSalonFromId(salonId))!;
       // await Time().setTimeSlot(chosenSalon.timeSlotsInterval);
+      themeSettings = await CustomerWebSettingsApi().getSalonTheme(salonId: salonId);
+      theme = themeSettings['id'];
+
       await getSalonReviews(salonId: salonId);
+      await getProductsData(context, salonId: salonId);
+      // await getSalonServices(salonId: salonId);
       loadingStatus = Status.success;
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
       loadingStatus = Status.failed;
     }
     notifyListeners();
     return chosenSalon;
   }
 
-  Map<String?, List<ServiceModel>> categoryServicesMap = {};
+  dynamic getTheme() {
+    if (theme == '1') {
+      salonTheme = getGlamDataTheme(themeSettings['colorCode']);
+      notifyListeners();
+
+      return const GlamOneScreen();
+    }
+
+    if (theme == '2') {
+      salonTheme = AppTheme.barbershopTheme;
+      notifyListeners();
+
+      return const GlamBarbershop();
+    }
+
+    if (theme == '3') {
+      return Container(color: Colors.purple);
+    }
+
+    return null; // This should be the default theme if there's no theme number (todo: defaul theme base widget needs to be refactored)
+  }
 
   getSalonReviews({required String salonId}) async {
     salonReviews.clear();
     salonReviews = await SalonApi().getSalonReviews(salonId: salonId);
   }
 
+  // getSalonServices({required String salonId}) async {
+  //   print('get services here');
+  //   salonServices.clear();
+  //   salonServices = await SalonApi().getSalonServices(salonId: salonId);
+  //   print('*****');
+  //   print(salonServices);
+  //   print('*****');
+  // }
+
   getMasterReviews({required String masterId}) async {
     masterReviews.clear();
     masterReviews = await MastersApi().getMasterReviews(masterId: masterId);
     printIt('got ${masterReviews.length} master reviews');
+    notifyListeners();
+  }
+
+  // Send Enquiry to Firebase
+  void sendEnquiryToSalon(BuildContext context, {required String salonId}) async {
+    if (nameController.text == '' || phoneController.text == '' || requestController.text == '') {
+      showToast(AppLocalizations.of(context)?.emptyFields ?? "Fields cannot be empty, please fill required fields");
+      return;
+    }
+
+    enquiryStatus = Status.loading;
+    Future.delayed(const Duration(milliseconds: 100), () => notifyListeners());
+
+    try {
+      EnquiryModel _newEnquiry = EnquiryModel(
+        customerName: nameController.text,
+        customerPhone: phoneController.text,
+        customerRequest: requestController.text,
+        salonId: salonId,
+        createdAt: DateTime.now(),
+        status: AppointmentStatus.requested,
+      );
+      Status res = await EnquiryApi().createEnquiry(_newEnquiry);
+
+      if (res == Status.success) {
+        enquiryStatus = Status.success;
+        showToast('Your Enquiry has been sent');
+      } else {
+        enquiryStatus = Status.failed;
+        showToast(AppLocalizations.of(context)?.errorOccurred ?? "Something went wrong, please try again");
+      }
+      Future.delayed(const Duration(milliseconds: 100), () => notifyListeners());
+    } catch (e) {
+      enquiryStatus = Status.failed;
+      Future.delayed(const Duration(milliseconds: 100), () => notifyListeners());
+
+      printIt('Error on sendEnquiryToSalon() - ${e.toString()}');
+      showToast(AppLocalizations.of(context)?.errorOccurred ?? "Something went wrong, please try again");
+      return null;
+    }
+  }
+
+  getProductsData(context, {required String salonId}) async {
+    allProductCategories.clear();
+    allProducts.clear();
+    tabs.clear();
+
+    // Get all brands
+    allProductBrands = await ProductsApi().getAllProductBrands(salonId: salonId);
+
+    // Get Salon Product Categories
+    allProductCategories = await ProductsApi().getAllProductCategory(salonId: salonId);
+
+    // Get Salon Products
+    allProducts = await ProductsApi().getSalonProducts(salonId: salonId);
+
+    // Split into categories
+    for (ProductModel product in allProducts) {
+      for (String? productCategoryId in (product.categoryIdList ?? [])) {
+        ProductCategoryModel? found = allProductCategories.firstWhereOrNull(
+          (cat) => cat.categoryId == productCategoryId,
+        );
+
+        if (found != null) {
+          String translation = found.translations![AppLocalizations.of(context)?.localeName ?? 'en'];
+
+          if (tabs.containsKey(translation)) {
+            tabs[translation] = [...tabs[translation]!, product];
+          } else {
+            tabs[translation] = [product];
+          }
+        }
+      }
+    }
+
     notifyListeners();
   }
 

@@ -1,16 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:ui';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/models/promotions/promotion_service.dart';
-import 'package:bbblient/src/utils/utils.dart';
-import 'package:bbblient/src/views/salon/booking/booking_date_time.dart';
-import 'package:bbblient/src/views/salon/widgets/book_now_button.dart';
+import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/salon/widgets/floating_button_booking.dart';
-import 'package:bbblient/src/views/widgets/buttons.dart';
-
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
@@ -62,9 +57,8 @@ class _MasterProfileState extends ConsumerState<MasterProfile> {
 
   void getReviews() {
     _salonProfileProvider = ref.read(salonProfileProvider);
-    _salonProfileProvider.getMasterReviews(
-      masterId: widget.masterModel.masterId);
-        // masterId: widget.masterModel!.masterId);
+    _salonProfileProvider.getMasterReviews(masterId: widget.masterModel.masterId);
+    // masterId: widget.masterModel!.masterId);
   }
 
   @override
@@ -76,65 +70,48 @@ class _MasterProfileState extends ConsumerState<MasterProfile> {
           SingleChildScrollView(
             child: Column(
               children: [
-                MasterHeader(
-                  masterModel: widget.masterModel,
-                ),
+                MasterHeader(masterModel: widget.masterModel),
+                Space(height: DeviceConstraints.getResponsiveSize(context, 40, 40, 40)),
                 Column(
                   children: [
-                    Padding(
-                      padding:
-                          EdgeInsets.only(left: 0.0.w, top: 28.h, bottom: 25.h),
-                      child: SizedBox(
-                        height: 55.h,
-                        child: ListView.builder(
-                          itemCount: masterDetailsTitles.length,
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          controller: _masterDetailsScrollController,
-                          itemBuilder: (_, index) {
-                            return Padding(
-                              padding: EdgeInsets.only(right: 4.w),
-                              child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _pageController.jumpToPage(index);
-                                    _activeTab = index;
-                                  });
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: _activeTab == index
-                                        ? Colors.white
-                                        : Theme.of(context)
-                                            .scaffoldBackgroundColor,
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: Center(
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 20.0.w, vertical: 12.h),
-                                      child: Text(
-                                        (AppLocalizations.of(context)
-                                                    ?.localeName ==
-                                                'uk')
-                                            ? masterDetailsTitlesUk[index]
-                                            : masterDetailsTitles[index],
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText2!
-                                            .copyWith(
-                                                color: _activeTab == index
-                                                    ? AppTheme.textBlack
-                                                    : AppTheme.lightGrey,
-                                                fontWeight: FontWeight.w600),
-                                      ),
+                    SizedBox(
+                      height: 45.h,
+                      child: ListView.builder(
+                        itemCount: masterDetailsTitles.length,
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        controller: _masterDetailsScrollController,
+                        itemBuilder: (_, index) {
+                          return Padding(
+                            padding: EdgeInsets.only(right: 4.w),
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _pageController.jumpToPage(index);
+                                  _activeTab = index;
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: _activeTab == index ? Color.fromARGB(255, 239, 239, 239) : Theme.of(context).scaffoldBackgroundColor,
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                                child: Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                                    child: Text(
+                                      (AppLocalizations.of(context)?.localeName == 'uk') ? masterDetailsTitlesUk[index].toCapitalized() : masterDetailsTitles[index].toCapitalized(),
+                                      style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                                            color: _activeTab == index ? AppTheme.textBlack : AppTheme.lightGrey,
+                                            fontWeight: _activeTab == index ? FontWeight.w600 : FontWeight.w500,
+                                          ),
                                     ),
                                   ),
                                 ),
                               ),
-                            );
-                          },
-                        ),
+                            ),
+                          );
+                        },
                       ),
                     ),
 
@@ -143,58 +120,64 @@ class _MasterProfileState extends ConsumerState<MasterProfile> {
                     //   color: Colors.red,
                     // ),
                     // PromotionScroll(),
-                    ExpandablePageView(
-                      controller: _pageController,
-                      onPageChanged: (ind) {
-                        setState(() {
-                          _activeTab = ind;
-                        });
-                      },
-                      children: [
-                        MasterServices(
-                          master: widget.masterModel,
-                          // master: widget.masterModel!,
-                        ),
-                        MasterAbout(
-                          master: widget.masterModel,
-                          // master: widget.masterModel!,
-                        ),
-                        MasterAllWorks(
-                          master: widget.masterModel,
-                          // master: widget.masterModel!,
-                        ),
-                      ],
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: DeviceConstraints.getResponsiveSize(context, 17.w, 0, 0)),
+                      child: ExpandablePageView(
+                        controller: _pageController,
+                        onPageChanged: (ind) {
+                          setState(() {
+                            _activeTab = ind;
+                          });
+                        },
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: MasterServices(master: widget.masterModel),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: MasterAbout(master: widget.masterModel),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: MasterAllWorks(master: widget.masterModel),
+                          ),
+                        ],
+                      ),
                     )
                   ],
                 )
               ],
             ),
           ),
-          Positioned(
-            bottom: 0,
-            child: GestureDetector(
-              onTap: () {
-                if (_createAppointmentProvider.chosenServices.isNotEmpty) {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) => const BookingDateTime()));
-                } else {
-                  Utils().vibrateNegatively();
-                  showToast(
-                      AppLocalizations.of(context)?.pleaseChooseAService ??
-                          "Please choose a service");
-                }
-              },
-              child: const BookNowButton(),
+          // Positioned(
+          //   bottom: 0,
+          //   child: GestureDetector(
+          //     onTap: () {
+          //       if (_createAppointmentProvider.chosenServices.isNotEmpty) {
+          //         Navigator.of(context).push(MaterialPageRoute(builder: (_) => const BookingDateTime()));
+          //       } else {
+          //         Utils().vibrateNegatively();
+          //         showToast(AppLocalizations.of(context)?.pleaseChooseAService ?? "Please choose a service");
+          //       }
+          //     },
+          //     child: const BookNowButton(),
+          //   ),
+          // ),
+          // const Positioned(
+          //   top: 10,
+          //   left: 10,
+          //   child: SafeArea(
+          //     child: BackButtonGlassMorphic(),
+          //   ),
+          // ),
+          const Align(
+            alignment: Alignment.bottomCenter,
+            child: FloatingBar(
+              master: true,
+              themeNo: 0,
             ),
           ),
-          const Positioned(
-            top: 10,
-            left: 10,
-            child: SafeArea(
-              child: BackButtonGlassMorphic(),
-            ),
-          ),
-          const Align(alignment: Alignment.bottomCenter, child: FloatingBar()),
         ],
       ),
     );
@@ -222,8 +205,6 @@ class PromotionCard extends StatelessWidget {
       height: 140.h,
       width: 218.w,
       child: Container(
-        // height: 140.h,
-        // width: 218.w,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/promotion_card_client.png"),
@@ -257,7 +238,6 @@ class PromotionScroll extends ConsumerWidget {
           controller: _promotionListController,
           shrinkWrap: true,
           primary: false,
-          
           itemCount: _createAppointmentProvider.salonPromotions.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {

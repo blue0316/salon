@@ -25,8 +25,7 @@ class Time {
   //rounds of the time in timeSlotSize
   //input   :   3:21
   //output  :   3:15 or 3:30
-  TimeOfDay? roundOfTime(TimeOfDay? time,
-      {toFloor = true, Duration step = _timeSlotSize}) {
+  TimeOfDay? roundOfTime(TimeOfDay? time, {toFloor = true, Duration step = _timeSlotSize}) {
     if (time == null) return null;
     try {
       int hours = time.hour;
@@ -55,6 +54,39 @@ class Time {
     }
   }
 
+  //returns the working hours on the basis of week day
+  Hours? getRegularWorkingHoursFromDate(WorkingHoursModel? workingHours, {int? weekDay, DateTime? date}) {
+    if (weekDay == null) {
+      DateTime _date = date ?? DateTime.now();
+      weekDay = _date.weekday;
+    }
+    if (workingHours == null) return null;
+
+    try {
+      switch (weekDay) {
+        case 1:
+          return workingHours.mon;
+        case 2:
+          return workingHours.tue;
+        case 3:
+          return workingHours.wed;
+        case 4:
+          return workingHours.thu;
+        case 5:
+          return workingHours.fri;
+        case 6:
+          return workingHours.sat;
+        case 7:
+          return workingHours.sun;
+        default:
+          return null;
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      return null;
+    }
+  }
+
   //returns true if two list contains same element/slot
   bool listOverLaps(List list1, List list2) {
     if (list1.isEmpty || list2.isEmpty) {
@@ -67,8 +99,7 @@ class Time {
     return false;
   }
 
-  bool checkForTimeClash(
-      TimeOfDay startA, TimeOfDay endA, TimeOfDay startB, TimeOfDay endB) {
+  bool checkForTimeClash(TimeOfDay startA, TimeOfDay endA, TimeOfDay startB, TimeOfDay endB) {
     // [A] ====================||||||||||||||==============
     // [B] ======||||||||||================================
     if (compareTime(endB, startA) == 1) return false;
@@ -96,20 +127,17 @@ class Time {
   //  if inclusive is true, then it will return all the bisect time slots also, to make sure no booking overlaps
   ///  if(inclusive = true) output : (10:00, 10:15, 10:30, 10:45)
 
-  Iterable<String> getTimeSlots(TimeOfDay? startTime, TimeOfDay? endTime,
-      {Duration step = _timeSlotSize, inclusive = false}) sync* {
+  Iterable<String> getTimeSlots(TimeOfDay? startTime, TimeOfDay? endTime, {Duration step = _timeSlotSize, inclusive = false}) sync* {
     //if start time greater than end time then break off
 
-    if (startTime == null ||
-        endTime == null ||
-        compareTime(endTime, startTime) == 1) return;
+    if (startTime == null || endTime == null || compareTime(endTime, startTime) == 1) return;
 
     if (inclusive) {
-      startTime = roundOfTime(startTime, toFloor: true);
-      endTime = roundOfTime(endTime, toFloor: false);
+      startTime = roundOfTime(startTime, toFloor: true, step: step);
+      endTime = roundOfTime(endTime, toFloor: false, step: step);
     } else {
-      startTime = roundOfTime(startTime, toFloor: false);
-      endTime = roundOfTime(endTime, toFloor: true);
+      startTime = roundOfTime(startTime, toFloor: false, step: step);
+      endTime = roundOfTime(endTime, toFloor: true, step: step);
     }
     int hour = startTime!.hour;
     int minute = startTime.minute;
@@ -121,12 +149,10 @@ class Time {
         minute -= 60;
         hour++;
       }
-    } while (hour < endTime!.hour ||
-        (hour == endTime.hour && minute < endTime.minute));
+    } while (hour < endTime!.hour || (hour == endTime.hour && minute < endTime.minute));
   }
 
-  Iterable<String> generateTimeSlots(TimeOfDay startTime, TimeOfDay endTime,
-      {Duration step = _timeSlotSize, inclusive = false}) sync* {
+  Iterable<String> generateTimeSlots(TimeOfDay startTime, TimeOfDay endTime, {Duration step = _timeSlotSize, inclusive = false}) sync* {
     //if start time greater than end time then break off
 
     if (compareTime(endTime, startTime) == 1) {
@@ -135,11 +161,11 @@ class Time {
       TimeOfDay? _startTime;
       TimeOfDay? _endTime;
       if (inclusive) {
-        _startTime = roundOfTime(startTime, toFloor: true);
-        _endTime = roundOfTime(endTime, toFloor: false);
+        _startTime = roundOfTime(startTime, toFloor: true, step: step);
+        _endTime = roundOfTime(endTime, toFloor: false, step: step);
       } else {
-        _startTime = roundOfTime(startTime, toFloor: false);
-        _endTime = roundOfTime(endTime, toFloor: true);
+        _startTime = roundOfTime(startTime, toFloor: false, step: step);
+        _endTime = roundOfTime(endTime, toFloor: true, step: step);
       }
       if (_startTime != null && _endTime != null) {
         int hour = _startTime.hour;
@@ -151,8 +177,7 @@ class Time {
             minute -= 60;
             hour++;
           }
-        } while (hour < endTime.hour ||
-            (hour == endTime.hour && minute < endTime.minute));
+        } while (hour < endTime.hour || (hour == endTime.hour && minute < endTime.minute));
       }
     }
   }
@@ -173,8 +198,7 @@ class Time {
   //takes in the list of sorted slots and convert them into
   // list of available slots acc to the service
   //so if a service is of 60 min then it will check 60 min of available timing
-  checkAvailableSlotsForTheServiceTime(
-      List<String> slotsInString, int minutes) {
+  checkAvailableSlotsForTheServiceTime(List<String> slotsInString, int minutes) {
     List<TimeOfDay> slots = slotsInString.map((e) => stringToTime(e)).toList();
     List<String> availableSlots = [];
 
@@ -182,8 +206,7 @@ class Time {
       int slotsReq = (minutes / _timeSlotSize.inMinutes).ceil();
       for (int j = 0; j < slotsReq; j++) {
         if (i + j >= slots.length) break;
-        if (slots[i + j] != slots[i].addMinutes((j * _timeSlotSize.inMinutes)))
-          break;
+        if (slots[i + j] != slots[i].addMinutes((j * _timeSlotSize.inMinutes))) break;
         if (j == slotsReq - 1) availableSlots.add(slotsInString[i]);
       }
     }
@@ -237,8 +260,7 @@ class Time {
   //if master is working then returns true else returns false
   bool isWorking(MasterModel master, {DateTime? date}) {
     try {
-      final Hours? workingTIme =
-          Time().getMasterWorkingHour(master, date: date);
+      final Hours? workingTIme = Time().getMasterWorkingHour(master, date: date);
       TimeOfDay _now;
       if (date != null) {
         _now = TimeOfDay(hour: date.hour, minute: date.minute);
@@ -289,9 +311,7 @@ class Time {
   }
 
   String getWeekDay(DateTime date, context, bool long) {
-    String day =
-        DateFormat("EEEE", AppLocalizations.of(context)?.localeName ?? 'en')
-            .format(date);
+    String day = DateFormat("EEEE", AppLocalizations.of(context)?.localeName ?? 'en').format(date);
     return long ? day : day.substring(0, 3);
     // if (date == getDate()) {
     //   AppLocalizations.of(context)?.today ?? "today";
@@ -317,8 +337,7 @@ class Time {
     try {
       TimeOfDay _appointmentTime = Time().stringToTime(time);
 
-      return DateTime(date.year, date.month, date.day, _appointmentTime.hour,
-          _appointmentTime.minute);
+      return DateTime(date.year, date.month, date.day, _appointmentTime.hour, _appointmentTime.minute);
     } catch (e) {
       printIt(e);
       return date;
@@ -417,12 +436,9 @@ class Time {
   // returns the appointment end time in string
   // eg. 04:30
   String? getAppointmentEndTime(AppointmentModel appointment) {
-    if (appointment.appointmentTime != '' &&
-        appointment.priceAndDuration.duration != '0' &&
-        appointment.priceAndDuration.duration != '0') {
+    if (appointment.appointmentTime != '' && appointment.priceAndDuration.duration != '0' && appointment.priceAndDuration.duration != '0') {
       TimeOfDay time1 = stringToTime(appointment.appointmentTime);
-      TimeOfDay time2 =
-          time1.addMinutes(int.parse(appointment.priceAndDuration.duration));
+      TimeOfDay time2 = time1.addMinutes(int.parse(appointment.priceAndDuration.duration));
       return timeToString(time2);
     } else {
       return appointment.appointmentTime;
@@ -430,12 +446,9 @@ class Time {
   }
 
   String? getAppointmentStartEndTime(AppointmentModel appointment) {
-    if (appointment.appointmentTime != '' &&
-        appointment.priceAndDuration.duration != '0' &&
-        appointment.priceAndDuration.duration != '0') {
+    if (appointment.appointmentTime != '' && appointment.priceAndDuration.duration != '0' && appointment.priceAndDuration.duration != '0') {
       TimeOfDay time1 = stringToTime(appointment.appointmentTime);
-      TimeOfDay time2 =
-          time1.addMinutes(int.parse(appointment.priceAndDuration.duration));
+      TimeOfDay time2 = time1.addMinutes(int.parse(appointment.priceAndDuration.duration));
       String? _time2 = timeToString(time2);
       String? _time1 = timeToString(time1);
       return "$_time1-$_time2";
@@ -478,8 +491,7 @@ class Time {
   }
 
   // compares two [TimeOfDay] object and returns either max or min of the two
-  TimeOfDay getMinMaxTime(TimeOfDay startTime, TimeOfDay endTime,
-      {bool returnMaxTime = true}) {
+  TimeOfDay getMinMaxTime(TimeOfDay startTime, TimeOfDay endTime, {bool returnMaxTime = true}) {
     if (compareTime(startTime, endTime) == 1) {
       return returnMaxTime ? endTime : startTime;
     } else {
@@ -488,15 +500,13 @@ class Time {
   }
 
   /// compare two DateTime
-  // returns true of dates are same else false
+  // returns true if dates are same else false
   bool compareDate(DateTime? date1, DateTime? date2) {
     try {
       if (date1 == null || date2 == null) {
         return false;
       }
-      if (date1.day == date2.day &&
-          date1.month == date2.month &&
-          date1.year == date2.year) {
+      if (date1.day == date2.day && date1.month == date2.month && date1.year == date2.year) {
         return true;
       } else {
         return false;

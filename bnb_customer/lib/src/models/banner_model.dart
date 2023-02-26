@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'dart:convert';
-
 BannerModel bannerModelFromJson(String str) => BannerModel.fromJson(json.decode(str));
 
 String bannerModelToJson(BannerModel data) => json.encode(data.toJson());

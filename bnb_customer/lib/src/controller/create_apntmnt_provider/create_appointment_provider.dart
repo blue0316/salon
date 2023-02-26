@@ -1,22 +1,23 @@
+import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/firebase/appointments.dart';
 import 'package:bbblient/src/firebase/bonus_referral_api.dart';
 import 'package:bbblient/src/firebase/category_services.dart';
 import 'package:bbblient/src/firebase/collections.dart';
-import 'package:bbblient/src/firebase/integration/beauty_pro.dart';
 import 'package:bbblient/src/firebase/master.dart';
 import 'package:bbblient/src/firebase/promotion_service.dart';
-import 'package:bbblient/src/firebase/salons.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/backend_codings/appointment.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/backend_codings/payment_methods.dart';
 import 'package:bbblient/src/models/backend_codings/working_hours.dart';
 import 'package:bbblient/src/models/bonus_model.dart';
+import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
 import 'package:bbblient/src/models/cat_sub_service/price_and_duration.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/customer/customer.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/integration/beauty_pro/beauty_pro.dart';
+import 'package:bbblient/src/models/products.dart';
 import 'package:bbblient/src/models/promotions/promotion_service.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/models/review.dart';
@@ -30,6 +31,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
+import 'package:collection/collection.dart';
 
 class CreateAppointmentProvider with ChangeNotifier {
   Status loadingStatus = Status.loading;
@@ -38,6 +40,9 @@ class CreateAppointmentProvider with ChangeNotifier {
   List<ServiceModel> salonServices = [];
   List<MasterModel> salonMasters = [];
   List<ReviewModel> salonReviews = [];
+
+  // Products
+  List<ProductModel> salonProductsBrand = [];
 
   ///all the slots below
   List<String> allSlots = [];
@@ -50,7 +55,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 
   ///Promotion Variables
   // PromotionModel? chosenPromotion;
-  List<ServiceModel> salonPromotionServices = [];
+  List<ServiceModel> xsalonPromotionServices = [];
   List<PromotionModel> salonPromotions = [];
   Map<String, List<ServiceModel>> categoryPromotionServicesMap = {};
   PromotionModel? selectedPromotion;
@@ -101,10 +106,66 @@ class CreateAppointmentProvider with ChangeNotifier {
   BeautyProConfig? beautyProConfig;
   Status slotsStatus = Status.init;
 
-  setSalon(
-      {required SalonModel salonModel,
-      required BuildContext context,
-      required List<ServiceModel> servicesFromSearch}) async {
+  String countryCode = '';
+  String otp = '';
+
+  List<CategoryModel> categoriesAvailable = [];
+  List<List<ServiceModel>> servicesAvailable = [];
+
+  // TextField Controllers on `Book Now` Dialog
+  TextEditingController nameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+
+  // PageView Controller on `Confirmation` Tab Bar
+  final PageController confirmationPageController = PageController();
+
+  void verifyControllers(BuildContext context, AuthProvider _authProvider) async {
+    if (nameController.text.isEmpty) {
+      showToast('Name field cannot be empty', duration: const Duration(seconds: 3));
+      return;
+    }
+
+    if (phoneController.text.isEmpty) {
+      showToast('Phone field cannot be empty', duration: const Duration(seconds: 3));
+      return;
+    }
+
+    if (_authProvider.otpStatus != Status.loading) {
+      await _authProvider.verifyPhone(
+        context: context,
+        countryCode: countryCode,
+        phoneNumber: phoneController.text.trim(),
+      );
+    } else {
+      showToast(AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
+    }
+
+    if (_authProvider.otpStatus == Status.success) {
+      // Required fields have been filled
+      nextPageView(2);
+    }
+  }
+
+  void nextPageView(int index) {
+    confirmationPageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 100),
+      curve: Curves.ease,
+    );
+  }
+
+  void changeCountryCode(String value) {
+    countryCode = value;
+    notifyListeners();
+  }
+
+  void changeOtp(String value) {
+    otp = value;
+    notifyListeners();
+  }
+
+  setSalon({required SalonModel salonModel, required BuildContext context, required List<ServiceModel> servicesFromSearch, required List<CategoryModel> categories}) async {
     chosenSalon = salonModel;
     //set time slot interval
 
@@ -115,13 +176,32 @@ class CreateAppointmentProvider with ChangeNotifier {
     _clearProvider();
     // print(Time().timeSlotSizeInt);
     calculateValidSlots();
-    await _initSalon(
-        salonModel: salonModel,
-        context: context,
-        servicesFromSearch: servicesFromSearch);
+    await _initSalon(salonModel: salonModel, context: context, servicesFromSearch: servicesFromSearch);
     _initCrm(salonId: salonModel.salonId);
     clearSlotsAndSlotsRequired();
     setUpSlots(day: chosenDay, context: context, showNotWorkingToast: false);
+    getSalonServices(categories: categories);
+    notifyListeners();
+  }
+
+  getSalonServices({required List<CategoryModel> categories}) async {
+    categoriesAvailable.clear();
+    servicesAvailable.clear();
+    for (CategoryModel cat in categories) {
+      if (categoryServicesMap[cat.categoryId.toString()] != null && categoryServicesMap[cat.categoryId.toString()]!.isNotEmpty) {
+        final CategoryModel? categoryModel = categories.firstWhereOrNull(
+          (element) => element.categoryId == cat.categoryId.toString(),
+        );
+
+        if (categoryModel != null) {
+          categoriesAvailable.add(categoryModel);
+          List<ServiceModel> services = categoryServicesMap[cat.categoryId.toString()] ?? [];
+
+          servicesAvailable.add(services);
+        }
+      }
+    }
+
     notifyListeners();
   }
 
@@ -209,17 +289,15 @@ class CreateAppointmentProvider with ChangeNotifier {
 //   }
 
   ///Initializing Salon for Booking(loading services and categorizing them acccording to masters and categories)
-  Future _initSalon(
-      {required SalonModel salonModel,
-      required BuildContext context,
-      List<ServiceModel> servicesFromSearch = const []}) async {
+  Future _initSalon({required SalonModel salonModel, required BuildContext context, List<ServiceModel> servicesFromSearch = const []}) async {
     List<ServiceModel> _servicesValidList = [];
     List<String> _mastersServices = [];
     printIt(salonModel.toJson());
     if (salonModel.ownerType == OwnerType.singleMaster) {
-      List<ServiceModel> _servicesList = await CategoryServicesApi()
-          .getSalonServices(salonId: salonModel.salonId);
-      salonServices = _servicesList;
+      List<ServiceModel> _servicesList = await CategoryServicesApi().getSalonServices(salonId: salonModel.salonId);
+
+      salonServices = _servicesList; // _clearProvider not clearing list // TODO: FIX LATER
+
       _servicesValidList = _servicesList;
       //Saving these for promotion
       // List<PromotionModel> _promotionList = await PromotionServiceApi()
@@ -230,10 +308,11 @@ class CreateAppointmentProvider with ChangeNotifier {
       loadingStatus = Status.success;
       notifyListeners();
     } else {
-      List<MasterModel> _masters =
-          await MastersApi().getAllMaster(salonModel.salonId);
-      List<ServiceModel> _servicesList = await CategoryServicesApi()
-          .getSalonServices(salonId: salonModel.salonId);
+      List<MasterModel> _masters = await MastersApi().getAllMaster(salonModel.salonId);
+      List<ServiceModel> _servicesList = await CategoryServicesApi().getSalonServices(salonId: salonModel.salonId);
+
+      salonServices = _servicesList; // _clearProvider not clearing list // TODO: FIX LATER
+
       if (_servicesList.isNotEmpty && _masters.isNotEmpty) {
         for (MasterModel master in _masters) {
           _mastersServices.addAll(master.serviceIds ?? []);
@@ -265,10 +344,7 @@ class CreateAppointmentProvider with ChangeNotifier {
         }
         categoryServicesMap[_service.categoryId]!.add(_service);
         if (categoryServicesMap != {}) {
-          categoryServicesMap[_service.categoryId]!.sort((a, b) =>
-              a.bookOrderId != null && b.bookOrderId != null
-                  ? a.bookOrderId!.compareTo(b.bookOrderId!)
-                  : 1);
+          categoryServicesMap[_service.categoryId]!.sort((a, b) => a.bookOrderId != null && b.bookOrderId != null ? a.bookOrderId!.compareTo(b.bookOrderId!) : 1);
           loadingStatus = Status.success;
           notifyListeners();
         } else {
@@ -283,21 +359,23 @@ class CreateAppointmentProvider with ChangeNotifier {
     if (servicesFromSearch.isNotEmpty) {
       if (salonModel.ownerType == OwnerType.singleMaster) {
         for (ServiceModel _service in servicesFromSearch) {
-          toggleService(
-              serviceModel: _service, clearChosenMaster: true, context: null);
+          toggleService(serviceModel: _service, clearChosenMaster: true, context: null);
         }
       } else {
         for (ServiceModel _service in servicesFromSearch) {
           // if (_mastersServices.contains(_service.serviceId) && _service.priceAndDuration.price != '0') {
           if (_mastersServices.contains(_service.serviceId)) {
-            toggleService(
-                serviceModel: _service, clearChosenMaster: true, context: null);
+            toggleService(serviceModel: _service, clearChosenMaster: true, context: null);
           } else {
             // showToast("no master serving ${_service.serviceName}");
           }
         }
       }
     }
+
+    salonPromotions = await PromotionServiceApi().getSalonPromotions(salonId: salonModel.salonId);
+
+    notifyListeners();
   }
 
   _initCrm({required String salonId}) async {
@@ -323,12 +401,16 @@ class CreateAppointmentProvider with ChangeNotifier {
     salonServices.clear();
     salonReviews.clear();
     chosenServices.clear();
+    categoriesAvailable.clear();
+    servicesAvailable.clear();
     totalPrice = 0;
     totalMinutes = 0;
     totalTimeWithMaster = 0;
     totalPriceWithMaster = 0;
     appointmentModel = null;
     chosenMaster = null;
+
+    salonProductsBrand = [];
 
     notifyListeners();
   }
@@ -420,29 +502,21 @@ class CreateAppointmentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<String> chooseMaster(
-      {required MasterModel masterModel, required BuildContext context}) async {
+  Future<String> chooseMaster({required MasterModel masterModel, required BuildContext context}) async {
     totalTimeWithMaster = 0;
     totalPriceWithMaster = 0;
     calculateMasterVariations();
-    if (int.parse(
-            mastersPriceDurationMap[masterModel.masterId]?.price ?? '0') >=
-        1) {
+    if (int.parse(mastersPriceDurationMap[masterModel.masterId]?.price ?? '0') >= 1) {
       chosenMaster = masterModel;
-      totalTimeSlotsRequired = (int.parse(
-                  mastersPriceDurationMap[masterModel.masterId]?.duration ??
-                      '0') /
-              (chosenSalon!.timeSlotsInterval != null
-                  ? chosenSalon!.timeSlotsInterval!
-                  : 15))
-          .ceil();
+      totalTimeSlotsRequired = (int.parse(mastersPriceDurationMap[masterModel.masterId]?.duration ?? '0') / (chosenSalon!.timeSlotsInterval != null ? chosenSalon!.timeSlotsInterval! : 15)).ceil();
       printIt(mastersPriceDurationMap[masterModel.masterId]?.duration);
       setUpSlots(day: chosenDay, context: context, showNotWorkingToast: true);
       notifyListeners();
       return 'choosen';
     } else {
-      printIt(totalPriceWithMaster);
-      printIt(totalTimeWithMaster);
+      printIt('Total Price With Master - $totalPriceWithMaster');
+      printIt('Total Time With Master - $totalTimeWithMaster');
+
       notifyListeners();
       return "Services Not available";
     }
@@ -466,56 +540,23 @@ class CreateAppointmentProvider with ChangeNotifier {
         List<ServiceModel> _services = [];
         for (ServiceModel serviceModel in chosenServices) {
           ServiceModel _service = serviceModel.getCopy();
-          if (masterModel.serviceIds?.contains(serviceModel.serviceId) ??
-              false) {
-            _service.priceAndDuration.duration = masterModel
-                    .servicesPriceAndDuration?[serviceModel.serviceId]
-                    ?.duration ??
-                '0';
-            _service.priceAndDuration.price = masterModel
-                    .servicesPriceAndDuration?[serviceModel.serviceId]?.price ??
-                "0";
-            _totalDuration = _totalDuration +
-                (int.tryParse(masterModel
-                            .servicesPriceAndDuration?[serviceModel.serviceId]
-                            ?.duration ??
-                        '0') ??
-                    0);
+          if (masterModel.serviceIds?.contains(serviceModel.serviceId) ?? false) {
+            _service.priceAndDuration.duration = masterModel.servicesPriceAndDuration?[serviceModel.serviceId]?.duration ?? '0';
+            _service.priceAndDuration.price = masterModel.servicesPriceAndDuration?[serviceModel.serviceId]?.price ?? "0";
+            _totalDuration = _totalDuration + (int.tryParse(masterModel.servicesPriceAndDuration?[serviceModel.serviceId]?.duration ?? '0') ?? 0);
 
-            _totalPrice = _totalPrice +
-                (int.tryParse(masterModel
-                            .servicesPriceAndDuration?[serviceModel.serviceId]
-                            ?.price ??
-                        "0") ??
-                    0);
+            _totalPrice = _totalPrice + (int.tryParse(masterModel.servicesPriceAndDuration?[serviceModel.serviceId]?.price ?? "0") ?? 0);
 
-            _service.priceAndDurationMax!.duration = masterModel
-                    .servicesPriceAndDurationMax?[serviceModel.serviceId]
-                    ?.duration ??
-                '0';
-            _service.priceAndDurationMax!.price = masterModel
-                    .servicesPriceAndDurationMax?[serviceModel.serviceId]
-                    ?.price ??
-                "0";
+            _service.priceAndDurationMax!.duration = masterModel.servicesPriceAndDurationMax?[serviceModel.serviceId]?.duration ?? '0';
+            _service.priceAndDurationMax!.price = masterModel.servicesPriceAndDurationMax?[serviceModel.serviceId]?.price ?? "0";
             _totalDurationMax = _totalDurationMax +
-                (!serviceModel.isFixedPrice
-                    ? int.parse(serviceModel.priceAndDurationMax!.duration)
-                    : (int.tryParse(masterModel
-                                .servicesPriceAndDuration?[
-                                    serviceModel.serviceId]
-                                ?.duration ??
-                            '0') ??
-                        0));
+                ((serviceModel.isFixedDuration != null)
+                    ? !serviceModel.isFixedDuration
+                        ? int.parse(serviceModel.priceAndDurationMax!.duration)
+                        : (int.tryParse(masterModel.servicesPriceAndDuration?[serviceModel.serviceId]?.duration ?? '0') ?? 0)
+                    : int.parse(serviceModel.priceAndDurationMax!.duration));
 
-            _totalPriceMax = _totalPriceMax +
-                (!serviceModel.isFixedPrice
-                    ? int.parse(serviceModel.priceAndDurationMax!.price)
-                    : (int.tryParse(masterModel
-                                .servicesPriceAndDuration?[
-                                    serviceModel.serviceId]
-                                ?.price ??
-                            "0") ??
-                        0));
+            _totalPriceMax = _totalPriceMax + (!serviceModel.isFixedPrice ? int.parse(serviceModel.priceAndDurationMax!.price) : (int.tryParse(masterModel.servicesPriceAndDuration?[serviceModel.serviceId]?.price ?? "0") ?? 0));
             _services.add(_service);
           }
         }
@@ -523,10 +564,10 @@ class CreateAppointmentProvider with ChangeNotifier {
           duration: _totalDuration.toString(),
           price: _totalPrice.toString(),
         );
-        printIt(_totalDuration.toString());
-        printIt(_totalDurationMax.toString());
-        mastersPriceDurationMapMax[masterModel.masterId] =
-            PriceAndDurationModel(
+        printIt("totoal Duration: " + _totalDuration.toString());
+        printIt("totoal DurationMax: " + _totalDurationMax.toString());
+
+        mastersPriceDurationMapMax[masterModel.masterId] = PriceAndDurationModel(
           duration: _totalDurationMax.toString(),
           price: _totalPriceMax.toString(),
         );
@@ -544,12 +585,8 @@ class CreateAppointmentProvider with ChangeNotifier {
           ServiceModel _service = salonService.getCopy();
 
           if (masterModel.serviceIds?.contains(_service.serviceId) ?? false) {
-            _service.priceAndDuration.duration = masterModel
-                    .servicesPriceAndDuration?[_service.serviceId]?.duration ??
-                '0';
-            _service.priceAndDuration.price = masterModel
-                    .servicesPriceAndDuration?[_service.serviceId]?.price ??
-                '0';
+            _service.priceAndDuration.duration = masterModel.servicesPriceAndDuration?[_service.serviceId]?.duration ?? '0';
+            _service.priceAndDuration.price = masterModel.servicesPriceAndDuration?[_service.serviceId]?.price ?? '0';
             _services.add(_service);
           }
         }
@@ -561,43 +598,29 @@ class CreateAppointmentProvider with ChangeNotifier {
     }
   }
 
-  toggleService(
-      {required ServiceModel serviceModel,
-      required bool clearChosenMaster,
-      required BuildContext? context}) async {
-    int index = chosenServices
-        .indexWhere((element) => element.serviceId == serviceModel.serviceId);
+  toggleService({required ServiceModel serviceModel, required bool clearChosenMaster, required BuildContext? context}) async {
+    int index = chosenServices.indexWhere((element) => element.serviceId == serviceModel.serviceId);
     if (index == -1) {
       chosenServices.add(serviceModel);
 
-      totalPrice = totalPrice +
-          (!serviceModel.isFixedPrice
-              ? (double.tryParse(serviceModel.priceAndDurationMax!.price) ?? 0)
-              : (double.tryParse(serviceModel.priceAndDuration.price) ?? 0));
-      totalPricewithFixed = totalPricewithFixed +
-          (double.tryParse(serviceModel.priceAndDuration.price) ?? 0);
+      totalPrice = totalPrice + (!serviceModel.isFixedPrice ? (double.tryParse(serviceModel.priceAndDurationMax!.price) ?? 0) : (double.tryParse(serviceModel.priceAndDuration.price) ?? 0));
+      totalPricewithFixed = totalPricewithFixed + (double.tryParse(serviceModel.priceAndDuration.price) ?? 0);
       calculateValidSlots();
       calculateMasterVariations();
       if (context != null) {
-        setUpSlots(
-            day: chosenDay, context: context, showNotWorkingToast: false);
+        setUpSlots(day: chosenDay, context: context, showNotWorkingToast: false);
       }
 
       Utils().vibratePositively();
       notifyListeners();
     } else {
       chosenServices.removeAt(index);
-      totalPrice = totalPrice -
-          (!serviceModel.isFixedPrice
-              ? (double.tryParse(serviceModel.priceAndDurationMax!.price) ?? 0)
-              : (double.tryParse(serviceModel.priceAndDuration.price) ?? 0));
-      totalPricewithFixed = totalPricewithFixed -
-          (double.tryParse(serviceModel.priceAndDuration.price) ?? 0);
+      totalPrice = totalPrice - (!serviceModel.isFixedPrice ? (double.tryParse(serviceModel.priceAndDurationMax!.price) ?? 0) : (double.tryParse(serviceModel.priceAndDuration.price) ?? 0));
+      totalPricewithFixed = totalPricewithFixed - (double.tryParse(serviceModel.priceAndDuration.price) ?? 0);
       calculateValidSlots();
       calculateMasterVariations();
       if (context != null) {
-        setUpSlots(
-            day: chosenDay, context: context, showNotWorkingToast: false);
+        setUpSlots(day: chosenDay, context: context, showNotWorkingToast: false);
       }
       Utils().vibrateNegatively();
       notifyListeners();
@@ -609,13 +632,21 @@ class CreateAppointmentProvider with ChangeNotifier {
   }
 
   bool isAdded({required ServiceModel serviceModel}) {
-    int index = chosenServices
-        .indexWhere((element) => element.serviceId == serviceModel.serviceId);
+    int index = chosenServices.indexWhere((element) => element.serviceId == serviceModel.serviceId);
     if (index == -1) {
       return false;
     } else {
       return true;
     }
+  }
+
+  // Highlight Category Tab if a service on that category has been selected
+  bool isCategoryServiceAdded({required CategoryModel categoryModel}) {
+    int index = chosenServices.indexWhere((element) => element.categoryId == categoryModel.categoryId);
+    if (index == -1) {
+      return false;
+    }
+    return true;
   }
 
   calculateAvailableMasters({required DateTime day}) {
@@ -627,20 +658,11 @@ class CreateAppointmentProvider with ChangeNotifier {
       for (MasterModel master in salonMasters) {
         if (master.workingHours != null) {
           print('mmmm${master.workingHours} ${day.weekday}');
-          bool isMasterWorking = (Time()
-                      .getWorkingHoursFromWeekDay(
-                          day.weekday, master.workingHours)
-                      ?.isWorking ==
-                  true ||
-              (master.irregularWorkingHours != null
-                  ? master.irregularWorkingHours!.containsKey(
-                      DateFormat('yyyy-MM-dd').format(day).toString())
-                  : false));
+          bool isMasterWorking = (Time().getWorkingHoursFromWeekDay(day.weekday, master.workingHours)?.isWorking == true || (master.irregularWorkingHours != null ? master.irregularWorkingHours!.containsKey(DateFormat('yyyy-MM-dd').format(day).toString()) : false));
           print("this is date");
 
           bool servicesAvailable = mastersServicesMap[master.masterId] != null;
-          bool servicesAvailableCount =
-              mastersServicesMap[master.masterId]?.isNotEmpty ?? false;
+          bool servicesAvailableCount = mastersServicesMap[master.masterId]?.isNotEmpty ?? false;
           if (isMasterWorking && servicesAvailable && servicesAvailableCount) {
             availableMasters.add(master);
           }
@@ -651,15 +673,9 @@ class CreateAppointmentProvider with ChangeNotifier {
     }
   }
 
-  Future setUpPromotionSlots(
-      {required DateTime day,
-      required BuildContext context,
-      required bool showNotWorkingToast}) async {}
+  Future setUpPromotionSlots({required DateTime day, required BuildContext context, required bool showNotWorkingToast}) async {}
 
-  Future setUpSlots(
-      {required DateTime day,
-      required BuildContext context,
-      required bool showNotWorkingToast}) async {
+  Future setUpSlots({required DateTime day, required BuildContext context, required bool showNotWorkingToast}) async {
     // await Time().setTimeSlot(chosenSalon!.timeSlotsInterval);
     chosenDay = day;
     chosenSlots.clear();
@@ -673,10 +689,8 @@ class CreateAppointmentProvider with ChangeNotifier {
     slotsStatus = Status.loading;
     notifyListeners();
     if (beautyProActive && chosenMaster != null) {
-      print("na here 1");
       printIt('fatching slots from beauty pro');
-      Map<String, List<String>>? slots =
-          await BeautyProEngine().getMasterSlots(day);
+      Map<String, List<String>>? slots = await BeautyProEngine().getMasterSlots(day);
       printIt("beauty pro result $slots");
       printIt(chosenMaster?.beautyProId);
       List<String>? _masterslots = slots?[chosenMaster?.beautyProId];
@@ -684,8 +698,7 @@ class CreateAppointmentProvider with ChangeNotifier {
       if (_masterslots != null) {
         if (_masterslots.isEmpty) {
           if (showNotWorkingToast) {
-            showToast(AppLocalizations.of(context)?.masterNotWorking ??
-                "master's not Working");
+            showToast(AppLocalizations.of(context)?.masterNotWorking ?? "master's not Working");
           }
           slotsStatus = Status.failed;
           notifyListeners();
@@ -695,18 +708,13 @@ class CreateAppointmentProvider with ChangeNotifier {
           validSlots = _masterslots;
           TimeOfDay _startTime = Time().stringToTime(validSlots.first);
           TimeOfDay _endTime = Time().stringToTime(validSlots.last);
-          if (chosenDay.day == DateTime.now().day &&
-              chosenDay.month == DateTime.now().month) {
-            List<String> _pastSlots =
-                Time().generateTimeSlots(_startTime, TimeOfDay.now()).toList();
+          if (chosenDay.day == DateTime.now().day && chosenDay.month == DateTime.now().month) {
+            List<String> _pastSlots = Time().generateTimeSlots(_startTime, TimeOfDay.now()).toList();
             for (String slot in _pastSlots) {
               validSlots.remove(slot);
             }
           }
-          allSlots = Time()
-              .getTimeSlots(_startTime, _endTime,
-                  step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15))
-              .toList();
+          allSlots = Time().getTimeSlots(_startTime, _endTime, step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15)).toList();
           slotsStatus = Status.success;
           divideSlotsForDay();
           notifyListeners();
@@ -718,16 +726,14 @@ class CreateAppointmentProvider with ChangeNotifier {
       }
     } else if (yclientActive && chosenMaster != null) {
       print("na here 2");
-      List<String>? slots =
-          await YClientsEngine().getMasterSlots(day, master: chosenMaster!);
+      List<String>? slots = await YClientsEngine().getMasterSlots(day, master: chosenMaster!);
       printIt("yclient result $slots");
       List<String>? _masterslots = slots;
       printIt(_masterslots);
       if (_masterslots != null) {
         if (_masterslots.isEmpty) {
           if (showNotWorkingToast) {
-            showToast(AppLocalizations.of(context)?.masterNotWorking ??
-                "master's not Working");
+            showToast(AppLocalizations.of(context)?.masterNotWorking ?? "master's not Working");
           }
           slotsStatus = Status.failed;
           notifyListeners();
@@ -738,21 +744,13 @@ class CreateAppointmentProvider with ChangeNotifier {
           validSlots = _masterslots;
           TimeOfDay _startTime = Time().stringToTime(validSlots.first);
           TimeOfDay _endTime = Time().stringToTime(validSlots.last);
-          if (chosenDay.day == DateTime.now().day &&
-              chosenDay.month == DateTime.now().month) {
-            List<String> _pastSlots = Time()
-                .generateTimeSlots(_startTime, TimeOfDay.now(),
-                    step:
-                        Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15))
-                .toList();
+          if (chosenDay.day == DateTime.now().day && chosenDay.month == DateTime.now().month) {
+            List<String> _pastSlots = Time().generateTimeSlots(_startTime, TimeOfDay.now(), step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15)).toList();
             for (String slot in _pastSlots) {
               validSlots.remove(slot);
             }
           }
-          allSlots = Time()
-              .getTimeSlots(_startTime, _endTime,
-                  step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15))
-              .toList();
+          allSlots = Time().getTimeSlots(_startTime, _endTime, step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15)).toList();
           slotsStatus = Status.success;
           divideSlotsForDay();
           notifyListeners();
@@ -771,14 +769,10 @@ class CreateAppointmentProvider with ChangeNotifier {
         // workingHours = Time().getWorkingHoursFromWeekDay(
         //     chosenDay.weekday, chosenSalon!.workingHours);
 
-        if (chosenSalon!.irregularWorkingHours != null &&
-            chosenSalon!.irregularWorkingHours!.containsKey(
-                DateFormat('yyyy-MM-dd').format(chosenDay).toString())) {
-          workingHours = chosenSalon!.irregularWorkingHours![
-              DateFormat('yyyy-MM-dd').format(chosenDay).toString()];
+        if (chosenSalon!.irregularWorkingHours != null && chosenSalon!.irregularWorkingHours!.containsKey(DateFormat('yyyy-MM-dd').format(chosenDay).toString())) {
+          workingHours = chosenSalon!.irregularWorkingHours![DateFormat('yyyy-MM-dd').format(chosenDay).toString()];
         } else {
-          workingHours = Time().getWorkingHoursFromWeekDay(
-              chosenDay.weekday, chosenSalon!.workingHours);
+          workingHours = Time().getWorkingHoursFromWeekDay(chosenDay.weekday, chosenSalon!.workingHours);
         }
         List<String> _blokedSlots = [];
         String? dateString = Time().getDateInStandardFormat(chosenDay);
@@ -790,45 +784,41 @@ class CreateAppointmentProvider with ChangeNotifier {
         if (workingHours != null) {
           TimeOfDay _startTime = Time().stringToTime(workingHours.startTime);
           TimeOfDay _endTime = Time().stringToTime(workingHours.endTime);
-          TimeOfDay _breakStartTime =
-              Time().stringToTime(workingHours.breakStartTime);
-          TimeOfDay _breakEndTime =
-              Time().stringToTime(workingHours.breakEndTime);
-          allSlots = Time()
-              .getTimeSlots(_startTime, _endTime,
-                  step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15))
-              .toList();
+          TimeOfDay _breakStartTime = Time().stringToTime(workingHours.breakStartTime);
+          TimeOfDay _breakEndTime = Time().stringToTime(workingHours.breakEndTime);
+          allSlots = Time().getTimeSlots(_startTime, _endTime, step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15)).toList();
           if (workingHours.isWorking) {
-            if (chosenDay.day == DateTime.now().day &&
-                chosenDay.month == DateTime.now().month) {
-              validSlots = Time()
-                  .getTimeSlots(TimeOfDay.now(), _endTime,
-                      step: Duration(
-                          minutes: chosenSalon!.timeSlotsInterval ?? 15))
-                  .toList();
+            if (chosenDay.day == DateTime.now().day && chosenDay.month == DateTime.now().month) {
+              // if (chosenSalon!.appointmentsLeadTime != null) {
+              //   //computing start and end time acc to different parameters
+              //   // copied this function from salon app
+              //   TimeOfDay? _mystartTime =
+              //       _computeStartTime(workingHours.startTime, chosenDay);
+              //   var myminutes = Time().toMinutes(_mystartTime!);
+              //   // round up to nearest value of slot
+              //   myminutes = myminutes! +
+              //       ((chosenSalon!.timeSlotsInterval ?? 15) -
+              //           (myminutes % (chosenSalon!.timeSlotsInterval ?? 15)));
+              //   _mystartTime =
+              //       TimeOfDay(hour: myminutes ~/ 60, minute: myminutes % 60);
+              //   print(_mystartTime);
+              //   validSlots = Time()
+              //       .getTimeSlots(_mystartTime, _endTime,
+              //           step: Duration(
+              //               minutes: chosenSalon!.timeSlotsInterval ?? 15))
+              //       .toList();
+              // } else {
+              TimeOfDay? _mystartTime = _computeStartTime(workingHours.startTime, chosenDay);
+              printIt(_mystartTime);
+              validSlots = Time().getTimeSlots(_mystartTime, _endTime, step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15)).toList();
+              // }
             } else {
-              validSlots = Time()
-                  .getTimeSlots(_startTime, _endTime,
-                      step: Duration(
-                          minutes: chosenSalon!.timeSlotsInterval ?? 15))
-                  .toList();
+              validSlots = Time().getTimeSlots(_startTime, _endTime, step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15)).toList();
             }
-            bool isBreakAvailable = Time()
-                    .getWorkingHoursFromWeekDay(
-                        chosenDay.weekday,
-                        (chosenSalon?.ownerType == OwnerType.salon)
-                            ? chosenMaster?.workingHours
-                            : chosenSalon!.workingHours)
-                    ?.isBreakAvailable ??
-                false;
+            bool isBreakAvailable = Time().getWorkingHoursFromWeekDay(chosenDay.weekday, (chosenSalon?.ownerType == OwnerType.salon) ? chosenMaster?.workingHours : chosenSalon!.workingHours)?.isBreakAvailable ?? false;
             if (isBreakAvailable) {
               printIt('master is taking break on choosen day');
-              breakSlots = Time()
-                      .getTimeSlots(_breakStartTime, _breakEndTime,
-                          step: Duration(
-                              minutes: chosenSalon!.timeSlotsInterval ?? 15))
-                      .toList() +
-                  _blokedSlots;
+              breakSlots = Time().getTimeSlots(_breakStartTime, _breakEndTime, step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15)).toList() + _blokedSlots;
             } else {
               printIt('master is not taking break on choosen day');
               breakSlots = _blokedSlots;
@@ -844,8 +834,7 @@ class CreateAppointmentProvider with ChangeNotifier {
           } else {
             validSlots.clear();
             if (showNotWorkingToast) {
-              showToast(AppLocalizations.of(context)?.masterNotWorking ??
-                  "master's not Working");
+              showToast(AppLocalizations.of(context)?.masterNotWorking ?? "master's not Working");
             }
             slotsStatus = Status.failed;
             notifyListeners();
@@ -858,73 +847,45 @@ class CreateAppointmentProvider with ChangeNotifier {
           notifyListeners();
         }
       } else {
+        print('salon masterrrr');
         Hours? workingHours;
 
-        if (chosenSalon!.irregularWorkingHours != null) {
-          if (chosenSalon!.irregularWorkingHours!.containsKey(
-              DateFormat('yyyy-MM-dd').format(chosenDay).toString())) {
-            workingHours = chosenSalon!.irregularWorkingHours![
-                DateFormat('yyyy-MM-dd').format(chosenDay).toString()];
-          }
+        if (chosenSalon!.irregularWorkingHours != null && chosenSalon!.irregularWorkingHours!.containsKey(DateFormat('yyyy-MM-dd').format(chosenDay).toString())) {
+          workingHours = chosenSalon!.irregularWorkingHours![DateFormat('yyyy-MM-dd').format(chosenDay).toString()];
         } else {
           workingHours = Time().getWorkingHoursFromWeekDay(
             chosenDay.weekday,
-            (chosenMaster == null)
-                ? chosenSalon!.workingHours
-                : chosenMaster!.workingHours,
+            (chosenMaster == null) ? chosenSalon!.workingHours : chosenMaster!.workingHours,
           );
+          // divideSlotsForDay();
         }
 
         List<String> masterBlocked = [];
         String? dateString = Time().getDateInStandardFormat(chosenDay);
-        List<dynamic> slotsBlocked =
-            chosenMaster?.blockedTime?[dateString] ?? [];
+        List<dynamic> slotsBlocked = chosenMaster?.blockedTime?[dateString] ?? [];
         for (dynamic slot in slotsBlocked) {
           masterBlocked.add(slot.toString());
         }
         if (workingHours != null) {
           TimeOfDay _startTime = Time().stringToTime(workingHours.startTime);
           TimeOfDay _endTime = Time().stringToTime(workingHours.endTime);
-          TimeOfDay _breakStartTime =
-              Time().stringToTime(workingHours.breakStartTime);
-          TimeOfDay _breakEndTime =
-              Time().stringToTime(workingHours.breakEndTime);
-          allSlots = Time()
-              .getTimeSlots(_startTime, _endTime,
-                  step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15))
-              .toList();
-          print(_startTime);
+          TimeOfDay _breakStartTime = Time().stringToTime(workingHours.breakStartTime);
+          TimeOfDay _breakEndTime = Time().stringToTime(workingHours.breakEndTime);
+          allSlots = Time().getTimeSlots(_startTime, _endTime, step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15)).toList();
+
           if (workingHours.isWorking) {
-            if (chosenDay.day == DateTime.now().day &&
-                chosenDay.month == DateTime.now().month) {
-              validSlots = Time()
-                  .getTimeSlots(TimeOfDay.now(), _endTime,
-                      step: Duration(
-                          minutes: chosenSalon!.timeSlotsInterval ?? 15))
-                  .toList();
+            if (chosenDay.day == DateTime.now().day && chosenDay.month == DateTime.now().month) {
+              TimeOfDay? _mystartTime = _computeStartTime(workingHours.startTime, chosenDay);
+              printIt(_startTime);
+
+              validSlots = Time().getTimeSlots(_mystartTime, _endTime, step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15)).toList();
             } else {
-              validSlots = Time()
-                  .getTimeSlots(_startTime, _endTime,
-                      step: Duration(
-                          minutes: chosenSalon!.timeSlotsInterval ?? 15))
-                  .toList();
+              validSlots = Time().getTimeSlots(_startTime, _endTime, step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15)).toList();
             }
-            bool isBreakAvailable = Time()
-                    .getWorkingHoursFromWeekDay(
-                        chosenDay.weekday,
-                        (chosenSalon?.ownerType == OwnerType.salon)
-                            ? chosenMaster?.workingHours
-                            : chosenSalon!.workingHours)
-                    ?.isBreakAvailable ??
-                false;
+            bool isBreakAvailable = Time().getWorkingHoursFromWeekDay(chosenDay.weekday, (chosenSalon?.ownerType == OwnerType.salon) ? chosenMaster?.workingHours : chosenSalon!.workingHours)?.isBreakAvailable ?? false;
             if (isBreakAvailable) {
               printIt('master is taking break on choosen day');
-              breakSlots = Time()
-                      .getTimeSlots(_breakStartTime, _breakEndTime,
-                          step: Duration(
-                              minutes: chosenSalon!.timeSlotsInterval ?? 15))
-                      .toList() +
-                  masterBlocked;
+              breakSlots = Time().getTimeSlots(_breakStartTime, _breakEndTime, step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15)).toList() + masterBlocked;
             } else {
               printIt('master is not taking break on choosen day');
               breakSlots = masterBlocked;
@@ -932,19 +893,20 @@ class CreateAppointmentProvider with ChangeNotifier {
             for (String slot in breakSlots) {
               validSlots.removeWhere((element) => element == slot);
             }
+            divideSlotsForDay();
             slotsStatus = Status.success;
             notifyListeners();
           } else {
             validSlots.clear();
             if (chosenMaster != null && showNotWorkingToast) {
-              showToast(AppLocalizations.of(context)?.masterNotWorking ??
-                  "master's not Working");
+              showToast(AppLocalizations.of(context)?.masterNotWorking ?? "master's not Working");
             }
             slotsStatus = Status.failed;
             notifyListeners();
             notifyListeners();
           }
           printIt("valid Slots $validSlots");
+          printIt("valid Slots $allSlots");
           divideSlotsForDay();
         } else {
           slotsStatus = Status.failed;
@@ -960,10 +922,8 @@ class CreateAppointmentProvider with ChangeNotifier {
 
   ///Divides Slots into Morning Afternoon and Night
   divideSlotsForDay() {
-    int morningIndex = allSlots
-        .indexWhere((element) => Time().stringToTime(element).hour >= 12);
-    int afterNoonIndex = allSlots
-        .indexWhere((element) => Time().stringToTime(element).hour >= 17);
+    int morningIndex = allSlots.indexWhere((element) => Time().stringToTime(element).hour >= 12);
+    int afterNoonIndex = allSlots.indexWhere((element) => Time().stringToTime(element).hour >= 17);
 
     if (afterNoonIndex != -1) {
       eveningTimeslots = allSlots.sublist(afterNoonIndex, allSlots.length);
@@ -981,6 +941,56 @@ class CreateAppointmentProvider with ChangeNotifier {
     }
   }
 
+  Time _time = new Time();
+
+  TimeOfDay? _computeStartTime(String? masterStartTime, DateTime date) {
+    try {
+      DateTime _now = DateTime.now();
+
+      late TimeOfDay _masterAndSalonFusedTime;
+      // added this on the fly..but it seems to solve the problem
+      _masterAndSalonFusedTime = _time.stringToTime(masterStartTime!);
+      if (chosenSalon!.ownerType == OwnerType.singleMaster) {
+        _masterAndSalonFusedTime = _time.stringToTime(masterStartTime!);
+      } else {
+        //getting salon timings
+        Hours selectedSalonHours = _time.getRegularWorkingHoursFromDate(
+          chosenSalon?.workingHours ?? null,
+          weekDay: date.weekday,
+        )!;
+
+        if (!selectedSalonHours.isWorking!) return null;
+
+        TimeOfDay _salonStartTime = _time.stringToTime(selectedSalonHours.startTime!);
+
+        TimeOfDay _masterStartTime = _time.stringToTime(masterStartTime!);
+
+        // computes the starting time by comparing master and salon starting time
+        TimeOfDay _masterAndSalonFusedTime = _time.getMinMaxTime(_salonStartTime, _masterStartTime, returnMaxTime: true);
+      }
+
+      if (_time.compareDate(date, _now)) {
+        //dates are same, Then it
+        // computes the start time by comparing current time and master working time
+
+        // for the effect of restricted time before appointment
+        if (chosenSalon!.appointmentsLeadTime != null) {
+          _now = _now.add(Duration(minutes: chosenSalon!.appointmentsLeadTime!));
+        }
+        TimeOfDay _currentTime = TimeOfDay(hour: _now.hour, minute: _now.minute);
+        debugPrint(TimeOfDay(hour: _now.hour, minute: _now.minute).toString());
+        debugPrint(_masterAndSalonFusedTime.toString());
+        return _time.getMinMaxTime(_currentTime, _masterAndSalonFusedTime, returnMaxTime: true);
+      } else {
+        return _masterAndSalonFusedTime;
+      }
+    } catch (e) {
+      debugPrint('error while generating start time');
+      debugPrint(e.toString());
+      return _time.stringToTime(masterStartTime!);
+    }
+  }
+
   calculateValidSlots() {
     clearChoosenSlots();
     totalMinutes = 0;
@@ -988,29 +998,22 @@ class CreateAppointmentProvider with ChangeNotifier {
     for (ServiceModel serviceModel in chosenServices) {
       printIt(serviceModel.toJson());
       totalMinutes = totalMinutes +
-          (!serviceModel.isFixedPrice
-              ? int.parse(serviceModel.priceAndDurationMax!.duration)
+          (serviceModel.isFixedDuration != null
+              ? !serviceModel.isFixedDuration
+                  ? int.parse(serviceModel.priceAndDurationMax!.duration)
+                  : int.parse(serviceModel.priceAndDuration.duration)
               : int.parse(serviceModel.priceAndDuration.duration));
-      totalMinutesWithFixed = totalMinutesWithFixed +
-          int.parse(serviceModel.priceAndDuration.duration);
+      totalMinutesWithFixed = totalMinutesWithFixed + int.parse(serviceModel.priceAndDuration.duration);
       printIt(totalMinutes);
       notifyListeners();
     }
-    totalTimeSlotsRequired = (totalMinutes /
-            (chosenSalon!.timeSlotsInterval != null
-                ? chosenSalon!.timeSlotsInterval!
-                : 15))
-        .ceil();
-    if (totalMinutes <=
-        (chosenSalon!.timeSlotsInterval != null
-            ? chosenSalon!.timeSlotsInterval!
-            : 15)) {
+    totalTimeSlotsRequired = (totalMinutes / (chosenSalon!.timeSlotsInterval != null ? chosenSalon!.timeSlotsInterval! : 15)).ceil();
+    if (totalMinutes <= (chosenSalon!.timeSlotsInterval != null ? chosenSalon!.timeSlotsInterval! : 15)) {
       totalMinutes = chosenSalon!.timeSlotsInterval ?? 15;
       totalTimeSlotsRequired = 1;
     }
     notifyListeners();
-    printIt(
-        'total time and slots required $totalMinutes $totalTimeSlotsRequired');
+    printIt('total time and slots required $totalMinutes $totalTimeSlotsRequired');
   }
 
   bool checkContinuousSlots({required List<String> slots}) {
@@ -1031,27 +1034,20 @@ class CreateAppointmentProvider with ChangeNotifier {
     printIt("choosing slots $totalTimeSlotsRequired");
     if (totalTimeSlotsRequired != 0) {
       if (totalTimeSlotsRequired > validSlots.length) {
-        showToast(
-            AppLocalizations.of(context)?.notEnoughSlots ?? "Not enough slots");
+        showToast(AppLocalizations.of(context)?.notEnoughSlots ?? "Not enough slots");
       } else {
         int index = validSlots.indexWhere((element) => element == slot);
         if (index != -1) {
           if (index == 0) {
-            chosenSlots =
-                validSlots.getRange(index, totalTimeSlotsRequired).toList();
+            chosenSlots = validSlots.getRange(index, totalTimeSlotsRequired).toList();
             notifyListeners();
             printIt(chosenSlots);
           } else if (index > validSlots.length - totalTimeSlotsRequired) {
-            chosenSlots = validSlots
-                .getRange(validSlots.length - (totalTimeSlotsRequired),
-                    validSlots.length)
-                .toList();
+            chosenSlots = validSlots.getRange(validSlots.length - (totalTimeSlotsRequired), validSlots.length).toList();
             notifyListeners();
             printIt(chosenSlots);
           } else {
-            chosenSlots = validSlots
-                .getRange(index, (index + totalTimeSlotsRequired))
-                .toList();
+            chosenSlots = validSlots.getRange(index, (index + totalTimeSlotsRequired)).toList();
             printIt(chosenSlots);
 
             notifyListeners();
@@ -1060,19 +1056,16 @@ class CreateAppointmentProvider with ChangeNotifier {
           if (!continues) {
             chosenSlots = [];
             notifyListeners();
-            showToast(AppLocalizations.of(context)?.slotsNotAvailable ??
-                'Slots not available');
+            showToast(AppLocalizations.of(context)?.slotsNotAvailable ?? 'Slots not available');
           } else {
             printIt(chosenDay);
             notifyListeners();
-            showToast(
-                AppLocalizations.of(context)?.slotsChoosen ?? 'slots chosen');
+            showToast(AppLocalizations.of(context)?.slotsChoosen ?? 'slots chosen');
           }
         } else {
           chosenSlots = [];
           notifyListeners();
-          showToast(AppLocalizations.of(context)?.slotsNotAvailable ??
-              'Slots not available');
+          showToast(AppLocalizations.of(context)?.slotsNotAvailable ?? 'Slots not available');
         }
       }
     } else {
@@ -1081,8 +1074,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   }
 
   bool checkSlotsAndMaster({required BuildContext context}) {
-    final bool isMasterNull =
-        (chosenMaster == null && chosenSalon!.ownerType == OwnerType.salon);
+    final bool isMasterNull = (chosenMaster == null && chosenSalon!.ownerType == OwnerType.salon);
     if (isMasterNull) {
       printIt(chosenMaster);
       showToast(AppLocalizations.of(context)?.chooseMaster ?? 'choose master');
@@ -1095,26 +1087,12 @@ class CreateAppointmentProvider with ChangeNotifier {
       showToast('no services');
     }
 
-    bool isWorking = Time()
-                .getWorkingHoursFromWeekDay(
-                    chosenDay.weekday,
-                    (chosenSalon?.ownerType == OwnerType.salon)
-                        ? chosenMaster?.workingHours
-                        : chosenSalon!.workingHours)
-                ?.isWorking ==
-            true ||
-        chosenSalon!.irregularWorkingHours!
-            .containsKey(DateFormat('yyyy-MM-dd').format(chosenDay).toString());
+    bool isWorking = Time().getWorkingHoursFromWeekDay(chosenDay.weekday, (chosenSalon?.ownerType == OwnerType.salon) ? chosenMaster?.workingHours : chosenSalon!.workingHours)?.isWorking == true || chosenSalon!.irregularWorkingHours!.containsKey(DateFormat('yyyy-MM-dd').format(chosenDay).toString());
     printIt("working today $isWorking");
     if (!isWorking) {
-      showToast(AppLocalizations.of(context)?.masterNotAvlblDay ??
-          'master not available on choosen day');
+      showToast(AppLocalizations.of(context)?.masterNotAvlblDay ?? 'master not available on choosen day');
     }
-    if (isMasterNull ||
-        chosenSlots.contains('') ||
-        chosenSlots.isEmpty ||
-        chosenServices.isEmpty ||
-        !isWorking) {
+    if (isMasterNull || chosenSlots.contains('') || chosenSlots.isEmpty || chosenServices.isEmpty || !isWorking) {
       return false;
     } else {
       return true;
@@ -1125,16 +1103,14 @@ class CreateAppointmentProvider with ChangeNotifier {
   /// Takes in [AppointmentModel] as input and returns app [AppointmentModel] with either beautyPro or yClientsId
   /// will return [AppointmentModel] back as it is without any change if integration is inactive
   /// will return [null] in case of error, so u need to abort current appointment and show user error
-  Future<AppointmentModel?> createAppointmentInIntegration(
-      AppointmentModel app, MasterModel master) async {
+  Future<AppointmentModel?> createAppointmentInIntegration(AppointmentModel app, MasterModel master) async {
     AppointmentModel _app;
     //booking in beauty pro
     //  picking the booking from suitable integration
     //  if beauty-pro id is present means system has integration with beauty pro, same with yclients
     //  so will pickup that integration
     if (beautyProActive) {
-      final AppointmentModel? _appointmentWithBeautyPro =
-          await BeautyProEngine().makeAppointment(app, master.beautyProId);
+      final AppointmentModel? _appointmentWithBeautyPro = await BeautyProEngine().makeAppointment(app, master.beautyProId);
 
       if (_appointmentWithBeautyPro == null) {
         showToast("Booking failed..");
@@ -1145,8 +1121,7 @@ class CreateAppointmentProvider with ChangeNotifier {
       }
     } else if (yclientActive) {
       //booking in yClients
-      final AppointmentModel? _appointmentWithYClients =
-          await YClientsEngine().makeAppointment(app, master.yClientsId);
+      final AppointmentModel? _appointmentWithYClients = await YClientsEngine().makeAppointment(app, master.yClientsId);
       if (_appointmentWithYClients == null) {
         showToast("Booking failed.");
         return null;
@@ -1159,49 +1134,61 @@ class CreateAppointmentProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> createAppointment(
-      {required CustomerModel? customerModel,
-      required BuildContext context}) async {
+  Future<bool> createAppointment({required CustomerModel? customerModel, required BuildContext context}) async {
     if (chosenServices.isEmpty) {
       showToast(' no services');
     } else {
       printIt(chosenSlots);
 
       //  total price and duration
-      PriceAndDurationModel _totalPriceAndDuration =
-          chosenSalon!.ownerType == OwnerType.singleMaster
-              ? PriceAndDurationModel(
-                  duration: totalMinutes.toString(),
-                  price: totalPrice.toString(),
-                )
-              : mastersPriceDurationMapMax[chosenMaster!.masterId]!;
+      PriceAndDurationModel _totalPriceAndDuration = chosenSalon!.ownerType == OwnerType.singleMaster
+          ? PriceAndDurationModel(
+              duration: totalMinutes.toString(),
+              price: totalPrice.toString(),
+            )
+          : mastersPriceDurationMapMax[chosenMaster!.masterId]!;
 
-      var locale =
-          AppLocalizations.of(context)?.localeName.toString().toLowerCase();
+      var locale = AppLocalizations.of(context)?.localeName.toString().toLowerCase();
 
       printIt("Chosen Slots");
       printIt(chosenSlots);
+
       DateTime _startTime = DateTime(
-          chosenDay.year,
-          chosenDay.month,
-          chosenDay.day,
-          int.parse(chosenSlots.first.split(':')[0]),
-          int.parse(chosenSlots.first.split(':')[1]));
+        chosenDay.year,
+        chosenDay.month,
+        chosenDay.day,
+        int.parse(chosenSlots.first.split(':')[0]),
+        int.parse(chosenSlots.first.split(':')[1]),
+      );
 
-      DateTime _endTime = _startTime
-          .add(Duration(minutes: int.parse(_totalPriceAndDuration.duration)));
+      DateTime _endTime = _startTime.add(
+        Duration(minutes: int.parse(_totalPriceAndDuration.duration)),
+      );
 
-      final List<Service> _services =
-          chosenSalon!.ownerType == OwnerType.singleMaster
-              ? chosenServices
-                  .map((element) => Service.fromService(serviceModel: element))
-                  .toList()
-              : mastersServicesMap[chosenMaster!.masterId]!
-                  .map((element) => Service.fromService(
-                      serviceModel: element,
-                      masterPriceAndDuration: chosenMaster!
-                          .servicesPriceAndDurationMax![element.serviceId]))
-                  .toList();
+      print('**************************************n*****************');
+      print(chosenMaster!.masterId);
+      print('hmmmmm');
+      print(mastersServicesMap[chosenMaster!.masterId]![0].priceAndDurationMax);
+      print(chosenMaster!);
+      print(chosenMaster!.servicesPriceAndDurationMax);
+      print('*******************************************************');
+
+      print('*******************************************************');
+
+      final List<Service> _services = chosenSalon!.ownerType == OwnerType.singleMaster
+          ? chosenServices.map((element) => Service.fromService(serviceModel: element)).toList()
+          : mastersServicesMap[chosenMaster!.masterId]!
+              .map(
+                (element) => Service.fromService(
+                  serviceModel: element,
+                  masterPriceAndDuration: (chosenMaster!.servicesPriceAndDuration == null) ? chosenMaster!.servicesPriceAndDurationMax![element.serviceId] : chosenMaster!.servicesPriceAndDuration![element.serviceId],
+                ),
+              )
+              .toList();
+
+      print('*******************************************************');
+      print(_services);
+      print('*******************************************************');
 
       appointmentModel = AppointmentModel(
         appointmentStartTime: _startTime,
@@ -1215,9 +1202,7 @@ class CreateAppointmentProvider with ChangeNotifier {
         createdBy: CreatedBy.customer,
         bookedForSelf: bookedForSelf,
         updates: [AppointmentUpdates.createdByCustomer],
-        status: chosenSalon!.requestSalon
-            ? AppointmentStatus.requested
-            : AppointmentStatus.active,
+        status: chosenSalon!.requestSalon ? AppointmentStatus.requested : AppointmentStatus.active,
         services: _services,
         customer: Customer(
           id: customerModel!.customerId,
@@ -1240,7 +1225,7 @@ class CreateAppointmentProvider with ChangeNotifier {
           id: chosenSalon!.salonId,
           name: chosenSalon!.salonName,
           address: chosenSalon!.address,
-          location: chosenSalon!.position!,
+          // location: chosenSalon!.position!,
           phoneNo: chosenSalon!.phoneNumber,
         ),
         bookedForName: bookedForSelf ? bookedForName : '',
@@ -1261,7 +1246,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 
   Future<bool> createAppointment2(
       {
-      //   required CustomerModel? customerModel,
+      //  required CustomerModel? customerModel,
       required BuildContext context}) async {
     if (chosenServices.isEmpty) {
       showToast(' no services');
@@ -1269,40 +1254,22 @@ class CreateAppointmentProvider with ChangeNotifier {
       printIt(chosenSlots);
 
       //  total price and duration
-      PriceAndDurationModel _totalPriceAndDuration =
-          chosenSalon!.ownerType == OwnerType.singleMaster
-              ? PriceAndDurationModel(
-                  duration: totalMinutes.toString(),
-                  price: totalPrice.toString(),
-                )
-              : mastersPriceDurationMapMax[chosenMaster!.masterId]!;
+      PriceAndDurationModel _totalPriceAndDuration = chosenSalon!.ownerType == OwnerType.singleMaster
+          ? PriceAndDurationModel(
+              duration: totalMinutes.toString(),
+              price: totalPrice.toString(),
+            )
+          : mastersPriceDurationMapMax[chosenMaster!.masterId]!;
 
-      var locale =
-          AppLocalizations.of(context)?.localeName.toString().toLowerCase();
+      var locale = AppLocalizations.of(context)?.localeName.toString().toLowerCase();
 
       printIt("Chosen Slots");
       printIt(chosenSlots);
-      DateTime _startTime = DateTime(
-          chosenDay.year,
-          chosenDay.month,
-          chosenDay.day,
-          int.parse(chosenSlots.first.split(':')[0]),
-          int.parse(chosenSlots.first.split(':')[1]));
+      DateTime _startTime = DateTime(chosenDay.year, chosenDay.month, chosenDay.day, int.parse(chosenSlots.first.split(':')[0]), int.parse(chosenSlots.first.split(':')[1]));
 
-      DateTime _endTime = _startTime
-          .add(Duration(minutes: int.parse(_totalPriceAndDuration.duration)));
+      DateTime _endTime = _startTime.add(Duration(minutes: int.parse(_totalPriceAndDuration.duration)));
 
-      final List<Service> _services =
-          chosenSalon!.ownerType == OwnerType.singleMaster
-              ? chosenServices
-                  .map((element) => Service.fromService(serviceModel: element))
-                  .toList()
-              : mastersServicesMap[chosenMaster!.masterId]!
-                  .map((element) => Service.fromService(
-                      serviceModel: element,
-                      masterPriceAndDuration: chosenMaster!
-                          .servicesPriceAndDuration![element.serviceId]))
-                  .toList();
+      final List<Service> _services = chosenSalon!.ownerType == OwnerType.singleMaster ? chosenServices.map((element) => Service.fromService(serviceModel: element)).toList() : mastersServicesMap[chosenMaster!.masterId]!.map((element) => Service.fromService(serviceModel: element, masterPriceAndDuration: chosenMaster!.servicesPriceAndDuration![element.serviceId])).toList();
 
       appointmentModel = AppointmentModel(
         appointmentStartTime: _startTime,
@@ -1316,15 +1283,13 @@ class CreateAppointmentProvider with ChangeNotifier {
         createdBy: CreatedBy.customer,
         bookedForSelf: bookedForSelf,
         updates: [AppointmentUpdates.createdByCustomer],
-        status: chosenSalon!.requestSalon
-            ? AppointmentStatus.requested
-            : AppointmentStatus.active,
+        status: chosenSalon!.requestSalon ? AppointmentStatus.requested : AppointmentStatus.active,
         services: _services,
         customer: Customer(
-          id: " customerModel!.customerId",
+          id: "customerModel!.customerId",
           name: "Utils().getName(customerModel.personalInfo)",
-          phoneNumber: "customerModel.personalInfo.phone",
-          pic: "customerModel.profilePic",
+          phoneNumber: " customerModel.personalInfo.phone",
+          pic: " customerModel.profilePic",
         ),
         priceAndDuration: _totalPriceAndDuration,
         paymentInfo: null,
@@ -1341,7 +1306,7 @@ class CreateAppointmentProvider with ChangeNotifier {
           id: chosenSalon!.salonId,
           name: chosenSalon!.salonName,
           address: chosenSalon!.address,
-          location: chosenSalon!.position!,
+          // location: chosenSalon!.position!??null,
           phoneNo: chosenSalon!.phoneNumber,
         ),
         bookedForName: bookedForSelf ? bookedForName : '',
@@ -1371,13 +1336,17 @@ class CreateAppointmentProvider with ChangeNotifier {
     required CustomerModel customerModel,
   }) async {
     loadingStatus = Status.loading;
+    if (customerModel.salonIdsBlocked!.contains(chosenSalon!.salonId)) {
+      showToast("You have been blocked from making appointments by this salon");
+      loadingStatus = Status.failed;
+      notifyListeners();
+      return false;
+    }
     if (appointmentModel != null) {
       PaymentInfo _paymentInfo = PaymentInfo(
         bonusApplied: chosenBonus != null,
         bonusAmount: chosenBonus?.amount ?? 0,
-        actualAmount:
-            double.parse(appointmentModel?.priceAndDuration.price ?? '0')
-                .toInt(),
+        actualAmount: double.parse(appointmentModel?.priceAndDuration.price ?? '0').toInt(),
         bonusIds: chosenBonus != null ? [chosenBonus!.bonusId] : [],
         paymentDone: false,
         onlinePayment: false,
@@ -1386,34 +1355,27 @@ class CreateAppointmentProvider with ChangeNotifier {
 
       ///passes discounted amount in priceAndDuration model
       if (chosenBonus != null) {
-        final discountedAmount =
-            (double.parse(appointmentModel?.priceAndDuration.price ?? '0')
-                    .toInt() -
-                chosenBonus!.amount);
+        final discountedAmount = (double.parse(appointmentModel?.priceAndDuration.price ?? '0').toInt() - chosenBonus!.amount);
         if (discountedAmount < 0) {
           appointmentModel?.priceAndDuration.price = '0';
         } else {
-          appointmentModel?.priceAndDuration.price =
-              discountedAmount.toString();
+          appointmentModel?.priceAndDuration.price = discountedAmount.toString();
         }
       }
 
       appointmentModel?.paymentInfo = _paymentInfo;
       AppointmentModel? finalAppointment;
       if (ownerType != OwnerType.singleMaster) {
-        finalAppointment = await createAppointmentInIntegration(
-            appointmentModel!, chosenMaster!);
+        finalAppointment = await createAppointmentInIntegration(appointmentModel!, chosenMaster!);
 
         if (finalAppointment != null) {
-          DocumentReference doc =
-              await Collection.appointments.add(finalAppointment.toJson());
+          DocumentReference doc = await Collection.appointments.add(finalAppointment.toJson());
 
           finalAppointment.appointmentId = doc.id;
           await blockTime();
 
           if (chosenBonus != null) {
-            await BonusReferralApi().invalidateBonus(
-                bonusModel: chosenBonus!, usedAppointmentId: doc.id);
+            await BonusReferralApi().invalidateBonus(bonusModel: chosenBonus!, usedAppointmentId: doc.id);
           }
 
           // AppointmentNotification().sendNotifications(
@@ -1422,8 +1384,7 @@ class CreateAppointmentProvider with ChangeNotifier {
           reset();
 
           Collection.customers.doc(customerModel.customerId).update({
-            'registeredSalons':
-                FieldValue.arrayUnion([appointmentModel!.salon.id])
+            'registeredSalons': FieldValue.arrayUnion([appointmentModel!.salon.id])
           });
           loadingStatus = Status.success;
           notifyListeners();
@@ -1437,15 +1398,13 @@ class CreateAppointmentProvider with ChangeNotifier {
           return false;
         }
       } else {
-        DocumentReference doc =
-            await Collection.appointments.add(appointmentModel!.toJson());
+        DocumentReference doc = await Collection.appointments.add(appointmentModel!.toJson());
 
         appointmentModel!.appointmentId = doc.id;
         await blockTime();
 
         if (chosenBonus != null) {
-          await BonusReferralApi().invalidateBonus(
-              bonusModel: chosenBonus!, usedAppointmentId: doc.id);
+          await BonusReferralApi().invalidateBonus(bonusModel: chosenBonus!, usedAppointmentId: doc.id);
         }
 
         // AppointmentNotification().sendNotifications(
@@ -1454,8 +1413,7 @@ class CreateAppointmentProvider with ChangeNotifier {
         reset();
 
         Collection.customers.doc(customerModel.customerId).update({
-          'registeredSalons':
-              FieldValue.arrayUnion([appointmentModel!.salon.id])
+          'registeredSalons': FieldValue.arrayUnion([appointmentModel!.salon.id])
         });
         loadingStatus = Status.success;
         notifyListeners();
@@ -1465,8 +1423,7 @@ class CreateAppointmentProvider with ChangeNotifier {
       loadingStatus = Status.failed;
       notifyListeners();
       printIt('error in making booking');
-      showToast(AppLocalizations.of(context)?.errorOccurred ??
-          'error! please try again');
+      showToast(AppLocalizations.of(context)?.errorOccurred ?? 'error! please try again');
       return false;
     }
   }

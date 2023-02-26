@@ -1,7 +1,8 @@
+// ignore_for_file: library_prefixes
+
 import 'dart:developer' as dev;
 import 'dart:io';
 import 'dart:math';
-// import 'dart:ui';
 import 'package:bbblient/src/models/customer/customer.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:country_codes/country_codes.dart';
@@ -14,7 +15,6 @@ import 'package:map_launcher/map_launcher.dart' as mapLauncher;
 import 'package:map_launcher/map_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vibration/vibration.dart';
-
 import '../models/country.dart';
 import '../models/salon_master/master.dart';
 import '../views/widgets/widgets.dart';
@@ -50,14 +50,7 @@ class Utils {
     }
   }
 
-  static final languages = <String>[
-    'English',
-    'Spanish',
-    'French',
-    'German',
-    'Italian',
-    'Russian'
-  ];
+  static final languages = <String>['English', 'Spanish', 'French', 'German', 'Italian', 'Russian'];
 
   static String getLanguageCode(String language) {
     switch (language) {
@@ -84,21 +77,18 @@ class Utils {
         showToast("Phone number is not available !");
       } else {
         final String url = "tel:$number";
-        if (await canLaunch(url)) {
-          await launch(url);
+        if (await canLaunchUrl(Uri.parse(url))) {
+          await canLaunchUrl(Uri.parse(url));
         } else {
           throw 'Could not launch $url';
         }
       }
     } catch (e) {
-      printIt(e);
+      printIt('Error on launchCaller(): ${e.toString()}');
     }
   }
 
-  launchMaps(
-      {required Coordinates coordinates,
-      required String label,
-      required BuildContext context}) async {
+  launchMaps({required Coordinates coordinates, required String label, required BuildContext context}) async {
     openMapsSheet(context) async {
       try {
         final availableMaps = await MapLauncher.installedMaps;
@@ -113,8 +103,7 @@ class Utils {
                       for (var map in availableMaps)
                         ListTile(
                           onTap: () => map.showMarker(
-                            coords: mapLauncher.Coords(
-                                coordinates.latitude, coordinates.longitude),
+                            coords: mapLauncher.Coords(coordinates.latitude, coordinates.longitude),
                             title: label,
                           ),
                           title: Text(map.mapName),
@@ -132,18 +121,15 @@ class Utils {
           },
         );
       } catch (e) {
-        printIt(e);
+        printIt('Error on launchMaps(): ${e.toString()}');
       }
     }
 
     try {
-      if (await mapLauncher.MapLauncher.isMapAvailable(
-              mapLauncher.MapType.google) ??
-          false) {
+      if (await mapLauncher.MapLauncher.isMapAvailable(mapLauncher.MapType.google) ?? false) {
         await mapLauncher.MapLauncher.showMarker(
           mapType: mapLauncher.MapType.google,
-          coords:
-              mapLauncher.Coords(coordinates.latitude, coordinates.longitude),
+          coords: mapLauncher.Coords(coordinates.latitude, coordinates.longitude),
           title: label,
           description: label,
         );
@@ -151,7 +137,7 @@ class Utils {
         openMapsSheet(context);
       }
     } catch (e) {
-      printIt(e);
+      printIt('Error on 2nd try catch launchMaps(): ${e.toString()}');
     }
   }
 
@@ -159,8 +145,8 @@ class Utils {
     if (url == null || url == '') {
       showToast("cant open!! long press to copy");
     } else {
-      if (await canLaunch(url)) {
-        await launch(url);
+      if (await canLaunchUrl(Uri.parse(url))) {
+        await canLaunchUrl(Uri.parse(url));
       } else {
         throw 'Could not launch $url';
       }
@@ -206,11 +192,7 @@ class Utils {
   }
 
   ///returns the plural and singular form of a string
-  String pluralString(
-      {required int number,
-      String? zeroString,
-      required String oneString,
-      required String otherString}) {
+  String pluralString({required int number, String? zeroString, required String oneString, required String otherString}) {
     try {
       // return Intl.plural(
       //   number,
@@ -220,7 +202,7 @@ class Utils {
       // );
       return '';
     } catch (e) {
-      printIt(e);
+      printIt('Error on pluralString(): ${e.toString()}');
       return '';
     }
   }
@@ -252,7 +234,7 @@ class Utils {
       try {
         return phone.split('-')[0].substring(1);
       } catch (e) {
-        printIt(e);
+        printIt('Error on getCountryCodeFromPhone(): ${e.toString()}');
       }
     }
     return null;
@@ -265,7 +247,7 @@ class Utils {
       try {
         return phone.split('-')[1];
       } catch (e) {
-        printIt(e);
+        printIt('Error on getPhoneNumber(): ${e.toString()}');
       }
     }
     return phone;
@@ -277,7 +259,7 @@ class Utils {
     try {
       return "+$countryCode-$phoneNumber";
     } catch (e) {
-      printIt(e);
+      printIt('Error on formatPhoneNumber(): ${e.toString()}');
       return null;
     }
   }
@@ -313,7 +295,7 @@ class Utils {
 
     if (Platform.isIOS) {
       IosDeviceInfo iosInfo = await DeviceInfoPlugin().iosInfo;
-      ;
+
       var systemName = iosInfo.systemName;
       var version = iosInfo.systemVersion;
       var name = iosInfo.name;

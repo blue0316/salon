@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_conditional_assignment
 
-import 'package:bbblient/main.dart';
 // import 'package:bbblient/src/firebase/master.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 // import 'package:bbblient/src/models/salon_master/master.dart';

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_collection_literals
+
 class BeautyProConfig {
   String beautyProDocId;
   String salonId;
@@ -35,20 +37,20 @@ class BeautyProConfig {
         locationId = json['locationId'],
         accessToken = json['accessToken'],
         refreshToken = json['refreshToken'],
-        createdAt = json['createdAt']?.toDate() ?? null,
-        ttl = json['ttl']?.toDate() ?? null,
+        createdAt = json['createdAt']?.toDate(),
+        ttl = json['ttl']?.toDate(),
         syncActive = json['syncActive'] ?? true;
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['salonId'] = this.salonId;
-    data['databaseCode'] = this.databaseCode;
-    data['locationId'] = this.locationId;
-    data['accessToken'] = this.accessToken;
-    data['refreshToken'] = this.refreshToken;
-    data['createdAt'] = this.createdAt;
-    data['ttl'] = this.ttl;
-    data['syncActive'] = this.syncActive ?? true;
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['salonId'] = salonId;
+    data['databaseCode'] = databaseCode;
+    data['locationId'] = locationId;
+    data['accessToken'] = accessToken;
+    data['refreshToken'] = refreshToken;
+    data['createdAt'] = createdAt;
+    data['ttl'] = ttl;
+    data['syncActive'] = syncActive ?? true;
 
     return data;
   }

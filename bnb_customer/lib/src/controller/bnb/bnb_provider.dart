@@ -54,8 +54,7 @@ class BnbProvider with ChangeNotifier {
   bool isConnectionStable = true;
   LocationModel currentLocation = LocationModel();
   Locale locale = const Locale('en');
-  AppInitialization appInitialization =
-      AppInitialization(serverDownReason: {}, serverDown: false);
+  AppInitialization appInitialization = AppInitialization(serverDownReason: {}, serverDown: false);
   get getLocale => locale;
   get getCurrenMaster => salonMaster;
   final AppData _appData = AppData();
@@ -76,8 +75,7 @@ class BnbProvider with ChangeNotifier {
     }
 
     printIt("Getting to this place ");
-    appInitialization = await _appData.getAppInitialization() ??
-        AppInitialization(serverDownReason: {}, serverDown: false);
+    appInitialization = await _appData.getAppInitialization() ?? AppInitialization(serverDownReason: {}, serverDown: false);
 
     generalBanners = await _appData.getBanners();
 
@@ -111,27 +109,23 @@ class BnbProvider with ChangeNotifier {
 
   Future getNotifications({required String customerId}) async {
     totalBonus = 0;
-    QuerySnapshot snapshot = await Collection.notifications
-        .where('targetId', isEqualTo: customerId)
-        .get();
+    QuerySnapshot snapshot = await Collection.notifications.where('targetId', isEqualTo: customerId).get();
     for (DocumentSnapshot snap in snapshot.docs) {
       try {
-        NotificationModel _notif =
-            NotificationModel.fromJson(snap.data() as Map<String, dynamic>);
+        NotificationModel _notif = NotificationModel.fromJson(snap.data() as Map<String, dynamic>);
         notifications.add(_notif);
       } catch (e) {
         printIt(e);
       }
     }
-    notifications.sort((a, b) => DateTime.parse(b.triggerTime.toString())
-        .compareTo(DateTime.parse(a.triggerTime.toString())));
+    notifications.sort((a, b) => DateTime.parse(b.triggerTime.toString()).compareTo(DateTime.parse(a.triggerTime.toString())));
     notifyListeners();
   }
 
   //
   retrieveSalonMasterModel(String id) async {
     salonMaster = await MastersApi().getMasterFromId(id);
-    print('salonMaster Id ' + salonMaster!.masterId.toString());
+    debugPrint('salonMaster Id ' + salonMaster!.masterId.toString());
     notifyListeners();
   }
 
@@ -139,8 +133,7 @@ class BnbProvider with ChangeNotifier {
     this.locale = locale;
     notifyListeners();
     if (customer == null) return;
-    await CustomerApi().updateLocale(
-        customerId: customer!.customerId, locale: locale.toLanguageTag());
+    await CustomerApi().updateLocale(customerId: customer!.customerId, locale: locale.toLanguageTag());
     notifyListeners();
   }
 
@@ -187,11 +180,9 @@ class BnbProvider with ChangeNotifier {
 
   Future getBonusSettings() async {
     try {
-      DocumentSnapshot snap =
-          await Collection.appData.doc('referralSettings').get();
+      DocumentSnapshot snap = await Collection.appData.doc('referralSettings').get();
       if (snap.exists) {
-        bonusSettings =
-            BonusSettings.fromJson(snap.data() as Map<String, dynamic>);
+        bonusSettings = BonusSettings.fromJson(snap.data() as Map<String, dynamic>);
         printIt(bonusSettings.toJson());
         notifyListeners();
       }

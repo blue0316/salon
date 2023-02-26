@@ -19,11 +19,7 @@ class OTPField extends ConsumerWidget {
         obscureText: false,
         cursorColor: Theme.of(context).primaryColor,
         animationType: AnimationType.fade,
-        textStyle: const TextStyle(
-            fontFamily: "Montserrat",
-            fontSize: 18,
-            fontWeight: FontWeight.w500,
-            color: AppTheme.black),
+        textStyle: const TextStyle(fontFamily: "Montserrat", fontSize: 18, fontWeight: FontWeight.w500, color: AppTheme.black),
         pinTheme: PinTheme(
           shape: PinCodeFieldShape.underline,
           borderRadius: BorderRadius.circular(AppTheme.borderRadius),
@@ -72,11 +68,7 @@ class OTPField2 extends ConsumerWidget {
         obscureText: false,
         cursorColor: Theme.of(context).primaryColor,
         animationType: AnimationType.fade,
-        textStyle: const TextStyle(
-            fontFamily: "Montserrat",
-            fontSize: 18,
-            fontWeight: FontWeight.w500,
-            color: AppTheme.black),
+        textStyle: const TextStyle(fontFamily: "Montserrat", fontSize: 18, fontWeight: FontWeight.w500, color: AppTheme.black),
         pinTheme: PinTheme(
           shape: PinCodeFieldShape.box,
           borderRadius: BorderRadius.circular(4),

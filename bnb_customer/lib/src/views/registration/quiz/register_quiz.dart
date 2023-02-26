@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
@@ -9,12 +8,10 @@ import '../../../theme/app_main_theme.dart';
 import 'finish.dart';
 import 'questions/choose_categories.dart';
 import 'questions/personal_info.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RegisterQuiz extends ConsumerStatefulWidget {
   const RegisterQuiz({Key? key}) : super(key: key);
-
 
   @override
   _RegisterQuizState createState() => _RegisterQuizState();
@@ -27,11 +24,7 @@ class _RegisterQuizState extends ConsumerState<RegisterQuiz> {
   }
 
   //list of all the quiz pages
-  final List<Widget> _pages = [
-    const SingleChildScrollView(child: ProfileDetalis()),
-    const SingleChildScrollView(child: ChooseCategories()),
-    const Finish()
-  ];
+  final List<Widget> _pages = [const SingleChildScrollView(child: ProfileDetalis()), const SingleChildScrollView(child: ChooseCategories()), const Finish()];
   //returns the title from current page
   String getTitle(int page) {
     switch (page) {
@@ -51,9 +44,9 @@ class _RegisterQuizState extends ConsumerState<RegisterQuiz> {
     final _quizProvider = ref.watch(quizProvider);
     return Scaffold(
         body: ConstrainedContainer(
-          child: SafeArea(
-              child: Stack(
-      children: [
+      child: SafeArea(
+          child: Stack(
+        children: [
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -99,8 +92,7 @@ class _RegisterQuizState extends ConsumerState<RegisterQuiz> {
                       physics: const NeverScrollableScrollPhysics(),
                       controller: _quizProvider.pageController,
                       onPageChanged: (val) {
-                        _quizProvider.changePage(
-                            context: context, i: val, animatePage: false);
+                        _quizProvider.changePage(context: context, i: val, animatePage: false);
                       },
                       children: _pages,
                     ),
@@ -113,8 +105,7 @@ class _RegisterQuizState extends ConsumerState<RegisterQuiz> {
                             _quizProvider.onNext(context: context);
                           },
                           child: Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12)),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                             color: AppTheme.creamBrown,
                             child: const SizedBox(
                               height: 51,
@@ -141,31 +132,23 @@ class _RegisterQuizState extends ConsumerState<RegisterQuiz> {
               child: (MediaQuery.of(context).viewInsets.bottom != 0)
                   ? const SizedBox()
                   : Padding(
-                      padding: const EdgeInsets.only(top: 12.0 ),
+                      padding: const EdgeInsets.only(top: 12.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           for (int i = 1; i <= _pages.length; i++)
                             GestureDetector(
                               onTap: () {
-                                _quizProvider.changePage(
-                                    i: i - 1,
-                                    context: context,
-                                    animatePage: true);
+                                _quizProvider.changePage(i: i - 1, context: context, animatePage: true);
                               },
                               child: AnimatedContainer(
                                 duration: const Duration(milliseconds: 200),
                                 height: 20,
                                 width: 20,
                                 child: Padding(
-                                  padding: EdgeInsets.all(
-                                      (i == _quizProvider.currentPage + 1)
-                                          ? 0
-                                          : 5.0),
+                                  padding: EdgeInsets.all((i == _quizProvider.currentPage + 1) ? 0 : 5.0),
                                   child: SvgPicture.asset(
-                                    i == _quizProvider.currentPage + 1
-                                        ? AppIcons.dotActiveSVG
-                                        : AppIcons.dotInactiveSVG,
+                                    i == _quizProvider.currentPage + 1 ? AppIcons.dotActiveSVG : AppIcons.dotInactiveSVG,
                                     color: AppTheme.creamBrownLight,
                                   ),
                                 ),
@@ -176,8 +159,8 @@ class _RegisterQuizState extends ConsumerState<RegisterQuiz> {
                     ),
             ),
           ),
-      ],
-    )),
-        ));
+        ],
+      )),
+    ));
   }
 }

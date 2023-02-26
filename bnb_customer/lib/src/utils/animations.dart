@@ -1,5 +1,4 @@
 import 'package:bbblient/src/utils/icons.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:load/load.dart';
 import 'package:show_up_animation/show_up_animation.dart';
@@ -73,15 +72,7 @@ class SlideInAnimationList extends StatelessWidget {
   final int animationDuration;
   final double offSet;
 
-  const SlideInAnimationList(
-      {required this.children,
-      this.offSet = 0.2,
-      this.crossAxisAlignment = CrossAxisAlignment.start,
-      this.direction = Direction.horizontal,
-      this.animationDuration = 1000,
-      this.delayStart = 100,
-      Key? key})
-      : super(key: key);
+  const SlideInAnimationList({required this.children, this.offSet = 0.2, this.crossAxisAlignment = CrossAxisAlignment.start, this.direction = Direction.horizontal, this.animationDuration = 1000, this.delayStart = 100, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

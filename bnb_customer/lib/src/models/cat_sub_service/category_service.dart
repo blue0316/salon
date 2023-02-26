@@ -1,7 +1,6 @@
-import 'package:bbblient/src/models/salon_master/master.dart';
-import 'package:bbblient/src/models/cat_sub_service/seat_type.dart';
-
 /// categoryName : "Eyebrows and eyelashes"
+
+// ignore_for_file: equal_elements_in_set
 
 class CategoryModel {
   final String categoryName;
@@ -15,9 +14,9 @@ class CategoryModel {
   });
 
   CategoryModel.fromJson(Map<String, dynamic> json)
-      : categoryName = json['categoryName']??'',
+      : categoryName = json['categoryName'] ?? '',
         categoryId = json['categoryId'],
-        translations = json['translations']??{'',''};
+        translations = json['translations'] ?? {'', ''};
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
@@ -36,9 +35,7 @@ class SubCategoryModel {
     required this.subCategoryId,
     required this.subCategoryName,
     required this.translations,
-
   });
-
 
   SubCategoryModel.fromJson(Map<String, dynamic> json)
       : subCategoryId = json['subCategoryId'],
@@ -51,5 +48,4 @@ class SubCategoryModel {
     data['translations'] = translations;
     return data;
   }
-
 }

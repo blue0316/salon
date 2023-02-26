@@ -28,6 +28,9 @@ class ServiceModel {
   // if true, [priceAndDuration] will be used
   // if false, [priceAndDuration] - [priceAndDurationMax] will be used
   late bool isFixedPrice;
+  late bool isPriceRange;
+  late bool isFixedDuration;
+  late bool isPriceStartAt;
   ServiceModel({
     required this.salonId,
     required this.serviceId,
@@ -40,6 +43,9 @@ class ServiceModel {
     required this.translations,
     this.priceAndDurationMax,
     this.isFixedPrice = true,
+    this.isFixedDuration = true,
+    this.isPriceRange = false,
+    this.isPriceStartAt = false,
     required this.subCatTranslations,
     required this.preferredGender,
     this.description,
@@ -83,6 +89,9 @@ class ServiceModel {
         ? json["description"] ?? ''
         : "";
     isFixedPrice = json["isFixedPrice"] ?? true;
+    isFixedDuration = json["isFixedDuration"] ?? true;
+    isPriceRange = json["isPriceRange"] ?? false;
+    isPriceStartAt = json["isPriceStartAt"] ?? false;
     isAvailableOnline = json["isAvailableOnline"] ?? false;
     priceAndDuration = json['priceAndDuration'] != null
         ? PriceAndDurationModel.fromJson(json['priceAndDuration'])

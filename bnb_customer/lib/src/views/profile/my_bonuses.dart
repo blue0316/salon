@@ -39,9 +39,8 @@ class _MyBonusesState extends ConsumerState<MyBonuses> {
   @override
   Widget build(BuildContext context) {
     final _bnbProvider = ref.watch(bnbProvider);
-    final CreateAppointmentProvider _createAppointment =
-        ref.watch(createAppointmentProvider);
-    print(_bnbProvider.bonuses);
+    final CreateAppointmentProvider _createAppointment = ref.watch(createAppointmentProvider);
+    debugPrint(_bnbProvider.bonuses.toString());
     final double padding = MediaQuery.of(context).size.height / 6;
     return Scaffold(
       appBar: AppBar(
@@ -60,21 +59,27 @@ class _MyBonusesState extends ConsumerState<MyBonuses> {
       body: _bnbProvider.bonuses.isEmpty
           ? Center(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [Space(height: padding,),
-                  SvgPicture.asset(
-                    AppIcons.bonusesSVG,height: 100,color: AppTheme.grey2,
-
-                  ),const Space(factor: 3,),
-                  Text(
-                      AppLocalizations.of(context)?.noBonusAvailable ?? "",
-                      style: const TextStyle(fontSize: 22)),
-                ],
-              ))
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Space(
+                  height: padding,
+                ),
+                SvgPicture.asset(
+                  AppIcons.bonusesSVG,
+                  height: 100,
+                  color: AppTheme.grey2,
+                ),
+                const Space(
+                  factor: 3,
+                ),
+                Text(AppLocalizations.of(context)?.noBonusAvailable ?? "", style: const TextStyle(fontSize: 22)),
+              ],
+            ))
           : Align(
-        alignment: Alignment.topCenter,
-            child: ConstrainedContainer(disableCenter: true,
-              child: SingleChildScrollView(
+              alignment: Alignment.topCenter,
+              child: ConstrainedContainer(
+                disableCenter: true,
+                child: SingleChildScrollView(
                   child: Column(
                     children: [
                       Padding(
@@ -83,26 +88,16 @@ class _MyBonusesState extends ConsumerState<MyBonuses> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              AppLocalizations.of(context)?.yourBonusAmount ??
-                                  "Your Total Coupons Amount:",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .copyWith(fontWeight: FontWeight.w400),
+                              AppLocalizations.of(context)?.yourBonusAmount ?? "Your Total Coupons Amount:",
+                              style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w400),
                             ),
                             Text(
                               " ${_bnbProvider.bonuses.length}",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .copyWith(fontWeight: FontWeight.w600),
+                              style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w600),
                             ),
                             Text(
-                              " (${_bnbProvider.totalBonus} ${Keys.uah})",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .copyWith(fontWeight: FontWeight.w400),
+                              " (${Keys.dollars}${_bnbProvider.totalBonus})",
+                              style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w400),
                             ),
                           ],
                         ),
@@ -116,8 +111,8 @@ class _MyBonusesState extends ConsumerState<MyBonuses> {
                             padding: const EdgeInsets.all(0),
                             itemBuilder: (context, index) {
                               final BonusModel bonus = _bnbProvider.bonuses[index];
-                              print(bonus.expiresAt);
-                              print(bonus.expired);
+                              debugPrint(bonus.expiresAt.toString());
+                              debugPrint(bonus.expired.toString());
                               if (bonus.validated == true && bonus.used == false) {
                                 return Stack(
                                   clipBehavior: Clip.none,
@@ -125,8 +120,7 @@ class _MyBonusesState extends ConsumerState<MyBonuses> {
                                     GestureDetector(
                                         onTap: () {
                                           if (widget.chooseMode) {
-                                            _createAppointment.chooseBonus(
-                                                bonusModel: bonus);
+                                            _createAppointment.chooseBonus(bonusModel: bonus);
                                             Navigator.pop(context);
                                           }
                                         },
@@ -136,9 +130,7 @@ class _MyBonusesState extends ConsumerState<MyBonuses> {
                                         top: 10,
                                         left: 10,
                                         child: BnbCheckCircle(
-                                          value: _createAppointment
-                                                  .chosenBonus?.bonusId ==
-                                              bonus.bonusId,
+                                          value: _createAppointment.chosenBonus?.bonusId == bonus.bonusId,
                                         ),
                                       ),
                                     ],
@@ -171,27 +163,12 @@ class _MyBonusesState extends ConsumerState<MyBonuses> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       RichText(
-                                        text: TextSpan(
-                                            text: "0 ",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .copyWith(
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 30.sp),
-                                            children: [
-                                              TextSpan(
-                                                text: Keys.uah,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText1!
-                                                    .copyWith(
-                                                        color: Colors.white,
-                                                        fontWeight: FontWeight.w600,
-                                                        fontSize: 12.sp),
-                                              )
-                                            ]),
+                                        text: TextSpan(text: "0 ", style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 30.sp), children: [
+                                          TextSpan(
+                                            text: Keys.dollars,
+                                            style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 12.sp),
+                                          )
+                                        ]),
                                       ),
                                     ],
                                   )),
@@ -204,8 +181,7 @@ class _MyBonusesState extends ConsumerState<MyBonuses> {
                         title: Padding(
                           padding: const EdgeInsets.only(left: 40.0),
                           child: Text(
-                            AppLocalizations.of(context)?.couponsUsageRules ??
-                                "Coupons usage rules",
+                            AppLocalizations.of(context)?.couponsUsageRules ?? "Coupons usage rules",
                             style: TextStyle(
                               fontFamily: "Montserrat",
                               fontSize: 16.sp,
@@ -224,39 +200,28 @@ class _MyBonusesState extends ConsumerState<MyBonuses> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    AppLocalizations.of(context)?.bonusRuleFirst ??
-                                        "",
+                                    AppLocalizations.of(context)?.bonusRuleFirst ?? "",
                                     maxLines: 3,
                                     overflow: TextOverflow.ellipsis,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1!
-                                        .copyWith(fontWeight: FontWeight.w400),
+                                    style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w400),
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    "${AppLocalizations.of(context)?.bonusRuleSecond ?? ""} 300 ${Keys.uah}",
+                                    "${AppLocalizations.of(context)?.bonusRuleSecond ?? ""} ${Keys.dollars}300",
                                     maxLines: 3,
                                     overflow: TextOverflow.ellipsis,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1!
-                                        .copyWith(fontWeight: FontWeight.w400),
+                                    style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w400),
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    AppLocalizations.of(context)?.bonusRuleThird ??
-                                        "",
+                                    AppLocalizations.of(context)?.bonusRuleThird ?? "",
                                     maxLines: 3,
                                     overflow: TextOverflow.ellipsis,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1!
-                                        .copyWith(fontWeight: FontWeight.w400),
+                                    style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w400),
                                   ),
                                 ),
                               ],
@@ -291,8 +256,8 @@ class _MyBonusesState extends ConsumerState<MyBonuses> {
                     ],
                   ),
                 ),
+              ),
             ),
-          ),
     );
   }
 }
@@ -322,24 +287,12 @@ class BonusCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 RichText(
-                  text: TextSpan(
-                      text: "${bonus.amount}",
-                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 30.sp),
-                      children: [
-                        TextSpan(
-                          text: Keys.uah,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText1!
-                              .copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 12.sp),
-                        )
-                      ]),
+                  text: TextSpan(text: "${bonus.amount}", style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 30.sp), children: [
+                    TextSpan(
+                      text: Keys.dollars,
+                      style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 12.sp),
+                    )
+                  ]),
                 ),
               ],
             ),
@@ -355,28 +308,14 @@ class BonusCard extends StatelessWidget {
                   children: [
                     if (bonus.bonusType == BonusTypes.referralBonus) ...[
                       Text(
-                        AppLocalizations.of(context)?.bonus ??
-                            "Referral bonus",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText1!
-                            .copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16.sp),
+                        AppLocalizations.of(context)?.bonus ?? "Referral bonus",
+                        style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 16.sp),
                       ),
                     ],
                     if (bonus.bonusType == BonusTypes.installBonus) ...[
                       Text(
-                        AppLocalizations.of(context)?.welcomeBonus ??
-                            "Welcome bonus",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText1!
-                            .copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16.sp),
+                        AppLocalizations.of(context)?.welcomeBonus ?? "Welcome bonus",
+                        style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 16.sp),
                       ),
                     ],
                     SizedBox(
@@ -384,10 +323,7 @@ class BonusCard extends StatelessWidget {
                     ),
                     Text(
                       "${AppLocalizations.of(context)?.validUntil}: ${Time().getDateInStandardFormat(bonus.expiresAt)}",
-                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 13.sp),
+                      style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 13.sp),
                     ),
                   ],
                 ),
