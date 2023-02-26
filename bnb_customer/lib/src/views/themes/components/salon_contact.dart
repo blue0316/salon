@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
@@ -12,6 +14,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+// import 'package:google_maps/google_maps.dart';
+import 'dart:ui' as ui;
+
+import 'package:google_maps/google_maps.dart' as maps;
+
+// import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class SalonContact extends ConsumerStatefulWidget {
   final SalonModel salonModel;
@@ -62,6 +70,7 @@ class _SalonContactState extends ConsumerState<SalonContact> with SingleTickerPr
                           context,
                         )?.ourContacts ??
                         'Our Contacts')
+
                     .toUpperCase(),
             style: theme.textTheme.headline2,
           ),
@@ -91,11 +100,14 @@ class _SalonContactState extends ConsumerState<SalonContact> with SingleTickerPr
                         ),
                         const SizedBox(width: 30),
                         // Spacer(),
+                        
                         Expanded(
                           flex: 1,
                           child: SizedBox(
                             height: 400.h,
-                            child: Image.asset(ThemeImages.map, fit: BoxFit.cover),
+                            child: GoogleMaps(
+                              salonModel: widget.salonModel,
+                            ),
                           ),
                         ),
                       ],
@@ -104,9 +116,12 @@ class _SalonContactState extends ConsumerState<SalonContact> with SingleTickerPr
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Expanded(
+                         Expanded(
                           flex: 1,
-                          child: Image.asset(ThemeImages.map, fit: BoxFit.cover),
+                          child: GoogleMaps(
+                            salonModel: widget.salonModel,
+                          )
+                          // Image.asset(ThemeImages.map, fit: BoxFit.cover),
                         ),
                         const SizedBox(height: 30),
                         ContactSection(salonModel: widget.salonModel),
@@ -121,6 +136,52 @@ class _SalonContactState extends ConsumerState<SalonContact> with SingleTickerPr
         ],
       ),
     );
+  }
+}
+
+class GoogleMaps extends ConsumerStatefulWidget {
+  final SalonModel? salonModel;
+  const GoogleMaps({Key? key,required this.salonModel}) : super(key: key);
+
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _GoogleMapsState();
+}
+
+class _GoogleMapsState extends ConsumerState<GoogleMaps> {
+  String htmlId = "7";
+
+  // ignore: undefined_prefixed_name
+
+  @override
+  Widget build(BuildContext context) {
+    ui.platformViewRegistry.registerViewFactory(htmlId, (int viewId) {
+    final myLatlng = maps.LatLng(
+      widget.salonModel!.position!.geoPoint!.latitude ??
+      1.3521,  103.8198);
+
+    final mapOptions = maps.MapOptions()
+      ..zoom = 10
+      ..maxZoom = 19
+      ..center = maps.LatLng(1.3521, 103.8198);
+
+    final elem = DivElement()
+      ..id = htmlId
+      ..style.width = "100%"
+      ..style.height = "100%"
+      ..style.border = 'none';
+
+    final map = maps.GMap(elem, mapOptions);
+
+    maps.Marker(maps.MarkerOptions()
+      ..position = myLatlng
+      ..map = map
+      // ..title = 'Hello World!'
+      );
+
+    return elem;
+  });
+
+    return  HtmlElementView(viewType: htmlId);;
   }
 }
 
