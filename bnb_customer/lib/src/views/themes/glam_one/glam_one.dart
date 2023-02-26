@@ -42,6 +42,7 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
 
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final SalonModel chosenSalon = _salonProfileProvider.chosenSalon;
+    final ThemeData theme = _salonProfileProvider.salonTheme;
 
     return SafeArea(
       top: false,
@@ -68,32 +69,20 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                             alignment: Alignment.topCenter,
                             children: [
                               // TOP BACKGROUND IMAGE
-                              const ThemeHeaderImage(),
+                              SizedBox(
+                                height: DeviceConstraints.getResponsiveSize(context, 1000.h, 1000.h, 1000.h),
+                                width: double.infinity,
+                                child: const ThemeHeaderImage(),
+                              ),
                               SizedBox(
                                 child: Align(
                                   alignment: Alignment.topCenter,
                                   child: Padding(
-                                    padding: EdgeInsets.only(left: 25.w, right: 25.w, top: 40.h),
+                                    padding: EdgeInsets.only(left: 25.w, right: 25.w, top: 25.h),
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        // InkWell(
-                                        //   child: Container(
-                                        //     height: 100,
-                                        //     width: 600,
-                                        //     color: Colors.green,
-                                        //   ),
-                                        //   onTap: () {
-                                        //     print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-
-                                        //     // print(_salonSearchProvider.categories);
-                                        //     print(_createAppointmentProvider.categoryServicesMap);
-                                        //     print(_createAppointmentProvider.servicesAvailable);
-
-                                        //     print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-                                        //   },
-                                        // ),
                                         ThemeAppBar(salonModel: chosenSalon),
                                         SizedBox(height: 70.h),
                                         ThemeHeader(salonModel: chosenSalon),
@@ -126,16 +115,16 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                         SalonReviews(salonModel: chosenSalon),
                         WriteToUs(salonModel: chosenSalon),
                         SalonContact(salonModel: chosenSalon),
-                        // SalonSocials(
-                        //   salonModel: chosenSalon,
-                        // ),
+                        // // SalonSocials(
+                        // //   salonModel: chosenSalon,
+                        // // ),
                         Column(
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(top: 19, bottom: 19),
                               child: Text(
                                 "Design by GlamIris",
-                                style: GlamOneTheme.bodyText1.copyWith(fontSize: 18.sp),
+                                style: theme.textTheme.bodyText1!.copyWith(fontSize: 20.sp),
                               ),
                             ),
                           ],

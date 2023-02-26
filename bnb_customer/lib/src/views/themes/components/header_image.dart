@@ -11,23 +11,20 @@ class ThemeHeaderImage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
 
-    return SizedBox(
-      width: double.infinity,
-      child: _salonProfileProvider.chosenSalon.profilePics.isNotEmpty
-          ? ColorFiltered(
-              colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.dstATop),
-              child: CachedImage(
-                url: _salonProfileProvider.chosenSalon.profilePics[0],
-                fit: BoxFit.cover,
-              ),
-            )
-          : ColorFiltered(
-              colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.dstATop),
-              child: Image.asset(
-                ThemeImages.longBG,
-                fit: BoxFit.cover,
-              ),
+    return _salonProfileProvider.chosenSalon.profilePics.isNotEmpty
+        ? ColorFiltered(
+            colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.dstATop),
+            child: CachedImage(
+              url: _salonProfileProvider.chosenSalon.profilePics[0],
+              fit: BoxFit.cover,
             ),
-    );
+          )
+        : ColorFiltered(
+            colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.dstATop),
+            child: Image.asset(
+              ThemeImages.longBG,
+              fit: BoxFit.cover,
+            ),
+          );
   }
 }

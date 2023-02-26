@@ -7,7 +7,6 @@ import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/utils/utils.dart';
-import 'package:bbblient/src/views/themes/images.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +58,7 @@ class SalonTeam extends ConsumerWidget {
               Space(factor: DeviceConstraints.getResponsiveSize(context, 0.8, 1.3, 1.5)),
               Center(
                 child: Container(
-                  height: 185.h,
+                  height: DeviceConstraints.getResponsiveSize(context, 230.h, 230.h, 185.h),
                   alignment: Alignment.center,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
@@ -97,22 +96,10 @@ class SalonTeam extends ConsumerWidget {
                       }
 
                       if (_filteredMasters.isNotEmpty) {
-                        return InkWell(
-                          onTap: () {
-                            // print('####');
-                            // print(_salonSearchProvider.categories);
-                            // print(_filteredMasters[index].categoryIds);
-                            print('####');
-                            print(masterCategories);
-                            print(masterCategories[0].categoryId);
-                            print(masterCategories[1].categoryId);
-                            print('####');
-                          },
-                          child: TeamMember(
-                            name: Utils().getNameMaster(_filteredMasters[index].personalInfo),
-                            services: masterCategories, // masterService, // "Hairdresser",
-                            image: _filteredMasters[index].profilePicUrl,
-                          ),
+                        return TeamMember(
+                          name: Utils().getNameMaster(_filteredMasters[index].personalInfo),
+                          services: masterCategories, // masterService, // "Hairdresser",
+                          image: _filteredMasters[index].profilePicUrl,
                         );
                       } else {
                         return const SizedBox();

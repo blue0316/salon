@@ -20,7 +20,10 @@ class ThemeAppBar extends StatelessWidget {
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+      padding: EdgeInsets.symmetric(
+        horizontal: DeviceConstraints.getResponsiveSize(context, 3.w, 10.w, 15.w),
+        // vertical: DeviceConstraints.getResponsiveSize(context, 5.h, 7.h, 10.h),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -57,8 +60,7 @@ class ThemeAppBar extends StatelessWidget {
               if (!isPortrait) const Spacer(),
               (salonModel.salonLogo != '')
                   ? SizedBox(
-                      // color: Colors.red ,
-                      height: DeviceConstraints.getResponsiveSize(context, 70.h, 70.h, 70.h),
+                      height: DeviceConstraints.getResponsiveSize(context, 50.h, 50.h, 70.h),
                       width: DeviceConstraints.getResponsiveSize(context, 100.w, 100.w, 100.w),
                       child: CachedImage(
                         url: salonModel.salonLogo,
