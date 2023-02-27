@@ -176,12 +176,15 @@ class SalonProfileProvider with ChangeNotifier {
         );
 
         if (found != null) {
-          String translation = found.translations![AppLocalizations.of(context)?.localeName ?? 'en'];
+          String? translation = found.translations![AppLocalizations.of(context)?.localeName];
 
-          if (tabs.containsKey(translation)) {
-            tabs[translation] = [...tabs[translation]!, product];
-          } else {
-            tabs[translation] = [product];
+          if (translation != null) {
+            // Doing this because if loaleName (e.g 'en') doesn't exist in translations map, it throws null
+            if (tabs.containsKey(translation)) {
+              tabs[translation] = [...tabs[translation]!, product];
+            } else {
+              tabs[translation] = [product];
+            }
           }
         }
       }
