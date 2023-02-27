@@ -1446,6 +1446,11 @@ class CreateAppointmentProvider with ChangeNotifier {
     }
   }
 
+  clearChosenMaster() {
+    chosenMaster = null;
+    notifyListeners();
+  }
+
   reset() {
     loadingStatus = Status.loading;
     chosenSalon = null;

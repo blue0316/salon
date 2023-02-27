@@ -277,22 +277,25 @@ class ServiceCard extends ConsumerWidget {
                                 shrinkWrap: true,
                                 scrollDirection: Axis.horizontal,
                                 children: [
-                                  Container(
-                                    height: 45.h,
-                                    decoration: BoxDecoration(
-                                      color: Colors.transparent,
-                                      borderRadius: BorderRadius.circular(70),
-                                      border: Border.all(color: Colors.white, width: 1.6),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 25),
-                                      child: Center(
-                                        child: Text(
-                                          'Anyone',
-                                          style: theme.textTheme.bodyText1!.copyWith(
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
+                                  GestureDetector(
+                                    onTap: () => _createAppointmentProvider.clearChosenMaster(),
+                                    child: Container(
+                                      height: 45.h,
+                                      decoration: BoxDecoration(
+                                        color: (_createAppointmentProvider.chosenMaster == null) ? theme.primaryColor : Colors.transparent,
+                                        borderRadius: BorderRadius.circular(70),
+                                        border: (_createAppointmentProvider.chosenMaster == null) ? null : Border.all(color: Colors.white, width: 1.6),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 25),
+                                        child: Center(
+                                          child: Text(
+                                            'Anyone',
+                                            style: theme.textTheme.bodyText1!.copyWith(
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white,
+                                            ),
                                           ),
                                         ),
                                       ),
