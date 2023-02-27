@@ -177,11 +177,11 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                     ? InkWell(
                         key: const ValueKey("tap-service"),
                         onTap: () {
-                          createAppointment.toggleService(
-                            serviceModel: service,
-                            clearChosenMaster: false,
-                            context: context,
-                          );
+                          // createAppointment.toggleService(
+                          //   serviceModel: service,
+                          //   clearChosenMaster: false,
+                          //   context: context,
+                          // );
                         },
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width,
@@ -271,32 +271,32 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                                       ),
                                                     ),
                                                     const SizedBox(width: 10),
-                                                    service.isFixedDuration != null ?
-                                                    service.isFixedDuration
-                                                        ? Text(
+                                                    service.isFixedDuration != null
+                                                        ? service.isFixedDuration
+                                                            ? Text(
+                                                                "${service.priceAndDuration.duration} minutes",
+                                                                style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                                                      fontSize: 15.sp,
+                                                                    ),
+                                                                overflow: TextOverflow.ellipsis,
+                                                                maxLines: 1,
+                                                              )
+                                                            : Text(
+                                                                "${service.priceAndDuration.duration} minutes - ${service.priceAndDurationMax!.duration} minutes",
+                                                                style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                                                      fontSize: 16.sp,
+                                                                    ),
+                                                                overflow: TextOverflow.ellipsis,
+                                                                maxLines: 1,
+                                                              )
+                                                        : Text(
                                                             "${service.priceAndDuration.duration} minutes",
                                                             style: Theme.of(context).textTheme.bodyText1!.copyWith(
                                                                   fontSize: 15.sp,
                                                                 ),
                                                             overflow: TextOverflow.ellipsis,
                                                             maxLines: 1,
-                                                          )
-                                                        : Text(
-                                                            "${service.priceAndDuration.duration} minutes - ${service.priceAndDurationMax!.duration} minutes",
-                                                            style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                                                  fontSize: 16.sp,
-                                                                ),
-                                                            overflow: TextOverflow.ellipsis,
-                                                            maxLines: 1,
-                                                          )
-                                                        : Text(
-                                                      "${service.priceAndDuration.duration} minutes",
-                                                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                                        fontSize: 15.sp,
-                                                      ),
-                                                      overflow: TextOverflow.ellipsis,
-                                                      maxLines: 1,
-                                                    ),
+                                                          ),
                                                   ],
                                                 ),
                                               ],
@@ -316,9 +316,9 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                                 Text(
                                                   service.isFixedPrice
                                                       ? "${Keys.dollars}${service.priceAndDuration.price}"
-                                                      :service.isPriceStartAt ?
-                                                  "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}∞"
-                                                      : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}",
+                                                      : service.isPriceStartAt
+                                                          ? "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}∞"
+                                                          : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}",
                                                   style: Theme.of(context).textTheme.bodyText1!.copyWith(
                                                         fontWeight: FontWeight.w400,
                                                         fontSize: 12.5.sp,
@@ -332,14 +332,11 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                               Text(
                                                 // TODO: NOTE - Service PRICE
 
-                                                
-
-                                            service.isFixedPrice
+                                                service.isFixedPrice
                                                     ? "${Keys.dollars}${service.priceAndDuration.price}"
-                                                    :service.isPriceStartAt ?
-                                                    "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}∞"
-
-                                                    : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}",
+                                                    : service.isPriceStartAt
+                                                        ? "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}∞"
+                                                        : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}",
 
                                                 style: Theme.of(context).textTheme.bodyText1!.copyWith(
                                                       fontWeight: FontWeight.w600,
