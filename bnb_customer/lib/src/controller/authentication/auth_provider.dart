@@ -197,6 +197,7 @@ class AuthProvider with ChangeNotifier {
       try {
         if (kIsWeb) {
           webOTPConfirmationResult = await _auth.signInWithPhoneNumber(_phone.trim());
+
           final customerExists = await CustomerApi().checkIfCustomerExists(_phone.trim());
           if (!customerExists) {
             isNewUser = true;
@@ -263,13 +264,6 @@ class AuthProvider with ChangeNotifier {
     required String countryCode,
   }) async {
     String _phone = "$countryCode$phoneNumber";
-    print(_phone);
-    // debugPrint('#####################################');
-
-    // debugPrint(countryCode);
-    // debugPrint(phoneNumber);
-    // debugPrint(_phone);
-    // debugPrint('#####################################');
 
     if (phoneNumber.length < 8 || phoneNumber.length > 10) {
       showToast(AppLocalizations.of(context)?.invalid_phone_number ?? 'Invalid phone No');
@@ -314,7 +308,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future<void> checkOtp(String confirmOtp) async {
+  Future<bool> checkOtp(String confirmOtp) async {
     print('**************************************');
     print(confirmOtp);
     print('**************************************');
@@ -338,11 +332,14 @@ class AuthProvider with ChangeNotifier {
         printIt("New Login Status");
         printIt(loginStatus);
         notifyListeners();
+
+        return true;
       } else {
         loginStatus = Status.failed;
         printIt(" Login Status failed");
         printIt(loginStatus);
         notifyListeners();
+        return false;
        // showToast(AppLocalizations.of(context)?.errorOccurred ?? 'error occurred');
       }
     } on FirebaseAuthException catch (e) {
@@ -350,12 +347,15 @@ class AuthProvider with ChangeNotifier {
       notifyListeners();
       printIt("$e");
       String? error = ErrorCodes.getFirebaseErrorMessage(e);
+      showToast(error);
+      return false;
     } catch (err) {
       loginStatus = Status.failed;
       notifyListeners();
       // handleError(e, context);
       printIt('Caught exception ');
       printIt(err);
+      return false;
     }
   }
 

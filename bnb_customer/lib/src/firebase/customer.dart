@@ -56,6 +56,10 @@ class CustomerApi {
       final getData = await snap.get();
       if (getData.docs.isEmpty) {
         printIt('customer is emptyyyy');
+        // DocumentReference doc = await Collection.customers.add(customerModel.toJson());
+        // await Collection.customersAdmins.doc(_firebaseAuth.currentUser?.uid).set({
+        //   'customerIds': [doc.id]
+        // });
         return false;
       } else {
         debugPrint('geData${getData.docs}');

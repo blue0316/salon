@@ -110,9 +110,12 @@ class _VerificationState extends ConsumerState<Verification> {
         DefaultButton(
           borderRadius: 60,
           onTap: () async{
-            await _auth.checkOtp(_createAppointmentProvider.otp);
+           bool checkOtp =  await _auth.checkOtp(_createAppointmentProvider.otp, );
+            if(checkOtp){
+              _createAppointmentProvider.nextPageView(2);
+            }
 
-            _createAppointmentProvider.nextPageView(2);
+
           },
           color: defaultTheme ? Colors.black : theme.primaryColor,
           textColor: defaultTheme ? Colors.white : Colors.black,
