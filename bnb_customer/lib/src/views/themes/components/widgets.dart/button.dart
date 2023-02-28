@@ -34,7 +34,7 @@ class SquareButton extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-          width: width ?? 220.h,
+          // width: width ?? 220.h,
           height: height ?? 50.h,
           decoration: BoxDecoration(
             color: buttonColor ?? Colors.white,

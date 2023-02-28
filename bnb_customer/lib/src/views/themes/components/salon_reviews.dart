@@ -127,7 +127,7 @@ class _SalonReviewsState extends ConsumerState<SalonReviews> {
           const SizedBox(height: 40),
           (_salonProfileProvider.salonReviews.isNotEmpty)
               ? SizedBox(
-                  height: DeviceConstraints.getResponsiveSize(context, 250.h, 250.h, 220.h),
+                  height: DeviceConstraints.getResponsiveSize(context, 250.h, 250.h, 250.h),
                   child:
                       // (!isPortrait)
                       //     ? Row(
@@ -209,7 +209,7 @@ class ReviewCard extends ConsumerWidget {
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     return SizedBox(
-      height: DeviceConstraints.getResponsiveSize(context, 400.h, 400.h, 350.h),
+      // height: DeviceConstraints.getResponsiveSize(context, 400.h, 400.h, 400.h),
       width: DeviceConstraints.getResponsiveSize(context, 260.w, 260.w, 110.w),
       child: Stack(
         alignment: Alignment.topCenter,
@@ -223,9 +223,9 @@ class ReviewCard extends ConsumerWidget {
                 border: Border.all(color: theme.primaryColor, width: 2),
               ),
               child: Padding(
-                padding: const EdgeInsets.only(top: 30),
+                padding: const EdgeInsets.only(top: 20),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Expanded(
                       flex: 0,
@@ -302,8 +302,8 @@ class ReviewCard extends ConsumerWidget {
             ),
           ),
           Container(
-            height: DeviceConstraints.getResponsiveSize(context, 80.h, 80.h, 60.h),
-            width: DeviceConstraints.getResponsiveSize(context, 80.h, 80.h, 60.h),
+            height: DeviceConstraints.getResponsiveSize(context, 80.h, 65.h, 70.h),
+            width: DeviceConstraints.getResponsiveSize(context, 80.h, 65.h, 70.h),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(color: theme.primaryColor, width: 2),

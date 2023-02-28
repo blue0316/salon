@@ -65,7 +65,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
           SizedBox(
             // flex: 1,
 
-            height: DeviceConstraints.getResponsiveSize(context, 220.h, 220.h, 220.h),
+            height: DeviceConstraints.getResponsiveSize(context, 225.h, 220.h, 220.h),
             child: ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
@@ -75,12 +75,12 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                 List<MasterModel> masters = _createAppointmentProvider.availableMasters;
 
                 return Padding(
-                  padding: const EdgeInsets.only(right: 10),
+                  padding: const EdgeInsets.only(right: 15),
                   child: SizedBox(
                     width: DeviceConstraints.getResponsiveSize(
                       context,
                       MediaQuery.of(context).size.width / 1.2,
-                      MediaQuery.of(context).size.width / 4,
+                      MediaQuery.of(context).size.width / 1.7,
                       MediaQuery.of(context).size.width / 3.5,
                     ),
                     child: ServiceCard(
@@ -99,7 +99,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
             ),
           ),
           SizedBox(height: DeviceConstraints.getResponsiveSize(context, 15.h, 20.h, 20.h)),
-          const Divider(color: Color(0XFF474747), thickness: 2),
+          const Divider(color: AppTheme.grey, thickness: 1.4),
           SizedBox(height: DeviceConstraints.getResponsiveSize(context, 20.h, 20.h, 20.h)),
           Text(
             // AppLocalizations.of(context)?.availableMasters.toCapitalized() ?? 'Available masters',
@@ -361,17 +361,33 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: EdgeInsets.only(bottom: 30.h),
-              child: DefaultButton(
-                borderRadius: 60,
-                onTap: () {
-                  // Next Page
-                  widget.tabController.animateTo(2);
-                },
-                color: defaultTheme ? Colors.black : theme.primaryColor,
-                textColor: defaultTheme ? Colors.white : Colors.black,
-                height: 60,
-                label: 'Next Step', // TODO - LOCALIZATIONS
+              padding: EdgeInsets.only(bottom: 10.h),
+              child: Column(
+                children: [
+                  DefaultButton(
+                    borderRadius: 60,
+                    onTap: () {
+                      // Next Page
+                      widget.tabController.animateTo(2);
+                    },
+                    color: defaultTheme ? Colors.black : theme.primaryColor,
+                    textColor: defaultTheme ? Colors.white : Colors.black,
+                    height: 60,
+                    label: AppLocalizations.of(context)?.next ?? "Next",
+                  ),
+                  const SizedBox(height: 10),
+                  DefaultButton(
+                    borderRadius: 60,
+                    onTap: () {
+                      // Next Page
+                      widget.tabController.animateTo(0);
+                    },
+                    color: defaultTheme ? Colors.black : theme.primaryColor,
+                    textColor: defaultTheme ? Colors.white : Colors.black,
+                    height: 60,
+                    label: AppLocalizations.of(context)?.back ?? "Back",
+                  ),
+                ],
               ),
             ),
           ),

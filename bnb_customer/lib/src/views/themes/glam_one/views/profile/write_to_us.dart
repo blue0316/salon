@@ -28,6 +28,7 @@ class _WriteToUsState extends ConsumerState<WriteToUs> {
   @override
   Widget build(BuildContext context) {
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+    final bool isLandScape = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.landScape);
 
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
@@ -40,7 +41,7 @@ class _WriteToUsState extends ConsumerState<WriteToUs> {
         color: theme.cardColor,
         child: Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
+            horizontal: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
             vertical: 100,
           ),
           child: Column(
@@ -62,10 +63,10 @@ class _WriteToUsState extends ConsumerState<WriteToUs> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  if (!isPortrait)
+                  if (!isPortrait && !isLandScape)
                     SizedBox(
                       height: 400.h,
-                      width: 80.w,
+                      width: DeviceConstraints.getResponsiveSize(context, 0, 100.w, 80.w),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: (widget.salonModel.photosOfWork.isNotEmpty && widget.salonModel.photosOfWork[0] != '')
@@ -79,148 +80,153 @@ class _WriteToUsState extends ConsumerState<WriteToUs> {
                               ),
                       ),
                     ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Column(
+                  Flexible(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: (!isPortrait && !isLandScape) ? 20.w : 10),
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: AppLocalizations.of(context)?.name ?? "Name".toUpperCase(), // "Name",
-                                  style: theme.textTheme.subtitle2?.copyWith(fontSize: 15.sp),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: (AppLocalizations.of(context)?.name ?? "Name").toCapitalized(), // "Name",
+                                      style: theme.textTheme.subtitle2?.copyWith(fontSize: 15.sp),
+                                    ),
+                                    TextSpan(
+                                      text: " *",
+                                      style: theme.textTheme.bodyText2?.copyWith(
+                                        color: theme.primaryColor,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                TextSpan(
-                                  text: " *",
-                                  style: theme.textTheme.bodyText2?.copyWith(
-                                    color: theme.primaryColor,
-                                    fontWeight: FontWeight.w800,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            textAlign: TextAlign.left,
-                          ),
-                          CustomTextFormField(
-                            width: (isPortrait) ? 350.w : 100.w,
-                            focusNode: FocusNode(),
-                            controller: _salonProfileProvider.nameController,
-                            hintText: AppLocalizations.of(context)?.name ?? "Name".toUpperCase(), // "Name",
-                            margin: const EdgeInsets.only(top: 10),
-                            contentPadding: 20,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 15),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: AppLocalizations.of(context)?.phone ?? "Phone".toUpperCase(), // "Phone",
-                                  style: theme.textTheme.subtitle2?.copyWith(fontSize: 15.sp),
-                                ),
-                                TextSpan(
-                                  text: " *",
-                                  style: GlamOneTheme.bodyText2.copyWith(
-                                    color: theme.primaryColor,
-                                    fontWeight: FontWeight.w800,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            textAlign: TextAlign.left,
-                          ),
-                          CustomTextFormField(
-                            width: (isPortrait) ? 350.w : 100.w,
-                            focusNode: FocusNode(),
-                            controller: _salonProfileProvider.phoneController,
-                            hintText: AppLocalizations.of(context)?.phone ?? "Phone".toUpperCase(), // "Phone",
-                            contentPadding: 20,
-                            margin: const EdgeInsets.only(top: 10),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 15),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: AppLocalizations.of(context)?.email ?? "Request".toUpperCase(), // "Email",
-                                  style: theme.textTheme.subtitle2?.copyWith(fontSize: 15.sp),
-                                ),
-                                TextSpan(
-                                  text: " *",
-                                  style: theme.textTheme.bodyText2?.copyWith(
-                                    color: theme.primaryColor,
-                                    fontWeight: FontWeight.w800,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            textAlign: TextAlign.left,
-                          ),
-                          CustomTextFormField(
-                            width: (isPortrait) ? 350.w : 100.w,
-                            focusNode: FocusNode(),
-                            controller: _salonProfileProvider.requestController,
-                            hintText: AppLocalizations.of(context)?.email ?? "Request".toUpperCase(), // "Email",
-                            contentPadding: 20,
-                            margin: const EdgeInsets.only(top: 10),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      Align(
-                        alignment: Alignment.center,
-                        child: _salonProfileProvider.enquiryStatus == Status.loading
-                            ? Center(
-                                child: SizedBox(
-                                  height: 30,
-                                  width: 30,
-                                  child: CircularProgressIndicator(
-                                    color: theme.primaryColorDark,
-                                  ),
-                                ),
-                              )
-                            : SquareButton(
-                                height: 51,
-                                width: (isPortrait) ? 350.w : 70.w,
-                                text: AppLocalizations.of(context)?.submitEnquiry ?? "Submit an Enquiry",
-                                onTap: () => _salonProfileProvider.sendEnquiryToSalon(context, salonId: widget.salonModel.salonId),
-                                buttonColor: theme.primaryColorDark,
-                                borderColor: theme.primaryColorDark,
-                                borderRadius: (themeNo == '2') ? 0 : 25,
+                                textAlign: TextAlign.left,
                               ),
-                        // child: CustomButton(
-                        //   height: 51,
-                        //   width: (isPortrait) ? 350.w : 70.w,
-                        //   text: "Submit an Enquiry",
-                        //   margin: const EdgeInsets.only(top: 30, bottom: 5),
-                        //   variant: ButtonVariant.FillDeeporange300,
+                              CustomTextFormField(
+                                // width:  (isPortrait) ? 350.w : 100.w,
+                                focusNode: FocusNode(),
+                                controller: _salonProfileProvider.nameController,
+                                hintText: (AppLocalizations.of(context)?.name ?? "Name").toCapitalized(), // "Name",
+                                margin: const EdgeInsets.only(top: 10),
+                                contentPadding: 20,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 15),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: (AppLocalizations.of(context)?.phone ?? "Phone").toCapitalized(), // "Phone",
+                                      style: theme.textTheme.subtitle2?.copyWith(fontSize: 15.sp),
+                                    ),
+                                    TextSpan(
+                                      text: " *",
+                                      style: GlamOneTheme.bodyText2.copyWith(
+                                        color: theme.primaryColor,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                              CustomTextFormField(
+                                // width: (isPortrait) ? 350.w : 100.w,
+                                focusNode: FocusNode(),
+                                controller: _salonProfileProvider.phoneController,
+                                hintText: (AppLocalizations.of(context)?.phone ?? "Phone").toCapitalized(), // "Phone",
+                                contentPadding: 20,
+                                margin: const EdgeInsets.only(top: 10),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 15),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: AppLocalizations.of(context)?.request ?? "Request".toCapitalized(), // "Email",
+                                      style: theme.textTheme.subtitle2?.copyWith(fontSize: 15.sp),
+                                    ),
+                                    TextSpan(
+                                      text: " *",
+                                      style: theme.textTheme.bodyText2?.copyWith(
+                                        color: theme.primaryColor,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                              CustomTextFormField(
+                                // width: (isPortrait) ? 350.w : 100.w,
+                                focusNode: FocusNode(),
+                                controller: _salonProfileProvider.requestController,
+                                hintText: (AppLocalizations.of(context)?.request ?? "Request").toCapitalized(), // "Email",
+                                contentPadding: 20,
+                                margin: const EdgeInsets.only(top: 10),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 20),
+                          Align(
+                            alignment: Alignment.center,
+                            child: _salonProfileProvider.enquiryStatus == Status.loading
+                                ? Center(
+                                    child: SizedBox(
+                                      height: 30,
+                                      width: 30,
+                                      child: CircularProgressIndicator(
+                                        color: theme.primaryColorDark,
+                                      ),
+                                    ),
+                                  )
+                                : SquareButton(
+                                    height: 51,
+                                    width: (isPortrait) ? 350.w : null, // DeviceConstraints.getResponsiveSize(context, 0, 120.w, 70.w),
+                                    text: AppLocalizations.of(context)?.submitEnquiry ?? "Submit an Enquiry",
+                                    onTap: () => _salonProfileProvider.sendEnquiryToSalon(context, salonId: widget.salonModel.salonId),
+                                    buttonColor: theme.primaryColorDark,
+                                    borderColor: theme.primaryColorDark,
+                                    borderRadius: (themeNo == '2') ? 0 : 25,
+                                  ),
+                            // child: CustomButton(
+                            //   height: 51,
+                            //   width: (isPortrait) ? 350.w : 70.w,
+                            //   text: "Submit an Enquiry",
+                            //   margin: const EdgeInsets.only(top: 30, bottom: 5),
+                            //   variant: ButtonVariant.FillDeeporange300,
 
-                        // ),
+                            // ),
 
-                        //  (_salonProfileProvider.chosenSalon.selectedTheme == 2)
-                        //       ?
+                            //  (_salonProfileProvider.chosenSalon.selectedTheme == 2)
+                            //       ?
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                  if (!isPortrait)
+                  if (!isPortrait && !isLandScape)
                     SizedBox(
                       height: 400.h,
-                      width: 80.w,
+                      width: DeviceConstraints.getResponsiveSize(context, 0, 100.w, 80.w),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: (widget.salonModel.photosOfWork.isNotEmpty && widget.salonModel.photosOfWork[1] != '')

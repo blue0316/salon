@@ -91,9 +91,10 @@ class GlamOneTheme {
       hintStyle: bodyText1.copyWith(color: Colors.black),
     ),
     unselectedWidgetColor: Colors.grey[700], // Color for not valid time slot container
+    highlightColor: primaryColor1,
+
     // Stop
     focusColor: lightGrey,
-    highlightColor: primaryColor1,
     splashColor: lightGrey,
     hoverColor: lightGrey,
   );

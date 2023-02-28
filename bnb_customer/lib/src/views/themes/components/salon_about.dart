@@ -28,8 +28,8 @@ class SalonAbout2 extends ConsumerWidget {
 
     return Padding(
       padding: EdgeInsets.only(
-        left: DeviceConstraints.getResponsiveSize(context, 20.w, 10.w, 50.w),
-        right: DeviceConstraints.getResponsiveSize(context, 20.w, 10.w, 50.w),
+        left: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
+        right: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
         top: DeviceConstraints.getResponsiveSize(context, 50, 50, 120),
         bottom: DeviceConstraints.getResponsiveSize(context, 25, 30, 50),
       ),

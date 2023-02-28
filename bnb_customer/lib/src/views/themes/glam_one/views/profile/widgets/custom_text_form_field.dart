@@ -83,7 +83,7 @@ class CustomTextFormField extends ConsumerWidget {
 
   _buildTextFormFieldWidget(ThemeData theme) {
     return Container(
-      width: (width ?? 0),
+      // width: (width ?? 0),
       margin: margin,
       child: TextFormField(
         controller: controller,

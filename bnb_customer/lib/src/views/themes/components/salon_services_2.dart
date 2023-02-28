@@ -58,8 +58,8 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
       length: _createAppointmentProvider.categoriesAvailable.length,
       child: Padding(
         padding: EdgeInsets.only(
-          left: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
-          right: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
+          left: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
+          right: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
           top: DeviceConstraints.getResponsiveSize(context, 40, 60, 70),
           bottom: DeviceConstraints.getResponsiveSize(context, 20, 20, 10),
         ),

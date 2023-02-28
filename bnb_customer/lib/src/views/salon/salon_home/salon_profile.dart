@@ -271,7 +271,7 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
                                           ),
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.symmetric(horizontal: DeviceConstraints.getResponsiveSize(context, 17.w, 0, 0)),
+                                          padding: EdgeInsets.symmetric(horizontal: DeviceConstraints.getResponsiveSize(context, 17.w, 20.w, 0)),
                                           child: ExpandablePageView(
                                             padEnds: false,
                                             key: ValueKey("exp"),

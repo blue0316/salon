@@ -779,5 +779,7 @@
   "noServicesAvailable" : "No services available",
   "noItemsAvailable" : "No items available for sale",
   "noReviews" : "No reviews",
-  "discounts" : "discounts"  
+  "discounts" : "discounts",
+  "anyone": "Anyone",
+  "nextStep": "Next Step"
 }

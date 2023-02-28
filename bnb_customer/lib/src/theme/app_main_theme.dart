@@ -238,7 +238,7 @@ class AppTheme {
     ),
     dividerColor: Colors.white,
     focusColor: lightGrey,
-    highlightColor: const Color.fromARGB(255, 239, 239, 239), // Color to select services on booking dialog
+    highlightColor: const Color(0XFFEBE9E9), // Color to select services on booking dialog
 
     splashColor: milkeyGreyDark,
     hoverColor: milkeyGreyDark,
