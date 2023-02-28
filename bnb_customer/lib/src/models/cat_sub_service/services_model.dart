@@ -112,6 +112,7 @@ class ServiceModel {
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
     map["parentServiceId"] = parentServiceId;
+    map["serviceId"] = serviceId;
     map["salonId"] = salonId;
     map["categoryId"] = categoryId;
     map["subCategoryId"] = subCategoryId;

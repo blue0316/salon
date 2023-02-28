@@ -93,22 +93,30 @@ class SalonModel {
     salonId = json['salonId'];
     salonName = json['salonName'] ?? '';
     appointmentsLeadTime = json['appointmentsLeadTime'];
-    categoryId = json['categoryId'] == null ? [] : categoryId = json['categoryId'].cast<String>();
+    categoryId = json['categoryId'] == null
+        ? []
+        : categoryId = json['categoryId'].cast<String>();
 
-    parentServiceId = json['parentServiceId'] == null ? [] : parentServiceId = json['parentServiceId'].cast<String>();
-    timeSlotsInterval = json['timeSlotsInterval'];
+    parentServiceId = json['parentServiceId'] == null
+        ? []
+        : parentServiceId = json['parentServiceId'].cast<String>();
+    timeSlotsInterval = json['timeSlotsInterval'] ?? 15;
     bookingRestrictionDays = json['bookingRestrictionDays'];
-    createdAt = json['createdAt'] != null ? json['createdAt'].toDate() : DateTime(1990);
+    createdAt =
+        json['createdAt'] != null ? json['createdAt'].toDate() : DateTime(1990);
     address = json['address'] ?? '';
     ownerType = json['ownerType'] ?? OwnerType.salon;
-    workStation = json['workStation'];
+    workStation = json['workStation'] ?? '';
     isAvailableOnline = json['isAvailableOnline'] ?? false;
     links = json['links'] != null ? Links.fromJson(json['links']) : null;
-    position = json['position'] != null ? Position.fromJson(json['position']) : null;
+    position =
+        json['position'] != null ? Position.fromJson(json['position']) : null;
     workingHours = WorkingHoursModel.fromJson(json['workingHours']);
-    irregularWorkingHours = json['irregularWorkingHours'] != null ? mapIrregularHours(json['irregularWorkingHours']) : null;
+    irregularWorkingHours = json['irregularWorkingHours'] != null
+        ? mapIrregularHours(json['irregularWorkingHours'])
+        : null;
     salonWebSite = json['salonWebSite'] ?? '';
-    phoneNumber = json['phoneNumber'];
+    phoneNumber = json['phoneNumber'] ?? '';
     email = json['email'] ?? '';
     locale = json['locale'] ?? 'UK';
     description = json['description'] ?? '';
@@ -124,15 +132,23 @@ class SalonModel {
     if (json['photosOfWork'] != null) {
       photosOfWork = json['photosOfWork'].cast<String>();
     }
-    preferredGender = json['preferredGender'];
-    rating = json['rating'] != null ? double.parse(json['rating'].toString()) : 0;
-    avgRating = json['avgRating'] != null ? double.parse(json['avgRating'].toString()) : 0;
-    reviewCount = json['reviewCount'] != null ? double.parse(json['reviewCount'].toString()) : 0;
+    preferredGender = json['preferredGender'] ?? '';
+    rating =
+        json['rating'] != null ? double.parse(json['rating'].toString()) : 0;
+    avgRating = json['avgRating'] != null
+        ? double.parse(json['avgRating'].toString())
+        : 0;
+    reviewCount = json['reviewCount'] != null
+        ? double.parse(json['reviewCount'].toString())
+        : 0;
     distanceFromCenter = json['distanceFromCenter'];
     fcmToken = json['fcmToken'] ?? '';
     blockedTime = json['blockedTime'] ?? {};
-    searchTags = json['searchTags'] != null ? json['searchTags'].cast<String>() : [];
-    additionalFeatures = json['additionalFeatures'] != null ? json['additionalFeatures'].cast<String>() : [];
+    searchTags =
+        json['searchTags'] != null ? json['searchTags'].cast<String>() : [];
+    additionalFeatures = json['additionalFeatures'] != null
+        ? json['additionalFeatures'].cast<String>()
+        : [];
     requestSalon = json['requestSalon'] ?? false;
     salonLogo = json['salonLogo'] ?? '';
   }
@@ -143,7 +159,9 @@ class SalonModel {
     data['salonName'] = salonName;
     data['salonName'] = salonName;
     data['salonLogo'] = salonLogo;
-    createdAt = data['createdAt'] != null ? data['createdAt']?.toDate() : DateTime.now();
+    createdAt = data['createdAt'] != null
+        ? data['createdAt']?.toDate()
+        : DateTime.now();
     data['categoryId'] = categoryId;
     data['appointmentsLeadTime'] = appointmentsLeadTime;
     data['parentServiceId'] = parentServiceId;
@@ -237,7 +255,12 @@ class Links {
   String? whatsapp;
   String? instagram;
 
-  Links(Map map, {this.facebookMessenger, this.viber, this.telegram, this.whatsapp, this.instagram});
+  Links(Map map,
+      {this.facebookMessenger,
+      this.viber,
+      this.telegram,
+      this.whatsapp,
+      this.instagram});
 
   Links.fromJson(Map<String, dynamic> json) {
     facebookMessenger = json['facebookMessenger'];

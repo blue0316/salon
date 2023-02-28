@@ -466,10 +466,9 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                   // Pop current dialog
                   Navigator.of(context).pop();
 
-                  ConfirmedDialog(
-                    appointment:
-                        _createAppointmentProvider.appointmentModelSalonOwner!,
-                  ).show(context);
+                  // ConfirmedDialog(
+                  //   appointment: _createAppointmentProvider.appointmentModel!,
+                  // ).show(context);
                 },
                 color: defaultTheme ? Colors.black : theme.primaryColor,
                 textColor: defaultTheme ? Colors.white : Colors.black,

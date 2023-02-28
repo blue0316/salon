@@ -1,4 +1,5 @@
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
+import 'package:bbblient/src/models/appointment/serviceAndMaster.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
@@ -22,7 +23,9 @@ class ServiceList extends ConsumerWidget {
   final List<ServiceModel> services;
   final bool pickMasters;
 
-  const ServiceList({Key? key, required this.services, this.pickMasters = false}) : super(key: key);
+  const ServiceList(
+      {Key? key, required this.services, this.pickMasters = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -36,7 +39,8 @@ class ServiceList extends ConsumerWidget {
       shrinkWrap: true,
       itemBuilder: (context, index) {
         final ServiceModel service = services[index];
-        bool isAdded = _createAppointmentProvider.isAdded(serviceModel: service);
+        bool isAdded =
+            _createAppointmentProvider.isAdded(serviceModel: service);
 
         return GestureDetector(
           onTap: () {
@@ -78,13 +82,19 @@ class ServiceCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
-    final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
+    final CreateAppointmentProvider _createAppointmentProvider =
+        ref.watch(createAppointmentProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool defaultTheme = (theme == AppTheme.lightTheme);
+    List<MasterModel> theMasters =
+        _createAppointmentProvider.getMasterProvidingService(service);
 
-    Color selectedColor = defaultTheme ? const Color.fromARGB(255, 239, 239, 239) : const Color(0XFF202020);
+    Color selectedColor = defaultTheme
+        ? const Color.fromARGB(255, 239, 239, 239)
+        : const Color(0XFF202020);
     BoxBorder? border = defaultTheme
         ? Border.all(
             width: 1.5,
@@ -110,7 +120,8 @@ class ServiceCard extends ConsumerWidget {
               child: Padding(
                 padding: EdgeInsets.symmetric(
                   vertical: 15,
-                  horizontal: DeviceConstraints.getResponsiveSize(context, 15.w, 7.w, 7.w),
+                  horizontal: DeviceConstraints.getResponsiveSize(
+                      context, 15.w, 7.w, 7.w),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,11 +135,17 @@ class ServiceCard extends ConsumerWidget {
                         Flexible(
                           flex: 3,
                           child: Text(
-                            service.translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString(), // 'Eyebrow Tinting',
+                            service.translations[
+                                    AppLocalizations.of(context)?.localeName ??
+                                        'en']
+                                .toString(), // 'Eyebrow Tinting',
                             style: AppTheme.bodyText1.copyWith(
                               fontWeight: FontWeight.w500,
-                              fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
-                              color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                              fontSize: DeviceConstraints.getResponsiveSize(
+                                  context, 20.sp, 20.sp, 20.sp),
+                              color: defaultTheme
+                                  ? AppTheme.textBlack
+                                  : Colors.white,
                             ),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
@@ -179,10 +196,16 @@ class ServiceCard extends ConsumerWidget {
                               : service.isPriceRange
                                   ? "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}"
                                   : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}∞",
-                          style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1!
+                              .copyWith(
                                 fontWeight: FontWeight.w500,
-                                fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
-                                color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                                fontSize: DeviceConstraints.getResponsiveSize(
+                                    context, 20.sp, 20.sp, 20.sp),
+                                color: defaultTheme
+                                    ? AppTheme.textBlack
+                                    : Colors.white,
                               ),
                           overflow: TextOverflow.visible,
                           maxLines: 1,
@@ -190,7 +213,8 @@ class ServiceCard extends ConsumerWidget {
                       ],
                     ),
                     SizedBox(
-                      height: DeviceConstraints.getResponsiveSize(context, 20.h, 17.h, 17.h),
+                      height: DeviceConstraints.getResponsiveSize(
+                          context, 20.h, 17.h, 17.h),
                     ),
 
                     // SERVICE DURATION
@@ -204,7 +228,9 @@ class ServiceCard extends ConsumerWidget {
                           child: Center(
                             child: SvgPicture.asset(
                               AppIcons.clockSVG,
-                              color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                              color: defaultTheme
+                                  ? AppTheme.textBlack
+                                  : Colors.white,
                             ),
                           ),
                         ),
@@ -213,48 +239,79 @@ class ServiceCard extends ConsumerWidget {
                             ? service.isFixedDuration
                                 ? Text(
                                     "${service.priceAndDuration.duration} minutes",
-                                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                          fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 20.sp, 20.sp),
-                                          color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1!
+                                        .copyWith(
+                                          fontSize: DeviceConstraints
+                                              .getResponsiveSize(
+                                                  context, 15.sp, 20.sp, 20.sp),
+                                          color: defaultTheme
+                                              ? AppTheme.textBlack
+                                              : Colors.white,
                                         ),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                   )
                                 : Text(
                                     "${service.priceAndDuration.duration} minutes - ${service.priceAndDurationMax!.duration} minutes",
-                                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                          fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 20.sp, 20.sp),
-                                          color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1!
+                                        .copyWith(
+                                          fontSize: DeviceConstraints
+                                              .getResponsiveSize(
+                                                  context, 15.sp, 20.sp, 20.sp),
+                                          color: defaultTheme
+                                              ? AppTheme.textBlack
+                                              : Colors.white,
                                         ),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                   )
                             : Text(
                                 "${service.priceAndDuration.duration} minutes",
-                                style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                      fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 20.sp, 20.sp),
-                                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(
+                                      fontSize:
+                                          DeviceConstraints.getResponsiveSize(
+                                              context, 15.sp, 20.sp, 20.sp),
+                                      color: defaultTheme
+                                          ? AppTheme.textBlack
+                                          : Colors.white,
                                     ),
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                               ),
                         const Spacer(),
-                        (service.description == null || service.description == "")
+                        (service.description == null ||
+                                service.description == "")
                             ? const SizedBox(width: 15)
                             : GestureDetector(
                                 onTap: () => showDialog<bool>(
                                   context: context,
-                                  builder: (BuildContext context) => ShowServiceInfo(service),
+                                  builder: (BuildContext context) =>
+                                      ShowServiceInfo(service),
                                 ),
                                 child: SizedBox(
-                                  height: DeviceConstraints.getResponsiveSize(context, 20, 25, 28),
-                                  width: DeviceConstraints.getResponsiveSize(context, 20, 25, 28),
+                                  height: DeviceConstraints.getResponsiveSize(
+                                      context, 20, 25, 28),
+                                  width: DeviceConstraints.getResponsiveSize(
+                                      context, 20, 25, 28),
                                   child: Center(
                                     child: SvgPicture.asset(
                                       AppIcons.informationSVG,
-                                      height: DeviceConstraints.getResponsiveSize(context, 20, 25, 28),
-                                      width: DeviceConstraints.getResponsiveSize(context, 20, 25, 28),
-                                      color: defaultTheme ? AppTheme.textBlack : theme.primaryColor,
+                                      height:
+                                          DeviceConstraints.getResponsiveSize(
+                                              context, 20, 25, 28),
+                                      width:
+                                          DeviceConstraints.getResponsiveSize(
+                                              context, 20, 25, 28),
+                                      color: defaultTheme
+                                          ? AppTheme.textBlack
+                                          : theme.primaryColor,
                                     ),
                                   ),
                                 ),
@@ -268,8 +325,11 @@ class ServiceCard extends ConsumerWidget {
                         padding: EdgeInsets.only(top: 5.h),
                         child: Column(
                           children: [
-                            const Divider(color: Color(0XFF474747), thickness: 1.5),
-                            SizedBox(height: DeviceConstraints.getResponsiveSize(context, 10.h, 5.h, 5.h)),
+                            const Divider(
+                                color: Color(0XFF474747), thickness: 1.5),
+                            SizedBox(
+                                height: DeviceConstraints.getResponsiveSize(
+                                    context, 10.h, 5.h, 5.h)),
                             SizedBox(
                               // color: Colors.blue,
                               height: 45.h,
@@ -278,20 +338,43 @@ class ServiceCard extends ConsumerWidget {
                                 scrollDirection: Axis.horizontal,
                                 children: [
                                   GestureDetector(
-                                    onTap: () => _createAppointmentProvider.clearChosenMaster(),
+                                    onTap: () => _createAppointmentProvider
+                                        .removeServiceMaster(service, context),
                                     child: Container(
                                       height: 45.h,
                                       decoration: BoxDecoration(
-                                        color: (_createAppointmentProvider.chosenMaster == null) ? theme.primaryColor : Colors.transparent,
+                                        color: (_createAppointmentProvider
+                                                .serviceAgainstMaster
+                                                .where((element) =>
+                                                    element
+                                                        .service!.serviceId ==
+                                                    service.serviceId)
+                                                .toList()
+                                                .isEmpty)
+                                            ? theme.primaryColor
+                                            : Colors.transparent,
                                         borderRadius: BorderRadius.circular(70),
-                                        border: (_createAppointmentProvider.chosenMaster == null) ? null : Border.all(color: Colors.white, width: 1.6),
+                                        border: (_createAppointmentProvider
+                                                .serviceAgainstMaster
+                                                .where((element) =>
+                                                    element
+                                                        .service!.serviceId ==
+                                                    service.serviceId)
+                                                .toList()
+                                                .isEmpty)
+                                            ? null
+                                            : Border.all(
+                                                color: Colors.white,
+                                                width: 1.6),
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 25),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 25),
                                         child: Center(
                                           child: Text(
                                             'Anyone',
-                                            style: theme.textTheme.bodyText1!.copyWith(
+                                            style: theme.textTheme.bodyText1!
+                                                .copyWith(
                                               fontSize: 14.sp,
                                               fontWeight: FontWeight.bold,
                                               color: Colors.white,
@@ -307,70 +390,157 @@ class ServiceCard extends ConsumerWidget {
                                     height: 45.h,
                                     child: ListView.builder(
                                       shrinkWrap: true,
-                                      itemCount: masters!.length,
-                                      physics: const NeverScrollableScrollPhysics(),
+                                      itemCount: theMasters.length,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder: (context, index) {
-                                        final MasterModel master = masters![index];
+                                        final MasterModel master =
+                                            theMasters[index];
 
                                         return Padding(
-                                          padding: const EdgeInsets.only(right: 10),
+                                          padding:
+                                              const EdgeInsets.only(right: 10),
                                           child: MouseRegion(
                                             cursor: SystemMouseCursors.click,
                                             child: GestureDetector(
                                               onTap: () async {
-                                                printIt(' -------- Master selected -------- ');
+                                                _createAppointmentProvider
+                                                    .addServiceMaster(service,
+                                                        master, context);
 
-                                                String res = await _createAppointmentProvider.chooseMaster(
-                                                  masterModel: master,
-                                                  context: context,
-                                                );
+                                                // printIt(
+                                                //     ' -------- Master selected -------- ');
 
-                                                if (res == "choosen") {
-                                                  showToast(AppLocalizations.of(context)?.selected ?? "selected");
-                                                } else {
-                                                  showToast(AppLocalizations.of(context)?.notAvailable ?? "not available");
-                                                }
+                                                // String res =
+                                                //     await _createAppointmentProvider
+                                                //         .chooseMaster(
+                                                //   masterModel: master,
+                                                //   context: context,
+                                                // );
+
+                                                // if (res == "choosen") {
+                                                //   showToast(AppLocalizations.of(
+                                                //               context)
+                                                //           ?.selected ??
+                                                //       "selected");
+                                                // } else {
+                                                //   showToast(AppLocalizations.of(
+                                                //               context)
+                                                //           ?.notAvailable ??
+                                                //       "not available");
+                                                // }
                                               },
                                               child: Container(
                                                 decoration: BoxDecoration(
-                                                  color: (_createAppointmentProvider.chosenMaster?.masterId == master.masterId) ? theme.primaryColor : Colors.transparent,
-                                                  borderRadius: BorderRadius.circular(70),
-                                                  border: (_createAppointmentProvider.chosenMaster?.masterId == master.masterId) ? null : Border.all(color: Colors.white, width: 1.6),
+                                                  color: (_createAppointmentProvider
+                                                          .serviceAgainstMaster
+                                                          .where((element) =>
+                                                              (element.service!
+                                                                      .serviceId ==
+                                                                  service
+                                                                      .serviceId) &&
+                                                              element.master!
+                                                                      .masterId ==
+                                                                  master
+                                                                      .masterId)
+                                                          .toList()
+                                                          .isNotEmpty)
+                                                      ? theme.primaryColor
+                                                      : Colors.transparent,
+                                                  borderRadius:
+                                                      BorderRadius.circular(70),
+                                                  border: (_createAppointmentProvider
+                                                          .serviceAgainstMaster
+                                                          .where((element) =>
+                                                              element.service!
+                                                                      .serviceId ==
+                                                                  service
+                                                                      .serviceId &&
+                                                              element.master!
+                                                                      .masterId ==
+                                                                  master
+                                                                      .masterId)
+                                                          .toList()
+                                                          .isNotEmpty)
+                                                      ? null
+                                                      : Border.all(
+                                                          color: Colors.white,
+                                                          width: 1.6),
                                                 ),
                                                 child: Padding(
-                                                  padding: const EdgeInsets.only(top: 3, bottom: 3, right: 20, left: 10),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 3,
+                                                          bottom: 3,
+                                                          right: 20,
+                                                          left: 10),
                                                   child: Row(
-                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
                                                     children: [
                                                       Container(
                                                         height: 30.h,
                                                         width: 30.h,
-                                                        decoration: const BoxDecoration(
-                                                          shape: BoxShape.circle,
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                          shape:
+                                                              BoxShape.circle,
                                                           color: Colors.white,
                                                         ),
                                                         child: ClipRRect(
-                                                          borderRadius: BorderRadius.circular(100),
-                                                          child: (master.profilePicUrl != null && master.profilePicUrl != '')
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      100),
+                                                          child: (master.profilePicUrl !=
+                                                                      null &&
+                                                                  master.profilePicUrl !=
+                                                                      '')
                                                               ? CachedImage(
-                                                                  url: master.profilePicUrl!,
-                                                                  fit: BoxFit.cover,
+                                                                  url: master
+                                                                      .profilePicUrl!,
+                                                                  fit: BoxFit
+                                                                      .cover,
                                                                 )
                                                               : Image.asset(
-                                                                  AppIcons.masterDefaultAvtar,
-                                                                  fit: BoxFit.cover,
+                                                                  AppIcons
+                                                                      .masterDefaultAvtar,
+                                                                  fit: BoxFit
+                                                                      .cover,
                                                                 ),
                                                         ),
                                                       ),
                                                       const SizedBox(width: 10),
                                                       Text(
-                                                        Utils().getNameMaster(master.personalInfo),
-                                                        style: theme.textTheme.bodyText1!.copyWith(
+                                                        Utils().getNameMaster(
+                                                            master
+                                                                .personalInfo),
+                                                        style: theme.textTheme
+                                                            .bodyText1!
+                                                            .copyWith(
                                                           fontSize: 14.sp,
-                                                          fontWeight: FontWeight.bold,
-                                                          color: (_createAppointmentProvider.chosenMaster?.masterId == master.masterId) ? Colors.black : Colors.white,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: (_createAppointmentProvider
+                                                                  .serviceAgainstMaster
+                                                                  .where((element) =>
+                                                                      element.service!
+                                                                              .serviceId ==
+                                                                          service
+                                                                              .serviceId &&
+                                                                      element.master!
+                                                                              .masterId ==
+                                                                          master
+                                                                              .masterId)
+                                                                  .toList()
+                                                                  .isNotEmpty)
+                                                              ? Colors.black
+                                                              : Colors.white,
                                                         ),
                                                       ),
                                                     ],
@@ -399,9 +569,12 @@ class ServiceCard extends ConsumerWidget {
                           '${AppLocalizations.of(context)?.noMastersAvailableOn} ${Time().getDateInStandardFormat(
                             _createAppointmentProvider.chosenDay,
                           )}',
-                          style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                color: defaultTheme ? AppTheme.textBlack : Colors.white,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.bodyText1!.copyWith(
+                                    color: defaultTheme
+                                        ? AppTheme.textBlack
+                                        : Colors.white,
+                                  ),
                         ),
                       )
                   ],
