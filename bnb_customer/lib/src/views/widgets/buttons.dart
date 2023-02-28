@@ -1,11 +1,14 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
+import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../theme/app_main_theme.dart';
 
-class DefaultButton extends StatelessWidget {
+class DefaultButton extends ConsumerWidget {
   final String? label;
   final Function? onTap;
   final bool isLoading;
@@ -27,7 +30,10 @@ class DefaultButton extends StatelessWidget {
     this.prefixIcon,
   }) : super(key: key);
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
     if (isLoading) {
       return const CircularProgressIndicator();
     } else {
@@ -54,14 +60,22 @@ class DefaultButton extends StatelessWidget {
                   Text(
                     label ?? "Sign up",
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline2?.copyWith(color: textColor),
+                    style: theme.textTheme.bodyText1?.copyWith(
+                      color: textColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.sp,
+                    ),
                   ),
                 ],
               )
             : Text(
                 label ?? "Sign up",
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headline2?.copyWith(color: textColor),
+                style: theme.textTheme.bodyText1?.copyWith(
+                  color: textColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.sp,
+                ),
               ),
       );
     }

@@ -37,8 +37,8 @@ class SalonTeam extends ConsumerWidget {
         decoration: BoxDecoration(color: theme.cardColor),
         child: Padding(
           padding: EdgeInsets.only(
-            left: DeviceConstraints.getResponsiveSize(context, 20.w, 30.w, 30.w),
-            right: DeviceConstraints.getResponsiveSize(context, 20.w, 30.w, 30.w),
+            left: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 30.w),
+            right: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 30.w),
             top: DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
             bottom: DeviceConstraints.getResponsiveSize(context, 60.h, 90.h, 100.h),
           ),
@@ -58,7 +58,7 @@ class SalonTeam extends ConsumerWidget {
               Space(factor: DeviceConstraints.getResponsiveSize(context, 0.8, 1.3, 1.5)),
               Center(
                 child: Container(
-                  height: DeviceConstraints.getResponsiveSize(context, 230.h, 230.h, 185.h),
+                  height: DeviceConstraints.getResponsiveSize(context, 230.h, 230.h, 210.h),
                   alignment: Alignment.center,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,

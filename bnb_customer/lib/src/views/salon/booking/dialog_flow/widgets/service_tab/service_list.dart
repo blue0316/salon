@@ -84,7 +84,7 @@ class ServiceCard extends ConsumerWidget {
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool defaultTheme = (theme == AppTheme.lightTheme);
 
-    Color selectedColor = defaultTheme ? const Color.fromARGB(255, 239, 239, 239) : const Color(0XFF202020);
+    Color selectedColor = defaultTheme ? Color(0XFFF9F9F9) : const Color(0XFF202020);
     BoxBorder? border = defaultTheme
         ? Border.all(
             width: 1.5,
@@ -114,7 +114,7 @@ class ServiceCard extends ConsumerWidget {
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     // -- SERVICE TITLE AND PRICE
                     Row(
@@ -122,11 +122,11 @@ class ServiceCard extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Flexible(
-                          flex: 3,
+                          flex: 5,
                           child: Text(
                             service.translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString(), // 'Eyebrow Tinting',
                             style: AppTheme.bodyText1.copyWith(
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w600,
                               fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
                               color: defaultTheme ? AppTheme.textBlack : Colors.white,
                             ),
@@ -180,7 +180,7 @@ class ServiceCard extends ConsumerWidget {
                                   ? "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}"
                                   : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}∞",
                           style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w600,
                                 fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
                                 color: defaultTheme ? AppTheme.textBlack : Colors.white,
                               ),
@@ -189,9 +189,10 @@ class ServiceCard extends ConsumerWidget {
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: DeviceConstraints.getResponsiveSize(context, 20.h, 17.h, 17.h),
-                    ),
+                    if (!pickMasters)
+                      SizedBox(
+                        height: DeviceConstraints.getResponsiveSize(context, 20.h, 20.h, 15.h),
+                      ),
 
                     // SERVICE DURATION
                     Row(
@@ -214,7 +215,7 @@ class ServiceCard extends ConsumerWidget {
                                 ? Text(
                                     "${service.priceAndDuration.duration} minutes",
                                     style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                          fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 20.sp, 20.sp),
+                                          fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
                                           color: defaultTheme ? AppTheme.textBlack : Colors.white,
                                         ),
                                     overflow: TextOverflow.ellipsis,
@@ -223,7 +224,7 @@ class ServiceCard extends ConsumerWidget {
                                 : Text(
                                     "${service.priceAndDuration.duration} minutes - ${service.priceAndDurationMax!.duration} minutes",
                                     style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                          fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 20.sp, 20.sp),
+                                          fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
                                           color: defaultTheme ? AppTheme.textBlack : Colors.white,
                                         ),
                                     overflow: TextOverflow.ellipsis,
@@ -232,7 +233,7 @@ class ServiceCard extends ConsumerWidget {
                             : Text(
                                 "${service.priceAndDuration.duration} minutes",
                                 style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                      fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 20.sp, 20.sp),
+                                      fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
                                       color: defaultTheme ? AppTheme.textBlack : Colors.white,
                                     ),
                                 overflow: TextOverflow.ellipsis,
@@ -263,131 +264,146 @@ class ServiceCard extends ConsumerWidget {
                     ),
 
                     // MASTERS
+                    if (pickMasters && masters!.isNotEmpty) const Divider(color: Colors.grey, thickness: 1.3),
+
                     if (pickMasters && masters!.isNotEmpty)
-                      Padding(
-                        padding: EdgeInsets.only(top: 5.h),
-                        child: Column(
-                          children: [
-                            const Divider(color: Color(0XFF474747), thickness: 1.5),
-                            SizedBox(height: DeviceConstraints.getResponsiveSize(context, 10.h, 5.h, 5.h)),
-                            SizedBox(
-                              // color: Colors.blue,
-                              height: 45.h,
-                              child: ListView(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () => _createAppointmentProvider.clearChosenMaster(),
-                                    child: Container(
-                                      height: 45.h,
-                                      decoration: BoxDecoration(
-                                        color: (_createAppointmentProvider.chosenMaster == null) ? theme.primaryColor : Colors.transparent,
-                                        borderRadius: BorderRadius.circular(70),
-                                        border: (_createAppointmentProvider.chosenMaster == null) ? null : Border.all(color: Colors.white, width: 1.6),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 25),
-                                        child: Center(
-                                          child: Text(
-                                            'Anyone',
-                                            style: theme.textTheme.bodyText1!.copyWith(
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          // const Divider(color: Colors.grey, thickness: 1.3),
+                          // SizedBox(height: DeviceConstraints.getResponsiveSize(context, 5.h, 5.h, 5.h)),
+                          SizedBox(
+                            height: 40.h,
+                            child: ListView(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              children: [
+                                GestureDetector(
+                                  onTap: () => _createAppointmentProvider.clearChosenMaster(),
+                                  child: Container(
+                                    height: 45.h,
+                                    decoration: BoxDecoration(
+                                      color: (_createAppointmentProvider.chosenMaster == null) ? theme.highlightColor : Colors.transparent,
+                                      borderRadius: BorderRadius.circular(70),
+                                      border: (_createAppointmentProvider.chosenMaster == null)
+                                          ? null
+                                          : Border.all(
+                                              color: defaultTheme ? Colors.black : Colors.white,
+                                              width: DeviceConstraints.getResponsiveSize(context, 1, 1, 1.5),
                                             ),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                                      child: Center(
+                                        child: Text(
+                                          'Anyone',
+                                          //  AppLocalizations.of(context)?.anyone ?? "Anyone",
+                                          style: theme.textTheme.bodyText1!.copyWith(
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.bold,
+                                            color: defaultTheme ? Colors.black : Colors.white,
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
-                                  SizedBox(
-                                    // color: Colors.lightBlueAccent,
-                                    height: 45.h,
-                                    child: ListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount: masters!.length,
-                                      physics: const NeverScrollableScrollPhysics(),
-                                      scrollDirection: Axis.horizontal,
-                                      itemBuilder: (context, index) {
-                                        final MasterModel master = masters![index];
+                                ),
+                                const SizedBox(width: 10),
+                                SizedBox(
+                                  // color: Colors.lightBlueAccent,
+                                  height: 40.h,
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: masters!.length,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, index) {
+                                      final MasterModel master = masters![index];
 
-                                        return Padding(
-                                          padding: const EdgeInsets.only(right: 10),
-                                          child: MouseRegion(
-                                            cursor: SystemMouseCursors.click,
-                                            child: GestureDetector(
-                                              onTap: () async {
-                                                printIt(' -------- Master selected -------- ');
+                                      return Padding(
+                                        padding: const EdgeInsets.only(right: 10),
+                                        child: MouseRegion(
+                                          cursor: SystemMouseCursors.click,
+                                          child: GestureDetector(
+                                            onTap: () async {
+                                              printIt(' -------- Master selected -------- ');
 
-                                                String res = await _createAppointmentProvider.chooseMaster(
-                                                  masterModel: master,
-                                                  context: context,
-                                                );
+                                              String res = await _createAppointmentProvider.chooseMaster(
+                                                masterModel: master,
+                                                context: context,
+                                              );
 
-                                                if (res == "choosen") {
-                                                  showToast(AppLocalizations.of(context)?.selected ?? "selected");
-                                                } else {
-                                                  showToast(AppLocalizations.of(context)?.notAvailable ?? "not available");
-                                                }
-                                              },
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: (_createAppointmentProvider.chosenMaster?.masterId == master.masterId) ? theme.primaryColor : Colors.transparent,
-                                                  borderRadius: BorderRadius.circular(70),
-                                                  border: (_createAppointmentProvider.chosenMaster?.masterId == master.masterId) ? null : Border.all(color: Colors.white, width: 1.6),
-                                                ),
-                                                child: Padding(
-                                                  padding: const EdgeInsets.only(top: 3, bottom: 3, right: 20, left: 10),
-                                                  child: Row(
-                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    children: [
-                                                      Container(
-                                                        height: 30.h,
-                                                        width: 30.h,
-                                                        decoration: const BoxDecoration(
-                                                          shape: BoxShape.circle,
-                                                          color: Colors.white,
-                                                        ),
-                                                        child: ClipRRect(
-                                                          borderRadius: BorderRadius.circular(100),
-                                                          child: (master.profilePicUrl != null && master.profilePicUrl != '')
-                                                              ? CachedImage(
-                                                                  url: master.profilePicUrl!,
-                                                                  fit: BoxFit.cover,
-                                                                )
-                                                              : Image.asset(
-                                                                  AppIcons.masterDefaultAvtar,
-                                                                  fit: BoxFit.cover,
-                                                                ),
-                                                        ),
+                                              if (res == "choosen") {
+                                                showToast(AppLocalizations.of(context)?.selected ?? "selected");
+                                              } else {
+                                                showToast(AppLocalizations.of(context)?.notAvailable ?? "not available");
+                                              }
+                                            },
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: (_createAppointmentProvider.chosenMaster?.masterId == master.masterId) ? theme.highlightColor : Colors.transparent,
+                                                borderRadius: BorderRadius.circular(70),
+                                                border: (_createAppointmentProvider.chosenMaster?.masterId == master.masterId)
+                                                    ? null
+                                                    : Border.all(
+                                                        color: defaultTheme ? Colors.black : Colors.white,
+                                                        width: DeviceConstraints.getResponsiveSize(context, 1, 1, 1.5),
                                                       ),
-                                                      const SizedBox(width: 10),
-                                                      Text(
-                                                        Utils().getNameMaster(master.personalInfo),
-                                                        style: theme.textTheme.bodyText1!.copyWith(
-                                                          fontSize: 14.sp,
-                                                          fontWeight: FontWeight.bold,
-                                                          color: (_createAppointmentProvider.chosenMaster?.masterId == master.masterId) ? Colors.black : Colors.white,
-                                                        ),
+                                              ),
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(top: 3, bottom: 3, right: 20, left: 10),
+                                                child: Row(
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    Container(
+                                                      height: 30.h,
+                                                      width: 30.h,
+                                                      decoration: const BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        color: Colors.white,
                                                       ),
-                                                    ],
-                                                  ),
+                                                      child: ClipRRect(
+                                                        borderRadius: BorderRadius.circular(100),
+                                                        child: (master.profilePicUrl != null && master.profilePicUrl != '')
+                                                            ? CachedImage(
+                                                                url: master.profilePicUrl!,
+                                                                fit: BoxFit.cover,
+                                                              )
+                                                            : Image.asset(
+                                                                AppIcons.masterDefaultAvtar,
+                                                                fit: BoxFit.cover,
+                                                              ),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(width: 10),
+                                                    Text(
+                                                      Utils().getNameMaster(master.personalInfo),
+                                                      style: theme.textTheme.bodyText1!.copyWith(
+                                                        fontSize: 14.sp,
+                                                        fontWeight: FontWeight.bold,
+                                                        color: defaultTheme
+                                                            ? Colors.black
+                                                            : (_createAppointmentProvider.chosenMaster?.masterId == master.masterId)
+                                                                ? Colors.black
+                                                                : Colors.white,
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        );
-                                      },
-                                    ),
+                                        ),
+                                      );
+                                    },
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
 
                     // IF THERE ARE NO AVAILABLE MASTERS

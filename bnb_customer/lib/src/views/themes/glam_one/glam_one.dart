@@ -115,19 +115,15 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                         SalonReviews(salonModel: chosenSalon),
                         WriteToUs(salonModel: chosenSalon),
                         SalonContact(salonModel: chosenSalon),
-                        // // SalonSocials(
-                        // //   salonModel: chosenSalon,
-                        // // ),
-                        Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 19, bottom: 19),
-                              child: Text(
-                                "Design by GlamIris",
-                                style: theme.textTheme.bodyText1!.copyWith(fontSize: 20.sp),
-                              ),
-                            ),
-                          ],
+                        // SalonSocials(
+                        //   salonModel: chosenSalon,
+                        // ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 19, bottom: 10),
+                          child: Text(
+                            "Design by GlamIris",
+                            style: theme.textTheme.bodyText1!.copyWith(fontSize: 20.sp),
+                          ),
                         ),
                       ],
                     ),

@@ -33,7 +33,7 @@ class _FloatingBarState extends ConsumerState<FloatingBar> {
         //   },
         // );
         // BookingDialogWidget(master: widget.master).show(context);
-        BookingDialogWidget222().show(context);
+        const BookingDialogWidget222().show(context);
       },
       child: Padding(
           padding: EdgeInsets.only(bottom: 100.h),
@@ -50,7 +50,7 @@ class _FloatingBarState extends ConsumerState<FloatingBar> {
                 children: [
                   InkWell(
                     onTap: () {
-                      BookingDialogWidget222().show(context);
+                      const BookingDialogWidget222().show(context);
                     },
                     child: Container(
                       key: ValueKey(noOfServices),
@@ -60,54 +60,56 @@ class _FloatingBarState extends ConsumerState<FloatingBar> {
 
                         borderRadius: BorderRadius.circular(24),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 35),
-                        child: Text(
-                          AppLocalizations.of(context)?.bookNow ?? "Book Now",
-                          style: AppTheme.headLine2.copyWith(
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                            fontSize: 15.sp,
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 35),
+                          child: Text(
+                            AppLocalizations.of(context)?.bookNow ?? "Book Now",
+                            style: AppTheme.headLine2.copyWith(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                              fontSize: 18.sp,
+                            ),
                           ),
+                          // child: Row(
+                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //   children: [
+                          //     // const Padding(padding: EdgeInsets.symmetric(horizontal: 12), child: BnbCheckCircle(value: true)),
+                          //     Text(
+                          //       "Book $noOfServices ${noOfServices == 1 ? 'service' : AppLocalizations.of(context)?.services.toLowerCase() ?? "services"}",
+                          //       style: AppTheme.headLine2.copyWith(
+                          //         fontWeight: FontWeight.w500,
+                          //         color: Colors.black,
+                          //         fontSize: 15.sp,
+                          //       ),
+                          //     ),
+                          //     const SizedBox(width: 5),
+                          //     TextButton(
+                          //       onPressed: () {
+                          //         // showModalBottomSheet(
+                          //         //   context: context,
+                          //         //   builder: (context) {
+                          //         //     return const BookingBottomSheet();
+                          //         //   },
+                          //         // );
+                          //         BookingDialogWidget(master: widget.master).show(context);
+                          //       },
+                          //       child: Container(
+                          //         padding: const EdgeInsets.only(bottom: 1),
+                          //         decoration: const BoxDecoration(
+                          //           border: Border(
+                          //             bottom: BorderSide(color: Colors.white, width: 1.0),
+                          //           ),
+                          //         ),
+                          //         child: Text(
+                          //           AppLocalizations.of(context)?.show.toCapitalized() ?? "show",
+                          //           style: AppTheme.headLine2.copyWith(fontSize: 15.sp),
+                          //         ),
+                          //       ),
+                          //     )
+                          //   ],
+                          // ),
                         ),
-                        // child: Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //   children: [
-                        //     // const Padding(padding: EdgeInsets.symmetric(horizontal: 12), child: BnbCheckCircle(value: true)),
-                        //     Text(
-                        //       "Book $noOfServices ${noOfServices == 1 ? 'service' : AppLocalizations.of(context)?.services.toLowerCase() ?? "services"}",
-                        //       style: AppTheme.headLine2.copyWith(
-                        //         fontWeight: FontWeight.w500,
-                        //         color: Colors.black,
-                        //         fontSize: 15.sp,
-                        //       ),
-                        //     ),
-                        //     const SizedBox(width: 5),
-                        //     TextButton(
-                        //       onPressed: () {
-                        //         // showModalBottomSheet(
-                        //         //   context: context,
-                        //         //   builder: (context) {
-                        //         //     return const BookingBottomSheet();
-                        //         //   },
-                        //         // );
-                        //         BookingDialogWidget(master: widget.master).show(context);
-                        //       },
-                        //       child: Container(
-                        //         padding: const EdgeInsets.only(bottom: 1),
-                        //         decoration: const BoxDecoration(
-                        //           border: Border(
-                        //             bottom: BorderSide(color: Colors.white, width: 1.0),
-                        //           ),
-                        //         ),
-                        //         child: Text(
-                        //           AppLocalizations.of(context)?.show.toCapitalized() ?? "show",
-                        //           style: AppTheme.headLine2.copyWith(fontSize: 15.sp),
-                        //         ),
-                        //       ),
-                        //     )
-                        //   ],
-                        // ),
                       ),
                     ),
                   ),

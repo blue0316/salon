@@ -44,8 +44,8 @@ class _SalonWorksState extends ConsumerState<SalonWorks> {
         decoration: BoxDecoration(color: theme.cardColor), // Color(0XFFFFC692)
         child: Padding(
           padding: EdgeInsets.only(
-            left: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
-            right: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
+            left: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
+            right: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
             top: DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
             bottom: DeviceConstraints.getResponsiveSize(context, 60.h, 90.h, 100.h),
           ),

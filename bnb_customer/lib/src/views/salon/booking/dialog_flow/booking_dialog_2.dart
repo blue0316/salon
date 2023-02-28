@@ -71,7 +71,7 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
           horizontal: DeviceConstraints.getResponsiveSize(
             context,
             0,
-            mediaQuery.width / 5,
+            20, // mediaQuery.width / 5,
             mediaQuery.width / 6,
           ),
           vertical: DeviceConstraints.getResponsiveSize(context, 0, 50.h, 50.h),
@@ -146,7 +146,7 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
                               child: TabBar(
                                 controller: bookingTabController,
                                 labelStyle: theme.tabBarTheme.labelStyle!.copyWith(
-                                  fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 18.sp, 18.sp),
+                                  fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 20.sp, 18.sp),
                                 ),
                                 tabs: [
                                   Tab(

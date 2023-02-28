@@ -46,8 +46,8 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
 
     return Padding(
         padding: EdgeInsets.only(
-          left: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
-          right: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
+          left: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
+          right: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
           top: DeviceConstraints.getResponsiveSize(context, 30.h, 50.h, 50.h),
           bottom: 50,
         ),
