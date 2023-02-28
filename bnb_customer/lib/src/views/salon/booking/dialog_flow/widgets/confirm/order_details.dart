@@ -6,6 +6,8 @@ import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointme
 import 'package:bbblient/src/controller/home/salon_search_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/firebase/dynamic_link.dart';
+import 'package:bbblient/src/models/backend_codings/owner_type.dart';
+import 'package:bbblient/src/models/customer/customer.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
@@ -41,7 +43,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
         ref.watch(salonProfileProvider);
     final CreateAppointmentProvider _createAppointmentProvider =
         ref.watch(createAppointmentProvider);
-
+    final AuthProvider _auth = ref.watch(authProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool defaultTheme = theme == AppTheme.lightTheme;
 
@@ -462,12 +464,49 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                     showToast("Please agree to the terms and conditions");
                     return;
                   }
+                  CustomerModel customer = CustomerModel(
+                      customerId: "00iomPh4TKeE1GFGSNqI",
+                      personalInfo: PersonalInfo(
+                          phone: "08123317957",
+                          firstName: "Timmy",
+                          lastName: "Banjo",
+                          email: "timmybanjo@gmail.com"),
+                      registeredSalons: [],
+                      createdAt: DateTime.now(),
+                      avgRating: 3.0,
+                      noOfRatings: 6,
+                      profilePicUploaded: false,
+                      profilePic: "",
+                      profileCompleted: false,
+                      quizCompleted: false,
+                      preferredGender: "male",
+                      preferredCategories: [],
+                      locations: [],
+                      fcmToken: "",
+                      locale: "en",
+                      favSalons: [],
+                      referralLink: "");
+                  if (_createAppointmentProvider.chosenSalon!.ownerType ==
+                      OwnerType.singleMaster) {
+                    await _createAppointmentProvider.createAppointment(
+                        customerModel: customer, context: context);
+                    bool _success =
+                        await _createAppointmentProvider.finishBooking(
+                            context: context, customerModel: customer);
+                  } else {
+                    await _createAppointmentProvider.creatAppointmentSalonOwner(
+                        customerModel: customer, context: context);
+                    bool _success =
+                        await _createAppointmentProvider.finishBooking(
+                            context: context, customerModel: customer);
+                  }
                   // _createAppointmentProvider.creatAppointmentSalonOwner();
                   // Pop current dialog
-                  Navigator.of(context).pop();
+                  // Navigator.of(context).pop();
 
-                  // ConfirmedDialog(
-                  //   appointment: _createAppointmentProvider.appointmentModel!,
+                  // ConfirmedDialogSalonOwner(
+                  //   appointment:
+                  //       _createAppointmentProvider.appointmentModelSalonOwner!,
                   // ).show(context);
                 },
                 color: defaultTheme ? Colors.black : theme.primaryColor,

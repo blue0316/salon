@@ -47,7 +47,8 @@ class _VerificationState extends ConsumerState<Verification> {
     await _auth.getUserInfo(context: context);
 
     //await _salonSearchProvider.initialize();
-    await _bnbProvider.initializeApp(customerModel: _auth.currentCustomer, lang: _bnbProvider.getLocale);
+    await _bnbProvider.initializeApp(
+        customerModel: _auth.currentCustomer, lang: _bnbProvider.getLocale);
 
     if (_auth.userLoggedIn) {
       await DynamicLinksApi().handleDynamicLink(
@@ -64,9 +65,11 @@ class _VerificationState extends ConsumerState<Verification> {
 
   @override
   Widget build(BuildContext context) {
-    final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
+    final CreateAppointmentProvider _createAppointmentProvider =
+        ref.watch(createAppointmentProvider);
     final AuthProvider _auth = ref.watch(authProvider);
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool defaultTheme = theme == AppTheme.lightTheme;
@@ -103,7 +106,9 @@ class _VerificationState extends ConsumerState<Verification> {
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: DeviceConstraints.getResponsiveSize(context, 10, 25.w, 40.w).toDouble(),
+                    horizontal: DeviceConstraints.getResponsiveSize(
+                            context, 10, 25.w, 40.w)
+                        .toDouble(),
                   ),
                   child: const OTPField9(),
                 ),
@@ -116,18 +121,28 @@ class _VerificationState extends ConsumerState<Verification> {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: AppLocalizations.of(context)?.registration_line17.toCapitalized() ?? "Didn't Receive an OTP? ",
-                          style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                                color: defaultTheme ? AppTheme.lightGrey : Colors.white,
-                              ),
+                          text: AppLocalizations.of(context)
+                                  ?.registration_line17
+                                  .toCapitalized() ??
+                              "Didn't Receive an OTP? ",
+                          style:
+                              Theme.of(context).textTheme.bodyText2!.copyWith(
+                                    color: defaultTheme
+                                        ? AppTheme.lightGrey
+                                        : Colors.white,
+                                  ),
                         ),
                         const TextSpan(text: '   '),
                         TextSpan(
                           text: "Resend",
-                          style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1!
+                              .copyWith(
                                 fontSize: 15.sp,
                                 decoration: TextDecoration.underline,
-                                color: defaultTheme ? Colors.black : Colors.white,
+                                color:
+                                    defaultTheme ? Colors.black : Colors.white,
                               ),
                         ),
                       ],
@@ -145,7 +160,8 @@ class _VerificationState extends ConsumerState<Verification> {
                 height: 20,
                 width: 20,
                 child: Center(
-                  child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.white),
+                  child: CircularProgressIndicator(
+                      strokeWidth: 2, color: AppTheme.white),
                 ),
               )
             : DefaultButton(
@@ -160,16 +176,27 @@ class _VerificationState extends ConsumerState<Verification> {
 
                   if (_auth.loginStatus != Status.loading) {
                     print('again here');
-                    await _auth.signIn(context: context, ref: ref, callBack: refreshAccount).then(
+                    await _auth
+                        .signIn(
+                            context: context,
+                            ref: ref,
+                            callBack: refreshAccount)
+                        .then(
                       (value) async {
                         print('here 1');
                         _auth.getUserInfo(context: context);
                         print('here 2');
-                        _auth.createAppointmentProvider(_createAppointmentProvider);
+                        _auth.createAppointmentProvider(
+                            _createAppointmentProvider);
                         print('here 3');
-                        await _createAppointmentProvider.createAppointment(customerModel: _auth.currentCustomer!, context: context);
+                        await _createAppointmentProvider.createAppointment(
+                            customerModel: _auth.currentCustomer!,
+                            context: context);
                         print('here 4');
-                        bool _success = await _createAppointmentProvider.finishBooking(context: context, customerModel: _auth.currentCustomer!);
+                        bool _success =
+                            await _createAppointmentProvider.finishBooking(
+                                context: context,
+                                customerModel: _auth.currentCustomer!);
                         print('555');
                         print('success: $_success');
                         if (_success) {
@@ -177,7 +204,8 @@ class _VerificationState extends ConsumerState<Verification> {
                           Navigator.of(context).pop();
 
                           ConfirmedDialog(
-                            appointment: _createAppointmentProvider.appointmentModel!,
+                            appointment:
+                                _createAppointmentProvider.appointmentModel!,
                           ).show(context);
                         }
                       },
@@ -187,7 +215,8 @@ class _VerificationState extends ConsumerState<Verification> {
                 color: defaultTheme ? Colors.black : theme.primaryColor,
                 textColor: defaultTheme ? Colors.white : Colors.black,
                 height: 60,
-                label: AppLocalizations.of(context)?.verifyAndBook ?? 'Verify and book', //  'Next step',
+                label: AppLocalizations.of(context)?.verifyAndBook ??
+                    'Verify and book', //  'Next step',
               ),
         SizedBox(height: 15.h),
         DefaultButton(

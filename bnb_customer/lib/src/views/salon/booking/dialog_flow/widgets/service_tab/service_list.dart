@@ -346,22 +346,24 @@ class ServiceCard extends ConsumerWidget {
                                         color: (_createAppointmentProvider
                                                 .serviceAgainstMaster
                                                 .where((element) =>
-                                                    element
-                                                        .service!.serviceId ==
-                                                    service.serviceId)
+                                                    element.service!
+                                                            .serviceId ==
+                                                        service.serviceId &&
+                                                    element.isRandom!)
                                                 .toList()
-                                                .isEmpty)
+                                                .isNotEmpty)
                                             ? theme.primaryColor
                                             : Colors.transparent,
                                         borderRadius: BorderRadius.circular(70),
                                         border: (_createAppointmentProvider
                                                 .serviceAgainstMaster
                                                 .where((element) =>
-                                                    element
-                                                        .service!.serviceId ==
-                                                    service.serviceId)
+                                                    element.service!
+                                                            .serviceId ==
+                                                        service.serviceId &&
+                                                    element.isRandom!)
                                                 .toList()
-                                                .isEmpty)
+                                                .isNotEmpty)
                                             ? null
                                             : Border.all(
                                                 color: Colors.white,
@@ -443,7 +445,9 @@ class ServiceCard extends ConsumerWidget {
                                                               element.master!
                                                                       .masterId ==
                                                                   master
-                                                                      .masterId)
+                                                                      .masterId &&
+                                                              !element
+                                                                  .isRandom!)
                                                           .toList()
                                                           .isNotEmpty)
                                                       ? theme.primaryColor
@@ -460,7 +464,9 @@ class ServiceCard extends ConsumerWidget {
                                                               element.master!
                                                                       .masterId ==
                                                                   master
-                                                                      .masterId)
+                                                                      .masterId &&
+                                                              !element
+                                                                  .isRandom!)
                                                           .toList()
                                                           .isNotEmpty)
                                                       ? null
@@ -529,14 +535,13 @@ class ServiceCard extends ConsumerWidget {
                                                           color: (_createAppointmentProvider
                                                                   .serviceAgainstMaster
                                                                   .where((element) =>
-                                                                      element.service!
-                                                                              .serviceId ==
-                                                                          service
-                                                                              .serviceId &&
+                                                                      element.service!.serviceId == service.serviceId &&
                                                                       element.master!
                                                                               .masterId ==
                                                                           master
-                                                                              .masterId)
+                                                                              .masterId &&
+                                                                      !element
+                                                                          .isRandom!)
                                                                   .toList()
                                                                   .isNotEmpty)
                                                               ? Colors.black

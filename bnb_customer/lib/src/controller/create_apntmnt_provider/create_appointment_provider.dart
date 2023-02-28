@@ -93,7 +93,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   Map<String, PriceAndDurationModel> mastersPriceDurationMap = {};
   Map<String, PriceAndDurationModel> mastersPriceDurationMapMax = {};
   AppointmentModel? appointmentModel;
-  List<AppointmentModel>? appointmentModelSalonOwner;
+  List<AppointmentModel>? appointmentModelSalonOwner = [];
 
   bool bookedForSelf = true;
   String bookedForName = '';
@@ -616,6 +616,11 @@ class CreateAppointmentProvider with ChangeNotifier {
       required BuildContext context,
       required bool showNotWorkingToast,
       required List<ServiceAndMaster> masterAndservice}) {
+    validSlots.clear();
+    allSlots.clear();
+    breakSlots.clear();
+
+    int index = 0;
     for (ServiceAndMaster serviceMaster in masterAndservice) {
       Hours? workingHours;
       List<String> validSlotsMaster = [];
@@ -691,9 +696,11 @@ class CreateAppointmentProvider with ChangeNotifier {
             breakSlotsMaster = masterBlocked;
             printIt(breakSlotsMaster);
           }
-          for (String slot in breakSlots) {
+          for (String slot in breakSlotsMaster) {
             validSlotsMaster.removeWhere((element) => element == slot);
           }
+          serviceAgainstMaster[index].validSlots = validSlotsMaster;
+
           validSlots.addAll(validSlotsMaster);
           allSlots.addAll(allSlotsMaster);
           breakSlots.addAll(breakSlotsMaster);
@@ -701,6 +708,14 @@ class CreateAppointmentProvider with ChangeNotifier {
           // remove duplicates
           validSlots = validSlots.toSet().toList();
           allSlots = allSlots.toSet().toList();
+          allSlots.sort((a, b) => ((Time().stringToTime(a).hour * 60) +
+                  (Time().stringToTime(a).minute))
+              .compareTo(((Time().stringToTime(b).hour * 60) +
+                  (Time().stringToTime(b).minute))));
+          validSlots.sort((a, b) => ((Time().stringToTime(a).hour * 60) +
+                  (Time().stringToTime(a).minute))
+              .compareTo(((Time().stringToTime(b).hour * 60) +
+                  (Time().stringToTime(b).minute))));
           // make breakTime only break time in all masters
 
           // divideSlotsForDay();
@@ -723,6 +738,8 @@ class CreateAppointmentProvider with ChangeNotifier {
         notifyListeners();
         debugPrint(allSlots.toString());
       }
+      notifyListeners();
+      index += 1;
     }
     var map = Map();
     for (var element in breakSlots) {
@@ -739,8 +756,16 @@ class CreateAppointmentProvider with ChangeNotifier {
         breakSlots.add(element);
       }
     }
-
-    print(breakSlots);
+    breakSlots.sort((a, b) =>
+        ((Time().stringToTime(a).hour * 60) + (Time().stringToTime(a).minute))
+            .compareTo(((Time().stringToTime(b).hour * 60) +
+                (Time().stringToTime(b).minute))));
+    serviceAgainstMaster.forEach((element) {
+      element.NotCommonvalidSlots = element.validSlots!
+          .where((elem) => !validSlots.contains(elem))
+          .toList();
+    });
+    notifyListeners();
   }
 
   calculateMasterVariations() {
@@ -874,9 +899,22 @@ class CreateAppointmentProvider with ChangeNotifier {
       }
 
       Utils().vibratePositively();
+      if (chosenSalon?.ownerType != OwnerType.singleMaster) {
+        serviceAgainstMaster.add(ServiceAndMaster(
+            service: serviceModel,
+            master: getMasterProvidingService(serviceModel)[0],
+            isRandom: true));
+        refreshSlotsSalonOwner(context!);
+      }
+
       notifyListeners();
     } else {
+      if (chosenSalon?.ownerType != OwnerType.singleMaster) {
+        serviceAgainstMaster.removeWhere((element) =>
+            element.service!.serviceId == chosenServices[index].serviceId);
+      }
       chosenServices.removeAt(index);
+
       totalPrice = totalPrice -
           (!serviceModel.isFixedPrice
               ? (double.tryParse(serviceModel.priceAndDurationMax!.price) ?? 0)
@@ -1550,18 +1588,13 @@ class CreateAppointmentProvider with ChangeNotifier {
       {required CustomerModel? customerModel, required BuildContext context}) {
     int index = 0;
     DateTime? nextStart;
-    for (ServiceModel service in chosenServices) {
-      //  total price and duration
-      PriceAndDurationModel _totalPriceAndDuration = PriceAndDurationModel(
-        duration: totalMinutes.toString(),
-        price: totalPrice.toString(),
-      );
+    List<ServiceAndMaster> serviceMasterDup =
+        serviceAgainstMaster.map<ServiceAndMaster>((e) => e).toList();
+    var locale =
+        AppLocalizations.of(context)?.localeName.toString().toLowerCase();
 
-      var locale =
-          AppLocalizations.of(context)?.localeName.toString().toLowerCase();
-
-      printIt("Chosen Slots");
-      printIt(chosenSlots);
+    // loop through the present service to master
+    for (int i = 0; i < serviceAgainstMaster.length; i++) {
       DateTime? _startTime;
       if (nextStart != null) {
         _startTime = nextStart;
@@ -1574,49 +1607,80 @@ class CreateAppointmentProvider with ChangeNotifier {
           int.parse(chosenSlots.first.split(':')[1]),
         );
       }
+      int timeOfDayInNumber = (TimeOfDay.fromDateTime(_startTime).hour * 60) +
+          TimeOfDay.fromDateTime(_startTime).minute;
+      int remainder =
+          timeOfDayInNumber % (chosenSalon!.timeSlotsInterval ?? 15);
+      int toAdd = (chosenSalon!.timeSlotsInterval ?? 15) - remainder;
+
+      int nearestStepStartTime = timeOfDayInNumber + toAdd;
+      ServiceAndMaster? MasterServiceAtPresentTime;
+      if (serviceMasterDup
+          .where((element) => element.NotCommonvalidSlots!
+                  .contains(Time().timeToString(TimeOfDay.fromDateTime(DateTime(
+                chosenDay.year,
+                chosenDay.month,
+                chosenDay.day,
+                nearestStepStartTime ~/ 60,
+                nearestStepStartTime % 60,
+              )))))
+          .toList()
+          .isNotEmpty) {
+        MasterServiceAtPresentTime = serviceMasterDup
+            .where((element) => element.NotCommonvalidSlots!.contains(Time()
+                .timeToString(TimeOfDay.fromDateTime(DateTime(
+                  chosenDay.year,
+                  chosenDay.month,
+                  chosenDay.day,
+                  nearestStepStartTime ~/ 60,
+                  nearestStepStartTime % 60,
+                )))
+                .toString()))
+            .toList()[0];
+      } else {
+        print("this is time" +
+            Time()
+                .timeToString(TimeOfDay.fromDateTime(DateTime(
+                  chosenDay.year,
+                  chosenDay.month,
+                  chosenDay.day,
+                  nearestStepStartTime ~/ 60,
+                  nearestStepStartTime % 60,
+                )))
+                .toString());
+        MasterServiceAtPresentTime = serviceMasterDup
+            .where((element) => element.validSlots!.contains(Time()
+                .timeToString(TimeOfDay.fromDateTime(DateTime(
+                  chosenDay.year,
+                  chosenDay.month,
+                  chosenDay.day,
+                  nearestStepStartTime ~/ 60,
+                  nearestStepStartTime % 60,
+                )))
+                .toString()))
+            .toList()[0];
+      }
+      //  total price and duration
+
       DateTime _endTime = _startTime.add(
         Duration(
-            minutes: service.isFixedDuration != null
-                ? !service.isFixedDuration
-                    ? int.parse(service.priceAndDurationMax!.duration)
-                    : int.parse(service.priceAndDuration.duration)
-                : int.parse(service.priceAndDuration.duration)),
+            minutes:
+                MasterServiceAtPresentTime!.service!.isFixedDuration != null
+                    ? !MasterServiceAtPresentTime.service!.isFixedDuration
+                        ? int.parse(MasterServiceAtPresentTime
+                            .service!.priceAndDurationMax!.duration)
+                        : int.parse(MasterServiceAtPresentTime
+                            .service!.priceAndDuration.duration)
+                    : int.parse(MasterServiceAtPresentTime
+                        .service!.priceAndDuration.duration)),
       );
       nextStart = _endTime;
-      print('**************************************n*****************');
-      print(chosenMaster!.masterId);
-      print('hmmmmm');
-      print(mastersServicesMap[chosenMaster!.masterId]![0].priceAndDurationMax);
-      print(chosenMaster!);
-      print(chosenMaster!.servicesPriceAndDurationMax);
-      print('*******************************************************');
-
-      print('*******************************************************');
 
       final List<Service> _services = [
-        Service.fromService(serviceModel: service)
+        Service.fromService(serviceModel: MasterServiceAtPresentTime.service!)
       ];
-      //  chosenServices
-      //     .map((element) => Service.fromService(serviceModel: element))
-      //     .toList();
-      // : mastersServicesMap[chosenMaster!.masterId]!
-      //     .map(
-      //       (element) => Service.fromService(
-      //         serviceModel: element,
-      //         masterPriceAndDuration:
-      //             (chosenMaster!.servicesPriceAndDuration == null)
-      //                 ? chosenMaster!
-      //                     .servicesPriceAndDurationMax![element.serviceId]
-      //                 : chosenMaster!
-      //                     .servicesPriceAndDuration![element.serviceId],
-      //       ),
-      //     )
-      //     .toList();
-
-      print('*******************************************************');
-      print(_services);
-      print('*******************************************************');
-
+      print(_services.length);
+      print(serviceAgainstMaster.length);
       appointmentModel = AppointmentModel(
         appointmentStartTime: _startTime,
         appointmentEndTime: _endTime,
@@ -1635,38 +1699,62 @@ class CreateAppointmentProvider with ChangeNotifier {
             : AppointmentStatus.active,
         services: _services,
         customer: Customer(
-          id: customerModel!.customerId,
-          name: Utils().getName(customerModel.personalInfo),
-          phoneNumber: customerModel.personalInfo.phone,
-          pic: customerModel.profilePic,
+          id: "00iomPh4TKeE1GFGSNqI",
+          name: "Banjo Oluwatimmy",
+          phoneNumber: "+2348123317957",
+          pic: "",
         ),
-        priceAndDuration: _totalPriceAndDuration,
+        priceAndDuration: PriceAndDurationModel(
+          duration: MasterServiceAtPresentTime.service!.isPriceRange
+              ? int.parse(MasterServiceAtPresentTime
+                      .service!.priceAndDurationMax!.duration)
+                  .toString()
+              : int.parse(MasterServiceAtPresentTime
+                      .service!.priceAndDuration.duration)
+                  .toString(),
+          price: MasterServiceAtPresentTime.service!.isPriceRange
+              ? int.parse(MasterServiceAtPresentTime
+                      .service!.priceAndDurationMax!.price)
+                  .toString()
+              : int.parse(MasterServiceAtPresentTime
+                      .service!.priceAndDuration.price)
+                  .toString(),
+        ),
+
         paymentInfo: null,
         master: Master(
           id: serviceAgainstMaster
                   .where((element) =>
-                      element.service?.serviceId == service.serviceId)
+                      element.service?.serviceId ==
+                      MasterServiceAtPresentTime!.service!.serviceId)
                   .toList()
                   .isNotEmpty
               ? serviceAgainstMaster
                   .where((element) =>
-                      element.service!.serviceId == service.serviceId)
+                      element.service!.serviceId ==
+                      MasterServiceAtPresentTime!.service!.serviceId)
                   .toList()[0]
                   .master!
                   .masterId
-              : getMasterProvidingService(service)[0].masterId,
+              : getMasterProvidingService(
+                      MasterServiceAtPresentTime.service!)[0]
+                  .masterId,
           name: Utils().getNameMaster(serviceAgainstMaster
                   .where((element) =>
-                      element.service?.serviceId == service.serviceId)
+                      element.service?.serviceId ==
+                      MasterServiceAtPresentTime!.service!.serviceId)
                   .toList()
                   .isNotEmpty
               ? serviceAgainstMaster
                   .where((element) =>
-                      element.service!.serviceId == service.serviceId)
+                      element.service!.serviceId ==
+                      MasterServiceAtPresentTime!.service!.serviceId)
                   .toList()[0]
                   .master!
                   .personalInfo
-              : getMasterProvidingService(service)[0].personalInfo),
+              : getMasterProvidingService(
+                      MasterServiceAtPresentTime.service!)[0]
+                  .personalInfo),
         ),
         salon: Salon(
           id: chosenSalon!.salonId,
@@ -1687,6 +1775,10 @@ class CreateAppointmentProvider with ChangeNotifier {
       );
       printIt(appointmentModel!.toJson());
       appointmentModelSalonOwner!.add(appointmentModel!);
+// remove from duplicate so we don't loop through uncessary element..and to prevent duplicate booking
+      serviceMasterDup.removeWhere((element) =>
+          element.service!.serviceId ==
+          MasterServiceAtPresentTime!.service!.serviceId);
     }
   }
 
@@ -1926,78 +2018,43 @@ class CreateAppointmentProvider with ChangeNotifier {
     required CustomerModel customerModel,
   }) async {
     loadingStatus = Status.loading;
-    if (customerModel.salonIdsBlocked!.contains(chosenSalon!.salonId)) {
-      showToast("You have been blocked from making appointments by this salon");
-      loadingStatus = Status.failed;
-      notifyListeners();
-      return false;
-    }
-    if (appointmentModel != null) {
-      PaymentInfo _paymentInfo = PaymentInfo(
-        bonusApplied: chosenBonus != null,
-        bonusAmount: chosenBonus?.amount ?? 0,
-        actualAmount:
-            double.parse(appointmentModel?.priceAndDuration.price ?? '0')
-                .toInt(),
-        bonusIds: chosenBonus != null ? [chosenBonus!.bonusId] : [],
-        paymentDone: false,
-        onlinePayment: false,
-        paymentMethod: PaymentMethods.cardSalon,
-      );
+    // if (customerModel.salonIdsBlocked!.contains(chosenSalon!.salonId)) {
+    //   showToast("You have been blocked from making appointments by this salon");
+    //   loadingStatus = Status.failed;
+    //   notifyListeners();
+    //   return false;
+    // }
 
-      ///passes discounted amount in priceAndDuration model
-      if (chosenBonus != null) {
-        final discountedAmount =
-            (double.parse(appointmentModel?.priceAndDuration.price ?? '0')
-                    .toInt() -
-                chosenBonus!.amount);
-        if (discountedAmount < 0) {
-          appointmentModel?.priceAndDuration.price = '0';
-        } else {
-          appointmentModel?.priceAndDuration.price =
-              discountedAmount.toString();
-        }
-      }
+    if (ownerType == OwnerType.singleMaster) {
+      if (appointmentModel != null) {
+        PaymentInfo _paymentInfo = PaymentInfo(
+          bonusApplied: chosenBonus != null,
+          bonusAmount: chosenBonus?.amount ?? 0,
+          actualAmount:
+              double.parse(appointmentModel?.priceAndDuration.price ?? '0')
+                  .toInt(),
+          bonusIds: chosenBonus != null ? [chosenBonus!.bonusId] : [],
+          paymentDone: false,
+          onlinePayment: false,
+          paymentMethod: PaymentMethods.cardSalon,
+        );
 
-      appointmentModel?.paymentInfo = _paymentInfo;
-      AppointmentModel? finalAppointment;
-      if (ownerType != OwnerType.singleMaster) {
-        finalAppointment = await createAppointmentInIntegration(
-            appointmentModel!, chosenMaster!);
-
-        if (finalAppointment != null) {
-          DocumentReference doc =
-              await Collection.appointments.add(finalAppointment.toJson());
-
-          finalAppointment.appointmentId = doc.id;
-          await blockTime();
-
-          if (chosenBonus != null) {
-            await BonusReferralApi().invalidateBonus(
-                bonusModel: chosenBonus!, usedAppointmentId: doc.id);
+        ///passes discounted amount in priceAndDuration model
+        if (chosenBonus != null) {
+          final discountedAmount =
+              (double.parse(appointmentModel?.priceAndDuration.price ?? '0')
+                      .toInt() -
+                  chosenBonus!.amount);
+          if (discountedAmount < 0) {
+            appointmentModel?.priceAndDuration.price = '0';
+          } else {
+            appointmentModel?.priceAndDuration.price =
+                discountedAmount.toString();
           }
-
-          // AppointmentNotification().sendNotifications(
-          //     finalAppointment, customerModel, chosenSalon!, context);
-          printIt(finalAppointment.toJson());
-          reset();
-
-          Collection.customers.doc(customerModel.customerId).update({
-            'registeredSalons':
-                FieldValue.arrayUnion([appointmentModel!.salon.id])
-          });
-          loadingStatus = Status.success;
-          notifyListeners();
-          notifyListeners();
-
-          return true;
-        } else {
-          loadingStatus = Status.failed;
-          notifyListeners();
-
-          return false;
         }
-      } else {
+
+        appointmentModel?.paymentInfo = _paymentInfo;
+        AppointmentModel? finalAppointment;
         DocumentReference doc =
             await Collection.appointments.add(appointmentModel!.toJson());
 
@@ -2021,14 +2078,114 @@ class CreateAppointmentProvider with ChangeNotifier {
         loadingStatus = Status.success;
         notifyListeners();
         return true;
+        // finalAppointment = await createAppointmentInIntegration(
+        //     appointmentModel!, chosenMaster!);
+
+        // if (finalAppointment != null) {
+        //   DocumentReference doc =
+        //       await Collection.appointments.add(finalAppointment.toJson());
+
+        //   finalAppointment.appointmentId = doc.id;
+        //   await blockTime();
+
+        //   if (chosenBonus != null) {
+        //     await BonusReferralApi().invalidateBonus(
+        //         bonusModel: chosenBonus!, usedAppointmentId: doc.id);
+        //   }
+
+        //   // AppointmentNotification().sendNotifications(
+        //   //     finalAppointment, customerModel, chosenSalon!, context);
+        //   printIt(finalAppointment.toJson());
+        //   reset();
+
+        //   Collection.customers.doc(customerModel.customerId).update({
+        //     'registeredSalons':
+        //         FieldValue.arrayUnion([appointmentModel!.salon.id])
+        //   });
+        //   loadingStatus = Status.success;
+        //   notifyListeners();
+        //   notifyListeners();
+
+        //   return true;
+        // } else {
+        //   loadingStatus = Status.failed;
+        //   notifyListeners();
+
+        //   return false;
+        // }
+      } else {
+        loadingStatus = Status.failed;
+        notifyListeners();
+        printIt('error in making booking');
+        showToast(AppLocalizations.of(context)?.errorOccurred ??
+            'error! please try again');
+        return false;
       }
     } else {
-      loadingStatus = Status.failed;
+      for (AppointmentModel app in appointmentModelSalonOwner!) {
+        PaymentInfo _paymentInfo = PaymentInfo(
+          bonusApplied: chosenBonus != null,
+          bonusAmount: chosenBonus?.amount ?? 0,
+          actualAmount: double.parse(app.priceAndDuration.price).toInt(),
+          bonusIds: chosenBonus != null ? [chosenBonus!.bonusId] : [],
+          paymentDone: false,
+          onlinePayment: false,
+          paymentMethod: PaymentMethods.cardSalon,
+        );
+
+        ///passes discounted amount in priceAndDuration model
+        if (chosenBonus != null) {
+          final discountedAmount =
+              (double.parse(app.priceAndDuration.price).toInt() -
+                  chosenBonus!.amount);
+          if (discountedAmount < 0) {
+            app.priceAndDuration.price = '0';
+          } else {
+            app.priceAndDuration.price = discountedAmount.toString();
+          }
+        }
+
+        app.paymentInfo = _paymentInfo;
+        DocumentReference doc = await Collection.appointments.add(app.toJson());
+
+        app.appointmentId = doc.id;
+        await blockTimeSalonOwnerMaster(
+            app,
+            serviceAgainstMaster
+                    .where((element) =>
+                        element.service?.serviceId ==
+                        app.services.first.serviceId)
+                    .toList()
+                    .isNotEmpty
+                ? serviceAgainstMaster
+                    .where((element) =>
+                        element.service?.serviceId ==
+                        app.services.first.serviceId)
+                    .toList()[0]
+                    .master!
+                : getMasterProvidingService(chosenServices
+                    .where((element) =>
+                        element.serviceId == app.services.first.serviceId)
+                    .toList()[0])[0]);
+
+        if (chosenBonus != null) {
+          await BonusReferralApi().invalidateBonus(
+              bonusModel: chosenBonus!, usedAppointmentId: doc.id);
+        }
+
+        // AppointmentNotification().sendNotifications(
+        //     appointmentModel!, customerModel, chosenSalon!, context);
+        // printIt(finalAppointment?.toJson());
+        reset();
+
+        Collection.customers.doc(customerModel.customerId).update({
+          'registeredSalons':
+              FieldValue.arrayUnion([appointmentModel!.salon.id])
+        });
+      }
+      loadingStatus = Status.success;
       notifyListeners();
-      printIt('error in making booking');
-      showToast(AppLocalizations.of(context)?.errorOccurred ??
-          'error! please try again');
-      return false;
+      return true;
     }
   }
 
@@ -2070,15 +2227,17 @@ class CreateAppointmentProvider with ChangeNotifier {
         (element) => element.service!.serviceId == service.serviceId);
     if (getMasterProvidingService(service).length != 0) {
       serviceAgainstMaster.add(ServiceAndMaster(
-          service: service, master: getMasterProvidingService(service)[0]));
+          service: service,
+          master: getMasterProvidingService(service)[0],
+          isRandom: true));
 
       getSlotsForSalonOwnerTye(
           day: chosenDay,
           context: context,
           showNotWorkingToast: false,
           masterAndservice: serviceAgainstMaster);
-      serviceAgainstMaster.removeWhere(
-          (element) => element.service!.serviceId == service.serviceId);
+      // serviceAgainstMaster.removeWhere(
+      //     (element) => element.service!.serviceId == service.serviceId);
       divideSlotsForDay();
     }
     notifyListeners();
@@ -2086,6 +2245,8 @@ class CreateAppointmentProvider with ChangeNotifier {
 
   addServiceMaster(
       ServiceModel service, MasterModel master, BuildContext context) {
+    serviceAgainstMaster.removeWhere(
+        (element) => element.service!.serviceId == service.serviceId);
     serviceAgainstMaster
         .add(ServiceAndMaster(service: service, master: master));
     getSlotsForSalonOwnerTye(
@@ -2095,6 +2256,16 @@ class CreateAppointmentProvider with ChangeNotifier {
         masterAndservice: serviceAgainstMaster);
     divideSlotsForDay();
     notifyListeners();
+  }
+
+  // to help recalculate the available slots
+  refreshSlotsSalonOwner(BuildContext context) {
+    getSlotsForSalonOwnerTye(
+        day: chosenDay,
+        context: context,
+        showNotWorkingToast: false,
+        masterAndservice: serviceAgainstMaster);
+    divideSlotsForDay();
   }
 
   reset() {
