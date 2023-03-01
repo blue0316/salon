@@ -6,6 +6,8 @@ import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointme
 import 'package:bbblient/src/controller/home/salon_search_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/firebase/dynamic_link.dart';
+import 'package:bbblient/src/models/backend_codings/owner_type.dart';
+import 'package:bbblient/src/models/customer/customer.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
@@ -37,9 +39,11 @@ class _OrderListState extends ConsumerState<OrderDetails> {
   Widget build(BuildContext context) {
     // final AuthProvider _auth = ref.watch(authProvider);
     // final CreateAppointmentProvider appointment = ref.watch(createAppointmentProvider);
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
-    final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
-
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
+    final CreateAppointmentProvider _createAppointmentProvider =
+        ref.watch(createAppointmentProvider);
+    final AuthProvider _auth = ref.watch(authProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool defaultTheme = theme == AppTheme.lightTheme;
 
@@ -70,29 +74,36 @@ class _OrderListState extends ConsumerState<OrderDetails> {
               SizedBox(height: 10.h),
               SizedBox(
                 width: double.infinity,
-                height: DeviceConstraints.getResponsiveSize(context, 90.h, 85.h, 85.h),
+                height: DeviceConstraints.getResponsiveSize(
+                    context, 90.h, 85.h, 85.h),
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 4, // appointment.appointmentModel!.services.length,
+                  itemCount:
+                      4, // appointment.appointmentModel!.services.length,
                   itemBuilder: (context, index) {
                     // final service = appointment.appointmentModel!.services[index];
 
                     return Padding(
                       padding: EdgeInsets.symmetric(horizontal: 5.h),
                       child: Container(
-                        width: DeviceConstraints.getResponsiveSize(context, 175.w, 160.w, 105.w),
+                        width: DeviceConstraints.getResponsiveSize(
+                            context, 175.w, 160.w, 105.w),
                         decoration: BoxDecoration(
-                          color: defaultTheme ? Colors.white : Colors.transparent,
+                          color:
+                              defaultTheme ? Colors.white : Colors.transparent,
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
                             width: 1.5,
-                            color: defaultTheme ? Colors.black : theme.primaryColor,
+                            color: defaultTheme
+                                ? Colors.black
+                                : theme.primaryColor,
                           ),
                         ),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
                             vertical: 10,
-                            horizontal: DeviceConstraints.getResponsiveSize(context, 10, 15, 25),
+                            horizontal: DeviceConstraints.getResponsiveSize(
+                                context, 10, 15, 25),
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,29 +112,43 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                               // -- SERVICE TITLE AND PRICE
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   SizedBox(
-                                    width: DeviceConstraints.getResponsiveSize(context, 85.w, 75.w, 70.w),
+                                    width: DeviceConstraints.getResponsiveSize(
+                                        context, 85.w, 75.w, 70.w),
                                     child: Text(
                                       // service.translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
                                       'Eyebrow Tinting',
-                                      style: theme.textTheme.bodyText1!.copyWith(
+                                      style:
+                                          theme.textTheme.bodyText1!.copyWith(
                                         fontWeight: FontWeight.w600,
-                                        fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 16.sp, 16.sp),
-                                        color: defaultTheme ? Colors.black : Colors.white,
+                                        fontSize:
+                                            DeviceConstraints.getResponsiveSize(
+                                                context, 14.sp, 16.sp, 16.sp),
+                                        color: defaultTheme
+                                            ? Colors.black
+                                            : Colors.white,
                                       ),
                                       overflow: TextOverflow.ellipsis,
-                                      maxLines: DeviceConstraints.getResponsiveSize(context, 2, 1, 1).toInt(),
+                                      maxLines:
+                                          DeviceConstraints.getResponsiveSize(
+                                                  context, 2, 1, 1)
+                                              .toInt(),
                                     ),
                                   ),
                                   Text(
                                     // "${Keys.dollars}${service.priceAndDuration.price}",
                                     '${Keys.dollars} 300',
                                     style: theme.textTheme.bodyText1!.copyWith(
-                                      color: defaultTheme ? Colors.black : Colors.white,
+                                      color: defaultTheme
+                                          ? Colors.black
+                                          : Colors.white,
                                       fontWeight: FontWeight.w700,
-                                      fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 16.sp, 16.sp),
+                                      fontSize:
+                                          DeviceConstraints.getResponsiveSize(
+                                              context, 14.sp, 16.sp, 16.sp),
                                     ),
                                     overflow: TextOverflow.visible,
                                     maxLines: 1,
@@ -143,7 +168,9 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                     child: Center(
                                       child: SvgPicture.asset(
                                         AppIcons.clockSVG,
-                                        color: defaultTheme ? Colors.black : theme.primaryColor,
+                                        color: defaultTheme
+                                            ? Colors.black
+                                            : theme.primaryColor,
                                       ),
                                     ),
                                   ),
@@ -161,7 +188,9 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                     "40 minutes",
                                     style: theme.textTheme.bodyText1!.copyWith(
                                       fontSize: 14.sp,
-                                      color: defaultTheme ? Colors.black : Colors.white,
+                                      color: defaultTheme
+                                          ? Colors.black
+                                          : Colors.white,
                                     ),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
@@ -196,12 +225,18 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                   },
                 ),
               ),
-              Space(factor: DeviceConstraints.getResponsiveSize(context, 1, 0.3, 0.3).toDouble()),
+              Space(
+                  factor:
+                      DeviceConstraints.getResponsiveSize(context, 1, 0.3, 0.3)
+                          .toDouble()),
               const Divider(
                 color: Color.fromARGB(71, 137, 149, 159),
                 thickness: 1,
               ),
-              Space(factor: DeviceConstraints.getResponsiveSize(context, 1, 0.3, 0.3).toDouble()),
+              Space(
+                  factor:
+                      DeviceConstraints.getResponsiveSize(context, 1, 0.3, 0.3)
+                          .toDouble()),
               Text(
                 "You choosed:",
                 style: theme.textTheme.bodyText1!.copyWith(
@@ -331,12 +366,18 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                   ),
                 ],
               ),
-              Space(factor: DeviceConstraints.getResponsiveSize(context, 1, 0.3, 0.3).toDouble()),
+              Space(
+                  factor:
+                      DeviceConstraints.getResponsiveSize(context, 1, 0.3, 0.3)
+                          .toDouble()),
               const Divider(
                 color: Color.fromARGB(71, 137, 149, 159),
                 thickness: 1,
               ),
-              Space(factor: DeviceConstraints.getResponsiveSize(context, 1, 0.3, 0.3).toDouble()),
+              Space(
+                  factor:
+                      DeviceConstraints.getResponsiveSize(context, 1, 0.3, 0.3)
+                          .toDouble()),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -365,7 +406,8 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                 // height: 100,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: defaultTheme ? Colors.grey[100] : const Color(0XFF202020),
+                  color:
+                      defaultTheme ? Colors.grey[100] : const Color(0XFF202020),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: const Padding(
@@ -380,7 +422,8 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                 children: [
                   Theme(
                     data: Theme.of(context).copyWith(
-                      unselectedWidgetColor: defaultTheme ? Colors.black : Colors.white,
+                      unselectedWidgetColor:
+                          defaultTheme ? Colors.black : Colors.white,
                     ),
                     child: Checkbox(
                       checkColor: Colors.white,
@@ -421,12 +464,49 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                     showToast("Please agree to the terms and conditions");
                     return;
                   }
-
+                  CustomerModel customer = CustomerModel(
+                      customerId: "00iomPh4TKeE1GFGSNqI",
+                      personalInfo: PersonalInfo(
+                          phone: "08123317957",
+                          firstName: "Timmy",
+                          lastName: "Banjo",
+                          email: "timmybanjo@gmail.com"),
+                      registeredSalons: [],
+                      createdAt: DateTime.now(),
+                      avgRating: 3.0,
+                      noOfRatings: 6,
+                      profilePicUploaded: false,
+                      profilePic: "",
+                      profileCompleted: false,
+                      quizCompleted: false,
+                      preferredGender: "male",
+                      preferredCategories: [],
+                      locations: [],
+                      fcmToken: "",
+                      locale: "en",
+                      favSalons: [],
+                      referralLink: "");
+                  if (_createAppointmentProvider.chosenSalon!.ownerType ==
+                      OwnerType.singleMaster) {
+                    await _createAppointmentProvider.createAppointment(
+                        customerModel: customer, context: context);
+                    bool _success =
+                        await _createAppointmentProvider.finishBooking(
+                            context: context, customerModel: customer);
+                  } else {
+                    await _createAppointmentProvider.creatAppointmentSalonOwner(
+                        customerModel: customer, context: context);
+                    bool _success =
+                        await _createAppointmentProvider.finishBooking(
+                            context: context, customerModel: customer);
+                  }
+                  // _createAppointmentProvider.creatAppointmentSalonOwner();
                   // Pop current dialog
-                  Navigator.of(context).pop();
+                  // Navigator.of(context).pop();
 
-                  // ConfirmedDialog(
-                  //   appointment: _createAppointmentProvider.appointmentModel!,
+                  // ConfirmedDialogSalonOwner(
+                  //   appointment:
+                  //       _createAppointmentProvider.appointmentModelSalonOwner!,
                   // ).show(context);
                 },
                 color: defaultTheme ? Colors.black : theme.primaryColor,

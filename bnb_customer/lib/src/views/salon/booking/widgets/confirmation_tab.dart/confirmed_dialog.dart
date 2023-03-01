@@ -21,7 +21,8 @@ import 'package:flutter_svg/svg.dart';
 class ConfirmedDialog<T> extends ConsumerStatefulWidget {
   final AppointmentModel appointment;
 
-  const ConfirmedDialog({Key? key, required this.appointment}) : super(key: key);
+  const ConfirmedDialog({Key? key, required this.appointment})
+      : super(key: key);
 
   Future<void> show(BuildContext context) async {
     await showDialog<T>(
@@ -39,7 +40,8 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context).size;
 
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool defaultTheme = theme == AppTheme.lightTheme;
@@ -57,7 +59,8 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
       ),
       child: SizedBox(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10), // , horizontal: 5),
+          padding:
+              const EdgeInsets.symmetric(vertical: 10), // , horizontal: 5),
           child: Padding(
             padding: const EdgeInsets.all(10),
             child: Column(
@@ -81,7 +84,8 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                     Text(
                       'Success',
                       style: AppTheme.bodyText1.copyWith(
-                        fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 25.sp, 40.sp),
+                        fontSize: DeviceConstraints.getResponsiveSize(
+                            context, 25.sp, 25.sp, 40.sp),
                         fontWeight: FontWeight.w600,
                         fontFamily: 'Gilroy',
                         color: defaultTheme ? AppTheme.textBlack : Colors.white,
@@ -91,7 +95,8 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                     Text(
                       'Booking was successful',
                       style: AppTheme.bodyText1.copyWith(
-                        fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 30.sp),
+                        fontSize: DeviceConstraints.getResponsiveSize(
+                            context, 20.sp, 20.sp, 30.sp),
                         fontFamily: 'Gilroy',
                         color: defaultTheme ? AppTheme.textBlack : Colors.white,
                       ),
@@ -104,15 +109,181 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                         child: Icon(
                           Icons.close_rounded,
                           color: AppTheme.lightGrey,
-                          size: DeviceConstraints.getResponsiveSize(context, 20.h, 30.h, 30.h),
+                          size: DeviceConstraints.getResponsiveSize(
+                              context, 20.h, 30.h, 30.h),
                         ),
                       ),
                     ),
                   ],
                 ),
-                Space(factor: DeviceConstraints.getResponsiveSize(context, 3, 2.5, 2.5).toDouble()),
+                Space(
+                    factor: DeviceConstraints.getResponsiveSize(
+                            context, 3, 2.5, 2.5)
+                        .toDouble()),
                 const TopDetails(),
-                Space(factor: DeviceConstraints.getResponsiveSize(context, 2, 1, 1).toDouble()),
+                Space(
+                    factor:
+                        DeviceConstraints.getResponsiveSize(context, 2, 1, 1)
+                            .toDouble()),
+                const BottomDetails(),
+                // const SizedBox(height: 20),
+                // const Spacer(),
+                // Expanded(
+                //   flex: 0,
+                //   child: Padding(
+                //     padding: EdgeInsets.symmetric(
+                //       horizontal: DeviceConstraints.getResponsiveSize(context, 0, 20.w, 20.w),
+                //     ),
+                //     child: Column(
+                //       children: [
+                //         DefaultButton(
+                //           label: 'Add to Apple Calendar',
+                //           borderRadius: 60,
+                //           color: defaultTheme ? Colors.black : theme.primaryColor,
+                //           height: 60,
+                //           prefixIcon: SvgPicture.asset(
+                //             AppIcons.appleLogoSvg,
+                //             fit: BoxFit.cover,
+                //             height: 18.sp,
+                //             color: defaultTheme ? Colors.white : Colors.black,
+                //           ),
+                //           onTap: () {},
+                //         ),
+                //         SizedBox(height: 10.h),
+                //         DefaultButton(
+                //           label: 'Add to Google Calendar',
+                //           borderRadius: 60,
+                //           color: defaultTheme ? Colors.black : theme.primaryColor,
+                //           height: 60,
+                //           prefixIcon: SvgPicture.asset(
+                //             AppIcons.googleLogoSVG,
+                //             fit: BoxFit.cover,
+                //             height: 18.sp,
+                //           ),
+                //           onTap: () {},
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                // SizedBox(height: 15.h),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ConfirmedDialogSalonOwner<T> extends ConsumerStatefulWidget {
+  final List<AppointmentModel> appointment;
+
+  const ConfirmedDialogSalonOwner({Key? key, required this.appointment})
+      : super(key: key);
+
+  Future<void> show(BuildContext context) async {
+    await showDialog<T>(
+      context: context,
+      builder: (context) => this,
+    );
+  }
+
+  @override
+  ConsumerState<ConfirmedDialog<T>> createState() => _ConfirmedDialogState<T>();
+}
+
+class _ConfirmedDialogSalonOwnerState<T>
+    extends ConsumerState<ConfirmedDialogSalonOwner<T>> {
+  @override
+  Widget build(BuildContext context) {
+    var mediaQuery = MediaQuery.of(context).size;
+
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
+
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+    bool defaultTheme = theme == AppTheme.lightTheme;
+
+    return Dialog(
+      backgroundColor: theme.dialogBackgroundColor,
+      insetPadding: EdgeInsets.symmetric(
+        horizontal: DeviceConstraints.getResponsiveSize(
+          context,
+          0,
+          mediaQuery.width / 6,
+          mediaQuery.width / 6,
+        ),
+        vertical: DeviceConstraints.getResponsiveSize(context, 0, 50.h, 50.h),
+      ),
+      child: SizedBox(
+        child: Padding(
+          padding:
+              const EdgeInsets.symmetric(vertical: 10), // , horizontal: 5),
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              // mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Spacer(flex: 2),
+                    // Text(
+                    //   (DeviceConstraints.getDeviceType(MediaQuery.of(context)) != DeviceScreenType.portrait) ? 'ONLINE BOOKING' : 'Online Booking',
+                    //   style: AppTheme.bodyText1.copyWith(
+                    //     fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 25.sp, 40.sp),
+                    //     fontWeight: FontWeight.w600,
+                    //     fontFamily: 'Gilroy',
+                    //     color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                    //   ),
+                    // ),
+                    Text(
+                      'Success',
+                      style: AppTheme.bodyText1.copyWith(
+                        fontSize: DeviceConstraints.getResponsiveSize(
+                            context, 25.sp, 25.sp, 40.sp),
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Gilroy',
+                        color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 100),
+                    Text(
+                      'Booking was successful',
+                      style: AppTheme.bodyText1.copyWith(
+                        fontSize: DeviceConstraints.getResponsiveSize(
+                            context, 20.sp, 20.sp, 30.sp),
+                        fontFamily: 'Gilroy',
+                        color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                      ),
+                    ),
+                    const Spacer(flex: 2),
+                    GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 15),
+                        child: Icon(
+                          Icons.close_rounded,
+                          color: AppTheme.lightGrey,
+                          size: DeviceConstraints.getResponsiveSize(
+                              context, 20.h, 30.h, 30.h),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Space(
+                    factor: DeviceConstraints.getResponsiveSize(
+                            context, 3, 2.5, 2.5)
+                        .toDouble()),
+                const TopDetails(),
+                Space(
+                    factor:
+                        DeviceConstraints.getResponsiveSize(context, 2, 1, 1)
+                            .toDouble()),
                 const BottomDetails(),
                 // const SizedBox(height: 20),
                 // const Spacer(),
@@ -171,8 +342,10 @@ class TopDetails extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final CreateAppointmentProvider _createAppointment = ref.watch(createAppointmentProvider);
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final CreateAppointmentProvider _createAppointment =
+        ref.watch(createAppointmentProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool defaultTheme = theme == AppTheme.lightTheme;
@@ -219,7 +392,8 @@ class TopDetails extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    AppLocalizations.of(context)?.name.toCapitalized() ?? 'Name',
+                    AppLocalizations.of(context)?.name.toCapitalized() ??
+                        'Name',
                     style: AppTheme.bodyText1.copyWith(
                       fontWeight: FontWeight.w500,
                       color: defaultTheme ? AppTheme.textBlack : Colors.white,
@@ -240,7 +414,8 @@ class TopDetails extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    AppLocalizations.of(context)?.phoneNumber.toCapitalized() ?? 'Phone Number',
+                    AppLocalizations.of(context)?.phoneNumber.toCapitalized() ??
+                        'Phone Number',
                     style: AppTheme.bodyText1.copyWith(
                       fontWeight: FontWeight.w500,
                       color: defaultTheme ? AppTheme.textBlack : Colors.white,
@@ -261,7 +436,8 @@ class TopDetails extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    AppLocalizations.of(context)?.email.toCapitalized() ?? 'Email',
+                    AppLocalizations.of(context)?.email.toCapitalized() ??
+                        'Email',
                     style: AppTheme.bodyText1.copyWith(
                       fontWeight: FontWeight.w500,
                       color: defaultTheme ? AppTheme.textBlack : Colors.white,
@@ -282,7 +458,10 @@ class TopDetails extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    AppLocalizations.of(context)?.appointment_tabbar_line2.toCapitalized() ?? 'Service',
+                    AppLocalizations.of(context)
+                            ?.appointment_tabbar_line2
+                            .toCapitalized() ??
+                        'Service',
                     style: AppTheme.bodyText1.copyWith(
                       fontWeight: FontWeight.w500,
                       color: defaultTheme ? AppTheme.textBlack : Colors.white,
@@ -350,14 +529,18 @@ class TopDetails extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    AppLocalizations.of(context)?.registration_line33.toCapitalized() ?? 'Salon Name',
+                    AppLocalizations.of(context)
+                            ?.registration_line33
+                            .toCapitalized() ??
+                        'Salon Name',
                     style: AppTheme.bodyText1.copyWith(
                       fontWeight: FontWeight.w500,
                       color: defaultTheme ? AppTheme.textBlack : Colors.white,
                     ),
                   ),
                   Text(
-                    _createAppointment.appointmentModel!.salon.name.toCapitalized(),
+                    _createAppointment.appointmentModel!.salon.name
+                        .toCapitalized(),
                     style: AppTheme.bodyText2.copyWith(
                       fontSize: 15.sp,
                       color: defaultTheme ? AppTheme.textBlack : Colors.white,
@@ -379,8 +562,10 @@ class BottomDetails extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final CreateAppointmentProvider _createAppointment = ref.watch(createAppointmentProvider);
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final CreateAppointmentProvider _createAppointment =
+        ref.watch(createAppointmentProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool defaultTheme = theme == AppTheme.lightTheme;
@@ -458,7 +643,9 @@ class BottomDetails extends ConsumerWidget {
                     style: AppTheme.bodyText1.copyWith(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w700,
-                      color: defaultTheme ? AppTheme.textBlack : theme.primaryColor,
+                      color: defaultTheme
+                          ? AppTheme.textBlack
+                          : theme.primaryColor,
                     ),
                   ),
                   Text(
@@ -467,7 +654,9 @@ class BottomDetails extends ConsumerWidget {
                     style: AppTheme.bodyText1.copyWith(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w700,
-                      color: defaultTheme ? AppTheme.textBlack : theme.primaryColor,
+                      color: defaultTheme
+                          ? AppTheme.textBlack
+                          : theme.primaryColor,
                     ),
                   ),
                 ],
