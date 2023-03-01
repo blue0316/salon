@@ -1,5 +1,4 @@
 import 'dart:html';
-
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
@@ -7,7 +6,6 @@ import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/app_bar.dart';
-import 'package:bbblient/src/views/themes/images.dart';
 import 'package:bbblient/src/views/themes/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,7 +14,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // import 'package:google_maps/google_maps.dart';
 import 'dart:ui' as ui;
-
 import 'package:google_maps/google_maps.dart' as maps;
 
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -72,6 +69,7 @@ class _SalonContactState extends ConsumerState<SalonContact> with SingleTickerPr
                         'Our Contacts')
                     .toUpperCase(),
             style: theme.textTheme.headline2,
+            textAlign: TextAlign.center,
           ),
           const SizedBox(height: 50),
           SizedBox(
@@ -152,7 +150,10 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
   @override
   Widget build(BuildContext context) {
     ui.platformViewRegistry.registerViewFactory(htmlId, (int viewId) {
-      final myLatlng = maps.LatLng(widget.salonModel!.position!.geoPoint!.latitude ?? 1.3521, widget.salonModel!.position!.geoPoint!.longitude ?? 103.8198);
+      final myLatlng = maps.LatLng(
+        widget.salonModel!.position!.geoPoint!.latitude ?? 1.3521,
+        widget.salonModel!.position!.geoPoint!.longitude ?? 103.8198,
+      );
 
       final mapOptions = maps.MapOptions()
         ..zoom = 10

@@ -11,10 +11,10 @@ import 'package:bbblient/src/models/products.dart';
 import 'package:bbblient/src/models/review.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
-import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:bbblient/src/utils/utils.dart';
+import 'package:bbblient/src/views/themes/barbershop/barbershop.dart';
 import 'package:bbblient/src/views/themes/glam_one/glam_one.dart';
-import 'package:bbblient/src/views/themes/glam_two/glam_two.dart';
+import 'package:bbblient/src/views/themes/glam_barbershop/glam_barbershop.dart';
 import 'package:bbblient/src/views/themes/utils/theme_color.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -72,26 +72,32 @@ class SalonProfileProvider with ChangeNotifier {
     return chosenSalon;
   }
 
+  Set availableThemes = {'1', '2', '3', '4'};
+
   dynamic getTheme() {
-    if (theme == '1') {
-      salonTheme = getGlamDataTheme(themeSettings['colorCode']);
-      notifyListeners();
+    if (availableThemes.contains(theme)) {
+      // If theme number is not in this set, it means that's a default theme
+      switch (theme) {
+        case '1':
+          salonTheme = getGlamDataTheme(themeSettings['colorCode']);
+          notifyListeners();
+          break;
+
+        case '2':
+          salonTheme = getGlamBarbershopTheme(themeSettings['colorCode']);
+          notifyListeners();
+          break;
+
+        case '4':
+          salonTheme = getBarbershopTheme(themeSettings['colorCode']);
+          notifyListeners();
+          break;
+      }
 
       return const GlamOneScreen();
+    } else {
+      return null; // This should be the default theme if there's no theme number
     }
-
-    if (theme == '2') {
-      salonTheme = AppTheme.barbershopTheme;
-      notifyListeners();
-
-      return const GlamBarbershop();
-    }
-
-    if (theme == '3') {
-      return Container(color: Colors.purple);
-    }
-
-    return null; // This should be the default theme if there's no theme number (todo: defaul theme base widget needs to be refactored)
   }
 
   getSalonReviews({required String salonId}) async {

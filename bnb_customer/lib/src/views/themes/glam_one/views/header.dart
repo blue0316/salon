@@ -2,8 +2,10 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
-import 'package:bbblient/src/theme/glam_one.dart';
+import 'package:bbblient/src/theme/others/glam_one.dart';
+
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/views/salon/booking/dialog_flow/booking_dialog_2.dart';
 import 'package:bbblient/src/views/themes/components/widgets.dart/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -46,36 +48,35 @@ class ThemeHeader extends ConsumerWidget {
         //   textAlign: TextAlign.center,
         // ),
         SizedBox(height: DeviceConstraints.getResponsiveSize(context, 40.h, 40.h, 40.h)),
-        // (_salonProfileProvider.chosenSalon.selectedTheme == 1)
+        (_salonProfileProvider.theme == '2' || _salonProfileProvider.theme == '4')
+            ? Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SquareButton(
+                    text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
+                    height: 60.h,
+                    // width: DeviceConstraints.getResponsiveSize(context, 200.h, 220.h, 220.h),
+                    onTap: () => const BookingDialogWidget222().show(context),
+                  ),
+                ],
+              )
+            : RotatedBookNow(
+                buttonText: AppLocalizations.of(context)?.bookNow ?? "Book Now",
+                onTap: () => const BookingDialogWidget222().show(context),
+              ),
+
+        // (_salonProfileProvider.theme == '1')
         //     ? RotatedBookNow(
         //         buttonText: AppLocalizations.of(context)?.bookNow ?? "Book Now",
-        //         onTap: () {
-        //           print(_createAppointmentProvider.salonPromotions);
-        //           // print(_createAppointmentProvider.salonServices.length);
-        //           // print(_createAppointmentProvider.salonServices[0].serviceName);
-        //         },
+        //         onTap: () {},
         //       )
-        //     : (_salonProfileProvider.chosenSalon.selectedTheme == 5)
+        //     : (_salonProfileProvider.theme == '2' || _salonProfileProvider.theme == '4')
         //         ? const SizedBox()
         //         : SquareButton(
         //             text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
         //             height: 65.h,
-        //             onTap: () {
-        //               // print(_salonProfileProvider.chosenSalon.profilePics);
-
-        //               // print(_salonProfileProvider.chosenSalon.profilePics[0]);
-
-        //               // print(salonModel.serv);
-
-        //               // print(salonModel.salonName);
-        //               // print(salonModel.ownerType);
-        //               // print(salonModel.fcmToken);
-        //               // print(salonModel.email);
-        //               // print(salonModel.locale);
-        //               // print(salonModel.email);
-        //               // print(salonModel.links?.whatsapp);
-        //               // print(salonModel.phoneNumber);
-        //             },
+        //             onTap: () {},
         //           ),
 
         SizedBox(height: DeviceConstraints.getResponsiveSize(context, 100.h, 100.h, 150.h)),

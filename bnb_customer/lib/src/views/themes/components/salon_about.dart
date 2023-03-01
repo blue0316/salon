@@ -4,6 +4,7 @@ import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/views/salon/booking/dialog_flow/booking_dialog_2.dart';
 import 'package:bbblient/src/views/themes/components/widgets.dart/button.dart';
 import 'package:bbblient/src/views/themes/images.dart';
 import 'package:bbblient/src/views/themes/components/widgets.dart/oval_button.dart';
@@ -28,7 +29,7 @@ class SalonAbout2 extends ConsumerWidget {
 
     return Padding(
       padding: EdgeInsets.only(
-        left: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
+        left: DeviceConstraints.getResponsiveSize(context, 20.w, 0, 0),
         right: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
         top: DeviceConstraints.getResponsiveSize(context, 50, 50, 120),
         bottom: DeviceConstraints.getResponsiveSize(context, 25, 30, 50),
@@ -44,7 +45,7 @@ class SalonAbout2 extends ConsumerWidget {
                   SizedBox(
                     width: DeviceConstraints.getResponsiveSize(context, 50, 200.w, 200.w),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
+                      // borderRadius: BorderRadius.circular(10),
                       child: (salonModel.photosOfWork.isNotEmpty && salonModel.photosOfWork[0] != '')
                           ? CachedImage(
                               url: salonModel.photosOfWork[0],
@@ -71,7 +72,7 @@ class SalonAbout2 extends ConsumerWidget {
                               fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 30.sp, 50.sp),
                             ),
                           ),
-                          const SizedBox(height: 3),
+                          const SizedBox(height: 10),
                           SizedBox(
                             child: Text(
                               (salonModel.description != '') ? salonModel.description : 'No description yet',
@@ -83,16 +84,21 @@ class SalonAbout2 extends ConsumerWidget {
                             ),
                           ),
                           const SizedBox(height: 20),
-                          // (_salonProfileProvider.chosenSalon.selectedTheme == 2)
-                          //     ? SquareButton(
-                          //         text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
-                          //         // height: 60.h,
-                          //         onTap: () {},
-                          //       )
-                          //     : OvalButton(
-                          //         text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
-                          //         onTap: () {},
-                          //       ),
+                          (_salonProfileProvider.theme == '2' || _salonProfileProvider.theme == '4')
+                              ? Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    SquareButton(
+                                      text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
+                                      onTap: () => const BookingDialogWidget222().show(context),
+                                    ),
+                                  ],
+                                )
+                              : OvalButton(
+                                  text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
+                                  onTap: () => const BookingDialogWidget222().show(context),
+                                ),
                         ],
                       ),
                     ),
@@ -128,27 +134,24 @@ class SalonAbout2 extends ConsumerWidget {
                     maxLines: 6,
                   ),
                   const SizedBox(height: 30),
-                  (_salonProfileProvider.theme == '2')
+                  (_salonProfileProvider.theme == '2' || _salonProfileProvider.theme == '4')
                       ? SquareButton(
                           text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
-                          // height: 60.h,
-                          onTap: () {},
+                          onTap: () => const BookingDialogWidget222().show(context),
                         )
                       : OvalButton(
                           width: 180.h,
                           height: 60.h,
                           textSize: 18.sp,
                           text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
-                          onTap: () {
-                            // print(DeviceConstraints.getDeviceType(MediaQuery.of(context)));
-                          },
+                          onTap: () => const BookingDialogWidget222().show(context),
                         ),
                   const SizedBox(height: 35),
                   SizedBox(
                     height: 300.h,
                     width: double.infinity,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
+                      // borderRadius: BorderRadius.circular(15),
                       child: (salonModel.photosOfWork.isNotEmpty && salonModel.photosOfWork[0] != '')
                           ? CachedImage(
                               url: salonModel.photosOfWork[0],

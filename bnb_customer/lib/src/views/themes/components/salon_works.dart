@@ -27,7 +27,7 @@ class _SalonWorksState extends ConsumerState<SalonWorks> {
 
   @override
   Widget build(BuildContext context) {
-    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+    final size = MediaQuery.of(context).size;
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
@@ -74,15 +74,15 @@ class _SalonWorksState extends ConsumerState<SalonWorks> {
               SizedBox(height: DeviceConstraints.getResponsiveSize(context, 50, 50, 35)),
               (widget.salonModel.photosOfWork.isNotEmpty)
                   ? SizedBox(
-                      height: 260.h,
+                      // height: 260.h,
                       child: CarouselSlider(
                         carouselController: _controller,
                         options: CarouselOptions(
                           scrollPhysics: const AlwaysScrollableScrollPhysics(),
                           autoPlay: true,
                           pauseAutoPlayOnTouch: true,
-                          viewportFraction: DeviceConstraints.getResponsiveSize(context, 0.6, 0.6, 0.3),
-                          height: 260.h,
+                          viewportFraction: DeviceConstraints.getResponsiveSize(context, 1, 0.5, 0.5),
+                          height: DeviceConstraints.getResponsiveSize(context, 280.h, 320, 350.h),
                         ),
                         items: widget.salonModel.photosOfWork
                             .map(
@@ -90,7 +90,16 @@ class _SalonWorksState extends ConsumerState<SalonWorks> {
                                 padding: const EdgeInsets.symmetric(horizontal: 20),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(20),
-                                  child: CachedImage(width: 200.w, url: item, fit: BoxFit.cover),
+                                  child: CachedImage(
+                                    width: DeviceConstraints.getResponsiveSize(
+                                      context,
+                                      size.width - 20.w,
+                                      size.width - 20.w,
+                                      200.w,
+                                    ),
+                                    url: item,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                             )
@@ -115,6 +124,7 @@ class PrevAndNext extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
@@ -122,7 +132,7 @@ class PrevAndNext extends ConsumerWidget {
         children: [
           GestureDetector(
             onTap: backOnTap,
-            child: ((_salonProfileProvider.theme != '2'))
+            child: (_salonProfileProvider.theme != '2')
                 ? SvgPicture.asset(
                     ThemeIcons.leftArrow,
                     color: Colors.black,
@@ -140,7 +150,7 @@ class PrevAndNext extends ConsumerWidget {
 
           GestureDetector(
             onTap: forwardOnTap,
-            child: ((_salonProfileProvider.theme != '2'))
+            child: (_salonProfileProvider.theme != '2')
                 ? SvgPicture.asset(
                     ThemeIcons.rightArrow,
                     height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
@@ -148,7 +158,7 @@ class PrevAndNext extends ConsumerWidget {
                 : Icon(
                     Icons.arrow_forward,
                     size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
-                    color: Colors.white,
+                    color: theme.primaryColor,
                   ),
           ),
           // SvgPicture.asset(

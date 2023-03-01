@@ -3,7 +3,7 @@ import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
-import 'package:bbblient/src/theme/glam_one.dart';
+
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/themes/components/widgets.dart/button.dart';
@@ -96,7 +96,10 @@ class _WriteToUsState extends ConsumerState<WriteToUs> {
                                   children: [
                                     TextSpan(
                                       text: (AppLocalizations.of(context)?.name ?? "Name").toCapitalized(), // "Name",
-                                      style: theme.textTheme.subtitle2?.copyWith(fontSize: 15.sp),
+                                      style: theme.textTheme.subtitle2?.copyWith(
+                                        color: theme.colorScheme.onSecondaryContainer,
+                                        fontSize: 15.sp,
+                                      ),
                                     ),
                                     TextSpan(
                                       text: " *",
@@ -129,11 +132,14 @@ class _WriteToUsState extends ConsumerState<WriteToUs> {
                                   children: [
                                     TextSpan(
                                       text: (AppLocalizations.of(context)?.phone ?? "Phone").toCapitalized(), // "Phone",
-                                      style: theme.textTheme.subtitle2?.copyWith(fontSize: 15.sp),
+                                      style: theme.textTheme.subtitle2?.copyWith(
+                                        color: theme.colorScheme.onSecondaryContainer,
+                                        fontSize: 15.sp,
+                                      ),
                                     ),
                                     TextSpan(
                                       text: " *",
-                                      style: GlamOneTheme.bodyText2.copyWith(
+                                      style: theme.textTheme.bodyText2!.copyWith(
                                         color: theme.primaryColor,
                                         fontWeight: FontWeight.w800,
                                       ),
@@ -162,7 +168,10 @@ class _WriteToUsState extends ConsumerState<WriteToUs> {
                                   children: [
                                     TextSpan(
                                       text: AppLocalizations.of(context)?.request ?? "Request".toCapitalized(), // "Email",
-                                      style: theme.textTheme.subtitle2?.copyWith(fontSize: 15.sp),
+                                      style: theme.textTheme.subtitle2?.copyWith(
+                                        color: theme.colorScheme.onSecondaryContainer,
+                                        fontSize: 15.sp,
+                                      ),
                                     ),
                                     TextSpan(
                                       text: " *",
@@ -199,8 +208,8 @@ class _WriteToUsState extends ConsumerState<WriteToUs> {
                                     ),
                                   )
                                 : SquareButton(
-                                    height: 51,
-                                    width: (isPortrait) ? 350.w : null, // DeviceConstraints.getResponsiveSize(context, 0, 120.w, 70.w),
+                                    height: 50,
+                                    // width: (isPortrait) ? 350.w : null, // DeviceConstraints.getResponsiveSize(context, 0, 120.w, 70.w),
                                     text: AppLocalizations.of(context)?.submitEnquiry ?? "Submit an Enquiry",
                                     onTap: () => _salonProfileProvider.sendEnquiryToSalon(context, salonId: widget.salonModel.salonId),
                                     buttonColor: theme.primaryColorDark,

@@ -3,13 +3,10 @@ import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/products.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
-import 'package:bbblient/src/views/themes/images.dart';
-import 'package:bbblient/src/views/themes/icons.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SalonShop extends ConsumerStatefulWidget {
@@ -68,7 +65,7 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
                       fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),
                     ),
                   ),
-                  PrevAndNext(salonProfileProvider: _salonProfileProvider),
+                  // PrevAndNext(salonProfileProvider: _salonProfileProvider),
                 ],
               ),
               SizedBox(height: DeviceConstraints.getResponsiveSize(context, 50, 40, 30)),
@@ -85,6 +82,7 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
                             labelColor: theme.primaryColorDark, // GlamOneTheme.deepOrange,
                             labelStyle: theme.textTheme.bodyText1?.copyWith(
                               color: theme.primaryColorDark, // GlamOneTheme.deepOrange,
+                              fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 25.sp),
                               fontWeight: FontWeight.w600,
                             ),
                             indicatorColor: theme.primaryColorDark, //  deepOrange,
@@ -130,7 +128,7 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
                   ? Expanded(
                       flex: 0,
                       child: SizedBox(
-                        height: 400,
+                        height: MediaQuery.of(context).size.height * 0.45, // 400,
                         // width: double.infinity,
                         child: TabBarView(
                           controller: shopTabController,
@@ -192,46 +190,40 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
   }
 }
 
-class PrevAndNext extends StatelessWidget {
-  const PrevAndNext({
-    Key? key,
-    required SalonProfileProvider salonProfileProvider,
-  })  : _salonProfileProvider = salonProfileProvider,
-        super(key: key);
+// class PrevAndNext extends StatelessWidget {
+//   const PrevAndNext({Key? key}) : super(key: key);
 
-  final SalonProfileProvider _salonProfileProvider;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        (_salonProfileProvider.theme != '2')
-            ? SvgPicture.asset(
-                ThemeIcons.leftArrow,
-                height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
-              )
-            : Icon(
-                Icons.arrow_back,
-                size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
-                color: Colors.white,
-              ),
-        SizedBox(width: DeviceConstraints.getResponsiveSize(context, 15, 30, 40)),
-        ((_salonProfileProvider.theme != '2'))
-            ? SvgPicture.asset(
-                ThemeIcons.rightArrow,
-                height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
-              )
-            : Icon(
-                Icons.arrow_forward,
-                size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
-                color: Colors.white,
-              ),
-      ],
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Row(
+//       crossAxisAlignment: CrossAxisAlignment.center,
+//       mainAxisAlignment: MainAxisAlignment.center,
+//       children: [
+//         (_salonProfileProvider.theme != '2')
+//             ? SvgPicture.asset(
+//                 ThemeIcons.leftArrow,
+//                 height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+//               )
+//             : Icon(
+//                 Icons.arrow_back,
+//                 size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+//                 color: Colors.white,
+//               ),
+//         SizedBox(width: DeviceConstraints.getResponsiveSize(context, 15, 30, 40)),
+//         ((_salonProfileProvider.theme != '2'))
+//             ? SvgPicture.asset(
+//                 ThemeIcons.rightArrow,
+//                 height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+//               )
+//             : Icon(
+//                 Icons.arrow_forward,
+//                 size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+//                     color: theme.primaryColor,
+//               ),
+//       ],
+//     );
+//   }
+// }
 
 class ShopCard extends ConsumerWidget {
   final ProductModel product;
@@ -240,6 +232,7 @@ class ShopCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final size = MediaQuery.of(context).size.width;
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     // final int? themeNo = _salonProfileProvider.chosenSalon.selectedTheme;
@@ -247,35 +240,42 @@ class ShopCard extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.only(right: 20),
       child: SizedBox(
-        width: DeviceConstraints.getResponsiveSize(context, 150.w, 120.w, 80.w),
+        width: DeviceConstraints.getResponsiveSize(
+          context,
+          size / 1.5,
+          size / 2.5,
+          100.w,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(
-              height: 300.h,
-              width: DeviceConstraints.getResponsiveSize(context, 150.w, 120.w, 80.w),
-              child: (product.productImageUrlList!.isNotEmpty)
-                  ? CachedImage(
-                      url: '${product.productImageUrlList![0]}',
-                      fit: BoxFit.cover,
-                    )
-                  : Center(
-                      child: Text(
-                        'Photo N/A',
-                        style: theme.textTheme.bodyText1?.copyWith(
-                          color: theme.primaryColorDark,
-                          fontSize: 25.sp,
+            Expanded(
+              flex: 0,
+              child: SizedBox(
+                // height: 300.h,
+                width: DeviceConstraints.getResponsiveSize(
+                  context,
+                  size / 1.5,
+                  size / 2.5,
+                  100.w,
+                ),
+                child: (product.productImageUrlList!.isNotEmpty)
+                    ? CachedImage(
+                        url: '${product.productImageUrlList![0]}',
+                        fit: BoxFit.cover,
+                      )
+                    : Center(
+                        child: Text(
+                          'Photo N/A',
+                          style: theme.textTheme.bodyText1?.copyWith(
+                            color: theme.primaryColorDark,
+                            fontSize: 25.sp,
+                          ),
                         ),
                       ),
-                    ),
-
-              // Image.asset(
-              //     'itemImage',
-              //     fit: BoxFit.cover,
-              //   ),
+              ),
             ),
-            const SizedBox(height: 10),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -284,7 +284,7 @@ class ShopCard extends ConsumerWidget {
                   '${product.productName}',
                   style: theme.textTheme.bodyText1?.copyWith(
                     color: theme.primaryColorDark,
-                    fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 18.sp, 20.sp),
+                    fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
                   ),
                 ),
                 // Spacer(),
@@ -292,7 +292,7 @@ class ShopCard extends ConsumerWidget {
                   '\$${product.clientPrice}',
                   style: theme.textTheme.headline3?.copyWith(
                     color: theme.primaryColorLight,
-                    fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 18.sp, 20.sp),
+                    fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
                     letterSpacing: 1,
                   ),
                 ),

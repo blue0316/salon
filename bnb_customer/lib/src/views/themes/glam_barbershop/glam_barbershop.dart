@@ -1,6 +1,7 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
+import 'package:bbblient/src/theme/others/glam_barbershop.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/components/header_image.dart';
 import 'package:bbblient/src/views/themes/components/salon_about.dart';
@@ -21,18 +22,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class GlamOneScreen extends ConsumerStatefulWidget {
-  static const route = '/glam-one';
+class GlamBarbershop extends ConsumerStatefulWidget {
+  static const route = '/glam-babershop';
 
   // final SalonModel salonModel;
 
-  const GlamOneScreen({Key? key}) : super(key: key);
+  const GlamBarbershop({Key? key}) : super(key: key);
 
   @override
-  _GlamOneScreenState createState() => _GlamOneScreenState();
+  _GlamBarbershopState createState() => _GlamBarbershopState();
 }
 
-class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
+class _GlamBarbershopState extends ConsumerState<GlamBarbershop> {
   @override
   Widget build(BuildContext context) {
     final _salonSearchProvider = ref.watch(salonSearchProvider);
@@ -40,7 +41,6 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
 
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final SalonModel chosenSalon = _salonProfileProvider.chosenSalon;
-    final ThemeData theme = _salonProfileProvider.salonTheme;
 
     return SafeArea(
       top: false,
@@ -96,32 +96,36 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                           SalonTags(
                             additionalFeatures: chosenSalon.additionalFeatures,
                           ),
-                        if (_createAppointmentProvider.salonPromotions.isNotEmpty) const SalonPromotions(),
-                        SalonAbout2(salonModel: chosenSalon),
-                        const SalonSponsors(),
-                        SalonWorks(salonModel: chosenSalon),
-                        SalonPrice222(
-                          salonModel: chosenSalon,
-                          categories: _salonSearchProvider.categories,
-                          categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
-                        ),
-                        const SalonShop(),
-                        if (_salonProfileProvider.chosenSalon.ownerType != OwnerType.singleMaster)
-                          SalonTeam(
-                            salonModel: chosenSalon,
-                          ),
-                        SalonReviews(salonModel: chosenSalon),
-                        WriteToUs(salonModel: chosenSalon),
-                        SalonContact(salonModel: chosenSalon),
+                        // if (_createAppointmentProvider.salonPromotions.isNotEmpty) const SalonPromotions(),
+                        // SalonAbout2(salonModel: chosenSalon),
+                        // const SalonSponsors(),
+                        // SalonWorks(salonModel: chosenSalon),
+                        // SalonPrice222(
+                        //   salonModel: chosenSalon,
+                        //   categories: _salonSearchProvider.categories,
+                        //   categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
+                        // ),
+                        // const SalonShop(),
+                        // if (_salonProfileProvider.chosenSalon.ownerType != OwnerType.singleMaster)
+                        //   SalonTeam(
+                        //     salonModel: chosenSalon,
+                        //   ),
+                        // SalonReviews(salonModel: chosenSalon),
+                        // WriteToUs(salonModel: chosenSalon),
+                        // SalonContact(salonModel: chosenSalon),
                         // SalonSocials(
                         //   salonModel: chosenSalon,
                         // ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 19, bottom: 10),
-                          child: Text(
-                            "Design by GlamIris",
-                            style: theme.textTheme.bodyText1!.copyWith(fontSize: 20.sp),
-                          ),
+                        Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 19, bottom: 19),
+                              child: Text(
+                                "Design by GlamIris",
+                                style: GlamBarberShopTheme.bodyText1.copyWith(fontSize: 18.sp),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),

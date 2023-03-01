@@ -198,6 +198,7 @@ class TeamMember extends ConsumerWidget {
                 (item) => Text(
                   item.translations[AppLocalizations.of(context)?.localeName] ?? '',
                   style: theme.textTheme.subtitle2?.copyWith(
+                    color: theme.colorScheme.onSecondaryContainer,
                     fontSize: 15.sp,
                   ),
                 ),

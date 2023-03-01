@@ -34,7 +34,7 @@ class SquareButton extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-          // width: width ?? 220.h,
+          width: width, //  ?? 220.h,
           height: height ?? 50.h,
           decoration: BoxDecoration(
             color: buttonColor ?? Colors.white,
@@ -58,7 +58,7 @@ class SquareButton extends StatelessWidget {
                 if (showSuffix) const SizedBox(width: 5),
                 if (showSuffix)
                   Icon(
-                    Icons.keyboard_double_arrow_right_rounded,
+                    Icons.arrow_upward_rounded,
                     color: textColor ?? Colors.black,
                     size: textSize ?? 20.sp,
                   ),

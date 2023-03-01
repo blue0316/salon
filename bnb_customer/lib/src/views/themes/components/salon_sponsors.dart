@@ -35,7 +35,7 @@ class SalonSponsors extends ConsumerWidget {
                   ),
                 )
               : SizedBox(
-                  height: 60,
+                  height: 40,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,

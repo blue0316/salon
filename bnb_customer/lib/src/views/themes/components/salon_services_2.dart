@@ -161,7 +161,7 @@ class ServiceAndPrice extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                AppLocalizations.of(context)?.service ?? 'Service'.toUpperCase(),
+                (AppLocalizations.of(context)?.service ?? 'Service').trim().toUpperCase(),
                 style: theme.textTheme.headline3?.copyWith(
                   color: theme.primaryColor,
                   fontSize: 20.sp,
@@ -191,14 +191,20 @@ class ServiceAndPrice extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 35),
-          (_salonProfileProvider.theme == '2')
-              ? SquareButton(
-                  text: 'BOOK NOW',
-                  height: 60.h,
-                  buttonColor: theme.primaryColor,
-                  borderColor: Colors.transparent,
-                  textColor: theme.primaryColor,
-                  onTap: () => const BookingDialogWidget222().show(context),
+          (_salonProfileProvider.theme == '2' || _salonProfileProvider.theme == '4')
+              ? Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SquareButton(
+                      text: 'BOOK NOW',
+                      height: 60.h,
+                      buttonColor: theme.primaryColor,
+                      borderColor: Colors.transparent,
+                      textColor: Colors.black,
+                      onTap: () => const BookingDialogWidget222().show(context),
+                    ),
+                  ],
                 )
               : OvalButton(
                   width: 180.h,
@@ -236,28 +242,33 @@ class ServiceTile extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      service.translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
-                      style: theme.textTheme.bodyText1?.copyWith(
-                        color: theme.primaryColor,
-                        fontSize: 20.sp,
+                Flexible(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        service.translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
+                        style: theme.textTheme.bodyText1?.copyWith(
+                          color: theme.primaryColor,
+                          fontSize: 20.sp,
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 30),
-                    Icon(
-                      Icons.check,
-                      size: 20.sp,
-                      color: _createAppointmentProvider.isAdded(
+                      if (_createAppointmentProvider.isAdded(
                         serviceModel: service,
-                      )
-                          ? theme.primaryColorDark //  GlamOneTheme.deepOrange
-                          : Colors.transparent,
-                    ),
-                  ],
+                      ))
+                        SizedBox(width: DeviceConstraints.getResponsiveSize(context, 5, 5, 30)),
+                      Icon(
+                        Icons.check,
+                        size: 20.sp,
+                        color: _createAppointmentProvider.isAdded(
+                          serviceModel: service,
+                        )
+                            ? theme.primaryColorDark //  GlamOneTheme.deepOrange
+                            : Colors.transparent,
+                      ),
+                    ],
+                  ),
                 ),
                 Text(
                   service.isFixedPrice ? "${service.priceAndDuration.price}${Keys.uah}" : "${service.priceAndDuration.price}${Keys.uah} - ${service.priceAndDurationMax!.price}${Keys.uah}",
