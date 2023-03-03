@@ -162,7 +162,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
           height: 60,
           label: AppLocalizations.of(context)?.nextStep ?? 'Next Step',
           isLoading: (_authProvider.updateCustomerPersonalInfoStatus == Status.loading),
-          loaderColor: Colors.black,
+          loaderColor: defaultTheme ? Colors.white : Colors.black,
         ),
         SizedBox(height: 15.h),
         DefaultButton(

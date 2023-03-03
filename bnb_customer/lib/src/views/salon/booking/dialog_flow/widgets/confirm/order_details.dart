@@ -518,7 +518,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                 height: 60,
                 label: AppLocalizations.of(context)?.book ?? 'Book',
                 isLoading: _createAppointmentProvider.loadingStatus == Status.loading,
-                loaderColor: Colors.black,
+                loaderColor: defaultTheme ? Colors.white : Colors.black,
               ),
               SizedBox(height: 15.h),
               DefaultButton(

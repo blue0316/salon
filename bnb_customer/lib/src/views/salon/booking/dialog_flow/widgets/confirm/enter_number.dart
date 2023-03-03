@@ -168,7 +168,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
           height: 60,
           label: AppLocalizations.of(context)?.nextStep ?? 'Next Step',
           isLoading: _authProvider.otpStatus == Status.loading,
-          loaderColor: Colors.black,
+          loaderColor: defaultTheme ? Colors.white : Colors.black,
         ),
         SizedBox(height: 15.h),
         DefaultButton(
