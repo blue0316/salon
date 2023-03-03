@@ -2,9 +2,13 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
+import 'package:bbblient/src/models/backend_codings/owner_type.dart';
+import 'package:bbblient/src/models/customer/customer.dart';
+import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
+import 'package:bbblient/src/views/registration/authenticate/login.dart';
 import 'package:bbblient/src/views/widgets/buttons.dart';
 import 'package:bbblient/src/views/widgets/text_fields.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
@@ -13,6 +17,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class EnterNumber extends ConsumerStatefulWidget {
   final TabController tabController;
@@ -30,6 +36,8 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
     final AuthProvider _authProvider = ref.watch(authProvider);
     final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
 
+    final _auth = ref.watch(authProvider);
+
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool defaultTheme = (theme == AppTheme.lightTheme);
 
@@ -38,8 +46,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
-          // AppLocalizations.of(context)?.availableMasters.toCapitalized() ?? 'Available masters', // TODO: LOCALIZATIONS
-          'Your phone number',
+          '${AppLocalizations.of(context)?.phoneNumber ?? 'Phone Number'} *',
           style: theme.textTheme.bodyText1!.copyWith(
             fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
             color: defaultTheme ? Colors.black : Colors.white,
@@ -62,10 +69,10 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
               children: [
                 CountryCodePicker(
                   onChanged: (val) {
-                    // _authProvider.countryCode = val.dialCode ?? '';
+                    _authProvider.countryCode = val.dialCode ?? '';
                   },
                   onInit: (val) {
-                    // _authProvider.countryCode = val?.dialCode ?? '';
+                    _authProvider.countryCode = val?.dialCode ?? '';
                   },
                   initialSelection: 'UA',
                   favorite: const ['+380', 'Uk'],
@@ -102,15 +109,66 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
         const Spacer(),
         DefaultButton(
           borderRadius: 60,
-          onTap: () {
-            _createAppointmentProvider.nextPageView(1);
+          onTap: () async {
+            showToast(AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
+
+            // send otp
+            if (!_auth.userLoggedIn) {
+              await _auth.verifyPhoneNumber(context: context);
+
+              if (_auth.otpStatus != Status.failed) {
+                showTopSnackBar(
+                  context,
+                  CustomSnackBar.success(
+                    message: AppLocalizations.of(context)?.otpSent ?? "Otp has been sent to your phone",
+                    backgroundColor: theme.primaryColor,
+                  ),
+                );
+                checkUser2(
+                  context,
+                  ref,
+                  isLoggedIn: () {},
+                  notLoggedIn: () {
+                    _createAppointmentProvider.nextPageView(1);
+                  },
+                ); // , appointmentModel: appointment);
+
+              }
+            } else {
+              print('*********************');
+              print('user is logged in');
+              print('*********************');
+
+              CustomerModel? currentCustomer = _auth.currentCustomer;
+              if (currentCustomer != null) {
+                if (currentCustomer.personalInfo.firstName == '' || currentCustomer.personalInfo.email == null) {
+                  // Customer Personal Info is missing name and email
+
+                  // Go to pageview that has fields to update personal info
+                  _createAppointmentProvider.nextPageView(2); // PageView screen that contains name and email fields
+                } else {
+                  // Customer Personal Info has name and email
+
+                  // Create Appointment
+                  CustomerModel customer = CustomerModel(customerId: currentCustomer.customerId, personalInfo: currentCustomer.personalInfo, registeredSalons: [], createdAt: DateTime.now(), avgRating: 3.0, noOfRatings: 6, profilePicUploaded: false, profilePic: "", profileCompleted: false, quizCompleted: false, preferredGender: "male", preferredCategories: [], locations: [], fcmToken: "", locale: "en", favSalons: [], referralLink: "");
+                  if (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.singleMaster) {
+                    await _createAppointmentProvider.createAppointment(customerModel: customer, context: context);
+                  } else {
+                    await _createAppointmentProvider.creatAppointmentSalonOwner(customerModel: customer, context: context);
+                  }
+
+                  // Go to PageView Order List Screen
+                  _createAppointmentProvider.nextPageView(3);
+                }
+              }
+            }
           },
           color: defaultTheme ? Colors.black : theme.primaryColor,
           textColor: defaultTheme ? Colors.white : Colors.black,
           height: 60,
-          label: AppLocalizations.of(context)?.verify ?? 'Verify',
-
-          // label: 'Next step',
+          label: AppLocalizations.of(context)?.nextStep ?? 'Next Step',
+          isLoading: _authProvider.otpStatus == Status.loading,
+          loaderColor: Colors.black,
         ),
         SizedBox(height: 15.h),
         DefaultButton(

@@ -29,6 +29,16 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 const double radius = 32;
 
+// New Booking Flow
+checkUser2(BuildContext context, WidgetRef ref, {required Function isLoggedIn, required Function notLoggedIn}) {
+  AuthProvider _auth = ref.read(authProvider);
+  if (_auth.userLoggedIn) {
+    isLoggedIn();
+  } else {
+    notLoggedIn();
+  }
+}
+
 checkUser(BuildContext context, WidgetRef ref, Function onTap, {AppointmentModel? appointmentModel}) {
   AuthProvider _auth = ref.read(authProvider);
   if (_auth.userLoggedIn) {
@@ -39,13 +49,13 @@ checkUser(BuildContext context, WidgetRef ref, Function onTap, {AppointmentModel
   }
 }
 
-checkUser2(BuildContext context, WidgetRef ref, Function onTap) {
-  AuthProvider _auth = ref.read(authProvider);
-  if (!_auth.userLoggedIn) {
-    // openSignInSheet(context);
-    onTap();
-  }
-}
+// checkUser2(BuildContext context, WidgetRef ref, Function onTap) {
+//   AuthProvider _auth = ref.read(authProvider);
+//   if (!_auth.userLoggedIn) {
+//     // openSignInSheet(context);
+//     onTap();
+//   }
+// }
 
 openSignInSheet(context, AppointmentModel? appointmentModel) {
   showCupertinoModalBottomSheet(

@@ -1,13 +1,11 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
-import 'package:bbblient/src/controller/appointment/apointment_provider.dart';
 import 'package:bbblient/src/controller/authentication/auth_provider.dart';
-import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
-import 'package:bbblient/src/controller/home/salon_search_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/firebase/dynamic_link.dart';
+import 'package:bbblient/src/models/appointment/appointment.dart';
+import 'package:bbblient/src/models/appointment/serviceAndMaster.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
-import 'package:bbblient/src/models/customer/customer.dart';
+import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
@@ -26,7 +24,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class OrderDetails extends ConsumerStatefulWidget {
-  const OrderDetails({Key? key}) : super(key: key);
+  final TabController tabController;
+
+  const OrderDetails({Key? key, required this.tabController}) : super(key: key);
 
   @override
   ConsumerState<OrderDetails> createState() => _OrderListState();
@@ -37,25 +37,25 @@ class _OrderListState extends ConsumerState<OrderDetails> {
 
   @override
   Widget build(BuildContext context) {
-    // final AuthProvider _auth = ref.watch(authProvider);
-    // final CreateAppointmentProvider appointment = ref.watch(createAppointmentProvider);
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
-    final CreateAppointmentProvider _createAppointmentProvider =
-        ref.watch(createAppointmentProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
     final AuthProvider _auth = ref.watch(authProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool defaultTheme = theme == AppTheme.lightTheme;
 
-    // final String _date = Time().getLocaleDate(
-    //   appointment.appointmentModel!.appointmentStartTime,
-    //   AppLocalizations.of(context)?.localeName ?? 'en',
-    // );
+    final String _date = Time().getLocaleDate(
+      _createAppointmentProvider.appointmentModel!.appointmentStartTime,
+      AppLocalizations.of(context)?.localeName ?? 'en',
+    );
 
-    // final String _time = Time().getAppointmentStartEndTime(
-    //       appointment.appointmentModel!,
-    //     ) ??
-    //     '';
+    final String _time = Time().getAppointmentStartEndTime(
+          _createAppointmentProvider.appointmentModel!,
+        ) ??
+        '';
+
+    bool isSingleMaster = (_salonProfileProvider.chosenSalon.ownerType == OwnerType.singleMaster);
+    final List<ServiceModel> singleMasterServiceList = _createAppointmentProvider.chosenServices;
+    final List<ServiceAndMaster> notSingleMasterServiceList = _createAppointmentProvider.serviceAgainstMaster;
 
     return Column(
       children: [
@@ -65,7 +65,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
             shrinkWrap: true,
             children: [
               Text(
-                "Order List",
+                AppLocalizations.of(context)?.orderList ?? 'Order List'.toString(),
                 style: theme.textTheme.bodyText1!.copyWith(
                   fontSize: 20.sp,
                   color: defaultTheme ? Colors.black : Colors.white,
@@ -74,36 +74,30 @@ class _OrderListState extends ConsumerState<OrderDetails> {
               SizedBox(height: 10.h),
               SizedBox(
                 width: double.infinity,
-                height: DeviceConstraints.getResponsiveSize(
-                    context, 90.h, 85.h, 85.h),
+                height: DeviceConstraints.getResponsiveSize(context, 90.h, 85.h, 85.h),
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount:
-                      4, // appointment.appointmentModel!.services.length,
+                  itemCount: isSingleMaster ? singleMasterServiceList.length : notSingleMasterServiceList.length,
                   itemBuilder: (context, index) {
-                    // final service = appointment.appointmentModel!.services[index];
+                    final ServiceModel singleMasterService = singleMasterServiceList[index];
+                    final ServiceAndMaster notSingleMasterService = notSingleMasterServiceList[index];
 
                     return Padding(
                       padding: EdgeInsets.symmetric(horizontal: 5.h),
                       child: Container(
-                        width: DeviceConstraints.getResponsiveSize(
-                            context, 175.w, 160.w, 105.w),
+                        width: DeviceConstraints.getResponsiveSize(context, 175.w, 160.w, 105.w),
                         decoration: BoxDecoration(
-                          color:
-                              defaultTheme ? Colors.white : Colors.transparent,
+                          color: defaultTheme ? Colors.white : Colors.transparent,
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
                             width: 1.5,
-                            color: defaultTheme
-                                ? Colors.black
-                                : theme.primaryColor,
+                            color: defaultTheme ? Colors.black : theme.primaryColor,
                           ),
                         ),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
                             vertical: 10,
-                            horizontal: DeviceConstraints.getResponsiveSize(
-                                context, 10, 15, 25),
+                            horizontal: DeviceConstraints.getResponsiveSize(context, 10, 15, 25),
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,43 +106,52 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                               // -- SERVICE TITLE AND PRICE
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   SizedBox(
-                                    width: DeviceConstraints.getResponsiveSize(
-                                        context, 85.w, 75.w, 70.w),
+                                    width: DeviceConstraints.getResponsiveSize(context, 85.w, 75.w, 70.w),
                                     child: Text(
-                                      // service.translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
-                                      'Eyebrow Tinting',
-                                      style:
-                                          theme.textTheme.bodyText1!.copyWith(
+                                      isSingleMaster
+                                          ? singleMasterService.translations[AppLocalizations.of(
+                                                    context,
+                                                  )?.localeName ??
+                                                  'en']
+                                              .toString()
+                                          : notSingleMasterService
+                                              .service!
+                                              .translations[AppLocalizations.of(
+                                                    context,
+                                                  )?.localeName ??
+                                                  'en']
+                                              .toString(),
+                                      // 'Eyebrow Tinting',
+                                      style: theme.textTheme.bodyText1!.copyWith(
                                         fontWeight: FontWeight.w600,
-                                        fontSize:
-                                            DeviceConstraints.getResponsiveSize(
-                                                context, 14.sp, 16.sp, 16.sp),
-                                        color: defaultTheme
-                                            ? Colors.black
-                                            : Colors.white,
+                                        fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 16.sp, 16.sp),
+                                        color: defaultTheme ? Colors.black : Colors.white,
                                       ),
                                       overflow: TextOverflow.ellipsis,
-                                      maxLines:
-                                          DeviceConstraints.getResponsiveSize(
-                                                  context, 2, 1, 1)
-                                              .toInt(),
+                                      maxLines: DeviceConstraints.getResponsiveSize(context, 2, 1, 1).toInt(),
                                     ),
                                   ),
                                   Text(
-                                    // "${Keys.dollars}${service.priceAndDuration.price}",
-                                    '${Keys.dollars} 300',
+                                    // single master
+                                    isSingleMaster
+                                        ? singleMasterService.isFixedPrice
+                                            ? "${Keys.dollars}${singleMasterService.priceAndDuration.price}"
+                                            : singleMasterService.isPriceRange
+                                                ? "${Keys.dollars}${singleMasterService.priceAndDuration.price} - ${Keys.dollars}${singleMasterService.priceAndDurationMax!.price}"
+                                                : "${Keys.dollars}${singleMasterService.priceAndDuration.price} - ${Keys.dollars}∞"
+                                        // not a single master
+                                        : notSingleMasterService.service!.isFixedPrice
+                                            ? "${Keys.dollars}${notSingleMasterService.service!.priceAndDuration.price}"
+                                            : notSingleMasterService.service!.isPriceRange
+                                                ? "${Keys.dollars}${notSingleMasterService.service!.priceAndDuration.price} - ${Keys.dollars}${notSingleMasterService.service!.priceAndDurationMax!.price}"
+                                                : "${Keys.dollars}${notSingleMasterService.service!.priceAndDuration.price} - ${Keys.dollars}∞",
                                     style: theme.textTheme.bodyText1!.copyWith(
-                                      color: defaultTheme
-                                          ? Colors.black
-                                          : Colors.white,
+                                      color: defaultTheme ? Colors.black : Colors.white,
                                       fontWeight: FontWeight.w700,
-                                      fontSize:
-                                          DeviceConstraints.getResponsiveSize(
-                                              context, 14.sp, 16.sp, 16.sp),
+                                      fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 16.sp, 16.sp),
                                     ),
                                     overflow: TextOverflow.visible,
                                     maxLines: 1,
@@ -168,29 +171,30 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                     child: Center(
                                       child: SvgPicture.asset(
                                         AppIcons.clockSVG,
-                                        color: defaultTheme
-                                            ? Colors.black
-                                            : theme.primaryColor,
+                                        color: defaultTheme ? Colors.black : theme.primaryColor,
                                       ),
                                     ),
                                   ),
                                   const SizedBox(width: 5),
-                                  // service.isFixedPrice
-                                  //     ? Text(
-                                  //         "${service.priceAndDuration.duration} minutes",
-                                  //         style: Theme.of(context).textTheme.bodyText1!!.copyWith(fontSize: 14.sp),
-                                  //         overflow: TextOverflow.ellipsis,
-                                  //         maxLines: 1,
-                                  //       )
-                                  //     :
+
                                   Text(
-                                    // "${service.priceAndDuration.duration} minutes",
-                                    "40 minutes",
+                                    // single master
+                                    isSingleMaster
+                                        ? singleMasterService.isFixedDuration != null
+                                            ? singleMasterService.isFixedDuration
+                                                ? "${singleMasterService.priceAndDuration.duration} minutes"
+                                                : "${singleMasterService.priceAndDuration.duration} minutes - ${singleMasterService.priceAndDurationMax!.duration} minutes"
+                                            : "${singleMasterService.priceAndDuration.duration} minutes"
+
+                                        // not a single master
+                                        : notSingleMasterService.service?.isFixedDuration != null
+                                            ? notSingleMasterService.service!.isFixedDuration
+                                                ? "${notSingleMasterService.service?.priceAndDuration.duration} minutes"
+                                                : "${notSingleMasterService.service?.priceAndDuration.duration} minutes - ${notSingleMasterService.service?.priceAndDurationMax!.duration} minutes"
+                                            : "${notSingleMasterService.service!.priceAndDuration.duration} minutes",
                                     style: theme.textTheme.bodyText1!.copyWith(
                                       fontSize: 14.sp,
-                                      color: defaultTheme
-                                          ? Colors.black
-                                          : Colors.white,
+                                      color: defaultTheme ? Colors.black : Colors.white,
                                     ),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
@@ -225,20 +229,14 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                   },
                 ),
               ),
-              Space(
-                  factor:
-                      DeviceConstraints.getResponsiveSize(context, 1, 0.3, 0.3)
-                          .toDouble()),
+              Space(factor: DeviceConstraints.getResponsiveSize(context, 1, 0.3, 0.3).toDouble()),
               const Divider(
                 color: Color.fromARGB(71, 137, 149, 159),
                 thickness: 1,
               ),
-              Space(
-                  factor:
-                      DeviceConstraints.getResponsiveSize(context, 1, 0.3, 0.3)
-                          .toDouble()),
+              Space(factor: DeviceConstraints.getResponsiveSize(context, 1, 0.3, 0.3).toDouble()),
               Text(
-                "You choosed:",
+                AppLocalizations.of(context)?.youChoosed ?? 'You choosed'.toString(),
                 style: theme.textTheme.bodyText1!.copyWith(
                   color: defaultTheme ? Colors.black : Colors.white,
                   fontSize: 18.sp,
@@ -255,14 +253,15 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Service:",
+                        "${AppLocalizations.of(context)?.service ?? 'Service'} :",
                         style: theme.textTheme.bodyText1!.copyWith(
                           color: defaultTheme ? Colors.black : Colors.white,
                         ),
                       ),
                       Text(
-                        // "${appointment.appointmentModel!.services.length} ${AppLocalizations.of(context)?.services.toCapitalized() ?? "services"}",
-                        '3 services',
+                        '${isSingleMaster ? _createAppointmentProvider.chosenServices.length : _createAppointmentProvider.serviceAgainstMaster.length} ${AppLocalizations.of(
+                              context,
+                            )?.services ?? 'services'}',
                         style: theme.textTheme.bodyText2!.copyWith(
                           fontSize: 20.sp,
                           color: defaultTheme ? Colors.black : Colors.white,
@@ -276,13 +275,13 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Date:",
+                        "${AppLocalizations.of(context)?.date ?? 'Date'} :",
                         style: theme.textTheme.bodyText1!.copyWith(
                           color: defaultTheme ? Colors.black : Colors.white,
                         ),
                       ),
                       Text(
-                        '_date',
+                        _date,
                         style: theme.textTheme.bodyText2!.copyWith(
                           fontSize: 20.sp,
                           color: defaultTheme ? Colors.black : Colors.white,
@@ -296,13 +295,13 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Time:",
+                        "${AppLocalizations.of(context)?.time ?? 'Time'} :",
                         style: theme.textTheme.bodyText1!.copyWith(
                           color: defaultTheme ? Colors.black : Colors.white,
                         ),
                       ),
                       Text(
-                        '_time',
+                        _time,
                         style: theme.textTheme.bodyText2!.copyWith(
                           fontSize: 20.sp,
                           color: defaultTheme ? Colors.black : Colors.white,
@@ -314,7 +313,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
               ),
               SizedBox(height: 15.h),
               Text(
-                "Order summary:",
+                "${AppLocalizations.of(context)?.orderSummary ?? 'Order summary'} :",
                 style: theme.textTheme.bodyText1!.copyWith(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w600,
@@ -330,14 +329,15 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Order amount:",
-                          style: theme.textTheme.bodyText1!.copyWith(
-                            color: defaultTheme ? Colors.black : Colors.white,
-                          )),
+                      Text(
+                        "${AppLocalizations.of(context)?.orderAmount ?? 'Order amount'} :",
+                        style: theme.textTheme.bodyText1!.copyWith(
+                          color: defaultTheme ? Colors.black : Colors.white,
+                        ),
+                      ),
                       const SizedBox(height: 2),
                       Text(
-                        // "${appointment.appointmentModel!.priceAndDuration.price} ${Keys.uah}",
-                        '33',
+                        "${Keys.dollars}${_createAppointmentProvider.totalPrice}",
                         style: theme.textTheme.bodyText2!.copyWith(
                           fontSize: 20.sp,
                           color: defaultTheme ? Colors.black : Colors.white,
@@ -350,10 +350,12 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Discount 15%:",
-                          style: theme.textTheme.bodyText1!.copyWith(
-                            color: defaultTheme ? Colors.black : Colors.white,
-                          )),
+                      Text(
+                        "${AppLocalizations.of(context)?.discounts.toCapitalized() ?? 'Discount'} 15%:",
+                        style: theme.textTheme.bodyText1!.copyWith(
+                          color: defaultTheme ? Colors.black : Colors.white,
+                        ),
+                      ),
                       Text(
                         "-\$00",
                         style: theme.textTheme.bodyText2!.copyWith(
@@ -366,24 +368,18 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                   ),
                 ],
               ),
-              Space(
-                  factor:
-                      DeviceConstraints.getResponsiveSize(context, 1, 0.3, 0.3)
-                          .toDouble()),
+              Space(factor: DeviceConstraints.getResponsiveSize(context, 1, 0.3, 0.3).toDouble()),
               const Divider(
                 color: Color.fromARGB(71, 137, 149, 159),
                 thickness: 1,
               ),
-              Space(
-                  factor:
-                      DeviceConstraints.getResponsiveSize(context, 1, 0.3, 0.3)
-                          .toDouble()),
+              Space(factor: DeviceConstraints.getResponsiveSize(context, 1, 0.3, 0.3).toDouble()),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Total:",
+                    AppLocalizations.of(context)?.total ?? 'Total',
                     style: theme.textTheme.bodyText1!.copyWith(
                       fontSize: 20.sp,
                       fontWeight: FontWeight.w700,
@@ -391,8 +387,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                     ),
                   ),
                   Text(
-                    // "${Keys.dollars}${appointment.appointmentModel!.priceAndDuration.price}",
-                    "${Keys.dollars} 10",
+                    "${Keys.dollars}${_createAppointmentProvider.totalPrice}",
                     style: theme.textTheme.bodyText1!.copyWith(
                       fontSize: 20.sp,
                       fontWeight: FontWeight.w700,
@@ -406,8 +401,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                 // height: 100,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color:
-                      defaultTheme ? Colors.grey[100] : const Color(0XFF202020),
+                  color: defaultTheme ? Colors.grey[100] : const Color(0XFF202020),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: const Padding(
@@ -422,8 +416,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                 children: [
                   Theme(
                     data: Theme.of(context).copyWith(
-                      unselectedWidgetColor:
-                          defaultTheme ? Colors.black : Colors.white,
+                      unselectedWidgetColor: defaultTheme ? Colors.black : Colors.white,
                     ),
                     child: Checkbox(
                       checkColor: Colors.white,
@@ -461,45 +454,56 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                 onTap: () async {
                   if (!acceptTerms) {
                     // Terms Checkbox is unchecked
-                    showToast("Please agree to the terms and conditions");
+
+                    showToast(AppLocalizations.of(context)?.pleaseAgree ?? "Please agree to the terms and conditions");
+
                     return;
                   }
-                  CustomerModel customer = CustomerModel(
-                      customerId: "00iomPh4TKeE1GFGSNqI",
-                      personalInfo: PersonalInfo(
-                          phone: "08123317957",
-                          firstName: "Timmy",
-                          lastName: "Banjo",
-                          email: "timmybanjo@gmail.com"),
-                      registeredSalons: [],
-                      createdAt: DateTime.now(),
-                      avgRating: 3.0,
-                      noOfRatings: 6,
-                      profilePicUploaded: false,
-                      profilePic: "",
-                      profileCompleted: false,
-                      quizCompleted: false,
-                      preferredGender: "male",
-                      preferredCategories: [],
-                      locations: [],
-                      fcmToken: "",
-                      locale: "en",
-                      favSalons: [],
-                      referralLink: "");
-                  if (_createAppointmentProvider.chosenSalon!.ownerType ==
-                      OwnerType.singleMaster) {
-                    await _createAppointmentProvider.createAppointment(
-                        customerModel: customer, context: context);
-                    bool _success =
-                        await _createAppointmentProvider.finishBooking(
-                            context: context, customerModel: customer);
+
+                  bool success = await _createAppointmentProvider.finishBooking(
+                    context: context,
+                    customerModel: _auth.currentCustomer!, // _auth.customerFromSuccessfulRegistration,
+                  );
+
+                  if (success) {
+                    // Pop current dialog
+                    Navigator.of(context).pop();
+
+                    const ConfirmedDialog().show(context);
                   } else {
-                    await _createAppointmentProvider.creatAppointmentSalonOwner(
-                        customerModel: customer, context: context);
-                    bool _success =
-                        await _createAppointmentProvider.finishBooking(
-                            context: context, customerModel: customer);
+                    showToast(AppLocalizations.of(context)?.somethingWentWrong ?? "Something went wrong");
                   }
+
+                  //  for (AppointmentModel? app in _createAppointmentProvider.appointmentModelSalonOwner!) {
+                  //   print(app!.priceAndDuration.price);
+                  // }
+
+                  // CustomerModel customer = CustomerModel(
+                  //   customerId: "00iomPh4TKeE1GFGSNqI",
+                  //   personalInfo: PersonalInfo(phone: "08123317957", firstName: "Timmy", lastName: "Banjo", email: "timmybanjo@gmail.com"),
+                  //   registeredSalons: [],
+                  //   createdAt: DateTime.now(),
+                  //   avgRating: 3.0,
+                  //   noOfRatings: 6,
+                  //   profilePicUploaded: false,
+                  //   profilePic: "",
+                  //   profileCompleted: false,
+                  //   quizCompleted: false,
+                  //   preferredGender: "male",
+                  //   preferredCategories: [],
+                  //   locations: [],
+                  //   fcmToken: "",
+                  //   locale: "en",
+                  //   favSalons: [],
+                  //   referralLink: "",
+                  // );
+                  // if (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.singleMaster) {
+                  //   await _createAppointmentProvider.createAppointment(customerModel: customer, context: context);
+                  //   bool _success = await _createAppointmentProvider.finishBooking(context: context, customerModel: customer);
+                  // } else {
+                  //   await _createAppointmentProvider.creatAppointmentSalonOwner(customerModel: customer, context: context);
+                  //   bool _success = await _createAppointmentProvider.finishBooking(context: context, customerModel: customer);
+                  // }
                   // _createAppointmentProvider.creatAppointmentSalonOwner();
                   // Pop current dialog
                   // Navigator.of(context).pop();
@@ -513,12 +517,17 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                 textColor: defaultTheme ? Colors.white : Colors.black,
                 height: 60,
                 label: AppLocalizations.of(context)?.book ?? 'Book',
+                isLoading: _createAppointmentProvider.loadingStatus == Status.loading,
+                loaderColor: Colors.black,
               ),
               SizedBox(height: 15.h),
               DefaultButton(
                 borderRadius: 60,
                 onTap: () {
-                  _createAppointmentProvider.nextPageView(2);
+                  // Back to Day & Time Tab
+                  widget.tabController.animateTo(1);
+
+                  // _createAppointmentProvider.nextPageView(2);
                 },
                 color: defaultTheme ? Colors.white : Colors.transparent,
                 borderColor: defaultTheme ? Colors.black : theme.primaryColor,

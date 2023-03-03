@@ -66,6 +66,7 @@ class AuthProvider with ChangeNotifier {
   Status otpStatus = Status.init;
   Status loginStatus = Status.init;
   Status saveNameStatus = Status.init;
+  Status updateCustomerPersonalInfoStatus = Status.init;
   CustomerModel? currentCustomer;
   int start = 60;
   late CreateAppointmentProvider createAppointment;
@@ -198,9 +199,6 @@ class AuthProvider with ChangeNotifier {
         if (kIsWeb) {
           webOTPConfirmationResult = await _auth.signInWithPhoneNumber(_phone.trim());
 
-          print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-          print(webOTPConfirmationResult);
-          print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
           final customerExists = await CustomerApi().checkIfCustomerExists(_phone.trim());
           if (!customerExists) {
             isNewUser = true;
@@ -354,9 +352,9 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<Status> signIn({required BuildContext context, required WidgetRef ref, required callBack}) async {
-    print(otp);
-    print(verificationCode);
-    print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+    // print(otp);
+    // print(verificationCode);
+    // print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
     printIt(otp);
     printIt(verificationCode);
     BnbProvider _bnbProvider = ref.read(bnbProvider);
@@ -371,7 +369,13 @@ class AuthProvider with ChangeNotifier {
       if (kIsWeb) {
         printIt("It's webbb");
         _userResult = await webOTPConfirmationResult?.confirm(otp);
-
+        print('#################################');
+        print(_userResult);
+        print('-------');
+        print(_userResult?.user);
+        print('-------');
+        print(_userResult?.additionalUserInfo);
+        print('#################################');
         phoneNoController.clear();
       } else {
         final AuthCredential _authCredential = PhoneAuthProvider.credential(
@@ -511,6 +515,33 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  Future<bool> updateCustomerPersonalInfo({required String customerId, required PersonalInfo personalInfo}) async {
+    printIt('Updating customer info');
+    updateCustomerPersonalInfoStatus = Status.loading;
+    notifyListeners();
+
+    try {
+      await CustomerApi().updatePersonalInfo(
+        customerId: customerId,
+        personalInfo: personalInfo,
+      );
+
+      currentCustomer!.personalInfo = personalInfo;
+
+      updateCustomerPersonalInfoStatus = Status.success;
+      notifyListeners();
+
+      printIt('Customer info updated');
+      return true;
+    } catch (err) {
+      printIt('Catch error on updateCustomerPersonalInfo() - $err');
+
+      updateCustomerPersonalInfoStatus = Status.failed;
+      notifyListeners();
+      return false;
+    }
+  }
+
   updateCurrentCustomer() async {
     CustomerModel? customerModel = await CustomerApi().getCustomer();
     if (customerModel != null) {
@@ -612,4 +643,11 @@ class AuthProvider with ChangeNotifier {
     phoneNumber = '';
     notifyListeners();
   }
+
+  // late CustomerModel customerFromSuccessfulRegistration;
+
+  // void updateCurrentCustomerToFinishBooking(CustomerModel customerUpdate) {
+  //   customerFromSuccessfulRegistration = customerUpdate;
+  //   notifyListeners();
+  // }
 }

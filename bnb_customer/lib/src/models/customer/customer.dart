@@ -87,16 +87,16 @@ class PersonalInfo {
   PersonalInfo({
     required this.phone,
     // required this.nameforNotification,
-    this.firstName,
-    this.lastName,
+    required this.firstName,
+    required this.lastName,
     this.email,
     this.description,
     this.dob,
     this.sex,
   });
   late String phone;
-  String? firstName;
-  String? lastName;
+  late String firstName;
+  late String lastName;
   String? email;
   // String? nameforNotification;
   String? description;
@@ -105,8 +105,8 @@ class PersonalInfo {
 
   PersonalInfo.fromJson(Map<String, dynamic> json) {
     phone = json['phone'];
-    firstName = json['firstName'];
-    lastName = json['lastName'];
+    firstName = json['firstName'] ?? '';
+    lastName = json['lastName'] ?? '';
     email = json['email'];
     description = json['description'];
     dob = json['dob']?.toDate() ?? DateTime.now();

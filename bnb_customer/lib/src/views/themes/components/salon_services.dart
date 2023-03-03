@@ -6,7 +6,6 @@ import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/keys.dart';
-import 'package:bbblient/src/views/salon/booking/booking_dialog.dart';
 import 'package:bbblient/src/views/themes/components/widgets.dart/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,8 +13,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:bbblient/src/views/themes/components/widgets.dart/oval_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
-// FORMER FILE 
+//-----  FORMER FILE  //-----
 class SalonPrice extends ConsumerStatefulWidget {
   final SalonModel salonModel;
   final List<CategoryModel> categories;
@@ -239,14 +237,16 @@ class ServiceAndPrice extends ConsumerWidget {
                   height: 60.h,
                   buttonColor: theme.primaryColor,
                   borderColor: Colors.transparent,
-                  onTap: () => const BookingDialogWidget().show(context),
+                  onTap: () {},
+                  // onTap: () => const BookingDialogWidget().show(context),
                 )
               : OvalButton(
                   width: 180.h,
                   height: 60.h,
                   textSize: 18.sp,
                   text: 'Book Now',
-                  onTap: () => const BookingDialogWidget().show(context),
+                  onTap: () {},
+                  // onTap: () => const BookingDialogWidget().show(context),
                 )
         ],
       ),
@@ -311,9 +311,7 @@ class ServiceTile extends ConsumerWidget {
                       ],
                     ),
                     Text(
-                      service.isFixedPrice
-                          ? "${Keys.dollars}${service.priceAndDuration.price}"
-                          : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}",
+                      service.isFixedPrice ? "${Keys.dollars}${service.priceAndDuration.price}" : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}",
                       style: theme.textTheme.bodyText1?.copyWith(
                         color: Colors.white,
                         fontSize: 20.sp,

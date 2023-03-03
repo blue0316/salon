@@ -95,8 +95,8 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
                                   context,
                                 )) !=
                                 DeviceScreenType.portrait)
-                            ? 'ONLINE BOOKING'
-                            : 'Online Booking', // TODO - LOCALIZATIONS
+                            ? AppLocalizations.of(context)?.onlineBooking.toUpperCase() ?? 'ONLINE BOOKING'
+                            : AppLocalizations.of(context)?.onlineBooking.toCapitalized() ?? 'Online Booking',
                         style: AppTheme.bodyText1.copyWith(
                           fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 25.sp, 40.sp),
                           fontWeight: FontWeight.w600,

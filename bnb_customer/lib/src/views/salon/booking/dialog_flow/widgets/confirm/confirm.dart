@@ -36,7 +36,7 @@ class _ConfirmationState extends ConsumerState<Confirmation> {
                 EnterNumber(tabController: widget.bookingTabController),
                 const VerifyOtp(),
                 const RegistrationSuccessful(),
-                const OrderDetails(),
+                OrderDetails(tabController: widget.bookingTabController),
               ],
             ),
           ),

@@ -781,5 +781,19 @@
   "noReviews" : "No reviews",
   "discounts" : "discounts",
   "anyone": "Anyone",
-  "nextStep": "Next Step"
+  "nextStep": "Next Step",
+  "orderList": "Order List",
+  "youChoosed": "You choosed",
+  "orderSummary" : "Order summary",
+  "orderAmount" : "Order amount",
+  "termsOfService1": "We have updated our ",
+  "termsOfService":  "Terms of Service ",
+  "and" : "and",
+  "termsOfService2": "By continuining to use our service, you accept these terms and policies.",
+  "pleaseAgree" : "Please agree to the terms and conditions",
+  "somethingWentWrong" : "Something went wrong",
+  "onlineBooking" : "Online Booking",
+  "bookingDetails" : "Booking details",
+  "date" : "Date",
+  "time" : "Time"
 }

@@ -67,10 +67,10 @@ class ThemeAppBar extends ConsumerWidget {
               (salonModel.salonLogo != '')
                   ? SizedBox(
                       height: DeviceConstraints.getResponsiveSize(context, 50.h, 50.h, 70.h),
-                      width: DeviceConstraints.getResponsiveSize(context, 100.w, 100.w, 100.w),
+                      width: DeviceConstraints.getResponsiveSize(context, 100.w, 100.w, 50.w),
                       child: CachedImage(
                         url: salonModel.salonLogo,
-                        fit: BoxFit.contain,
+                        fit: BoxFit.fitHeight,
                       ),
                     )
                   : Text(

@@ -37,8 +37,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
 
   @override
   Widget build(BuildContext context) {
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
     final _salonSearchProvider = ref.watch(salonSearchProvider);
 
@@ -47,8 +46,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
 
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal:
-            DeviceConstraints.getResponsiveSize(context, 17.w, 20.w, 20.w),
+        horizontal: DeviceConstraints.getResponsiveSize(context, 17.w, 20.w, 20.w),
       ),
       child: ListView(
         shrinkWrap: true,
@@ -60,8 +58,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
             // AppLocalizations.of(context)?.availableMasters.toCapitalized() ?? 'Available masters',
             'Service & Master',
             style: theme.textTheme.bodyText1!.copyWith(
-              fontSize: DeviceConstraints.getResponsiveSize(
-                  context, 20.sp, 20.sp, 20.sp),
+              fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
               color: defaultTheme ? AppTheme.textBlack : Colors.white,
             ),
           ),
@@ -69,17 +66,14 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
           SizedBox(
             // flex: 1,
 
-            height: DeviceConstraints.getResponsiveSize(
-                context, 225.h, 220.h, 220.h),
+            height: DeviceConstraints.getResponsiveSize(context, 225.h, 220.h, 220.h),
             child: ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               itemCount: _createAppointmentProvider.chosenServices.length,
               itemBuilder: (context, index) {
-                final ServiceModel service =
-                    _createAppointmentProvider.chosenServices[index];
-                List<MasterModel> masters =
-                    _createAppointmentProvider.availableMasters;
+                final ServiceModel service = _createAppointmentProvider.chosenServices[index];
+                List<MasterModel> masters = _createAppointmentProvider.availableMasters;
 
                 return Padding(
                   padding: const EdgeInsets.only(right: 15),
@@ -105,31 +99,23 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
               },
             ),
           ),
-          SizedBox(
-              height: DeviceConstraints.getResponsiveSize(
-                  context, 15.h, 20.h, 20.h)),
+          SizedBox(height: DeviceConstraints.getResponsiveSize(context, 15.h, 20.h, 20.h)),
           const Divider(color: AppTheme.grey, thickness: 1.4),
-          SizedBox(
-              height: DeviceConstraints.getResponsiveSize(
-                  context, 20.h, 20.h, 20.h)),
+          SizedBox(height: DeviceConstraints.getResponsiveSize(context, 20.h, 20.h, 20.h)),
           Text(
-            // AppLocalizations.of(context)?.availableMasters.toCapitalized() ?? 'Available masters',
+            // AppLocalizations.of(context)?.availableMasters.toCapitalized() ?? 'Available masters', // TODO: LOCALIZE
             'Select time and date',
             style: theme.textTheme.bodyText1!.copyWith(
-              fontSize: DeviceConstraints.getResponsiveSize(
-                  context, 20.sp, 20.sp, 20.sp),
+              fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
               color: defaultTheme ? AppTheme.textBlack : Colors.white,
             ),
           ),
-          SizedBox(
-              height: DeviceConstraints.getResponsiveSize(
-                  context, 20.h, 20.h, 20.h)),
+          SizedBox(height: DeviceConstraints.getResponsiveSize(context, 20.h, 20.h, 20.h)),
           TableCalendar(
             focusedDay: _createAppointmentProvider.chosenDay,
             firstDay: _today,
             lastDay: _lastDay,
-            selectedDayPredicate: (day) =>
-                isSameDay(_createAppointmentProvider.chosenDay, day),
+            selectedDayPredicate: (day) => isSameDay(_createAppointmentProvider.chosenDay, day),
             calendarFormat: CalendarFormat.week,
             startingDayOfWeek: StartingDayOfWeek.monday,
             weekendDays: const [],
@@ -156,17 +142,14 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
               disabledTextStyle: AppTheme.calTextStyle2.copyWith(
                 color: defaultTheme ? Colors.black : Colors.white,
               ),
-              selectedTextStyle:
-                  Theme.of(context).textTheme.headline2!.copyWith(
-                        fontSize: 15,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
-                      ),
+              selectedTextStyle: Theme.of(context).textTheme.headline2!.copyWith(
+                    fontSize: 15,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                  ),
               isTodayHighlighted: false,
               selectedDecoration: BoxDecoration(
-                color: defaultTheme
-                    ? const Color.fromARGB(255, 239, 239, 239)
-                    : theme.primaryColor,
+                color: defaultTheme ? const Color.fromARGB(255, 239, 239, 239) : theme.primaryColor,
                 shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -201,40 +184,29 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
               outsideDaysVisible: false,
             ),
             onDaySelected: (start, end) {
-              if ((_createAppointmentProvider
-                          .chosenSalon!.bookingRestrictionDays !=
-                      null
+              if ((_createAppointmentProvider.chosenSalon!.bookingRestrictionDays != null
                   ? (DateTime.now()
                       .add(Duration(
-                        days: _createAppointmentProvider
-                            .chosenSalon!.bookingRestrictionDays!,
+                        days: _createAppointmentProvider.chosenSalon!.bookingRestrictionDays!,
                       ))
                       .isAfter(start))
                   : true)) {
                 setState(() {
-                  if (_createAppointmentProvider.chosenSalon!.ownerType !=
-                      OwnerType.singleMaster) {
+                  if (_createAppointmentProvider.chosenSalon!.ownerType != OwnerType.singleMaster) {
                     _createAppointmentProvider.chosenDay = start;
                     _createAppointmentProvider.chosenSlots.clear();
-                    for (int i = 1;
-                        i <= _createAppointmentProvider.chosenServices.length;
-                        i++) {
+                    for (int i = 1; i <= _createAppointmentProvider.chosenServices.length; i++) {
                       _createAppointmentProvider.chosenSlots.add('');
                     }
-                    _createAppointmentProvider.calculateAvailableMasters(
-                        day: start);
+                    _createAppointmentProvider.calculateAvailableMasters(day: start);
                     _createAppointmentProvider.refreshSlotsSalonOwner(context);
                   } else {
-                    _createAppointmentProvider.setUpSlots(
-                        day: start,
-                        context: context,
-                        showNotWorkingToast: true);
+                    _createAppointmentProvider.setUpSlots(day: start, context: context, showNotWorkingToast: true);
                   }
                 });
               } else {
                 showToast(
-                  AppLocalizations.of(context)?.bookRestricted ??
-                      "Booking is restricted",
+                  AppLocalizations.of(context)?.bookRestricted ?? "Booking is restricted",
                 );
               }
             },
@@ -287,10 +259,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                   ),
                 ),
               ],
-              if (_createAppointmentProvider.eveningTimeslots.isEmpty &&
-                  _createAppointmentProvider.morningTimeslots.isEmpty &&
-                  _createAppointmentProvider.eveningTimeslots.isEmpty &&
-                  _createAppointmentProvider.slotsStatus != Status.loading) ...[
+              if (_createAppointmentProvider.eveningTimeslots.isEmpty && _createAppointmentProvider.morningTimeslots.isEmpty && _createAppointmentProvider.eveningTimeslots.isEmpty && _createAppointmentProvider.slotsStatus != Status.loading) ...[
                 SizedBox(
                   height: 100.h,
                   width: 1.sw,
@@ -305,9 +274,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                         style: Theme.of(context).textTheme.bodyText1!.copyWith(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
-                              color: defaultTheme
-                                  ? AppTheme.creamBrown
-                                  : Colors.white,
+                              color: defaultTheme ? AppTheme.creamBrown : Colors.white,
                             ),
                       ),
                     ),
@@ -321,8 +288,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                   child: Text(
                     AppLocalizations.of(context)?.morning ?? "Morning",
                     style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                          color:
-                              defaultTheme ? AppTheme.creamBrown : Colors.white,
+                          color: defaultTheme ? AppTheme.creamBrown : Colors.white,
                         ),
                   ),
                 ),
@@ -331,17 +297,13 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                   spacing: 10.h,
                   runSpacing: 10.w,
                   children: [
-                    for (var slot
-                        in _createAppointmentProvider.morningTimeslots)
+                    for (var slot in _createAppointmentProvider.morningTimeslots)
                       TimeSlotContainer(
                         time: slot,
-                        valid: _createAppointmentProvider.validSlots
-                            .contains(slot),
-                        choosen: _createAppointmentProvider.chosenSlots
-                            .contains(slot),
+                        valid: _createAppointmentProvider.validSlots.contains(slot),
+                        choosen: _createAppointmentProvider.chosenSlots.contains(slot),
                         onTap: () async {
-                          await _createAppointmentProvider.chooseSlot(
-                              slot, context);
+                          await _createAppointmentProvider.chooseSlot(slot, context);
                         },
                       ),
                   ],
@@ -354,8 +316,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                   child: Text(
                     AppLocalizations.of(context)?.afternoon ?? "Afternoon",
                     style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                          color:
-                              defaultTheme ? AppTheme.creamBrown : Colors.white,
+                          color: defaultTheme ? AppTheme.creamBrown : Colors.white,
                         ),
                   ),
                 ),
@@ -364,17 +325,13 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                   spacing: 10.h,
                   runSpacing: 10.w,
                   children: [
-                    for (var slot
-                        in _createAppointmentProvider.afternoonTimeslots)
+                    for (var slot in _createAppointmentProvider.afternoonTimeslots)
                       TimeSlotContainer(
                         time: slot,
-                        valid: _createAppointmentProvider.validSlots
-                            .contains(slot),
-                        choosen: _createAppointmentProvider.chosenSlots
-                            .contains(slot),
+                        valid: _createAppointmentProvider.validSlots.contains(slot),
+                        choosen: _createAppointmentProvider.chosenSlots.contains(slot),
                         onTap: () async {
-                          await _createAppointmentProvider.chooseSlot(
-                              slot, context);
+                          await _createAppointmentProvider.chooseSlot(slot, context);
                         },
                       ),
                   ],
@@ -387,8 +344,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                   child: Text(
                     AppLocalizations.of(context)?.evening ?? "Evening",
                     style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                          color:
-                              defaultTheme ? AppTheme.creamBrown : Colors.white,
+                          color: defaultTheme ? AppTheme.creamBrown : Colors.white,
                         ),
                   ),
                 ),
@@ -397,17 +353,13 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                   spacing: 10.h,
                   runSpacing: 10.w,
                   children: [
-                    for (var slot
-                        in _createAppointmentProvider.eveningTimeslots)
+                    for (var slot in _createAppointmentProvider.eveningTimeslots)
                       TimeSlotContainer(
                         time: slot,
-                        valid: _createAppointmentProvider.validSlots
-                            .contains(slot),
-                        choosen: _createAppointmentProvider.chosenSlots
-                            .contains(slot),
+                        valid: _createAppointmentProvider.validSlots.contains(slot),
+                        choosen: _createAppointmentProvider.chosenSlots.contains(slot),
                         onTap: () async {
-                          await _createAppointmentProvider.chooseSlot(
-                              slot, context);
+                          await _createAppointmentProvider.chooseSlot(slot, context);
                         },
                       ),
                   ],
@@ -426,6 +378,11 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                   DefaultButton(
                     borderRadius: 60,
                     onTap: () {
+                      if (_createAppointmentProvider.chosenSlots.isEmpty) {
+                        showToast(AppLocalizations.of(context)?.chooseSlots ?? "choose slots");
+                        return;
+                      }
+
                       // Next Page
                       widget.tabController.animateTo(2);
                     },
@@ -441,8 +398,9 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                       // Next Page
                       widget.tabController.animateTo(0);
                     },
-                    color: defaultTheme ? Colors.black : theme.primaryColor,
-                    textColor: defaultTheme ? Colors.white : Colors.black,
+                    color: defaultTheme ? Colors.white : Colors.transparent,
+                    borderColor: defaultTheme ? Colors.black : theme.primaryColor,
+                    textColor: defaultTheme ? Colors.black : theme.primaryColor,
                     height: 60,
                     label: AppLocalizations.of(context)?.back ?? "Back",
                   ),

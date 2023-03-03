@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OTPField9 extends ConsumerWidget {
   final Color? color;
@@ -47,8 +48,7 @@ class OTPField9 extends ConsumerWidget {
       backgroundColor: Colors.transparent,
       enableActiveFill: false,
       onCompleted: (val) {
-        _createAppointmentProvider.otp = val;
-        // _auth.checkOtp(val);
+        _auth.otp = val;
       },
       onChanged: (val) {
         _auth.otp = val;
@@ -76,22 +76,25 @@ class TermsOfServiceText extends ConsumerWidget {
       text: TextSpan(
         children: [
           TextSpan(
+            // AppLocalizations.of(context)?.termsOfService1 ?? 'We have updated our ', // TODO - LOCALIZE
             text: "We have updated our ",
             style: AppTheme.bodyText1.copyWith(
-              fontSize: 20.sp,
+              fontSize: 15.sp,
               fontWeight: FontWeight.w400,
               color: defaultTheme ? Colors.black : Colors.white,
             ),
           ),
           TextSpan(
+            // text: "${AppLocalizations.of(context)?.termsOfService ?? 'Terms of Service '}. ",
             text: "Terms of Service ",
             style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                  fontSize: 20.sp,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
                   color: defaultTheme ? Colors.black : Colors.white,
                 ),
           ),
           TextSpan(
+            // text: "${AppLocalizations.of(context)?.and ?? 'and'}. ",
             text: "and ",
             style: AppTheme.bodyText1.copyWith(
               fontSize: 15.sp,
@@ -100,14 +103,15 @@ class TermsOfServiceText extends ConsumerWidget {
             ),
           ),
           TextSpan(
-            text: "Privacy Policy. ",
+            text: "${AppLocalizations.of(context)?.policy ?? 'Privacy Policy'}. ",
             style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                  fontSize: 15.sp,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
                   color: defaultTheme ? Colors.black : Colors.white,
                 ),
           ),
           TextSpan(
+            // text: "${AppLocalizations.of(context)?.termsOfService2 ?? 'By continuining to use our service, you accept these terms and policies.'}. ",
             text: "By continuining to use our service, you accept these terms and policies.",
             style: AppTheme.bodyText1.copyWith(
               fontSize: 15.sp,

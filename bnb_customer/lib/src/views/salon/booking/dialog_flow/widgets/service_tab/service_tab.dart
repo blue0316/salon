@@ -4,7 +4,6 @@ import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
-import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/service_tab/service_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
