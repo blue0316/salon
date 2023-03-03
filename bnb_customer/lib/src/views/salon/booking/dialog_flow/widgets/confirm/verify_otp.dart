@@ -43,9 +43,11 @@ class _VerifyOtpState extends ConsumerState<VerifyOtp> {
 
   @override
   Widget build(BuildContext context) {
-    final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
+    final CreateAppointmentProvider _createAppointmentProvider =
+        ref.watch(createAppointmentProvider);
     final AuthProvider _auth = ref.watch(authProvider);
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool defaultTheme = theme == AppTheme.lightTheme;
@@ -60,7 +62,8 @@ class _VerifyOtpState extends ConsumerState<VerifyOtp> {
                 context,
               )?.phoneNumber.toCapitalized() ?? "Phone number"}",
           style: theme.textTheme.bodyText1!.copyWith(
-            fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+            fontSize: DeviceConstraints.getResponsiveSize(
+                context, 20.sp, 20.sp, 20.sp),
             color: defaultTheme ? Colors.black : Colors.white,
           ),
         ),
@@ -83,7 +86,9 @@ class _VerifyOtpState extends ConsumerState<VerifyOtp> {
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: DeviceConstraints.getResponsiveSize(context, 10, 25.w, 40.w).toDouble(),
+                    horizontal: DeviceConstraints.getResponsiveSize(
+                            context, 10, 25.w, 40.w)
+                        .toDouble(),
                   ),
                   child: const OTPField9(),
                 ),
@@ -96,10 +101,15 @@ class _VerifyOtpState extends ConsumerState<VerifyOtp> {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: AppLocalizations.of(context)?.registration_line17.toCapitalized() ?? "Didn't Receive an OTP? ",
+                          text: AppLocalizations.of(context)
+                                  ?.registration_line17
+                                  .toCapitalized() ??
+                              "Didn't Receive an OTP? ",
                           style: theme.textTheme.bodyText2!.copyWith(
                             fontSize: 18.sp,
-                            color: defaultTheme ? AppTheme.lightGrey : Colors.white,
+                            color: defaultTheme
+                                ? AppTheme.lightGrey
+                                : Colors.white,
                           ),
                         ),
                         const TextSpan(text: '   '),
@@ -108,7 +118,9 @@ class _VerifyOtpState extends ConsumerState<VerifyOtp> {
                           style: theme.textTheme.bodyText1!.copyWith(
                             fontSize: 18.sp,
                             decoration: TextDecoration.underline,
-                            color: defaultTheme ? Colors.black : theme.primaryColor,
+                            color: defaultTheme
+                                ? Colors.black
+                                : theme.primaryColor,
                           ),
                         ),
                       ],
@@ -127,25 +139,50 @@ class _VerifyOtpState extends ConsumerState<VerifyOtp> {
           // loaderColor: Colors.black,
           onTap: () async {
             if (_auth.loginStatus != Status.loading) {
-              await _auth.signIn(context: context, ref: ref, callBack: refreshAccount).then(
+              await _auth
+                  .signIn(context: context, ref: ref, callBack: refreshAccount)
+                  .then(
                 (value) async {
                   if (value == Status.success) {
                     CustomerModel? currentCustomer = _auth.currentCustomer;
                     if (currentCustomer != null) {
-                      if (currentCustomer.personalInfo.firstName == '' || currentCustomer.personalInfo.email == null) {
+                      if (currentCustomer.personalInfo.firstName == '' ||
+                          currentCustomer.personalInfo.email == null) {
                         // Customer Personal Info is missing name and email
 
                         // Go to pageview that has fields to update personal info
-                        _createAppointmentProvider.nextPageView(2); // PageView screen that contains name and email fields
+                        _createAppointmentProvider.nextPageView(
+                            2); // PageView screen that contains name and email fields
                       } else {
                         // Customer Personal Info has name and email
 
                         // Create Appointment
-                        CustomerModel customer = CustomerModel(customerId: currentCustomer.customerId, personalInfo: currentCustomer.personalInfo, registeredSalons: [], createdAt: DateTime.now(), avgRating: 3.0, noOfRatings: 6, profilePicUploaded: false, profilePic: "", profileCompleted: false, quizCompleted: false, preferredGender: "male", preferredCategories: [], locations: [], fcmToken: "", locale: "en", favSalons: [], referralLink: "");
-                        if (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.singleMaster) {
-                          await _createAppointmentProvider.createAppointment(customerModel: customer, context: context);
+                        CustomerModel customer = CustomerModel(
+                            customerId: currentCustomer.customerId,
+                            personalInfo: currentCustomer.personalInfo,
+                            registeredSalons: [],
+                            createdAt: DateTime.now(),
+                            avgRating: 3.0,
+                            noOfRatings: 6,
+                            profilePicUploaded: false,
+                            profilePic: "",
+                            profileCompleted: false,
+                            quizCompleted: false,
+                            preferredGender: "male",
+                            preferredCategories: [],
+                            locations: [],
+                            fcmToken: "",
+                            locale: "en",
+                            favSalons: [],
+                            referralLink: "");
+                        if (_createAppointmentProvider.chosenSalon!.ownerType ==
+                            OwnerType.singleMaster) {
+                          await _createAppointmentProvider.createAppointment(
+                              customerModel: customer, context: context);
                         } else {
-                          await _createAppointmentProvider.creatAppointmentSalonOwner(customerModel: customer, context: context);
+                          await _createAppointmentProvider
+                              .creatAppointmentSalonOwner(
+                                  customerModel: customer, context: context);
                         }
 
                         // Go to PageView Order List Screen
@@ -153,14 +190,17 @@ class _VerifyOtpState extends ConsumerState<VerifyOtp> {
                       }
                     }
                   } else if (value == Status.failed) {
-                    showToast(AppLocalizations.of(context)?.somethingWentWrong ?? "Something went wrong");
+                    showToast(
+                        AppLocalizations.of(context)?.somethingWentWrong ??
+                            "Something went wrong");
                   } else {
                     printIt('wahala dey here');
                   }
                 },
               );
             } else {
-              showToast(AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
+              showToast(
+                  AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
             }
 
             // _createAppointmentProvider.nextPageView(2);
