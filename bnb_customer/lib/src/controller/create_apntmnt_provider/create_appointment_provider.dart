@@ -1592,7 +1592,7 @@ class CreateAppointmentProvider with ChangeNotifier {
       {required CustomerModel? customerModel, required BuildContext context}) {
     int index = 0;
     DateTime? nextStart;
-    print(customerModel!.personalInfo.phone);
+
     List<ServiceAndMaster> serviceMasterDup =
         serviceAgainstMaster.map<ServiceAndMaster>((e) => e).toList();
     var locale =
@@ -1707,10 +1707,9 @@ class CreateAppointmentProvider with ChangeNotifier {
             : AppointmentStatus.active,
         services: _services,
         customer: Customer(
-          id: customerModel.customerId, //"00iomPh4TKeE1GFGSNqI",
-          name: customerModel.personalInfo.firstName +
-              " " +
-              customerModel.personalInfo.lastName, //"Banjo Oluwatimmy",
+          id: customerModel!.customerId, //"00iomPh4TKeE1GFGSNqI",
+          name:
+              Utils().getName(customerModel.personalInfo), //"Banjo Oluwatimmy",
           phoneNumber: customerModel.personalInfo.phone,
           pic: "",
         ),
