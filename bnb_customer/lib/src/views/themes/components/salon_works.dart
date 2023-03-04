@@ -47,7 +47,7 @@ class _SalonWorksState extends ConsumerState<SalonWorks> {
             left: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
             right: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
             top: DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
-            bottom: DeviceConstraints.getResponsiveSize(context, 60.h, 90.h, 100.h),
+            bottom: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

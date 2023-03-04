@@ -1,16 +1,16 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/others/glam_one.dart';
-
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/booking_dialog_2.dart';
 import 'package:bbblient/src/views/themes/components/widgets.dart/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ThemeHeader extends ConsumerWidget {
   final SalonModel salonModel;
@@ -19,7 +19,7 @@ class ThemeHeader extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+    // final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
 
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
@@ -66,19 +66,6 @@ class ThemeHeader extends ConsumerWidget {
                 onTap: () => const BookingDialogWidget222().show(context),
               ),
 
-        // (_salonProfileProvider.theme == '1')
-        //     ? RotatedBookNow(
-        //         buttonText: AppLocalizations.of(context)?.bookNow ?? "Book Now",
-        //         onTap: () {},
-        //       )
-        //     : (_salonProfileProvider.theme == '2' || _salonProfileProvider.theme == '4')
-        //         ? const SizedBox()
-        //         : SquareButton(
-        //             text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
-        //             height: 65.h,
-        //             onTap: () {},
-        //           ),
-
         SizedBox(height: DeviceConstraints.getResponsiveSize(context, 100.h, 100.h, 150.h)),
         Padding(
           padding: EdgeInsets.symmetric(
@@ -103,33 +90,6 @@ class ThemeHeader extends ConsumerWidget {
             // const GlamOneWrap(
             //   text: "Hairdresser",
             // ),
-
-            // // TODO: REMOVE ALL THESE (TEMPORARY FOR UI)
-            // if (_salonProfileProvider.chosenSalon.selectedTheme == 2)
-            //   const GlamOneWrap(
-            //     text: "Esthetician",
-            //   ),
-            // if (_salonProfileProvider.chosenSalon.selectedTheme == 2)
-            //   const GlamOneWrap(
-            //     text: "Injectable & Med Spa",
-            //   ),
-            // if (_salonProfileProvider.chosenSalon.selectedTheme == 2)
-            //   const GlamOneWrap(
-            //     text: "Nail Artist",
-            //   ),
-            // if (_salonProfileProvider.chosenSalon.selectedTheme == 2)
-            //   const GlamOneWrap(
-            //     text: "Massage",
-            //   ),
-            // if (_salonProfileProvider.chosenSalon.selectedTheme == 2)
-            //   const GlamOneWrap(
-            //     text: "Epilation",
-            //   ),
-            // if (_salonProfileProvider.chosenSalon.selectedTheme == 2)
-            //   const GlamOneWrap(
-            //     text: "Eyebrow makeup",
-            //   ),
-            // ],
           ),
         ),
       ],
@@ -154,19 +114,11 @@ class RotatedBookNow extends ConsumerWidget {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              RotationTransition(
-                turns: const AlwaysStoppedAnimation(175 / 360), // (15 / 360),
-                child: Container(
-                  width: 170.h,
-                  height: 65.h,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: theme.primaryColor,
-                      width: 1.5,
-                    ),
-                    borderRadius: BorderRadius.circular(170),
-                  ),
-                ),
+              SizedBox(
+                // color: Colors.grey,
+                width: 180.h,
+                height: 180.h,
+                child: SvgPicture.asset(AppIcons.bookNow),
               ),
               Text(
                 buttonText,
@@ -178,13 +130,16 @@ class RotatedBookNow extends ConsumerWidget {
   }
 }
 
-class GlamOneWrap extends StatelessWidget {
+class GlamOneWrap extends ConsumerWidget {
   final String text;
   final VoidCallback? onTap;
   const GlamOneWrap({Key? key, required this.text, this.onTap}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -196,7 +151,7 @@ class GlamOneWrap extends StatelessWidget {
         child: Center(
           child: Text(
             text,
-            style: GlamOneTheme.bodyText1.copyWith(color: Colors.white),
+            style: theme.textTheme.bodyText1!.copyWith(color: Colors.white),
             textAlign: TextAlign.center,
           ),
         ),

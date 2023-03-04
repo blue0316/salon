@@ -96,7 +96,10 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                           SalonTags(
                             additionalFeatures: chosenSalon.additionalFeatures,
                           ),
-                        if (_createAppointmentProvider.salonPromotions.isNotEmpty) const SalonPromotions(),
+                        if (_createAppointmentProvider.salonPromotions.isNotEmpty)
+                          SalonPromotions(
+                            salonPromotionsList: _createAppointmentProvider.salonPromotions,
+                          ),
                         SalonAbout2(salonModel: chosenSalon),
                         const SalonSponsors(),
                         SalonWorks(salonModel: chosenSalon),
@@ -113,9 +116,9 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                         SalonReviews(salonModel: chosenSalon),
                         WriteToUs(salonModel: chosenSalon),
                         SalonContact(salonModel: chosenSalon),
-                        // SalonSocials(
-                        //   salonModel: chosenSalon,
-                        // ),
+                        SalonSocials(
+                          salonModel: chosenSalon,
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(top: 19, bottom: 10),
                           child: Text(

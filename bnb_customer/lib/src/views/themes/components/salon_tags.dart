@@ -13,16 +13,57 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 //   'null': Colors.white,
 // };
 
-class SalonTags extends ConsumerWidget {
+class SalonTags extends ConsumerStatefulWidget {
   final List<String> additionalFeatures;
   const SalonTags({Key? key, required this.additionalFeatures}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<SalonTags> createState() => _SalonTagsState();
+}
+
+class _SalonTagsState extends ConsumerState<SalonTags> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) {
+        double minScrollExtent = _scrollController.position.minScrollExtent;
+        double masxScrollExtent = _scrollController.position.maxScrollExtent;
+
+        animateToMaxMin(masxScrollExtent, minScrollExtent, masxScrollExtent, 25, _scrollController);
+      },
+    );
+
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   if (_scrollController.hasClients) {
+    //     _scrollController.animateTo(
+    //       _scrollController.position.maxScrollExtent,
+    //       duration: const Duration(milliseconds: 500),
+    //       curve: Curves.easeInOut,
+    //     );
+    //   }
+    // });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  animateToMaxMin(double max, double min, double direction, int seconds, ScrollController scrollController) {
+    scrollController.animateTo(direction, duration: Duration(seconds: seconds), curve: Curves.linear).then((value) {
+      direction = direction == max ? min : max;
+      animateToMaxMin(max, min, direction, seconds, scrollController);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
-
-    // final int? themeNo = _salonProfileProvider.chosenSalon.selectedTheme;
 
     return Padding(
       padding: const EdgeInsets.only(top: 20, bottom: 50),
@@ -32,9 +73,11 @@ class SalonTags extends ConsumerWidget {
           SizedBox(
             height: 60,
             child: ListView.builder(
+              controller: _scrollController,
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
-              itemCount: additionalFeatures.length,
+              physics: AlwaysScrollableScrollPhysics(),
+              itemCount: widget.additionalFeatures.length,
               itemBuilder: ((context, index) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -45,7 +88,7 @@ class SalonTags extends ConsumerWidget {
                       Padding(
                         padding: const EdgeInsets.only(right: 10),
                         child: Text(
-                          convertLowerCamelCase(additionalFeatures[index]),
+                          convertLowerCamelCase(widget.additionalFeatures[index]),
                           style: theme.textTheme.bodyText1?.copyWith(
                             color: theme.dividerColor,
                             fontSize: 18.sp,

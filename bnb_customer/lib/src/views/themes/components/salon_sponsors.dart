@@ -6,17 +6,56 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class SalonSponsors extends ConsumerWidget {
+class SalonSponsors extends ConsumerStatefulWidget {
   const SalonSponsors({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // final _createAppointmentProvider = ref.watch(createAppointmentProvider);
+  ConsumerState<SalonSponsors> createState() => _SalonSponsorsState();
+}
 
+class _SalonSponsorsState extends ConsumerState<SalonSponsors> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) {
+        double minScrollExtent = _scrollController.position.minScrollExtent;
+        double masxScrollExtent = _scrollController.position.maxScrollExtent;
+
+        animateToMaxMin(masxScrollExtent, minScrollExtent, masxScrollExtent, 25, _scrollController);
+      },
+    );
+
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   if (_scrollController.hasClients) {
+    //     _scrollController.animateTo(
+    //       _scrollController.position.maxScrollExtent,
+    //       duration: const Duration(milliseconds: 500),
+    //       curve: Curves.easeInOut,
+    //     );
+    //   }
+    // });
+  }
+
+  animateToMaxMin(double max, double min, double direction, int seconds, ScrollController scrollController) {
+    scrollController.animateTo(direction, duration: Duration(seconds: seconds), curve: Curves.linear).then((value) {
+      direction = direction == max ? min : max;
+      animateToMaxMin(max, min, direction, seconds, scrollController);
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
-
-    // final int? themeNo = _salonProfileProvider.chosenSalon.selectedTheme;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 50),
@@ -37,6 +76,7 @@ class SalonSponsors extends ConsumerWidget {
               : SizedBox(
                   height: 40,
                   child: ListView.builder(
+                    controller: _scrollController,
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
                     itemCount: _salonProfileProvider.allProductBrands.length,

@@ -9,20 +9,28 @@ import 'package:bbblient/src/views/themes/components/widgets.dart/button.dart';
 import 'package:bbblient/src/views/themes/images.dart';
 import 'package:bbblient/src/views/themes/components/widgets.dart/oval_button.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class SalonAbout2 extends ConsumerWidget {
+class SalonAbout2 extends ConsumerStatefulWidget {
   final SalonModel salonModel;
 
   const SalonAbout2({Key? key, required this.salonModel}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<SalonAbout2> createState() => _SalonAbout2State();
+}
+
+class _SalonAbout2State extends ConsumerState<SalonAbout2> {
+  final CarouselController _controller = CarouselController();
+
+  @override
+  Widget build(BuildContext context) {
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
-    final bool isSingleMaster = (salonModel.ownerType == OwnerType.singleMaster);
+    final bool isSingleMaster = (widget.salonModel.ownerType == OwnerType.singleMaster);
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
@@ -36,26 +44,60 @@ class SalonAbout2 extends ConsumerWidget {
       ),
       child: SizedBox(
         width: double.infinity,
-        height: isPortrait ? 700.h : 450.h,
+        height: isPortrait ? 700.h : DeviceConstraints.getResponsiveSize(context, 25, 300.h, 450.h),
         child: (!isPortrait)
             ? Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(
+                    // height: 500.h,
                     width: DeviceConstraints.getResponsiveSize(context, 50, 200.w, 200.w),
-                    child: ClipRRect(
-                      // borderRadius: BorderRadius.circular(10),
-                      child: (salonModel.photosOfWork.isNotEmpty && salonModel.photosOfWork[0] != '')
-                          ? CachedImage(
-                              url: salonModel.photosOfWork[0],
-                              fit: BoxFit.cover,
-                            )
-                          : Image.asset(
-                              ThemeImages.makeup,
-                              fit: BoxFit.cover,
+                    child: Stack(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 30),
+                          child: SizedBox(
+                            height: 500.h,
+                            child: CarouselSlider(
+                              carouselController: _controller,
+                              options: CarouselOptions(
+                                scrollPhysics: const AlwaysScrollableScrollPhysics(),
+                                autoPlay: false,
+                                pauseAutoPlayOnTouch: true,
+                                viewportFraction: 1,
+                                // height: DeviceConstraints.getResponsiveSize(context, 280.h, 320, 350.h),
+                              ),
+                              items: widget.salonModel.photosOfWork.isNotEmpty
+                                  ? widget.salonModel.photosOfWork
+                                      .map((item) => CachedImage(
+                                            url: item,
+                                            fit: BoxFit.cover,
+                                            width: DeviceConstraints.getResponsiveSize(context, 50, 200.w, 200.w),
+                                          ))
+                                      .toList()
+                                  : [
+                                      Image.asset(ThemeImages.makeup, fit: BoxFit.cover),
+                                    ],
                             ),
+                          ),
+                        ),
+                        LeftCarouselButton(controller: _controller, theme: theme),
+                        RightCarouselButton(controller: _controller, theme: theme),
+                      ],
                     ),
+                    // child: ClipRRect(
+                    //   // borderRadius: BorderRadius.circular(10),
+                    //   child: (widget.salonModel.photosOfWork.isNotEmpty && widget.salonModel.photosOfWork[0] != '')
+                    //       ? CachedImage(
+                    //           url: widget.salonModel.photosOfWork[0],
+                    //           fit: BoxFit.cover,
+                    //         )
+                    //       : Image.asset(
+                    //           ThemeImages.makeup,
+                    //           fit: BoxFit.cover,
+                    //         ),
+                    // ),
                   ),
                   SizedBox(width: DeviceConstraints.getResponsiveSize(context, 0, 20.w, 25.w)),
                   Expanded(
@@ -75,7 +117,7 @@ class SalonAbout2 extends ConsumerWidget {
                           const SizedBox(height: 10),
                           SizedBox(
                             child: Text(
-                              (salonModel.description != '') ? salonModel.description : 'No description yet',
+                              (widget.salonModel.description != '') ? widget.salonModel.description : 'No description yet',
                               style: theme.textTheme.bodyText2?.copyWith(
                                 color: Colors.white,
                                 fontSize: 15.5.sp,
@@ -126,7 +168,7 @@ class SalonAbout2 extends ConsumerWidget {
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    (salonModel.description != '') ? salonModel.description : 'No description yet',
+                    (widget.salonModel.description != '') ? widget.salonModel.description : 'No description yet',
                     style: theme.textTheme.bodyText2?.copyWith(
                       color: Colors.white,
                       fontSize: 15.5.sp,
@@ -150,21 +192,116 @@ class SalonAbout2 extends ConsumerWidget {
                   SizedBox(
                     height: 300.h,
                     width: double.infinity,
-                    child: ClipRRect(
-                      // borderRadius: BorderRadius.circular(15),
-                      child: (salonModel.photosOfWork.isNotEmpty && salonModel.photosOfWork[0] != '')
-                          ? CachedImage(
-                              url: salonModel.photosOfWork[0],
-                              fit: BoxFit.cover,
-                            )
-                          : Image.asset(
-                              ThemeImages.makeup,
-                              fit: BoxFit.cover,
+                    child: Stack(
+                      children: [
+                        SizedBox(
+                          height: 300.h,
+                          child: CarouselSlider(
+                            carouselController: _controller,
+                            options: CarouselOptions(
+                              scrollPhysics: const AlwaysScrollableScrollPhysics(),
+                              autoPlay: false,
+                              pauseAutoPlayOnTouch: true,
+                              viewportFraction: 1,
+                              height: 300.h, //  DeviceConstraints.getResponsiveSize(context, 280.h, 320, 350.h),
                             ),
+                            items: widget.salonModel.photosOfWork.isNotEmpty
+                                ? widget.salonModel.photosOfWork
+                                    .map(
+                                      (item) => CachedImage(
+                                        url: item,
+                                        fit: BoxFit.cover,
+                                        height: 300.h,
+                                        width: MediaQuery.of(context).size.width - 20.w,
+                                      ),
+                                    )
+                                    .toList()
+                                : [
+                                    Image.asset(ThemeImages.makeup, fit: BoxFit.cover),
+                                  ],
+                          ),
+                        ),
+                        LeftCarouselButton(controller: _controller, theme: theme),
+                        RightCarouselButton(controller: _controller, theme: theme),
+                      ],
                     ),
                   ),
                 ],
               ),
+      ),
+    );
+  }
+}
+
+class RightCarouselButton extends StatelessWidget {
+  const RightCarouselButton({
+    Key? key,
+    required CarouselController controller,
+    required this.theme,
+  })  : _controller = controller,
+        super(key: key);
+
+  final CarouselController _controller;
+  final ThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Padding(
+        padding: const EdgeInsets.only(right: 15),
+        child: InkWell(
+          onTap: () => _controller.nextPage(),
+          child: Container(
+            height: DeviceConstraints.getResponsiveSize(context, 40.h, 46.h, 65.h),
+            width: DeviceConstraints.getResponsiveSize(context, 40.h, 46.h, 65.h),
+            decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.black87),
+            child: Center(
+              child: Icon(
+                Icons.arrow_forward_ios_rounded,
+                color: theme.primaryColorDark,
+                size: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class LeftCarouselButton extends StatelessWidget {
+  const LeftCarouselButton({
+    Key? key,
+    required CarouselController controller,
+    required this.theme,
+  })  : _controller = controller,
+        super(key: key);
+
+  final CarouselController _controller;
+  final ThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 15),
+        child: InkWell(
+          onTap: () => _controller.previousPage(),
+          child: Container(
+            height: DeviceConstraints.getResponsiveSize(context, 30.h, 46.h, 65.h),
+            width: DeviceConstraints.getResponsiveSize(context, 30.h, 46.h, 65.h),
+            decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.black87),
+            child: Center(
+              child: Icon(
+                Icons.arrow_back_ios_new_rounded,
+                color: theme.primaryColorDark,
+                size: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
