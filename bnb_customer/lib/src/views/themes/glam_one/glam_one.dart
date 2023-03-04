@@ -116,9 +116,9 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                         SalonReviews(salonModel: chosenSalon),
                         WriteToUs(salonModel: chosenSalon),
                         SalonContact(salonModel: chosenSalon),
-                        SalonSocials(
-                          salonModel: chosenSalon,
-                        ),
+                        // SalonSocials(
+                        //   salonModel: chosenSalon,
+                        // ),
                         Padding(
                           padding: const EdgeInsets.only(top: 19, bottom: 10),
                           child: Text(
