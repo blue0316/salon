@@ -154,7 +154,7 @@ class CustomerApi {
         },
       );
     } catch (e) {
-      printIt(e);
+      printIt('Catch error on updatePersonalInfo() - $e');
     }
   }
 

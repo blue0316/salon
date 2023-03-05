@@ -60,7 +60,7 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        backgroundColor: Colors.green,
+        // backgroundColor: Colors.green,
         body: SafeArea(
           bottom: false,
           child: Stack(
@@ -205,7 +205,7 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    "${appointment.priceAndDuration.price} ${Keys.uah}",
+                                                    "${Keys.dollars}${appointment.priceAndDuration.price}",
                                                     style: Theme.of(context).textTheme.headline4!.copyWith(color: AppTheme.textBlack),
                                                     maxLines: 1,
                                                   ),
@@ -518,96 +518,96 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                           // if(!_auth.userLoggedIn){
 
                           // }
-                          if (!_auth.userLoggedIn && _auth.phoneNoController.text.isEmpty) {
-                            showToast(AppLocalizations.of(context)?.invalid_phone_number ?? 'Input phone No');
-                            return;
-                          }
-                          if (!_auth.userLoggedIn && (_auth.phoneNumber.length < 8 || _auth.phoneNumber.length > 10)) {
-                            showToast(AppLocalizations.of(context)?.invalid_phone_number ?? 'Invalid phone No');
-                            return;
-                          }
-                          if (!_auth.userLoggedIn && !acceptTerms) {
-                            showToast(
-                              AppLocalizations.of(context)?.privacy_policy_accept ?? 'I have read and accepted privacy policy',
-                            );
-                            return;
-                          }
-                          if (!_auth.userLoggedIn) {
-                            await _auth.verifyPhoneNumber(context: context);
-                            showTopSnackBar(
-                              context,
-                              CustomSnackBar.success(
-                                message: AppLocalizations.of(context)?.otpSent ?? "Otp has been sent to your phone",
-                                backgroundColor: AppTheme.creamBrown,
-                              ),
-                            );
-                            checkUser(context, ref, () {
-                              //_auth.createAppointmentProvider(_createAppointment);
-                              // _createAppointment.createAppointment(
-                              //     customerModel: _auth.currentCustomer!,
-                              //     context: context);
-                            }, appointmentModel: appointment);
-                          } else {
-                            showToast(AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
-                            bool moveAhead = _createAppointment.checkSlotsAndMaster(context: context);
-                            checkUser(context, ref, () async {
-                              if (moveAhead) {
-                                _auth.createAppointmentProvider(_createAppointment);
-                                _createAppointment.createAppointment(customerModel: _auth.currentCustomer!, context: context);
-                                bool _success = await _createAppointment.finishBooking(context: context, customerModel: _authProvider.currentCustomer!);
+                          // if (!_auth.userLoggedIn && _auth.phoneNoController.text.isEmpty) {
+                          //   showToast(AppLocalizations.of(context)?.invalid_phone_number ?? 'Input phone No');
+                          //   return;
+                          // }
+                          // if (!_auth.userLoggedIn && (_auth.phoneNumber.length < 8 || _auth.phoneNumber.length > 10)) {
+                          //   showToast(AppLocalizations.of(context)?.invalid_phone_number ?? 'Invalid phone No');
+                          //   return;
+                          // }
+                          // if (!_auth.userLoggedIn && !acceptTerms) {
+                          //   showToast(
+                          //     AppLocalizations.of(context)?.privacy_policy_accept ?? 'I have read and accepted privacy policy',
+                          //   );
+                          //   return;
+                          // }
+                          // if (!_auth.userLoggedIn) {
+                          //   await _auth.verifyPhoneNumber(context: context);
+                          //   showTopSnackBar(
+                          //     context,
+                          //     CustomSnackBar.success(
+                          //       message: AppLocalizations.of(context)?.otpSent ?? "Otp has been sent to your phone",
+                          //       backgroundColor: AppTheme.creamBrown,
+                          //     ),
+                          //   );
+                          //   checkUser(context, ref, () {
+                          //     //_auth.createAppointmentProvider(_createAppointment);
+                          //     // _createAppointment.createAppointment(
+                          //     //     customerModel: _auth.currentCustomer!,
+                          //     //     context: context);
+                          //   }, appointmentModel: appointment);
+                          // } else {
+                          //   showToast(AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
+                          //   bool moveAhead = _createAppointment.checkSlotsAndMaster(context: context);
+                          //   checkUser(context, ref, () async {
+                          //     if (moveAhead) {
+                          //       _auth.createAppointmentProvider(_createAppointment);
+                          //       _createAppointment.createAppointment(customerModel: _auth.currentCustomer!, context: context);
+                          //       bool _success = await _createAppointment.finishBooking(context: context, customerModel: _authProvider.currentCustomer!);
 
-                                if (_success) {
-                                  setState(() {
-                                    // _status = Status.success;
-                                  });
-                                  showMyDialog(
-                                    context: context,
-                                    child: SizedBox(
-                                      height: 300.h,
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Text(
-                                            AppLocalizations.of(context)?.success ?? "Success",
-                                            style: AppTheme.appointmentSubtitle,
-                                          ),
-                                          const Gap(10),
-                                          SizedBox(height: 150.h, width: 150.w, child: Image.asset(AppIcons.bookingConfirmedPNG)),
-                                          const Gap(10),
-                                          Text(
-                                            (_createAppointment.appointmentModel?.status ?? "") == AppointmentStatus.requested ? AppLocalizations.of(context)?.requestConfirmed ?? "Request Confirmed" : AppLocalizations.of(context)?.bookingConfirmed ?? "Your booking has been confirmed",
-                                            textAlign: TextAlign.center,
-                                            style: AppTheme.appointmentTitleStyle,
-                                          ),
-                                          const Gap(15),
-                                          BnbMaterialButton(
-                                            key: const Key("great-key"),
-                                            onTap: () {
-                                              // print(object)
-                                              if (_appProvider.firstRoute != null) {
-                                                printIt("Going back to : ${_appProvider.firstRoute}");
-                                                // context.pop();
-                                                // context.push(
-                                                //     '${NavigatorPage.redirect}${_appProvider.firstRoute!}');
-                                                html.window.open("https://bowandbeautiful.com${_appProvider.firstRoute}", "_self");
-                                              } else {
-                                                Navigator.of(context).popUntil((Route<dynamic> route) => route.isFirst);
-                                              }
-                                            },
-                                            title: AppLocalizations.of(context)?.great ?? 'Great',
-                                            minWidth: 150.w,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                }
-                              } else {
-                                // print('falseeeee');
-                              }
-                            }, appointmentModel: appointment);
-                          }
+                          //       if (_success) {
+                          //         setState(() {
+                          //           // _status = Status.success;
+                          //         });
+                          //         showMyDialog(
+                          //           context: context,
+                          //           child: SizedBox(
+                          //             height: 300.h,
+                          //             child: Column(
+                          //               crossAxisAlignment: CrossAxisAlignment.center,
+                          //               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          //               children: [
+                          //                 Text(
+                          //                   AppLocalizations.of(context)?.success ?? "Success",
+                          //                   style: AppTheme.appointmentSubtitle,
+                          //                 ),
+                          //                 const Gap(10),
+                          //                 SizedBox(height: 150.h, width: 150.w, child: Image.asset(AppIcons.bookingConfirmedPNG)),
+                          //                 const Gap(10),
+                          //                 Text(
+                          //                   (_createAppointment.appointmentModel?.status ?? "") == AppointmentStatus.requested ? AppLocalizations.of(context)?.requestConfirmed ?? "Request Confirmed" : AppLocalizations.of(context)?.bookingConfirmed ?? "Your booking has been confirmed",
+                          //                   textAlign: TextAlign.center,
+                          //                   style: AppTheme.appointmentTitleStyle,
+                          //                 ),
+                          //                 const Gap(15),
+                          //                 BnbMaterialButton(
+                          //                   key: const Key("great-key"),
+                          //                   onTap: () {
+                          //                     // print(object)
+                          //                     if (_appProvider.firstRoute != null) {
+                          //                       printIt("Going back to : ${_appProvider.firstRoute}");
+                          //                       // context.pop();
+                          //                       // context.push(
+                          //                       //     '${NavigatorPage.redirect}${_appProvider.firstRoute!}');
+                          //                       html.window.open("https://bowandbeautiful.com${_appProvider.firstRoute}", "_self");
+                          //                     } else {
+                          //                       Navigator.of(context).popUntil((Route<dynamic> route) => route.isFirst);
+                          //                     }
+                          //                   },
+                          //                   title: AppLocalizations.of(context)?.great ?? 'Great',
+                          //                   minWidth: 150.w,
+                          //                 ),
+                          //               ],
+                          //             ),
+                          //           ),
+                          //         );
+                          //       }
+                          //     } else {
+                          //       // print('falseeeee');
+                          //     }
+                          //   }, appointmentModel: appointment);
+                          // }
 
                           // _auth.changeFromBooking();
                         },

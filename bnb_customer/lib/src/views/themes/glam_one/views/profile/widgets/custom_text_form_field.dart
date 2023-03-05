@@ -1,8 +1,11 @@
+import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/color_constant.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // ignore: must_be_immutable
-class CustomTextFormField extends StatelessWidget {
+class CustomTextFormField extends ConsumerWidget {
   CustomTextFormField({
     this.shape,
     this.padding,
@@ -66,40 +69,43 @@ class CustomTextFormField extends StatelessWidget {
   FormFieldValidator<String>? validator;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
     return alignment != null
         ? Align(
             alignment: alignment ?? Alignment.center,
-            child: _buildTextFormFieldWidget(),
+            child: _buildTextFormFieldWidget(theme),
           )
-        : _buildTextFormFieldWidget();
+        : _buildTextFormFieldWidget(theme);
   }
 
-  _buildTextFormFieldWidget() {
+  _buildTextFormFieldWidget(ThemeData theme) {
     return Container(
-      width: (width ?? 0),
+      // width: (width ?? 0),
       margin: margin,
       child: TextFormField(
         controller: controller,
         focusNode: focusNode,
-        style: _setFontStyle(),
+        style: theme.inputDecorationTheme.labelStyle, // _setFontStyle(theme),
         obscureText: isObscureText!,
         textInputAction: textInputAction,
         keyboardType: textInputType,
         maxLines: maxLines ?? 1,
-        decoration: _buildDecoration(),
+        decoration: _buildDecoration(theme),
         validator: validator,
       ),
     );
   }
 
-  _buildDecoration() {
+  _buildDecoration(ThemeData theme) {
     return InputDecoration(
       hintText: hintText ?? "",
-      hintStyle: _setFontStyle(),
-      border: _setBorderStyle(),
-      enabledBorder: _setBorderStyle(),
-      focusedBorder: _setBorderStyle(),
+      hintStyle: theme.inputDecorationTheme.hintStyle, // _setFontStyle(theme),
+      border: theme.inputDecorationTheme.border, //  _setBorderStyle(),
+      enabledBorder: theme.inputDecorationTheme.enabledBorder, // _setBorderStyle(),
+      focusedBorder: theme.inputDecorationTheme.focusedBorder, // _setBorderStyle(),
       disabledBorder: _setBorderStyle(),
       prefixIcon: prefix,
       prefixIconConstraints: prefixConstraints,
@@ -111,7 +117,7 @@ class CustomTextFormField extends StatelessWidget {
     );
   }
 
-  _setFontStyle() {
+  _setFontStyle(ThemeData theme) {
     switch (fontStyle) {
       default:
         return TextStyle(

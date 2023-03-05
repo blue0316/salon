@@ -1,25 +1,29 @@
+import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
-import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/icons.dart';
 import 'package:bbblient/src/views/themes/images.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-class SalonSocials extends StatelessWidget {
+class SalonSocials extends ConsumerWidget {
   final SalonModel salonModel;
 
   const SalonSocials({Key? key, required this.salonModel}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final bool isSingleMaster = (salonModel.ownerType == OwnerType.singleMaster);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
 
     return Container(
       width: double.infinity,
-      color: const Color(0XFFFFC692),
+      color: theme.cardColor,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 100),
         child: Column(
@@ -30,10 +34,10 @@ class SalonSocials extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: DeviceConstraints.getResponsiveSize(context, 20.w, 30.w, 50.w)),
               child: Center(
                 child: Text(
-                  '${isSingleMaster ? "my" : "our"} my social network'.toUpperCase(),
+                  '${isSingleMaster ? "my" : "our"} social network'.toUpperCase(),
                   textAlign: TextAlign.center,
-                  style: GlamOneTheme.headLine2.copyWith(
-                    color: Colors.black,
+                  style: theme.textTheme.headline2?.copyWith(
+                    color: theme.colorScheme.secondary,
                     fontWeight: FontWeight.w600,
                     fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),
                   ),
@@ -63,7 +67,7 @@ class SalonSocials extends StatelessWidget {
                           ),
                           SvgPicture.asset(
                             ThemeIcons.insta,
-                            color: GlamOneTheme.primaryColor,
+                            color: theme.primaryColor,
                             height: 30.h,
                           ),
                         ],

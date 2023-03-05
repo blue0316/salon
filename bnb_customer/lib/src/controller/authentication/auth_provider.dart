@@ -66,6 +66,7 @@ class AuthProvider with ChangeNotifier {
   Status otpStatus = Status.init;
   Status loginStatus = Status.init;
   Status saveNameStatus = Status.init;
+  Status updateCustomerPersonalInfoStatus = Status.init;
   CustomerModel? currentCustomer;
   int start = 60;
   late CreateAppointmentProvider createAppointment;
@@ -264,6 +265,13 @@ class AuthProvider with ChangeNotifier {
     required String countryCode,
   }) async {
     String _phone = "$countryCode$phoneNumber";
+    print(_phone);
+    // debugPrint('#####################################');
+
+    // debugPrint(countryCode);
+    // debugPrint(phoneNumber);
+    // debugPrint(_phone);
+    // debugPrint('#####################################');
 
     if (phoneNumber.length < 8 || phoneNumber.length > 10) {
       showToast(AppLocalizations.of(context)?.invalid_phone_number ?? 'Invalid phone No');
@@ -285,11 +293,10 @@ class AuthProvider with ChangeNotifier {
         notifyListeners();
 
         _showOTPScreen();
-      }else{
+      } else {
         phoneVerificationResult = await _auth.signInWithPhoneNumber(_phone.trim());
         notifyListeners();
       }
-
 
       _showOTPScreen();
     } on FirebaseAuthException catch (e) {
@@ -308,58 +315,46 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> checkOtp(String confirmOtp) async {
-    print('**************************************');
-    print(confirmOtp);
-    print('**************************************');
+  Future<void> checkOtp(String confirmOtp) async {
     // print(phoneVerificationResult.toString());
     // print(phoneVerificationResult?.verificationId);
 
     try {
-      UserCredential? _userResult = await  webOTPConfirmationResult?.confirm(confirmOtp.trim());
+      UserCredential? _userResult = await webOTPConfirmationResult?.confirm(confirmOtp.trim());
 
-      print(_userResult);
-
-      print('**************************************');
-
-      print(_userResult);
-      print('*********** ***************************');
       if (_userResult != null && _userResult.user != null) {
         printIt(_userResult.user);
-       // await callBack();
+        // await callBack();
         userLoggedIn = true;
         loginStatus = Status.success;
         printIt("New Login Status");
         printIt(loginStatus);
         notifyListeners();
-
-        return true;
       } else {
         loginStatus = Status.failed;
         printIt(" Login Status failed");
         printIt(loginStatus);
         notifyListeners();
-        return false;
-       // showToast(AppLocalizations.of(context)?.errorOccurred ?? 'error occurred');
+        // showToast(AppLocalizations.of(context)?.errorOccurred ?? 'error occurred');
       }
     } on FirebaseAuthException catch (e) {
       loginStatus = Status.failed;
       notifyListeners();
       printIt("$e");
       String? error = ErrorCodes.getFirebaseErrorMessage(e);
-      showToast(error);
-      return false;
     } catch (err) {
       loginStatus = Status.failed;
       notifyListeners();
       // handleError(e, context);
       printIt('Caught exception ');
       printIt(err);
-      return false;
     }
   }
 
   Future<Status> signIn({required BuildContext context, required WidgetRef ref, required callBack}) async {
+    // print(otp);
+    // print(verificationCode);
+    // print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
     printIt(otp);
     printIt(verificationCode);
     BnbProvider _bnbProvider = ref.read(bnbProvider);
@@ -374,10 +369,13 @@ class AuthProvider with ChangeNotifier {
       if (kIsWeb) {
         printIt("It's webbb");
         _userResult = await webOTPConfirmationResult?.confirm(otp);
-        print('**************************************');
+        print('#################################');
         print(_userResult);
-        print('**************************************');
-
+        print('-------');
+        print(_userResult?.user);
+        print('-------');
+        print(_userResult?.additionalUserInfo);
+        print('#################################');
         phoneNoController.clear();
       } else {
         final AuthCredential _authCredential = PhoneAuthProvider.credential(
@@ -517,6 +515,33 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  Future<bool> updateCustomerPersonalInfo({required String customerId, required PersonalInfo personalInfo}) async {
+    printIt('Updating customer info');
+    updateCustomerPersonalInfoStatus = Status.loading;
+    notifyListeners();
+
+    try {
+      await CustomerApi().updatePersonalInfo(
+        customerId: customerId,
+        personalInfo: personalInfo,
+      );
+
+      currentCustomer!.personalInfo = personalInfo;
+
+      updateCustomerPersonalInfoStatus = Status.success;
+      notifyListeners();
+
+      printIt('Customer info updated');
+      return true;
+    } catch (err) {
+      printIt('Catch error on updateCustomerPersonalInfo() - $err');
+
+      updateCustomerPersonalInfoStatus = Status.failed;
+      notifyListeners();
+      return false;
+    }
+  }
+
   updateCurrentCustomer() async {
     CustomerModel? customerModel = await CustomerApi().getCustomer();
     if (customerModel != null) {
@@ -618,4 +643,11 @@ class AuthProvider with ChangeNotifier {
     phoneNumber = '';
     notifyListeners();
   }
+
+  // late CustomerModel customerFromSuccessfulRegistration;
+
+  // void updateCurrentCustomerToFinishBooking(CustomerModel customerUpdate) {
+  //   customerFromSuccessfulRegistration = customerUpdate;
+  //   notifyListeners();
+  // }
 }

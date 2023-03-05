@@ -1,15 +1,16 @@
-// ignore_for_file: prefer_typing_uninitialized_variables
-
+import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../theme/app_main_theme.dart';
 
-class DefaultButton extends StatelessWidget {
+class DefaultButton extends ConsumerWidget {
   final String? label;
   final Function? onTap;
   final bool isLoading;
-  final Color? color, textColor, borderColor;
+  final Color? color, textColor, borderColor, loaderColor;
   final double height;
   final double? borderRadius;
   final Widget? prefixIcon;
@@ -25,46 +26,56 @@ class DefaultButton extends StatelessWidget {
     this.textColor,
     this.borderColor,
     this.prefixIcon,
+    this.loaderColor,
   }) : super(key: key);
   @override
-  Widget build(BuildContext context) {
-    if (isLoading) {
-      return const CircularProgressIndicator();
-    } else {
-      return MaterialButton(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(borderRadius ?? 8),
-          side: BorderSide(
-            color: borderColor ?? color ?? Colors.black,
-          ),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
+    return MaterialButton(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(borderRadius ?? 8),
+        side: BorderSide(
+          color: borderColor ?? color ?? Colors.black,
         ),
-        height: height,
-        // size.width - 94,
-        minWidth: double.infinity,
-        color: color ?? AppTheme.lightBlack,
-        disabledColor: AppTheme.coolGrey,
-        onPressed: onTap as void Function()?,
-        child: (prefixIcon != null)
-            ? Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  prefixIcon!,
-                  const SizedBox(width: 10),
-                  Text(
-                    label ?? "Sign up",
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline2?.copyWith(color: textColor),
+      ),
+      height: height,
+      // size.width - 94,
+      minWidth: double.infinity,
+      color: color ?? AppTheme.lightBlack,
+      disabledColor: AppTheme.coolGrey,
+      onPressed: onTap as void Function()?,
+      child: isLoading
+          ? CircularProgressIndicator(color: loaderColor)
+          : (prefixIcon != null)
+              ? Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    prefixIcon!,
+                    const SizedBox(width: 10),
+                    Text(
+                      label ?? "Sign up",
+                      textAlign: TextAlign.center,
+                      style: theme.textTheme.bodyText1?.copyWith(
+                        color: textColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.sp,
+                      ),
+                    ),
+                  ],
+                )
+              : Text(
+                  label ?? "Sign up",
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.bodyText1?.copyWith(
+                    color: textColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.sp,
                   ),
-                ],
-              )
-            : Text(
-                label ?? "Sign up",
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headline2?.copyWith(color: textColor),
-              ),
-      );
-    }
+                ),
+    );
   }
 }
 
@@ -230,3 +241,77 @@ class BackButtonGlassMorphic extends StatelessWidget {
     );
   }
 }
+
+// class DefaultButton extends ConsumerWidget {
+//   final String? label;
+//   final Function? onTap;
+//   final bool isLoading;
+//   final Color? color, textColor, borderColor;
+//   final double height;
+//   final double? borderRadius;
+//   final Widget? prefixIcon;
+
+//   const DefaultButton({
+//     Key? key,
+//     this.label,
+//     this.onTap,
+//     this.isLoading = false,
+//     this.color,
+//     this.height = 60,
+//     this.borderRadius,
+//     this.textColor,
+//     this.borderColor,
+//     this.prefixIcon,
+//   }) : super(key: key);
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+//     final ThemeData theme = _salonProfileProvider.salonTheme;
+
+//     if (isLoading) {
+//       return const CircularProgressIndicator();
+//     } else {
+//       return MaterialButton(
+//         shape: RoundedRectangleBorder(
+//           borderRadius: BorderRadius.circular(borderRadius ?? 8),
+//           side: BorderSide(
+//             color: borderColor ?? color ?? Colors.black,
+//           ),
+//         ),
+//         height: height,
+//         // size.width - 94,
+//         minWidth: double.infinity,
+//         color: color ?? AppTheme.lightBlack,
+//         disabledColor: AppTheme.coolGrey,
+//         onPressed: onTap as void Function()?,
+//         child: (prefixIcon != null)
+//             ? Row(
+//                 crossAxisAlignment: CrossAxisAlignment.center,
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: [
+//                   prefixIcon!,
+//                   const SizedBox(width: 10),
+//                   Text(
+//                     label ?? "Sign up",
+//                     textAlign: TextAlign.center,
+//                     style: theme.textTheme.bodyText1?.copyWith(
+//                       color: textColor,
+//                       fontWeight: FontWeight.bold,
+//                       fontSize: 20.sp,
+//                     ),
+//                   ),
+//                 ],
+//               )
+//             : Text(
+//                 label ?? "Sign up",
+//                 textAlign: TextAlign.center,
+//                 style: theme.textTheme.bodyText1?.copyWith(
+//                   color: textColor,
+//                   fontWeight: FontWeight.bold,
+//                   fontSize: 20.sp,
+//                 ),
+//               ),
+//       );
+//     }
+//   }
+// }

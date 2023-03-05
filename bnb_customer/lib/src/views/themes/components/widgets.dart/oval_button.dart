@@ -1,8 +1,11 @@
-import 'package:bbblient/src/theme/glam_one.dart';
+import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class OvalButton extends StatelessWidget {
+class OvalButton extends ConsumerWidget {
   final double? height, width;
   final String text;
   final double? textSize;
@@ -18,7 +21,10 @@ class OvalButton extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
@@ -28,7 +34,7 @@ class OvalButton extends StatelessWidget {
           height: height ?? 45.h,
           decoration: BoxDecoration(
             border: Border.all(
-              color: GlamOneTheme.primaryColor,
+              color: theme.primaryColor,
               width: 1.5,
             ),
             borderRadius: const BorderRadius.all(
@@ -40,7 +46,7 @@ class OvalButton extends StatelessWidget {
             child: Center(
               child: Text(
                 text,
-                style: GlamOneTheme.bodyText2.copyWith(
+                style: theme.textTheme.bodyText2!.copyWith(
                   fontSize: textSize ?? 14.sp,
                 ),
               ),

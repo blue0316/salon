@@ -1,6 +1,5 @@
 // ignore_for_file: use_full_hex_values_for_flutter_colors
 
-import 'package:bbblient/src/theme/glam_one.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -90,6 +89,13 @@ class AppTheme {
 // colorScheme
   static const Color creamBrownPrimaryVariant = Color(0xFFAE7C63);
   static const Color creamBrownSecondaryVarient = Color(0xffE3AF7B);
+
+  static final TextStyle aboutScreenStyle = TextStyle(
+    fontFamily: "Gilroy",
+    fontSize: 40.sp,
+    fontWeight: FontWeight.w600,
+    color: bookingBlack,
+  );
 
   static final TextStyle hintStyle = TextStyle(
     fontFamily: "Montserrat",
@@ -183,6 +189,7 @@ class AppTheme {
         borderRadius: BorderRadius.circular(50),
         color: Colors.black,
       ),
+      labelStyle: AppTheme.bodyText1,
     ),
     colorScheme: const ColorScheme(
       primary: creamBrown,
@@ -228,9 +235,11 @@ class AppTheme {
     ),
     dividerColor: Colors.white,
     focusColor: lightGrey,
-    highlightColor: milkeyGreyDark,
+    highlightColor: const Color(0XFFEBE9E9), // Color to select services on booking dialog
+
     splashColor: milkeyGreyDark,
     hoverColor: milkeyGreyDark,
+    unselectedWidgetColor: const Color.fromARGB(255, 239, 239, 239), // Color for not valid time slot container
   );
 
   static final ThemeData darkTheme = ThemeData(
@@ -265,63 +274,6 @@ class AppTheme {
       bodyText2: bodyText2,
       //text-field style
       subtitle1: subTitle1,
-    ),
-    appBarTheme: AppBarTheme(
-      backgroundColor: Colors.white,
-      titleTextStyle: bodyText1,
-      iconTheme: const IconThemeData(
-        color: textBlack,
-      ),
-    ),
-    dividerColor: Colors.white,
-    focusColor: lightGrey,
-    highlightColor: milkeyGreyDark,
-    splashColor: milkeyGreyDark,
-    hoverColor: milkeyGreyDark,
-  );
-
-  static final ThemeData glamOneTheme = ThemeData(
-    primaryColor: GlamOneTheme.primaryColor,
-    scaffoldBackgroundColor: Colors.black,
-    textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
-    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      backgroundColor: Colors.white,
-      elevation: 1.2,
-    ),
-    tabBarTheme: TabBarTheme(
-      unselectedLabelColor: Colors.white,
-      labelColor: Colors.black,
-      indicator: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
-        color: GlamOneTheme.primaryColor,
-      ),
-    ),
-    inputDecorationTheme: InputDecorationTheme(hintStyle: hintStyle),
-    dialogBackgroundColor: Colors.black,
-    colorScheme: ColorScheme(
-      primary: (Colors.pink[900])!,
-      secondary: creamBrownLight,
-      surface: Colors.white,
-      background: milkeyGrey,
-      error: redishPink,
-      onPrimary: (Colors.green[900])!,
-      onSecondary: creamBrownLight,
-      onSurface: lightGrey,
-      onBackground: lightGrey,
-      onError: redishPink,
-      brightness: Brightness.light,
-    ),
-    textTheme: TextTheme(
-      headline1: GlamOneTheme.headLine1,
-      headline2: GlamOneTheme.headLine2,
-      headline3: GlamOneTheme.headLine3,
-      headline4: GlamOneTheme.headLine4,
-      headline5: GlamOneTheme.headLine5,
-
-      bodyText1: GlamOneTheme.bodyText1,
-      bodyText2: GlamOneTheme.bodyText2,
-      //text-field style
-      subtitle1: GlamOneTheme.subTitle1,
     ),
     appBarTheme: AppBarTheme(
       backgroundColor: Colors.white,

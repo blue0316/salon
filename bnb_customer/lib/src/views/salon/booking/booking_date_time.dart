@@ -208,8 +208,8 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                                       ),
                                       Text(
                                         createAppointment.mastersPriceDurationMap[createAppointment.chosenMaster?.masterId]?.price == createAppointment.mastersPriceDurationMapMax[createAppointment.chosenMaster?.masterId]?.price
-                                            ? "${createAppointment.mastersPriceDurationMap[createAppointment.chosenMaster?.masterId]?.price} ${Keys.uah}"
-                                            : "${createAppointment.mastersPriceDurationMap[createAppointment.chosenMaster?.masterId]?.price} ${Keys.uah} - ${createAppointment.mastersPriceDurationMapMax[createAppointment.chosenMaster?.masterId]?.price} ${Keys.uah}",
+                                            ? "${Keys.dollars}${createAppointment.mastersPriceDurationMap[createAppointment.chosenMaster?.masterId]?.price}"
+                                            : "${Keys.dollars}${createAppointment.mastersPriceDurationMap[createAppointment.chosenMaster?.masterId]?.price} - ${Keys.dollars}${createAppointment.mastersPriceDurationMapMax[createAppointment.chosenMaster?.masterId]?.price}",
                                         style: Theme.of(context).textTheme.bodyText2!.copyWith(color: AppTheme.textBlack, fontWeight: FontWeight.w500),
                                       ),
                                     ],
@@ -231,7 +231,7 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                                     height: 4,
                                   ),
                                   Text(
-                                    createAppointment.totalPrice == createAppointment.totalPricewithFixed ? "${createAppointment.totalPrice} ${Keys.uah}" : "${createAppointment.totalPricewithFixed} ${Keys.uah} - ${createAppointment.totalPrice} ${Keys.uah}",
+                                    createAppointment.totalPrice == createAppointment.totalPricewithFixed ? "${Keys.dollars}${createAppointment.totalPrice}" : "${Keys.dollars}${createAppointment.totalPricewithFixed} - ${Keys.dollars}${createAppointment.totalPrice}",
                                     style: Theme.of(context).textTheme.bodyText2!.copyWith(color: AppTheme.textBlack, fontWeight: FontWeight.w500),
                                   ),
                                 ],
@@ -333,7 +333,7 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                                                       height: 4,
                                                     ),
                                                     Text(
-                                                      "${createAppointment.mastersPriceDurationMap[createAppointment.availableMasters[index].masterId]?.price} ${Keys.uah}",
+                                                      "${Keys.dollars}${createAppointment.mastersPriceDurationMap[createAppointment.availableMasters[index].masterId]?.price}",
                                                       style: Theme.of(context).textTheme.bodyText2!.copyWith(color: AppTheme.textBlack, fontWeight: FontWeight.w500),
                                                     ),
                                                   ],
@@ -795,7 +795,7 @@ class TimeSlotContainer extends ConsumerWidget {
               ? choosen
                   ? x
                   : Colors.white
-              : Colors.grey[300], // const Color.fromARGB(255, 239, 239, 239),
+              : theme.unselectedWidgetColor, // const Color.fromARGB(255, 239, 239, 239),
           // color: valid
           //     ? choosen
           //         ? AppTheme.textBlack
@@ -807,7 +807,8 @@ class TimeSlotContainer extends ConsumerWidget {
                 ? choosen
                     ? x
                     : (Colors.grey[300]!)
-                : (Colors.grey[300]!),
+                : theme.unselectedWidgetColor,
+            // (Colors.grey[300]!),
             // color: const Color.fromARGB(255, 239, 239, 239),
             width: 1,
           ),

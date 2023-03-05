@@ -7,6 +7,7 @@ import 'package:bbblient/src/views/home_page.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:bbblient/src/utils/notification/notifications.dart';
 import 'package:bbblient/src/views/onboarding/onboarding.dart';
@@ -33,8 +34,7 @@ void main() async {
   }
 
   if (!kIsWeb) {
-    await FirebaseCrashlytics.instance
-        .setCrashlyticsCollectionEnabled(kReleaseMode);
+    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(kReleaseMode);
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   }
   //logs the app opening..okay
@@ -74,6 +74,15 @@ class MyApp extends ConsumerWidget {
         theme: AppTheme.lightTheme,
 
         builder: BotToastInit(),
+
+        scrollBehavior: const MaterialScrollBehavior().copyWith(
+          dragDevices: {
+            PointerDeviceKind.mouse,
+            PointerDeviceKind.touch,
+            PointerDeviceKind.stylus,
+            PointerDeviceKind.unknown,
+          },
+        ),
       ),
     );
   }

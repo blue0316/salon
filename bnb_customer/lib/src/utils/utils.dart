@@ -84,7 +84,7 @@ class Utils {
         }
       }
     } catch (e) {
-      printIt(e);
+      printIt('Error on launchCaller(): ${e.toString()}');
     }
   }
 
@@ -121,7 +121,7 @@ class Utils {
           },
         );
       } catch (e) {
-        printIt(e);
+        printIt('Error on launchMaps(): ${e.toString()}');
       }
     }
 
@@ -137,7 +137,7 @@ class Utils {
         openMapsSheet(context);
       }
     } catch (e) {
-      printIt(e);
+      printIt('Error on 2nd try catch launchMaps(): ${e.toString()}');
     }
   }
 
@@ -202,7 +202,7 @@ class Utils {
       // );
       return '';
     } catch (e) {
-      printIt(e);
+      printIt('Error on pluralString(): ${e.toString()}');
       return '';
     }
   }
@@ -234,7 +234,7 @@ class Utils {
       try {
         return phone.split('-')[0].substring(1);
       } catch (e) {
-        printIt(e);
+        printIt('Error on getCountryCodeFromPhone(): ${e.toString()}');
       }
     }
     return null;
@@ -247,7 +247,7 @@ class Utils {
       try {
         return phone.split('-')[1];
       } catch (e) {
-        printIt(e);
+        printIt('Error on getPhoneNumber(): ${e.toString()}');
       }
     }
     return phone;
@@ -259,7 +259,7 @@ class Utils {
     try {
       return "+$countryCode-$phoneNumber";
     } catch (e) {
-      printIt(e);
+      printIt('Error on formatPhoneNumber(): ${e.toString()}');
       return null;
     }
   }

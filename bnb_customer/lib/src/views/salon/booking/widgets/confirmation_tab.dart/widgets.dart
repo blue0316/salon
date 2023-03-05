@@ -6,13 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OTPField9 extends ConsumerWidget {
   final Color? color;
   const OTPField9({Key? key, this.color}) : super(key: key);
   @override
   Widget build(BuildContext context, ref) {
-    // final _auth = ref.watch(authProvider);
+    final _auth = ref.watch(authProvider);
     final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
@@ -47,11 +48,10 @@ class OTPField9 extends ConsumerWidget {
       backgroundColor: Colors.transparent,
       enableActiveFill: false,
       onCompleted: (val) {
-        _createAppointmentProvider.otp = val;
-        // _auth.checkOtp(val);
+        _auth.otp = val;
       },
       onChanged: (val) {
-        // _auth.otp = val;
+        _auth.otp = val;
       },
       beforeTextPaste: (text) {
         //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
@@ -76,6 +76,7 @@ class TermsOfServiceText extends ConsumerWidget {
       text: TextSpan(
         children: [
           TextSpan(
+            // AppLocalizations.of(context)?.termsOfService1 ?? 'We have updated our ', // TODO - LOCALIZE
             text: "We have updated our ",
             style: AppTheme.bodyText1.copyWith(
               fontSize: 15.sp,
@@ -84,14 +85,16 @@ class TermsOfServiceText extends ConsumerWidget {
             ),
           ),
           TextSpan(
+            // text: "${AppLocalizations.of(context)?.termsOfService ?? 'Terms of Service '}. ",
             text: "Terms of Service ",
             style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                  fontSize: 15.sp,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
                   color: defaultTheme ? Colors.black : Colors.white,
                 ),
           ),
           TextSpan(
+            // text: "${AppLocalizations.of(context)?.and ?? 'and'}. ",
             text: "and ",
             style: AppTheme.bodyText1.copyWith(
               fontSize: 15.sp,
@@ -100,14 +103,15 @@ class TermsOfServiceText extends ConsumerWidget {
             ),
           ),
           TextSpan(
-            text: "Privacy Policy. ",
+            text: "${AppLocalizations.of(context)?.policy ?? 'Privacy Policy'}. ",
             style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                  fontSize: 15.sp,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
                   color: defaultTheme ? Colors.black : Colors.white,
                 ),
           ),
           TextSpan(
+            // text: "${AppLocalizations.of(context)?.termsOfService2 ?? 'By continuining to use our service, you accept these terms and policies.'}. ",
             text: "By continuining to use our service, you accept these terms and policies.",
             style: AppTheme.bodyText1.copyWith(
               fontSize: 15.sp,

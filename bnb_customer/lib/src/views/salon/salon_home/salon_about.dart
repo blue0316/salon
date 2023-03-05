@@ -242,7 +242,6 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                     ],
                     if (_bnbProvider.locale == const Locale('uk')) ...[
                       Container(
-                        color: Colors.yellow,
                         height: 100.sp,
                         width: 70.sp,
                         child: Column(
@@ -402,7 +401,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
           ],
           const SizedBox(height: 20),
           Text(
-            'Social Media',
+            AppLocalizations.of(context)?.socialNetwork ?? 'Social Network',
             style: Theme.of(context).textTheme.bodyText1!.copyWith(),
           ),
           const Space(factor: 0.7),

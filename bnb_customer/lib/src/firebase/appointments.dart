@@ -188,11 +188,9 @@ class AppointmentApi {
   }
 
   //blocks the master time
-  Future blockMastersTime(
-      {required MasterModel master, required DateTime date, required String time, required int minutes}) async {
+  Future blockMastersTime({required MasterModel master, required DateTime date, required String time, required int minutes}) async {
     try {
-      master.blockedTime =
-          _generateBlockedTimeMap(blockedTime: master.blockedTime ?? {}, date: date, time: time, minutes: minutes);
+      master.blockedTime = _generateBlockedTimeMap(blockedTime: master.blockedTime ?? {}, date: date, time: time, minutes: minutes);
       await MastersApi().updateMasterBlockTime(master);
       return 1;
     } catch (e) {
