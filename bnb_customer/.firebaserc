@@ -17,6 +17,13 @@
           "bnb-test-dev"
         ]
       }
-    }
+    },
+    "bowandbeautiful-3372d": {
+          "hosting": {
+            "yogasm": [
+              "yogasm"
+            ]
+          }
+        }
   }
 }
