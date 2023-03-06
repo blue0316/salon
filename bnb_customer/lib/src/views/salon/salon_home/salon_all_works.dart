@@ -24,13 +24,12 @@ class _SaloonAllWorksState extends State<SaloonAllWorks> {
   final ScrollController _gridViewScrollController = ScrollController();
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-
-    /*24 is for notification bar on Android*/
-    final double itemHeight = (size.height) / 4;
-    final double itemWidth = size.width / 2;
-
     return ConstrainedContainer(
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: (AppTheme.margin * 2).h),
@@ -70,9 +69,9 @@ class _SaloonAllWorksState extends State<SaloonAllWorks> {
                     // padding: EdgeInsets.all(20.w),
                     itemBuilder: (context, index) {
                       List<String?>? images = [];
+                      images.add(widget.salonModel.photosOfWorks[index].image);
 
-                      widget.salonModel.photosOfWorks
-                          .map((item) => images.add(item.image));
+                      print(images);
 
                       return GestureDetector(
                         onTap: () {
@@ -90,8 +89,7 @@ class _SaloonAllWorksState extends State<SaloonAllWorks> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Container(
-                              color: Colors.yellow,
+                            SizedBox(
                               height: DeviceConstraints.getResponsiveSize(
                                   context, 150, 200, 200),
                               width: DeviceConstraints.getResponsiveSize(
