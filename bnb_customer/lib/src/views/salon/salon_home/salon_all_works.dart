@@ -71,8 +71,6 @@ class _SaloonAllWorksState extends State<SaloonAllWorks> {
                       List<String?>? images = [];
                       images.add(widget.salonModel.photosOfWorks[index].image);
 
-                      print(images);
-
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(

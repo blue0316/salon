@@ -16,10 +16,10 @@ class CustomerWebSettingsApi {
 
       QuerySnapshot _response = await Collection.customerWebSettings.where('salonId', isEqualTo: salonId).get();
 
-      print('***********************');
-      print(_response);
-      print(_response.docs);
-      print('***********************');
+      // print('***********************');
+      // print(_response);
+      // print(_response.docs);
+      // print('***********************');
 
       Map<String, dynamic> _temp = _response.docs[0].data() as Map<String, dynamic>;
 

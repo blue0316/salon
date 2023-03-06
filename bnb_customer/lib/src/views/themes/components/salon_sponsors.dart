@@ -55,8 +55,8 @@ class _SalonSponsorsState extends ConsumerState<SalonSponsors> {
 
   @override
   void dispose() {
-    _scrollController.dispose();
     super.dispose();
+    _scrollController.dispose();
   }
 
   bool scroll = false;
@@ -67,7 +67,9 @@ class _SalonSponsorsState extends ConsumerState<SalonSponsors> {
     double distanceDifference = maxExtent - _scrollController.offset;
     double durationDouble = distanceDifference / speedFactor;
 
-    _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: Duration(seconds: durationDouble.toInt()), curve: Curves.linear);
+    _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+        duration: Duration(seconds: durationDouble.toInt()),
+        curve: Curves.linear);
   }
 
   _toggleScrolling() {
@@ -78,13 +80,15 @@ class _SalonSponsorsState extends ConsumerState<SalonSponsors> {
     if (scroll) {
       _scroll();
     } else {
-      _scrollController.animateTo(_scrollController.offset, duration: Duration(seconds: 1), curve: Curves.linear);
+      _scrollController.animateTo(_scrollController.offset,
+          duration: Duration(seconds: 1), curve: Curves.linear);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     return Padding(
@@ -96,7 +100,8 @@ class _SalonSponsorsState extends ConsumerState<SalonSponsors> {
               ? Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Text(
-                    AppLocalizations.of(context)?.noBrandsForThisProfile ?? "No brands available for this profile",
+                    AppLocalizations.of(context)?.noBrandsForThisProfile ??
+                        "No brands available for this profile",
                     style: theme.textTheme.bodyText1?.copyWith(
                       color: theme.dividerColor,
                       fontSize: 18.sp,
@@ -123,7 +128,8 @@ class _SalonSponsorsState extends ConsumerState<SalonSponsors> {
                         children: _salonProfileProvider.allProductBrands
                             .map(
                               (item) => Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -131,8 +137,12 @@ class _SalonSponsorsState extends ConsumerState<SalonSponsors> {
                                     Padding(
                                       padding: const EdgeInsets.only(right: 10),
                                       child: Text(
-                                        item.translations![AppLocalizations.of(context)?.localeName ?? 'en'],
-                                        style: theme.textTheme.bodyText1?.copyWith(
+                                        item.translations![
+                                            AppLocalizations.of(context)
+                                                    ?.localeName ??
+                                                'en'],
+                                        style:
+                                            theme.textTheme.bodyText1?.copyWith(
                                           color: theme.dividerColor,
                                           fontSize: 18.sp,
                                         ),
