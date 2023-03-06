@@ -25,6 +25,12 @@ class _SaloonAllWorksState extends State<SaloonAllWorks> {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
+    /*24 is for notification bar on Android*/
+    final double itemHeight = (size.height) / 4;
+    final double itemWidth = size.width / 2;
+
     return ConstrainedContainer(
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: (AppTheme.margin * 2).h),
@@ -34,7 +40,9 @@ class _SaloonAllWorksState extends State<SaloonAllWorks> {
           children: [
             SizedBox(height: 20.h),
             Text(
-              (AppLocalizations.of(context)?.localeName == 'uk') ? saloonDetailsTitlesUK[3] : saloonDetailsTitles[3].toCapitalized(),
+              (AppLocalizations.of(context)?.localeName == 'uk')
+                  ? saloonDetailsTitlesUK[3]
+                  : saloonDetailsTitles[3].toCapitalized(),
               style: Theme.of(context).textTheme.bodyText1!.copyWith(
                     fontWeight: FontWeight.w600,
                     fontSize: 30.sp,
@@ -42,27 +50,37 @@ class _SaloonAllWorksState extends State<SaloonAllWorks> {
                   ),
             ),
             const Space(factor: 2),
-            (widget.salonModel.photosOfWork.isNotEmpty)
+            (widget.salonModel.photosOfWorks.isNotEmpty)
                 ? GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: DeviceConstraints.getResponsiveSize(context, 2, 3, 3).toInt(),
+                      crossAxisCount:
+                          DeviceConstraints.getResponsiveSize(context, 2, 3, 3)
+                              .toInt(),
                       crossAxisSpacing: 15,
                       mainAxisSpacing: 15,
+                      mainAxisExtent: DeviceConstraints.getResponsiveSize(
+                          context, 250.h, 250.h, 300.h),
+
                       // mainAxisExtent: DeviceConstraints.getResponsiveSize(context, 0, 0, 256),
                     ),
                     shrinkWrap: true,
                     primary: false,
-                    itemCount: widget.salonModel.photosOfWork.length,
+                    itemCount: widget.salonModel.photosOfWorks.length,
                     controller: _gridViewScrollController,
                     // padding: EdgeInsets.all(20.w),
                     itemBuilder: (context, index) {
+                      List<String?>? images = [];
+
+                      widget.salonModel.photosOfWorks
+                          .map((item) => images.add(item.image));
+
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => ImagePreview(
-                                imageUrls: widget.salonModel.photosOfWork,
+                                imageUrls: images,
                                 index: index,
                               ),
                             ),
@@ -72,25 +90,38 @@ class _SaloonAllWorksState extends State<SaloonAllWorks> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            SizedBox(
-                              height: DeviceConstraints.getResponsiveSize(context, 150, 200, 200),
-                              width: DeviceConstraints.getResponsiveSize(context, 200, 300, 400),
+                            Container(
+                              color: Colors.yellow,
+                              height: DeviceConstraints.getResponsiveSize(
+                                  context, 150, 200, 200),
+                              width: DeviceConstraints.getResponsiveSize(
+                                  context, 200, 300, 400),
                               // decoration: const BoxDecoration(color: Colors.green),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(15),
                                 child: CachedImage(
-                                  url: widget.salonModel.photosOfWork[index],
+                                  url:
+                                      '${widget.salonModel.photosOfWorks[index].image}',
                                   fit: BoxFit.cover,
                                 ),
                               ),
                             ),
+
+                            const SizedBox(height: 10),
+                            Text(
+                              '${widget.salonModel.photosOfWorks[index].description}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .copyWith(
+                                    fontSize:
+                                        DeviceConstraints.getResponsiveSize(
+                                            context, 15.sp, 15.sp, 16.sp),
+                                  ),
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                             // const SizedBox(height: 15),
-                            // Text(
-                            //   'Lorem ipsum dolor sit amet',
-                            //   style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                            //       // fontSize: 30.sp,
-                            //       ),
-                            // ),
                           ],
                         ),
                       );
