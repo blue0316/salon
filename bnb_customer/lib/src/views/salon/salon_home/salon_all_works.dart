@@ -49,7 +49,7 @@ class _SaloonAllWorksState extends State<SaloonAllWorks> {
                   ),
             ),
             const Space(factor: 2),
-            (widget.salonModel.photosOfWorks.isNotEmpty)
+            (widget.salonModel.photosOfWorks!.isNotEmpty)
                 ? GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount:
@@ -64,12 +64,12 @@ class _SaloonAllWorksState extends State<SaloonAllWorks> {
                     ),
                     shrinkWrap: true,
                     primary: false,
-                    itemCount: widget.salonModel.photosOfWorks.length,
+                    itemCount: widget.salonModel.photosOfWorks!.length,
                     controller: _gridViewScrollController,
                     // padding: EdgeInsets.all(20.w),
                     itemBuilder: (context, index) {
                       List<String?>? images = [];
-                      images.add(widget.salonModel.photosOfWorks[index].image);
+                      images.add(widget.salonModel.photosOfWorks![index].image);
 
                       return GestureDetector(
                         onTap: () {
@@ -97,7 +97,7 @@ class _SaloonAllWorksState extends State<SaloonAllWorks> {
                                 borderRadius: BorderRadius.circular(15),
                                 child: CachedImage(
                                   url:
-                                      '${widget.salonModel.photosOfWorks[index].image}',
+                                      '${widget.salonModel.photosOfWorks![index].image}',
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -105,7 +105,7 @@ class _SaloonAllWorksState extends State<SaloonAllWorks> {
 
                             const SizedBox(height: 10),
                             Text(
-                              '${widget.salonModel.photosOfWorks[index].description}',
+                              '${widget.salonModel.photosOfWorks![index].description}',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText1!

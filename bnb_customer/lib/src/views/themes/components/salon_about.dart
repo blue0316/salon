@@ -29,9 +29,13 @@ class _SalonAbout2State extends ConsumerState<SalonAbout2> {
 
   @override
   Widget build(BuildContext context) {
-    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
-    final bool isSingleMaster = (widget.salonModel.ownerType == OwnerType.singleMaster);
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final bool isPortrait =
+        (DeviceConstraints.getDeviceType(MediaQuery.of(context)) ==
+            DeviceScreenType.portrait);
+    final bool isSingleMaster =
+        (widget.salonModel.ownerType == OwnerType.singleMaster);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
@@ -44,7 +48,9 @@ class _SalonAbout2State extends ConsumerState<SalonAbout2> {
       ),
       child: SizedBox(
         width: double.infinity,
-        height: isPortrait ? 700.h : DeviceConstraints.getResponsiveSize(context, 25, 300.h, 450.h),
+        height: isPortrait
+            ? 700.h
+            : DeviceConstraints.getResponsiveSize(context, 25, 300.h, 450.h),
         child: (!isPortrait)
             ? Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -52,7 +58,8 @@ class _SalonAbout2State extends ConsumerState<SalonAbout2> {
                 children: [
                   SizedBox(
                     // height: 500.h,
-                    width: DeviceConstraints.getResponsiveSize(context, 50, 200.w, 200.w),
+                    width: DeviceConstraints.getResponsiveSize(
+                        context, 50, 200.w, 200.w),
                     child: Stack(
                       children: [
                         Padding(
@@ -62,7 +69,8 @@ class _SalonAbout2State extends ConsumerState<SalonAbout2> {
                             child: CarouselSlider(
                               carouselController: _controller,
                               options: CarouselOptions(
-                                scrollPhysics: const AlwaysScrollableScrollPhysics(),
+                                scrollPhysics:
+                                    const AlwaysScrollableScrollPhysics(),
                                 autoPlay: false,
                                 pauseAutoPlayOnTouch: true,
                                 viewportFraction: 1,
@@ -73,17 +81,22 @@ class _SalonAbout2State extends ConsumerState<SalonAbout2> {
                                       .map((item) => CachedImage(
                                             url: item,
                                             fit: BoxFit.cover,
-                                            width: DeviceConstraints.getResponsiveSize(context, 50, 200.w, 200.w),
+                                            width: DeviceConstraints
+                                                .getResponsiveSize(
+                                                    context, 50, 200.w, 200.w),
                                           ))
                                       .toList()
                                   : [
-                                      Image.asset(ThemeImages.makeup, fit: BoxFit.cover),
+                                      Image.asset(ThemeImages.makeup,
+                                          fit: BoxFit.cover),
                                     ],
                             ),
                           ),
                         ),
-                        LeftCarouselButton(controller: _controller, theme: theme),
-                        RightCarouselButton(controller: _controller, theme: theme),
+                        LeftCarouselButton(
+                            controller: _controller, theme: theme),
+                        RightCarouselButton(
+                            controller: _controller, theme: theme),
                       ],
                     ),
                     // child: ClipRRect(
@@ -99,7 +112,9 @@ class _SalonAbout2State extends ConsumerState<SalonAbout2> {
                     //         ),
                     // ),
                   ),
-                  SizedBox(width: DeviceConstraints.getResponsiveSize(context, 0, 20.w, 25.w)),
+                  SizedBox(
+                      width: DeviceConstraints.getResponsiveSize(
+                          context, 0, 20.w, 25.w)),
                   Expanded(
                     flex: 3,
                     child: Padding(
@@ -109,43 +124,61 @@ class _SalonAbout2State extends ConsumerState<SalonAbout2> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            isSingleMaster ? (AppLocalizations.of(context)?.aboutMe ?? 'About Me') : (AppLocalizations.of(context)?.aboutUs ?? 'About Us').toUpperCase(),
+                            isSingleMaster
+                                ? (AppLocalizations.of(context)?.aboutMe ??
+                                    'About Me')
+                                : (AppLocalizations.of(context)?.aboutUs ??
+                                        'About Us')
+                                    .toUpperCase(),
                             style: theme.textTheme.headline2?.copyWith(
-                              fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 30.sp, 50.sp),
+                              fontSize: DeviceConstraints.getResponsiveSize(
+                                  context, 25.sp, 30.sp, 50.sp),
                             ),
                           ),
                           const SizedBox(height: 10),
                           SizedBox(
                             child: Text(
-                              (widget.salonModel.description != '') ? widget.salonModel.description : 'No description yet',
+                              (widget.salonModel.description != '')
+                                  ? widget.salonModel.description
+                                  : 'No description yet',
                               style: theme.textTheme.bodyText2?.copyWith(
                                 color: Colors.white,
                                 fontSize: 15.5.sp,
                               ),
-                              maxLines: DeviceConstraints.getResponsiveSize(context, 6, 7, 9).toInt(),
+                              maxLines: DeviceConstraints.getResponsiveSize(
+                                      context, 6, 7, 9)
+                                  .toInt(),
                             ),
                           ),
                           const SizedBox(height: 20),
-                          (_salonProfileProvider.theme == '2' || _salonProfileProvider.theme == '4')
+                          (_salonProfileProvider.theme == '2' ||
+                                  _salonProfileProvider.theme == '4')
                               ? Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     SquareButton(
-                                      text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
-                                      onTap: () => const BookingDialogWidget222().show(context),
+                                      text: AppLocalizations.of(context)
+                                              ?.bookNow ??
+                                          "Book Now",
+                                      onTap: () =>
+                                          const BookingDialogWidget222()
+                                              .show(context),
                                     ),
                                   ],
                                 )
                               : OvalButton(
-                                  text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
-                                  onTap: () => const BookingDialogWidget222().show(context),
+                                  text: AppLocalizations.of(context)?.bookNow ??
+                                      "Book Now",
+                                  onTap: () => const BookingDialogWidget222()
+                                      .show(context),
                                 ),
                         ],
                       ),
                     ),
                   ),
-                  if (DeviceConstraints.getDeviceType(MediaQuery.of(context)) != DeviceScreenType.tab)
+                  if (DeviceConstraints.getDeviceType(MediaQuery.of(context)) !=
+                      DeviceScreenType.tab)
                     const Expanded(
                       flex: 1,
                       child: SizedBox(),
@@ -161,14 +194,17 @@ class _SalonAbout2State extends ConsumerState<SalonAbout2> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    "${AppLocalizations.of(context)?.about} ${isSingleMaster ? "ME" : "US"}".toUpperCase(),
+                    "${AppLocalizations.of(context)?.about} ${isSingleMaster ? "ME" : "US"}"
+                        .toUpperCase(),
                     style: theme.textTheme.headline2?.copyWith(
                       fontSize: 40.sp,
                     ),
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    (widget.salonModel.description != '') ? widget.salonModel.description : 'No description yet',
+                    (widget.salonModel.description != '')
+                        ? widget.salonModel.description
+                        : 'No description yet',
                     style: theme.textTheme.bodyText2?.copyWith(
                       color: Colors.white,
                       fontSize: 15.5.sp,
@@ -176,17 +212,22 @@ class _SalonAbout2State extends ConsumerState<SalonAbout2> {
                     maxLines: 6,
                   ),
                   const SizedBox(height: 30),
-                  (_salonProfileProvider.theme == '2' || _salonProfileProvider.theme == '4')
+                  (_salonProfileProvider.theme == '2' ||
+                          _salonProfileProvider.theme == '4')
                       ? SquareButton(
-                          text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
-                          onTap: () => const BookingDialogWidget222().show(context),
+                          text: AppLocalizations.of(context)?.bookNow ??
+                              "Book Now",
+                          onTap: () =>
+                              const BookingDialogWidget222().show(context),
                         )
                       : OvalButton(
                           width: 180.h,
                           height: 60.h,
                           textSize: 18.sp,
-                          text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
-                          onTap: () => const BookingDialogWidget222().show(context),
+                          text: AppLocalizations.of(context)?.bookNow ??
+                              "Book Now",
+                          onTap: () =>
+                              const BookingDialogWidget222().show(context),
                         ),
                   const SizedBox(height: 35),
                   SizedBox(
@@ -199,11 +240,13 @@ class _SalonAbout2State extends ConsumerState<SalonAbout2> {
                           child: CarouselSlider(
                             carouselController: _controller,
                             options: CarouselOptions(
-                              scrollPhysics: const AlwaysScrollableScrollPhysics(),
+                              scrollPhysics:
+                                  const AlwaysScrollableScrollPhysics(),
                               autoPlay: false,
                               pauseAutoPlayOnTouch: true,
                               viewportFraction: 1,
-                              height: 300.h, //  DeviceConstraints.getResponsiveSize(context, 280.h, 320, 350.h),
+                              height: 300
+                                  .h, //  DeviceConstraints.getResponsiveSize(context, 280.h, 320, 350.h),
                             ),
                             items: widget.salonModel.photosOfWork.isNotEmpty
                                 ? widget.salonModel.photosOfWork
@@ -212,17 +255,22 @@ class _SalonAbout2State extends ConsumerState<SalonAbout2> {
                                         url: item,
                                         fit: BoxFit.cover,
                                         height: 300.h,
-                                        width: MediaQuery.of(context).size.width - 20.w,
+                                        width:
+                                            MediaQuery.of(context).size.width -
+                                                20.w,
                                       ),
                                     )
                                     .toList()
                                 : [
-                                    Image.asset(ThemeImages.makeup, fit: BoxFit.cover),
+                                    Image.asset(ThemeImages.makeup,
+                                        fit: BoxFit.cover),
                                   ],
                           ),
                         ),
-                        LeftCarouselButton(controller: _controller, theme: theme),
-                        RightCarouselButton(controller: _controller, theme: theme),
+                        LeftCarouselButton(
+                            controller: _controller, theme: theme),
+                        RightCarouselButton(
+                            controller: _controller, theme: theme),
                       ],
                     ),
                   ),
@@ -253,14 +301,18 @@ class RightCarouselButton extends StatelessWidget {
         child: InkWell(
           onTap: () => _controller.nextPage(),
           child: Container(
-            height: DeviceConstraints.getResponsiveSize(context, 40.h, 46.h, 65.h),
-            width: DeviceConstraints.getResponsiveSize(context, 40.h, 46.h, 65.h),
-            decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.black87),
+            height:
+                DeviceConstraints.getResponsiveSize(context, 40.h, 46.h, 65.h),
+            width:
+                DeviceConstraints.getResponsiveSize(context, 40.h, 46.h, 65.h),
+            decoration: const BoxDecoration(
+                shape: BoxShape.circle, color: Colors.black87),
             child: Center(
               child: Icon(
                 Icons.arrow_forward_ios_rounded,
                 color: theme.primaryColorDark,
-                size: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                size: DeviceConstraints.getResponsiveSize(
+                    context, 20.sp, 20.sp, 20.sp),
               ),
             ),
           ),
@@ -290,14 +342,18 @@ class LeftCarouselButton extends StatelessWidget {
         child: InkWell(
           onTap: () => _controller.previousPage(),
           child: Container(
-            height: DeviceConstraints.getResponsiveSize(context, 30.h, 46.h, 65.h),
-            width: DeviceConstraints.getResponsiveSize(context, 30.h, 46.h, 65.h),
-            decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.black87),
+            height:
+                DeviceConstraints.getResponsiveSize(context, 30.h, 46.h, 65.h),
+            width:
+                DeviceConstraints.getResponsiveSize(context, 30.h, 46.h, 65.h),
+            decoration: const BoxDecoration(
+                shape: BoxShape.circle, color: Colors.black87),
             child: Center(
               child: Icon(
                 Icons.arrow_back_ios_new_rounded,
                 color: theme.primaryColorDark,
-                size: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                size: DeviceConstraints.getResponsiveSize(
+                    context, 20.sp, 20.sp, 20.sp),
               ),
             ),
           ),

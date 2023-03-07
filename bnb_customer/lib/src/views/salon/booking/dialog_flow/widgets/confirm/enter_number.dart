@@ -2,7 +2,9 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
+import 'package:bbblient/src/models/appointment/serviceAndMaster.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
+import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/customer/customer.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
@@ -32,9 +34,11 @@ class EnterNumber extends ConsumerStatefulWidget {
 class _EnterNumberState extends ConsumerState<EnterNumber> {
   @override
   Widget build(BuildContext context) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final AuthProvider _authProvider = ref.watch(authProvider);
-    final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
+    final CreateAppointmentProvider _createAppointmentProvider =
+        ref.watch(createAppointmentProvider);
 
     final _auth = ref.watch(authProvider);
 
@@ -48,7 +52,8 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
         Text(
           '${AppLocalizations.of(context)?.phoneNumber ?? 'Phone Number'} *',
           style: theme.textTheme.bodyText1!.copyWith(
-            fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+            fontSize: DeviceConstraints.getResponsiveSize(
+                context, 20.sp, 20.sp, 20.sp),
             color: defaultTheme ? Colors.black : Colors.white,
           ),
         ),
@@ -75,18 +80,22 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                     _authProvider.countryCode = val?.dialCode ?? '';
                   },
                   initialSelection: 'UA',
-                  favorite: const ['+380', 'Uk'],
+                  favorite: const ['+1', '+380'],
                   showCountryOnly: false,
                   showOnlyCountryWhenClosed: false,
                   alignLeft: false,
-                  textStyle: TextStyle(color: defaultTheme ? Colors.black : Colors.white),
+                  textStyle: TextStyle(
+                      color: defaultTheme ? Colors.black : Colors.white),
                   showFlag: false,
                 ),
                 const SizedBox(width: 15),
                 Expanded(
                   child: BNBTextField(
                     controller: _authProvider.phoneNoController,
-                    hint: AppLocalizations.of(context)?.phoneNumber.toCapitalized() ?? "Phone Number",
+                    hint: AppLocalizations.of(context)
+                            ?.phoneNumber
+                            .toCapitalized() ??
+                        "Phone Number",
                     vPadding: 0, // 20.h,
                     border: InputBorder.none,
                     textColor: defaultTheme ? Colors.black : Colors.white,
@@ -110,7 +119,8 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
         DefaultButton(
           borderRadius: 60,
           onTap: () async {
-            showToast(AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
+            showToast(
+                AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
 
             // send otp
             if (!_auth.userLoggedIn) {
@@ -120,7 +130,8 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                 showTopSnackBar(
                   context,
                   CustomSnackBar.success(
-                    message: AppLocalizations.of(context)?.otpSent ?? "Otp has been sent to your phone",
+                    message: AppLocalizations.of(context)?.otpSent ??
+                        "Otp has been sent to your phone",
                     backgroundColor: theme.primaryColor,
                   ),
                 );
@@ -141,20 +152,42 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
 
               CustomerModel? currentCustomer = _auth.currentCustomer;
               if (currentCustomer != null) {
-                if (currentCustomer.personalInfo.firstName == '' || currentCustomer.personalInfo.email == null) {
+                if (currentCustomer.personalInfo.firstName == '' ||
+                    currentCustomer.personalInfo.email == null) {
                   // Customer Personal Info is missing name and email
 
                   // Go to pageview that has fields to update personal info
-                  _createAppointmentProvider.nextPageView(2); // PageView screen that contains name and email fields
+                  _createAppointmentProvider.nextPageView(
+                      2); // PageView screen that contains name and email fields
                 } else {
                   // Customer Personal Info has name and email
 
                   // Create Appointment
-                  CustomerModel customer = CustomerModel(customerId: currentCustomer.customerId, personalInfo: currentCustomer.personalInfo, registeredSalons: [], createdAt: DateTime.now(), avgRating: 3.0, noOfRatings: 6, profilePicUploaded: false, profilePic: "", profileCompleted: false, quizCompleted: false, preferredGender: "male", preferredCategories: [], locations: [], fcmToken: "", locale: "en", favSalons: [], referralLink: "");
-                  if (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.singleMaster) {
-                    await _createAppointmentProvider.createAppointment(customerModel: customer, context: context);
+                  CustomerModel customer = CustomerModel(
+                      customerId: currentCustomer.customerId,
+                      personalInfo: currentCustomer.personalInfo,
+                      registeredSalons: [],
+                      createdAt: DateTime.now(),
+                      avgRating: 3.0,
+                      noOfRatings: 6,
+                      profilePicUploaded: false,
+                      profilePic: "",
+                      profileCompleted: false,
+                      quizCompleted: false,
+                      preferredGender: "male",
+                      preferredCategories: [],
+                      locations: [],
+                      fcmToken: "",
+                      locale: "en",
+                      favSalons: [],
+                      referralLink: "");
+                  if (_createAppointmentProvider.chosenSalon!.ownerType ==
+                      OwnerType.singleMaster) {
+                    await _createAppointmentProvider.createAppointment(
+                        customerModel: customer, context: context);
                   } else {
-                    await _createAppointmentProvider.creatAppointmentSalonOwner(customerModel: customer, context: context);
+                    await _createAppointmentProvider.creatAppointmentSalonOwner(
+                        customerModel: customer, context: context);
                   }
 
                   // Go to PageView Order List Screen

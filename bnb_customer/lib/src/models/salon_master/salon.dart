@@ -44,7 +44,7 @@ class SalonModel {
   Map<String, Hours>? irregularWorkingHours;
   late List<String> profilePics = [];
   late List<String> photosOfWork = [];
-  late List<PhotosOfWorks> photosOfWorks = [];
+  late List<PhotosOfWorks>? photosOfWorks = [];
   double? distanceFromCenter;
   late String? fcmToken;
   late Map<String, dynamic> blockedTime = {};
@@ -135,7 +135,7 @@ class SalonModel {
       photosOfWork = json['photosOfWork'].cast<String>();
     }
 
-    if (json['photosOfWork'] != null) {
+    if (json['photosOfWorks'] != null) {
       photosOfWorks = List<PhotosOfWorks>.from(
         json["photosOfWorks"].map((x) => PhotosOfWorks.fromJson(x)),
       );

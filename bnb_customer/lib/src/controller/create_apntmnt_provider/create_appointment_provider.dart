@@ -603,12 +603,12 @@ class CreateAppointmentProvider with ChangeNotifier {
 
 // gets list of master providing sevice
   getMasterProvidingService(ServiceModel service) {
+    print('here dfsdeer234');
     List<MasterModel> masters = [];
     for (MasterModel element in salonMasters) {
       if (element.serviceIds!.contains(service.serviceId)) {
         masters.add(element);
       }
-      ;
     }
     return masters;
   }
@@ -2154,27 +2154,51 @@ class CreateAppointmentProvider with ChangeNotifier {
         }
 
         app.paymentInfo = _paymentInfo;
+
         DocumentReference doc = await Collection.appointments.add(app.toJson());
 
+        print('-------------------------------');
+        print(serviceAgainstMaster);
+        print(serviceAgainstMaster.length);
+        print('-------------------------------');
+
         app.appointmentId = doc.id;
+        // await blockTimeSalonOwnerMaster(
+        //     app,
+        //     serviceAgainstMaster
+        //             .where((element) =>
+        //                 element.service?.serviceId ==
+        //                 app.services.first.serviceId)
+        //             .toList()
+        //             .isNotEmpty
+        //         ? serviceAgainstMaster
+        //             .where((element) =>
+        //                 element.service?.serviceId ==
+        //                 app.services.first.serviceId)
+        //             .toList()
+        //             .first
+        //             .master!
+        //         : getMasterProvidingService(chosenServices
+        //             .where((element) =>
+        //                 element.serviceId == app.services.first.serviceId)
+        //             .toList()[0])[0]);
+        print('----');
+        print(app.services.first.serviceId);
+        print(serviceAgainstMaster
+            .where((element) =>
+                element.service?.serviceId == app.services.first.serviceId)
+            .toList()
+            .length);
+
+        print('----');
         await blockTimeSalonOwnerMaster(
             app,
             serviceAgainstMaster
-                    .where((element) =>
-                        element.service?.serviceId ==
-                        app.services.first.serviceId)
-                    .toList()
-                    .isNotEmpty
-                ? serviceAgainstMaster
-                    .where((element) =>
-                        element.service?.serviceId ==
-                        app.services.first.serviceId)
-                    .toList()[0]
-                    .master!
-                : getMasterProvidingService(chosenServices
-                    .where((element) =>
-                        element.serviceId == app.services.first.serviceId)
-                    .toList()[0])[0]);
+                .where((element) =>
+                    element.service?.serviceId == app.services.first.serviceId)
+                .toList()
+                .first
+                .master!);
 
         if (chosenBonus != null) {
           await BonusReferralApi().invalidateBonus(
@@ -2184,7 +2208,7 @@ class CreateAppointmentProvider with ChangeNotifier {
         // AppointmentNotification().sendNotifications(
         //     appointmentModel!, customerModel, chosenSalon!, context);
         // printIt(finalAppointment?.toJson());
-        reset();
+        resetFlow();
 
         Collection.customers.doc(customerModel.customerId).update({
           'registeredSalons':
@@ -2195,6 +2219,16 @@ class CreateAppointmentProvider with ChangeNotifier {
       notifyListeners();
       return true;
     }
+  }
+
+  getMasterProvidingServiceFromService(Service service) {
+    List<MasterModel> masters = [];
+    for (MasterModel element in salonMasters) {
+      if (element.serviceIds!.contains(service.serviceId)) {
+        masters.add(element);
+      }
+    }
+    return masters;
   }
 
   blockTime() async {
@@ -2274,6 +2308,37 @@ class CreateAppointmentProvider with ChangeNotifier {
         showNotWorkingToast: false,
         masterAndservice: serviceAgainstMaster);
     divideSlotsForDay();
+  }
+
+  resetFlow() {
+    loadingStatus = Status.init;
+    chosenMaster = null;
+    allSlots = [];
+    breakSlots = [];
+    validSlots = [];
+    chosenSlots = [];
+    morningTimeslots = [];
+    afternoonTimeslots = [];
+    eveningTimeslots = [];
+    chosenDay = DateTime.now();
+    totalTimeSlotsRequired = 0;
+    totalMinutes = 0;
+    totalPrice = 0;
+    totalMinutesWithFixed = 0;
+    totalPricewithFixed = 0;
+    totalTimeWithMaster = 0;
+    totalPriceWithMaster = 0;
+    chosenServices = [];
+    serviceAgainstMaster = [];
+    mastersServicesMapAll = {};
+    chosenBonus = null;
+    paymentMethod = null;
+    yclientActive = false;
+    beautyProActive = false;
+    beautyProConfig = null;
+    slotsStatus = Status.init;
+    appointmentModelSalonOwner = [];
+    notifyListeners();
   }
 
   reset() {
