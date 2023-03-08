@@ -3,10 +3,10 @@ import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/components/header_image.dart';
-import 'package:bbblient/src/views/themes/components/salon_about.dart';
+import 'package:bbblient/src/views/themes/components/about/salon_about.dart';
 import 'package:bbblient/src/views/themes/components/salon_contact.dart';
 import 'package:bbblient/src/views/themes/components/promotions/salon_promotions.dart';
-import 'package:bbblient/src/views/themes/components/salon_reviews.dart';
+import 'package:bbblient/src/views/themes/components/reviews/salon_reviews.dart';
 import 'package:bbblient/src/views/themes/components/salon_services_2.dart';
 import 'package:bbblient/src/views/themes/components/salon_shop.dart';
 import 'package:bbblient/src/views/themes/components/salon_sponsors.dart';
@@ -104,22 +104,24 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                         //     salonPromotionsList:
                         //         _createAppointmentProvider.salonPromotions,
                         //   ),
-                        SalonAbout2(salonModel: chosenSalon),
+                        // SalonAbout2(salonModel: chosenSalon),
                         // const SalonSponsors(),
                         // SalonWorks(salonModel: chosenSalon),
                         // SalonPrice222(
                         //   salonModel: chosenSalon,
                         //   categories: _salonSearchProvider.categories,
-                        //   categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
+                        //   categoryServicesMapNAWA:
+                        //       _createAppointmentProvider.categoryServicesMap,
                         // ),
                         // const SalonShop(),
-                        // if (_salonProfileProvider.chosenSalon.ownerType != OwnerType.singleMaster)
+                        // if (_salonProfileProvider.chosenSalon.ownerType !=
+                        //     OwnerType.singleMaster)
                         //   SalonTeam(
                         //     salonModel: chosenSalon,
                         //   ),
                         // SalonReviews(salonModel: chosenSalon),
                         // WriteToUs(salonModel: chosenSalon),
-                        // SalonContact(salonModel: chosenSalon),
+                        SalonContact(salonModel: chosenSalon),
                         // SalonSocials(
                         //   salonModel: chosenSalon,
                         // ),

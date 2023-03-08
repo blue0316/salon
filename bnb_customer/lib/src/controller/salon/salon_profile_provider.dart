@@ -12,9 +12,7 @@ import 'package:bbblient/src/models/review.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/utils.dart';
-import 'package:bbblient/src/views/themes/barbershop/barbershop.dart';
 import 'package:bbblient/src/views/themes/glam_one/glam_one.dart';
-import 'package:bbblient/src/views/themes/glam_barbershop/glam_barbershop.dart';
 import 'package:bbblient/src/views/themes/utils/theme_color.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -102,6 +100,8 @@ class SalonProfileProvider with ChangeNotifier {
 
       return const GlamOneScreen();
     } else {
+      salonTheme = AppTheme.lightTheme;
+      notifyListeners();
       return null; // This should be the default theme if there's no theme number
     }
   }

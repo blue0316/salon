@@ -15,16 +15,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class SalonAbout2 extends ConsumerStatefulWidget {
+class DefaultAboutView extends ConsumerStatefulWidget {
   final SalonModel salonModel;
 
-  const SalonAbout2({Key? key, required this.salonModel}) : super(key: key);
+  const DefaultAboutView({Key? key, required this.salonModel})
+      : super(key: key);
 
   @override
-  ConsumerState<SalonAbout2> createState() => _SalonAbout2State();
+  ConsumerState<DefaultAboutView> createState() => _DefaultAboutViewState();
 }
 
-class _SalonAbout2State extends ConsumerState<SalonAbout2> {
+class _DefaultAboutViewState extends ConsumerState<DefaultAboutView> {
   final CarouselController _controller = CarouselController();
 
   @override
@@ -99,18 +100,6 @@ class _SalonAbout2State extends ConsumerState<SalonAbout2> {
                             controller: _controller, theme: theme),
                       ],
                     ),
-                    // child: ClipRRect(
-                    //   // borderRadius: BorderRadius.circular(10),
-                    //   child: (widget.salonModel.photosOfWork.isNotEmpty && widget.salonModel.photosOfWork[0] != '')
-                    //       ? CachedImage(
-                    //           url: widget.salonModel.photosOfWork[0],
-                    //           fit: BoxFit.cover,
-                    //         )
-                    //       : Image.asset(
-                    //           ThemeImages.makeup,
-                    //           fit: BoxFit.cover,
-                    //         ),
-                    // ),
                   ),
                   SizedBox(
                       width: DeviceConstraints.getResponsiveSize(
@@ -151,8 +140,7 @@ class _SalonAbout2State extends ConsumerState<SalonAbout2> {
                             ),
                           ),
                           const SizedBox(height: 20),
-                          (_salonProfileProvider.theme == '2' ||
-                                  _salonProfileProvider.theme == '4')
+                          (_salonProfileProvider.theme == '2')
                               ? Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -185,10 +173,6 @@ class _SalonAbout2State extends ConsumerState<SalonAbout2> {
                     ),
                 ],
               )
-            // : (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab)
-            //     ? Container(
-            //         color: Colors.red,
-            //       )
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -212,8 +196,7 @@ class _SalonAbout2State extends ConsumerState<SalonAbout2> {
                     maxLines: 6,
                   ),
                   const SizedBox(height: 30),
-                  (_salonProfileProvider.theme == '2' ||
-                          _salonProfileProvider.theme == '4')
+                  (_salonProfileProvider.theme == '2')
                       ? SquareButton(
                           text: AppLocalizations.of(context)?.bookNow ??
                               "Book Now",

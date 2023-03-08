@@ -26,7 +26,7 @@ class GlamOneTheme {
     scaffoldBackgroundColor: Colors.black,
     textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
     tabBarTheme: TabBarTheme(
-      unselectedLabelColor: Colors.white,
+      unselectedLabelColor: primaryColor1,
       labelColor: Colors.black,
       labelStyle: bodyText1.copyWith(
         color: Colors.black,
@@ -113,7 +113,7 @@ class GlamOneTheme {
     scaffoldBackgroundColor: Colors.black,
     textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
     tabBarTheme: TabBarTheme(
-      unselectedLabelColor: Colors.white,
+      unselectedLabelColor: primaryColor1,
       labelColor: Colors.black,
       labelStyle: bodyText1.copyWith(
         color: Colors.black,

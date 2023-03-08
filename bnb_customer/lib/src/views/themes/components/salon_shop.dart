@@ -16,7 +16,8 @@ class SalonShop extends ConsumerStatefulWidget {
   ConsumerState<SalonShop> createState() => _SalonShopState();
 }
 
-class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProviderStateMixin {
+class _SalonShopState extends ConsumerState<SalonShop>
+    with SingleTickerProviderStateMixin {
   TabController? shopTabController;
 
   @override
@@ -33,7 +34,8 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
 
   @override
   Widget build(BuildContext context) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     final _salonSearchProvider = ref.watch(salonSearchProvider);
@@ -60,15 +62,19 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    (AppLocalizations.of(context)?.shop ?? 'Shop').toUpperCase(),
+                    (AppLocalizations.of(context)?.shop ?? 'Shop')
+                        .toUpperCase(),
                     style: theme.textTheme.headline2?.copyWith(
-                      fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),
+                      fontSize: DeviceConstraints.getResponsiveSize(
+                          context, 40.sp, 40.sp, 50.sp),
                     ),
                   ),
                   // PrevAndNext(salonProfileProvider: _salonProfileProvider),
                 ],
               ),
-              SizedBox(height: DeviceConstraints.getResponsiveSize(context, 50, 40, 30)),
+              SizedBox(
+                  height:
+                      DeviceConstraints.getResponsiveSize(context, 50, 40, 30)),
               _salonProfileProvider.tabs.isNotEmpty
                   ? Expanded(
                       flex: 0,
@@ -79,13 +85,17 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
                           child: TabBar(
                             controller: shopTabController,
                             unselectedLabelColor: theme.primaryColorLight,
-                            labelColor: theme.primaryColorDark, // GlamOneTheme.deepOrange,
+                            labelColor: theme
+                                .primaryColorDark, // GlamOneTheme.deepOrange,
                             labelStyle: theme.textTheme.bodyText1?.copyWith(
-                              color: theme.primaryColorDark, // GlamOneTheme.deepOrange,
-                              fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 25.sp),
+                              color: theme
+                                  .primaryColorDark, // GlamOneTheme.deepOrange,
+                              fontSize: DeviceConstraints.getResponsiveSize(
+                                  context, 20.sp, 20.sp, 25.sp),
                               fontWeight: FontWeight.w600,
                             ),
-                            indicatorColor: theme.primaryColorDark, //  deepOrange,
+                            indicatorColor:
+                                theme.primaryColorDark, //  deepOrange,
                             indicatorSize: TabBarIndicatorSize.label,
 
                             isScrollable: true,
@@ -113,9 +123,12 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
                       padding: const EdgeInsets.symmetric(vertical: 20),
                       child: Center(
                         child: Text(
-                          (AppLocalizations.of(context)?.noItemsAvailable ?? 'No items available for sale').toUpperCase(),
+                          (AppLocalizations.of(context)?.noItemsAvailable ??
+                                  'No items available for sale')
+                              .toUpperCase(),
                           style: theme.textTheme.bodyText1?.copyWith(
-                            fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                            fontSize: DeviceConstraints.getResponsiveSize(
+                                context, 20.sp, 20.sp, 20.sp),
                           ),
                         ),
                       ),
@@ -128,7 +141,8 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
                   ? Expanded(
                       flex: 0,
                       child: SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.45, // 400,
+                        height:
+                            MediaQuery.of(context).size.height * 0.45, // 400,
                         // width: double.infinity,
                         child: TabBarView(
                           controller: shopTabController,
@@ -137,12 +151,14 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
                             // ALL PRODUCTS
                             SizedBox(
                               // height: 100,
-                              width: DeviceConstraints.getResponsiveSize(context, 700.w, 500.w, 300.w),
+                              width: DeviceConstraints.getResponsiveSize(
+                                  context, 700.w, 500.w, 300.w),
                               child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 itemCount: allProducts.length,
                                 itemBuilder: (context, index) {
-                                  final ProductModel product = allProducts[index];
+                                  final ProductModel product =
+                                      allProducts[index];
                                   return ShopCard(product: product);
                                 },
                               ),
@@ -153,12 +169,14 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
                             ..._salonProfileProvider.tabs.entries.map(
                               (entry) {
                                 return SizedBox(
-                                  width: DeviceConstraints.getResponsiveSize(context, 700.w, 500.w, 300.w),
+                                  width: DeviceConstraints.getResponsiveSize(
+                                      context, 700.w, 500.w, 300.w),
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
                                     itemCount: entry.value.length,
                                     itemBuilder: (context, index) {
-                                      final ProductModel product = entry.value[index];
+                                      final ProductModel product =
+                                          entry.value[index];
 
                                       return ShopCard(product: product);
                                     },
@@ -166,17 +184,6 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
                                 );
                               },
                             ).toList(),
-
-                            // Container(
-                            //   height: 100,
-                            //   width: double.infinity,
-                            //   color: Colors.yellow,
-                            // ),
-                            // Container(
-                            //   height: 100,
-                            //   width: double.infinity,
-                            //   color: Colors.green,
-                            // ),
                           ],
                         ),
                       ),
@@ -190,41 +197,6 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
   }
 }
 
-// class PrevAndNext extends StatelessWidget {
-//   const PrevAndNext({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Row(
-//       crossAxisAlignment: CrossAxisAlignment.center,
-//       mainAxisAlignment: MainAxisAlignment.center,
-//       children: [
-//         (_salonProfileProvider.theme != '2')
-//             ? SvgPicture.asset(
-//                 ThemeIcons.leftArrow,
-//                 height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
-//               )
-//             : Icon(
-//                 Icons.arrow_back,
-//                 size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
-//                 color: Colors.white,
-//               ),
-//         SizedBox(width: DeviceConstraints.getResponsiveSize(context, 15, 30, 40)),
-//         ((_salonProfileProvider.theme != '2'))
-//             ? SvgPicture.asset(
-//                 ThemeIcons.rightArrow,
-//                 height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
-//               )
-//             : Icon(
-//                 Icons.arrow_forward,
-//                 size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
-//                     color: theme.primaryColor,
-//               ),
-//       ],
-//     );
-//   }
-// }
-
 class ShopCard extends ConsumerWidget {
   final ProductModel product;
 
@@ -233,7 +205,8 @@ class ShopCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size.width;
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     // final int? themeNo = _salonProfileProvider.chosenSalon.selectedTheme;
 
@@ -284,7 +257,8 @@ class ShopCard extends ConsumerWidget {
                   '${product.productName}',
                   style: theme.textTheme.bodyText1?.copyWith(
                     color: theme.primaryColorDark,
-                    fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                    fontSize: DeviceConstraints.getResponsiveSize(
+                        context, 20.sp, 20.sp, 20.sp),
                   ),
                 ),
                 // Spacer(),
@@ -292,7 +266,8 @@ class ShopCard extends ConsumerWidget {
                   '\$${product.clientPrice}',
                   style: theme.textTheme.headline3?.copyWith(
                     color: theme.primaryColorLight,
-                    fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                    fontSize: DeviceConstraints.getResponsiveSize(
+                        context, 20.sp, 20.sp, 20.sp),
                     letterSpacing: 1,
                   ),
                 ),
@@ -304,32 +279,3 @@ class ShopCard extends ConsumerWidget {
     );
   }
 }
-
-// List shopProducsts = [
-//   {
-//     'title': 'Body Oil',
-//     'price': '\$30.50',
-//     'image': ThemeImages.product1,
-//   },
-//   {
-//     'title': 'Hand cream',
-//     'price': '\$15.00',
-//     'image': ThemeImages.product3,
-//   },
-//   {
-//     'title': 'Body Lotion',
-//     'price': '\$25.00',
-//     'image': ThemeImages.product2,
-//   },
-//   {
-//     'title': 'Gel polish',
-//     'price': '\$5.30',
-//     'image': ThemeImages.product4,
-//   },
-// ];
-
-// return ShopCard(
-//   itemTitle: shopProducsts[index]['title'],
-//   itemImage: shopProducsts[index]['image'],
-//   itemAmount: shopProducsts[index]['price'],
-// );
