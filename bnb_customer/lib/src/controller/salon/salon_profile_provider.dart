@@ -57,7 +57,8 @@ class SalonProfileProvider with ChangeNotifier {
       loadingStatus = Status.loading;
       chosenSalon = (await _salonApi.getSalonFromId(salonId))!;
       // await Time().setTimeSlot(chosenSalon.timeSlotsInterval);
-      themeSettings = await CustomerWebSettingsApi().getSalonTheme(salonId: salonId);
+      themeSettings =
+          await CustomerWebSettingsApi().getSalonTheme(salonId: salonId);
       theme = themeSettings['id'];
 
       await getSalonReviews(salonId: salonId);
@@ -72,7 +73,12 @@ class SalonProfileProvider with ChangeNotifier {
     return chosenSalon;
   }
 
-  Set availableThemes = {'1', '2', '3', '4'};
+  Set availableThemes = {
+    '1', // Glam
+    '2', // Glam Barbershop
+    '3',
+    '4', // Barbershop
+  };
 
   dynamic getTheme() {
     if (availableThemes.contains(theme)) {
@@ -122,9 +128,13 @@ class SalonProfileProvider with ChangeNotifier {
   }
 
   // Send Enquiry to Firebase
-  void sendEnquiryToSalon(BuildContext context, {required String salonId}) async {
-    if (nameController.text == '' || phoneController.text == '' || requestController.text == '') {
-      showToast(AppLocalizations.of(context)?.emptyFields ?? "Fields cannot be empty, please fill required fields");
+  void sendEnquiryToSalon(BuildContext context,
+      {required String salonId}) async {
+    if (nameController.text == '' ||
+        phoneController.text == '' ||
+        requestController.text == '') {
+      showToast(AppLocalizations.of(context)?.emptyFields ??
+          "Fields cannot be empty, please fill required fields");
       return;
     }
 
@@ -147,15 +157,19 @@ class SalonProfileProvider with ChangeNotifier {
         showToast('Your Enquiry has been sent');
       } else {
         enquiryStatus = Status.failed;
-        showToast(AppLocalizations.of(context)?.errorOccurred ?? "Something went wrong, please try again");
+        showToast(AppLocalizations.of(context)?.errorOccurred ??
+            "Something went wrong, please try again");
       }
-      Future.delayed(const Duration(milliseconds: 100), () => notifyListeners());
+      Future.delayed(
+          const Duration(milliseconds: 100), () => notifyListeners());
     } catch (e) {
       enquiryStatus = Status.failed;
-      Future.delayed(const Duration(milliseconds: 100), () => notifyListeners());
+      Future.delayed(
+          const Duration(milliseconds: 100), () => notifyListeners());
 
       printIt('Error on sendEnquiryToSalon() - ${e.toString()}');
-      showToast(AppLocalizations.of(context)?.errorOccurred ?? "Something went wrong, please try again");
+      showToast(AppLocalizations.of(context)?.errorOccurred ??
+          "Something went wrong, please try again");
       return null;
     }
   }
@@ -166,10 +180,12 @@ class SalonProfileProvider with ChangeNotifier {
     tabs.clear();
 
     // Get all brands
-    allProductBrands = await ProductsApi().getAllProductBrands(salonId: salonId);
+    allProductBrands =
+        await ProductsApi().getAllProductBrands(salonId: salonId);
 
     // Get Salon Product Categories
-    allProductCategories = await ProductsApi().getAllProductCategory(salonId: salonId);
+    allProductCategories =
+        await ProductsApi().getAllProductCategory(salonId: salonId);
 
     // Get Salon Products
     allProducts = await ProductsApi().getSalonProducts(salonId: salonId);
@@ -182,7 +198,8 @@ class SalonProfileProvider with ChangeNotifier {
         );
 
         if (found != null) {
-          String? translation = found.translations![AppLocalizations.of(context)?.localeName];
+          String? translation =
+              found.translations![AppLocalizations.of(context)?.localeName];
 
           if (translation != null) {
             // Doing this because if loaleName (e.g 'en') doesn't exist in translations map, it throws null

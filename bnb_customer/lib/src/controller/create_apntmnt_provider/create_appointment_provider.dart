@@ -2077,7 +2077,7 @@ class CreateAppointmentProvider with ChangeNotifier {
         // AppointmentNotification().sendNotifications(
         //     appointmentModel!, customerModel, chosenSalon!, context);
         printIt(finalAppointment?.toJson());
-        reset();
+        resetFlow();
 
         Collection.customers.doc(customerModel.customerId).update({
           'registeredSalons':
@@ -2156,17 +2156,12 @@ class CreateAppointmentProvider with ChangeNotifier {
         app.paymentInfo = _paymentInfo;
 
         DocumentReference doc = await Collection.appointments.add(app.toJson());
-
-        print('-------------------------------');
-        print(serviceAgainstMaster);
-        print(serviceAgainstMaster.length);
-        print('-------------------------------');
-
         app.appointmentId = doc.id;
         // await blockTimeSalonOwnerMaster(
         //     app,
         //     serviceAgainstMaster
         //             .where((element) =>
+
         //                 element.service?.serviceId ==
         //                 app.services.first.serviceId)
         //             .toList()
@@ -2182,15 +2177,7 @@ class CreateAppointmentProvider with ChangeNotifier {
         //             .where((element) =>
         //                 element.serviceId == app.services.first.serviceId)
         //             .toList()[0])[0]);
-        print('----');
-        print(app.services.first.serviceId);
-        print(serviceAgainstMaster
-            .where((element) =>
-                element.service?.serviceId == app.services.first.serviceId)
-            .toList()
-            .length);
 
-        print('----');
         await blockTimeSalonOwnerMaster(
             app,
             serviceAgainstMaster

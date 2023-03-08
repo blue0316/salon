@@ -38,6 +38,8 @@ class GlamOneTheme {
       ),
     ),
     dialogBackgroundColor: Colors.black,
+    bottomAppBarColor: Colors.white, // Color of divider on appbar
+
     cardColor: primaryColor1,
     colorScheme: ColorScheme(
       primary: (Colors.pink[900])!,
@@ -64,7 +66,9 @@ class GlamOneTheme {
       bodyText2: bodyText2.copyWith(color: primaryColor1),
       //text-field style
       subtitle1: subTitle1.copyWith(color: primaryColor1),
-      subtitle2: subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
+      subtitle2: subTitle2.copyWith(
+          color: Colors
+              .black), // Sub text under a section title in a section container
     ),
     appBarTheme: AppBarTheme(
       backgroundColor: Colors.white,
@@ -90,7 +94,8 @@ class GlamOneTheme {
       ),
       hintStyle: bodyText1.copyWith(color: Colors.black),
     ),
-    unselectedWidgetColor: Colors.grey[700], // Color for not valid time slot container
+    unselectedWidgetColor:
+        Colors.grey[700], // Color for not valid time slot container
     highlightColor: primaryColor1,
 
     // Stop
@@ -120,6 +125,8 @@ class GlamOneTheme {
       ),
     ),
     dialogBackgroundColor: Colors.black,
+    bottomAppBarColor: Colors.white, // Color of divider on appbar
+
     cardColor: primaryColor1,
     colorScheme: ColorScheme(
       primary: (Colors.pink[900])!,
@@ -146,7 +153,9 @@ class GlamOneTheme {
       bodyText2: bodyText2.copyWith(color: primaryColor2),
       //text-field style
       subtitle1: subTitle1.copyWith(color: primaryColor2),
-      subtitle2: subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
+      subtitle2: subTitle2.copyWith(
+          color: Colors
+              .black), // Sub text under a section title in a section container
     ),
     appBarTheme: AppBarTheme(
       backgroundColor: Colors.white,
@@ -172,7 +181,8 @@ class GlamOneTheme {
       ),
       hintStyle: bodyText1.copyWith(color: Colors.black),
     ),
-    unselectedWidgetColor: Colors.grey[700], // Color for not valid time slot container
+    unselectedWidgetColor:
+        Colors.grey[700], // Color for not valid time slot container
     // Stop
     focusColor: lightGrey,
     highlightColor: primaryColor1,

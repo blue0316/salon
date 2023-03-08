@@ -19,7 +19,7 @@ ThemeData getGlamDataTheme(String colorCode) {
 
 ThemeData getGlamBarbershopTheme(String colorCode) {
   switch (colorCode) {
-    case 'FFC692': // TODO: CHANGE THIS
+    case 'FFC692':
       return GlamBarberShopTheme.mainTheme;
     case 'blublu':
       return GlamBarberShopTheme.theme2;

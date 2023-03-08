@@ -73,9 +73,11 @@ class _SalonSponsorsState extends ConsumerState<SalonSponsors> {
   }
 
   _toggleScrolling() {
-    setState(() {
-      scroll = !scroll;
-    });
+    if (mounted) {
+      setState(() {
+        scroll = !scroll;
+      });
+    }
 
     if (scroll) {
       _scroll();

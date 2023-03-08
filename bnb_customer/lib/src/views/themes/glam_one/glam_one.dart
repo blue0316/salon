@@ -5,7 +5,7 @@ import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/components/header_image.dart';
 import 'package:bbblient/src/views/themes/components/salon_about.dart';
 import 'package:bbblient/src/views/themes/components/salon_contact.dart';
-import 'package:bbblient/src/views/themes/components/salon_promotions.dart';
+import 'package:bbblient/src/views/themes/components/promotions/salon_promotions.dart';
 import 'package:bbblient/src/views/themes/components/salon_reviews.dart';
 import 'package:bbblient/src/views/themes/components/salon_services_2.dart';
 import 'package:bbblient/src/views/themes/components/salon_shop.dart';
@@ -20,6 +20,8 @@ import 'package:bbblient/src/views/themes/glam_one/views/profile/write_to_us.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'core/utils/header_height.dart';
 
 class GlamOneScreen extends ConsumerStatefulWidget {
   static const route = '/glam-one';
@@ -60,62 +62,64 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          height: DeviceConstraints.getResponsiveSize(context, 1000.h, 1000.h, 1000.h),
-                          width: double.infinity,
-                          child: Stack(
-                            alignment: Alignment.topCenter,
-                            children: [
-                              // TOP BACKGROUND IMAGE
-                              SizedBox(
-                                height: DeviceConstraints.getResponsiveSize(context, 1000.h, 1000.h, 1000.h),
-                                width: double.infinity,
-                                child: const ThemeHeaderImage(),
-                              ),
-                              SizedBox(
-                                child: Align(
-                                  alignment: Alignment.topCenter,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 25.w, right: 25.w, top: 25.h),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        ThemeAppBar(salonModel: chosenSalon),
-                                        SizedBox(height: 70.h),
-                                        ThemeHeader(salonModel: chosenSalon),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        if (chosenSalon.additionalFeatures.isNotEmpty)
-                          SalonTags(
-                            additionalFeatures: chosenSalon.additionalFeatures,
-                          ),
-                        if (_createAppointmentProvider.salonPromotions.isNotEmpty)
-                          SalonPromotions(
-                            salonPromotionsList: _createAppointmentProvider.salonPromotions,
-                          ),
+                        // SizedBox(
+                        //   height: getThemeHeaderHeight(
+                        //       context, _salonProfileProvider.theme),
+                        //   width: double.infinity,
+                        //   child: Stack(
+                        //     alignment: Alignment.topCenter,
+                        //     children: [
+                        //       // TOP BACKGROUND IMAGE
+
+                        //       const ThemeHeaderImage(),
+                        //       SizedBox(
+                        //         child: Align(
+                        //           alignment: Alignment.topCenter,
+                        //           child: Padding(
+                        //             padding: EdgeInsets.only(
+                        //                 left: 25.w, right: 25.w, top: 25.h),
+                        //             child: Column(
+                        //               mainAxisSize: MainAxisSize.min,
+                        //               mainAxisAlignment:
+                        //                   MainAxisAlignment.start,
+                        //               children: [
+                        //                 ThemeAppBar(salonModel: chosenSalon),
+                        //                 SizedBox(height: 70.h),
+                        //                 ThemeHeader(salonModel: chosenSalon),
+                        //               ],
+                        //             ),
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
+                        // if (chosenSalon.additionalFeatures.isNotEmpty)
+                        //   SalonTags(
+                        //     additionalFeatures: chosenSalon.additionalFeatures,
+                        //   ),
+                        // if (_createAppointmentProvider
+                        //     .salonPromotions.isNotEmpty)
+                        //   SalonPromotions(
+                        //     salonPromotionsList:
+                        //         _createAppointmentProvider.salonPromotions,
+                        //   ),
                         SalonAbout2(salonModel: chosenSalon),
-                        const SalonSponsors(),
-                        SalonWorks(salonModel: chosenSalon),
-                        SalonPrice222(
-                          salonModel: chosenSalon,
-                          categories: _salonSearchProvider.categories,
-                          categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
-                        ),
-                        const SalonShop(),
-                        if (_salonProfileProvider.chosenSalon.ownerType != OwnerType.singleMaster)
-                          SalonTeam(
-                            salonModel: chosenSalon,
-                          ),
-                        SalonReviews(salonModel: chosenSalon),
-                        WriteToUs(salonModel: chosenSalon),
-                        SalonContact(salonModel: chosenSalon),
+                        // const SalonSponsors(),
+                        // SalonWorks(salonModel: chosenSalon),
+                        // SalonPrice222(
+                        //   salonModel: chosenSalon,
+                        //   categories: _salonSearchProvider.categories,
+                        //   categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
+                        // ),
+                        // const SalonShop(),
+                        // if (_salonProfileProvider.chosenSalon.ownerType != OwnerType.singleMaster)
+                        //   SalonTeam(
+                        //     salonModel: chosenSalon,
+                        //   ),
+                        // SalonReviews(salonModel: chosenSalon),
+                        // WriteToUs(salonModel: chosenSalon),
+                        // SalonContact(salonModel: chosenSalon),
                         // SalonSocials(
                         //   salonModel: chosenSalon,
                         // ),
@@ -123,7 +127,8 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                           padding: const EdgeInsets.only(top: 19, bottom: 10),
                           child: Text(
                             "Design by GlamIris",
-                            style: theme.textTheme.bodyText1!.copyWith(fontSize: 20.sp),
+                            style: theme.textTheme.bodyText1!
+                                .copyWith(fontSize: 20.sp),
                           ),
                         ),
                       ],
