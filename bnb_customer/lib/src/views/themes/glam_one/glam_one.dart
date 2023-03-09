@@ -62,59 +62,59 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        // SizedBox(
-                        //   height: getThemeHeaderHeight(context, _salonProfileProvider.theme),
-                        //   width: double.infinity,
-                        //   child: Stack(
-                        //     alignment: Alignment.topCenter,
-                        //     children: [
-                        //       // TOP BACKGROUND IMAGE
+                        SizedBox(
+                          height: getThemeHeaderHeight(context, _salonProfileProvider.theme),
+                          width: double.infinity,
+                          child: Stack(
+                            alignment: Alignment.topCenter,
+                            children: [
+                              // TOP BACKGROUND IMAGE
 
-                        //       const ThemeHeaderImage(),
-                        //       SizedBox(
-                        //         child: Align(
-                        //           alignment: Alignment.topCenter,
-                        //           child: Padding(
-                        //             padding: EdgeInsets.only(left: 25.w, right: 25.w, top: 25.h),
-                        //             child: Column(
-                        //               mainAxisSize: MainAxisSize.min,
-                        //               mainAxisAlignment: MainAxisAlignment.start,
-                        //               children: [
-                        //                 ThemeAppBar(salonModel: chosenSalon),
-                        //                 SizedBox(height: 70.h),
-                        //                 ThemeHeader(salonModel: chosenSalon),
-                        //               ],
-                        //             ),
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
-                        // if (chosenSalon.additionalFeatures.isNotEmpty)
-                        //   SalonTags(
-                        //     additionalFeatures: chosenSalon.additionalFeatures,
-                        //   ),
-                        // if (_createAppointmentProvider.salonPromotions.isNotEmpty)
-                        //   SalonPromotions(
-                        //     salonPromotionsList: _createAppointmentProvider.salonPromotions,
-                        //   ),
-                        // SalonAbout2(salonModel: chosenSalon),
-                        // const SalonSponsors(),
+                              const ThemeHeaderImage(),
+                              SizedBox(
+                                child: Align(
+                                  alignment: Alignment.topCenter,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 25.w, right: 25.w, top: 25.h),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        ThemeAppBar(salonModel: chosenSalon),
+                                        SizedBox(height: 70.h),
+                                        ThemeHeader(salonModel: chosenSalon),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        if (chosenSalon.additionalFeatures.isNotEmpty)
+                          SalonTags(
+                            additionalFeatures: chosenSalon.additionalFeatures,
+                          ),
+                        if (_createAppointmentProvider.salonPromotions.isNotEmpty)
+                          SalonPromotions(
+                            salonPromotionsList: _createAppointmentProvider.salonPromotions,
+                          ),
+                        SalonAbout2(salonModel: chosenSalon),
+                        const SalonSponsors(),
                         SalonWorks(salonModel: chosenSalon),
-                        // SalonPrice222(
-                        //   salonModel: chosenSalon,
-                        //   categories: _salonSearchProvider.categories,
-                        //   categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
-                        // ),
-                        // const SalonShop(),
-                        // if (_salonProfileProvider.chosenSalon.ownerType != OwnerType.singleMaster)
-                        //   SalonTeam(
-                        //     salonModel: chosenSalon,
-                        //   ),
-                        // SalonReviews(salonModel: chosenSalon),
-                        // WriteToUs(salonModel: chosenSalon),
-                        // SalonContact(salonModel: chosenSalon),
+                        SalonPrice222(
+                          salonModel: chosenSalon,
+                          categories: _salonSearchProvider.categories,
+                          categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
+                        ),
+                        const SalonShop(),
+                        if (_salonProfileProvider.chosenSalon.ownerType != OwnerType.singleMaster)
+                          SalonTeam(
+                            salonModel: chosenSalon,
+                          ),
+                        SalonReviews(salonModel: chosenSalon),
+                        WriteToUs(salonModel: chosenSalon),
+                        SalonContact(salonModel: chosenSalon),
                         // SalonSocials(
                         //   salonModel: chosenSalon,
                         // ),
