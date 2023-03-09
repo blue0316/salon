@@ -132,7 +132,7 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                                   ),
                                 ),
                                 TextSpan(
-                                  text: "GlamIris",
+                                  text: "GlamIris.",
                                   style: theme.textTheme.bodyText1!.copyWith(
                                     fontSize: 20.sp,
                                     color: theme.primaryColorDark,
