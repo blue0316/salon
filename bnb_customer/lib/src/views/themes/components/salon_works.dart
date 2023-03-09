@@ -1,17 +1,17 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
-import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/views/themes/glam_one/core/utils/prev_and_next.dart';
 import 'package:bbblient/src/views/themes/icons.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SalonWorks extends ConsumerStatefulWidget {
   final SalonModel salonModel;
@@ -58,14 +58,14 @@ class _SalonWorksState extends ConsumerState<SalonWorks> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    isSingleMaster ? (AppLocalizations.of(context)?.myWorks ?? 'My Works') : (AppLocalizations.of(context)?.ourWorks ?? 'Our Works').toUpperCase(),
+                    (isSingleMaster ? (AppLocalizations.of(context)?.myWorks ?? 'My Works') : (AppLocalizations.of(context)?.ourWorks ?? 'Our Works')).toUpperCase(),
                     style: theme.textTheme.headline2?.copyWith(
                       color: theme.colorScheme.secondary,
                       fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),
                     ),
                   ),
                   const Spacer(),
-                  PrevAndNext(
+                  OurWorksButton(
                     backOnTap: () => _controller.previousPage(),
                     forwardOnTap: () => _controller.nextPage(),
                   ),
@@ -115,16 +115,17 @@ class _SalonWorksState extends ConsumerState<SalonWorks> {
   }
 }
 
-class PrevAndNext extends ConsumerWidget {
+class OurWorksButton extends ConsumerWidget {
   final VoidCallback backOnTap;
   final VoidCallback forwardOnTap;
 
-  const PrevAndNext({Key? key, required this.backOnTap, required this.forwardOnTap}) : super(key: key);
+  const OurWorksButton({Key? key, required this.backOnTap, required this.forwardOnTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    String? themeNo = _salonProfileProvider.theme;
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
@@ -132,10 +133,10 @@ class PrevAndNext extends ConsumerWidget {
         children: [
           GestureDetector(
             onTap: backOnTap,
-            child: (_salonProfileProvider.theme != '2')
+            child: (themeNo != '2' && themeNo != '4')
                 ? SvgPicture.asset(
                     ThemeIcons.leftArrow,
-                    color: Colors.black,
+                    color: (themeNo == '1' || themeNo == '3') ? Colors.black : theme.primaryColor,
                     height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
                   )
                 : Icon(
@@ -144,15 +145,13 @@ class PrevAndNext extends ConsumerWidget {
                     color: Colors.white,
                   ),
           ),
-
-          // const SizedBox(width: 20),
           SizedBox(width: DeviceConstraints.getResponsiveSize(context, 15, 30, 40)),
-
           GestureDetector(
             onTap: forwardOnTap,
-            child: (_salonProfileProvider.theme != '2')
+            child: (themeNo != '2' && themeNo != '4')
                 ? SvgPicture.asset(
                     ThemeIcons.rightArrow,
+                    color: (themeNo == '1' || themeNo == '3') ? Colors.black : theme.primaryColor,
                     height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
                   )
                 : Icon(
@@ -161,48 +160,8 @@ class PrevAndNext extends ConsumerWidget {
                     color: theme.primaryColor,
                   ),
           ),
-          // SvgPicture.asset(
-          //   ThemeIcons.rightArrow,
-          //   color: const Color(0XFF0A0A0A),
-          //   height: 35.sp,
-          // ),
         ],
       ),
     );
   }
 }
-
-// List<String> ladyImages = [
-//   ThemeImages.lady1,
-//   ThemeImages.lady2,
-//   ThemeImages.lady3,
-//   ThemeImages.lady4,
-//   ThemeImages.lady1,
-//   ThemeImages.lady2,
-//   ThemeImages.lady3,
-//   ThemeImages.lady2,
-//   ThemeImages.lady3,
-// ];
-
-
-                      // ListView.separated(
-                      //   scrollDirection: Axis.horizontal,
-                      //   physics: const BouncingScrollPhysics(),
-                      //   separatorBuilder: (context, index) {
-                      //     return SizedBox(
-                      //       width: DeviceConstraints.getResponsiveSize(context, 10, 10, 25),
-                      //     );
-                      //   },
-                      //   itemCount: widget.salonModel.photosOfWork.length,
-                      //   itemBuilder: (context, index) {
-                      //     return InkWell(
-                      //       onTap: () {
-                      //         print(widget.salonModel.photosOfWork[index]);
-                      //       },
-                      //       child: CachedImage(
-                      //         url: widget.salonModel.photosOfWork[index],
-                      //         fit: BoxFit.cover,
-                      //       ),
-                      //     );x
-                      //   },
-                      // ),

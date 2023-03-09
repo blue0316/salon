@@ -44,6 +44,7 @@ class SalonModel {
   Map<String, Hours>? irregularWorkingHours;
   late List<String> profilePics = [];
   late List<String> photosOfWork = [];
+  late List<PhotosOfWorks>? photosOfWorks = [];
   double? distanceFromCenter;
   late String? fcmToken;
   late Map<String, dynamic> blockedTime = {};
@@ -71,6 +72,7 @@ class SalonModel {
     required this.description,
     required this.profilePics,
     required this.photosOfWork,
+    required this.photosOfWorks,
     required this.rating,
     required this.preferredGender,
     required this.reviewCount,
@@ -132,6 +134,13 @@ class SalonModel {
     if (json['photosOfWork'] != null) {
       photosOfWork = json['photosOfWork'].cast<String>();
     }
+
+    if (json['photosOfWorks'] != null) {
+      photosOfWorks = List<PhotosOfWorks>.from(
+        json["photosOfWorks"].map((x) => PhotosOfWorks.fromJson(x)),
+      );
+    }
+
     preferredGender = json['preferredGender'] ?? '';
     rating =
         json['rating'] != null ? double.parse(json['rating'].toString()) : 0;
@@ -277,6 +286,33 @@ class Links {
     data['telegram'] = telegram;
     data['whatsapp'] = whatsapp;
     data['instagram'] = instagram;
+    return data;
+  }
+}
+
+class PhotosOfWorks {
+  dynamic createdAt;
+  String? image;
+  String? description;
+
+  PhotosOfWorks({
+    this.createdAt,
+    this.image,
+    this.description,
+  });
+
+  PhotosOfWorks.fromJson(Map<String, dynamic> json) {
+    createdAt = json["createdAt"];
+    image = json['image'];
+    description = json['imageDescription'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = {};
+    data['createdAt'] = createdAt!.toIso8601String();
+    data['image'] = image;
+    data['description'] = description;
+
     return data;
   }
 }

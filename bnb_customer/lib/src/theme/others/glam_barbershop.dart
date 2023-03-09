@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class GlamBarberShopTheme {
+  // Theme 2 ThemeData
   static const Color textBlack = Color(0xff0E141E);
   static const Color lightBlack = Color(0xff1E2D3D);
   static const Color redishPink = Color(0xffff006e);
@@ -40,6 +41,8 @@ class GlamBarberShopTheme {
       ),
     ),
     dialogBackgroundColor: Colors.black,
+    bottomAppBarColor: Colors.white, // Color of divider on appbar
+
     cardColor: Colors.black,
     colorScheme: ColorScheme(
       primary: (Colors.pink[900])!,
@@ -124,6 +127,8 @@ class GlamBarberShopTheme {
       ),
     ),
     dialogBackgroundColor: Colors.black,
+    bottomAppBarColor: Colors.white, // Color of divider on appbar
+
     cardColor: Colors.black,
     colorScheme: ColorScheme(
       primary: (Colors.pink[900])!,
@@ -141,17 +146,17 @@ class GlamBarberShopTheme {
       brightness: Brightness.light,
     ),
     textTheme: TextTheme(
-      headline1: GlamBarberShopTheme.headLine1,
-      headline2: GlamBarberShopTheme.headLine2,
-      headline3: GlamBarberShopTheme.headLine3,
-      headline4: GlamBarberShopTheme.headLine4,
-      headline5: GlamBarberShopTheme.headLine5,
+      headline1: headLine1.copyWith(color: primaryColor1),
+      headline2: headLine2.copyWith(color: primaryColor1),
+      headline3: headLine3.copyWith(color: primaryColor1),
+      headline4: headLine4.copyWith(color: primaryColor1),
+      headline5: headLine5.copyWith(color: primaryColor1),
 
-      bodyText1: GlamBarberShopTheme.bodyText1,
-      bodyText2: GlamBarberShopTheme.bodyText2,
+      bodyText1: bodyText1.copyWith(color: primaryColor1),
+      bodyText2: bodyText2.copyWith(color: primaryColor1),
       //text-field style
-      subtitle1: GlamBarberShopTheme.subTitle1,
-      subtitle2: GlamBarberShopTheme.subTitle2, // Sub text under a section title in a section container
+      subtitle1: subTitle1.copyWith(color: primaryColor1),
+      subtitle2: subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
     ),
     dividerColor: Colors.white,
 

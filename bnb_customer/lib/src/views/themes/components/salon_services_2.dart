@@ -30,7 +30,8 @@ class SalonPrice222 extends ConsumerStatefulWidget {
   _SalonPrice222State createState() => _SalonPrice222State();
 }
 
-class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTickerProviderStateMixin {
+class _SalonPrice222State extends ConsumerState<SalonPrice222>
+    with SingleTickerProviderStateMixin {
   TabController? tabController;
   int _selectedTabbar = 0;
 
@@ -48,11 +49,13 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
   @override
   Widget build(BuildContext context) {
     final _createAppointmentProvider = ref.read(createAppointmentProvider);
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     // Check if Salon is a single master
-    final bool isSingleMaster = (widget.salonModel.ownerType == OwnerType.singleMaster);
+    final bool isSingleMaster =
+        (widget.salonModel.ownerType == OwnerType.singleMaster);
 
     return DefaultTabController(
       length: _createAppointmentProvider.categoriesAvailable.length,
@@ -68,7 +71,10 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              isSingleMaster ? (AppLocalizations.of(context)?.price ?? 'Price') : (AppLocalizations.of(context)?.ourPrice ?? 'Our Price').toUpperCase(),
+              isSingleMaster
+                  ? (AppLocalizations.of(context)?.price ?? 'Price')
+                  : (AppLocalizations.of(context)?.ourPrice ?? 'Our Price')
+                      .toUpperCase(),
               style: theme.textTheme.headline2?.copyWith(),
             ),
             const SizedBox(height: 50),
@@ -86,20 +92,23 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
                             });
                           },
                           controller: tabController,
-                          unselectedLabelColor: theme.primaryColor,
-                          labelColor: Colors.black,
+                          unselectedLabelColor:
+                              theme.tabBarTheme.unselectedLabelColor,
+                          labelColor: theme.tabBarTheme.labelColor,
                           labelStyle: theme.textTheme.bodyText1?.copyWith(
-                            color: Colors.black,
+                            color: theme.tabBarTheme.labelColor,
                             fontWeight: FontWeight.w600,
                           ),
                           indicator: BoxDecoration(
                             color: theme.primaryColor,
                             border: Border(
-                              bottom: BorderSide(width: 1.5, color: theme.primaryColorDark),
+                              bottom: BorderSide(
+                                  width: 1.5, color: theme.primaryColorDark),
                             ),
                           ),
                           isScrollable: true,
-                          labelPadding: const EdgeInsets.symmetric(horizontal: 50),
+                          labelPadding:
+                              const EdgeInsets.symmetric(horizontal: 50),
                           tabs: _createAppointmentProvider.categoriesAvailable
                               .map(
                                 (item) => Tab(text: item.categoryName),
@@ -113,9 +122,12 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
                     padding: const EdgeInsets.symmetric(vertical: 20),
                     child: Center(
                       child: Text(
-                        (AppLocalizations.of(context)?.noServicesAvailable ?? 'No services available').toUpperCase(),
+                        (AppLocalizations.of(context)?.noServicesAvailable ??
+                                'No services available')
+                            .toUpperCase(),
                         style: theme.textTheme.bodyText1?.copyWith(
-                          fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                          fontSize: DeviceConstraints.getResponsiveSize(
+                              context, 20.sp, 20.sp, 20.sp),
                         ),
                       ),
                     ),
@@ -124,8 +136,11 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
             (_createAppointmentProvider.categoriesAvailable.isNotEmpty)
                 ? Builder(
                     builder: (_) {
-                      for (List<ServiceModel> serviceList in _createAppointmentProvider.servicesAvailable) {
-                        if (_selectedTabbar == _createAppointmentProvider.servicesAvailable.indexOf(serviceList)) {
+                      for (List<ServiceModel> serviceList
+                          in _createAppointmentProvider.servicesAvailable) {
+                        if (_selectedTabbar ==
+                            _createAppointmentProvider.servicesAvailable
+                                .indexOf(serviceList)) {
                           return ServiceAndPrice(listOfServices: serviceList);
                         }
                       }
@@ -143,11 +158,13 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
 
 class ServiceAndPrice extends ConsumerWidget {
   final List<ServiceModel> listOfServices;
-  const ServiceAndPrice({Key? key, required this.listOfServices}) : super(key: key);
+  const ServiceAndPrice({Key? key, required this.listOfServices})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     return SizedBox(
@@ -161,9 +178,11 @@ class ServiceAndPrice extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                (AppLocalizations.of(context)?.service ?? 'Service').trim().toUpperCase(),
+                (AppLocalizations.of(context)?.service ?? 'Service')
+                    .trim()
+                    .toUpperCase(),
                 style: theme.textTheme.headline3?.copyWith(
-                  color: theme.primaryColor,
+                  color: theme.primaryColorDark,
                   fontSize: 20.sp,
                   letterSpacing: 1,
                 ),
@@ -171,7 +190,7 @@ class ServiceAndPrice extends ConsumerWidget {
               Text(
                 AppLocalizations.of(context)?.price ?? 'Price'.toUpperCase(),
                 style: theme.textTheme.headline3?.copyWith(
-                  color: theme.primaryColor,
+                  color: theme.primaryColorDark,
                   fontSize: 20.sp,
                   letterSpacing: 1,
                 ),
@@ -191,7 +210,8 @@ class ServiceAndPrice extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 35),
-          (_salonProfileProvider.theme == '2' || _salonProfileProvider.theme == '4')
+          (_salonProfileProvider.theme == '2' ||
+                  _salonProfileProvider.theme == '4')
               ? Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -227,7 +247,8 @@ class ServiceTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     return Container(
@@ -248,7 +269,10 @@ class ServiceTile extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        service.translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
+                        service.translations[
+                                AppLocalizations.of(context)?.localeName ??
+                                    'en']
+                            .toString(),
                         style: theme.textTheme.bodyText1?.copyWith(
                           color: theme.primaryColor,
                           fontSize: 20.sp,
@@ -257,7 +281,9 @@ class ServiceTile extends ConsumerWidget {
                       if (_createAppointmentProvider.isAdded(
                         serviceModel: service,
                       ))
-                        SizedBox(width: DeviceConstraints.getResponsiveSize(context, 5, 5, 30)),
+                        SizedBox(
+                            width: DeviceConstraints.getResponsiveSize(
+                                context, 5, 5, 30)),
                       Icon(
                         Icons.check,
                         size: 20.sp,
@@ -271,7 +297,9 @@ class ServiceTile extends ConsumerWidget {
                   ),
                 ),
                 Text(
-                  service.isFixedPrice ? "${service.priceAndDuration.price}${Keys.uah}" : "${service.priceAndDuration.price}${Keys.uah} - ${service.priceAndDurationMax!.price}${Keys.uah}",
+                  service.isFixedPrice
+                      ? "${service.priceAndDuration.price}${Keys.uah}"
+                      : "${service.priceAndDuration.price}${Keys.uah} - ${service.priceAndDurationMax!.price}${Keys.uah}",
                   style: theme.textTheme.bodyText1?.copyWith(
                     color: Colors.white,
                     fontSize: 20.sp,

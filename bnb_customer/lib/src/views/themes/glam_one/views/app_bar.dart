@@ -20,14 +20,18 @@ class ThemeAppBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+    final bool isPortrait =
+        (DeviceConstraints.getDeviceType(MediaQuery.of(context)) ==
+            DeviceScreenType.portrait);
 
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: DeviceConstraints.getResponsiveSize(context, 3.w, 10.w, 15.w),
+        horizontal:
+            DeviceConstraints.getResponsiveSize(context, 3.w, 10.w, 15.w),
         // vertical: DeviceConstraints.getResponsiveSize(context, 5.h, 7.h, 10.h),
       ),
       child: Column(
@@ -66,8 +70,10 @@ class ThemeAppBar extends ConsumerWidget {
               if (!isPortrait) const Spacer(),
               (salonModel.salonLogo != '')
                   ? SizedBox(
-                      height: DeviceConstraints.getResponsiveSize(context, 50.h, 50.h, 70.h),
-                      width: DeviceConstraints.getResponsiveSize(context, 100.w, 100.w, 50.w),
+                      height: DeviceConstraints.getResponsiveSize(
+                          context, 50.h, 50.h, 70.h),
+                      width: DeviceConstraints.getResponsiveSize(
+                          context, 100.w, 100.w, 50.w),
                       child: CachedImage(
                         url: salonModel.salonLogo,
                         fit: BoxFit.fitHeight,
@@ -91,7 +97,7 @@ class ThemeAppBar extends ConsumerWidget {
             height: 1,
             width: double.infinity, // getHorizontalSize(310.00),
 
-            decoration: const BoxDecoration(color: Colors.white),
+            decoration: BoxDecoration(color: theme.bottomAppBarColor),
           ),
         ],
       ),
@@ -105,7 +111,13 @@ class Socials extends StatelessWidget {
   final Color? color;
   final double? height;
 
-  const Socials({Key? key, required this.socialIcon, required this.socialUrl, this.color, this.height}) : super(key: key);
+  const Socials(
+      {Key? key,
+      required this.socialIcon,
+      required this.socialUrl,
+      this.color,
+      this.height})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

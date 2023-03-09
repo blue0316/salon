@@ -12,9 +12,7 @@ import 'package:bbblient/src/models/review.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/utils.dart';
-import 'package:bbblient/src/views/themes/barbershop/barbershop.dart';
 import 'package:bbblient/src/views/themes/glam_one/glam_one.dart';
-import 'package:bbblient/src/views/themes/glam_barbershop/glam_barbershop.dart';
 import 'package:bbblient/src/views/themes/utils/theme_color.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -72,7 +70,12 @@ class SalonProfileProvider with ChangeNotifier {
     return chosenSalon;
   }
 
-  Set availableThemes = {'1', '2', '3', '4'};
+  Set availableThemes = {
+    '1', // Glam
+    '2', // Glam Barbershop
+    '3', // Glam Gradient
+    '4', // Barbershop
+  };
 
   dynamic getTheme() {
     if (availableThemes.contains(theme)) {
@@ -88,6 +91,11 @@ class SalonProfileProvider with ChangeNotifier {
           notifyListeners();
           break;
 
+        case '3':
+          salonTheme = getGlamGradientTheme(themeSettings['colorCode']);
+          notifyListeners();
+          break;
+
         case '4':
           salonTheme = getBarbershopTheme(themeSettings['colorCode']);
           notifyListeners();
@@ -96,6 +104,8 @@ class SalonProfileProvider with ChangeNotifier {
 
       return const GlamOneScreen();
     } else {
+      salonTheme = AppTheme.lightTheme;
+      notifyListeners();
       return null; // This should be the default theme if there's no theme number
     }
   }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BarbershopTheme {
+  // Theme 4 ThemeData
   static const Color textBlack = Color(0xff0E141E);
   static const Color lightBlack = Color(0xff1E2D3D);
   static const Color redishPink = Color(0xffff006e);
@@ -39,6 +40,7 @@ class BarbershopTheme {
         color: primaryColor1,
       ),
     ),
+    bottomAppBarColor: Colors.transparent, // Color of divider on appbar
     dialogBackgroundColor: Colors.black,
     cardColor: Colors.black,
     colorScheme: ColorScheme(
@@ -57,17 +59,17 @@ class BarbershopTheme {
       brightness: Brightness.light,
     ),
     textTheme: TextTheme(
-      headline1: BarbershopTheme.headLine1,
-      headline2: BarbershopTheme.headLine2,
-      headline3: BarbershopTheme.headLine3,
-      headline4: BarbershopTheme.headLine4,
-      headline5: BarbershopTheme.headLine5,
+      headline1: headLine1.copyWith(color: primaryColor1),
+      headline2: headLine2.copyWith(color: primaryColor1),
+      headline3: headLine3.copyWith(color: primaryColor1),
+      headline4: headLine4.copyWith(color: primaryColor1),
+      headline5: headLine5.copyWith(color: primaryColor1),
 
-      bodyText1: BarbershopTheme.bodyText1,
-      bodyText2: BarbershopTheme.bodyText2,
+      bodyText1: bodyText1.copyWith(color: primaryColor1),
+      bodyText2: bodyText2.copyWith(color: primaryColor1),
       //text-field style
-      subtitle1: BarbershopTheme.subTitle1,
-      subtitle2: BarbershopTheme.subTitle2, // Sub text under a section title in a section container
+      subtitle1: subTitle1.copyWith(color: primaryColor1),
+      subtitle2: subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
     ),
     dividerColor: Colors.white,
 
@@ -124,6 +126,8 @@ class BarbershopTheme {
       ),
     ),
     dialogBackgroundColor: Colors.black,
+    bottomAppBarColor: Colors.transparent, // Color of divider on appbar
+
     cardColor: Colors.black,
     colorScheme: ColorScheme(
       primary: (Colors.pink[900])!,
@@ -141,17 +145,17 @@ class BarbershopTheme {
       brightness: Brightness.light,
     ),
     textTheme: TextTheme(
-      headline1: BarbershopTheme.headLine1,
-      headline2: BarbershopTheme.headLine2,
-      headline3: BarbershopTheme.headLine3,
-      headline4: BarbershopTheme.headLine4,
-      headline5: BarbershopTheme.headLine5,
+      headline1: headLine1.copyWith(color: primaryColor1),
+      headline2: headLine2.copyWith(color: primaryColor1),
+      headline3: headLine3.copyWith(color: primaryColor1),
+      headline4: headLine4.copyWith(color: primaryColor1),
+      headline5: headLine5.copyWith(color: primaryColor1),
 
-      bodyText1: BarbershopTheme.bodyText1,
-      bodyText2: BarbershopTheme.bodyText2,
+      bodyText1: bodyText1.copyWith(color: primaryColor1),
+      bodyText2: bodyText2.copyWith(color: primaryColor1),
       //text-field style
-      subtitle1: BarbershopTheme.subTitle1,
-      subtitle2: BarbershopTheme.subTitle2, // Sub text under a section title in a section container
+      subtitle1: subTitle1.copyWith(color: primaryColor1),
+      subtitle2: subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
     ),
     dividerColor: Colors.white,
 
@@ -186,28 +190,28 @@ class BarbershopTheme {
   );
 
   static final TextStyle headLine1 = TextStyle(
-    fontFamily: "VASQUZ", // TODO: CHANGE TO UNDERRATED
+    fontFamily: "Gilroy",
     fontSize: 100.sp,
     fontWeight: FontWeight.w600,
   );
   static final TextStyle headLine2 = TextStyle(
-    fontFamily: "VASQUZ",
+    fontFamily: "Gilroy",
     fontSize: 50.sp,
     fontWeight: FontWeight.w500,
   );
 
   static final TextStyle headLine3 = TextStyle(
-    fontFamily: "VASQUZ",
+    fontFamily: "Gilroy",
     fontSize: 30.sp,
     fontWeight: FontWeight.w500,
   );
   static final TextStyle headLine4 = TextStyle(
-    fontFamily: "VASQUZ",
+    fontFamily: "Gilroy",
     fontSize: 16.sp,
     fontWeight: FontWeight.w500,
   );
   static final TextStyle headLine5 = TextStyle(
-    fontFamily: "VASQUZ",
+    fontFamily: "Gilroy",
     fontSize: 16.sp,
     fontWeight: FontWeight.w500,
   );
