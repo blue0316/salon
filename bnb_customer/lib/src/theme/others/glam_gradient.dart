@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class GlamOneTheme {
-  // Theme 1 ThemeData
+class GlamGradientTheme {
+  // Theme 3 ThemeData
   static const Color textBlack = Color(0xff0E141E);
   static const Color lightBlack = Color(0xff1E2D3D);
   static const Color redishPink = Color(0xffff006e);
@@ -19,7 +19,7 @@ class GlamOneTheme {
   static const primaryColor2 = Colors.purple;
 
   // Theme 1
-  static final ThemeData glamOneTheme = ThemeData(
+  static final ThemeData mainTheme = ThemeData(
     primaryColor: primaryColor1,
     primaryColorDark: deepOrange,
     primaryColorLight: primaryColor1,
@@ -102,8 +102,8 @@ class GlamOneTheme {
     hoverColor: lightGrey,
   );
 
-  // Theme 2
-  static final ThemeData main2 = ThemeData(
+  // Sub Theme 2
+  static final ThemeData mainTheme2 = ThemeData(
     primaryColor: Colors.purple,
     primaryColorDark: Colors.deepPurple,
     primaryColorLight: primaryColor1,

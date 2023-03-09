@@ -8,25 +8,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import 'widgets/contact_maps.dart';
 import 'widgets/sections.dart';
 
 class ContactDefaultView extends ConsumerWidget {
   final SalonModel salonModel;
 
-  const ContactDefaultView({Key? key, required this.salonModel})
-      : super(key: key);
+  const ContactDefaultView({Key? key, required this.salonModel}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bool isPortrait =
-        (DeviceConstraints.getDeviceType(MediaQuery.of(context)) ==
-            DeviceScreenType.portrait);
-    final bool isSingleMaster =
-        (salonModel.ownerType == OwnerType.singleMaster);
+    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+    final bool isSingleMaster = (salonModel.ownerType == OwnerType.singleMaster);
 
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     return Column(
@@ -43,15 +37,13 @@ class ContactDefaultView extends ConsumerWidget {
                       'Our Contacts')
                   .toUpperCase(),
           style: theme.textTheme.headline2!.copyWith(
-            fontSize: DeviceConstraints.getResponsiveSize(
-                context, 30.sp, 40.sp, 50.sp),
+            fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
           ),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 50),
         SizedBox(
-          height:
-              DeviceConstraints.getResponsiveSize(context, 550.h, 310.h, 260.h),
+          height: DeviceConstraints.getResponsiveSize(context, 550.h, 310.h, 260.h),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: (!isPortrait) ? 10.w : 0),
             child: (!isPortrait)

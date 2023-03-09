@@ -4,7 +4,7 @@ import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/components/header_image.dart';
 import 'package:bbblient/src/views/themes/components/about/salon_about.dart';
-import 'package:bbblient/src/views/themes/components/salon_contact.dart';
+import 'package:bbblient/src/views/themes/components/contacts/salon_contact.dart';
 import 'package:bbblient/src/views/themes/components/promotions/salon_promotions.dart';
 import 'package:bbblient/src/views/themes/components/reviews/salon_reviews.dart';
 import 'package:bbblient/src/views/themes/components/salon_services_2.dart';
@@ -63,8 +63,7 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         // SizedBox(
-                        //   height: getThemeHeaderHeight(
-                        //       context, _salonProfileProvider.theme),
+                        //   height: getThemeHeaderHeight(context, _salonProfileProvider.theme),
                         //   width: double.infinity,
                         //   child: Stack(
                         //     alignment: Alignment.topCenter,
@@ -76,12 +75,10 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                         //         child: Align(
                         //           alignment: Alignment.topCenter,
                         //           child: Padding(
-                        //             padding: EdgeInsets.only(
-                        //                 left: 25.w, right: 25.w, top: 25.h),
+                        //             padding: EdgeInsets.only(left: 25.w, right: 25.w, top: 25.h),
                         //             child: Column(
                         //               mainAxisSize: MainAxisSize.min,
-                        //               mainAxisAlignment:
-                        //                   MainAxisAlignment.start,
+                        //               mainAxisAlignment: MainAxisAlignment.start,
                         //               children: [
                         //                 ThemeAppBar(salonModel: chosenSalon),
                         //                 SizedBox(height: 70.h),
@@ -98,39 +95,51 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                         //   SalonTags(
                         //     additionalFeatures: chosenSalon.additionalFeatures,
                         //   ),
-                        // if (_createAppointmentProvider
-                        //     .salonPromotions.isNotEmpty)
+                        // if (_createAppointmentProvider.salonPromotions.isNotEmpty)
                         //   SalonPromotions(
-                        //     salonPromotionsList:
-                        //         _createAppointmentProvider.salonPromotions,
+                        //     salonPromotionsList: _createAppointmentProvider.salonPromotions,
                         //   ),
                         // SalonAbout2(salonModel: chosenSalon),
                         // const SalonSponsors(),
-                        // SalonWorks(salonModel: chosenSalon),
+                        SalonWorks(salonModel: chosenSalon),
                         // SalonPrice222(
                         //   salonModel: chosenSalon,
                         //   categories: _salonSearchProvider.categories,
-                        //   categoryServicesMapNAWA:
-                        //       _createAppointmentProvider.categoryServicesMap,
+                        //   categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
                         // ),
                         // const SalonShop(),
-                        // if (_salonProfileProvider.chosenSalon.ownerType !=
-                        //     OwnerType.singleMaster)
+                        // if (_salonProfileProvider.chosenSalon.ownerType != OwnerType.singleMaster)
                         //   SalonTeam(
                         //     salonModel: chosenSalon,
                         //   ),
                         // SalonReviews(salonModel: chosenSalon),
                         // WriteToUs(salonModel: chosenSalon),
-                        SalonContact(salonModel: chosenSalon),
+                        // SalonContact(salonModel: chosenSalon),
                         // SalonSocials(
                         //   salonModel: chosenSalon,
                         // ),
+
                         Padding(
-                          padding: const EdgeInsets.only(top: 19, bottom: 10),
-                          child: Text(
-                            "Design by GlamIris",
-                            style: theme.textTheme.bodyText1!
-                                .copyWith(fontSize: 20.sp),
+                          padding: const EdgeInsets.only(top: 19, bottom: 15),
+                          child: RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: "Design By ",
+                                  style: theme.textTheme.bodyText1!.copyWith(
+                                    fontSize: 20.sp,
+                                    color: theme.primaryColorLight,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: "GlamIris",
+                                  style: theme.textTheme.bodyText1!.copyWith(
+                                    fontSize: 20.sp,
+                                    color: theme.primaryColorDark,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],

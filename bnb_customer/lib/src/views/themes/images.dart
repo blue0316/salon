@@ -47,6 +47,9 @@ class ThemeImages {
 
   static const gradientBG = 'assets/themes/glam_one/images/gradient_bg.png';
 
-  static const longGradientBG =
-      'assets/themes/glam_one/images/long_gradient_bg.png';
+  static const longGradientBG = 'assets/themes/glam_one/images/long_gradient_bg.png';
+
+  static const footerGradientBG = 'assets/themes/glam_one/images/footer_gradient_bg.png';
+
+  static const footerLongGradientBG = 'assets/themes/glam_one/images/footer_long_gradient_bg.png';
 }

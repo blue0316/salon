@@ -4,12 +4,14 @@ import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/prev_and_next.dart';
+import 'package:bbblient/src/views/themes/icons.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SalonWorks extends ConsumerStatefulWidget {
   final SalonModel salonModel;
@@ -26,13 +28,11 @@ class _SalonWorksState extends ConsumerState<SalonWorks> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     // Check if Salon is a single master
-    final bool isSingleMaster =
-        (widget.salonModel.ownerType == OwnerType.singleMaster);
+    final bool isSingleMaster = (widget.salonModel.ownerType == OwnerType.singleMaster);
 
     return Padding(
       padding: EdgeInsets.only(
@@ -44,14 +44,10 @@ class _SalonWorksState extends ConsumerState<SalonWorks> {
         decoration: BoxDecoration(color: theme.cardColor), // Color(0XFFFFC692)
         child: Padding(
           padding: EdgeInsets.only(
-            left:
-                DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
-            right:
-                DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
-            top:
-                DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
-            bottom:
-                DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
+            left: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
+            right: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
+            top: DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
+            bottom: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,28 +58,20 @@ class _SalonWorksState extends ConsumerState<SalonWorks> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    (isSingleMaster
-                            ? (AppLocalizations.of(context)?.myWorks ??
-                                'My Works')
-                            : (AppLocalizations.of(context)?.ourWorks ??
-                                'Our Works'))
-                        .toUpperCase(),
+                    (isSingleMaster ? (AppLocalizations.of(context)?.myWorks ?? 'My Works') : (AppLocalizations.of(context)?.ourWorks ?? 'Our Works')).toUpperCase(),
                     style: theme.textTheme.headline2?.copyWith(
                       color: theme.colorScheme.secondary,
-                      fontSize: DeviceConstraints.getResponsiveSize(
-                          context, 40.sp, 40.sp, 50.sp),
+                      fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),
                     ),
                   ),
                   const Spacer(),
-                  PrevAndNextButtons(
+                  OurWorksButton(
                     backOnTap: () => _controller.previousPage(),
                     forwardOnTap: () => _controller.nextPage(),
                   ),
                 ],
               ),
-              SizedBox(
-                  height:
-                      DeviceConstraints.getResponsiveSize(context, 50, 50, 35)),
+              SizedBox(height: DeviceConstraints.getResponsiveSize(context, 50, 50, 35)),
               (widget.salonModel.photosOfWork.isNotEmpty)
                   ? SizedBox(
                       // height: 260.h,
@@ -93,16 +81,13 @@ class _SalonWorksState extends ConsumerState<SalonWorks> {
                           scrollPhysics: const AlwaysScrollableScrollPhysics(),
                           autoPlay: true,
                           pauseAutoPlayOnTouch: true,
-                          viewportFraction: DeviceConstraints.getResponsiveSize(
-                              context, 1, 0.5, 0.5),
-                          height: DeviceConstraints.getResponsiveSize(
-                              context, 280.h, 320, 350.h),
+                          viewportFraction: DeviceConstraints.getResponsiveSize(context, 1, 0.5, 0.5),
+                          height: DeviceConstraints.getResponsiveSize(context, 280.h, 320, 350.h),
                         ),
                         items: widget.salonModel.photosOfWork
                             .map(
                               (item) => Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
+                                padding: const EdgeInsets.symmetric(horizontal: 20),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(20),
                                   child: CachedImage(
@@ -125,6 +110,57 @@ class _SalonWorksState extends ConsumerState<SalonWorks> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class OurWorksButton extends ConsumerWidget {
+  final VoidCallback backOnTap;
+  final VoidCallback forwardOnTap;
+
+  const OurWorksButton({Key? key, required this.backOnTap, required this.forwardOnTap}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+    String? themeNo = _salonProfileProvider.theme;
+
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: Row(
+        children: [
+          GestureDetector(
+            onTap: backOnTap,
+            child: (themeNo != '2' && themeNo != '4')
+                ? SvgPicture.asset(
+                    ThemeIcons.leftArrow,
+                    color: (themeNo == '1' || themeNo == '3') ? Colors.black : theme.primaryColor,
+                    height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                  )
+                : Icon(
+                    Icons.arrow_back,
+                    size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                    color: Colors.white,
+                  ),
+          ),
+          SizedBox(width: DeviceConstraints.getResponsiveSize(context, 15, 30, 40)),
+          GestureDetector(
+            onTap: forwardOnTap,
+            child: (themeNo != '2' && themeNo != '4')
+                ? SvgPicture.asset(
+                    ThemeIcons.rightArrow,
+                    color: (themeNo == '1' || themeNo == '3') ? Colors.black : theme.primaryColor,
+                    height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                  )
+                : Icon(
+                    Icons.arrow_forward,
+                    size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                    color: theme.primaryColor,
+                  ),
+          ),
+        ],
       ),
     );
   }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BarbershopTheme {
+  // Theme 4 ThemeData
   static const Color textBlack = Color(0xff0E141E);
   static const Color lightBlack = Color(0xff1E2D3D);
   static const Color redishPink = Color(0xffff006e);
@@ -68,9 +69,7 @@ class BarbershopTheme {
       bodyText2: bodyText2.copyWith(color: primaryColor1),
       //text-field style
       subtitle1: subTitle1.copyWith(color: primaryColor1),
-      subtitle2: subTitle2.copyWith(
-          color: Colors
-              .black), // Sub text under a section title in a section container
+      subtitle2: subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
     ),
     dividerColor: Colors.white,
 
@@ -88,8 +87,7 @@ class BarbershopTheme {
       hintStyle: BarbershopTheme.bodyText1.copyWith(color: Colors.white),
     ),
     hintColor: Colors.white,
-    unselectedWidgetColor:
-        Colors.grey[700], // Color for not valid time slot container
+    unselectedWidgetColor: Colors.grey[700], // Color for not valid time slot container
     highlightColor: primaryColor1,
     // Stop
 
@@ -157,9 +155,7 @@ class BarbershopTheme {
       bodyText2: bodyText2.copyWith(color: primaryColor1),
       //text-field style
       subtitle1: subTitle1.copyWith(color: primaryColor1),
-      subtitle2: subTitle2.copyWith(
-          color: Colors
-              .black), // Sub text under a section title in a section container
+      subtitle2: subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
     ),
     dividerColor: Colors.white,
 
@@ -177,8 +173,7 @@ class BarbershopTheme {
       hintStyle: BarbershopTheme.bodyText1.copyWith(color: Colors.white),
     ),
     hintColor: Colors.white,
-    unselectedWidgetColor:
-        Colors.grey[700], // Color for not valid time slot container
+    unselectedWidgetColor: Colors.grey[700], // Color for not valid time slot container
     highlightColor: primaryColor1,
     // Stop
 
