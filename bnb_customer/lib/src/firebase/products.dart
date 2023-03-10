@@ -87,7 +87,7 @@ class ProductsApi {
         try {
           productsModel = ProductModel.fromJson(_temp);
         } catch (e) {
-          printIt('Error on getSalonProducts() : $e');
+          printIt('Catch Error 1 on getSalonProducts() : $e');
           rethrow;
         }
 
@@ -95,7 +95,7 @@ class ProductsApi {
       }
       return salonProducts;
     } catch (e) {
-      printIt('Error on getSalonProducts() - ${e.toString()}');
+      printIt('Catch Error 2 on getSalonProducts() - ${e.toString()}');
     }
 
     return [];

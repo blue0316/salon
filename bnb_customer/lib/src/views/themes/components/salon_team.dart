@@ -7,6 +7,7 @@ import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/utils/utils.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -24,9 +25,10 @@ class SalonTeam extends ConsumerWidget {
     final _salonSearchProvider = ref.watch(salonSearchProvider);
     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
 
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     return Padding(
       padding: EdgeInsets.only(
@@ -35,17 +37,20 @@ class SalonTeam extends ConsumerWidget {
       ),
       child: Container(
         width: double.infinity,
-        decoration: BoxDecoration(color: theme.cardColor),
+        decoration: BoxDecoration(
+          color: (themeType == ThemeType.GlamGradient) ? null : theme.cardColor,
+          gradient: (themeType == ThemeType.GlamGradient)
+              ? const LinearGradient(
+                  colors: [Color(0XFFFFDA92), Color(0XFFF48B72)],
+                )
+              : null,
+        ),
         child: Padding(
           padding: EdgeInsets.only(
-            left:
-                DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 30.w),
-            right:
-                DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 30.w),
-            top:
-                DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
-            bottom:
-                DeviceConstraints.getResponsiveSize(context, 60.h, 90.h, 100.h),
+            left: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 30.w),
+            right: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 30.w),
+            top: DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
+            bottom: DeviceConstraints.getResponsiveSize(context, 60.h, 90.h, 100.h),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -53,22 +58,17 @@ class SalonTeam extends ConsumerWidget {
             children: [
               Center(
                 child: Text(
-                  (AppLocalizations.of(context)?.ourTeam ?? 'Our Team')
-                      .toUpperCase(),
+                  (AppLocalizations.of(context)?.ourTeam ?? 'Our Team').toUpperCase(),
                   style: theme.textTheme.headline2?.copyWith(
                     color: theme.colorScheme.secondary,
-                    fontSize: DeviceConstraints.getResponsiveSize(
-                        context, 40.sp, 40.sp, 50.sp),
+                    fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),
                   ),
                 ),
               ),
-              Space(
-                  factor:
-                      DeviceConstraints.getResponsiveSize(context, 2, 1.7, 2)),
+              Space(factor: DeviceConstraints.getResponsiveSize(context, 2, 1.7, 2)),
               Center(
                 child: Container(
-                  height: DeviceConstraints.getResponsiveSize(
-                      context, 230.h, 230.h, 210.h),
+                  height: DeviceConstraints.getResponsiveSize(context, 230.h, 230.h, 210.h),
                   alignment: Alignment.center,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
@@ -80,13 +80,11 @@ class SalonTeam extends ConsumerWidget {
                     itemCount: _createAppointmentProvider.salonMasters.length,
                     itemBuilder: (context, index) {
                       // Get All Salon Masters
-                      List<MasterModel> _filteredMasters =
-                          _createAppointmentProvider.salonMasters;
+                      List<MasterModel> _filteredMasters = _createAppointmentProvider.salonMasters;
 
                       // Find Master Service
                       // a master might have multiple services (but I just picked the first index to show on landing page)
-                      List<CategoryModel> categories = _salonSearchProvider
-                          .categories; // All available Categories
+                      List<CategoryModel> categories = _salonSearchProvider.categories; // All available Categories
 
                       // Previous implementation to show only one service
                       // String masterCategoryId = _filteredMasters[index].categoryIds![0]; // Master category id
@@ -97,25 +95,20 @@ class SalonTeam extends ConsumerWidget {
                       //     )
                       //     .translations[AppLocalizations.of(context)?.localeName];
 
-                      List<String> masterCategoryIds =
-                          _filteredMasters[index].categoryIds!;
+                      List<String> masterCategoryIds = _filteredMasters[index].categoryIds!;
                       if (masterCategoryIds.length > 2) {
-                        masterCategoryIds.removeRange(
-                            2, masterCategoryIds.length);
+                        masterCategoryIds.removeRange(2, masterCategoryIds.length);
                       }
 
                       List<CategoryModel> masterCategories = [];
                       for (String id in masterCategoryIds) {
-                        masterCategories.add(categories
-                            .firstWhere((element) => element.categoryId == id));
+                        masterCategories.add(categories.firstWhere((element) => element.categoryId == id));
                       }
 
                       if (_filteredMasters.isNotEmpty) {
                         return TeamMember(
-                          name: Utils().getNameMaster(
-                              _filteredMasters[index].personalInfo),
-                          services:
-                              masterCategories, // masterService, // "Hairdresser",
+                          name: Utils().getNameMaster(_filteredMasters[index].personalInfo),
+                          services: masterCategories, // masterService, // "Hairdresser",
                           image: _filteredMasters[index].profilePicUrl,
                         );
                       } else {
@@ -146,8 +139,7 @@ class TeamMember extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     String? themeNo = _salonProfileProvider.theme;
 
@@ -163,9 +155,7 @@ class TeamMember extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                (themeNo == '4' || themeNo == '5' || themeNo == '6')
-                    ? RectangleTeamAvatar(image: image)
-                    : CircularTeamAvatar(image: image),
+                (themeNo == '4' || themeNo == '5' || themeNo == '6') ? RectangleTeamAvatar(image: image) : CircularTeamAvatar(image: image),
 
                 const SizedBox(height: 15),
                 Text(
@@ -194,8 +184,7 @@ class TeamMember extends ConsumerWidget {
           children: services
               .map(
                 (item) => Text(
-                  item.translations[AppLocalizations.of(context)?.localeName] ??
-                      '',
+                  item.translations[AppLocalizations.of(context)?.localeName] ?? '',
                   style: theme.textTheme.subtitle2?.copyWith(
                     color: theme.colorScheme.onSecondaryContainer,
                     fontSize: 15.sp,

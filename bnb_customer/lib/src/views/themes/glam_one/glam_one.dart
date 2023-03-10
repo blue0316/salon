@@ -1,7 +1,9 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/views/themes/components/header/landing_header.dart';
 import 'package:bbblient/src/views/themes/components/header_image.dart';
 import 'package:bbblient/src/views/themes/components/about/salon_about.dart';
 import 'package:bbblient/src/views/themes/components/contacts/salon_contact.dart';
@@ -20,8 +22,6 @@ import 'package:bbblient/src/views/themes/glam_one/views/profile/write_to_us.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'core/utils/header_height.dart';
 
 class GlamOneScreen extends ConsumerStatefulWidget {
   static const route = '/glam-one';
@@ -62,35 +62,7 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          height: getThemeHeaderHeight(context, _salonProfileProvider.theme),
-                          width: double.infinity,
-                          child: Stack(
-                            alignment: Alignment.topCenter,
-                            children: [
-                              // TOP BACKGROUND IMAGE
-
-                              const ThemeHeaderImage(),
-                              SizedBox(
-                                child: Align(
-                                  alignment: Alignment.topCenter,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 25.w, right: 25.w, top: 25.h),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        ThemeAppBar(salonModel: chosenSalon),
-                                        SizedBox(height: 70.h),
-                                        ThemeHeader(salonModel: chosenSalon),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        const LandingHeader(),
                         if (chosenSalon.additionalFeatures.isNotEmpty)
                           SalonTags(
                             additionalFeatures: chosenSalon.additionalFeatures,

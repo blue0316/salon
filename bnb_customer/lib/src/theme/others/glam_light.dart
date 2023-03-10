@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-// Theme 2 ThemeData
-class GlamBarberShopTheme {
+// Theme 5 ThemeData
+class GlamLightTheme {
   static const Color textBlack = Color(0xff0E141E);
   static const Color lightBlack = Color(0xff1E2D3D);
   static const Color redishPink = Color(0xffff006e);
@@ -12,7 +12,7 @@ class GlamBarberShopTheme {
   static const Color lightGrey = Color(0xff89959F);
 
   // MAIN COLORS 1
-  static const primaryColor1 = Color(0XFFDDC686);
+  static const primaryColor1 = Colors.black;
   static const deepOrange = Color(0XFFF48B72);
 
   // MAIN COLORS 2
@@ -22,7 +22,7 @@ class GlamBarberShopTheme {
   static final ThemeData mainTheme = ThemeData(
     primaryColor: primaryColor1,
     primaryColorDark: primaryColor1,
-    primaryColorLight: Colors.white,
+    primaryColorLight: Colors.black87,
 
     // backgroundColor: Colors.black,
     scaffoldBackgroundColor: Colors.black,
@@ -40,9 +40,8 @@ class GlamBarberShopTheme {
         color: primaryColor1,
       ),
     ),
+    bottomAppBarColor: Colors.transparent, // Color of divider on appbar
     dialogBackgroundColor: Colors.black,
-    bottomAppBarColor: Colors.white, // Color of divider on appbar
-
     cardColor: Colors.black,
     colorScheme: ColorScheme(
       primary: (Colors.pink[900])!,
@@ -127,7 +126,7 @@ class GlamBarberShopTheme {
       ),
     ),
     dialogBackgroundColor: Colors.black,
-    bottomAppBarColor: Colors.white, // Color of divider on appbar
+    bottomAppBarColor: Colors.transparent, // Color of divider on appbar
 
     cardColor: Colors.black,
     colorScheme: ColorScheme(
@@ -191,28 +190,28 @@ class GlamBarberShopTheme {
   );
 
   static final TextStyle headLine1 = TextStyle(
-    fontFamily: "VASQUZ", // TODO: CHANGE TO UNDERRATED
+    fontFamily: "Gilroy",
     fontSize: 100.sp,
     fontWeight: FontWeight.w600,
   );
   static final TextStyle headLine2 = TextStyle(
-    fontFamily: "VASQUZ",
+    fontFamily: "Gilroy",
     fontSize: 50.sp,
     fontWeight: FontWeight.w500,
   );
 
   static final TextStyle headLine3 = TextStyle(
-    fontFamily: "VASQUZ",
+    fontFamily: "Gilroy",
     fontSize: 30.sp,
     fontWeight: FontWeight.w500,
   );
   static final TextStyle headLine4 = TextStyle(
-    fontFamily: "VASQUZ",
+    fontFamily: "Gilroy",
     fontSize: 16.sp,
     fontWeight: FontWeight.w500,
   );
   static final TextStyle headLine5 = TextStyle(
-    fontFamily: "VASQUZ",
+    fontFamily: "Gilroy",
     fontSize: 16.sp,
     fontWeight: FontWeight.w500,
   );

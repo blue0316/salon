@@ -14,6 +14,7 @@ import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/themes/glam_one/glam_one.dart';
 import 'package:bbblient/src/views/themes/utils/theme_color.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -43,6 +44,8 @@ class SalonProfileProvider with ChangeNotifier {
   ThemeData salonTheme = AppTheme.lightTheme;
   String? theme;
 
+  ThemeType themeType = ThemeType.Default;
+
   Status enquiryStatus = Status.init;
 
   final TextEditingController nameController = TextEditingController();
@@ -56,7 +59,8 @@ class SalonProfileProvider with ChangeNotifier {
       chosenSalon = (await _salonApi.getSalonFromId(salonId))!;
       // await Time().setTimeSlot(chosenSalon.timeSlotsInterval);
       themeSettings = await CustomerWebSettingsApi().getSalonTheme(salonId: salonId);
-      theme = themeSettings['id'];
+      theme = themeSettings['id']; // TODO: REFACTOR: USE THEME TYPE GENERALLY
+      themeType = getThemeTypeEnum(themeSettings['id']);
 
       await getSalonReviews(salonId: salonId);
       await getProductsData(context, salonId: salonId);
@@ -83,28 +87,44 @@ class SalonProfileProvider with ChangeNotifier {
       switch (theme) {
         case '1':
           salonTheme = getGlamDataTheme(themeSettings['colorCode']);
+          themeType = ThemeType.Glam;
           notifyListeners();
           break;
 
         case '2':
           salonTheme = getGlamBarbershopTheme(themeSettings['colorCode']);
+          themeType = ThemeType.GlamBarbershop;
+
           notifyListeners();
           break;
 
         case '3':
           salonTheme = getGlamGradientTheme(themeSettings['colorCode']);
+          themeType = ThemeType.GlamGradient;
+
           notifyListeners();
           break;
 
         case '4':
           salonTheme = getBarbershopTheme(themeSettings['colorCode']);
+          themeType = ThemeType.Barbershop;
+
+          notifyListeners();
+          break;
+
+        case '5':
+          salonTheme = getGlamLightTheme(themeSettings['colorCode']);
+          themeType = ThemeType.GlamLight;
+
           notifyListeners();
           break;
       }
 
-      return const GlamOneScreen();
+      return const GlamOneScreen(); // New Themes Base Widget
     } else {
       salonTheme = AppTheme.lightTheme;
+      themeType = ThemeType.Default;
+
       notifyListeners();
       return null; // This should be the default theme if there's no theme number
     }

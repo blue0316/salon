@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+// Theme 3 ThemeData
 class GlamGradientTheme {
-  // Theme 3 ThemeData
   static const Color textBlack = Color(0xff0E141E);
   static const Color lightBlack = Color(0xff1E2D3D);
   static const Color redishPink = Color(0xffff006e);

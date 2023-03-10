@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+// Theme 4 ThemeData
 class BarbershopTheme {
-  // Theme 4 ThemeData
   static const Color textBlack = Color(0xff0E141E);
   static const Color lightBlack = Color(0xff1E2D3D);
   static const Color redishPink = Color(0xffff006e);
@@ -31,7 +31,7 @@ class BarbershopTheme {
     tabBarTheme: TabBarTheme(
       unselectedLabelColor: Colors.white,
       labelColor: Colors.black,
-      labelStyle: BarbershopTheme.bodyText1.copyWith(
+      labelStyle: bodyText1.copyWith(
         color: Colors.black,
         fontWeight: FontWeight.w600,
       ),
@@ -74,7 +74,7 @@ class BarbershopTheme {
     dividerColor: Colors.white,
 
     inputDecorationTheme: InputDecorationTheme(
-      labelStyle: BarbershopTheme.bodyText1.copyWith(color: Colors.white),
+      labelStyle: bodyText1.copyWith(color: Colors.white),
       border: const OutlineInputBorder(
         borderSide: BorderSide(color: Colors.white, width: 1),
       ),
@@ -84,7 +84,7 @@ class BarbershopTheme {
       focusedBorder: const OutlineInputBorder(
         borderSide: BorderSide(color: Colors.white, width: 1),
       ),
-      hintStyle: BarbershopTheme.bodyText1.copyWith(color: Colors.white),
+      hintStyle: bodyText1.copyWith(color: Colors.white),
     ),
     hintColor: Colors.white,
     unselectedWidgetColor: Colors.grey[700], // Color for not valid time slot container
@@ -116,7 +116,7 @@ class BarbershopTheme {
     tabBarTheme: TabBarTheme(
       unselectedLabelColor: Colors.white,
       labelColor: Colors.black,
-      labelStyle: BarbershopTheme.bodyText1.copyWith(
+      labelStyle: bodyText1.copyWith(
         color: Colors.black,
         fontWeight: FontWeight.w600,
       ),
@@ -160,7 +160,7 @@ class BarbershopTheme {
     dividerColor: Colors.white,
 
     inputDecorationTheme: InputDecorationTheme(
-      labelStyle: BarbershopTheme.bodyText1.copyWith(color: Colors.white),
+      labelStyle: bodyText1.copyWith(color: Colors.white),
       border: const OutlineInputBorder(
         borderSide: BorderSide(color: Colors.white, width: 1),
       ),
@@ -170,7 +170,7 @@ class BarbershopTheme {
       focusedBorder: const OutlineInputBorder(
         borderSide: BorderSide(color: Colors.white, width: 1),
       ),
-      hintStyle: BarbershopTheme.bodyText1.copyWith(color: Colors.white),
+      hintStyle: bodyText1.copyWith(color: Colors.white),
     ),
     hintColor: Colors.white,
     unselectedWidgetColor: Colors.grey[700], // Color for not valid time slot container

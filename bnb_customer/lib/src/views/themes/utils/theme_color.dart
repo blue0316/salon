@@ -63,3 +63,18 @@ ThemeData getBarbershopTheme(String colorCode) {
       return BarbershopTheme.mainTheme;
   }
 }
+
+// Theme 5 - GLAM LIGHT
+ThemeData getGlamLightTheme(String colorCode) {
+  switch (colorCode) {
+    case 'FFC692': // TODO: CHANGE THIS
+      return BarbershopTheme.mainTheme;
+    case 'blublu':
+      return BarbershopTheme.theme2;
+    // case 'FFC692':
+    //   return GlamOneTheme.glamOneTheme;
+
+    default:
+      return BarbershopTheme.mainTheme;
+  }
+}

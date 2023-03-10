@@ -89,7 +89,7 @@ class ProductModel {
     clientPrice = json['clientPrice'] ?? "";
     discountedPrice = json['discountedPrice'] ?? "";
     dispayPrice = json['dispayPrice'] ?? false;
-    createdAt = json['createdAt'] != null ? json['createdAt']?.toDate() : DateTime.now();
+    createdAt = json['createdAt'] != null ? DateTime.parse(json['createdAt']) : DateTime.now();
     // productName = json['algopixValidatedAttributes']['title']??"";
     productName = json['productName'] ?? "";
     inventoryQuantity = json["inventoryQuantity"] ?? "";
