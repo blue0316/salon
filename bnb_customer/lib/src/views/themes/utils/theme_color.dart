@@ -1,6 +1,7 @@
 import 'package:bbblient/src/theme/others/barbershop.dart';
 import 'package:bbblient/src/theme/others/glam_barbershop.dart';
 import 'package:bbblient/src/theme/others/glam_gradient.dart';
+import 'package:bbblient/src/theme/others/glam_light.dart';
 import 'package:bbblient/src/theme/others/glam_one.dart';
 import 'package:flutter/material.dart';
 
@@ -68,13 +69,13 @@ ThemeData getBarbershopTheme(String colorCode) {
 ThemeData getGlamLightTheme(String colorCode) {
   switch (colorCode) {
     case 'FFC692': // TODO: CHANGE THIS
-      return BarbershopTheme.mainTheme;
+      return GlamLightTheme.mainTheme;
     case 'blublu':
-      return BarbershopTheme.theme2;
+      return GlamLightTheme.theme2;
     // case 'FFC692':
     //   return GlamOneTheme.glamOneTheme;
 
     default:
-      return BarbershopTheme.mainTheme;
+      return GlamLightTheme.mainTheme;
   }
 }

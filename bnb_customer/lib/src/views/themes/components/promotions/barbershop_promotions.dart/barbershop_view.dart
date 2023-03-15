@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/components/widgets.dart/button.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,12 +14,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class BarbershopPromotions extends ConsumerStatefulWidget {
   final List<PromotionModel> salonPromotionsList;
 
-  const BarbershopPromotions({Key? key, required this.salonPromotionsList})
-      : super(key: key);
+  const BarbershopPromotions({Key? key, required this.salonPromotionsList}) : super(key: key);
 
   @override
-  ConsumerState<BarbershopPromotions> createState() =>
-      _BarbershopPromotionsState();
+  ConsumerState<BarbershopPromotions> createState() => _BarbershopPromotionsState();
 }
 
 class _BarbershopPromotionsState extends ConsumerState<BarbershopPromotions> {
@@ -28,8 +25,7 @@ class _BarbershopPromotionsState extends ConsumerState<BarbershopPromotions> {
 
   @override
   Widget build(BuildContext context) {
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     return Column(
@@ -40,11 +36,9 @@ class _BarbershopPromotionsState extends ConsumerState<BarbershopPromotions> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              (AppLocalizations.of(context)?.promotions ?? 'Promotions')
-                  .toUpperCase(),
+              (AppLocalizations.of(context)?.promotions ?? 'Promotions').toUpperCase(),
               style: theme.textTheme.headline2?.copyWith(
-                fontSize: DeviceConstraints.getResponsiveSize(
-                    context, 30.sp, 40.sp, 50.sp),
+                fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
               ),
             ),
             Row(
@@ -53,20 +47,16 @@ class _BarbershopPromotionsState extends ConsumerState<BarbershopPromotions> {
                   onTap: () => _controller.previousPage(),
                   child: Icon(
                     Icons.arrow_back,
-                    size: DeviceConstraints.getResponsiveSize(
-                        context, 30.sp, 40.sp, 50.sp),
+                    size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
                     color: Colors.white,
                   ),
                 ),
-                SizedBox(
-                    width: DeviceConstraints.getResponsiveSize(
-                        context, 15, 30, 40)),
+                SizedBox(width: DeviceConstraints.getResponsiveSize(context, 15, 30, 40)),
                 GestureDetector(
                   onTap: () => _controller.nextPage(),
                   child: Icon(
                     Icons.arrow_forward,
-                    size: DeviceConstraints.getResponsiveSize(
-                        context, 30.sp, 40.sp, 50.sp),
+                    size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
                     color: theme.primaryColor,
                   ),
                 ),
@@ -85,8 +75,7 @@ class _BarbershopPromotionsState extends ConsumerState<BarbershopPromotions> {
               scrollPhysics: const AlwaysScrollableScrollPhysics(),
               autoPlay: true,
               pauseAutoPlayOnTouch: true,
-              viewportFraction:
-                  DeviceConstraints.getResponsiveSize(context, 1, 0.5, 0.4),
+              viewportFraction: DeviceConstraints.getResponsiveSize(context, 1, 0.5, 0.4),
               // height: DeviceConstraints.getResponsiveSize(
               //     context, 280.h, 320, 350.h),
             ),
@@ -100,11 +89,9 @@ class _BarbershopPromotionsState extends ConsumerState<BarbershopPromotions> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "${AppLocalizations.of(context)?.discounts ?? "Discounts"} 15 \$"
-                            .toUpperCase(),
+                        "${AppLocalizations.of(context)?.discounts ?? "Discounts"} 15 \$".toUpperCase(),
                         style: theme.textTheme.headline3?.copyWith(
-                          fontSize: DeviceConstraints.getResponsiveSize(
-                              context, 30.sp, 22.sp, 28.sp),
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 22.sp, 28.sp),
                         ),
                       ),
                       // SizedBox(height: 10),
@@ -114,8 +101,7 @@ class _BarbershopPromotionsState extends ConsumerState<BarbershopPromotions> {
                         overflow: TextOverflow.ellipsis,
                         style: theme.textTheme.bodyText1?.copyWith(
                           color: Colors.white,
-                          fontSize: DeviceConstraints.getResponsiveSize(
-                              context, 18.sp, 20.sp, 22.sp),
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 20.sp, 22.sp),
                         ),
                       ),
                       // SizedBox(height: 15),

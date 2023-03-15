@@ -52,4 +52,6 @@ class ThemeImages {
   static const footerGradientBG = 'assets/themes/glam_one/images/footer_gradient_bg.png';
 
   static const footerLongGradientBG = 'assets/themes/glam_one/images/footer_long_gradient_bg.png';
+
+  static const glamLightEllipse = 'assets/themes/glam_one/svg/glam_light_ellipse.svg';
 }

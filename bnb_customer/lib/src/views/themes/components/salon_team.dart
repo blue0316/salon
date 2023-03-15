@@ -65,7 +65,7 @@ class SalonTeam extends ConsumerWidget {
                   ),
                 ),
               ),
-              Space(factor: DeviceConstraints.getResponsiveSize(context, 2, 1.7, 2)),
+              const Space(factor: 6),
               Center(
                 child: Container(
                   height: DeviceConstraints.getResponsiveSize(context, 230.h, 230.h, 210.h),
@@ -118,6 +118,18 @@ class SalonTeam extends ConsumerWidget {
                   ),
                 ),
               ),
+
+              // Section Divider
+
+              if (themeType == ThemeType.GlamLight)
+                Space(
+                  factor: DeviceConstraints.getResponsiveSize(context, 4, 5, 9),
+                ),
+              if (themeType == ThemeType.GlamLight)
+                const Divider(
+                  color: Colors.black,
+                  thickness: 1,
+                ),
             ],
           ),
         ),
@@ -141,7 +153,7 @@ class TeamMember extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    String? themeNo = _salonProfileProvider.theme;
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -155,7 +167,7 @@ class TeamMember extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                (themeNo == '4' || themeNo == '5' || themeNo == '6') ? RectangleTeamAvatar(image: image) : CircularTeamAvatar(image: image),
+                avatar(themeType, image),
 
                 const SizedBox(height: 15),
                 Text(
@@ -198,19 +210,34 @@ class TeamMember extends ConsumerWidget {
   }
 }
 
-class CircularTeamAvatar extends StatelessWidget {
+Widget avatar(ThemeType themeType, String? image) {
+  switch (themeType) {
+    case ThemeType.Barbershop:
+      return RectangleTeamAvatar(image: image);
+
+    default:
+      return CircularTeamAvatar(image: image);
+  }
+}
+
+class CircularTeamAvatar extends ConsumerWidget {
   final String? image;
 
   const CircularTeamAvatar({Key? key, required this.image}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+
+    ThemeType themeType = _salonProfileProvider.themeType;
+
     return Container(
       height: 100,
       width: 100,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: AppTheme.white, // coolGrey,
+        border: (themeType == ThemeType.GlamLight) ? Border.all(color: Colors.black) : null,
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(100),

@@ -1,10 +1,11 @@
 // ignore_for_file: use_full_hex_values_for_flutter_colors
 
+import 'package:bbblient/src/views/themes/glam_one/core/utils/color_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+// Theme 1 ThemeData
 class GlamOneTheme {
-  // Theme 1 ThemeData
   static const Color textBlack = Color(0xff0E141E);
   static const Color lightBlack = Color(0xff1E2D3D);
   static const Color redishPink = Color(0xffff006e);
@@ -23,7 +24,7 @@ class GlamOneTheme {
     primaryColor: primaryColor1,
     primaryColorDark: deepOrange,
     primaryColorLight: primaryColor1,
-    // backgroundColor: primaryColor1,
+    backgroundColor: ColorConstant.black900,
     scaffoldBackgroundColor: Colors.black,
     textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
     tabBarTheme: TabBarTheme(
@@ -73,7 +74,7 @@ class GlamOneTheme {
       backgroundColor: Colors.white,
       titleTextStyle: bodyText1,
       iconTheme: const IconThemeData(
-        color: textBlack,
+        color: Colors.white,
       ),
     ),
     dividerColor: const Color(0XFFF48B72),
@@ -157,7 +158,7 @@ class GlamOneTheme {
       backgroundColor: Colors.white,
       titleTextStyle: bodyText1,
       iconTheme: const IconThemeData(
-        color: textBlack,
+        color: Colors.white,
       ),
     ),
     dividerColor: const Color(0XFFF48B72),

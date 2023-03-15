@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // Theme 5 ThemeData
 class GlamLightTheme {
+  static const Color themeBackgroundColor = Color(0XFFFFF5F1);
+
   static const Color textBlack = Color(0xff0E141E);
   static const Color lightBlack = Color(0xff1E2D3D);
   static const Color redishPink = Color(0xffff006e);
@@ -23,16 +25,15 @@ class GlamLightTheme {
     primaryColor: primaryColor1,
     primaryColorDark: primaryColor1,
     primaryColorLight: Colors.black87,
-
-    // backgroundColor: Colors.black,
+    backgroundColor: themeBackgroundColor,
     scaffoldBackgroundColor: Colors.black,
     textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
 
     tabBarTheme: TabBarTheme(
-      unselectedLabelColor: Colors.white,
-      labelColor: Colors.black,
+      unselectedLabelColor: Colors.black,
+      labelColor: Colors.white,
       labelStyle: bodyText1.copyWith(
-        color: Colors.black,
+        color: Colors.white,
         fontWeight: FontWeight.w600,
       ),
       indicator: BoxDecoration(
@@ -40,13 +41,13 @@ class GlamLightTheme {
         color: primaryColor1,
       ),
     ),
-    bottomAppBarColor: Colors.transparent, // Color of divider on appbar
+    bottomAppBarColor: Colors.black, // Color of divider on appbar
     dialogBackgroundColor: Colors.black,
-    cardColor: Colors.black,
+    cardColor: themeBackgroundColor,
     colorScheme: ColorScheme(
       primary: (Colors.pink[900])!,
       secondary: primaryColor1, // Color of title text on cards
-      onSecondaryContainer: Colors.white, // Color of sub text on cards
+      onSecondaryContainer: Colors.black, // Color of sub text on cards
 
       surface: Colors.white,
       background: Colors.black,
@@ -71,22 +72,25 @@ class GlamLightTheme {
       subtitle1: subTitle1.copyWith(color: primaryColor1),
       subtitle2: subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
     ),
-    dividerColor: Colors.white,
+    dividerColor: Colors.black,
 
     inputDecorationTheme: InputDecorationTheme(
-      labelStyle: bodyText1.copyWith(color: Colors.white),
-      border: const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.white, width: 1),
+      labelStyle: bodyText1.copyWith(color: Colors.black),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(50),
+        borderSide: const BorderSide(color: Colors.black, width: 1),
       ),
-      enabledBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.white, width: 1),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(50),
+        borderSide: const BorderSide(color: Colors.black, width: 1),
       ),
-      focusedBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.white, width: 1),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(50),
+        borderSide: const BorderSide(color: Colors.black, width: 1),
       ),
-      hintStyle: bodyText1.copyWith(color: Colors.white),
+      hintStyle: bodyText1.copyWith(color: Colors.black),
     ),
-    hintColor: Colors.white,
+    hintColor: Colors.black,
     unselectedWidgetColor: Colors.grey[700], // Color for not valid time slot container
     highlightColor: primaryColor1,
     // Stop
@@ -109,7 +113,7 @@ class GlamLightTheme {
     primaryColorDark: primaryColor1,
     primaryColorLight: Colors.white,
 
-    // backgroundColor: Colors.black,
+    backgroundColor: themeBackgroundColor,
     scaffoldBackgroundColor: Colors.black,
     textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
 
@@ -128,11 +132,11 @@ class GlamLightTheme {
     dialogBackgroundColor: Colors.black,
     bottomAppBarColor: Colors.transparent, // Color of divider on appbar
 
-    cardColor: Colors.black,
+    cardColor: themeBackgroundColor,
     colorScheme: ColorScheme(
       primary: (Colors.pink[900])!,
       secondary: primaryColor1, // Color of title text on cards
-      onSecondaryContainer: Colors.white, // Color of sub text on cards
+      onSecondaryContainer: Colors.black, // Color of sub text on cards
 
       surface: Colors.white,
       background: Colors.black,
@@ -157,22 +161,25 @@ class GlamLightTheme {
       subtitle1: subTitle1.copyWith(color: primaryColor1),
       subtitle2: subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
     ),
-    dividerColor: Colors.white,
+    dividerColor: Colors.black,
 
     inputDecorationTheme: InputDecorationTheme(
       labelStyle: bodyText1.copyWith(color: Colors.white),
-      border: const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.white, width: 1),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(50),
+        borderSide: const BorderSide(color: Colors.black, width: 1),
       ),
-      enabledBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.white, width: 1),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(50),
+        borderSide: const BorderSide(color: Colors.black, width: 1),
       ),
-      focusedBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.white, width: 1),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(50),
+        borderSide: const BorderSide(color: Colors.black, width: 1),
       ),
-      hintStyle: bodyText1.copyWith(color: Colors.white),
+      hintStyle: bodyText1.copyWith(color: Colors.black),
     ),
-    hintColor: Colors.white,
+    hintColor: Colors.black,
     unselectedWidgetColor: Colors.grey[700], // Color for not valid time slot container
     highlightColor: primaryColor1,
     // Stop
@@ -190,28 +197,28 @@ class GlamLightTheme {
   );
 
   static final TextStyle headLine1 = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "VASQUZ",
     fontSize: 100.sp,
     fontWeight: FontWeight.w600,
   );
   static final TextStyle headLine2 = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "VASQUZ",
     fontSize: 50.sp,
     fontWeight: FontWeight.w500,
   );
 
   static final TextStyle headLine3 = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "VASQUZ",
     fontSize: 30.sp,
     fontWeight: FontWeight.w500,
   );
   static final TextStyle headLine4 = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "VASQUZ",
     fontSize: 16.sp,
     fontWeight: FontWeight.w500,
   );
   static final TextStyle headLine5 = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "VASQUZ",
     fontSize: 16.sp,
     fontWeight: FontWeight.w500,
   );

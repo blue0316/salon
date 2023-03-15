@@ -19,6 +19,7 @@ import 'package:bbblient/src/views/themes/glam_one/core/utils/color_constant.dar
 import 'package:bbblient/src/views/themes/glam_one/views/app_bar.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/header.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/profile/write_to_us.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -43,12 +44,13 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final SalonModel chosenSalon = _salonProfileProvider.chosenSalon;
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     return SafeArea(
       top: false,
       bottom: false,
       child: Scaffold(
-        backgroundColor: ColorConstant.black900,
+        backgroundColor: theme.backgroundColor,
         resizeToAvoidBottomInset: false,
         body: SizedBox(
           // width: size.width,
@@ -71,6 +73,7 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                           SalonPromotions(
                             salonPromotionsList: _createAppointmentProvider.salonPromotions,
                           ),
+
                         SalonAbout2(salonModel: chosenSalon),
                         const SalonSponsors(),
                         SalonWorks(salonModel: chosenSalon),
@@ -79,6 +82,7 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                           categories: _salonSearchProvider.categories,
                           categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
                         ),
+
                         const SalonShop(),
                         if (_salonProfileProvider.chosenSalon.ownerType != OwnerType.singleMaster)
                           SalonTeam(
@@ -87,9 +91,9 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                         SalonReviews(salonModel: chosenSalon),
                         WriteToUs(salonModel: chosenSalon),
                         SalonContact(salonModel: chosenSalon),
-                        // SalonSocials(
-                        //   salonModel: chosenSalon,
-                        // ),
+                        // // SalonSocials(
+                        // //   salonModel: chosenSalon,
+                        // // ),
 
                         Padding(
                           padding: const EdgeInsets.only(top: 19, bottom: 15),

@@ -3,6 +3,7 @@ import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/views/themes/icons.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -24,9 +25,10 @@ class ReviewCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     return SizedBox(
       // height: DeviceConstraints.getResponsiveSize(context, 400.h, 400.h, 400.h),
@@ -37,9 +39,10 @@ class ReviewCard extends ConsumerWidget {
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              margin: const EdgeInsets.only(top: 45),
+              margin: EdgeInsets.only(top: DeviceConstraints.getResponsiveSize(context, 40, 40, 45)),
               padding: const EdgeInsets.symmetric(horizontal: 5),
               decoration: BoxDecoration(
+                color: theme.backgroundColor,
                 border: Border.all(color: theme.primaryColor, width: 2),
               ),
               child: Padding(
@@ -50,12 +53,7 @@ class ReviewCard extends ConsumerWidget {
                     Expanded(
                       flex: 0,
                       child: Text(
-                        ((reviewUser == null ||
-                                    reviewUser == '' ||
-                                    reviewUser!.isEmpty)
-                                ? 'bnb user'
-                                : reviewUser!)
-                            .toUpperCase(),
+                        ((reviewUser == null || reviewUser == '' || reviewUser!.isEmpty) ? 'bnb user' : reviewUser!).toUpperCase(),
                         style: theme.textTheme.bodyText1?.copyWith(
                           fontSize: 20.sp,
                           fontWeight: FontWeight.w600,
@@ -85,54 +83,54 @@ class ReviewCard extends ConsumerWidget {
                         },
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Align(
-                          alignment: Alignment.bottomLeft,
-                          child: SvgPicture.asset(
-                            ThemeIcons.leftQuote,
-                            height: 15,
-                            color: theme.primaryColor,
-                          ),
-                        ),
-                        SizedBox(
-                          width: DeviceConstraints.getResponsiveSize(
-                              context, 200.w, 200.w, 80.w),
-                          child: Text(
-                            review ?? '',
-                            maxLines: 3,
-                            textAlign: TextAlign.center,
-                            overflow: TextOverflow.ellipsis,
-                            style: theme.textTheme.subtitle1?.copyWith(
-                              fontSize: 20.sp,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white,
-                              letterSpacing: -0.8,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Align(
+                            alignment: Alignment.bottomLeft,
+                            child: SvgPicture.asset(
+                              ThemeIcons.leftQuote,
+                              height: 15,
+                              color: theme.primaryColor,
                             ),
                           ),
-                        ),
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: SvgPicture.asset(
-                            ThemeIcons.rightQuote,
-                            height: 15,
-                            color: theme.primaryColor,
+                          SizedBox(
+                            width: DeviceConstraints.getResponsiveSize(context, 200.w, 200.w, 80.w),
+                            child: Text(
+                              review ?? '',
+                              maxLines: 3,
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,
+                              style: theme.textTheme.subtitle1?.copyWith(
+                                fontSize: DeviceConstraints.getResponsiveSize(context, 17.sp, 20.sp, 20.sp),
+                                fontWeight: FontWeight.w400,
+                                color: (themeType == ThemeType.GlamLight) ? Colors.black : Colors.white,
+                                letterSpacing: -0.8,
+                              ),
+                            ),
                           ),
-                        ),
-                      ],
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: SvgPicture.asset(
+                              ThemeIcons.rightQuote,
+                              height: 15,
+                              color: theme.primaryColor,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    const SizedBox(height: 20),
+                    // const SizedBox(height: 20),
                   ],
                 ),
               ),
             ),
           ),
           Container(
-            height:
-                DeviceConstraints.getResponsiveSize(context, 65.h, 65.h, 70.h),
-            width:
-                DeviceConstraints.getResponsiveSize(context, 65.h, 65.h, 70.h),
+            height: DeviceConstraints.getResponsiveSize(context, 65.h, 65.h, 70.h),
+            width: DeviceConstraints.getResponsiveSize(context, 65.h, 65.h, 70.h),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(color: theme.primaryColor, width: 2),
@@ -169,8 +167,7 @@ class ReviewCardWithoutAvatar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     return SizedBox(
@@ -187,10 +184,7 @@ class ReviewCardWithoutAvatar extends ConsumerWidget {
             Expanded(
               flex: 0,
               child: Text(
-                ((reviewUser == null || reviewUser == '' || reviewUser!.isEmpty)
-                        ? 'bnb user'
-                        : reviewUser!)
-                    .toUpperCase(),
+                ((reviewUser == null || reviewUser == '' || reviewUser!.isEmpty) ? 'bnb user' : reviewUser!).toUpperCase(),
                 style: theme.textTheme.bodyText1?.copyWith(
                   fontSize: 20.sp,
                   fontWeight: FontWeight.w600,
@@ -236,8 +230,7 @@ class ReviewCardWithoutAvatar extends ConsumerWidget {
                       ),
                     ),
                     SizedBox(
-                      width: DeviceConstraints.getResponsiveSize(
-                          context, 200.w, 200.w, 80.w),
+                      width: DeviceConstraints.getResponsiveSize(context, 200.w, 200.w, 80.w),
                       child: Text(
                         review ?? '',
                         maxLines: 3,

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,8 +18,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SalonTags extends ConsumerStatefulWidget {
   final List<String> additionalFeatures;
-  const SalonTags({Key? key, required this.additionalFeatures})
-      : super(key: key);
+  const SalonTags({Key? key, required this.additionalFeatures}) : super(key: key);
 
   @override
   ConsumerState<SalonTags> createState() => _SalonTagsState();
@@ -51,9 +51,7 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
     double distanceDifference = maxExtent - _scrollController.offset;
     double durationDouble = distanceDifference / speedFactor;
 
-    _scrollController.animateTo(_scrollController.position.maxScrollExtent,
-        duration: Duration(seconds: durationDouble.toInt()),
-        curve: Curves.linear);
+    _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: Duration(seconds: durationDouble.toInt()), curve: Curves.linear);
   }
 
   _toggleScrolling() {
@@ -65,8 +63,7 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
       if (scroll) {
         _scroll();
       } else {
-        _scrollController.animateTo(_scrollController.offset,
-            duration: const Duration(seconds: 1), curve: Curves.linear);
+        _scrollController.animateTo(_scrollController.offset, duration: const Duration(seconds: 1), curve: Curves.linear);
       }
     }
   }
@@ -80,77 +77,73 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
 
   @override
   Widget build(BuildContext context) {
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     pageController = PageController(
-      viewportFraction:
-          DeviceConstraints.getResponsiveSize(context, 0.5, 0.4, 0.3),
+      viewportFraction: DeviceConstraints.getResponsiveSize(context, 0.5, 0.4, 0.3),
     );
 
-    List<String> aFeatured = [
-      ...widget.additionalFeatures,
-      ...widget.additionalFeatures,
-      ...widget.additionalFeatures
-    ];
+    List<String> aFeatured = [...widget.additionalFeatures, ...widget.additionalFeatures, ...widget.additionalFeatures];
 
     return Padding(
       padding: const EdgeInsets.only(top: 20, bottom: 50),
-      child: Column(
-        children: [
-          Divider(color: theme.dividerColor, thickness: 2),
-          SizedBox(
-            height: 60,
-            child: NotificationListener(
-              onNotification: (notif) {
-                if (notif is ScrollEndNotification && scroll) {
-                  Timer(const Duration(seconds: 1), () {
-                    _scroll();
-                  });
-                }
+      child: RotationTransition(
+        turns: AlwaysStoppedAnimation(themeType == ThemeType.GlamLight ? 3 / 360 : 0),
+        child: Column(
+          children: [
+            Divider(color: theme.dividerColor, thickness: 2),
+            SizedBox(
+              height: 60,
+              child: NotificationListener(
+                onNotification: (notif) {
+                  if (notif is ScrollEndNotification && scroll) {
+                    Timer(const Duration(seconds: 1), () {
+                      _scroll();
+                    });
+                  }
 
-                return true;
-              },
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                controller: _scrollController,
-                child: Row(
-                  children: aFeatured
-                      .map((item) => Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 10),
-                                  child: Text(
-                                    item,
-                                    //  convertLowerCamelCase(widget.additionalFeatures[item]),
-                                    style: theme.textTheme.bodyText1?.copyWith(
-                                      color: theme.dividerColor,
-                                      fontSize: 18.sp,
+                  return true;
+                },
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  controller: _scrollController,
+                  child: Row(
+                    children: aFeatured
+                        .map((item) => Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 10),
+                                    child: Text(
+                                      item,
+                                      //  convertLowerCamelCase(widget.additionalFeatures[item]),
+                                      style: theme.textTheme.bodyText1?.copyWith(
+                                        color: theme.dividerColor,
+                                        fontSize: 18.sp,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  height: 8.h,
-                                  width: 8.h,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: theme.dividerColor),
-                                ),
-                              ],
-                            ),
-                          ))
-                      .toList(),
+                                  Container(
+                                    height: 8.h,
+                                    width: 8.h,
+                                    decoration: BoxDecoration(shape: BoxShape.circle, color: theme.dividerColor),
+                                  ),
+                                ],
+                              ),
+                            ))
+                        .toList(),
+                  ),
                 ),
               ),
             ),
-          ),
-          Divider(color: theme.dividerColor, thickness: 2),
-        ],
+            Divider(color: theme.dividerColor, thickness: 2),
+          ],
+        ),
       ),
     );
   }

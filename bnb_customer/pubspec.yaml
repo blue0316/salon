@@ -95,6 +95,7 @@ dependencies:
   uuid: ^3.0.5
   vibration: ^1.7.4-nullsafety.0
   google_maps: ^6.2.0
+  before_after_image_slider_nullsafty: ^1.0.1
 
 dev_dependencies:
   build_runner: ^2.1.4
@@ -162,5 +163,10 @@ flutter:
         - asset: assets/fonts/VASQUZ-ITALIC.ttf
         - asset: assets/fonts/VASQUZ.otf
         - asset: assets/fonts/VASQUZ.ttf
+    - family: Jost
+      fonts:
+        - asset: assets/fonts/Jost-Medium.ttf
+        - asset: assets/fonts/Jost-Regular.ttf
+        - asset: assets/fonts/Jost-SemiBold.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

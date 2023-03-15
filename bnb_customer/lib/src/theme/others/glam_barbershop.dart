@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:bbblient/src/views/themes/glam_one/core/utils/color_constant.dart';
 
 // Theme 2 ThemeData
 class GlamBarberShopTheme {
@@ -23,8 +24,7 @@ class GlamBarberShopTheme {
     primaryColor: primaryColor1,
     primaryColorDark: primaryColor1,
     primaryColorLight: Colors.white,
-
-    // backgroundColor: Colors.black,
+    backgroundColor: const Color(0XFF101010),
     scaffoldBackgroundColor: Colors.black,
     textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
 
@@ -96,7 +96,7 @@ class GlamBarberShopTheme {
       backgroundColor: Colors.white,
       titleTextStyle: bodyText1,
       iconTheme: const IconThemeData(
-        color: Colors.black,
+        color: Colors.white,
       ),
     ),
     focusColor: lightGrey,
@@ -109,8 +109,7 @@ class GlamBarberShopTheme {
     primaryColor: primaryColor1,
     primaryColorDark: primaryColor1,
     primaryColorLight: Colors.white,
-
-    // backgroundColor: Colors.black,
+    backgroundColor: const Color(0XFF101010),
     scaffoldBackgroundColor: Colors.black,
     textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
 
@@ -182,7 +181,7 @@ class GlamBarberShopTheme {
       backgroundColor: Colors.white,
       titleTextStyle: bodyText1,
       iconTheme: const IconThemeData(
-        color: Colors.black,
+        color: Colors.white,
       ),
     ),
     focusColor: lightGrey,

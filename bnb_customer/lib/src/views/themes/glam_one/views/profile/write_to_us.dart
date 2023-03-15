@@ -7,10 +7,12 @@ import 'dart:math' as math;
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/themes/components/widgets.dart/button.dart';
+import 'package:bbblient/src/views/themes/components/widgets.dart/oval_button.dart';
 import 'package:bbblient/src/views/themes/images.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/profile/widgets/custom_text_form_field.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
+import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -30,10 +32,10 @@ class _WriteToUsState extends ConsumerState<WriteToUs> {
   Widget build(BuildContext context) {
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
     final bool isLandScape = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.landScape);
+    final bool isTab = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab);
 
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    // final String? themeNo = _salonProfileProvider.theme;
 
     ThemeType themeType = _salonProfileProvider.themeType;
 
@@ -55,22 +57,53 @@ class _WriteToUsState extends ConsumerState<WriteToUs> {
             vertical: 100,
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                (AppLocalizations.of(
-                          context,
-                        )?.writeToUsAndWeWillHelpYouDecideOnTheService ??
-                        "Write to us and we will help you decide on the service")
-                    .toUpperCase(),
-                textAlign: TextAlign.center,
-                style: theme.textTheme.headline2?.copyWith(
-                  color: theme.colorScheme.secondary,
-                  fontWeight: FontWeight.w600,
-                  fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 45.sp, 60.sp),
-                ),
-              ),
+              (themeType == ThemeType.GlamLight && isTab)
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "We will help you".toUpperCase(),
+                          textAlign: TextAlign.center,
+                          style: theme.textTheme.headline2?.copyWith(
+                            color: theme.colorScheme.secondary,
+                            fontWeight: FontWeight.w600,
+                            fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 45.sp, 60.sp),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        Padding(
+                          padding: EdgeInsets.only(left: 80.w),
+                          child: Text(
+                            "decide on the service".toUpperCase(),
+                            textAlign: TextAlign.center,
+                            style: theme.textTheme.headline2?.copyWith(
+                              color: theme.colorScheme.secondary,
+                              fontWeight: FontWeight.w600,
+                              fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 45.sp, 60.sp),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  : Center(
+                      child: Text(
+                        (AppLocalizations.of(
+                                  context,
+                                )?.writeToUsAndWeWillHelpYouDecideOnTheService ??
+                                "Write to us and we will help you decide on the service")
+                            .toUpperCase(),
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.headline2?.copyWith(
+                          color: theme.colorScheme.secondary,
+                          fontWeight: FontWeight.w600,
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 45.sp, 60.sp),
+                        ),
+                      ),
+                    ),
               const SizedBox(height: 60),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -210,7 +243,7 @@ class _WriteToUsState extends ConsumerState<WriteToUs> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 40),
                           Align(
                             alignment: Alignment.center,
                             child: _salonProfileProvider.enquiryStatus == Status.loading
@@ -218,31 +251,26 @@ class _WriteToUsState extends ConsumerState<WriteToUs> {
                                     child: SizedBox(
                                       height: 30,
                                       width: 30,
-                                      child: CircularProgressIndicator(
-                                        color: theme.primaryColorDark,
-                                      ),
+                                      child: CircularProgressIndicator(color: theme.primaryColorDark),
                                     ),
                                   )
-                                : SquareButton(
-                                    height: 50,
-                                    // width: (isPortrait) ? 350.w : null, // DeviceConstraints.getResponsiveSize(context, 0, 120.w, 70.w),
-                                    text: AppLocalizations.of(context)?.submitEnquiry ?? "Submit an Enquiry",
-                                    onTap: () => _salonProfileProvider.sendEnquiryToSalon(context, salonId: widget.salonModel.salonId),
-                                    buttonColor: theme.primaryColorDark,
-                                    borderColor: theme.primaryColorDark,
-                                    borderRadius: (themeType == ThemeType.GlamBarbershop || themeType == ThemeType.Barbershop) ? 0 : 25,
-                                  ),
-                            // child: CustomButton(
-                            //   height: 51,
-                            //   width: (isPortrait) ? 350.w : 70.w,
-                            //   text: "Submit an Enquiry",
-                            //   margin: const EdgeInsets.only(top: 30, bottom: 5),
-                            //   variant: ButtonVariant.FillDeeporange300,
-
-                            // ),
-
-                            //  (_salonProfileProvider.chosenSalon.selectedTheme == 2)
-                            //       ?
+                                : themeType == ThemeType.GlamLight
+                                    ? OvalButton(
+                                        text: 'Submit',
+                                        onTap: () => _salonProfileProvider.sendEnquiryToSalon(
+                                          context,
+                                          salonId: widget.salonModel.salonId,
+                                        ),
+                                      )
+                                    : SquareButton(
+                                        height: 50,
+                                        // width: (isPortrait) ? 350.w : null, // DeviceConstraints.getResponsiveSize(context, 0, 120.w, 70.w),
+                                        text: AppLocalizations.of(context)?.submitEnquiry ?? "Submit an Enquiry",
+                                        onTap: () => _salonProfileProvider.sendEnquiryToSalon(context, salonId: widget.salonModel.salonId),
+                                        buttonColor: theme.primaryColorDark,
+                                        borderColor: theme.primaryColorDark,
+                                        borderRadius: (themeType == ThemeType.GlamBarbershop || themeType == ThemeType.Barbershop) ? 0 : 25,
+                                      ),
                           ),
                         ],
                       ),
@@ -270,6 +298,18 @@ class _WriteToUsState extends ConsumerState<WriteToUs> {
                     ),
                 ],
               ),
+
+              // Section Divider
+              if (themeType == ThemeType.GlamLight)
+                Space(
+                  factor: DeviceConstraints.getResponsiveSize(context, 3, 4, 6),
+                ),
+
+              if (themeType == ThemeType.GlamLight)
+                const Divider(
+                  color: Colors.black,
+                  thickness: 1,
+                ),
             ],
           ),
         ),

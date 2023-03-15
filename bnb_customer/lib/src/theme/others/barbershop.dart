@@ -1,10 +1,13 @@
 // ignore_for_file: use_full_hex_values_for_flutter_colors
 
+import 'package:bbblient/src/views/themes/glam_one/core/utils/color_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // Theme 4 ThemeData
 class BarbershopTheme {
+  static Color themeBackgroundColor = ColorConstant.black900;
+
   static const Color textBlack = Color(0xff0E141E);
   static const Color lightBlack = Color(0xff1E2D3D);
   static const Color redishPink = Color(0xffff006e);
@@ -23,8 +26,7 @@ class BarbershopTheme {
     primaryColor: primaryColor1,
     primaryColorDark: primaryColor1,
     primaryColorLight: Colors.white,
-
-    // backgroundColor: Colors.black,
+    backgroundColor: const Color(0XFF0A0A0A),
     scaffoldBackgroundColor: Colors.black,
     textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
 
@@ -95,7 +97,7 @@ class BarbershopTheme {
       backgroundColor: Colors.white,
       titleTextStyle: bodyText1,
       iconTheme: const IconThemeData(
-        color: Colors.black,
+        color: Colors.white,
       ),
     ),
     focusColor: lightGrey,
@@ -109,7 +111,7 @@ class BarbershopTheme {
     primaryColorDark: primaryColor1,
     primaryColorLight: Colors.white,
 
-    // backgroundColor: Colors.black,
+    backgroundColor: const Color(0XFF0A0A0A),
     scaffoldBackgroundColor: Colors.black,
     textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
 
@@ -181,7 +183,7 @@ class BarbershopTheme {
       backgroundColor: Colors.white,
       titleTextStyle: bodyText1,
       iconTheme: const IconThemeData(
-        color: Colors.black,
+        color: Colors.white,
       ),
     ),
     focusColor: lightGrey,

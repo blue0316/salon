@@ -8,6 +8,8 @@ import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/keys.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/booking_dialog_2.dart';
 import 'package:bbblient/src/views/themes/components/widgets.dart/button.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
+import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -30,8 +32,7 @@ class SalonPrice222 extends ConsumerStatefulWidget {
   _SalonPrice222State createState() => _SalonPrice222State();
 }
 
-class _SalonPrice222State extends ConsumerState<SalonPrice222>
-    with SingleTickerProviderStateMixin {
+class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTickerProviderStateMixin {
   TabController? tabController;
   int _selectedTabbar = 0;
 
@@ -49,13 +50,13 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222>
   @override
   Widget build(BuildContext context) {
     final _createAppointmentProvider = ref.read(createAppointmentProvider);
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     // Check if Salon is a single master
-    final bool isSingleMaster =
-        (widget.salonModel.ownerType == OwnerType.singleMaster);
+    final bool isSingleMaster = (widget.salonModel.ownerType == OwnerType.singleMaster);
+
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     return DefaultTabController(
       length: _createAppointmentProvider.categoriesAvailable.length,
@@ -71,11 +72,10 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222>
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              isSingleMaster
-                  ? (AppLocalizations.of(context)?.price ?? 'Price')
-                  : (AppLocalizations.of(context)?.ourPrice ?? 'Our Price')
-                      .toUpperCase(),
-              style: theme.textTheme.headline2?.copyWith(),
+              isSingleMaster ? (AppLocalizations.of(context)?.price ?? 'Price') : (AppLocalizations.of(context)?.ourPrice ?? 'Our Price').toUpperCase(),
+              style: theme.textTheme.headline2?.copyWith(
+                fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),
+              ),
             ),
             const SizedBox(height: 50),
             (_createAppointmentProvider.categoriesAvailable.isNotEmpty)
@@ -92,23 +92,21 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222>
                             });
                           },
                           controller: tabController,
-                          unselectedLabelColor:
-                              theme.tabBarTheme.unselectedLabelColor,
+                          unselectedLabelColor: theme.tabBarTheme.unselectedLabelColor,
                           labelColor: theme.tabBarTheme.labelColor,
                           labelStyle: theme.textTheme.bodyText1?.copyWith(
                             color: theme.tabBarTheme.labelColor,
                             fontWeight: FontWeight.w600,
                           ),
-                          indicator: BoxDecoration(
-                            color: theme.primaryColor,
-                            border: Border(
-                              bottom: BorderSide(
-                                  width: 1.5, color: theme.primaryColorDark),
-                            ),
-                          ),
+                          indicator: servicesTabBarTheme(themeType, theme),
+                          //  BoxDecoration(
+                          //   color: theme.primaryColor,
+                          //   border: Border(
+                          //     bottom: BorderSide(width: 1.5, color: theme.primaryColorDark),
+                          //   ),
+                          // ),
                           isScrollable: true,
-                          labelPadding:
-                              const EdgeInsets.symmetric(horizontal: 50),
+                          labelPadding: const EdgeInsets.symmetric(horizontal: 50),
                           tabs: _createAppointmentProvider.categoriesAvailable
                               .map(
                                 (item) => Tab(text: item.categoryName),
@@ -122,12 +120,9 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222>
                     padding: const EdgeInsets.symmetric(vertical: 20),
                     child: Center(
                       child: Text(
-                        (AppLocalizations.of(context)?.noServicesAvailable ??
-                                'No services available')
-                            .toUpperCase(),
+                        (AppLocalizations.of(context)?.noServicesAvailable ?? 'No services available').toUpperCase(),
                         style: theme.textTheme.bodyText1?.copyWith(
-                          fontSize: DeviceConstraints.getResponsiveSize(
-                              context, 20.sp, 20.sp, 20.sp),
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
                         ),
                       ),
                     ),
@@ -136,11 +131,8 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222>
             (_createAppointmentProvider.categoriesAvailable.isNotEmpty)
                 ? Builder(
                     builder: (_) {
-                      for (List<ServiceModel> serviceList
-                          in _createAppointmentProvider.servicesAvailable) {
-                        if (_selectedTabbar ==
-                            _createAppointmentProvider.servicesAvailable
-                                .indexOf(serviceList)) {
+                      for (List<ServiceModel> serviceList in _createAppointmentProvider.servicesAvailable) {
+                        if (_selectedTabbar == _createAppointmentProvider.servicesAvailable.indexOf(serviceList)) {
                           return ServiceAndPrice(listOfServices: serviceList);
                         }
                       }
@@ -149,6 +141,18 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222>
                     },
                   )
                 : const SizedBox.shrink(),
+
+            // Section Divider
+
+            if (themeType == ThemeType.GlamLight)
+              Space(
+                factor: DeviceConstraints.getResponsiveSize(context, 8, 8, 10),
+              ),
+            if (themeType == ThemeType.GlamLight)
+              const Divider(
+                color: Colors.black,
+                thickness: 1,
+              ),
           ],
         ),
       ),
@@ -156,15 +160,31 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222>
   }
 }
 
+BoxDecoration servicesTabBarTheme(ThemeType themeType, ThemeData theme) {
+  switch (themeType) {
+    case ThemeType.GlamLight:
+      return BoxDecoration(
+        color: theme.primaryColor,
+        borderRadius: BorderRadius.circular(60),
+      );
+
+    default:
+      return BoxDecoration(
+        color: theme.primaryColor,
+        border: Border(
+          bottom: BorderSide(width: 1.5, color: theme.primaryColorDark),
+        ),
+      );
+  }
+}
+
 class ServiceAndPrice extends ConsumerWidget {
   final List<ServiceModel> listOfServices;
-  const ServiceAndPrice({Key? key, required this.listOfServices})
-      : super(key: key);
+  const ServiceAndPrice({Key? key, required this.listOfServices}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     return SizedBox(
@@ -178,10 +198,8 @@ class ServiceAndPrice extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                (AppLocalizations.of(context)?.service ?? 'Service')
-                    .trim()
-                    .toUpperCase(),
-                style: theme.textTheme.headline3?.copyWith(
+                (AppLocalizations.of(context)?.service ?? 'Service').trim().toUpperCase(),
+                style: theme.textTheme.bodyText1?.copyWith(
                   color: theme.primaryColorDark,
                   fontSize: 20.sp,
                   letterSpacing: 1,
@@ -189,7 +207,7 @@ class ServiceAndPrice extends ConsumerWidget {
               ),
               Text(
                 AppLocalizations.of(context)?.price ?? 'Price'.toUpperCase(),
-                style: theme.textTheme.headline3?.copyWith(
+                style: theme.textTheme.bodyText1?.copyWith(
                   color: theme.primaryColorDark,
                   fontSize: 20.sp,
                   letterSpacing: 1,
@@ -210,8 +228,7 @@ class ServiceAndPrice extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 35),
-          (_salonProfileProvider.theme == '2' ||
-                  _salonProfileProvider.theme == '4')
+          (_salonProfileProvider.theme == '2' || _salonProfileProvider.theme == '4')
               ? Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -247,10 +264,10 @@ class ServiceTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
+    ThemeType themeType = _salonProfileProvider.themeType;
     return Container(
       color: Colors.transparent,
       child: Padding(
@@ -269,10 +286,7 @@ class ServiceTile extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        service.translations[
-                                AppLocalizations.of(context)?.localeName ??
-                                    'en']
-                            .toString(),
+                        service.translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
                         style: theme.textTheme.bodyText1?.copyWith(
                           color: theme.primaryColor,
                           fontSize: 20.sp,
@@ -281,9 +295,7 @@ class ServiceTile extends ConsumerWidget {
                       if (_createAppointmentProvider.isAdded(
                         serviceModel: service,
                       ))
-                        SizedBox(
-                            width: DeviceConstraints.getResponsiveSize(
-                                context, 5, 5, 30)),
+                        SizedBox(width: DeviceConstraints.getResponsiveSize(context, 5, 5, 30)),
                       Icon(
                         Icons.check,
                         size: 20.sp,
@@ -297,11 +309,9 @@ class ServiceTile extends ConsumerWidget {
                   ),
                 ),
                 Text(
-                  service.isFixedPrice
-                      ? "${service.priceAndDuration.price}${Keys.uah}"
-                      : "${service.priceAndDuration.price}${Keys.uah} - ${service.priceAndDurationMax!.price}${Keys.uah}",
+                  service.isFixedPrice ? "${service.priceAndDuration.price}${Keys.uah}" : "${service.priceAndDuration.price}${Keys.uah} - ${service.priceAndDurationMax!.price}${Keys.uah}",
                   style: theme.textTheme.bodyText1?.copyWith(
-                    color: Colors.white,
+                    color: (themeType == ThemeType.GlamLight) ? Colors.black : Colors.white,
                     fontSize: 20.sp,
                   ),
                 ),
@@ -310,7 +320,7 @@ class ServiceTile extends ConsumerWidget {
             const SizedBox(height: 10),
             Divider(
               color: theme.primaryColor,
-              thickness: 2,
+              thickness: 1,
             ),
           ],
         ),

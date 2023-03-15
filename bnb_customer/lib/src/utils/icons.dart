@@ -3,6 +3,7 @@ import 'package:bbblient/src/models/backend_codings/salon_features.dart';
 class AppIcons {
   static const String loadingIcon = "assets/icons/loading_icon.gif";
   static const String bookNow = "assets/icons/book_now.svg";
+  static const String horizontalBookNow = "assets/themes/glam_one/svg/horizontal_oval.svg";
 
   static const String done1GIF = "assets/icons/done1.gif";
   static const String failGIF = "assets/icons/fail.gif";

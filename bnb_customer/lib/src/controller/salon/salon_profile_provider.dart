@@ -79,6 +79,7 @@ class SalonProfileProvider with ChangeNotifier {
     '2', // Glam Barbershop
     '3', // Glam Gradient
     '4', // Barbershop
+    '5', // Glam Light
   };
 
   dynamic getTheme() {

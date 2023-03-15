@@ -4,6 +4,7 @@ import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/app_bar.dart';
 import 'package:bbblient/src/views/themes/icons.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,8 +18,7 @@ class ContactSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     return Column(
@@ -30,15 +30,12 @@ class ContactSection extends ConsumerWidget {
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.left,
           style: theme.textTheme.headline2?.copyWith(
-            fontSize: DeviceConstraints.getResponsiveSize(
-                context, 26.sp, 26.sp, 20.sp),
+            fontSize: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
           ),
         ),
         const SizedBox(height: 10),
-        if (salonModel.phoneNumber != '')
-          ContactCard(icon: ThemeIcons.phone, value: salonModel.phoneNumber),
-        if (salonModel.email != '')
-          ContactCard(icon: ThemeIcons.mail, value: salonModel.email),
+        if (salonModel.phoneNumber != '') ContactCard(icon: ThemeIcons.phone, value: salonModel.phoneNumber),
+        if (salonModel.email != '') ContactCard(icon: ThemeIcons.mail, value: salonModel.email),
       ],
     );
   }
@@ -46,14 +43,13 @@ class ContactSection extends ConsumerWidget {
 
 class ContactCard extends ConsumerWidget {
   final String icon, value;
-  const ContactCard({Key? key, required this.icon, required this.value})
-      : super(key: key);
+  const ContactCard({Key? key, required this.icon, required this.value}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 7),
@@ -63,16 +59,17 @@ class ContactCard extends ConsumerWidget {
         children: [
           SvgPicture.asset(
             icon,
-            height: DeviceConstraints.getResponsiveSize(
-                context, 20.sp, 20.sp, 20.sp),
+            height: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
             color: theme.primaryColorDark,
           ),
           const SizedBox(width: 15),
           Flexible(
             child: Text(
               value,
-              style: theme.textTheme.bodyText1
-                  ?.copyWith(color: Colors.white, fontSize: 20.sp),
+              style: theme.textTheme.bodyText1?.copyWith(
+                color: (themeType == ThemeType.GlamLight) ? Colors.black : Colors.white,
+                fontSize: 20.sp,
+              ),
             ),
           ),
         ],
@@ -88,8 +85,7 @@ class VisitUs extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     return Column(
@@ -103,8 +99,7 @@ class VisitUs extends ConsumerWidget {
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.left,
           style: theme.textTheme.headline2?.copyWith(
-            fontSize: DeviceConstraints.getResponsiveSize(
-                context, 26.sp, 26.sp, 20.sp),
+            fontSize: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
           ),
         ),
         const SizedBox(height: 10),
@@ -121,8 +116,7 @@ class SocialNetwork extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     return Column(
@@ -131,14 +125,12 @@ class SocialNetwork extends ConsumerWidget {
       children: [
         Text(
           // "SOCIAL NETWORK",
-          (AppLocalizations.of(context)?.socialNetwork ?? 'Social Network')
-              .toUpperCase(),
+          (AppLocalizations.of(context)?.socialNetwork ?? 'Social Network').toUpperCase(),
 
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.left,
           style: theme.textTheme.headline2?.copyWith(
-            fontSize: DeviceConstraints.getResponsiveSize(
-                context, 26.sp, 26.sp, 26.sp),
+            fontSize: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 26.sp),
           ),
         ),
         const SizedBox(height: 10),
@@ -149,24 +141,21 @@ class SocialNetwork extends ConsumerWidget {
             Socials(
               socialIcon: ThemeIcons.insta,
               socialUrl: salonModel.links?.instagram,
-              height: DeviceConstraints.getResponsiveSize(
-                  context, 26.sp, 26.sp, 26.sp),
+              height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 26.sp),
               color: theme.dividerColor,
             ),
             const SizedBox(width: 20),
             Socials(
               socialIcon: ThemeIcons.tiktok,
               socialUrl: salonModel.links?.facebookMessenger,
-              height: DeviceConstraints.getResponsiveSize(
-                  context, 26.sp, 26.sp, 26.sp),
+              height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 26.sp),
               color: theme.dividerColor,
             ),
             const SizedBox(width: 20),
             Socials(
               socialIcon: ThemeIcons.whatsapp,
               socialUrl: salonModel.links?.whatsapp,
-              height: DeviceConstraints.getResponsiveSize(
-                  context, 26.sp, 26.sp, 26.sp),
+              height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 26.sp),
               color: theme.dividerColor,
             ),
           ],

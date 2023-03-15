@@ -12,7 +12,7 @@ class CustomerWebSettingsApi {
 
   Future<Map<String, dynamic>> getSalonTheme({required String salonId}) async {
     try {
-      String salonTheme = '';
+      // String salonTheme = '';
 
       QuerySnapshot _response = await Collection.customerWebSettings.where('salonId', isEqualTo: salonId).get();
 

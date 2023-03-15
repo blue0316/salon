@@ -20,18 +20,16 @@ class ThemeAppBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bool isPortrait =
-        (DeviceConstraints.getDeviceType(MediaQuery.of(context)) ==
-            DeviceScreenType.portrait);
+    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
 
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final bool isTab = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab);
+
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal:
-            DeviceConstraints.getResponsiveSize(context, 3.w, 10.w, 15.w),
+        horizontal: DeviceConstraints.getResponsiveSize(context, 3.w, 10.w, 15.w),
         // vertical: DeviceConstraints.getResponsiveSize(context, 5.h, 7.h, 10.h),
       ),
       child: Column(
@@ -42,8 +40,8 @@ class ThemeAppBar extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              if (isPortrait) const Spacer(),
-              if (!isPortrait)
+              if (!isTab) const Spacer(),
+              if (isTab)
                 MouseRegion(
                   cursor: SystemMouseCursors.click,
                   child: Row(
@@ -67,13 +65,11 @@ class ThemeAppBar extends ConsumerWidget {
                     ],
                   ),
                 ),
-              if (!isPortrait) const Spacer(),
+              if (isTab) const Spacer(),
               (salonModel.salonLogo != '')
                   ? SizedBox(
-                      height: DeviceConstraints.getResponsiveSize(
-                          context, 50.h, 50.h, 70.h),
-                      width: DeviceConstraints.getResponsiveSize(
-                          context, 100.w, 100.w, 50.w),
+                      height: DeviceConstraints.getResponsiveSize(context, 50.h, 50.h, 70.h),
+                      width: DeviceConstraints.getResponsiveSize(context, 100.w, 100.w, 50.w),
                       child: CachedImage(
                         url: salonModel.salonLogo,
                         fit: BoxFit.fitHeight,
@@ -105,22 +101,19 @@ class ThemeAppBar extends ConsumerWidget {
   }
 }
 
-class Socials extends StatelessWidget {
+class Socials extends ConsumerWidget {
   final String socialIcon;
   final String? socialUrl;
   final Color? color;
   final double? height;
 
-  const Socials(
-      {Key? key,
-      required this.socialIcon,
-      required this.socialUrl,
-      this.color,
-      this.height})
-      : super(key: key);
+  const Socials({Key? key, required this.socialIcon, required this.socialUrl, this.color, this.height}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
@@ -138,7 +131,7 @@ class Socials extends StatelessWidget {
         child: SvgPicture.asset(
           socialIcon,
           height: height ?? 25.h,
-          color: color,
+          color: theme.appBarTheme.iconTheme!.color,
         ),
       ),
     );

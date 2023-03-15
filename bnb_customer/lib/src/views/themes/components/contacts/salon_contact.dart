@@ -4,6 +4,7 @@ import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/images.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -39,13 +40,15 @@ class _SalonContactState extends ConsumerState<SalonContact> with SingleTickerPr
 
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
-    String? themeNo = _salonProfileProvider.theme;
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     return Container(
-      decoration: (themeNo == '4')
+      decoration: themeType == ThemeType.Barbershop
           ? BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(isPortrait ? ThemeImages.footerLongGradientBG : ThemeImages.footerGradientBG),
+                image: AssetImage(
+                  isPortrait ? ThemeImages.footerLongGradientBG : ThemeImages.footerGradientBG,
+                ),
                 fit: BoxFit.cover,
               ),
             )
