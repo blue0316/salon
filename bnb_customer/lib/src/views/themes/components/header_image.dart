@@ -3,6 +3,7 @@ import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/images.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,11 +16,13 @@ class ThemeHeaderImage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     String? themeNo = _salonProfileProvider.theme;
+    ThemeType themeType = _salonProfileProvider.themeType;
+
     return SizedBox(
       height:
           DeviceConstraints.getResponsiveSize(context, 1000.h, 1000.h, 1000.h),
       width: double.infinity,
-      child: themeNo == '4'
+      child: (themeType == ThemeType.Barbershop)
           ? const GradientBackground()
           : _salonProfileProvider.chosenSalon.profilePics.isNotEmpty
               ? FilteredImage(salonProfileProvider: _salonProfileProvider)
@@ -56,13 +59,7 @@ class DefaultImageBG extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ColorFiltered(
-      colorFilter: ColorFilter.mode(
-        Colors.black.withOpacity(0.3),
-        BlendMode.dstATop,
-      ),
-      child: Image.asset(image, fit: BoxFit.cover),
-    );
+    return Image.asset(image, fit: BoxFit.fitHeight);
   }
 }
 
