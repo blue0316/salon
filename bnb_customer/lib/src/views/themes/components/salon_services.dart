@@ -6,11 +6,11 @@ import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/keys.dart';
-import 'package:bbblient/src/views/themes/components/widgets.dart/button.dart';
+import 'package:bbblient/src/views/themes/components/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:bbblient/src/views/themes/components/widgets.dart/oval_button.dart';
+import 'package:bbblient/src/views/themes/components/widgets/oval_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 //-----  FORMER FILE  //-----
@@ -311,7 +311,9 @@ class ServiceTile extends ConsumerWidget {
                       ],
                     ),
                     Text(
-                      service.isFixedPrice ? "${Keys.dollars}${service.priceAndDuration.price}" : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}",
+                      service.isFixedPrice
+                          ? "${Keys.dollars}${service.priceAndDuration.price}"
+                          : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}",
                       style: theme.textTheme.bodyText1?.copyWith(
                         color: Colors.white,
                         fontSize: 20.sp,

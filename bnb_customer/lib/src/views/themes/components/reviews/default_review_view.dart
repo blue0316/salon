@@ -30,8 +30,8 @@ class _DefaultReviewsViewState extends ConsumerState<DefaultReviewsView> {
       padding: EdgeInsets.only(
         left: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
         right: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
-        top: 60,
-        bottom: 100,
+        top: DeviceConstraints.getResponsiveSize(context, 140.h, 180.h, 200.h),
+        // bottom: DeviceConstraints.getResponsiveSize(context, 140.h, 180.h, 200.h),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -2,6 +2,8 @@ import 'package:bbblient/src/theme/others/barbershop.dart';
 import 'package:bbblient/src/theme/others/glam_barbershop.dart';
 import 'package:bbblient/src/theme/others/glam_gradient.dart';
 import 'package:bbblient/src/theme/others/glam_light.dart';
+import 'package:bbblient/src/theme/others/glam_minimal_dark.dart';
+import 'package:bbblient/src/theme/others/glam_minimal_light.dart';
 import 'package:bbblient/src/theme/others/glam_one.dart';
 import 'package:flutter/material.dart';
 
@@ -77,5 +79,34 @@ ThemeData getGlamLightTheme(String colorCode) {
 
     default:
       return GlamLightTheme.mainTheme;
+  }
+}
+
+// Theme 6 - GLAM MINIMAL LIGHT
+ThemeData getGlamMinimalLightTheme(String colorCode) {
+  switch (colorCode) {
+    case 'FFC692':
+      return GlamMinimalLight.mainTheme;
+    case 'blublu':
+      return GlamMinimalLight.theme2;
+    // case 'FFC692':
+    //   return GlamOneTheme.glamOneTheme;
+
+    default:
+      return GlamMinimalLight.mainTheme;
+  }
+} // Theme 6 - GLAM MINIMAL DARK
+
+ThemeData getGlamMinimalDarkTheme(String colorCode) {
+  switch (colorCode) {
+    case 'FFC692':
+      return GlamMinimalDark.mainTheme;
+    case 'blublu':
+      return GlamMinimalDark.theme2;
+    // case 'FFC692':
+    //   return GlamOneTheme.glamOneTheme;
+
+    default:
+      return GlamMinimalLight.mainTheme;
   }
 }

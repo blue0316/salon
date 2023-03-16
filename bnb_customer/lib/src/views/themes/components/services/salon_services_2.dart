@@ -5,16 +5,14 @@ import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
-import 'package:bbblient/src/utils/keys.dart';
-import 'package:bbblient/src/views/salon/booking/dialog_flow/booking_dialog_2.dart';
-import 'package:bbblient/src/views/themes/components/widgets.dart/button.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:bbblient/src/views/themes/components/widgets.dart/oval_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'widgets/service_tile.dart';
+import 'widgets/widgets.dart';
 
 class SalonPrice222 extends ConsumerStatefulWidget {
   final SalonModel salonModel;
@@ -64,8 +62,8 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
         padding: EdgeInsets.only(
           left: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
           right: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
-          top: DeviceConstraints.getResponsiveSize(context, 40, 60, 70),
-          bottom: DeviceConstraints.getResponsiveSize(context, 20, 20, 10),
+          top: DeviceConstraints.getResponsiveSize(context, 90.h, 100.h, 120.h),
+          // bottom: DeviceConstraints.getResponsiveSize(context, 20, 20, 10),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -93,10 +91,17 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
                           },
                           controller: tabController,
                           unselectedLabelColor: theme.tabBarTheme.unselectedLabelColor,
+
                           labelColor: theme.tabBarTheme.labelColor,
                           labelStyle: theme.textTheme.bodyText1?.copyWith(
                             color: theme.tabBarTheme.labelColor,
                             fontWeight: FontWeight.w600,
+                            fontSize: 20.sp,
+                          ),
+                          unselectedLabelStyle: theme.textTheme.bodyText1?.copyWith(
+                            color: theme.tabBarTheme.unselectedLabelColor,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 20.sp,
                           ),
                           indicator: servicesTabBarTheme(themeType, theme),
                           //  BoxDecoration(
@@ -160,24 +165,6 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
   }
 }
 
-BoxDecoration servicesTabBarTheme(ThemeType themeType, ThemeData theme) {
-  switch (themeType) {
-    case ThemeType.GlamLight:
-      return BoxDecoration(
-        color: theme.primaryColor,
-        borderRadius: BorderRadius.circular(60),
-      );
-
-    default:
-      return BoxDecoration(
-        color: theme.primaryColor,
-        border: Border(
-          bottom: BorderSide(width: 1.5, color: theme.primaryColorDark),
-        ),
-      );
-  }
-}
-
 class ServiceAndPrice extends ConsumerWidget {
   final List<ServiceModel> listOfServices;
   const ServiceAndPrice({Key? key, required this.listOfServices}) : super(key: key);
@@ -186,7 +173,7 @@ class ServiceAndPrice extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
-
+    ThemeType themeType = _salonProfileProvider.themeType;
     return SizedBox(
       // height: 100,
       width: double.infinity,
@@ -228,102 +215,12 @@ class ServiceAndPrice extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 35),
-          (_salonProfileProvider.theme == '2' || _salonProfileProvider.theme == '4')
-              ? Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SquareButton(
-                      text: 'BOOK NOW',
-                      height: 60.h,
-                      buttonColor: theme.primaryColor,
-                      borderColor: Colors.transparent,
-                      textColor: Colors.black,
-                      onTap: () => const BookingDialogWidget222().show(context),
-                    ),
-                  ],
-                )
-              : OvalButton(
-                  width: 180.h,
-                  height: 60.h,
-                  textSize: 18.sp,
-                  text: 'Book Now',
-                  onTap: () => const BookingDialogWidget222().show(context),
-                )
+          bookNowButtonTheme(
+            context,
+            themeType: themeType,
+            theme: theme,
+          ),
         ],
-      ),
-    );
-  }
-}
-
-class ServiceTile extends ConsumerWidget {
-  final ServiceModel service;
-
-  const ServiceTile({Key? key, required this.service}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final _createAppointmentProvider = ref.watch(createAppointmentProvider);
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
-    final ThemeData theme = _salonProfileProvider.salonTheme;
-
-    ThemeType themeType = _salonProfileProvider.themeType;
-    return Container(
-      color: Colors.transparent,
-      child: Padding(
-        padding: const EdgeInsets.only(top: 15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        service.translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
-                        style: theme.textTheme.bodyText1?.copyWith(
-                          color: theme.primaryColor,
-                          fontSize: 20.sp,
-                        ),
-                      ),
-                      if (_createAppointmentProvider.isAdded(
-                        serviceModel: service,
-                      ))
-                        SizedBox(width: DeviceConstraints.getResponsiveSize(context, 5, 5, 30)),
-                      Icon(
-                        Icons.check,
-                        size: 20.sp,
-                        color: _createAppointmentProvider.isAdded(
-                          serviceModel: service,
-                        )
-                            ? theme.primaryColorDark //  GlamOneTheme.deepOrange
-                            : Colors.transparent,
-                      ),
-                    ],
-                  ),
-                ),
-                Text(
-                  service.isFixedPrice ? "${service.priceAndDuration.price}${Keys.uah}" : "${service.priceAndDuration.price}${Keys.uah} - ${service.priceAndDurationMax!.price}${Keys.uah}",
-                  style: theme.textTheme.bodyText1?.copyWith(
-                    color: (themeType == ThemeType.GlamLight) ? Colors.black : Colors.white,
-                    fontSize: 20.sp,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Divider(
-              color: theme.primaryColor,
-              thickness: 1,
-            ),
-          ],
-        ),
       ),
     );
   }

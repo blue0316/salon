@@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'default_review_view.dart';
+import 'minimal_review.dart';
 
 class SalonReviews extends ConsumerStatefulWidget {
   final SalonModel salonModel;
@@ -38,12 +39,7 @@ class _SalonReviewsState extends ConsumerState<SalonReviews> {
   }
 }
 
-Widget reviewsSectionTheme(
-  context, {
-  required ThemeType themeType,
-  required SalonModel salon,
-  required CarouselController controller,
-}) {
+Widget reviewsSectionTheme(context, {required ThemeType themeType, required SalonModel salon, required CarouselController controller}) {
   switch (themeType) {
     case ThemeType.GlamLight:
       return Stack(
@@ -60,6 +56,12 @@ Widget reviewsSectionTheme(
           DefaultReviewsView(salonModel: salon, controller: controller),
         ],
       );
+
+    case ThemeType.GlamMinimalLight:
+      return MinimalReviewView(salonModel: salon, controller: controller);
+
+    case ThemeType.GlamMinimalDark:
+      return MinimalReviewView(salonModel: salon, controller: controller);
 
     default:
       return DefaultReviewsView(salonModel: salon, controller: controller);

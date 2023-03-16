@@ -1,6 +1,6 @@
 import 'package:bbblient/src/models/promotions/promotion_service.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
-import 'package:bbblient/src/views/themes/components/widgets.dart/oval_button.dart';
+import 'package:bbblient/src/views/themes/components/widgets/oval_button.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';

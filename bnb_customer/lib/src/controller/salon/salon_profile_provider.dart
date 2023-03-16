@@ -59,8 +59,8 @@ class SalonProfileProvider with ChangeNotifier {
       chosenSalon = (await _salonApi.getSalonFromId(salonId))!;
       // await Time().setTimeSlot(chosenSalon.timeSlotsInterval);
       themeSettings = await CustomerWebSettingsApi().getSalonTheme(salonId: salonId);
-      theme = themeSettings['id']; // TODO: REFACTOR: USE THEME TYPE GENERALLY
-      themeType = getThemeTypeEnum(themeSettings['id']);
+      theme = themeSettings['testId']; // TODO: REFACTOR: USE THEME TYPE GENERALLY
+      themeType = getThemeTypeEnum(themeSettings['testId']);
 
       await getSalonReviews(salonId: salonId);
       await getProductsData(context, salonId: salonId);
@@ -80,6 +80,8 @@ class SalonProfileProvider with ChangeNotifier {
     '3', // Glam Gradient
     '4', // Barbershop
     '5', // Glam Light
+    '6', // Glam Minimal Light
+    '7', // Glam Minimal Dark
   };
 
   dynamic getTheme() {
@@ -116,6 +118,20 @@ class SalonProfileProvider with ChangeNotifier {
         case '5':
           salonTheme = getGlamLightTheme(themeSettings['colorCode']);
           themeType = ThemeType.GlamLight;
+
+          notifyListeners();
+          break;
+
+        case '6':
+          salonTheme = getGlamMinimalLightTheme(themeSettings['colorCode']);
+          themeType = ThemeType.GlamMinimalLight;
+
+          notifyListeners();
+          break;
+
+        case '7':
+          salonTheme = getGlamMinimalDarkTheme(themeSettings['colorCode']);
+          themeType = ThemeType.GlamMinimalDark;
 
           notifyListeners();
           break;

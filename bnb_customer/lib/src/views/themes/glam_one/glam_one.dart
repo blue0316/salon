@@ -9,8 +9,8 @@ import 'package:bbblient/src/views/themes/components/about/salon_about.dart';
 import 'package:bbblient/src/views/themes/components/contacts/salon_contact.dart';
 import 'package:bbblient/src/views/themes/components/promotions/salon_promotions.dart';
 import 'package:bbblient/src/views/themes/components/reviews/salon_reviews.dart';
-import 'package:bbblient/src/views/themes/components/salon_services_2.dart';
-import 'package:bbblient/src/views/themes/components/salon_shop.dart';
+import 'package:bbblient/src/views/themes/components/services/salon_services_2.dart';
+import 'package:bbblient/src/views/themes/components/shop/salon_shop.dart';
 import 'package:bbblient/src/views/themes/components/salon_sponsors.dart';
 import 'package:bbblient/src/views/themes/components/salon_tags.dart';
 import 'package:bbblient/src/views/themes/components/salon_team.dart';
@@ -18,7 +18,7 @@ import 'package:bbblient/src/views/themes/components/salon_works.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/color_constant.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/app_bar.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/header.dart';
-import 'package:bbblient/src/views/themes/glam_one/views/profile/write_to_us.dart';
+import 'package:bbblient/src/views/themes/components/write_to_us/write_to_us.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -64,19 +64,19 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        const LandingHeader(),
-                        if (chosenSalon.additionalFeatures.isNotEmpty)
-                          SalonTags(
-                            additionalFeatures: chosenSalon.additionalFeatures,
-                          ),
-                        if (_createAppointmentProvider.salonPromotions.isNotEmpty)
-                          SalonPromotions(
-                            salonPromotionsList: _createAppointmentProvider.salonPromotions,
-                          ),
+                        // const LandingHeader(),
+                        // if (chosenSalon.additionalFeatures.isNotEmpty)
+                        //   SalonTags(
+                        //     additionalFeatures: chosenSalon.additionalFeatures,
+                        //   ),
+                        // if (_createAppointmentProvider.salonPromotions.isNotEmpty)
+                        //   SalonPromotions(
+                        //     salonPromotionsList: _createAppointmentProvider.salonPromotions,
+                        //   ),
 
-                        SalonAbout2(salonModel: chosenSalon),
-                        const SalonSponsors(),
-                        SalonWorks(salonModel: chosenSalon),
+                        // SalonAbout2(salonModel: chosenSalon),
+                        // const SalonSponsors(),
+                        // SalonWorks(salonModel: chosenSalon),
                         SalonPrice222(
                           salonModel: chosenSalon,
                           categories: _salonSearchProvider.categories,
@@ -84,13 +84,13 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                         ),
 
                         const SalonShop(),
-                        if (_salonProfileProvider.chosenSalon.ownerType != OwnerType.singleMaster)
-                          SalonTeam(
-                            salonModel: chosenSalon,
-                          ),
-                        SalonReviews(salonModel: chosenSalon),
-                        WriteToUs(salonModel: chosenSalon),
-                        SalonContact(salonModel: chosenSalon),
+                        // if (_salonProfileProvider.chosenSalon.ownerType != OwnerType.singleMaster)
+                        //   SalonTeam(
+                        //     salonModel: chosenSalon,
+                        //   ),
+                        // SalonReviews(salonModel: chosenSalon),
+                        // WriteToUs(salonModel: chosenSalon),
+                        // SalonContact(salonModel: chosenSalon),
                         // // SalonSocials(
                         // //   salonModel: chosenSalon,
                         // // ),

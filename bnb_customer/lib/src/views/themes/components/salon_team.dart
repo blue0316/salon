@@ -22,132 +22,111 @@ class SalonTeam extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final size = MediaQuery.of(context).size;
     final _salonSearchProvider = ref.watch(salonSearchProvider);
     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
 
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     ThemeType themeType = _salonProfileProvider.themeType;
 
-    return Padding(
-      padding: EdgeInsets.only(
-        top: DeviceConstraints.getResponsiveSize(context, 40, 60, 70),
-        bottom: DeviceConstraints.getResponsiveSize(context, 30, 40, 50),
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: (themeType == ThemeType.GlamGradient) ? null : theme.cardColor,
+        gradient: (themeType == ThemeType.GlamGradient)
+            ? const LinearGradient(
+                colors: [Color(0XFFFFDA92), Color(0XFFF48B72)],
+              )
+            : null,
       ),
-      child: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: (themeType == ThemeType.GlamGradient) ? null : theme.cardColor,
-          gradient: (themeType == ThemeType.GlamGradient)
-              ? const LinearGradient(
-                  colors: [Color(0XFFFFDA92), Color(0XFFF48B72)],
-                )
-              : null,
+      child: Padding(
+        padding: EdgeInsets.only(
+          left: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 30.w),
+          right: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 30.w),
+          top: DeviceConstraints.getResponsiveSize(context, 140.h, 180.h, 200.h),
+          // bottom: DeviceConstraints.getResponsiveSize(context, 140.h, 180.h, 200.h),
         ),
-        child: Padding(
-          padding: EdgeInsets.only(
-            left:
-                DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 30.w),
-            right:
-                DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 30.w),
-            top:
-                DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
-            bottom:
-                DeviceConstraints.getResponsiveSize(context, 60.h, 90.h, 100.h),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Center(
-                child: Text(
-                  (AppLocalizations.of(context)?.ourTeam ?? 'Our Team')
-                      .toUpperCase(),
-                  style: theme.textTheme.headline2?.copyWith(
-                    color: theme.colorScheme.secondary,
-                    fontSize: DeviceConstraints.getResponsiveSize(
-                        context, 40.sp, 40.sp, 50.sp),
-                  ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Text(
+                (AppLocalizations.of(context)?.ourTeam ?? 'Our Team').toUpperCase(),
+                style: theme.textTheme.headline2?.copyWith(
+                  color: theme.colorScheme.secondary,
+                  fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),
                 ),
               ),
-              const Space(factor: 6),
-              Center(
-                child: Container(
-                  height: DeviceConstraints.getResponsiveSize(
-                      context, 230.h, 230.h, 210.h),
-                  alignment: Alignment.center,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    physics: const BouncingScrollPhysics(),
-                    shrinkWrap: true,
-                    separatorBuilder: (context, index) {
-                      return const SizedBox(width: 20);
-                    },
-                    itemCount:
-                        4, // _createAppointmentProvider.salonMasters.length,
-                    itemBuilder: (context, index) {
-                      // Get All Salon Masters
-                      List<MasterModel> _filteredMasters =
-                          _createAppointmentProvider.salonMasters;
+            ),
+            const Space(factor: 4),
+            Center(
+              child: Container(
+                height: size.height * 0.30, // DeviceConstraints.getResponsiveSize(context, 230.h, 230.h, 210.h),
+                alignment: Alignment.center,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(width: 20);
+                  },
+                  itemCount: _createAppointmentProvider.salonMasters.length,
+                  itemBuilder: (context, index) {
+                    // Get All Salon Masters
+                    List<MasterModel> _filteredMasters = _createAppointmentProvider.salonMasters;
 
-                      // Find Master Service
-                      // a master might have multiple services (but I just picked the first index to show on landing page)
-                      List<CategoryModel> categories = _salonSearchProvider
-                          .categories; // All available Categories
+                    // Find Master Service
+                    // a master might have multiple services (but I just picked the first index to show on landing page)
+                    List<CategoryModel> categories = _salonSearchProvider.categories; // All available Categories
 
-                      // Previous implementation to show only one service
-                      // String masterCategoryId = _filteredMasters[index].categoryIds![0]; // Master category id
-                      // Find master category id in all categories and pick the first one to display
-                      // String? masterService = categories
-                      //     .firstWhere(
-                      //       (item) => item.categoryId == masterCategoryId,
-                      //     )
-                      //     .translations[AppLocalizations.of(context)?.localeName];
+                    // Previous implementation to show only one service
+                    // String masterCategoryId = _filteredMasters[index].categoryIds![0]; // Master category id
+                    // Find master category id in all categories and pick the first one to display
+                    // String? masterService = categories
+                    //     .firstWhere(
+                    //       (item) => item.categoryId == masterCategoryId,
+                    //     )
+                    //     .translations[AppLocalizations.of(context)?.localeName];
 
-                      List<String> masterCategoryIds =
-                          _filteredMasters[index].categoryIds!;
-                      if (masterCategoryIds.length > 2) {
-                        masterCategoryIds.removeRange(
-                            2, masterCategoryIds.length);
-                      }
+                    List<String> masterCategoryIds = _filteredMasters[index].categoryIds!;
+                    if (masterCategoryIds.length > 2) {
+                      masterCategoryIds.removeRange(2, masterCategoryIds.length);
+                    }
 
-                      List<CategoryModel> masterCategories = [];
-                      for (String id in masterCategoryIds) {
-                        masterCategories.add(categories
-                            .firstWhere((element) => element.categoryId == id));
-                      }
+                    List<CategoryModel> masterCategories = [];
+                    for (String id in masterCategoryIds) {
+                      masterCategories.add(categories.firstWhere((element) => element.categoryId == id));
+                    }
 
-                      if (_filteredMasters.isNotEmpty) {
-                        return TeamMember(
-                          name: Utils().getNameMaster(
-                              _filteredMasters[index].personalInfo),
-                          services:
-                              masterCategories, // masterService, // "Hairdresser",
-                          image: _filteredMasters[index].profilePicUrl,
-                        );
-                      } else {
-                        return const SizedBox();
-                      }
-                    },
-                  ),
+                    if (_filteredMasters.isNotEmpty) {
+                      return TeamMember(
+                        name: Utils().getNameMaster(_filteredMasters[index].personalInfo),
+                        services: masterCategories, // masterService, // "Hairdresser",
+                        image: _filteredMasters[index].profilePicUrl,
+                      );
+                    } else {
+                      return const SizedBox();
+                    }
+                  },
                 ),
               ),
+            ),
 
-              // Section Divider
+            // Section Divider
 
-              if (themeType == ThemeType.GlamLight)
-                Space(
-                  factor: DeviceConstraints.getResponsiveSize(context, 4, 5, 9),
-                ),
-              if (themeType == ThemeType.GlamLight)
-                const Divider(
-                  color: Colors.black,
-                  thickness: 1,
-                ),
-            ],
-          ),
+            if (themeType == ThemeType.GlamLight)
+              Space(
+                factor: DeviceConstraints.getResponsiveSize(context, 4, 5, 9),
+              ),
+            if (themeType == ThemeType.GlamLight)
+              const Divider(
+                color: Colors.black,
+                thickness: 1,
+              ),
+          ],
         ),
       ),
     );
@@ -167,8 +146,7 @@ class TeamMember extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     ThemeType themeType = _salonProfileProvider.themeType;
 
@@ -213,8 +191,7 @@ class TeamMember extends ConsumerWidget {
           children: services
               .map(
                 (item) => Text(
-                  item.translations[AppLocalizations.of(context)?.localeName] ??
-                      '',
+                  item.translations[AppLocalizations.of(context)?.localeName] ?? '',
                   style: theme.textTheme.subtitle2?.copyWith(
                     color: theme.colorScheme.onSecondaryContainer,
                     fontSize: 15.sp,
@@ -232,6 +209,10 @@ Widget avatar(ThemeType themeType, String? image) {
   switch (themeType) {
     case ThemeType.Barbershop:
       return RectangleTeamAvatar(image: image);
+    case ThemeType.GlamMinimalLight:
+      return RectangleTeamAvatar(image: image);
+    case ThemeType.GlamMinimalDark:
+      return RectangleTeamAvatar(image: image);
 
     default:
       return CircularTeamAvatar(image: image);
@@ -245,8 +226,7 @@ class CircularTeamAvatar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
     ThemeType themeType = _salonProfileProvider.themeType;
 
@@ -256,9 +236,7 @@ class CircularTeamAvatar extends ConsumerWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: AppTheme.white, // coolGrey,
-        border: (themeType == ThemeType.GlamLight)
-            ? Border.all(color: Colors.black)
-            : null,
+        border: (themeType == ThemeType.GlamLight) ? Border.all(color: Colors.black) : null,
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(100),

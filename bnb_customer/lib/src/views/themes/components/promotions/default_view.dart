@@ -11,20 +11,18 @@ import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/promotions/promotion_service.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/salon/salon_home/salon_profile.dart';
-import 'package:bbblient/src/views/themes/components/widgets.dart/button.dart';
+import 'package:bbblient/src/views/themes/components/widgets/button.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bbblient/src/views/themes/components/widgets.dart/oval_button.dart';
+import 'package:bbblient/src/views/themes/components/widgets/oval_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DefaultPromotionsView extends ConsumerStatefulWidget {
   final List<PromotionModel> salonPromotionsList;
 
-  const DefaultPromotionsView({Key? key, required this.salonPromotionsList})
-      : super(key: key);
+  const DefaultPromotionsView({Key? key, required this.salonPromotionsList}) : super(key: key);
 
   @override
-  ConsumerState<DefaultPromotionsView> createState() =>
-      _DefaultPromotionsViewState();
+  ConsumerState<DefaultPromotionsView> createState() => _DefaultPromotionsViewState();
 }
 
 class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
@@ -61,28 +59,18 @@ class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final bool isPortrait =
-        (DeviceConstraints.getDeviceType(MediaQuery.of(context)) ==
-            DeviceScreenType.portrait);
+    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
 
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     //
-    String promotionDiscount =
-        _createAppointmentProvider.salonPromotions[0].promotionDiscount ?? '0';
-    String discountUnit =
-        _createAppointmentProvider.salonPromotions[0].discountUnit == "PCT(%)"
-            ? '%'
-            : '₴';
-    String promotionDescription =
-        '${_createAppointmentProvider.salonPromotions[0].promotionDescription}';
+    String promotionDiscount = _createAppointmentProvider.salonPromotions[0].promotionDiscount ?? '0';
+    String discountUnit = _createAppointmentProvider.salonPromotions[0].discountUnit == "PCT(%)" ? '%' : '₴';
+    String promotionDescription = '${_createAppointmentProvider.salonPromotions[0].promotionDescription}';
 
-    pageController = PageController(
-        viewportFraction:
-            DeviceConstraints.getResponsiveSize(context, 0.8, 0.5, 0.35));
+    pageController = PageController(viewportFraction: DeviceConstraints.getResponsiveSize(context, 0.8, 0.5, 0.35));
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,11 +80,9 @@ class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              AppLocalizations.of(context)?.promotions ??
-                  'Promotions'.toUpperCase(),
+              AppLocalizations.of(context)?.promotions ?? 'Promotions'.toUpperCase(),
               style: theme.textTheme.headline2?.copyWith(
-                fontSize: DeviceConstraints.getResponsiveSize(
-                    context, 40.sp, 40.sp, 50.sp),
+                fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),
               ),
             ),
             PrevAndNext(
@@ -104,8 +90,7 @@ class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
                 double? index = pageController.page;
 
                 setState(() {
-                  PromotionModel temp = widget.salonPromotionsList
-                      .removeAt(widget.salonPromotionsList.length - 1);
+                  PromotionModel temp = widget.salonPromotionsList.removeAt(widget.salonPromotionsList.length - 1);
 
                   widget.salonPromotionsList.insert(index!.toInt(), temp);
                 });
@@ -120,8 +105,7 @@ class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
                 double? index = pageController.page;
 
                 setState(() {
-                  PromotionModel temp =
-                      widget.salonPromotionsList.removeAt(index!.toInt());
+                  PromotionModel temp = widget.salonPromotionsList.removeAt(index!.toInt());
 
                   widget.salonPromotionsList.add(temp);
                 });
@@ -142,11 +126,9 @@ class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "${AppLocalizations.of(context)?.discounts ?? "Discounts"}  $promotionDiscount $discountUnit"
-                    .toUpperCase(),
+                "${AppLocalizations.of(context)?.discounts ?? "Discounts"}  $promotionDiscount $discountUnit".toUpperCase(),
                 style: theme.textTheme.headline3?.copyWith(
-                  fontSize: DeviceConstraints.getResponsiveSize(
-                      context, 30.sp, 22.sp, 28.sp),
+                  fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 22.sp, 28.sp),
                 ),
               ),
               const SizedBox(height: 10),
@@ -160,8 +142,7 @@ class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
                 ),
               ),
               const SizedBox(height: 10),
-              (_salonProfileProvider.theme == '2' ||
-                      _salonProfileProvider.theme == '4')
+              (_salonProfileProvider.theme == '2' || _salonProfileProvider.theme == '4')
                   ? SquareButton(
                       text: 'GET A DISCOUNT',
                       height: 50.h,
@@ -189,18 +170,15 @@ class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(
-                width: DeviceConstraints.getResponsiveSize(
-                    context, 0, size.width * 0.25, size.width * 0.15),
+                width: DeviceConstraints.getResponsiveSize(context, 0, size.width * 0.25, size.width * 0.15),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "${AppLocalizations.of(context)?.discounts ?? "Discounts"}  $promotionDiscount $discountUnit"
-                          .toUpperCase(),
+                      "${AppLocalizations.of(context)?.discounts ?? "Discounts"}  $promotionDiscount $discountUnit".toUpperCase(),
                       style: theme.textTheme.headline3?.copyWith(
-                        fontSize: DeviceConstraints.getResponsiveSize(
-                            context, 30.sp, 22.sp, 28.sp),
+                        fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 22.sp, 28.sp),
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -214,8 +192,7 @@ class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    (_salonProfileProvider.theme == '2' ||
-                            _salonProfileProvider.theme == '4')
+                    (_salonProfileProvider.theme == '2' || _salonProfileProvider.theme == '4')
                         ? SquareButton(
                             text: 'GET A DISCOUNT',
                             height: 50.h,
@@ -239,8 +216,7 @@ class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
               Expanded(
                 flex: 0,
                 child: SizedBox(
-                  width: DeviceConstraints.getResponsiveSize(context,
-                      size.width - 40.w, size.width * 0.55, size.width * 0.5),
+                  width: DeviceConstraints.getResponsiveSize(context, size.width - 40.w, size.width * 0.55, size.width * 0.5),
                   child: PageView(
                     scrollDirection: Axis.horizontal,
                     controller: pageController,
@@ -253,17 +229,13 @@ class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
                         child: (widget.salonPromotionsList.indexOf(item) == 0)
                             ? LandscapePageViewElement(
                                 image: '${item.promotionImage}',
-                                text:
-                                    getPromotionType(type: item.promotionType!),
+                                text: getPromotionType(type: item.promotionType!),
                               )
                             : ColorFiltered(
-                                colorFilter: ColorFilter.mode(
-                                    Colors.black.withOpacity(0.1),
-                                    BlendMode.dstATop),
+                                colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.1), BlendMode.dstATop),
                                 child: LandscapePageViewElement(
                                   image: '${item.promotionImage}',
-                                  text: getPromotionType(
-                                      type: item.promotionType!),
+                                  text: getPromotionType(type: item.promotionType!),
                                 ),
                               ),
                       );
@@ -282,14 +254,11 @@ class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
 class LandscapePageViewElement extends ConsumerWidget {
   final String image, text;
 
-  const LandscapePageViewElement(
-      {Key? key, required this.image, required this.text})
-      : super(key: key);
+  const LandscapePageViewElement({Key? key, required this.image, required this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     //

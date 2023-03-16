@@ -6,7 +6,6 @@ import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ReviewBuilder extends ConsumerStatefulWidget {
   final CarouselController controller;

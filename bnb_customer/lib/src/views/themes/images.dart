@@ -54,4 +54,9 @@ class ThemeImages {
   static const footerLongGradientBG = 'assets/themes/glam_one/images/footer_long_gradient_bg.png';
 
   static const glamLightEllipse = 'assets/themes/glam_one/svg/glam_light_ellipse.svg';
+
+  // Minimal Theme
+  static const minimalBackground = 'assets/themes/glam_one/images/glam_minimal_bg.png';
+
+  static const writeAboutBG = 'assets/themes/glam_one/images/minimal_write.png';
 }

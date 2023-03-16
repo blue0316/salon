@@ -10,4 +10,19 @@ class ThemeIcons {
   static const String location = 'assets/themes/glam_one/svg/location.svg';
   static const String mail = 'assets/themes/glam_one/svg/mail.svg';
   static const String phone = 'assets/themes/glam_one/svg/phone.svg';
+
+  // Minimal Theme
+  static const String minimalPhone = 'assets/themes/glam_one/svg/glam_minimal_phone.svg';
+
+  static const String minimalMenu = 'assets/themes/glam_one/svg/glam_minimal_menu.svg';
+
+  static const String minimalMail = 'assets/themes/glam_one/svg/glam_minimal_mail.svg';
+
+  static const String minimalLocation = 'assets/themes/glam_one/svg/glam_minimal_location.svg';
+
+  static const String minimalTiktok = 'assets/themes/glam_one/svg/glam_minimal_tiktok.svg';
+
+  static const String minimalFacebook = 'assets/themes/glam_one/svg/glam_minimal_facebook.svg';
+
+  static const String minimalInstagram = 'assets/themes/glam_one/svg/glam_minimal_instagram.svg';
 }
