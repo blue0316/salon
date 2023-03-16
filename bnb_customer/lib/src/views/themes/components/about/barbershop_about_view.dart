@@ -14,18 +14,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class BarbershopAboutUs extends ConsumerWidget {
   final SalonModel salonModel;
 
-  const BarbershopAboutUs({Key? key, required this.salonModel})
-      : super(key: key);
+  const BarbershopAboutUs({Key? key, required this.salonModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bool isPortrait =
-        (DeviceConstraints.getDeviceType(MediaQuery.of(context)) ==
-            DeviceScreenType.portrait);
-    final bool isSingleMaster =
-        (salonModel.ownerType == OwnerType.singleMaster);
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+    final bool isSingleMaster = (salonModel.ownerType == OwnerType.singleMaster);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
@@ -41,13 +36,9 @@ class BarbershopAboutUs extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
-            isSingleMaster
-                ? (AppLocalizations.of(context)?.aboutMe ?? 'About Me')
-                : (AppLocalizations.of(context)?.aboutUs ?? 'About Us')
-                    .toUpperCase(),
+            isSingleMaster ? (AppLocalizations.of(context)?.aboutMe ?? 'About Me') : (AppLocalizations.of(context)?.aboutUs ?? 'About Us').toUpperCase(),
             style: theme.textTheme.headline2?.copyWith(
-              fontSize: DeviceConstraints.getResponsiveSize(
-                  context, 25.sp, 30.sp, 50.sp),
+              fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 30.sp, 50.sp),
             ),
           ),
           SizedBox(height: 50.h),
@@ -83,10 +74,8 @@ class BarbershopAboutUs extends ConsumerWidget {
                     Expanded(
                       flex: 0,
                       child: SizedBox(
-                        height: DeviceConstraints.getResponsiveSize(
-                            context, 0, 150.h, 180.h),
-                        width: DeviceConstraints.getResponsiveSize(
-                            context, 0, 150.w, 100.w),
+                        height: DeviceConstraints.getResponsiveSize(context, 0, 150.h, 180.h),
+                        width: DeviceConstraints.getResponsiveSize(context, 0, 150.w, 100.w),
                         child: salonModel.photosOfWork.isNotEmpty
                             ? CachedImage(
                                 url: salonModel.photosOfWork[0],
@@ -103,16 +92,12 @@ class BarbershopAboutUs extends ConsumerWidget {
                   if (!isPortrait) const SizedBox(width: 30),
                   Flexible(
                     child: Text(
-                      (salonModel.description != '')
-                          ? salonModel.description
-                          : 'No description yet',
+                      (salonModel.description != '') ? salonModel.description : 'No description yet',
                       style: theme.textTheme.bodyText2?.copyWith(
                         color: Colors.white,
                         fontSize: 15.5.sp,
                       ),
-                      maxLines:
-                          DeviceConstraints.getResponsiveSize(context, 20, 7, 7)
-                              .toInt(),
+                      maxLines: DeviceConstraints.getResponsiveSize(context, 20, 7, 7).toInt(),
                     ),
                   ),
                 ],

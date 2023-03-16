@@ -76,8 +76,7 @@ class TermsOfServiceText extends ConsumerWidget {
       text: TextSpan(
         children: [
           TextSpan(
-            // AppLocalizations.of(context)?.termsOfService1 ?? 'We have updated our ', // TODO - LOCALIZE
-            text: "We have updated our ",
+            text: AppLocalizations.of(context)?.termsOfService1 ?? 'We have updated our ',
             style: AppTheme.bodyText1.copyWith(
               fontSize: 15.sp,
               fontWeight: FontWeight.w400,
@@ -85,8 +84,7 @@ class TermsOfServiceText extends ConsumerWidget {
             ),
           ),
           TextSpan(
-            // text: "${AppLocalizations.of(context)?.termsOfService ?? 'Terms of Service '}. ",
-            text: "Terms of Service ",
+            text: "${AppLocalizations.of(context)?.termsOfService ?? 'Terms of Service '}. ",
             style: Theme.of(context).textTheme.bodyText1!.copyWith(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
@@ -94,8 +92,7 @@ class TermsOfServiceText extends ConsumerWidget {
                 ),
           ),
           TextSpan(
-            // text: "${AppLocalizations.of(context)?.and ?? 'and'}. ",
-            text: "and ",
+            text: "${AppLocalizations.of(context)?.and ?? 'and'}. ",
             style: AppTheme.bodyText1.copyWith(
               fontSize: 15.sp,
               fontWeight: FontWeight.w400,
@@ -111,8 +108,7 @@ class TermsOfServiceText extends ConsumerWidget {
                 ),
           ),
           TextSpan(
-            // text: "${AppLocalizations.of(context)?.termsOfService2 ?? 'By continuining to use our service, you accept these terms and policies.'}. ",
-            text: "By continuining to use our service, you accept these terms and policies.",
+            text: "${AppLocalizations.of(context)?.termsOfService2 ?? 'By continuining to use our service, you accept these terms and policies.'}. ",
             style: AppTheme.bodyText1.copyWith(
               fontSize: 15.sp,
               fontWeight: FontWeight.w400,

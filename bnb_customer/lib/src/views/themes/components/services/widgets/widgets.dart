@@ -13,7 +13,7 @@ Color? labelColorTheme(ThemeType themeType, ThemeData theme) {
       return Colors.white;
 
     default:
-      return theme.tabBarTheme.labelColor;
+      return theme.tabBarTheme.labelColor;d
   }
 }
 

@@ -24,6 +24,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'views/profile/socials.dart';
+
 class GlamOneScreen extends ConsumerStatefulWidget {
   static const route = '/glam-one';
 
@@ -83,7 +85,7 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                           categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
                         ),
 
-                        const SalonShop(),
+                        // const SalonShop(),
                         // if (_salonProfileProvider.chosenSalon.ownerType != OwnerType.singleMaster)
                         //   SalonTeam(
                         //     salonModel: chosenSalon,
@@ -91,9 +93,9 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                         // SalonReviews(salonModel: chosenSalon),
                         // WriteToUs(salonModel: chosenSalon),
                         // SalonContact(salonModel: chosenSalon),
-                        // // SalonSocials(
-                        // //   salonModel: chosenSalon,
-                        // // ),
+                        // SalonSocials(
+                        //   salonModel: chosenSalon,
+                        // ),
 
                         Padding(
                           padding: const EdgeInsets.only(top: 19, bottom: 15),

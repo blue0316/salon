@@ -20,21 +20,17 @@ class RegistrationSuccessful extends ConsumerStatefulWidget {
   const RegistrationSuccessful({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<RegistrationSuccessful> createState() =>
-      _RegistrationSuccessfulState();
+  ConsumerState<RegistrationSuccessful> createState() => _RegistrationSuccessfulState();
 }
 
-class _RegistrationSuccessfulState
-    extends ConsumerState<RegistrationSuccessful> {
+class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final AuthProvider _authProvider = ref.watch(authProvider);
-    final CreateAppointmentProvider _createAppointmentProvider =
-        ref.watch(createAppointmentProvider);
+    final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool defaultTheme = (theme == AppTheme.lightTheme);
@@ -44,11 +40,10 @@ class _RegistrationSuccessfulState
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
-          // AppLocalizations.of(context)?.availableMasters.toCapitalized() ?? 'Available masters', // TODO: LOCALIZATIONS
+          // AppLocalizations.of(context)?.verificationSuccessful.toCapitalized() ?? 'Verification was successful!', // TODO: LOCALIZATIONS
           'Verification was successful!',
           style: theme.textTheme.bodyText1!.copyWith(
-            fontSize: DeviceConstraints.getResponsiveSize(
-                context, 20.sp, 20.sp, 20.sp),
+            fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
             color: defaultTheme ? Colors.black : Colors.white,
           ),
         ),
@@ -68,10 +63,7 @@ class _RegistrationSuccessfulState
 
         BNBTextField(
           controller: nameController,
-          hint: AppLocalizations.of(context)
-                  ?.pleaseEnterFirstName
-                  .toCapitalized() ??
-              "Enter first name",
+          hint: AppLocalizations.of(context)?.pleaseEnterFirstName.toCapitalized() ?? "Enter first name",
           borderWidth: 0.7,
           vPadding: 20.h,
           textColor: defaultTheme ? Colors.black : Colors.white,
@@ -96,10 +88,7 @@ class _RegistrationSuccessfulState
 
         BNBTextField(
           controller: emailController,
-          hint: AppLocalizations.of(context)
-                  ?.registration_line4
-                  .toCapitalized() ??
-              "Enter E-mail",
+          hint: AppLocalizations.of(context)?.registration_line4.toCapitalized() ?? "Enter E-mail",
           borderWidth: 0.7,
           vPadding: 20.h,
           textColor: defaultTheme ? Colors.black : Colors.white,
@@ -123,8 +112,7 @@ class _RegistrationSuccessfulState
           onTap: () async {
             // Check if fields are filled
             if (nameController.text.isEmpty) {
-              showToast(AppLocalizations.of(context)?.emptyFields ??
-                  "Field cannot be empty, please fill required field");
+              showToast(AppLocalizations.of(context)?.emptyFields ?? "Field cannot be empty, please fill required field");
               return;
             }
 
@@ -135,8 +123,7 @@ class _RegistrationSuccessfulState
               firstName: nameController.text,
               lastName: currentCustomer.personalInfo.lastName,
               description: currentCustomer.personalInfo.description ?? '',
-              dob: currentCustomer.personalInfo.dob ??
-                  DateTime.now().subtract(const Duration(days: 365 * 26)),
+              dob: currentCustomer.personalInfo.dob ?? DateTime.now().subtract(const Duration(days: 365 * 26)),
               email: emailController.text,
               sex: currentCustomer.personalInfo.sex ?? '',
             );
@@ -168,8 +155,7 @@ class _RegistrationSuccessfulState
                 locale: "en",
                 favSalons: [],
                 referralLink: "");
-            if (_createAppointmentProvider.chosenSalon!.ownerType ==
-                OwnerType.singleMaster) {
+            if (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.singleMaster) {
               await _createAppointmentProvider.createAppointment(
                 customerModel: customer,
                 context: context,
@@ -187,6 +173,8 @@ class _RegistrationSuccessfulState
               // Move to next screen
               _createAppointmentProvider.nextPageView(3);
             } else {
+              // TODO: LOCALIZATION
+              // showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? "Something went wrong, please try again");
               showToast("Something went wrong, please try again");
             }
           },
@@ -194,8 +182,7 @@ class _RegistrationSuccessfulState
           textColor: defaultTheme ? Colors.white : Colors.black,
           height: 60,
           label: AppLocalizations.of(context)?.nextStep ?? 'Next Step',
-          isLoading: (_authProvider.updateCustomerPersonalInfoStatus ==
-              Status.loading),
+          isLoading: (_authProvider.updateCustomerPersonalInfoStatus == Status.loading),
           loaderColor: defaultTheme ? Colors.white : Colors.black,
         ),
         SizedBox(height: 15.h),

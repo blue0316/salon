@@ -34,11 +34,9 @@ class EnterNumber extends ConsumerStatefulWidget {
 class _EnterNumberState extends ConsumerState<EnterNumber> {
   @override
   Widget build(BuildContext context) {
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final AuthProvider _authProvider = ref.watch(authProvider);
-    final CreateAppointmentProvider _createAppointmentProvider =
-        ref.watch(createAppointmentProvider);
+    final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
 
     final _auth = ref.watch(authProvider);
 
@@ -52,8 +50,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
         Text(
           '${AppLocalizations.of(context)?.phoneNumber ?? 'Phone Number'} *',
           style: theme.textTheme.bodyText1!.copyWith(
-            fontSize: DeviceConstraints.getResponsiveSize(
-                context, 20.sp, 20.sp, 20.sp),
+            fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
             color: defaultTheme ? Colors.black : Colors.white,
           ),
         ),
@@ -84,18 +81,14 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                   showCountryOnly: false,
                   showOnlyCountryWhenClosed: false,
                   alignLeft: false,
-                  textStyle: TextStyle(
-                      color: defaultTheme ? Colors.black : Colors.white),
+                  textStyle: TextStyle(color: defaultTheme ? Colors.black : Colors.white),
                   showFlag: false,
                 ),
                 const SizedBox(width: 15),
                 Expanded(
                   child: BNBTextField(
                     controller: _authProvider.phoneNoController,
-                    hint: AppLocalizations.of(context)
-                            ?.phoneNumber
-                            .toCapitalized() ??
-                        "Phone Number",
+                    hint: AppLocalizations.of(context)?.phoneNumber.toCapitalized() ?? "Phone Number",
                     vPadding: 0, // 20.h,
                     border: InputBorder.none,
                     textColor: defaultTheme ? Colors.black : Colors.white,
@@ -110,6 +103,8 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
         ),
         const Space(factor: 1.5),
         Text(
+          // TODO: LOCALIZATIONS
+          // '${AppLocalizations.of(context)?.mandatoryFields ?? '*Mandatory fields'}',
           "*Mandatory fields",
           style: AppTheme.bodyText2.copyWith(
             color: defaultTheme ? AppTheme.textBlack : Colors.white,
@@ -119,8 +114,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
         DefaultButton(
           borderRadius: 60,
           onTap: () async {
-            showToast(
-                AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
+            showToast(AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
 
             // send otp
             if (!_auth.userLoggedIn) {
@@ -130,8 +124,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                 showTopSnackBar(
                   context,
                   CustomSnackBar.success(
-                    message: AppLocalizations.of(context)?.otpSent ??
-                        "Otp has been sent to your phone",
+                    message: AppLocalizations.of(context)?.otpSent ?? "Otp has been sent to your phone",
                     backgroundColor: theme.primaryColor,
                   ),
                 );
@@ -152,13 +145,11 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
 
               CustomerModel? currentCustomer = _auth.currentCustomer;
               if (currentCustomer != null) {
-                if (currentCustomer.personalInfo.firstName == '' ||
-                    currentCustomer.personalInfo.email == null) {
+                if (currentCustomer.personalInfo.firstName == '' || currentCustomer.personalInfo.email == null) {
                   // Customer Personal Info is missing name and email
 
                   // Go to pageview that has fields to update personal info
-                  _createAppointmentProvider.nextPageView(
-                      2); // PageView screen that contains name and email fields
+                  _createAppointmentProvider.nextPageView(2); // PageView screen that contains name and email fields
                 } else {
                   // Customer Personal Info has name and email
 
@@ -181,13 +172,10 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                       locale: "en",
                       favSalons: [],
                       referralLink: "");
-                  if (_createAppointmentProvider.chosenSalon!.ownerType ==
-                      OwnerType.singleMaster) {
-                    await _createAppointmentProvider.createAppointment(
-                        customerModel: customer, context: context);
+                  if (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.singleMaster) {
+                    await _createAppointmentProvider.createAppointment(customerModel: customer, context: context);
                   } else {
-                    await _createAppointmentProvider.creatAppointmentSalonOwner(
-                        customerModel: customer, context: context);
+                    await _createAppointmentProvider.creatAppointmentSalonOwner(customerModel: customer, context: context);
                   }
 
                   // Go to PageView Order List Screen

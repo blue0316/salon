@@ -16,8 +16,7 @@ import 'widgets/day_and_time/day_and_time.dart';
 
 class BookingDialogWidget222<T> extends ConsumerStatefulWidget {
   final bool master;
-  const BookingDialogWidget222({Key? key, this.master = false})
-      : super(key: key);
+  const BookingDialogWidget222({Key? key, this.master = false}) : super(key: key);
 
   Future<void> show(BuildContext context) async {
     await showDialog<T>(
@@ -27,13 +26,10 @@ class BookingDialogWidget222<T> extends ConsumerStatefulWidget {
   }
 
   @override
-  ConsumerState<BookingDialogWidget222<T>> createState() =>
-      _BookingDialogWidget222State<T>();
+  ConsumerState<BookingDialogWidget222<T>> createState() => _BookingDialogWidget222State<T>();
 }
 
-class _BookingDialogWidget222State<T>
-    extends ConsumerState<BookingDialogWidget222<T>>
-    with SingleTickerProviderStateMixin {
+class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget222<T>> with SingleTickerProviderStateMixin {
   TabController? bookingTabController;
   late CreateAppointmentProvider createAppointment11;
 
@@ -48,8 +44,7 @@ class _BookingDialogWidget222State<T>
     createAppointment11 = ref.read(createAppointmentProvider);
     if (createAppointment11.chosenMaster != null) {
       Future.delayed(const Duration(milliseconds: 300), () {
-        createAppointment11.chooseMaster(
-            masterModel: createAppointment11.chosenMaster!, context: context);
+        createAppointment11.chooseMaster(masterModel: createAppointment11.chosenMaster!, context: context);
       });
     }
   }
@@ -63,8 +58,7 @@ class _BookingDialogWidget222State<T>
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context).size;
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool defaultTheme = (theme == AppTheme.lightTheme);
@@ -84,8 +78,7 @@ class _BookingDialogWidget222State<T>
         ),
         child: SizedBox(
           child: Padding(
-            padding:
-                const EdgeInsets.symmetric(vertical: 10), // , horizontal: 5),
+            padding: const EdgeInsets.symmetric(vertical: 10), // , horizontal: 5),
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Column(
@@ -102,22 +95,14 @@ class _BookingDialogWidget222State<T>
                                   context,
                                 )) !=
                                 DeviceScreenType.portrait)
-                            ? AppLocalizations.of(context)
-                                    ?.onlineBooking
-                                    .toUpperCase() ??
-                                'ONLINE BOOKING'
-                            : AppLocalizations.of(context)
-                                    ?.onlineBooking
-                                    .toCapitalized() ??
-                                'Online Booking',
+                            ? AppLocalizations.of(context)?.onlineBooking.toUpperCase() ?? 'ONLINE BOOKING'
+                            : AppLocalizations.of(context)?.onlineBooking.toCapitalized() ?? 'Online Booking',
                         style: AppTheme.bodyText1.copyWith(
-                          fontSize: DeviceConstraints.getResponsiveSize(
-                              context, 25.sp, 25.sp, 40.sp),
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 25.sp, 40.sp),
                           fontWeight: FontWeight.w600,
                           fontFamily: 'Gilroy',
 
-                          color:
-                              defaultTheme ? AppTheme.textBlack : Colors.white,
+                          color: defaultTheme ? AppTheme.textBlack : Colors.white,
 
                           // color: a.black,
                         ),
@@ -130,8 +115,7 @@ class _BookingDialogWidget222State<T>
                           child: Icon(
                             Icons.close_rounded,
                             color: AppTheme.lightGrey,
-                            size: DeviceConstraints.getResponsiveSize(
-                                context, 20.h, 30.h, 30.h),
+                            size: DeviceConstraints.getResponsiveSize(context, 20.h, 30.h, 30.h),
                           ),
                         ),
                       ),
@@ -150,41 +134,31 @@ class _BookingDialogWidget222State<T>
                         mediaQuery.width / 2.7,
                       ),
                       decoration: BoxDecoration(
-                        color: defaultTheme
-                            ? const Color.fromARGB(255, 239, 239, 239)
-                            : const Color(0XFF202020),
+                        color: defaultTheme ? const Color.fromARGB(255, 239, 239, 239) : const Color(0XFF202020),
                         borderRadius: BorderRadius.circular(60),
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 6, horizontal: 10),
+                        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
                         child: Center(
                           child: IgnorePointer(
                             child: Theme(
                               data: ThemeData(tabBarTheme: theme.tabBarTheme),
                               child: TabBar(
                                 controller: bookingTabController,
-                                labelStyle:
-                                    theme.tabBarTheme.labelStyle!.copyWith(
-                                  fontSize: DeviceConstraints.getResponsiveSize(
-                                      context, 15.sp, 20.sp, 18.sp),
+                                labelStyle: theme.tabBarTheme.labelStyle!.copyWith(
+                                  fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 20.sp, 18.sp),
                                 ),
-                                unselectedLabelColor:
-                                    defaultTheme ? Colors.black : Colors.white,
+                                unselectedLabelColor: defaultTheme ? Colors.black : Colors.white,
                                 tabs: [
                                   Tab(
                                     // text: (_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon && widget.master == false) ? 'Masters' : 'Services',
-                                    text: AppLocalizations.of(context)
-                                            ?.services ??
-                                        'Services',
+                                    text: AppLocalizations.of(context)?.services ?? 'Services',
                                   ),
                                   const Tab(
                                     text: 'Day & Time', // TODO - LOCALIZATIONS
                                   ),
                                   Tab(
-                                    text: AppLocalizations.of(context)
-                                            ?.registration_line16 ??
-                                        'Confirm',
+                                    text: AppLocalizations.of(context)?.registration_line16 ?? 'Confirm',
                                   ),
                                 ],
                               ),
@@ -211,8 +185,7 @@ class _BookingDialogWidget222State<T>
                           DayAndTime(tabController: bookingTabController!),
 
                           // Confirm
-                          Confirmation(
-                              bookingTabController: bookingTabController!),
+                          Confirmation(bookingTabController: bookingTabController!),
                         ],
                       ),
                     ),

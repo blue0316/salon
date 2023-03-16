@@ -66,6 +66,7 @@ class _VerifyOtpState extends ConsumerState<VerifyOtp> {
         ),
         SizedBox(height: 10.h),
         Text(
+// "${AppLocalizations.of(context)?.pleaseEnterVerificationCode.toCapitalized() ?? "Please enter verification code"}"
           "Please enter verification code",
           style: theme.textTheme.bodyText2!.copyWith(
             fontSize: 16.sp,
@@ -104,7 +105,7 @@ class _VerifyOtpState extends ConsumerState<VerifyOtp> {
                         ),
                         const TextSpan(text: '   '),
                         TextSpan(
-                          text: "Resend",
+                          text: AppLocalizations.of(context)?.resend.toCapitalized() ?? "Resend",
                           style: theme.textTheme.bodyText1!.copyWith(
                             fontSize: 18.sp,
                             decoration: TextDecoration.underline,
@@ -141,7 +142,24 @@ class _VerifyOtpState extends ConsumerState<VerifyOtp> {
                         // Customer Personal Info has name and email
 
                         // Create Appointment
-                        CustomerModel customer = CustomerModel(customerId: currentCustomer.customerId, personalInfo: currentCustomer.personalInfo, registeredSalons: [], createdAt: DateTime.now(), avgRating: 3.0, noOfRatings: 6, profilePicUploaded: false, profilePic: "", profileCompleted: false, quizCompleted: false, preferredGender: "male", preferredCategories: [], locations: [], fcmToken: "", locale: "en", favSalons: [], referralLink: "");
+                        CustomerModel customer = CustomerModel(
+                            customerId: currentCustomer.customerId,
+                            personalInfo: currentCustomer.personalInfo,
+                            registeredSalons: [],
+                            createdAt: DateTime.now(),
+                            avgRating: 3.0,
+                            noOfRatings: 6,
+                            profilePicUploaded: false,
+                            profilePic: "",
+                            profileCompleted: false,
+                            quizCompleted: false,
+                            preferredGender: "male",
+                            preferredCategories: [],
+                            locations: [],
+                            fcmToken: "",
+                            locale: "en",
+                            favSalons: [],
+                            referralLink: "");
                         if (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.singleMaster) {
                           await _createAppointmentProvider.createAppointment(customerModel: customer, context: context);
                         } else {

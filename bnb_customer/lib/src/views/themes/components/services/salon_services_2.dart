@@ -82,7 +82,7 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: SizedBox(
-                        height: 60.h,
+                        height: 60.h,d
                         child: TabBar(
                           onTap: (index) {
                             setState(() {

@@ -48,6 +48,8 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
+                    // (AppLocalizations.of(context)?.weWillHelpYou ?? "We will help you").toUpperCase(),
+// TODO - LOCALIZATIONS
                     "We will help you".toUpperCase(),
                     textAlign: TextAlign.center,
                     style: theme.textTheme.headline2?.copyWith(
@@ -60,6 +62,9 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
                   Padding(
                     padding: EdgeInsets.only(left: 80.w),
                     child: Text(
+                      // TODO - LOCALIZATIONS
+
+                      // (AppLocalizations.of(context)?.decideOnTheService ?? "decide on the service").toUpperCase(),
                       "decide on the service".toUpperCase(),
                       textAlign: TextAlign.center,
                       style: theme.textTheme.headline2?.copyWith(

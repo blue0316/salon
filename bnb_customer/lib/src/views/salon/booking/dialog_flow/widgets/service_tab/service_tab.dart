@@ -59,7 +59,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  // AppLocalizations.of(context)?.availableMasters.toCapitalized() ?? 'Available masters',
+                  // AppLocalizations.of(context)?.selectAService.toCapitalized() ?? 'Select a service',
                   'Select a service',
                   style: theme.textTheme.bodyText1!.copyWith(
                     fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
@@ -154,7 +154,8 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                           shrinkWrap: true,
                           itemCount: _salonSearchProvider.categories.length,
                           itemBuilder: (context, index) {
-                            if (_createAppointmentProvider.categoryServicesMap[_salonSearchProvider.categories[index].categoryId.toString()] != null && _createAppointmentProvider.categoryServicesMap[_salonSearchProvider.categories[index].categoryId.toString()]!.isNotEmpty) {
+                            if (_createAppointmentProvider.categoryServicesMap[_salonSearchProvider.categories[index].categoryId.toString()] != null &&
+                                _createAppointmentProvider.categoryServicesMap[_salonSearchProvider.categories[index].categoryId.toString()]!.isNotEmpty) {
                               final CategoryModel categoryModel = _salonSearchProvider.categories
                                   .where((
                                     element,
