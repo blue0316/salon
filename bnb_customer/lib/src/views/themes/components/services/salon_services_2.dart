@@ -82,7 +82,7 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: SizedBox(
-                        height: 60.h,d
+                        height: 60.h,
                         child: TabBar(
                           onTap: (index) {
                             setState(() {
@@ -92,9 +92,9 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
                           controller: tabController,
                           unselectedLabelColor: theme.tabBarTheme.unselectedLabelColor,
 
-                          labelColor: theme.tabBarTheme.labelColor,
+                          labelColor: labelColorTheme(themeType, theme), // theme.tabBarTheme.labelColor,
                           labelStyle: theme.textTheme.bodyText1?.copyWith(
-                            color: theme.tabBarTheme.labelColor,
+                            color: labelColorTheme(themeType, theme), // theme.tabBarTheme.labelColor,
                             fontWeight: FontWeight.w600,
                             fontSize: 20.sp,
                           ),

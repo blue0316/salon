@@ -794,5 +794,5 @@
   "mandatoryFields" : "*Mandatory fields",
   "pleaseEnterVerificationCode" : "Please enter verification code",
   "verificationSuccessful" : "Verification was successful!",
-  "somethingWentWrongPleaseTryAgain" : "Something went wrong, please try again",
+  "somethingWentWrongPleaseTryAgain" : "Something went wrong, please try again"
 }

@@ -76,6 +76,7 @@ Widget writeToUsTheme(context, ThemeType themeType, SalonModel salon) {
           left: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
           right: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
           top: DeviceConstraints.getResponsiveSize(context, 100.h, 120.h, 140.h), // 120,
+          bottom: DeviceConstraints.getResponsiveSize(context, 100.h, 120.h, 140.h), // 120,
           // vertical: DeviceConstraints.getResponsiveSize(context, 100.h, 120.h, 140.h), // 120,
         ),
         child: DefaultWriteToUsView(salonModel: salon),

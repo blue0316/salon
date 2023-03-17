@@ -1,12 +1,13 @@
 import 'dart:async';
-
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/models/products.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../utils/theme_type.dart';
+import 'salon_tags.dart';
 
 class SalonSponsors extends ConsumerStatefulWidget {
   const SalonSponsors({Key? key}) : super(key: key);
@@ -41,7 +42,7 @@ class _SalonSponsorsState extends ConsumerState<SalonSponsors> {
     //   }
     // });
 
-    _timer = Timer.periodic(Duration(seconds: 2), (Timer timer) {
+    _timer = Timer.periodic(const Duration(seconds: 2), (Timer timer) {
       _toggleScrolling();
     });
   }
@@ -80,7 +81,11 @@ class _SalonSponsorsState extends ConsumerState<SalonSponsors> {
     if (scroll) {
       _scroll();
     } else {
-      _scrollController.animateTo(_scrollController.offset, duration: Duration(seconds: 1), curve: Curves.linear);
+      _scrollController.animateTo(
+        _scrollController.offset,
+        duration: const Duration(seconds: 1),
+        curve: Curves.linear,
+      );
     }
   }
 
@@ -88,6 +93,7 @@ class _SalonSponsorsState extends ConsumerState<SalonSponsors> {
   Widget build(BuildContext context) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 50),
@@ -111,7 +117,7 @@ class _SalonSponsorsState extends ConsumerState<SalonSponsors> {
                   child: NotificationListener(
                     onNotification: (notif) {
                       if (notif is ScrollEndNotification && scroll) {
-                        Timer(Duration(seconds: 1), () {
+                        Timer(const Duration(seconds: 1), () {
                           _scroll();
                         });
                       }
@@ -124,32 +130,26 @@ class _SalonSponsorsState extends ConsumerState<SalonSponsors> {
                       child: Row(
                         children: _salonProfileProvider.allProductBrands
                             .map(
-                              (item) => Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 10),
-                                      child: Text(
-                                        item.translations![AppLocalizations.of(context)?.localeName ?? 'en'],
-                                        style: theme.textTheme.bodyText1?.copyWith(
-                                          color: theme.dividerColor,
-                                          fontSize: 18.sp,
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 8.h,
-                                      width: 8.h,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
+                              (item) => Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                                    child: Text(
+                                      item.translations![AppLocalizations.of(context)?.localeName ?? 'en'],
+                                      style: theme.textTheme.bodyText1?.copyWith(
                                         color: theme.dividerColor,
+                                        fontSize: 18.sp,
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                  Container(
+                                    height: 8.h,
+                                    width: 8.h,
+                                    decoration: tagSeperator(themeType, theme),
+                                  ),
+                                ],
                               ),
                             )
                             .toList(),

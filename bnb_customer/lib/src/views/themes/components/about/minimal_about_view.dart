@@ -5,7 +5,7 @@ import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/booking_dialog_2.dart';
-import 'package:bbblient/src/views/themes/components/widgets/oval_button.dart';
+import 'package:bbblient/src/views/themes/components/widgets/button.dart';
 import 'package:bbblient/src/views/themes/images.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:flutter/material.dart';
@@ -13,10 +13,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class GlamLightAboutUs extends ConsumerWidget {
+class MinimalAboutView extends ConsumerWidget {
   final SalonModel salonModel;
 
-  const GlamLightAboutUs({Key? key, required this.salonModel}) : super(key: key);
+  const MinimalAboutView({Key? key, required this.salonModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -27,36 +27,37 @@ class GlamLightAboutUs extends ConsumerWidget {
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     return Padding(
-        padding: EdgeInsets.only(
-          left: 0, // DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
-          right: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
-          top: 50,
-          bottom: 50,
-        ),
-        child: (!isTab)
-            ? PortraitView(salonModel: salonModel)
-            : Row(
+      padding: const EdgeInsets.only(
+        left: 0,
+        // right: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
+        top: 100,
+        bottom: 50,
+      ),
+      child: (!isTab)
+          ? PortraitView(salonModel: salonModel)
+          : Padding(
+              padding: EdgeInsets.only(
+                right: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
+              ),
+              child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Expanded(
-                    flex: 1,
+                    flex: 2,
                     child: SizedBox(
-                      height: 450.h,
+                      height: 470.h,
                       // width: double.infinity,
-                      child: ClipRRect(
-                        borderRadius: const BorderRadius.horizontal(right: Radius.elliptical(200, 180)),
-                        child: salonModel.photosOfWork.isNotEmpty
-                            ? CachedImage(
-                                url: salonModel.photosOfWork[0],
-                                fit: BoxFit.cover,
-                              )
-                            : Image.asset(ThemeImages.makeup, fit: BoxFit.cover),
-                      ),
+                      child: salonModel.photosOfWork.isNotEmpty
+                          ? CachedImage(
+                              url: salonModel.photosOfWork[0],
+                              fit: BoxFit.cover,
+                            )
+                          : Image.asset(ThemeImages.makeup, fit: BoxFit.cover),
                     ),
                   ),
                   SizedBox(
-                    width: DeviceConstraints.getResponsiveSize(context, 30.w, 30.w, 30.w),
+                    width: DeviceConstraints.getResponsiveSize(context, 30.w, 30.w, 25.w),
                   ),
                   Expanded(
                     flex: 1,
@@ -70,27 +71,38 @@ class GlamLightAboutUs extends ConsumerWidget {
                             fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
                           ),
                         ),
-                        SizedBox(height: 30.h),
+                        const SizedBox(height: 30),
                         Text(
                           (salonModel.description != '') ? salonModel.description : 'No description yet',
                           style: theme.textTheme.bodyText2?.copyWith(
-                            color: Colors.black,
+                            color: theme.primaryColor,
                             fontSize: 20.sp,
                           ),
                           maxLines: 10,
                         ),
-                        SizedBox(height: 25.h),
-                        OvalButton(
-                          text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
-                          textSize: 20.sp,
-                          width: 160.h,
-                          onTap: () => const BookingDialogWidget222().show(context),
+                        const SizedBox(height: 30),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SquareButton(
+                              text: (AppLocalizations.of(context)?.bookNow ?? "Book Now").toUpperCase(),
+                              buttonColor: theme.cardColor,
+                              textColor: theme.primaryColor,
+                              borderColor: theme.primaryColor,
+                              textSize: 16.5.sp,
+                              showSuffix: false,
+                              onTap: () => const BookingDialogWidget222().show(context),
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ),
                 ],
-              ));
+              ),
+            ),
+    );
   }
 }
 
@@ -108,8 +120,25 @@ class PortraitView extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
+        Expanded(
+          flex: 0,
+          child: SizedBox(
+            height: DeviceConstraints.getResponsiveSize(context, 250.h, 350.h, 400.h),
+            width: double.infinity,
+            child: salonModel.photosOfWork.isNotEmpty
+                ? CachedImage(
+                    url: salonModel.photosOfWork[0],
+                    fit: BoxFit.cover,
+                  )
+                : Image.asset(ThemeImages.makeup, fit: BoxFit.cover),
+          ),
+        ),
+        const SizedBox(height: 30),
         Padding(
-          padding: EdgeInsets.only(left: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w)),
+          padding: EdgeInsets.only(
+            left: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
+            right: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
+          ),
           child: Text(
             isSingleMaster ? (AppLocalizations.of(context)?.aboutMe ?? 'About Me') : (AppLocalizations.of(context)?.aboutUs ?? 'About Us').toUpperCase(),
             style: theme.textTheme.headline2?.copyWith(
@@ -117,9 +146,12 @@ class PortraitView extends ConsumerWidget {
             ),
           ),
         ),
-        SizedBox(height: 50.h),
+        const SizedBox(height: 20),
         Padding(
-          padding: EdgeInsets.only(left: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w)),
+          padding: EdgeInsets.only(
+            left: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
+            right: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -127,38 +159,28 @@ class PortraitView extends ConsumerWidget {
               Text(
                 (salonModel.description != '') ? salonModel.description : 'No description yet',
                 style: theme.textTheme.bodyText2?.copyWith(
-                  color: Colors.black,
+                  color: theme.primaryColor,
                   fontSize: 15.sp,
                 ),
                 maxLines: DeviceConstraints.getResponsiveSize(context, 20, 7, 7).toInt(),
               ),
               const SizedBox(height: 25),
-              OvalButton(
-                text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
-                textSize: 15.sp,
-                onTap: () => const BookingDialogWidget222().show(context),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SquareButton(
+                    text: (AppLocalizations.of(context)?.bookNow ?? "Book Now").toUpperCase(),
+                    buttonColor: theme.cardColor,
+                    textColor: theme.primaryColor,
+                    borderColor: theme.primaryColor,
+                    textSize: 16.sp,
+                    showSuffix: false,
+                    onTap: () => const BookingDialogWidget222().show(context),
+                  ),
+                ],
               ),
             ],
-          ),
-        ),
-        const SizedBox(height: 50),
-        Expanded(
-          flex: 0,
-          child: Padding(
-            padding: const EdgeInsets.only(right: 20),
-            child: SizedBox(
-              height: DeviceConstraints.getResponsiveSize(context, 250.h, 350.h, 400.h),
-              width: double.infinity,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.horizontal(right: Radius.elliptical(200, 180)),
-                child: salonModel.photosOfWork.isNotEmpty
-                    ? CachedImage(
-                        url: salonModel.photosOfWork[0],
-                        fit: BoxFit.cover,
-                      )
-                    : Image.asset(ThemeImages.makeup, fit: BoxFit.cover),
-              ),
-            ),
           ),
         ),
       ],

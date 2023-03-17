@@ -14,7 +14,7 @@ import 'package:bbblient/src/views/themes/components/shop/salon_shop.dart';
 import 'package:bbblient/src/views/themes/components/salon_sponsors.dart';
 import 'package:bbblient/src/views/themes/components/salon_tags.dart';
 import 'package:bbblient/src/views/themes/components/salon_team.dart';
-import 'package:bbblient/src/views/themes/components/salon_works.dart';
+import 'package:bbblient/src/views/themes/components/works/salon_works.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/color_constant.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/app_bar.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/header.dart';
@@ -79,11 +79,11 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                         // SalonAbout2(salonModel: chosenSalon),
                         // const SalonSponsors(),
                         // SalonWorks(salonModel: chosenSalon),
-                        SalonPrice222(
-                          salonModel: chosenSalon,
-                          categories: _salonSearchProvider.categories,
-                          categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
-                        ),
+                        // SalonPrice222(
+                        //   salonModel: chosenSalon,
+                        //   categories: _salonSearchProvider.categories,
+                        //   categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
+                        // ),
 
                         // const SalonShop(),
                         // if (_salonProfileProvider.chosenSalon.ownerType != OwnerType.singleMaster)
@@ -91,7 +91,7 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                         //     salonModel: chosenSalon,
                         //   ),
                         // SalonReviews(salonModel: chosenSalon),
-                        // WriteToUs(salonModel: chosenSalon),
+                        WriteToUs(salonModel: chosenSalon),
                         // SalonContact(salonModel: chosenSalon),
                         // SalonSocials(
                         //   salonModel: chosenSalon,

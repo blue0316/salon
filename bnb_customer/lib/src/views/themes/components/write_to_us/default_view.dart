@@ -48,9 +48,7 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    // (AppLocalizations.of(context)?.weWillHelpYou ?? "We will help you").toUpperCase(),
-// TODO - LOCALIZATIONS
-                    "We will help you".toUpperCase(),
+                    (AppLocalizations.of(context)?.weWillHelpYou ?? "We will help you").toUpperCase(),
                     textAlign: TextAlign.center,
                     style: theme.textTheme.headline2?.copyWith(
                       color: theme.colorScheme.secondary,
@@ -62,10 +60,7 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
                   Padding(
                     padding: EdgeInsets.only(left: 80.w),
                     child: Text(
-                      // TODO - LOCALIZATIONS
-
-                      // (AppLocalizations.of(context)?.decideOnTheService ?? "decide on the service").toUpperCase(),
-                      "decide on the service".toUpperCase(),
+                      (AppLocalizations.of(context)?.decideOnTheService ?? "decide on the service").toUpperCase(),
                       textAlign: TextAlign.center,
                       style: theme.textTheme.headline2?.copyWith(
                         color: theme.colorScheme.secondary,
@@ -102,18 +97,20 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
                 child: SizedBox(
                   height: 400.h,
                   width: DeviceConstraints.getResponsiveSize(context, 0, 100.w, 80.w),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: (widget.salonModel.photosOfWork.isNotEmpty && widget.salonModel.photosOfWork[0] != '')
-                        ? CachedImage(
-                            url: widget.salonModel.photosOfWork[0],
-                            fit: BoxFit.cover,
-                          )
-                        : Image.asset(
-                            ThemeImages.write1,
-                            fit: BoxFit.cover,
-                          ),
-                  ),
+                  child: themeType != ThemeType.Barbershop
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: (widget.salonModel.photosOfWork.isNotEmpty && widget.salonModel.photosOfWork[0] != '')
+                              ? CachedImage(
+                                  url: widget.salonModel.photosOfWork[0],
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.asset(
+                                  ThemeImages.write1,
+                                  fit: BoxFit.cover,
+                                ),
+                        )
+                      : const SizedBox(),
                 ),
               ),
             Flexible(
@@ -252,7 +249,9 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
                               : SquareButton(
                                   height: 50,
                                   // width: (isPortrait) ? 350.w : null, // DeviceConstraints.getResponsiveSize(context, 0, 120.w, 70.w),
-                                  text: AppLocalizations.of(context)?.submitEnquiry ?? "Submit an Enquiry",
+                                  text: (themeType == ThemeType.GlamBarbershop || themeType == ThemeType.Barbershop)
+                                      ? (AppLocalizations.of(context)?.submitEnquiry ?? "Submit an Enquiry").toUpperCase()
+                                      : AppLocalizations.of(context)?.submitEnquiry ?? "Submit an Enquiry",
                                   onTap: () => _salonProfileProvider.sendEnquiryToSalon(context, salonId: widget.salonModel.salonId),
                                   buttonColor: theme.primaryColorDark,
                                   borderColor: theme.primaryColorDark,
@@ -269,18 +268,20 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
                 child: SizedBox(
                   height: 400.h,
                   width: DeviceConstraints.getResponsiveSize(context, 0, 100.w, 80.w),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: (widget.salonModel.photosOfWork.isNotEmpty && widget.salonModel.photosOfWork[1] != '')
-                        ? CachedImage(
-                            url: widget.salonModel.photosOfWork[1],
-                            fit: BoxFit.cover,
-                          )
-                        : Image.asset(
-                            ThemeImages.write2,
-                            fit: BoxFit.cover,
-                          ),
-                  ),
+                  child: themeType != ThemeType.Barbershop
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: (widget.salonModel.photosOfWork.isNotEmpty && widget.salonModel.photosOfWork[1] != '')
+                              ? CachedImage(
+                                  url: widget.salonModel.photosOfWork[1],
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.asset(
+                                  ThemeImages.write2,
+                                  fit: BoxFit.cover,
+                                ),
+                        )
+                      : const SizedBox(),
                 ),
               ),
           ],

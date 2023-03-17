@@ -1,6 +1,15 @@
 {
   "uk": [
     "enter",
-    "accessibilityForPersonsWithReducedMobility"
+    "accessibilityForPersonsWithReducedMobility",
+    "weWillHelpYou",
+    "decideOnTheService",
+    "selectAService",
+    "serviceAndMaster",
+    "selectDateAndTime",
+    "mandatoryFields",
+    "pleaseEnterVerificationCode",
+    "verificationSuccessful",
+    "somethingWentWrongPleaseTryAgain"
   ]
 }

@@ -7,15 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-// Map<String, Color> tagColor = {
-//   '1': const Color(0XFFF48B72),
-//   '2': Colors.white,
-//   '3': Colors.white,
-//   '4': Colors.white,
-//   '5': Colors.white,
-//   'null': Colors.white,
-// };
-
 class SalonTags extends ConsumerStatefulWidget {
   final List<String> additionalFeatures;
   const SalonTags({Key? key, required this.additionalFeatures}) : super(key: key);
@@ -111,30 +102,23 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
                   controller: _scrollController,
                   child: Row(
                     children: aFeatured
-                        .map((item) => Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 10),
-                                    child: Text(
-                                      item,
-                                      //  convertLowerCamelCase(widget.additionalFeatures[item]),
-                                      style: theme.textTheme.bodyText1?.copyWith(
-                                        color: theme.dividerColor,
-                                        fontSize: 18.sp,
-                                      ),
+                        .map((item) => Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                                  child: Text(
+                                    item,
+                                    //  convertLowerCamelCase(widget.additionalFeatures[item]),
+                                    style: theme.textTheme.bodyText1?.copyWith(
+                                      color: theme.dividerColor,
+                                      fontSize: 18.sp,
                                     ),
                                   ),
-                                  Container(
-                                    height: 8.h,
-                                    width: 8.h,
-                                    decoration: BoxDecoration(shape: BoxShape.circle, color: theme.dividerColor),
-                                  ),
-                                ],
-                              ),
+                                ),
+                                Container(height: 8.h, width: 8.h, decoration: tagSeperator(themeType, theme)),
+                              ],
                             ))
                         .toList(),
                   ),
@@ -146,6 +130,27 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
         ),
       ),
     );
+  }
+}
+
+BoxDecoration tagSeperator(ThemeType themeType, ThemeData theme) {
+  switch (themeType) {
+    case ThemeType.GlamMinimalDark:
+      return BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(color: theme.dividerColor),
+        color: Colors.transparent,
+      );
+
+    case ThemeType.GlamMinimalLight:
+      return BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(color: theme.dividerColor),
+        color: Colors.transparent,
+      );
+
+    default:
+      return BoxDecoration(shape: BoxShape.circle, color: theme.dividerColor);
   }
 }
 

@@ -13,7 +13,7 @@ Color? labelColorTheme(ThemeType themeType, ThemeData theme) {
       return Colors.white;
 
     default:
-      return theme.tabBarTheme.labelColor;d
+      return theme.tabBarTheme.labelColor;
   }
 }
 
@@ -25,7 +25,7 @@ BoxDecoration servicesTabBarTheme(ThemeType themeType, ThemeData theme) {
         borderRadius: BorderRadius.circular(60),
       );
     case ThemeType.GlamMinimalLight:
-      return BoxDecoration(
+      return const BoxDecoration(
         color: Colors.black,
       );
     case ThemeType.GlamMinimalDark:

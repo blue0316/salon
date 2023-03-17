@@ -39,7 +39,7 @@ class _DefaultAboutViewState extends ConsumerState<DefaultAboutView> {
       padding: EdgeInsets.only(
         left: DeviceConstraints.getResponsiveSize(context, 20.w, 0, 0),
         right: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
-        top: DeviceConstraints.getResponsiveSize(context, 50, 50, 120),
+        top: DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
         bottom: DeviceConstraints.getResponsiveSize(context, 25, 30, 50),
       ),
       child: SizedBox(
@@ -237,14 +237,14 @@ class RightCarouselButton extends StatelessWidget {
         child: InkWell(
           onTap: () => _controller.nextPage(),
           child: Container(
-            height: DeviceConstraints.getResponsiveSize(context, 40.h, 46.h, 65.h),
-            width: DeviceConstraints.getResponsiveSize(context, 40.h, 46.h, 65.h),
+            height: DeviceConstraints.getResponsiveSize(context, 30.h, 30.h, 40.h),
+            width: DeviceConstraints.getResponsiveSize(context, 30.h, 30.h, 40.h),
             decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.black87),
             child: Center(
               child: Icon(
                 Icons.arrow_forward_ios_rounded,
                 color: theme.primaryColorDark,
-                size: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                size: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 20.sp),
               ),
             ),
           ),
@@ -274,14 +274,14 @@ class LeftCarouselButton extends StatelessWidget {
         child: InkWell(
           onTap: () => _controller.previousPage(),
           child: Container(
-            height: DeviceConstraints.getResponsiveSize(context, 30.h, 46.h, 65.h),
-            width: DeviceConstraints.getResponsiveSize(context, 30.h, 46.h, 65.h),
+            height: DeviceConstraints.getResponsiveSize(context, 30.h, 30.h, 40.h),
+            width: DeviceConstraints.getResponsiveSize(context, 30.h, 30.h, 40.h),
             decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.black87),
             child: Center(
               child: Icon(
                 Icons.arrow_back_ios_new_rounded,
                 color: theme.primaryColorDark,
-                size: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                size: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 20.sp),
               ),
             ),
           ),
