@@ -71,7 +71,9 @@ class BarbershopTheme {
       bodyText2: bodyText2.copyWith(color: primaryColor1),
       //text-field style
       subtitle1: subTitle1.copyWith(color: primaryColor1),
-      subtitle2: subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
+      subtitle2: subTitle2.copyWith(
+          color: Colors
+              .black), // Sub text under a section title in a section container
     ),
     dividerColor: Colors.white,
 
@@ -89,7 +91,8 @@ class BarbershopTheme {
       hintStyle: bodyText1.copyWith(color: Colors.white),
     ),
     hintColor: Colors.white,
-    unselectedWidgetColor: Colors.grey[700], // Color for not valid time slot container
+    unselectedWidgetColor:
+        Colors.grey[700], // Color for not valid time slot container
     highlightColor: primaryColor1,
     // Stop
 
@@ -157,7 +160,9 @@ class BarbershopTheme {
       bodyText2: bodyText2.copyWith(color: primaryColor1),
       //text-field style
       subtitle1: subTitle1.copyWith(color: primaryColor1),
-      subtitle2: subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
+      subtitle2: subTitle2.copyWith(
+          color: Colors
+              .black), // Sub text under a section title in a section container
     ),
     dividerColor: Colors.white,
 
@@ -175,7 +180,8 @@ class BarbershopTheme {
       hintStyle: bodyText1.copyWith(color: Colors.white),
     ),
     hintColor: Colors.white,
-    unselectedWidgetColor: Colors.grey[700], // Color for not valid time slot container
+    unselectedWidgetColor:
+        Colors.grey[700], // Color for not valid time slot container
     highlightColor: primaryColor1,
     // Stop
 
@@ -192,71 +198,71 @@ class BarbershopTheme {
   );
 
   static final TextStyle headLine1 = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "UNDERRATED",
     fontSize: 100.sp,
     fontWeight: FontWeight.w600,
   );
   static final TextStyle headLine2 = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "UNDERRATED",
     fontSize: 50.sp,
     fontWeight: FontWeight.w500,
   );
 
   static final TextStyle headLine3 = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "UNDERRATED",
     fontSize: 30.sp,
     fontWeight: FontWeight.w500,
   );
   static final TextStyle headLine4 = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "UNDERRATED",
     fontSize: 16.sp,
     fontWeight: FontWeight.w500,
   );
   static final TextStyle headLine5 = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "UNDERRATED",
     fontSize: 16.sp,
     fontWeight: FontWeight.w500,
   );
   static final TextStyle bodyText1 = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "Poppins",
     fontSize: 16.sp,
     fontWeight: FontWeight.w500,
   );
   static final TextStyle bodyText2 = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "Poppins",
     fontSize: 14.sp,
     fontWeight: FontWeight.w400,
   );
   static final TextStyle subTitle1 = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "Poppins",
     fontSize: 16.sp,
     fontWeight: FontWeight.w600,
   );
   static final TextStyle appointmentSubtitle = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "Poppins",
     fontSize: 14.sp,
     fontWeight: FontWeight.w600,
   );
   static const TextStyle calTextStyle = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "Poppins",
     fontSize: 14,
     fontWeight: FontWeight.w500,
   );
 
   static const TextStyle calTextStyle2 = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "Poppins",
     fontSize: 14,
     fontWeight: FontWeight.w500,
   );
 
   static const TextStyle appointmentTitleStyle = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "Poppins",
     fontSize: 14,
     fontWeight: FontWeight.w500,
   );
 
   static final TextStyle subTitle2 = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "Poppins",
     fontSize: 17.5.sp,
     fontWeight: FontWeight.w400,
     color: Colors.white,
