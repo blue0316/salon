@@ -150,18 +150,18 @@ class CustomButton extends StatelessWidget {
 
   _setFontStyle() {
     switch (fontStyle) {
-      case ButtonFontStyle.GilroySemibold16:
+      case ButtonFontStyle.PoppinsSemibold16:
         return TextStyle(
           color: ColorConstant.black900,
           fontSize: 16,
-          fontFamily: 'Gilroy',
+          fontFamily: 'Poppins',
           fontWeight: FontWeight.w600,
         );
       default:
         return TextStyle(
           color: ColorConstant.whiteA700,
           fontSize: 16,
-          fontFamily: 'Gilroy',
+          fontFamily: 'Poppins',
           fontWeight: FontWeight.w500,
         );
     }
@@ -185,6 +185,6 @@ enum ButtonVariant {
 }
 
 enum ButtonFontStyle {
-  GilroyMedium16,
-  GilroySemibold16,
+  PoppinsMedium16,
+  PoppinsSemibold16,
 }

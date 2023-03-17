@@ -68,7 +68,9 @@ class GlamGradientTheme {
       bodyText2: bodyText2.copyWith(color: primaryColor1),
       //text-field style
       subtitle1: subTitle1.copyWith(color: primaryColor1),
-      subtitle2: subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
+      subtitle2: subTitle2.copyWith(
+          color: Colors
+              .black), // Sub text under a section title in a section container
     ),
     appBarTheme: AppBarTheme(
       backgroundColor: Colors.white,
@@ -94,7 +96,8 @@ class GlamGradientTheme {
       ),
       hintStyle: bodyText1.copyWith(color: Colors.black),
     ),
-    unselectedWidgetColor: Colors.grey[700], // Color for not valid time slot container
+    unselectedWidgetColor:
+        Colors.grey[700], // Color for not valid time slot container
     highlightColor: primaryColor1,
 
     // Stop
@@ -152,7 +155,9 @@ class GlamGradientTheme {
       bodyText2: bodyText2.copyWith(color: primaryColor2),
       //text-field style
       subtitle1: subTitle1.copyWith(color: primaryColor2),
-      subtitle2: subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
+      subtitle2: subTitle2.copyWith(
+          color: Colors
+              .black), // Sub text under a section title in a section container
     ),
     appBarTheme: AppBarTheme(
       backgroundColor: Colors.white,
@@ -178,7 +183,8 @@ class GlamGradientTheme {
       ),
       hintStyle: bodyText1.copyWith(color: Colors.black),
     ),
-    unselectedWidgetColor: Colors.grey[700], // Color for not valid time slot container
+    unselectedWidgetColor:
+        Colors.grey[700], // Color for not valid time slot container
     // Stop
     focusColor: lightGrey,
     highlightColor: primaryColor1,
@@ -219,45 +225,45 @@ class GlamGradientTheme {
     // color: primaryColor1,
   );
   static final TextStyle bodyText1 = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "Poppins",
     fontSize: 16.sp,
     fontWeight: FontWeight.w500,
     // color: primaryColor1,
   );
   static final TextStyle bodyText2 = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "Poppins",
     fontSize: 14.sp,
     fontWeight: FontWeight.w400,
     // color: primaryColor1,
   );
   static final TextStyle subTitle1 = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "Poppins",
     fontSize: 16.sp,
     fontWeight: FontWeight.w600,
     // color: primaryColor1,
   );
   static final TextStyle appointmentSubtitle = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "Poppins",
     fontSize: 14.sp,
     fontWeight: FontWeight.w600,
     // color: primaryColor1,
   );
   static const TextStyle calTextStyle = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "Poppins",
     fontSize: 14,
     // color: primaryColor1,
     fontWeight: FontWeight.w500,
   );
 
   static const TextStyle calTextStyle2 = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "Poppins",
     fontSize: 14,
     // color: primaryColor1,
     fontWeight: FontWeight.w500,
   );
 
   static const TextStyle appointmentTitleStyle = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "Poppins",
     fontSize: 14,
     // color: primaryColor1,
     fontWeight: FontWeight.w500,
@@ -265,7 +271,7 @@ class GlamGradientTheme {
 
   // Sub Text under a Section Title
   static final TextStyle subTitle2 = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "Poppins",
     fontSize: 17.5.sp,
     fontWeight: FontWeight.w400,
     // color: Colors.black,

@@ -70,7 +70,8 @@ class CustomTextFormField extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     return alignment != null
@@ -104,8 +105,10 @@ class CustomTextFormField extends ConsumerWidget {
       hintText: hintText ?? "",
       hintStyle: theme.inputDecorationTheme.hintStyle, // _setFontStyle(theme),
       border: theme.inputDecorationTheme.border, //  _setBorderStyle(),
-      enabledBorder: theme.inputDecorationTheme.enabledBorder, // _setBorderStyle(),
-      focusedBorder: theme.inputDecorationTheme.focusedBorder, // _setBorderStyle(),
+      enabledBorder:
+          theme.inputDecorationTheme.enabledBorder, // _setBorderStyle(),
+      focusedBorder:
+          theme.inputDecorationTheme.focusedBorder, // _setBorderStyle(),
       disabledBorder: _setBorderStyle(),
       prefixIcon: prefix,
       prefixIconConstraints: prefixConstraints,
@@ -123,7 +126,7 @@ class CustomTextFormField extends ConsumerWidget {
         return TextStyle(
           color: ColorConstant.blueGray900,
           fontSize: 14,
-          fontFamily: 'Gilroy',
+          fontFamily: 'Poppins',
           fontWeight: FontWeight.w500,
         );
     }
@@ -165,7 +168,8 @@ class CustomTextFormField extends ConsumerWidget {
   _setPadding() {
     switch (padding) {
       default:
-        return EdgeInsets.symmetric(vertical: contentPadding ?? 15, horizontal: contentPadding ?? 15);
+        return EdgeInsets.symmetric(
+            vertical: contentPadding ?? 15, horizontal: contentPadding ?? 15);
     }
   }
 }
@@ -184,5 +188,5 @@ enum TextFormFieldVariant {
 }
 
 enum TextFormFieldFontStyle {
-  GilroyMedium14,
+  PoppinsMedium14,
 }

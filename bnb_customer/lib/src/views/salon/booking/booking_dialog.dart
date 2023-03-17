@@ -101,7 +101,7 @@
 //                         style: AppTheme.bodyText1.copyWith(
 //                           fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 25.sp, 40.sp),
 //                           fontWeight: FontWeight.w600,
-//                           fontFamily: 'Gilroy',
+//                           fontFamily: 'Poppins',
 
 //                           color: defaultTheme ? AppTheme.textBlack : Colors.white,
 

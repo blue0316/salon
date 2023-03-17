@@ -88,7 +88,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                         fontSize: DeviceConstraints.getResponsiveSize(
                             context, 25.sp, 25.sp, 40.sp),
                         fontWeight: FontWeight.w600,
-                        fontFamily: 'Gilroy',
+                        fontFamily: 'Poppins',
                         color: defaultTheme ? AppTheme.textBlack : Colors.white,
                       ),
                     ),
@@ -97,7 +97,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                     //   style: AppTheme.bodyText1.copyWith(
                     //     fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 25.sp, 40.sp),
                     //     fontWeight: FontWeight.w600,
-                    //     fontFamily: 'Gilroy',
+                    //     fontFamily: 'Poppins',
                     //     color: defaultTheme ? AppTheme.textBlack : Colors.white,
                     //   ),
                     // ),
@@ -106,7 +106,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                     //   'Booking was successful',
                     //   style: AppTheme.bodyText1.copyWith(
                     //     fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 30.sp),
-                    //     fontFamily: 'Gilroy',
+                    //     fontFamily: 'Poppins',
                     //     color: defaultTheme ? AppTheme.textBlack : Colors.white,
                     //   ),
                     // ),

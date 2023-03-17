@@ -15,7 +15,11 @@ class AppTheme {
     ),
   ];
   static final List<BoxShadow> lightShadow = [
-    const BoxShadow(color: Colors.black12, offset: Offset(1, 2), blurRadius: 3.0, spreadRadius: 3),
+    const BoxShadow(
+        color: Colors.black12,
+        offset: Offset(1, 2),
+        blurRadius: 3.0,
+        spreadRadius: 3),
   ];
 
   static const padding = EdgeInsets.all(margin);
@@ -84,14 +88,25 @@ class AppTheme {
   static const Color master8 = Color(0xff14213d);
   static const Color master9 = Color(0xffcaffbf);
   static const Color master10 = Color(0xffa5a58d);
-  static const List<Color> masterColors = [master1, master2, master3, master4, master5, master6, master7, master8, master9, master10];
+  static const List<Color> masterColors = [
+    master1,
+    master2,
+    master3,
+    master4,
+    master5,
+    master6,
+    master7,
+    master8,
+    master9,
+    master10
+  ];
 
 // colorScheme
   static const Color creamBrownPrimaryVariant = Color(0xFFAE7C63);
   static const Color creamBrownSecondaryVarient = Color(0xffE3AF7B);
 
   static final TextStyle aboutScreenStyle = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "Poppins",
     fontSize: 40.sp,
     fontWeight: FontWeight.w600,
     color: bookingBlack,
@@ -235,11 +250,13 @@ class AppTheme {
     ),
     dividerColor: Colors.white,
     focusColor: lightGrey,
-    highlightColor: const Color(0XFFEBE9E9), // Color to select services on booking dialog
+    highlightColor:
+        const Color(0XFFEBE9E9), // Color to select services on booking dialog
 
     splashColor: milkeyGreyDark,
     hoverColor: milkeyGreyDark,
-    unselectedWidgetColor: const Color.fromARGB(255, 239, 239, 239), // Color for not valid time slot container
+    unselectedWidgetColor: const Color.fromARGB(
+        255, 239, 239, 239), // Color for not valid time slot container
   );
 
   static final ThemeData darkTheme = ThemeData(
