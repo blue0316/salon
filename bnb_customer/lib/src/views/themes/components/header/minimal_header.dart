@@ -4,6 +4,7 @@ import 'package:bbblient/src/views/themes/components/header_image.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/header_height.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/app_bar.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/header.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,9 +16,10 @@ class MinimalHeader extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     return SizedBox(
-      height: getThemeHeaderHeight(context, _salonProfileProvider.theme),
+      height: getThemeHeaderHeight(context, themeType),
       width: double.infinity,
       child: Stack(
         alignment: Alignment.topCenter,

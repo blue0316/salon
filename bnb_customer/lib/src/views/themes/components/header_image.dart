@@ -1,6 +1,7 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
+import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/images.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
@@ -15,19 +16,33 @@ class ThemeHeaderImage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
-    String? themeNo = _salonProfileProvider.theme;
     ThemeType themeType = _salonProfileProvider.themeType;
 
     return SizedBox(
-      height:
-          DeviceConstraints.getResponsiveSize(context, 1000.h, 1000.h, 1000.h),
+      height: DeviceConstraints.getResponsiveSize(context, 1000.h, 1000.h, 1000.h),
       width: double.infinity,
-      child: (themeType == ThemeType.Barbershop)
-          ? const GradientBackground()
-          : _salonProfileProvider.chosenSalon.profilePics.isNotEmpty
-              ? FilteredImage(salonProfileProvider: _salonProfileProvider)
-              : const DefaultImageBG(image: ThemeImages.longBG),
+      child: background(themeType, _salonProfileProvider.chosenSalon, _salonProfileProvider),
     );
+  }
+}
+
+Widget background(ThemeType themeType, SalonModel salon, SalonProfileProvider salonProfileProvider) {
+  switch (themeType) {
+    case ThemeType.Barbershop:
+      return const GradientBackground();
+
+    case ThemeType.GlamMinimalDark:
+      return const DefaultImageBG(image: ThemeImages.minimalBackground);
+
+    case ThemeType.GlamMinimalLight:
+      return const DefaultImageBG(image: ThemeImages.minimalBackground);
+
+    default:
+      return salon.profilePics.isNotEmpty
+          ? FilteredImage(
+              salonProfileProvider: salonProfileProvider,
+            )
+          : const DefaultImageBG(image: ThemeImages.longBG);
   }
 }
 
@@ -44,10 +59,7 @@ class GradientBackground extends ConsumerWidget {
       //     : const DefaultImageBG(image: ThemeImages.gradientBG),
 
       child: DefaultImageBG(
-        image: (DeviceConstraints.getDeviceType(MediaQuery.of(context)) ==
-                DeviceScreenType.tab)
-            ? ThemeImages.gradientBG
-            : ThemeImages.longGradientBG,
+        image: (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab) ? ThemeImages.gradientBG : ThemeImages.longGradientBG,
       ),
     );
   }
@@ -64,8 +76,7 @@ class DefaultImageBG extends StatelessWidget {
 }
 
 class FilteredImage extends StatelessWidget {
-  const FilteredImage(
-      {Key? key, required SalonProfileProvider salonProfileProvider})
+  const FilteredImage({Key? key, required SalonProfileProvider salonProfileProvider})
       : _salonProfileProvider = salonProfileProvider,
         super(key: key);
 
@@ -74,8 +85,7 @@ class FilteredImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColorFiltered(
-      colorFilter:
-          ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.dstATop),
+      colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.dstATop),
       child: CachedImage(
         url: _salonProfileProvider.chosenSalon.profilePics[0],
         fit: BoxFit.cover,

@@ -27,12 +27,14 @@ class MinimalAppBar extends ConsumerWidget {
       color: theme.cardColor,
       width: double.infinity,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20),
+        padding: EdgeInsets.symmetric(
+          vertical: 20,
+          horizontal: DeviceConstraints.getResponsiveSize(context, 5.w, 10.w, 25.w),
+        ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            if (isTab) const Spacer(),
             if (!isTab) SizedBox(width: 10.w),
             if (isTab)
               MouseRegion(
@@ -42,12 +44,12 @@ class MinimalAppBar extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Socials(
-                      socialIcon: ThemeIcons.insta,
+                      socialIcon: ThemeIcons.minimalInstagram,
                       socialUrl: salonModel.links?.instagram,
                     ),
                     const SizedBox(width: 20),
                     Socials(
-                      socialIcon: ThemeIcons.tiktok,
+                      socialIcon: ThemeIcons.minimalFacebook,
                       socialUrl: salonModel.links?.facebookMessenger,
                     ),
                     const SizedBox(width: 20),
@@ -71,8 +73,11 @@ class MinimalAppBar extends ConsumerWidget {
               overflow: TextOverflow.clip,
             ),
             const Spacer(),
-            SvgPicture.asset(ThemeIcons.menu, height: 20.h),
-            if (isTab) const Spacer(),
+            SvgPicture.asset(
+              ThemeIcons.menu,
+              height: 20.h,
+              color: theme.dividerColor,
+            ),
           ],
         ),
       ),

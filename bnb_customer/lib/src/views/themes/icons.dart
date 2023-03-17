@@ -11,6 +11,8 @@ class ThemeIcons {
   static const String mail = 'assets/themes/glam_one/svg/mail.svg';
   static const String phone = 'assets/themes/glam_one/svg/phone.svg';
 
+  static const String arrowDiagonal = 'assets/themes/glam_one/svg/arrow_diagonal.svg';
+
   // Minimal Theme
   static const String minimalPhone = 'assets/themes/glam_one/svg/glam_minimal_phone.svg';
 

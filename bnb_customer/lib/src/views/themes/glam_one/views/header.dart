@@ -5,6 +5,7 @@ import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/booking_dialog_2.dart';
 import 'package:bbblient/src/views/themes/components/widgets/button.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/buttons.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,7 +22,7 @@ class ThemeHeader extends ConsumerWidget {
 
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
-
+    final ThemeType themeType = _salonProfileProvider.themeType;
     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
 
     return Column(
@@ -33,7 +34,7 @@ class ThemeHeader extends ConsumerWidget {
           salonModel.salonName, //"Miami's Best",
           style: theme.textTheme.headline1?.copyWith(
             letterSpacing: 0.5,
-            fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 80.sp, 100.sp),
+            fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 75.sp, 85.sp),
           ),
           textAlign: TextAlign.center,
         ),
@@ -46,7 +47,7 @@ class ThemeHeader extends ConsumerWidget {
         //   textAlign: TextAlign.center,
         // ),
         SizedBox(height: DeviceConstraints.getResponsiveSize(context, 40.h, 40.h, 40.h)),
-        (_salonProfileProvider.theme == '2' || _salonProfileProvider.theme == '4')
+        (_salonProfileProvider.theme == '2' || _salonProfileProvider.theme == '4' || _salonProfileProvider.theme == '6' || _salonProfileProvider.theme == '7')
             ? Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,

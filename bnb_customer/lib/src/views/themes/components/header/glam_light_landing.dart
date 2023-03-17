@@ -28,8 +28,10 @@ class GlamLightHeader extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final bool isTab = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab);
+    ThemeType themeType = _salonProfileProvider.themeType;
+
     return SizedBox(
-      height: getThemeHeaderHeight(context, _salonProfileProvider.theme),
+      height: getThemeHeaderHeight(context, themeType),
       width: double.infinity,
       child: Stack(
         alignment: Alignment.topCenter,
@@ -39,7 +41,7 @@ class GlamLightHeader extends ConsumerWidget {
             alignment: Alignment.bottomCenter,
             child: SizedBox(
               // color: Colors.blue,
-              height: (getThemeHeaderHeight(context, _salonProfileProvider.theme)) / 2,
+              height: (getThemeHeaderHeight(context, themeType)) / 2,
               child: SvgPicture.asset(
                 ThemeImages.glamLightEllipse,
                 fit: isTab ? BoxFit.fill : BoxFit.contain,
