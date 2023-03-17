@@ -33,7 +33,7 @@ class ThemeHeader extends ConsumerWidget {
           salonModel.salonName, //"Miami's Best",
           style: theme.textTheme.headline1?.copyWith(
             letterSpacing: 0.5,
-            fontSize: DeviceConstraints.getResponsiveSize(context, 70.sp, 80.sp, 100.sp),
+            fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 80.sp, 100.sp),
           ),
           textAlign: TextAlign.center,
         ),

@@ -9,8 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'barbershop_promotions.dart/barbershop_view.dart';
+import 'barbershop_promotions/barbershop_view.dart';
 import 'default_view.dart';
+import 'minimal_promotions/minimal_promotions_view.dart';
 
 class SalonPromotions extends ConsumerStatefulWidget {
   final List<PromotionModel> salonPromotionsList;
@@ -51,6 +52,12 @@ Widget promotionTheme(ThemeType themeType, List<PromotionModel> salonPromotionsL
 
     case ThemeType.GlamLight:
       return GlamLightPromotions(salonPromotionsList: salonPromotionsList);
+
+    case ThemeType.GlamMinimalLight:
+      return MiniamlPromotionView(salonPromotionsList: salonPromotionsList);
+
+    case ThemeType.GlamMinimalDark:
+      return MiniamlPromotionView(salonPromotionsList: salonPromotionsList);
 
     default:
       return DefaultPromotionsView(salonPromotionsList: salonPromotionsList);

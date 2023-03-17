@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'default_landing.dart';
 import 'glam_light_landing.dart';
+import 'minimal_header.dart';
 
 class LandingHeader extends ConsumerWidget {
   const LandingHeader({Key? key}) : super(key: key);
@@ -16,12 +17,22 @@ class LandingHeader extends ConsumerWidget {
 
     ThemeType themeType = _salonProfileProvider.themeType;
 
-    return themeType == ThemeType.GlamLight
-        ? GlamLightHeader(
-            chosenSalon: chosenSalon,
-          )
-        : DefaultLandingHeaderView(
-            chosenSalon: chosenSalon,
-          );
+    return headerTheme(themeType, chosenSalon);
+  }
+}
+
+Widget headerTheme(ThemeType themeType, SalonModel salon) {
+  switch (themeType) {
+    case ThemeType.GlamLight:
+      return GlamLightHeader(chosenSalon: salon);
+
+    case ThemeType.GlamMinimalLight:
+      return MinimalHeader(salonModel: salon);
+
+    case ThemeType.GlamMinimalDark:
+      return MinimalHeader(salonModel: salon);
+
+    default:
+      return DefaultLandingHeaderView(chosenSalon: salon);
   }
 }

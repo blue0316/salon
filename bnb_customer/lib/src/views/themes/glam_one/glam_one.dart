@@ -66,7 +66,7 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        // const LandingHeader(),
+                        const LandingHeader(),
                         // if (chosenSalon.additionalFeatures.isNotEmpty)
                         //   SalonTags(
                         //     additionalFeatures: chosenSalon.additionalFeatures,
@@ -91,7 +91,7 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                         //     salonModel: chosenSalon,
                         //   ),
                         // SalonReviews(salonModel: chosenSalon),
-                        WriteToUs(salonModel: chosenSalon),
+                        // WriteToUs(salonModel: chosenSalon),
                         // SalonContact(salonModel: chosenSalon),
                         // SalonSocials(
                         //   salonModel: chosenSalon,
