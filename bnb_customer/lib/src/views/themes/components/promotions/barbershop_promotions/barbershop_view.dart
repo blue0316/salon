@@ -80,7 +80,7 @@ class _BarbershopPromotionsState extends ConsumerState<BarbershopPromotions> {
             ),
           ],
         ),
-        SizedBox(height: 55.h),
+        SizedBox(height: 65.h),
         Container(
           height: 300.h,
           // height: DeviceConstraints.getResponsiveSize(context, 280.h, 350.h, 350.h),
@@ -120,7 +120,7 @@ class _BarbershopPromotionsState extends ConsumerState<BarbershopPromotions> {
                                 Text(
                                   "${AppLocalizations.of(context)?.discounts ?? "Discounts"} ${promotion.promotionDiscount} \$"
                                       .toUpperCase(),
-                                  style: theme.textTheme.headline3?.copyWith(
+                                  style: theme.textTheme.bodyText1?.copyWith(
                                     fontSize:
                                         DeviceConstraints.getResponsiveSize(
                                             context, 30.sp, 22.sp, 28.sp),
@@ -132,10 +132,12 @@ class _BarbershopPromotionsState extends ConsumerState<BarbershopPromotions> {
                                   maxLines: 4,
                                   overflow: TextOverflow.clip,
                                   style: theme.textTheme.bodyText1?.copyWith(
+                                    fontWeight: FontWeight.w300,
+                                    fontFamily: 'Poppins-Light',
                                     color: Colors.white,
                                     fontSize:
                                         DeviceConstraints.getResponsiveSize(
-                                            context, 18.sp, 20.sp, 22.sp),
+                                            context, 16.sp, 18.sp, 18.sp),
                                   ),
                                 ),
                                 // SizedBox(height: 15),

@@ -25,7 +25,8 @@ class ReviewCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     ThemeType themeType = _salonProfileProvider.themeType;
@@ -39,7 +40,9 @@ class ReviewCard extends ConsumerWidget {
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              margin: EdgeInsets.only(top: DeviceConstraints.getResponsiveSize(context, 40, 40, 45)),
+              margin: EdgeInsets.only(
+                  top:
+                      DeviceConstraints.getResponsiveSize(context, 40, 40, 45)),
               padding: const EdgeInsets.symmetric(horizontal: 5),
               decoration: BoxDecoration(
                 color: theme.backgroundColor,
@@ -53,7 +56,12 @@ class ReviewCard extends ConsumerWidget {
                     Expanded(
                       flex: 0,
                       child: Text(
-                        ((reviewUser == null || reviewUser == '' || reviewUser!.isEmpty) ? 'bnb user' : reviewUser!).toUpperCase(),
+                        ((reviewUser == null ||
+                                    reviewUser == '' ||
+                                    reviewUser!.isEmpty)
+                                ? 'bnb user'
+                                : reviewUser!)
+                            .toUpperCase(),
                         style: theme.textTheme.bodyText1?.copyWith(
                           fontSize: 20.sp,
                           fontWeight: FontWeight.w600,
@@ -97,16 +105,20 @@ class ReviewCard extends ConsumerWidget {
                             ),
                           ),
                           SizedBox(
-                            width: DeviceConstraints.getResponsiveSize(context, 200.w, 200.w, 80.w),
+                            width: DeviceConstraints.getResponsiveSize(
+                                context, 200.w, 200.w, 80.w),
                             child: Text(
                               review ?? '',
                               maxLines: 3,
                               textAlign: TextAlign.center,
                               overflow: TextOverflow.ellipsis,
                               style: theme.textTheme.subtitle1?.copyWith(
-                                fontSize: DeviceConstraints.getResponsiveSize(context, 17.sp, 20.sp, 20.sp),
+                                fontSize: DeviceConstraints.getResponsiveSize(
+                                    context, 17.sp, 20.sp, 20.sp),
                                 fontWeight: FontWeight.w400,
-                                color: (themeType == ThemeType.GlamLight) ? Colors.black : Colors.white,
+                                color: (themeType == ThemeType.GlamLight)
+                                    ? Colors.black
+                                    : Colors.white,
                                 letterSpacing: -0.8,
                               ),
                             ),
@@ -129,8 +141,10 @@ class ReviewCard extends ConsumerWidget {
             ),
           ),
           Container(
-            height: DeviceConstraints.getResponsiveSize(context, 65.h, 65.h, 70.h),
-            width: DeviceConstraints.getResponsiveSize(context, 65.h, 65.h, 70.h),
+            height:
+                DeviceConstraints.getResponsiveSize(context, 65.h, 65.h, 70.h),
+            width:
+                DeviceConstraints.getResponsiveSize(context, 65.h, 65.h, 70.h),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(color: theme.primaryColor, width: 2),
@@ -167,12 +181,22 @@ class ReviewCardWithoutAvatar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    final size = MediaQuery.of(context).size;
 
     return SizedBox(
       // height: DeviceConstraints.getResponsiveSize(context, 400.h, 400.h, 400.h),
+
       // width: DeviceConstraints.getResponsiveSize(context, 260.w, 260.w, 110.w),
+
+      width: DeviceConstraints.getResponsiveSize(
+        context,
+        (size.width - 40.w),
+        (size.width - 100.w),
+        ((size.width - 100.w - 60) / 3),
+      ),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 5),
         decoration: BoxDecoration(
@@ -184,7 +208,10 @@ class ReviewCardWithoutAvatar extends ConsumerWidget {
             Expanded(
               flex: 0,
               child: Text(
-                ((reviewUser == null || reviewUser == '' || reviewUser!.isEmpty) ? 'bnb user' : reviewUser!).toUpperCase(),
+                ((reviewUser == null || reviewUser == '' || reviewUser!.isEmpty)
+                        ? 'bnb user'
+                        : reviewUser!)
+                    .toUpperCase(),
                 style: theme.textTheme.bodyText1?.copyWith(
                   fontSize: 20.sp,
                   fontWeight: FontWeight.w600,
@@ -230,7 +257,8 @@ class ReviewCardWithoutAvatar extends ConsumerWidget {
                       ),
                     ),
                     SizedBox(
-                      width: DeviceConstraints.getResponsiveSize(context, 200.w, 200.w, 80.w),
+                      width: DeviceConstraints.getResponsiveSize(
+                          context, 200.w, 200.w, 80.w),
                       child: Text(
                         review ?? '',
                         maxLines: 3,
