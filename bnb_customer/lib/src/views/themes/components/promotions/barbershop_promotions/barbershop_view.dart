@@ -14,10 +14,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class BarbershopPromotions extends ConsumerStatefulWidget {
   final List<PromotionModel> salonPromotionsList;
 
-  const BarbershopPromotions({Key? key, required this.salonPromotionsList}) : super(key: key);
+  const BarbershopPromotions({Key? key, required this.salonPromotionsList})
+      : super(key: key);
 
   @override
-  ConsumerState<BarbershopPromotions> createState() => _BarbershopPromotionsState();
+  ConsumerState<BarbershopPromotions> createState() =>
+      _BarbershopPromotionsState();
 }
 
 class _BarbershopPromotionsState extends ConsumerState<BarbershopPromotions> {
@@ -25,8 +27,16 @@ class _BarbershopPromotionsState extends ConsumerState<BarbershopPromotions> {
 
   @override
   Widget build(BuildContext context) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final size = MediaQuery.of(context).size;
+
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+
+    List<PromotionModel> ls = [
+      ...widget.salonPromotionsList,
+      ...widget.salonPromotionsList
+    ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,9 +46,11 @@ class _BarbershopPromotionsState extends ConsumerState<BarbershopPromotions> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              (AppLocalizations.of(context)?.promotions ?? 'Promotions').toUpperCase(),
+              (AppLocalizations.of(context)?.promotions ?? 'Promotions')
+                  .toUpperCase(),
               style: theme.textTheme.headline2?.copyWith(
-                fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                fontSize: DeviceConstraints.getResponsiveSize(
+                    context, 30.sp, 40.sp, 50.sp),
               ),
             ),
             Row(
@@ -47,16 +59,20 @@ class _BarbershopPromotionsState extends ConsumerState<BarbershopPromotions> {
                   onTap: () => _controller.previousPage(),
                   child: Icon(
                     Icons.arrow_back,
-                    size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                    size: DeviceConstraints.getResponsiveSize(
+                        context, 30.sp, 40.sp, 50.sp),
                     color: Colors.white,
                   ),
                 ),
-                SizedBox(width: DeviceConstraints.getResponsiveSize(context, 15, 30, 40)),
+                SizedBox(
+                    width: DeviceConstraints.getResponsiveSize(
+                        context, 15, 30, 40)),
                 GestureDetector(
                   onTap: () => _controller.nextPage(),
                   child: Icon(
                     Icons.arrow_forward,
-                    size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                    size: DeviceConstraints.getResponsiveSize(
+                        context, 30.sp, 40.sp, 50.sp),
                     color: theme.primaryColor,
                   ),
                 ),
@@ -65,62 +81,80 @@ class _BarbershopPromotionsState extends ConsumerState<BarbershopPromotions> {
           ],
         ),
         SizedBox(height: 55.h),
-        SizedBox(
+        Container(
           height: 300.h,
+          // height: DeviceConstraints.getResponsiveSize(context, 280.h, 350.h, 350.h),
+
           width: double.infinity,
           // color: Colors.yellow,
           child: CarouselSlider(
             carouselController: _controller,
             options: CarouselOptions(
-              scrollPhysics: const AlwaysScrollableScrollPhysics(),
-              autoPlay: true,
+              // scrollPhysics: const AlwaysScrollableScrollPhysics(),
+              autoPlay: false,
               pauseAutoPlayOnTouch: true,
-              viewportFraction: DeviceConstraints.getResponsiveSize(context, 1, 0.5, 0.4),
+              padEnds: false,
+              enableInfiniteScroll: false,
+
+              viewportFraction:
+                  DeviceConstraints.getResponsiveSize(context, 0.8, 0.5, 0.333),
               // height: DeviceConstraints.getResponsiveSize(
               //     context, 280.h, 320, 350.h),
             ),
-            items: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Container(
-                  // color: Colors.brown,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "${AppLocalizations.of(context)?.discounts ?? "Discounts"} 15 \$".toUpperCase(),
-                        style: theme.textTheme.headline3?.copyWith(
-                          fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 22.sp, 28.sp),
-                        ),
-                      ),
-                      // SizedBox(height: 10),
-                      Text(
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero sit amet, consectetur adipiscing elit. Nunc vulputate libero sit amet, consectetur adipiscing elit. Nunc vulputate libero sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum.',
-                        maxLines: 4,
-                        overflow: TextOverflow.ellipsis,
-                        style: theme.textTheme.bodyText1?.copyWith(
-                          color: Colors.white,
-                          fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 20.sp, 22.sp),
-                        ),
-                      ),
-                      // SizedBox(height: 15),
+            items:
+                ls // TODO: DUMMY LIST: CHANGE BACK TO widget.salonPromotionsList
+                    .map((promotion) => Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Container(
+                            // color: Colors.red,
+                            width: DeviceConstraints.getResponsiveSize(
+                              context,
+                              350.w,
+                              (size.width / 1.5), // size.width / 2.5, // 380.w,
+                              size.width / 3, // 350.w,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "${AppLocalizations.of(context)?.discounts ?? "Discounts"} ${promotion.promotionDiscount} \$"
+                                      .toUpperCase(),
+                                  style: theme.textTheme.headline3?.copyWith(
+                                    fontSize:
+                                        DeviceConstraints.getResponsiveSize(
+                                            context, 30.sp, 22.sp, 28.sp),
+                                  ),
+                                ),
+                                // SizedBox(height: 10),
+                                Text(
+                                  '${promotion.promotionDescription}',
+                                  maxLines: 4,
+                                  overflow: TextOverflow.clip,
+                                  style: theme.textTheme.bodyText1?.copyWith(
+                                    color: Colors.white,
+                                    fontSize:
+                                        DeviceConstraints.getResponsiveSize(
+                                            context, 18.sp, 20.sp, 22.sp),
+                                  ),
+                                ),
+                                // SizedBox(height: 15),
 
-                      SquareButton(
-                        text: 'GET A DISCOUNT',
-                        height: 50.h,
-                        // width: isLandscape ?  : null,
-                        buttonColor: Colors.transparent,
-                        borderColor: Colors.white,
-                        textColor: Colors.white,
-                        textSize: 15.sp,
-                        onTap: () {},
-                      )
-                    ],
-                  ),
-                ),
-              )
-            ],
+                                SquareButton(
+                                  text: 'GET A DISCOUNT',
+                                  height: 50.h,
+                                  // width: isLandscape ?  : null,
+                                  buttonColor: Colors.transparent,
+                                  borderColor: Colors.white,
+                                  textColor: Colors.white,
+                                  textSize: 15.sp,
+                                  onTap: () {},
+                                )
+                              ],
+                            ),
+                          ),
+                        ))
+                    .toList(),
           ),
         )
       ],

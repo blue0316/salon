@@ -11,20 +11,26 @@ import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class DefaultAppBarTheme extends ConsumerWidget {
   final SalonModel salonModel;
-  const DefaultAppBarTheme({Key? key, required this.salonModel}) : super(key: key);
+  const DefaultAppBarTheme({Key? key, required this.salonModel})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bool isTab = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab);
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final bool isTab =
+        (DeviceConstraints.getDeviceType(MediaQuery.of(context)) ==
+            DeviceScreenType.tab);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: DeviceConstraints.getResponsiveSize(context, 3.w, 10.w, 15.w),
+        horizontal:
+            DeviceConstraints.getResponsiveSize(context, 3.w, 10.w, 15.w),
         // vertical: DeviceConstraints.getResponsiveSize(context, 5.h, 7.h, 10.h),
       ),
       child: Column(
@@ -61,26 +67,32 @@ class DefaultAppBarTheme extends ConsumerWidget {
                   ),
                 ),
               if (isTab) const Spacer(),
-              (salonModel.salonLogo != '')
-                  ? SizedBox(
-                      height: DeviceConstraints.getResponsiveSize(context, 50.h, 50.h, 70.h),
-                      width: DeviceConstraints.getResponsiveSize(context, 100.w, 100.w, 50.w),
-                      child: CachedImage(
-                        url: salonModel.salonLogo,
-                        fit: BoxFit.fitHeight,
-                      ),
-                    )
-                  : Text(
-                      salonModel.salonName.toUpperCase(),
-                      style: theme.textTheme.headline1!.copyWith(
-                        color: Colors.white,
-                        fontSize: 22.sp,
-                        letterSpacing: 0.9,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
+              // (salonModel.salonLogo != '')
+              //     ? SizedBox(
+              //         height: DeviceConstraints.getResponsiveSize(context, 50.h, 50.h, 70.h),
+              //         width: DeviceConstraints.getResponsiveSize(context, 100.w, 100.w, 50.w),
+              //         child: CachedImage(
+              //           url: salonModel.salonLogo,
+              //           fit: BoxFit.fitHeight,
+              //         ),
+              //       )
+              //     :
+              Text(
+                salonModel.salonName.toUpperCase(),
+                style: theme.textTheme.headline1!.copyWith(
+                  color: Colors.white,
+                  fontSize: 22.sp,
+                  letterSpacing: 0.9,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
               const Spacer(),
-              // SvgPicture.asset(ThemeIcons.menu, height: 25.h),
+              // const Spacer(),
+              SvgPicture.asset(
+                ThemeIcons.menu,
+                height: 20.h,
+                color: theme.dividerColor,
+              ),
             ],
           ),
           const SizedBox(height: 10),

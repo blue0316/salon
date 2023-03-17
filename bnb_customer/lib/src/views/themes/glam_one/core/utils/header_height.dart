@@ -5,13 +5,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 double getThemeHeaderHeight(context, ThemeType themeType) {
   switch (themeType) {
     case ThemeType.Glam:
-      return DeviceConstraints.getResponsiveSize(context, 1000.h, 1000.h, 1000.h);
+      return DeviceConstraints.getResponsiveSize(
+          context, 1000.h, 1000.h, 1000.h);
     case ThemeType.GlamBarbershop:
-      return DeviceConstraints.getResponsiveSize(context, 1000.h, 1000.h, 1000.h);
+      return DeviceConstraints.getResponsiveSize(
+          context, 1000.h, 1000.h, 1000.h);
     case ThemeType.GlamGradient:
-      return DeviceConstraints.getResponsiveSize(context, 1000.h, 1000.h, 1000.h);
+      return DeviceConstraints.getResponsiveSize(
+          context, 1000.h, 1000.h, 1000.h);
     case ThemeType.Barbershop:
-      return DeviceConstraints.getResponsiveSize(context, 700.h, 700.h, 700.h);
+      return DeviceConstraints.getResponsiveSize(context, 600.h, 550.h, 550.h);
     case ThemeType.GlamLight:
       return DeviceConstraints.getResponsiveSize(context, 900.h, 900.h, 900.h);
     case ThemeType.GlamMinimalDark:
@@ -20,7 +23,8 @@ double getThemeHeaderHeight(context, ThemeType themeType) {
       return DeviceConstraints.getResponsiveSize(context, 800.h, 800.h, 800.h);
 
     default:
-      return DeviceConstraints.getResponsiveSize(context, 1000.h, 1000.h, 1000.h);
+      return DeviceConstraints.getResponsiveSize(
+          context, 1000.h, 1000.h, 1000.h);
   }
 }
 

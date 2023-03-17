@@ -1,6 +1,8 @@
 import 'package:bbblient/src/theme/app_main_theme.dart';
+import 'package:bbblient/src/views/themes/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SquareButton extends StatelessWidget {
   final double? height, width;
@@ -11,6 +13,7 @@ class SquareButton extends StatelessWidget {
   final Color? buttonColor, borderColor, textColor;
   final bool showSuffix;
   final double? borderRadius;
+  final double? spaceBetweenButtonAndText;
 
   const SquareButton({
     Key? key,
@@ -25,6 +28,7 @@ class SquareButton extends StatelessWidget {
     this.textColor,
     this.showSuffix = true,
     this.borderRadius,
+    this.spaceBetweenButtonAndText,
   }) : super(key: key);
 
   @override
@@ -42,7 +46,7 @@ class SquareButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(borderRadius ?? 0),
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 22),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -55,12 +59,13 @@ class SquareButton extends StatelessWidget {
                     color: textColor,
                   ),
                 ),
-                if (showSuffix) const SizedBox(width: 5),
                 if (showSuffix)
-                  Icon(
-                    Icons.arrow_upward_rounded,
-                    color: textColor ?? Colors.black,
-                    size: textSize ?? 20.sp,
+                  SizedBox(width: spaceBetweenButtonAndText ?? 17),
+                if (showSuffix)
+                  SvgPicture.asset(
+                    ThemeIcons.arrowDiagonal,
+                    height: textSize ?? 15.sp,
+                    color: textColor,
                   ),
               ],
             ),

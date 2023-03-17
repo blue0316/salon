@@ -70,7 +70,9 @@ class GlamBarberShopTheme {
       bodyText2: bodyText2.copyWith(color: primaryColor1),
       //text-field style
       subtitle1: subTitle1.copyWith(color: primaryColor1),
-      subtitle2: subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
+      subtitle2: subTitle2.copyWith(
+          color: Colors
+              .black), // Sub text under a section title in a section container
     ),
     dividerColor: Colors.white,
 
@@ -88,7 +90,8 @@ class GlamBarberShopTheme {
       hintStyle: bodyText1.copyWith(color: Colors.white),
     ),
     hintColor: Colors.white,
-    unselectedWidgetColor: Colors.grey[700], // Color for not valid time slot container
+    unselectedWidgetColor:
+        Colors.grey[700], // Color for not valid time slot container
     highlightColor: primaryColor1,
     // Stop
 
@@ -155,7 +158,9 @@ class GlamBarberShopTheme {
       bodyText2: bodyText2.copyWith(color: primaryColor1),
       //text-field style
       subtitle1: subTitle1.copyWith(color: primaryColor1),
-      subtitle2: subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
+      subtitle2: subTitle2.copyWith(
+          color: Colors
+              .black), // Sub text under a section title in a section container
     ),
     dividerColor: Colors.white,
 
@@ -173,7 +178,8 @@ class GlamBarberShopTheme {
       hintStyle: bodyText1.copyWith(color: Colors.white),
     ),
     hintColor: Colors.white,
-    unselectedWidgetColor: Colors.grey[700], // Color for not valid time slot container
+    unselectedWidgetColor:
+        Colors.grey[700], // Color for not valid time slot container
     highlightColor: primaryColor1,
     // Stop
 
@@ -190,28 +196,28 @@ class GlamBarberShopTheme {
   );
 
   static final TextStyle headLine1 = TextStyle(
-    fontFamily: "VASQUZ", // TODO: CHANGE TO UNDERRATED
+    fontFamily: "UNDERRATED",
     fontSize: 100.sp,
     fontWeight: FontWeight.w600,
   );
   static final TextStyle headLine2 = TextStyle(
-    fontFamily: "VASQUZ",
+    fontFamily: "UNDERRATED",
     fontSize: 50.sp,
     fontWeight: FontWeight.w500,
   );
 
   static final TextStyle headLine3 = TextStyle(
-    fontFamily: "VASQUZ",
+    fontFamily: "UNDERRATED",
     fontSize: 30.sp,
     fontWeight: FontWeight.w500,
   );
   static final TextStyle headLine4 = TextStyle(
-    fontFamily: "VASQUZ",
+    fontFamily: "UNDERRATED",
     fontSize: 16.sp,
     fontWeight: FontWeight.w500,
   );
   static final TextStyle headLine5 = TextStyle(
-    fontFamily: "VASQUZ",
+    fontFamily: "UNDERRATED",
     fontSize: 16.sp,
     fontWeight: FontWeight.w500,
   );

@@ -66,24 +66,27 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        const LandingHeader(),
+                        // const LandingHeader(),
                         // if (chosenSalon.additionalFeatures.isNotEmpty)
                         //   SalonTags(
                         //     additionalFeatures: chosenSalon.additionalFeatures,
                         //   ),
-                        // if (_createAppointmentProvider.salonPromotions.isNotEmpty)
+                        // if (_createAppointmentProvider
+                        //     .salonPromotions.isNotEmpty)
                         //   SalonPromotions(
-                        //     salonPromotionsList: _createAppointmentProvider.salonPromotions,
+                        //     salonPromotionsList:
+                        //         _createAppointmentProvider.salonPromotions,
                         //   ),
 
                         // SalonAbout2(salonModel: chosenSalon),
                         // const SalonSponsors(),
                         // SalonWorks(salonModel: chosenSalon),
-                        // SalonPrice222(
-                        //   salonModel: chosenSalon,
-                        //   categories: _salonSearchProvider.categories,
-                        //   categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
-                        // ),
+                        SalonPrice222(
+                          salonModel: chosenSalon,
+                          categories: _salonSearchProvider.categories,
+                          categoryServicesMapNAWA:
+                              _createAppointmentProvider.categoryServicesMap,
+                        ),
 
                         // const SalonShop(),
                         // if (_salonProfileProvider.chosenSalon.ownerType != OwnerType.singleMaster)
@@ -91,7 +94,7 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                         //     salonModel: chosenSalon,
                         //   ),
                         // SalonReviews(salonModel: chosenSalon),
-                        // WriteToUs(salonModel: chosenSalon),
+                        WriteToUs(salonModel: chosenSalon),
                         // SalonContact(salonModel: chosenSalon),
                         // SalonSocials(
                         //   salonModel: chosenSalon,
