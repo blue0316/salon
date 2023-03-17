@@ -152,11 +152,6 @@ flutter:
         - asset: assets/fonts/Montserrat-Regular.ttf
         - asset: assets/fonts/Montserrat-SemiBold.ttf
         - asset: assets/fonts/Montserrat-Medium.ttf
-    - family: Gilroy
-      fonts:
-        - asset: assets/fonts/Gilroy-Regular.ttf
-        - asset: assets/fonts/Gilroy-SemiBold.ttf
-        - asset: assets/fonts/Gilroy-Medium.ttf
     - family: VASQUZ
       fonts:
         - asset: assets/fonts/VASQUZ-ITALIC.otf
@@ -167,6 +162,16 @@ flutter:
       fonts:
         - asset: assets/fonts/Jost-Medium.ttf
         - asset: assets/fonts/Jost-Regular.ttf
-        - asset: assets/fonts/Jost-SemiBold.ttf
+        - asset: assets/fonts/Jost-SemiBold.ttf    
+    - family: UNDERRATED
+      fonts:
+        - asset: assets/fonts/UNDERRATED.otf
+        - asset: assets/fonts/UNDERRATED.otf
+        - asset: assets/fonts/UNDERRATED.otf
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+        - asset: assets/fonts/Poppins-Medium.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
