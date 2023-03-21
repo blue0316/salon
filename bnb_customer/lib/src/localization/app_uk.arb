@@ -795,5 +795,6 @@
   "onlineBooking" : "Online Booking",
   "bookingDetails" : "Booking details",
   "date" : "Date",
-  "time" : "Time"
+  "time" : "Time",
+  "contactUs": "Contact Us"
 }

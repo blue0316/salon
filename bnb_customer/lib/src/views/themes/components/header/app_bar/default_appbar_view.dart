@@ -15,22 +15,17 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class DefaultAppBarTheme extends ConsumerWidget {
   final SalonModel salonModel;
-  const DefaultAppBarTheme({Key? key, required this.salonModel})
-      : super(key: key);
+  const DefaultAppBarTheme({Key? key, required this.salonModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bool isTab =
-        (DeviceConstraints.getDeviceType(MediaQuery.of(context)) ==
-            DeviceScreenType.tab);
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final bool isTab = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal:
-            DeviceConstraints.getResponsiveSize(context, 3.w, 10.w, 15.w),
+        horizontal: DeviceConstraints.getResponsiveSize(context, 3.w, 10.w, 15.w),
         // vertical: DeviceConstraints.getResponsiveSize(context, 5.h, 7.h, 10.h),
       ),
       child: Column(
@@ -91,7 +86,8 @@ class DefaultAppBarTheme extends ConsumerWidget {
               SvgPicture.asset(
                 ThemeIcons.menu,
                 height: 20.h,
-                color: theme.dividerColor,
+                // color: theme.dividerColor,
+                color: theme.appBarTheme.iconTheme!.color,
               ),
             ],
           ),

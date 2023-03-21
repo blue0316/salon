@@ -1,18 +1,17 @@
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 double getThemeHeaderHeight(context, ThemeType themeType) {
+  final height = MediaQuery.of(context).size.height;
   switch (themeType) {
-    case ThemeType.Glam:
-      return DeviceConstraints.getResponsiveSize(
-          context, 1000.h, 1000.h, 1000.h);
+    // case ThemeType.Glam:
+    //   return DeviceConstraints.getResponsiveSize(context, 1000.h, 1000.h, 1000.h);
     case ThemeType.GlamBarbershop:
-      return DeviceConstraints.getResponsiveSize(
-          context, 1000.h, 1000.h, 1000.h);
+      return DeviceConstraints.getResponsiveSize(context, 1000.h, 1000.h, 1000.h);
     case ThemeType.GlamGradient:
-      return DeviceConstraints.getResponsiveSize(
-          context, 1000.h, 1000.h, 1000.h);
+      return DeviceConstraints.getResponsiveSize(context, 1000.h, 1000.h, 1000.h);
     case ThemeType.Barbershop:
       return DeviceConstraints.getResponsiveSize(context, 600.h, 600.h, 600.h);
     case ThemeType.GlamLight:
@@ -23,8 +22,9 @@ double getThemeHeaderHeight(context, ThemeType themeType) {
       return DeviceConstraints.getResponsiveSize(context, 800.h, 800.h, 800.h);
 
     default:
-      return DeviceConstraints.getResponsiveSize(
-          context, 1000.h, 1000.h, 1000.h);
+      return (height);
+
+    /// DeviceConstraints.getResponsiveSize(context, 600.h, 800.h, height);
   }
 }
 

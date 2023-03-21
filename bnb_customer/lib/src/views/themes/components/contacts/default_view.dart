@@ -33,8 +33,8 @@ class ContactDefaultView extends ConsumerWidget {
               ? (AppLocalizations.of(context)?.contacts ?? 'Contacts')
               : (AppLocalizations.of(
                         context,
-                      )?.ourContacts ??
-                      'Our Contacts')
+                      )?.contactUs ??
+                      'Contact Us')
                   .toUpperCase(),
           style: theme.textTheme.headline2!.copyWith(
             fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),

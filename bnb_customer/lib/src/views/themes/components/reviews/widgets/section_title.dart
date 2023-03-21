@@ -4,6 +4,7 @@ import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/prev_and_next.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -40,6 +41,7 @@ class _ReviewSectionTitleState extends ConsumerState<ReviewSectionTitle> {
 
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    final ThemeType themeType = _salonProfileProvider.themeType;
 
     final _ratingStr = widget.salonModel.avgRating.toString();
 
@@ -104,6 +106,7 @@ class _ReviewSectionTitleState extends ConsumerState<ReviewSectionTitle> {
               _ratingStr.length > 3 ? _ratingStr.substring(0, 3) : _ratingStr, // "4,5",
               style: theme.textTheme.bodyText1?.copyWith(
                 fontSize: 18.sp,
+                color: bottomDetailsColor(themeType, theme),
               ),
             ),
             const SizedBox(width: 15),
@@ -135,11 +138,22 @@ class _ReviewSectionTitleState extends ConsumerState<ReviewSectionTitle> {
               style: theme.textTheme.bodyText2?.copyWith(
                 fontSize: 18.sp,
                 decoration: TextDecoration.underline,
+                color: bottomDetailsColor(themeType, theme),
               ),
             ),
           ],
         ),
       ],
     );
+  }
+}
+
+Color bottomDetailsColor(ThemeType themeType, ThemeData theme) {
+  switch (themeType) {
+    case ThemeType.Barbershop:
+      return Colors.white;
+
+    default:
+      return theme.primaryColor;
   }
 }

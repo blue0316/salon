@@ -57,10 +57,10 @@ class SquareButton extends StatelessWidget {
                     fontSize: textSize ?? 18.sp,
                     fontWeight: FontWeight.w600,
                     color: textColor,
+                    fontFamily: "Poppins",
                   ),
                 ),
-                if (showSuffix)
-                  SizedBox(width: spaceBetweenButtonAndText ?? 17),
+                if (showSuffix) SizedBox(width: spaceBetweenButtonAndText ?? 17),
                 if (showSuffix)
                   SvgPicture.asset(
                     ThemeIcons.arrowDiagonal,

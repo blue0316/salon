@@ -1,6 +1,5 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -37,9 +36,7 @@ class OvalButton extends ConsumerWidget {
               color: theme.primaryColor,
               width: 1.5,
             ),
-            borderRadius: const BorderRadius.all(
-              Radius.elliptical(150, 50),
-            ),
+            borderRadius: const BorderRadius.all(Radius.elliptical(150, 50)),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 3),
@@ -48,6 +45,7 @@ class OvalButton extends ConsumerWidget {
                 text,
                 style: theme.textTheme.bodyText2!.copyWith(
                   fontSize: textSize ?? 14.sp,
+                  fontFamily: "Poppins",
                 ),
               ),
             ),

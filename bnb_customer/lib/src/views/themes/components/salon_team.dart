@@ -45,8 +45,8 @@ class SalonTeam extends ConsumerWidget {
         padding: EdgeInsets.only(
           left: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 30.w),
           right: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 30.w),
-          top: DeviceConstraints.getResponsiveSize(context, 140.h, 180.h, 200.h),
-          // bottom: DeviceConstraints.getResponsiveSize(context, 140.h, 180.h, 200.h),
+          top: 100, // DeviceConstraints.getResponsiveSize(context, 140.h, 180.h, 200.h),
+          bottom: 60, // DeviceConstraints.getResponsiveSize(context, 140.h, 180.h, 200.h),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

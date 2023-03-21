@@ -11,8 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DefaultLandingHeaderView extends ConsumerWidget {
   final SalonModel chosenSalon;
-  const DefaultLandingHeaderView({Key? key, required this.chosenSalon})
-      : super(key: key);
+  const DefaultLandingHeaderView({Key? key, required this.chosenSalon}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -38,7 +37,7 @@ class DefaultLandingHeaderView extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     ThemeAppBar(salonModel: chosenSalon),
-                    SizedBox(height: 100),
+                    const SizedBox(height: 100),
                     ThemeHeader(salonModel: chosenSalon),
                   ],
                 ),

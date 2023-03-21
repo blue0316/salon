@@ -1,13 +1,14 @@
-import 'package:bbblient/src/controller/all_providers/all_providers.dart';
-import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/models/salon_master/salon.dart';
-import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+
+import '../../../../controller/all_providers/all_providers.dart';
+import '../../../../controller/salon/salon_profile_provider.dart';
+import '../../../../models/salon_master/salon.dart';
+import '../../../../utils/device_constraints.dart';
 import 'widgets/review_builder.dart';
 import 'widgets/section_title.dart';
 
@@ -15,9 +16,7 @@ class DefaultReviewsView extends ConsumerStatefulWidget {
   final SalonModel salonModel;
   final CarouselController controller;
 
-  const DefaultReviewsView(
-      {Key? key, required this.salonModel, required this.controller})
-      : super(key: key);
+  const DefaultReviewsView({Key? key, required this.salonModel, required this.controller}) : super(key: key);
 
   @override
   ConsumerState<DefaultReviewsView> createState() => _DefaultReviewsViewState();
@@ -25,13 +24,11 @@ class DefaultReviewsView extends ConsumerStatefulWidget {
 
 class _DefaultReviewsViewState extends ConsumerState<DefaultReviewsView> {
   final ItemScrollController itemScrollController = ItemScrollController();
-  final ItemPositionsListener itemPositionsListener =
-      ItemPositionsListener.create();
+  final ItemPositionsListener itemPositionsListener = ItemPositionsListener.create();
 
   @override
   Widget build(BuildContext context) {
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     return Padding(
@@ -62,12 +59,9 @@ class _DefaultReviewsViewState extends ConsumerState<DefaultReviewsView> {
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Center(
                     child: Text(
-                      (AppLocalizations.of(context)?.noReviews ??
-                              'No reviews yet')
-                          .toUpperCase(),
+                      (AppLocalizations.of(context)?.noReviews ?? 'No reviews yet').toUpperCase(),
                       style: theme.textTheme.bodyText1?.copyWith(
-                        fontSize: DeviceConstraints.getResponsiveSize(
-                            context, 20.sp, 20.sp, 20.sp),
+                        fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
                       ),
                     ),
                   ),

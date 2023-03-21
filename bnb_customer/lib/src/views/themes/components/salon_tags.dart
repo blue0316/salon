@@ -13,9 +13,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class SalonTags extends ConsumerStatefulWidget {
   final SalonModel salonModel;
   final List<String> additionalFeatures;
-  const SalonTags(
-      {Key? key, required this.additionalFeatures, required this.salonModel})
-      : super(key: key);
+  const SalonTags({Key? key, required this.additionalFeatures, required this.salonModel}) : super(key: key);
 
   @override
   ConsumerState<SalonTags> createState() => _SalonTagsState();
@@ -48,9 +46,7 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
     double distanceDifference = maxExtent - _scrollController.offset;
     double durationDouble = distanceDifference / speedFactor;
 
-    _scrollController.animateTo(_scrollController.position.maxScrollExtent,
-        duration: Duration(seconds: durationDouble.toInt()),
-        curve: Curves.linear);
+    _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: Duration(seconds: durationDouble.toInt()), curve: Curves.linear);
   }
 
   _toggleScrolling() {
@@ -62,8 +58,7 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
       if (scroll) {
         _scroll();
       } else {
-        _scrollController.animateTo(_scrollController.offset,
-            duration: const Duration(seconds: 1), curve: Curves.linear);
+        _scrollController.animateTo(_scrollController.offset, duration: const Duration(seconds: 1), curve: Curves.linear);
       }
     }
   }
@@ -115,32 +110,26 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
   Widget build(BuildContext context) {
     BnbProvider _bnbProvider = ref.read(bnbProvider);
 
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     ThemeType themeType = _salonProfileProvider.themeType;
 
     pageController = PageController(
-      viewportFraction:
-          DeviceConstraints.getResponsiveSize(context, 0.5, 0.4, 0.3),
+      viewportFraction: DeviceConstraints.getResponsiveSize(context, 0.5, 0.4, 0.3),
     );
 
-    List<String> aFeatured = [
-      ...widget.additionalFeatures,
-      ...widget.additionalFeatures,
-      ...widget.additionalFeatures
-    ];
+    List<String> aFeatured = [...widget.additionalFeatures, ...widget.additionalFeatures, ...widget.additionalFeatures];
 
     return Padding(
       padding: const EdgeInsets.only(top: 20, bottom: 50),
       child: RotationTransition(
-        turns: AlwaysStoppedAnimation(
-            themeType == ThemeType.GlamLight ? 3 / 360 : 0),
+        turns: AlwaysStoppedAnimation(themeType == ThemeType.GlamLight ? 3 / 360 : 0),
         child: Column(
           children: [
             Divider(color: theme.dividerColor, thickness: 2),
-            SizedBox(
-              height: 60,
+            Container(
+              // color: Colors.yellow,
+              height: 35.h,
               child: NotificationListener(
                 onNotification: (notif) {
                   if (notif is ScrollEndNotification && scroll) {
@@ -161,14 +150,12 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20),
+                                  padding: const EdgeInsets.symmetric(horizontal: 20),
                                   child: Text(
                                     // TODO: HANDLE FOR OTHER LOCALIZATIONS
                                     (_bnbProvider.locale == const Locale('en'))
                                         ? getFeature(item)
-                                        : (_bnbProvider.locale ==
-                                                const Locale('uk'))
+                                        : (_bnbProvider.locale == const Locale('uk'))
                                             ? getFeatureUk(item)
                                             : item,
                                     //  convertLowerCamelCase(widget.additionalFeatures[item]),
@@ -179,10 +166,7 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
                                     ),
                                   ),
                                 ),
-                                Container(
-                                    height: 8.h,
-                                    width: 8.h,
-                                    decoration: tagSeperator(themeType, theme)),
+                                Container(height: 8.h, width: 8.h, decoration: tagSeperator(themeType, theme)),
                               ],
                             ))
                         .toList(),

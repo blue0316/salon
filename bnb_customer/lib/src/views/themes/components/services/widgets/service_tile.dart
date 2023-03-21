@@ -39,9 +39,9 @@ class ServiceTile extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        service.translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
+                        (service.translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString()).toUpperCase(),
                         style: theme.textTheme.bodyText1?.copyWith(
-                          color: theme.primaryColor,
+                          color: serviceNameColor(themeType, theme),
                           fontSize: 20.sp,
                         ),
                       ),
@@ -55,14 +55,15 @@ class ServiceTile extends ConsumerWidget {
                         color: _createAppointmentProvider.isAdded(
                           serviceModel: service,
                         )
-                            ? theme.primaryColorDark //  GlamOneTheme.deepOrange
+                            ? serviceNameColor(themeType, theme)
                             : Colors.transparent,
                       ),
                     ],
                   ),
                 ),
                 Text(
-                  service.isFixedPrice ? "${service.priceAndDuration.price}${Keys.uah}" : "${service.priceAndDuration.price}${Keys.uah} - ${service.priceAndDurationMax!.price}${Keys.uah}",
+                  service.isFixedPrice ? "\$${service.priceAndDuration.price}" : "\$${service.priceAndDuration.price} - \$${service.priceAndDurationMax!.price}",
+                  // service.isFixedPrice ? "${service.priceAndDuration.price}${Keys.uah}" : "${service.priceAndDuration.price}${Keys.uah} - ${service.priceAndDurationMax!.price}${Keys.uah}",
                   style: theme.textTheme.bodyText1?.copyWith(
                     color: priceColor(themeType, theme), // (themeType == ThemeType.GlamLight) ? Colors.black : Colors.white,
                     fontSize: 20.sp,
@@ -92,5 +93,24 @@ Color priceColor(ThemeType themeType, ThemeData theme) {
 
     default:
       return Colors.white;
+  }
+}
+
+Color serviceNameColor(ThemeType themeType, ThemeData theme) {
+  switch (themeType) {
+    case ThemeType.GlamLight:
+      return Colors.black;
+
+    case ThemeType.GlamMinimalLight:
+      return Colors.black;
+
+    case ThemeType.GlamBarbershop:
+      return Colors.white;
+
+    case ThemeType.Barbershop:
+      return Colors.white;
+
+    default:
+      return theme.primaryColor;
   }
 }

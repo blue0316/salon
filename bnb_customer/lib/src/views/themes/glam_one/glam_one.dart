@@ -67,38 +67,34 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         const LandingHeader(),
-                        // if (chosenSalon.additionalFeatures.isNotEmpty)
-                        //   SalonTags(
-                        //     salonModel: chosenSalon,
-                        //     additionalFeatures: chosenSalon.additionalFeatures,
-                        //   ),
-                        // if (_createAppointmentProvider
-                        //     .salonPromotions.isNotEmpty)
-                        //   SalonPromotions(
-                        //     salonPromotionsList:
-                        //         _createAppointmentProvider.salonPromotions,
-                        //   ),
-                        // SalonAbout2(salonModel: chosenSalon),
-                        // const SalonSponsors(),
-                        // SalonWorks(salonModel: chosenSalon),
-                        // SalonPrice222(
-                        //   salonModel: chosenSalon,
-                        //   categories: _salonSearchProvider.categories,
-                        //   categoryServicesMapNAWA:
-                        //       _createAppointmentProvider.categoryServicesMap,
-                        // ),
-                        // const SalonShop(),
-                        // if (_salonProfileProvider.chosenSalon.ownerType !=
-                        //     OwnerType.singleMaster)
-                        //   SalonTeam(
-                        //     salonModel: chosenSalon,
-                        //   ),
-                        // SalonReviews(salonModel: chosenSalon),
+                        if (chosenSalon.additionalFeatures.isNotEmpty)
+                          SalonTags(
+                            salonModel: chosenSalon,
+                            additionalFeatures: chosenSalon.additionalFeatures,
+                          ),
+                        if (_createAppointmentProvider.salonPromotions.isNotEmpty)
+                          SalonPromotions(
+                            salonPromotionsList: _createAppointmentProvider.salonPromotions,
+                          ),
+                        SalonAbout2(salonModel: chosenSalon),
+                        const SalonSponsors(),
+                        SalonWorks(salonModel: chosenSalon),
+                        SalonPrice222(
+                          salonModel: chosenSalon,
+                          categories: _salonSearchProvider.categories,
+                          categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
+                        ),
+                        const SalonShop(),
+                        if (_salonProfileProvider.chosenSalon.ownerType != OwnerType.singleMaster)
+                          SalonTeam(
+                            salonModel: chosenSalon,
+                          ),
+                        SalonReviews(salonModel: chosenSalon),
                         WriteToUs(salonModel: chosenSalon),
                         SalonContact(salonModel: chosenSalon),
-                        SalonSocials(
-                          salonModel: chosenSalon,
-                        ),
+                        // SalonSocials(
+                        //   salonModel: chosenSalon,
+                        // ),
                         Padding(
                           padding: const EdgeInsets.only(top: 19, bottom: 15),
                           child: RichText(

@@ -95,7 +95,7 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
                           labelColor: labelColorTheme(themeType, theme), // theme.tabBarTheme.labelColor,
                           labelStyle: theme.textTheme.bodyText1?.copyWith(
                             color: labelColorTheme(themeType, theme), // theme.tabBarTheme.labelColor,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w500,
                             fontSize: 20.sp,
                           ),
                           unselectedLabelStyle: theme.textTheme.bodyText1?.copyWith(
@@ -193,7 +193,7 @@ class ServiceAndPrice extends ConsumerWidget {
                 ),
               ),
               Text(
-                AppLocalizations.of(context)?.price ?? 'Price'.toUpperCase(),
+                (AppLocalizations.of(context)?.price ?? 'Price').toUpperCase(),
                 style: theme.textTheme.bodyText1?.copyWith(
                   color: theme.primaryColorDark,
                   fontSize: 20.sp,
