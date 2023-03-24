@@ -28,7 +28,10 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
       final mapOptions = maps.MapOptions()
         ..zoom = 10
         ..maxZoom = 19
-        ..center = maps.LatLng(1.3521, 103.8198);
+        ..center = maps.LatLng(
+          widget.salonModel!.position!.geoPoint!.latitude ?? 1.3521,
+          widget.salonModel!.position!.geoPoint!.longitude ?? 103.8198,
+        );
 
       final elem = DivElement()
         ..id = htmlId
