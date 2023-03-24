@@ -8,9 +8,9 @@ import 'package:bbblient/src/theme/others/glam_one.dart';
 import 'package:flutter/material.dart';
 
 // Theme 1 - GLAM
-ThemeData getGlamDataTheme(String colorCode) {
+ThemeData getGlamDataTheme(String? colorCode) {
   switch (colorCode) {
-    case 'FFC692':
+    case null:
       return GlamOneTheme.AccentFFC692;
     case 'F48B72':
       return GlamOneTheme.AccentF48B72;
@@ -37,9 +37,9 @@ ThemeData getGlamDataTheme(String colorCode) {
 }
 
 // Theme 2 - GLAM BARBERSHOP
-ThemeData getGlamBarbershopTheme(String colorCode) {
+ThemeData getGlamBarbershopTheme(String? colorCode) {
   switch (colorCode) {
-    case 'FFC692':
+    case null: // 'FFC692':
       return GlamBarberShopTheme.mainTheme;
     case 'blublu':
       return GlamBarberShopTheme.theme2;
@@ -52,9 +52,9 @@ ThemeData getGlamBarbershopTheme(String colorCode) {
 }
 
 // Theme 3 - GLAM GRADIENT
-ThemeData getGlamGradientTheme(String colorCode) {
+ThemeData getGlamGradientTheme(String? colorCode) {
   switch (colorCode) {
-    case 'FFC692':
+    case null: // 'FFC692':
       return GlamGradientTheme.mainTheme;
     case 'blublu':
       return GlamGradientTheme.mainTheme2;
@@ -67,9 +67,9 @@ ThemeData getGlamGradientTheme(String colorCode) {
 }
 
 // Theme 4 - BARBERSHOP
-ThemeData getBarbershopTheme(String colorCode) {
+ThemeData getBarbershopTheme(String? colorCode) {
   switch (colorCode) {
-    case 'FFC692': // TODO: CHANGE THIS
+    case null: // 'FFC692': // TODO: CHANGE THIS
       return BarbershopTheme.mainTheme;
     case 'blublu':
       return BarbershopTheme.theme2;
@@ -82,9 +82,9 @@ ThemeData getBarbershopTheme(String colorCode) {
 }
 
 // Theme 5 - GLAM LIGHT
-ThemeData getGlamLightTheme(String colorCode) {
+ThemeData getGlamLightTheme(String? colorCode) {
   switch (colorCode) {
-    case 'FFC692': // TODO: CHANGE THIS
+    case null: // 'FFC692': // TODO: CHANGE THIS
       return GlamLightTheme.mainTheme;
     case 'blublu':
       return GlamLightTheme.theme2;
@@ -97,9 +97,9 @@ ThemeData getGlamLightTheme(String colorCode) {
 }
 
 // Theme 6 - GLAM MINIMAL LIGHT
-ThemeData getGlamMinimalLightTheme(String colorCode) {
+ThemeData getGlamMinimalLightTheme(String? colorCode) {
   switch (colorCode) {
-    case 'FFC692':
+    case null: // 'FFC692':
       return GlamMinimalLight.mainTheme;
     case 'blublu':
       return GlamMinimalLight.theme2;
@@ -111,9 +111,9 @@ ThemeData getGlamMinimalLightTheme(String colorCode) {
   }
 } // Theme 6 - GLAM MINIMAL DARK
 
-ThemeData getGlamMinimalDarkTheme(String colorCode) {
+ThemeData getGlamMinimalDarkTheme(String? colorCode) {
   switch (colorCode) {
-    case 'FFC692':
+    case null: // 'FFC692':
       return GlamMinimalDark.mainTheme;
     case 'blublu':
       return GlamMinimalDark.theme2;
