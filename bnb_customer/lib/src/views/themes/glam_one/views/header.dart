@@ -52,7 +52,7 @@ class ThemeHeader extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SquareButton(
-                    text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
+                    text: (AppLocalizations.of(context)?.bookNow ?? "Book Now").toUpperCase(),
                     height: 60.h,
                     // width: DeviceConstraints.getResponsiveSize(context, 200.h, 220.h, 220.h),
                     onTap: () => const BookingDialogWidget222().show(context),

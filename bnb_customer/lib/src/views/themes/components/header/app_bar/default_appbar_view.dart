@@ -41,7 +41,7 @@ class DefaultAppBarTheme extends ConsumerWidget {
                     Flexible(
                       child: Text(
                         salonModel.salonName.toUpperCase(),
-                        style: theme.textTheme.headline1!.copyWith(
+                        style: theme.textTheme.bodyText1!.copyWith(
                           color: Colors.white,
                           fontSize: 22.sp,
                           letterSpacing: 0.9,
@@ -100,7 +100,7 @@ class DefaultAppBarTheme extends ConsumerWidget {
                     //     :
                     Text(
                       salonModel.salonName.toUpperCase(),
-                      style: theme.textTheme.headline1!.copyWith(
+                      style: theme.textTheme.bodyText1!.copyWith(
                         color: Colors.white,
                         fontSize: 22.sp,
                         letterSpacing: 0.9,
