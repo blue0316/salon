@@ -36,7 +36,7 @@ class _DefaultReviewsViewState extends ConsumerState<DefaultReviewsView> {
         left: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
         right: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
         top: DeviceConstraints.getResponsiveSize(context, 140.h, 180.h, 200.h),
-        // bottom: DeviceConstraints.getResponsiveSize(context, 140.h, 180.h, 200.h),
+        bottom: DeviceConstraints.getResponsiveSize(context, 140.h, 180.h, 200.h),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

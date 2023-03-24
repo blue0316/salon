@@ -85,6 +85,7 @@ class PrevAndNext extends ConsumerWidget {
                 ? SvgPicture.asset(
                     ThemeIcons.leftArrow,
                     height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                    color: theme.primaryColorLight,
                   )
                 : Icon(
                     Icons.arrow_back,
@@ -99,6 +100,7 @@ class PrevAndNext extends ConsumerWidget {
                 ? SvgPicture.asset(
                     ThemeIcons.rightArrow,
                     height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                    color: theme.primaryColor,
                   )
                 : Icon(
                     Icons.arrow_forward,

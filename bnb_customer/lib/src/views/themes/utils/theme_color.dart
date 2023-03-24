@@ -11,14 +11,28 @@ import 'package:flutter/material.dart';
 ThemeData getGlamDataTheme(String colorCode) {
   switch (colorCode) {
     case 'FFC692':
-      return GlamOneTheme.glamOneTheme;
-    case 'blublu':
-      return GlamOneTheme.main2;
-    // case 'FFC692':
-    //   return GlamOneTheme.glamOneTheme;
+      return GlamOneTheme.AccentFFC692;
+    case 'F48B72':
+      return GlamOneTheme.AccentF48B72;
+    case 'F79F7B':
+      return GlamOneTheme.AccentF79F7B;
+    case 'FFCF71':
+      return GlamOneTheme.AccentFFCF71;
+    case 'E3AB9E':
+      return GlamOneTheme.AccentE3AB9E;
+    case 'E2BCBF':
+      return GlamOneTheme.AccentE2BCBF;
+    case 'F9EFE6':
+      return GlamOneTheme.AccentF9EFE6;
+    case 'AFC7D2':
+      return GlamOneTheme.AccentAFC7D2;
+    case 'D7AFFF':
+      return GlamOneTheme.AccentD7AFFF;
+    case 'F9E0CA':
+      return GlamOneTheme.AccentF9E0CA;
 
     default:
-      return GlamOneTheme.glamOneTheme;
+      return GlamOneTheme.AccentFFC692;
   }
 }
 

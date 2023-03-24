@@ -232,7 +232,7 @@ class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
                                 text: getPromotionType(type: item.promotionType!),
                               )
                             : ColorFiltered(
-                                colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.1), BlendMode.dstATop),
+                                colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.dstATop),
                                 child: LandscapePageViewElement(
                                   image: '${item.promotionImage}',
                                   text: getPromotionType(type: item.promotionType!),
