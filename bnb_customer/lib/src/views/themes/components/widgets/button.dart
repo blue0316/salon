@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+const IconData arrow_outward = IconData(0xf089b, fontFamily: 'MaterialIcons');
+
 class SquareButton extends StatelessWidget {
   final double? height, width;
   final String text;
@@ -46,7 +48,7 @@ class SquareButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(borderRadius ?? 0),
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -60,7 +62,7 @@ class SquareButton extends StatelessWidget {
                     fontFamily: "Poppins",
                   ),
                 ),
-                if (showSuffix) SizedBox(width: spaceBetweenButtonAndText ?? 17),
+                if (showSuffix) SizedBox(width: spaceBetweenButtonAndText ?? 10),
                 if (showSuffix)
                   SvgPicture.asset(
                     ThemeIcons.arrowDiagonal,

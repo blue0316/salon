@@ -20,8 +20,7 @@ class ThemeHeader extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
 
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
 
@@ -34,8 +33,7 @@ class ThemeHeader extends ConsumerWidget {
           (salonModel.salonName).toUpperCase(), //"Miami's Best",
           style: theme.textTheme.headline1?.copyWith(
             letterSpacing: 0.5,
-            fontSize: DeviceConstraints.getResponsiveSize(
-                context, 50.sp, 75.sp, 85.sp),
+            fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 75.sp, 85.sp),
           ),
           textAlign: TextAlign.center,
         ),
@@ -47,13 +45,8 @@ class ThemeHeader extends ConsumerWidget {
         //   ),
         //   textAlign: TextAlign.center,
         // ),
-        SizedBox(
-            height:
-                DeviceConstraints.getResponsiveSize(context, 40.h, 40.h, 40.h)),
-        (_salonProfileProvider.theme == '2' ||
-                _salonProfileProvider.theme == '4' ||
-                _salonProfileProvider.theme == '6' ||
-                _salonProfileProvider.theme == '7')
+        SizedBox(height: DeviceConstraints.getResponsiveSize(context, 40.h, 40.h, 40.h)),
+        (_salonProfileProvider.theme == '2' || _salonProfileProvider.theme == '4' || _salonProfileProvider.theme == '6' || _salonProfileProvider.theme == '7')
             ? Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -70,27 +63,20 @@ class ThemeHeader extends ConsumerWidget {
                 buttonText: AppLocalizations.of(context)?.bookNow ?? "Book Now",
                 onTap: () => const BookingDialogWidget222().show(context),
               ),
-        if (_salonProfileProvider.theme != '4')
-          SizedBox(
-              height: DeviceConstraints.getResponsiveSize(
-                  context, 100.h, 100.h, 150.h)),
+        if (_salonProfileProvider.theme != '4') SizedBox(height: DeviceConstraints.getResponsiveSize(context, 100.h, 100.h, 150.h)),
         if (_salonProfileProvider.theme != '4')
           Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: DeviceConstraints.getResponsiveSize(
-                  context, 10.w, 10.w, 50.w),
+              horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 10.w, 50.w),
             ),
             child: Wrap(
-              spacing: DeviceConstraints.getResponsiveSize(
-                  context, 20.w, 20.w, 10.w),
-              runSpacing: DeviceConstraints.getResponsiveSize(
-                  context, 10.h, 20.w, 10.w),
+              spacing: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 10.w),
+              runSpacing: DeviceConstraints.getResponsiveSize(context, 10.h, 20.w, 10.w),
               alignment: WrapAlignment.center,
               children: _createAppointmentProvider.categoriesAvailable
                   .map(
                     (item) => GlamOneWrap(
-                      text: item.translations[
-                          AppLocalizations.of(context)?.localeName ?? 'en'],
+                      text: item.translations[AppLocalizations.of(context)?.localeName ?? 'en'],
                     ),
                   )
                   .toList(),
@@ -112,13 +98,11 @@ class ThemeHeader extends ConsumerWidget {
 class GlamOneWrap extends ConsumerWidget {
   final String text;
   final VoidCallback? onTap;
-  const GlamOneWrap({Key? key, required this.text, this.onTap})
-      : super(key: key);
+  const GlamOneWrap({Key? key, required this.text, this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     return GestureDetector(

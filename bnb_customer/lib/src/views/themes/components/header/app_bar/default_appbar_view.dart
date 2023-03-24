@@ -20,6 +20,7 @@ class DefaultAppBarTheme extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bool isTab = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab);
+    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
@@ -32,65 +33,91 @@ class DefaultAppBarTheme extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              if (!isTab) const Spacer(),
-              if (isTab)
-                MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Socials(
-                        socialIcon: ThemeIcons.insta,
-                        socialUrl: salonModel.links?.instagram,
+          (isPortrait)
+              ? Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        salonModel.salonName.toUpperCase(),
+                        style: theme.textTheme.headline1!.copyWith(
+                          color: Colors.white,
+                          fontSize: 22.sp,
+                          letterSpacing: 0.9,
+                          fontWeight: FontWeight.normal,
+                        ),
+                        // maxLines: 1,
                       ),
-                      const SizedBox(width: 20),
-                      Socials(
-                        socialIcon: ThemeIcons.tiktok,
-                        socialUrl: salonModel.links?.facebookMessenger,
+                    ),
+                    SvgPicture.asset(
+                      ThemeIcons.menu,
+                      height: 20.h,
+                      // color: theme.dividerColor,
+                      color: theme.appBarTheme.iconTheme!.color,
+                    ),
+                  ],
+                )
+              : Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    if (!isTab) const Spacer(),
+                    if (isTab)
+                      MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Socials(
+                              socialIcon: ThemeIcons.insta,
+                              socialUrl: salonModel.links?.instagram,
+                            ),
+                            const SizedBox(width: 20),
+                            Socials(
+                              socialIcon: ThemeIcons.tiktok,
+                              socialUrl: salonModel.links?.facebookMessenger,
+                            ),
+                            const SizedBox(width: 20),
+                            Socials(
+                              socialIcon: ThemeIcons.whatsapp,
+                              socialUrl: salonModel.links?.whatsapp,
+                            ),
+                          ],
+                        ),
                       ),
-                      const SizedBox(width: 20),
-                      Socials(
-                        socialIcon: ThemeIcons.whatsapp,
-                        socialUrl: salonModel.links?.whatsapp,
+                    if (isTab) const Spacer(),
+                    // (salonModel.salonLogo != '')
+                    //     ? SizedBox(
+                    //         height: DeviceConstraints.getResponsiveSize(context, 50.h, 50.h, 70.h),
+                    //         width: DeviceConstraints.getResponsiveSize(context, 100.w, 100.w, 50.w),
+                    //         child: CachedImage(
+                    //           url: salonModel.salonLogo,
+                    //           fit: BoxFit.fitHeight,
+                    //         ),
+                    //       )
+                    //     :
+                    Text(
+                      salonModel.salonName.toUpperCase(),
+                      style: theme.textTheme.headline1!.copyWith(
+                        color: Colors.white,
+                        fontSize: 22.sp,
+                        letterSpacing: 0.9,
+                        fontWeight: FontWeight.normal,
                       ),
-                    ],
-                  ),
+                      maxLines: 1,
+                    ),
+                    const Spacer(),
+                    // const Spacer(),
+                    SvgPicture.asset(
+                      ThemeIcons.menu,
+                      height: 20.h,
+                      // color: theme.dividerColor,
+                      color: theme.appBarTheme.iconTheme!.color,
+                    ),
+                  ],
                 ),
-              if (isTab) const Spacer(),
-              // (salonModel.salonLogo != '')
-              //     ? SizedBox(
-              //         height: DeviceConstraints.getResponsiveSize(context, 50.h, 50.h, 70.h),
-              //         width: DeviceConstraints.getResponsiveSize(context, 100.w, 100.w, 50.w),
-              //         child: CachedImage(
-              //           url: salonModel.salonLogo,
-              //           fit: BoxFit.fitHeight,
-              //         ),
-              //       )
-              //     :
-              Text(
-                salonModel.salonName.toUpperCase(),
-                style: theme.textTheme.headline1!.copyWith(
-                  color: Colors.white,
-                  fontSize: 22.sp,
-                  letterSpacing: 0.9,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-              const Spacer(),
-              // const Spacer(),
-              SvgPicture.asset(
-                ThemeIcons.menu,
-                height: 20.h,
-                // color: theme.dividerColor,
-                color: theme.appBarTheme.iconTheme!.color,
-              ),
-            ],
-          ),
           const SizedBox(height: 10),
           Container(
             height: 1,
