@@ -121,6 +121,6 @@ ThemeData getGlamMinimalDarkTheme(String? colorCode) {
     //   return GlamOneTheme.glamOneTheme;
 
     default:
-      return GlamMinimalLight.mainTheme;
+      return GlamMinimalDark.mainTheme;
   }
 }

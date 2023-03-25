@@ -64,7 +64,7 @@ class MinimalAppBar extends ConsumerWidget {
             Text(
               salonModel.salonName.toUpperCase(),
               style: theme.textTheme.headline1!.copyWith(
-                color: Colors.white,
+                color: theme.dividerColor,
                 fontSize: 22.sp,
                 letterSpacing: 0.9,
                 fontWeight: FontWeight.normal,

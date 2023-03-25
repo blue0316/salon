@@ -19,17 +19,14 @@ class ThemeHeaderImage extends ConsumerWidget {
     ThemeType themeType = _salonProfileProvider.themeType;
 
     return SizedBox(
-      height:
-          DeviceConstraints.getResponsiveSize(context, 1000.h, 1000.h, 1000.h),
+      height: DeviceConstraints.getResponsiveSize(context, 1000.h, 1000.h, 1000.h),
       width: double.infinity,
-      child: background(
-          themeType, _salonProfileProvider.chosenSalon, _salonProfileProvider),
+      child: background(themeType, _salonProfileProvider.chosenSalon, _salonProfileProvider),
     );
   }
 }
 
-Widget background(ThemeType themeType, SalonModel salon,
-    SalonProfileProvider salonProfileProvider) {
+Widget background(ThemeType themeType, SalonModel salon, SalonProfileProvider salonProfileProvider) {
   switch (themeType) {
     case ThemeType.Barbershop:
       return const GradientBackground();
@@ -62,10 +59,7 @@ class GradientBackground extends ConsumerWidget {
       //     : const DefaultImageBG(image: ThemeImages.gradientBG),
 
       child: Image.asset(
-        (DeviceConstraints.getDeviceType(MediaQuery.of(context)) ==
-                DeviceScreenType.tab)
-            ? ThemeImages.gradientBG
-            : ThemeImages.longGradientBG,
+        (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab) ? ThemeImages.gradientBG : ThemeImages.longGradientBG,
         fit: BoxFit.cover,
       ),
     );
@@ -78,13 +72,12 @@ class DefaultImageBG extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(image, fit: BoxFit.fitHeight);
+    return Image.asset(image, fit: BoxFit.cover);
   }
 }
 
 class FilteredImage extends StatelessWidget {
-  const FilteredImage(
-      {Key? key, required SalonProfileProvider salonProfileProvider})
+  const FilteredImage({Key? key, required SalonProfileProvider salonProfileProvider})
       : _salonProfileProvider = salonProfileProvider,
         super(key: key);
 
@@ -93,8 +86,7 @@ class FilteredImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColorFiltered(
-      colorFilter:
-          ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.dstATop),
+      colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.dstATop),
       child: CachedImage(
         url: _salonProfileProvider.chosenSalon.profilePics[0],
         fit: BoxFit.cover,
