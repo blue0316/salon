@@ -68,7 +68,7 @@ class Socials extends ConsumerWidget {
         child: SvgPicture.asset(
           socialIcon,
           height: height ?? 25.h,
-          color: theme.appBarTheme.iconTheme!.color,
+          color: Colors.black, // theme.appBarTheme.iconTheme!.color, // TODO: REVERT
         ),
       ),
     );

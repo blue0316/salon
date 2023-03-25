@@ -110,12 +110,19 @@ class DefaultAppBarTheme extends ConsumerWidget {
                     ),
                     const Spacer(),
                     // const Spacer(),
-                    SvgPicture.asset(
-                      ThemeIcons.menu,
-                      height: 20.h,
+
+                    Icon(
+                      Icons.menu_rounded,
+                      size: 20.h,
                       // color: theme.dividerColor,
                       color: theme.appBarTheme.iconTheme!.color,
                     ),
+                    // SvgPicture.asset(
+                    //   ThemeIcons.menu,
+                    //   height: 20.h,
+                    //   // color: theme.dividerColor,
+                    //   color: theme.appBarTheme.iconTheme!.color,
+                    // ),
                   ],
                 ),
           const SizedBox(height: 10),

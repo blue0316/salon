@@ -27,12 +27,10 @@ class ContactSection extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
-          (themeType == ThemeType.GlamMinimalLight || themeType == ThemeType.GlamMinimalDark)
-              ? AppLocalizations.of(context)?.contacts ?? 'Contacts'
-              : (AppLocalizations.of(context)?.contacts ?? 'Contacts').toUpperCase(),
+          (themeType == ThemeType.GlamMinimalLight || themeType == ThemeType.GlamMinimalDark) ? AppLocalizations.of(context)?.contacts ?? 'Contacts' : (AppLocalizations.of(context)?.contacts ?? 'Contacts').toUpperCase(),
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.left,
-          style: theme.textTheme.headline2?.copyWith(
+          style: theme.textTheme.bodyText1?.copyWith(
             fontSize: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
           ),
         ),
@@ -119,13 +117,11 @@ class VisitUs extends ConsumerWidget {
       children: [
         Text(
           // "VISIT US",
-          (themeType == ThemeType.GlamMinimalLight || themeType == ThemeType.GlamMinimalDark)
-              ? AppLocalizations.of(context)?.visit ?? 'Visit'
-              : (AppLocalizations.of(context)?.visit ?? 'Visit').toUpperCase(),
+          (themeType == ThemeType.GlamMinimalLight || themeType == ThemeType.GlamMinimalDark) ? AppLocalizations.of(context)?.visit ?? 'Visit' : (AppLocalizations.of(context)?.visit ?? 'Visit').toUpperCase(),
 
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.left,
-          style: theme.textTheme.headline2?.copyWith(
+          style: theme.textTheme.bodyText1?.copyWith(
             fontSize: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
           ),
         ),
@@ -166,7 +162,7 @@ class SocialNetwork extends ConsumerWidget {
 
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.left,
-          style: theme.textTheme.headline2?.copyWith(
+          style: theme.textTheme.bodyText1?.copyWith(
             fontSize: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
           ),
         ),
@@ -179,21 +175,21 @@ class SocialNetwork extends ConsumerWidget {
               socialIcon: (themeType == ThemeType.GlamMinimalLight) ? ThemeIcons.minimalInstagram : ThemeIcons.insta,
               socialUrl: salonModel.links?.instagram,
               height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 26.sp),
-              color: theme.dividerColor,
+              color: theme.primaryColorDark,
             ),
             const SizedBox(width: 20),
             Socials(
               socialIcon: (themeType == ThemeType.GlamMinimalLight) ? ThemeIcons.minimalFacebook : ThemeIcons.tiktok,
               socialUrl: salonModel.links?.facebookMessenger,
               height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 26.sp),
-              color: theme.dividerColor,
+              color: theme.primaryColorDark,
             ),
             const SizedBox(width: 20),
             Socials(
               socialIcon: (themeType == ThemeType.GlamMinimalLight) ? ThemeIcons.whatsapp : ThemeIcons.whatsapp,
               socialUrl: salonModel.links?.whatsapp,
               height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 26.sp),
-              color: theme.dividerColor,
+              color: theme.primaryColorDark,
             ),
           ],
         ),

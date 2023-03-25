@@ -14,7 +14,7 @@ class GlamBarberShopTheme {
 
   // MAIN COLORS 1
   static const primaryColor1 = Color(0XFFDDC686);
-  static const deepOrange = Color(0XFFF48B72);
+  // static const deepOrange = Color(0XFFF48B72);
 
   // MAIN COLORS 2
   static const primaryColor2 = Colors.yellow;
@@ -70,9 +70,7 @@ class GlamBarberShopTheme {
       bodyText2: bodyText2.copyWith(color: primaryColor1),
       //text-field style
       subtitle1: subTitle1.copyWith(color: primaryColor1),
-      subtitle2: subTitle2.copyWith(
-          color: Colors
-              .black), // Sub text under a section title in a section container
+      subtitle2: subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
     ),
     dividerColor: Colors.white,
 
@@ -90,8 +88,7 @@ class GlamBarberShopTheme {
       hintStyle: bodyText1.copyWith(color: Colors.white),
     ),
     hintColor: Colors.white,
-    unselectedWidgetColor:
-        Colors.grey[700], // Color for not valid time slot container
+    unselectedWidgetColor: Colors.grey[700], // Color for not valid time slot container
     highlightColor: primaryColor1,
     // Stop
 
@@ -158,9 +155,7 @@ class GlamBarberShopTheme {
       bodyText2: bodyText2.copyWith(color: primaryColor1),
       //text-field style
       subtitle1: subTitle1.copyWith(color: primaryColor1),
-      subtitle2: subTitle2.copyWith(
-          color: Colors
-              .black), // Sub text under a section title in a section container
+      subtitle2: subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
     ),
     dividerColor: Colors.white,
 
@@ -178,8 +173,7 @@ class GlamBarberShopTheme {
       hintStyle: bodyText1.copyWith(color: Colors.white),
     ),
     hintColor: Colors.white,
-    unselectedWidgetColor:
-        Colors.grey[700], // Color for not valid time slot container
+    unselectedWidgetColor: Colors.grey[700], // Color for not valid time slot container
     highlightColor: primaryColor1,
     // Stop
 
