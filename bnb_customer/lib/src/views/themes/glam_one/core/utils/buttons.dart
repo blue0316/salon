@@ -35,8 +35,7 @@ class RotatedBookNow extends ConsumerWidget {
                 height: 180.h,
                 child: SvgPicture.asset(
                   AppIcons.bookNow,
-                  // color: buttonBorderColor ?? theme.primaryColor,
-                  color: Colors.black, // TODO: REVERT
+                  color: buttonBorderColor ?? theme.primaryColor,
                 ),
               ),
               Text(
