@@ -24,8 +24,7 @@ class SalonWorks extends ConsumerStatefulWidget {
 class _SalonWorksState extends ConsumerState<SalonWorks> {
   @override
   Widget build(BuildContext context) {
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     ThemeType themeType = _salonProfileProvider.themeType;
@@ -49,16 +48,14 @@ class OurWorksButton extends ConsumerWidget {
   final VoidCallback backOnTap;
   final VoidCallback forwardOnTap;
 
-  const OurWorksButton(
-      {Key? key, required this.backOnTap, required this.forwardOnTap})
-      : super(key: key);
+  const OurWorksButton({Key? key, required this.backOnTap, required this.forwardOnTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    String? themeNo = _salonProfileProvider.theme;
+
+    final ThemeType themeType = _salonProfileProvider.themeType;
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
@@ -66,39 +63,30 @@ class OurWorksButton extends ConsumerWidget {
         children: [
           GestureDetector(
             onTap: backOnTap,
-            child: (themeNo != '2' && themeNo != '4')
+            child: (themeType != ThemeType.GlamBarbershop && themeType != ThemeType.Barbershop)
                 ? SvgPicture.asset(
                     ThemeIcons.leftArrow,
-                    color: (themeNo == '1' || themeNo == '3')
-                        ? Colors.black
-                        : theme.primaryColor,
-                    height: DeviceConstraints.getResponsiveSize(
-                        context, 30.sp, 40.sp, 50.sp),
+                    color: (themeType == ThemeType.Glam || themeType == ThemeType.GlamGradient) ? Colors.black : theme.primaryColor,
+                    height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
                   )
                 : Icon(
                     Icons.arrow_back,
-                    size: DeviceConstraints.getResponsiveSize(
-                        context, 30.sp, 40.sp, 50.sp),
+                    size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
                     color: Colors.white,
                   ),
           ),
-          SizedBox(
-              width: DeviceConstraints.getResponsiveSize(context, 15, 30, 40)),
+          SizedBox(width: DeviceConstraints.getResponsiveSize(context, 15, 30, 40)),
           GestureDetector(
             onTap: forwardOnTap,
-            child: (themeNo != '2' && themeNo != '4')
+            child: (themeType != ThemeType.GlamBarbershop && themeType != ThemeType.Barbershop)
                 ? SvgPicture.asset(
                     ThemeIcons.rightArrow,
-                    color: (themeNo == '1' || themeNo == '3')
-                        ? Colors.black
-                        : theme.primaryColor,
-                    height: DeviceConstraints.getResponsiveSize(
-                        context, 30.sp, 40.sp, 50.sp),
+                    color: (themeType == ThemeType.Glam || themeType == ThemeType.GlamGradient) ? Colors.black : theme.primaryColor,
+                    height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
                   )
                 : Icon(
                     Icons.arrow_forward,
-                    size: DeviceConstraints.getResponsiveSize(
-                        context, 30.sp, 40.sp, 50.sp),
+                    size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
                     color: theme.primaryColor,
                   ),
           ),

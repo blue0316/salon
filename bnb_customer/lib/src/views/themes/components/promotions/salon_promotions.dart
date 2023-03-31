@@ -74,6 +74,7 @@ class PrevAndNext extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    final ThemeType themeType = _salonProfileProvider.themeType;
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
@@ -81,7 +82,7 @@ class PrevAndNext extends ConsumerWidget {
         children: [
           GestureDetector(
             onTap: backOnTap,
-            child: (_salonProfileProvider.theme != '2')
+            child: (themeType != ThemeType.GlamBarbershop)
                 ? SvgPicture.asset(
                     ThemeIcons.leftArrow,
                     height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
@@ -96,7 +97,7 @@ class PrevAndNext extends ConsumerWidget {
           SizedBox(width: DeviceConstraints.getResponsiveSize(context, 15, 30, 40)),
           GestureDetector(
             onTap: forwardOnTap,
-            child: (_salonProfileProvider.theme != '2')
+            child: (themeType != ThemeType.GlamBarbershop)
                 ? SvgPicture.asset(
                     ThemeIcons.rightArrow,
                     height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),

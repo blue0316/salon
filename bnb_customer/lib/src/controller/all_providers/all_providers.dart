@@ -9,17 +9,16 @@ import 'package:bbblient/src/controller/quiz/quiz_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/controller/search/search_provider.dart';
 import 'package:bbblient/src/controller/user/user_provider.dart';
+import 'package:bbblient/src/views/themes/glam_one/controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final firebaseAuthProvider =
-    Provider<FirebaseAuth>((ref) => FirebaseAuth.instance);
+final firebaseAuthProvider = Provider<FirebaseAuth>((ref) => FirebaseAuth.instance);
 
 final authStateChangesProvider = StreamProvider<User?>(
   (ref) => ref.watch(firebaseAuthProvider).authStateChanges(),
 );
-final createAppointmentProvider =
-    ChangeNotifierProvider<CreateAppointmentProvider>(
+final createAppointmentProvider = ChangeNotifierProvider<CreateAppointmentProvider>(
   (ref) => CreateAppointmentProvider(),
 );
 
@@ -61,4 +60,8 @@ final mapViewProvider = ChangeNotifierProvider<MapViewProvider>(
 
 final salonProfileProvider = ChangeNotifierProvider<SalonProfileProvider>(
   (ref) => SalonProfileProvider(),
+);
+
+final themeController = ChangeNotifierProvider<ThemeController>(
+  (ref) => ThemeController(),
 );

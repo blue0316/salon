@@ -1,8 +1,13 @@
-// ignore_for_file: use_full_hex_values_for_flutter_colors
+// ignore_for_file: use_full_hex_values_for_flutter_colors, non_constant_identifier_names
 
 import 'package:bbblient/src/views/themes/glam_one/core/utils/color_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'accents/glam_gradient/accent_EF7158.dart';
+import 'accents/glam_gradient/accent_F1AFFC.dart';
+import 'accents/glam_gradient/accent_F49457.dart';
+import 'accents/glam_gradient/accent_EF5734.dart';
+import 'accents/glam_gradient/accent_58DDEF.dart';
 
 // Theme 3 ThemeData
 class GlamGradientTheme {
@@ -16,15 +21,11 @@ class GlamGradientTheme {
   static const primaryColor1 = Color(0XFFFFC692);
   static const deepOrange = Color(0XFFF48B72);
 
-  // MAIN COLORS 2
-  static const primaryColor2 = Colors.purple;
-
   // Theme 1
   static final ThemeData mainTheme = ThemeData(
     primaryColor: primaryColor1,
     primaryColorDark: deepOrange,
     primaryColorLight: primaryColor1,
-    backgroundColor: ColorConstant.black900,
     scaffoldBackgroundColor: Colors.black,
     textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
     tabBarTheme: TabBarTheme(
@@ -40,7 +41,6 @@ class GlamGradientTheme {
       ),
     ),
     dialogBackgroundColor: Colors.black,
-    bottomAppBarColor: Colors.white, // Color of divider on appbar
 
     cardColor: primaryColor1,
     colorScheme: ColorScheme(
@@ -48,7 +48,7 @@ class GlamGradientTheme {
       secondary: Colors.black, // Color of title text on cards
       onSecondaryContainer: Colors.black, // Color of sub text on cardsf
       surface: Colors.white,
-      background: primaryColor1,
+      background: ColorConstant.black900,
       error: redishPink,
       onPrimary: (Colors.green[900])!,
       onSecondary: creamBrownLight,
@@ -56,28 +56,31 @@ class GlamGradientTheme {
       onBackground: lightGrey,
       onError: redishPink,
       brightness: Brightness.light,
-    ),
-    textTheme: TextTheme(
-      headline1: headLine1.copyWith(color: primaryColor1),
-      headline2: headLine2.copyWith(color: primaryColor1),
-      headline3: headLine3.copyWith(color: primaryColor1),
-      headline4: headLine4.copyWith(color: primaryColor1),
-      headline5: headLine5.copyWith(color: primaryColor1),
+      outlineVariant: Colors.white, // Color of divider on appbar
 
-      bodyText1: bodyText1.copyWith(color: primaryColor1),
-      bodyText2: bodyText2.copyWith(color: primaryColor1),
+      // Use these 3 colors for gradient
+      surfaceVariant: const Color(0XFF8DBBEC),
+      onSurfaceVariant: const Color(0XFFFFDA92),
+      surfaceTint: const Color(0XFFF48B72),
+    ),
+
+    textTheme: TextTheme(
+      displayLarge: headLine1.copyWith(color: primaryColor1),
+      displayMedium: headLine2.copyWith(color: primaryColor1),
+      displaySmall: headLine3.copyWith(color: primaryColor1),
+      headlineMedium: headLine4.copyWith(color: primaryColor1),
+      headlineSmall: headLine5.copyWith(color: primaryColor1),
+
+      bodyLarge: bodyText1.copyWith(color: primaryColor1),
+      bodyMedium: bodyText2.copyWith(color: primaryColor1),
       //text-field style
-      subtitle1: subTitle1.copyWith(color: primaryColor1),
-      subtitle2: subTitle2.copyWith(
-          color: Colors
-              .black), // Sub text under a section title in a section container
+      titleMedium: subTitle1.copyWith(color: primaryColor1),
+      titleSmall: subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
     ),
     appBarTheme: AppBarTheme(
       backgroundColor: Colors.white,
       titleTextStyle: bodyText1,
-      iconTheme: const IconThemeData(
-        color: Colors.white,
-      ),
+      iconTheme: const IconThemeData(color: Colors.white),
     ),
     dividerColor: const Color(0XFFF48B72),
     inputDecorationTheme: InputDecorationTheme(
@@ -96,8 +99,7 @@ class GlamGradientTheme {
       ),
       hintStyle: bodyText1.copyWith(color: Colors.black),
     ),
-    unselectedWidgetColor:
-        Colors.grey[700], // Color for not valid time slot container
+    unselectedWidgetColor: Colors.grey[700], // Color for not valid time slot container
     highlightColor: primaryColor1,
 
     // Stop
@@ -106,92 +108,20 @@ class GlamGradientTheme {
     hoverColor: lightGrey,
   );
 
-  // Sub Theme 2
-  static final ThemeData mainTheme2 = ThemeData(
-    primaryColor: Colors.purple,
-    primaryColorDark: Colors.deepPurple,
-    primaryColorLight: primaryColor1,
-    // backgroundColor: primaryColor1,
-    scaffoldBackgroundColor: Colors.black,
-    textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
-    tabBarTheme: TabBarTheme(
-      unselectedLabelColor: primaryColor1,
-      labelColor: Colors.black,
-      labelStyle: bodyText1.copyWith(
-        color: Colors.black,
-        fontWeight: FontWeight.w600,
-      ),
-      indicator: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
-        color: primaryColor1,
-      ),
-    ),
-    dialogBackgroundColor: Colors.black,
-    bottomAppBarColor: Colors.white, // Color of divider on appbar
+  // Accent Color F49457
+  static final ThemeData AccentF49457 = accentF49457;
 
-    cardColor: primaryColor1,
-    colorScheme: ColorScheme(
-      primary: (Colors.pink[900])!,
-      secondary: Colors.black, // Color of title text on cards
-      onSecondaryContainer: Colors.black, // Color of sub text on cardsf
-      surface: Colors.white,
-      background: primaryColor1,
-      error: redishPink,
-      onPrimary: (Colors.green[900])!,
-      onSecondary: creamBrownLight,
-      onSurface: lightGrey,
-      onBackground: lightGrey,
-      onError: redishPink,
-      brightness: Brightness.light,
-    ),
-    textTheme: TextTheme(
-      headline1: headLine1.copyWith(color: primaryColor2),
-      headline2: headLine2.copyWith(color: primaryColor2),
-      headline3: headLine3.copyWith(color: primaryColor2),
-      headline4: headLine4.copyWith(color: primaryColor2),
-      headline5: headLine5.copyWith(color: primaryColor2),
+  // Accent Color F1AFFC
+  static final ThemeData AccentF1AFFC = accentF1AFFC;
 
-      bodyText1: bodyText1.copyWith(color: primaryColor2),
-      bodyText2: bodyText2.copyWith(color: primaryColor2),
-      //text-field style
-      subtitle1: subTitle1.copyWith(color: primaryColor2),
-      subtitle2: subTitle2.copyWith(
-          color: Colors
-              .black), // Sub text under a section title in a section container
-    ),
-    appBarTheme: AppBarTheme(
-      backgroundColor: Colors.white,
-      titleTextStyle: bodyText1,
-      iconTheme: const IconThemeData(
-        color: Colors.white,
-      ),
-    ),
-    dividerColor: const Color(0XFFF48B72),
-    inputDecorationTheme: InputDecorationTheme(
-      labelStyle: bodyText1.copyWith(color: Colors.black),
-      border: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.black, width: 1),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.black, width: 1),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.black, width: 1),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      hintStyle: bodyText1.copyWith(color: Colors.black),
-    ),
-    unselectedWidgetColor:
-        Colors.grey[700], // Color for not valid time slot container
-    // Stop
-    focusColor: lightGrey,
-    highlightColor: primaryColor1,
+  // Accent Color FFB36A
+  static final ThemeData AccentFFB36A = accentFFB36A;
 
-    splashColor: lightGrey,
-    hoverColor: lightGrey,
-  );
+  // Accent Color EF7158
+  static final ThemeData AccentEF7158 = accentEF7158;
+
+  // Accent Color 58DDEF
+  static final ThemeData Accent58DDEF = accent58DDEF;
 
   static final TextStyle headLine1 = TextStyle(
     fontFamily: "VASQUZ",

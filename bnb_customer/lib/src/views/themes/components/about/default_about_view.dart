@@ -8,6 +8,7 @@ import 'package:bbblient/src/views/salon/booking/dialog_flow/booking_dialog_2.da
 import 'package:bbblient/src/views/themes/components/widgets/button.dart';
 import 'package:bbblient/src/views/themes/images.dart';
 import 'package:bbblient/src/views/themes/components/widgets/oval_button.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,7 @@ class _DefaultAboutViewState extends ConsumerState<DefaultAboutView> {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    final ThemeType themeType = _salonProfileProvider.themeType;
 
     return Padding(
       padding: EdgeInsets.only(
@@ -114,7 +116,7 @@ class _DefaultAboutViewState extends ConsumerState<DefaultAboutView> {
                             ),
                           ),
                           const SizedBox(height: 20),
-                          (_salonProfileProvider.theme == '2')
+                          (themeType == ThemeType.GlamBarbershop)
                               ? Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -160,7 +162,7 @@ class _DefaultAboutViewState extends ConsumerState<DefaultAboutView> {
                     maxLines: 6,
                   ),
                   const SizedBox(height: 30),
-                  (_salonProfileProvider.theme == '2')
+                  (themeType == ThemeType.GlamBarbershop)
                       ? SquareButton(
                           text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
                           onTap: () => const BookingDialogWidget222().show(context),

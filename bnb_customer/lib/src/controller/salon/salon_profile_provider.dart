@@ -4,6 +4,7 @@ import 'package:bbblient/src/firebase/master.dart';
 import 'package:bbblient/src/firebase/products.dart';
 import 'package:bbblient/src/firebase/salons.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
+import 'package:bbblient/src/models/customer_web_settings.dart';
 import 'package:bbblient/src/models/enquiry.dart';
 import 'package:bbblient/src/models/enums/appointment_status.dart';
 import 'package:bbblient/src/models/enums/status.dart';
@@ -40,9 +41,9 @@ class SalonProfileProvider with ChangeNotifier {
 
   // List<ServiceModel> salonServices = [];
 
-  Map<String, dynamic> themeSettings = {};
+  CustomerWebSettings? themeSettings;
   ThemeData salonTheme = AppTheme.lightTheme;
-  String? theme;
+  // String? theme;
 
   ThemeType themeType = ThemeType.Default;
 
@@ -52,15 +53,15 @@ class SalonProfileProvider with ChangeNotifier {
   final TextEditingController requestController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
+// lf31oWACmY7UTCbnPNQ3
   Future<SalonModel?> init(context, salonId) async {
     try {
       loadingStatus = Status.loading;
       chosenSalon = (await _salonApi.getSalonFromId(salonId))!;
       // await Time().setTimeSlot(chosenSalon.timeSlotsInterval);
       themeSettings = await CustomerWebSettingsApi().getSalonTheme(salonId: salonId);
-      theme = themeSettings['testId']; // TODO: REFACTOR: USE THEME TYPE GENERALLY
-      themeType = getThemeTypeEnum(themeSettings['testId']);
+      // theme = themeSettings?.theme?.testId; // themeSettings['testId']; // TODO: REFACTOR: USE THEME TYPE GENERALLY
+      themeType = getThemeTypeEnum(themeSettings?.theme?.testId); // (themeSettings['testId']);
 
       await getSalonReviews(salonId: salonId);
       await getProductsData(context, salonId: salonId);
@@ -85,52 +86,52 @@ class SalonProfileProvider with ChangeNotifier {
   };
 
   dynamic getTheme() {
-    if (availableThemes.contains(theme)) {
+    if (availableThemes.contains(themeSettings?.theme?.testId)) {
       // If theme number is not in this set, it means that's a default theme
-      switch (theme) {
+      switch (themeSettings?.theme?.testId) {
         case '1':
-          salonTheme = getGlamDataTheme(themeSettings['colorCode']);
+          salonTheme = getGlamDataTheme(themeSettings?.theme?.colorCode); // (themeSettings['colorCode']);
           themeType = ThemeType.Glam;
           notifyListeners();
           break;
 
         case '2':
-          salonTheme = getGlamBarbershopTheme(themeSettings['colorCode']);
+          salonTheme = getGlamBarbershopTheme(themeSettings?.theme?.colorCode); // (themeSettings['colorCode']);
           themeType = ThemeType.GlamBarbershop;
 
           notifyListeners();
           break;
 
         case '3':
-          salonTheme = getGlamGradientTheme(themeSettings['colorCode']);
+          salonTheme = getGlamGradientTheme(themeSettings?.theme?.colorCode); // (themeSettings['colorCode']);
           themeType = ThemeType.GlamGradient;
 
           notifyListeners();
           break;
 
         case '4':
-          salonTheme = getBarbershopTheme(themeSettings['colorCode']);
+          salonTheme = getBarbershopTheme(themeSettings?.theme?.colorCode); // (themeSettings['colorCode']);
           themeType = ThemeType.Barbershop;
 
           notifyListeners();
           break;
 
         case '5':
-          salonTheme = getGlamLightTheme(themeSettings['colorCode']);
+          salonTheme = getGlamLightTheme(themeSettings?.theme?.colorCode); // (themeSettings['colorCode']);
           themeType = ThemeType.GlamLight;
 
           notifyListeners();
           break;
 
         case '6':
-          salonTheme = getGlamMinimalLightTheme(themeSettings['colorCode']);
+          salonTheme = getGlamMinimalLightTheme(themeSettings?.theme?.colorCode); // (themeSettings['colorCode']);
           themeType = ThemeType.GlamMinimalLight;
 
           notifyListeners();
           break;
 
         case '7':
-          salonTheme = getGlamMinimalDarkTheme(themeSettings['colorCode']);
+          salonTheme = getGlamMinimalDarkTheme(themeSettings?.theme?.colorCode); // (themeSettings['colorCode']);
           themeType = ThemeType.GlamMinimalDark;
 
           notifyListeners();

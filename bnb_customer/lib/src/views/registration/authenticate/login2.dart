@@ -80,7 +80,7 @@ class _Login2State extends ConsumerState<Login2> {
                 AppIcons.appLogo,
                 cacheColorFilter: true,
                 color: AppTheme.btnColor,
-               currentColor: AppTheme.btnColor,
+                // currentColor: AppTheme.btnColor,
                 colorBlendMode: BlendMode.srcIn,
               )),
               Gap(40.h),

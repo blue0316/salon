@@ -35,11 +35,7 @@ class SalonTeam extends ConsumerWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         color: (themeType == ThemeType.GlamGradient) ? null : theme.cardColor,
-        gradient: (themeType == ThemeType.GlamGradient)
-            ? const LinearGradient(
-                colors: [Color(0XFFFFDA92), Color(0XFFF48B72)],
-              )
-            : null,
+        gradient: themeGradient(themeType, theme),
       ),
       child: Padding(
         padding: EdgeInsets.only(
@@ -271,5 +267,20 @@ class RectangleTeamAvatar extends StatelessWidget {
               fit: BoxFit.cover,
             ),
     );
+  }
+}
+
+Gradient? themeGradient(ThemeType type, ThemeData theme) {
+  switch (type) {
+    case ThemeType.GlamGradient:
+      return LinearGradient(
+        colors: [
+          theme.colorScheme.onSurfaceVariant,
+          theme.colorScheme.surfaceTint,
+        ],
+      );
+
+    default:
+      return null;
   }
 }

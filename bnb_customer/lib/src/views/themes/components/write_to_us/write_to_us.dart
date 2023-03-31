@@ -32,19 +32,27 @@ class _WriteToUsState extends ConsumerState<WriteToUs> {
         width: double.infinity,
         decoration: BoxDecoration(
           color: (themeType == ThemeType.GlamGradient) ? null : theme.cardColor,
-          gradient: (themeType == ThemeType.GlamGradient)
-              ? const LinearGradient(
-                  colors: [
-                    Color(0XFFF48B72),
-                    Color(0XFFFFDA92),
-                    Color(0XFF8DBBEC),
-                  ],
-                )
-              : null,
+          gradient: themeGradient(themeType, theme),
         ),
         child: writeToUsTheme(context, themeType, widget.salonModel),
       ),
     );
+  }
+}
+
+Gradient? themeGradient(ThemeType type, ThemeData theme) {
+  switch (type) {
+    case ThemeType.GlamGradient:
+      return LinearGradient(
+        colors: [
+          theme.colorScheme.surfaceTint,
+          theme.colorScheme.onSurfaceVariant,
+          theme.colorScheme.surfaceVariant,
+        ],
+      );
+
+    default:
+      return null;
   }
 }
 

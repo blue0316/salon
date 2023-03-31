@@ -76,6 +76,8 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
       for (Map registeredFeatures in masterFeatures) {
         if (registeredFeatures.containsKey(s)) {
           return registeredFeatures[s];
+        } else {
+          return s;
         }
       }
     }
@@ -84,6 +86,8 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
       for (Map registeredFeatures in salonFeatures) {
         if (registeredFeatures.containsKey(s)) {
           return registeredFeatures[s];
+        } else {
+          return s;
         }
       }
     }
@@ -94,6 +98,8 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
     for (Map registeredFeatures in ukMasterFeatures) {
       if (registeredFeatures.containsKey(s)) {
         return registeredFeatures[s];
+      } else {
+        return s;
       }
     }
 
@@ -101,6 +107,8 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
       for (Map registeredFeatures in ukSalonFeatures) {
         if (registeredFeatures.containsKey(s)) {
           return registeredFeatures[s];
+        } else {
+          return s;
         }
       }
     }
