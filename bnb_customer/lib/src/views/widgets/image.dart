@@ -24,7 +24,9 @@ class CachedImage extends StatelessWidget {
       width: width,
 
       //maxHeightDiskCache: 800,
-      errorWidget: (context, url, error) => SizedBox(
+      errorWidget: (context, url, error) {
+        print('image eorror $error');
+        return SizedBox(
         height: height,
         width: width,
         // decoration: BoxDecoration(shape: BoxShape.circle),
@@ -35,9 +37,9 @@ class CachedImage extends StatelessWidget {
             color: Colors.red,
           ),
         ),
-      ),
+      );},
       placeholder: placeHolder,
-      memCacheWidth: _cachedWidth,
+      memCacheWidth:500,
     );
   }
 }
