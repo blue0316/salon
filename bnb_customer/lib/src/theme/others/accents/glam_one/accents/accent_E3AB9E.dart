@@ -4,17 +4,17 @@ import 'package:bbblient/src/theme/others/glam_one.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/color_constant.dart';
 import 'package:flutter/material.dart';
 
-const _primaryColor = Color(0XFFD7AFFF);
+const primaryOption5 = Color(0XFFE3AB9E);
 
-final ThemeData accentD7AFFF = ThemeData(
-  primaryColor: _primaryColor,
-  primaryColorDark: Colors.white,
-  primaryColorLight: Colors.white,
-  backgroundColor: ColorConstant.black900,
+final ThemeData accentE3AB9E = ThemeData(
+  primaryColor: primaryOption5,
+  primaryColorDark: GlamOneTheme.primaryOption1,
+  primaryColorLight: GlamOneTheme.primaryOption1,
+
   scaffoldBackgroundColor: Colors.black,
   textSelectionTheme: const TextSelectionThemeData(cursorColor: GlamOneTheme.lightBlack),
   tabBarTheme: TabBarTheme(
-    unselectedLabelColor: _primaryColor,
+    unselectedLabelColor: primaryOption5,
     labelColor: Colors.black,
     labelStyle: GlamOneTheme.bodyText1.copyWith(
       color: Colors.black,
@@ -22,40 +22,40 @@ final ThemeData accentD7AFFF = ThemeData(
     ),
     indicator: BoxDecoration(
       borderRadius: BorderRadius.circular(50),
-      color: _primaryColor,
+      color: primaryOption5,
     ),
   ),
 
   dialogBackgroundColor: Colors.black,
-  bottomAppBarColor: Colors.white, // Color of divider on appbar
 
-  cardColor: _primaryColor,
+  cardColor: primaryOption5,
   colorScheme: ColorScheme(
     primary: (Colors.pink[900])!,
     secondary: Colors.black, // Color of title text on cards
     onSecondaryContainer: Colors.black, // Color of sub text on cardsf
     surface: Colors.white,
-    background: _primaryColor,
+    background: ColorConstant.black900,
+
     error: GlamOneTheme.redishPink,
     onPrimary: (Colors.green[900])!,
     onSecondary: GlamOneTheme.creamBrownLight,
     onSurface: GlamOneTheme.lightGrey,
     onBackground: GlamOneTheme.lightGrey,
     onError: GlamOneTheme.redishPink,
-    brightness: Brightness.light,
+    brightness: Brightness.light, outlineVariant: Colors.white, // Color of divider on appbar
   ),
   textTheme: TextTheme(
-    headline1: GlamOneTheme.headLine1.copyWith(color: _primaryColor),
-    headline2: GlamOneTheme.headLine2.copyWith(color: _primaryColor),
-    headline3: GlamOneTheme.headLine3.copyWith(color: _primaryColor),
-    headline4: GlamOneTheme.headLine4.copyWith(color: _primaryColor),
-    headline5: GlamOneTheme.headLine5.copyWith(color: _primaryColor),
+    displayLarge: GlamOneTheme.headLine1.copyWith(color: primaryOption5),
+    displayMedium: GlamOneTheme.headLine2.copyWith(color: primaryOption5),
+    displaySmall: GlamOneTheme.headLine3.copyWith(color: primaryOption5),
+    headlineMedium: GlamOneTheme.headLine4.copyWith(color: primaryOption5),
+    headlineSmall: GlamOneTheme.headLine5.copyWith(color: primaryOption5),
 
-    bodyText1: GlamOneTheme.bodyText1.copyWith(color: _primaryColor),
-    bodyText2: GlamOneTheme.bodyText2.copyWith(color: _primaryColor),
+    bodyLarge: GlamOneTheme.bodyText1.copyWith(color: primaryOption5),
+    bodyMedium: GlamOneTheme.bodyText2.copyWith(color: primaryOption5),
     //text-field style
-    subtitle1: GlamOneTheme.subTitle1.copyWith(color: _primaryColor),
-    subtitle2: GlamOneTheme.subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
+    titleMedium: GlamOneTheme.subTitle1.copyWith(color: primaryOption5),
+    titleSmall: GlamOneTheme.subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
   ),
   appBarTheme: AppBarTheme(
     backgroundColor: Colors.white,
@@ -64,7 +64,7 @@ final ThemeData accentD7AFFF = ThemeData(
       color: Colors.white,
     ),
   ),
-  dividerColor: _primaryColor,
+  dividerColor: primaryOption5,
   inputDecorationTheme: InputDecorationTheme(
     labelStyle: GlamOneTheme.bodyText1.copyWith(color: Colors.black),
     border: OutlineInputBorder(
@@ -82,7 +82,7 @@ final ThemeData accentD7AFFF = ThemeData(
     hintStyle: GlamOneTheme.bodyText1.copyWith(color: Colors.black),
   ),
   unselectedWidgetColor: Colors.grey[700], // Color for not valid time slot container
-  highlightColor: _primaryColor,
+  highlightColor: primaryOption5,
 
   // Stop
   focusColor: GlamOneTheme.lightGrey,

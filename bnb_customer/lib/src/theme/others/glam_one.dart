@@ -3,15 +3,15 @@
 import 'package:bbblient/src/views/themes/glam_one/core/utils/color_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'glam_one/accents/accent_AFC7D2.dart';
-import 'glam_one/accents/accent_D7AFFF.dart';
-import 'glam_one/accents/accent_E2BCBF.dart';
-import 'glam_one/accents/accent_F48B72.dart';
-import 'glam_one/accents/accent_F79F7B.dart';
-import 'glam_one/accents/accent_F9E0CA.dart';
-import 'glam_one/accents/accent_F9EFE6.dart';
-import 'glam_one/accents/accent_FFCF71.dart';
-import 'glam_one/accents/accent_E3AB9E.dart';
+import 'accents/glam_one/accents/accent_AFC7D2.dart';
+import 'accents/glam_one/accents/accent_D7AFFF.dart';
+import 'accents/glam_one/accents/accent_E2BCBF.dart';
+import 'accents/glam_one/accents/accent_F48B72.dart';
+import 'accents/glam_one/accents/accent_F79F7B.dart';
+import 'accents/glam_one/accents/accent_F9E0CA.dart';
+import 'accents/glam_one/accents/accent_F9EFE6.dart';
+import 'accents/glam_one/accents/accent_FFCF71.dart';
+import 'accents/glam_one/accents/accent_E3AB9E.dart';
 
 // Theme 1 ThemeData
 class GlamOneTheme {
@@ -22,7 +22,7 @@ class GlamOneTheme {
   static const Color lightGrey = Color(0xff89959F);
 
   // MAIN COLORS 1
-  static const primaryOption1 = Color(0XFFFFC692);
+  static Color primaryOption1 = const Color(0XFFFFC692);
   static const primaryDeepOption1 = Color(0XFFF48B72);
 
   // Accent Color FFC692
@@ -30,7 +30,6 @@ class GlamOneTheme {
     primaryColor: primaryOption1,
     primaryColorDark: primaryDeepOption1,
     primaryColorLight: primaryOption1,
-    backgroundColor: ColorConstant.black900,
     scaffoldBackgroundColor: Colors.black,
     textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
     tabBarTheme: TabBarTheme(
@@ -46,7 +45,6 @@ class GlamOneTheme {
       ),
     ),
     dialogBackgroundColor: Colors.black,
-    bottomAppBarColor: Colors.white, // Color of divider on appbar
 
     cardColor: primaryOption1,
     colorScheme: ColorScheme(
@@ -54,7 +52,7 @@ class GlamOneTheme {
       secondary: Colors.black, // Color of title text on cards
       onSecondaryContainer: Colors.black, // Color of sub text on cardsf
       surface: Colors.white,
-      background: primaryOption1,
+      background: ColorConstant.black900,
       error: redishPink,
       onPrimary: (Colors.green[900])!,
       onSecondary: creamBrownLight,
@@ -62,19 +60,20 @@ class GlamOneTheme {
       onBackground: lightGrey,
       onError: redishPink,
       brightness: Brightness.light,
+      outlineVariant: Colors.white, // Color of divider on appbar
     ),
     textTheme: TextTheme(
-      headline1: headLine1.copyWith(color: primaryOption1),
-      headline2: headLine2.copyWith(color: primaryOption1),
-      headline3: headLine3.copyWith(color: primaryOption1),
-      headline4: headLine4.copyWith(color: primaryOption1),
-      headline5: headLine5.copyWith(color: primaryOption1),
+      displayLarge: headLine1.copyWith(color: primaryOption1),
+      displayMedium: headLine2.copyWith(color: primaryOption1),
+      displaySmall: headLine3.copyWith(color: primaryOption1),
+      headlineMedium: headLine4.copyWith(color: primaryOption1),
+      headlineSmall: headLine5.copyWith(color: primaryOption1),
 
-      bodyText1: bodyText1.copyWith(color: primaryOption1),
-      bodyText2: bodyText2.copyWith(color: primaryOption1),
+      bodyLarge: bodyText1.copyWith(color: primaryOption1),
+      bodyMedium: bodyText2.copyWith(color: primaryOption1),
       //text-field style
-      subtitle1: subTitle1.copyWith(color: primaryOption1),
-      subtitle2: subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
+      titleMedium: subTitle1.copyWith(color: primaryOption1),
+      titleSmall: subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
     ),
     appBarTheme: AppBarTheme(
       backgroundColor: Colors.white,

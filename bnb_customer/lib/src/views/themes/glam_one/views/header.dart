@@ -23,6 +23,7 @@ class ThemeHeader extends ConsumerWidget {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
+    final ThemeType themeType = _salonProfileProvider.themeType;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -46,25 +47,10 @@ class ThemeHeader extends ConsumerWidget {
         //   textAlign: TextAlign.center,
         // ),
         SizedBox(height: DeviceConstraints.getResponsiveSize(context, 40.h, 40.h, 40.h)),
-        (_salonProfileProvider.theme == '2' || _salonProfileProvider.theme == '4' || _salonProfileProvider.theme == '6' || _salonProfileProvider.theme == '7')
-            ? Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SquareButton(
-                    text: (AppLocalizations.of(context)?.bookNow ?? "Book Now").toUpperCase(),
-                    height: 60.h,
-                    // width: DeviceConstraints.getResponsiveSize(context, 200.h, 220.h, 220.h),
-                    onTap: () => const BookingDialogWidget222().show(context),
-                  ),
-                ],
-              )
-            : RotatedBookNow(
-                buttonText: AppLocalizations.of(context)?.bookNow ?? "Book Now",
-                onTap: () => const BookingDialogWidget222().show(context),
-              ),
-        if (_salonProfileProvider.theme != '4') SizedBox(height: DeviceConstraints.getResponsiveSize(context, 100.h, 100.h, 150.h)),
-        if (_salonProfileProvider.theme != '4')
+        getThemeButton(context, themeType),
+
+        if (themeType != ThemeType.Barbershop) SizedBox(height: DeviceConstraints.getResponsiveSize(context, 100.h, 100.h, 150.h)),
+        if (themeType != ThemeType.Barbershop)
           Padding(
             padding: EdgeInsets.symmetric(
               horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 10.w, 50.w),
@@ -80,18 +66,44 @@ class ThemeHeader extends ConsumerWidget {
                     ),
                   )
                   .toList(),
-
-              // [
-              // const GlamOneWrap(
-              //   text: "Makeup",
-              // ),
-              // const GlamOneWrap(
-              //   text: "Hairdresser",
-              // ),
             ),
           ),
       ],
     );
+  }
+}
+
+Widget getThemeButton(context, ThemeType themeType) {
+  Widget squareButton = Row(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      SquareButton(
+        text: (AppLocalizations.of(context)?.bookNow ?? "Book Now").toUpperCase(),
+        height: 60.h,
+        // width: DeviceConstraints.getResponsiveSize(context, 200.h, 220.h, 220.h),
+        onTap: () => const BookingDialogWidget222().show(context),
+      ),
+    ],
+  );
+  switch (themeType) {
+    case ThemeType.GlamBarbershop:
+      return squareButton;
+
+    case ThemeType.Barbershop:
+      return squareButton;
+
+    case ThemeType.GlamMinimalLight:
+      return squareButton;
+
+    case ThemeType.GlamMinimalDark:
+      return squareButton;
+
+    default:
+      return RotatedBookNow(
+        buttonText: AppLocalizations.of(context)?.bookNow ?? "Book Now",
+        onTap: () => const BookingDialogWidget222().show(context),
+      );
   }
 }
 

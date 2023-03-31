@@ -127,7 +127,7 @@ class VisitUs extends ConsumerWidget {
         ),
         const SizedBox(height: 10),
         ContactCard(
-          icon: ThemeIcons.minimalLocation,
+          icon: (themeType == ThemeType.GlamMinimalLight || themeType == ThemeType.GlamMinimalDark) ? ThemeIcons.minimalLocation : ThemeIcons.location,
           value: salonModel.address,
         ),
       ],

@@ -143,14 +143,17 @@ class SalonApi {
   }
 
   //returns salon from it's UID
+  // FETCH SALON FROM DB
   Future<SalonModel?> getSalonFromId(String? salonId) async {
     if (salonId == null) return null;
     try {
       DocumentSnapshot _response = await Collection.salons.doc(salonId).get();
 
       Map<String, dynamic> _map = _response.data() as Map<String, dynamic>;
+
       _map['salonId'] = _response.id;
       SalonModel salon = SalonModel.fromJson(_map);
+
       return salon;
     } catch (e) {
       printIt(e);

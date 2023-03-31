@@ -70,14 +70,22 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
     printIt(_appProvider.firstRoute);
     final _salonSearchProvider = ref.read(salonSearchProvider);
 
-    _salonSearchProvider.init(widget.salonId).then((value) => WidgetsBinding.instance.addPostFrameCallback((_) async {
-          categories = value;
-        }));
+    _salonSearchProvider.init(widget.salonId).then(
+          (value) => WidgetsBinding.instance.addPostFrameCallback(
+            (_) async {
+              categories = value;
+            },
+          ),
+        );
     _salonProfileProvider = ref.read(salonProfileProvider);
-    _salonProfileProvider.init(context, widget.salonId).then((salon) => WidgetsBinding.instance.addPostFrameCallback((_) async {
-          // here we set the time interval instead of the 15mins preset available
-          await init(salon);
-        }));
+    _salonProfileProvider.init(context, widget.salonId).then(
+          (salon) => WidgetsBinding.instance.addPostFrameCallback(
+            (_) async {
+              // here we set the time interval instead of the 15mins preset available
+              await init(salon);
+            },
+          ),
+        );
   }
 
   init(salon) async {

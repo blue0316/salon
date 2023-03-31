@@ -14,10 +14,7 @@ class GlamMinimalLight {
   static const Color lightGrey = Color(0xff89959F);
 
   // MAIN COLORS 1
-  static const primaryColor1 = Colors.black;
-
-  // MAIN COLORS 2
-  static const primaryColor2 = Colors.yellow;
+  static Color primaryColor1 = Colors.black;
 
   // Main Theme 1
   static final ThemeData mainTheme = ThemeData(
@@ -40,7 +37,6 @@ class GlamMinimalLight {
         color: primaryColor1,
       ),
     ),
-    bottomAppBarColor: Colors.black, // Color of divider on appbar
     dialogBackgroundColor: Colors.black,
     cardColor: themeBackgroundColor,
     colorScheme: ColorScheme(
@@ -56,7 +52,7 @@ class GlamMinimalLight {
       onSurface: lightGrey,
       onBackground: lightGrey,
       onError: redishPink,
-      brightness: Brightness.light,
+      brightness: Brightness.light, outlineVariant: Colors.black, // Color of divider on appbar
     ),
     textTheme: TextTheme(
       headline1: headLine1.copyWith(color: primaryColor1),
@@ -69,9 +65,7 @@ class GlamMinimalLight {
       bodyText2: bodyText2.copyWith(color: primaryColor1),
       //text-field style
       subtitle1: subTitle1.copyWith(color: primaryColor1),
-      subtitle2: subTitle2.copyWith(
-          color: Colors
-              .black), // Sub text under a section title in a section container
+      subtitle2: subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
     ),
     dividerColor: Colors.black,
 
@@ -92,100 +86,7 @@ class GlamMinimalLight {
       hintStyle: bodyText1.copyWith(color: Colors.grey[400]),
     ),
     hintColor: Colors.grey[400],
-    unselectedWidgetColor:
-        Colors.grey[700], // Color for not valid time slot container
-    highlightColor: primaryColor1,
-    // Stop
-
-    appBarTheme: AppBarTheme(
-      backgroundColor: Colors.white,
-      titleTextStyle: bodyText1,
-      iconTheme: const IconThemeData(
-        color: Colors.black,
-      ),
-    ),
-    focusColor: lightGrey,
-    splashColor: lightGrey,
-    hoverColor: lightGrey,
-  );
-
-  // Theme 2
-  static final ThemeData theme2 = ThemeData(
-    primaryColor: primaryColor1,
-    primaryColorDark: primaryColor1,
-    primaryColorLight: Colors.white,
-
-    backgroundColor: themeBackgroundColor,
-    scaffoldBackgroundColor: Colors.black,
-    textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
-
-    tabBarTheme: TabBarTheme(
-      unselectedLabelColor: Colors.black,
-      labelColor: Colors.black,
-      labelStyle: bodyText1.copyWith(
-        color: Colors.black,
-        fontWeight: FontWeight.w600,
-      ),
-      indicator: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
-        color: primaryColor1,
-      ),
-    ),
-    dialogBackgroundColor: Colors.black,
-    bottomAppBarColor: Colors.transparent, // Color of divider on appbar
-
-    cardColor: themeBackgroundColor,
-    colorScheme: ColorScheme(
-      primary: (Colors.pink[900])!,
-      secondary: primaryColor1, // Color of title text on cards
-      onSecondaryContainer: Colors.black, // Color of sub text on cards
-
-      surface: Colors.white,
-      background: Colors.black,
-      error: redishPink,
-      onPrimary: (Colors.green[900])!,
-      onSecondary: creamBrownLight,
-      onSurface: lightGrey,
-      onBackground: lightGrey,
-      onError: redishPink,
-      brightness: Brightness.light,
-    ),
-    textTheme: TextTheme(
-      headline1: headLine1.copyWith(color: primaryColor1),
-      headline2: headLine2.copyWith(color: primaryColor1),
-      headline3: headLine3.copyWith(color: primaryColor1),
-      headline4: headLine4.copyWith(color: primaryColor1),
-      headline5: headLine5.copyWith(color: primaryColor1),
-
-      bodyText1: bodyText1.copyWith(color: primaryColor1),
-      bodyText2: bodyText2.copyWith(color: primaryColor1),
-      //text-field style
-      subtitle1: subTitle1.copyWith(color: primaryColor1),
-      subtitle2: subTitle2.copyWith(
-          color: Colors
-              .black), // Sub text under a section title in a section container
-    ),
-    dividerColor: Colors.black,
-
-    inputDecorationTheme: InputDecorationTheme(
-      labelStyle: bodyText1.copyWith(color: Colors.white),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(0),
-        borderSide: const BorderSide(color: Colors.black, width: 1),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(0),
-        borderSide: const BorderSide(color: Colors.black, width: 1),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(0),
-        borderSide: const BorderSide(color: Colors.black, width: 1),
-      ),
-      hintStyle: bodyText1.copyWith(color: Colors.grey[400]),
-    ),
-    hintColor: Colors.grey[400],
-    unselectedWidgetColor:
-        Colors.grey[700], // Color for not valid time slot container
+    unselectedWidgetColor: Colors.grey[700], // Color for not valid time slot container
     highlightColor: primaryColor1,
     // Stop
 

@@ -43,7 +43,7 @@ class ContactDefaultView extends ConsumerWidget {
         ),
         const SizedBox(height: 50),
         SizedBox(
-          height: DeviceConstraints.getResponsiveSize(context, 550.h, 310.h, 260.h),
+          height: DeviceConstraints.getResponsiveSize(context, 550.h, 310.h, 300.h),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: (!isPortrait) ? 10.w : 0),
             child: (!isPortrait)

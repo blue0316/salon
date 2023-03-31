@@ -73,10 +73,18 @@ class MinimalAppBar extends ConsumerWidget {
               overflow: TextOverflow.clip,
             ),
             const Spacer(),
-            SvgPicture.asset(
-              ThemeIcons.menu,
-              height: 20.h,
-              color: theme.dividerColor,
+            MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                onTap: () {
+                  Scaffold.of(context).openDrawer();
+                },
+                child: Icon(
+                  Icons.menu,
+                  size: 35.h,
+                  color: theme.appBarTheme.iconTheme!.color,
+                ),
+              ),
             ),
           ],
         ),

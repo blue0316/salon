@@ -3,13 +3,14 @@ import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/views/themes/components/drawer.dart';
 import 'package:bbblient/src/views/themes/components/header/landing_header.dart';
 import 'package:bbblient/src/views/themes/components/header_image.dart';
 import 'package:bbblient/src/views/themes/components/about/salon_about.dart';
 import 'package:bbblient/src/views/themes/components/contacts/salon_contact.dart';
 import 'package:bbblient/src/views/themes/components/promotions/salon_promotions.dart';
 import 'package:bbblient/src/views/themes/components/reviews/salon_reviews.dart';
-import 'package:bbblient/src/views/themes/components/services/salon_services_2.dart';
+import 'package:bbblient/src/views/themes/components/services/salon_services.dart';
 import 'package:bbblient/src/views/themes/components/shop/salon_shop.dart';
 import 'package:bbblient/src/views/themes/components/salon_sponsors.dart';
 import 'package:bbblient/src/views/themes/components/salon_tags.dart';
@@ -39,21 +40,28 @@ class GlamOneScreen extends ConsumerStatefulWidget {
 
 class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final controller = ref.watch(themeController);
     final _salonSearchProvider = ref.watch(salonSearchProvider);
     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
 
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final SalonModel chosenSalon = _salonProfileProvider.chosenSalon;
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    ThemeType themeType = _salonProfileProvider.themeType;
 
     return SafeArea(
       top: false,
       bottom: false,
       child: Scaffold(
-        backgroundColor: theme.backgroundColor,
+        //  drawerEnableOpenDragGesture: false, // Prevent user sliding open
+        backgroundColor: theme.colorScheme.background,
         resizeToAvoidBottomInset: false,
+        drawer: const ThemeDrawer(),
         body: SizedBox(
           // width: size.width,
           child: Column(
@@ -67,31 +75,65 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         const LandingHeader(),
+                        // TAGS
+                        SizedBox.fromSize(size: Size.zero, key: controller.tags),
                         if (chosenSalon.additionalFeatures.isNotEmpty)
                           SalonTags(
                             salonModel: chosenSalon,
                             additionalFeatures: chosenSalon.additionalFeatures,
                           ),
+
+                        // PROMOTIONS
+                        SizedBox.fromSize(size: Size.zero, key: controller.promotions),
                         if (_createAppointmentProvider.salonPromotions.isNotEmpty)
                           SalonPromotions(
                             salonPromotionsList: _createAppointmentProvider.salonPromotions,
                           ),
+
+                        // ABOUT
+                        SizedBox.fromSize(size: Size.zero, key: controller.about),
                         SalonAbout2(salonModel: chosenSalon),
+
+                        // SPONSORS
+                        SizedBox.fromSize(size: Size.zero, key: controller.sponsor),
                         const SalonSponsors(),
+
+                        // WORKS
+                        SizedBox.fromSize(size: Size.zero, key: controller.works),
                         SalonWorks(salonModel: chosenSalon),
+
+                        // PRICE
+                        SizedBox.fromSize(size: Size.zero, key: controller.price),
                         SalonPrice222(
                           salonModel: chosenSalon,
                           categories: _salonSearchProvider.categories,
                           categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
                         ),
+
+                        // SHOP
+                        SizedBox.fromSize(size: Size.zero, key: controller.shop),
                         const SalonShop(),
+
+                        // TEAM
+                        SizedBox.fromSize(size: Size.zero, key: controller.team),
                         if (_salonProfileProvider.chosenSalon.ownerType != OwnerType.singleMaster)
                           SalonTeam(
                             salonModel: chosenSalon,
                           ),
+
+                        // REVIEWS
+                        SizedBox.fromSize(size: Size.zero, key: controller.reviews),
                         SalonReviews(salonModel: chosenSalon),
+
+                        // WRITE TO US
+                        SizedBox.fromSize(size: Size.zero, key: controller.writeToUs),
                         WriteToUs(salonModel: chosenSalon),
+
+                        // CONTACT
+                        SizedBox.fromSize(size: Size.zero, key: controller.contacts),
                         SalonContact(salonModel: chosenSalon),
+
+                        // BOTTOM ITEM
                         Padding(
                           padding: const EdgeInsets.only(top: 19, bottom: 15),
                           child: RichText(

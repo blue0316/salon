@@ -10,7 +10,7 @@ final ThemeData accentE2BCBF = ThemeData(
   primaryColor: _primaryColor,
   primaryColorDark: _primaryColor,
   primaryColorLight: _primaryColor,
-  backgroundColor: ColorConstant.black900,
+
   scaffoldBackgroundColor: Colors.black,
   textSelectionTheme: const TextSelectionThemeData(cursorColor: GlamOneTheme.lightBlack),
   tabBarTheme: TabBarTheme(
@@ -27,7 +27,6 @@ final ThemeData accentE2BCBF = ThemeData(
   ),
 
   dialogBackgroundColor: Colors.black,
-  bottomAppBarColor: Colors.white, // Color of divider on appbar
 
   cardColor: _primaryColor,
   colorScheme: ColorScheme(
@@ -35,27 +34,28 @@ final ThemeData accentE2BCBF = ThemeData(
     secondary: Colors.black, // Color of title text on cards
     onSecondaryContainer: Colors.black, // Color of sub text on cardsf
     surface: Colors.white,
-    background: _primaryColor,
+    background: ColorConstant.black900,
+
     error: GlamOneTheme.redishPink,
     onPrimary: (Colors.green[900])!,
     onSecondary: GlamOneTheme.creamBrownLight,
     onSurface: GlamOneTheme.lightGrey,
     onBackground: GlamOneTheme.lightGrey,
     onError: GlamOneTheme.redishPink,
-    brightness: Brightness.light,
+    brightness: Brightness.light, outlineVariant: Colors.white, // Color of divider on appbar
   ),
   textTheme: TextTheme(
-    headline1: GlamOneTheme.headLine1.copyWith(color: _primaryColor),
-    headline2: GlamOneTheme.headLine2.copyWith(color: _primaryColor),
-    headline3: GlamOneTheme.headLine3.copyWith(color: _primaryColor),
-    headline4: GlamOneTheme.headLine4.copyWith(color: _primaryColor),
-    headline5: GlamOneTheme.headLine5.copyWith(color: _primaryColor),
+    displayLarge: GlamOneTheme.headLine1.copyWith(color: _primaryColor),
+    displayMedium: GlamOneTheme.headLine2.copyWith(color: _primaryColor),
+    displaySmall: GlamOneTheme.headLine3.copyWith(color: _primaryColor),
+    headlineMedium: GlamOneTheme.headLine4.copyWith(color: _primaryColor),
+    headlineSmall: GlamOneTheme.headLine5.copyWith(color: _primaryColor),
 
-    bodyText1: GlamOneTheme.bodyText1.copyWith(color: _primaryColor),
-    bodyText2: GlamOneTheme.bodyText2.copyWith(color: _primaryColor),
+    bodyLarge: GlamOneTheme.bodyText1.copyWith(color: _primaryColor),
+    bodyMedium: GlamOneTheme.bodyText2.copyWith(color: _primaryColor),
     //text-field style
-    subtitle1: GlamOneTheme.subTitle1.copyWith(color: _primaryColor),
-    subtitle2: GlamOneTheme.subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
+    titleMedium: GlamOneTheme.subTitle1.copyWith(color: _primaryColor),
+    titleSmall: GlamOneTheme.subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
   ),
   appBarTheme: AppBarTheme(
     backgroundColor: Colors.white,

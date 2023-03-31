@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_final_fields
 
 import 'package:bbblient/src/views/themes/components/promotions/salon_promotions.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -64,6 +65,7 @@ class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
 
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    final ThemeType themeType = _salonProfileProvider.themeType;
 
     //
     String promotionDiscount = _createAppointmentProvider.salonPromotions[0].promotionDiscount ?? '0';
@@ -142,7 +144,7 @@ class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
                 ),
               ),
               const SizedBox(height: 10),
-              (_salonProfileProvider.theme == '2' || _salonProfileProvider.theme == '4')
+              (themeType == ThemeType.GlamBarbershop || themeType == ThemeType.Barbershop)
                   ? SquareButton(
                       text: 'GET A DISCOUNT',
                       height: 50.h,
@@ -192,7 +194,7 @@ class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    (_salonProfileProvider.theme == '2' || _salonProfileProvider.theme == '4')
+                    (themeType == ThemeType.GlamBarbershop || themeType == ThemeType.Barbershop)
                         ? SquareButton(
                             text: 'GET A DISCOUNT',
                             height: 50.h,

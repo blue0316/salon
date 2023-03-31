@@ -3,11 +3,8 @@ import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
-import 'package:bbblient/src/views/themes/components/header/app_bar/default_appbar_view.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/app_bar.dart';
 import 'package:bbblient/src/views/themes/icons.dart';
-import 'package:bbblient/src/views/themes/utils/theme_type.dart';
-import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -50,11 +47,18 @@ class DefaultAppBarTheme extends ConsumerWidget {
                         // maxLines: 1,
                       ),
                     ),
-                    SvgPicture.asset(
-                      ThemeIcons.menu,
-                      height: 20.h,
-                      // color: theme.dividerColor,
-                      color: theme.appBarTheme.iconTheme!.color,
+                    MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        onTap: () {
+                          Scaffold.of(context).openDrawer();
+                        },
+                        child: Icon(
+                          Icons.menu,
+                          size: 35.h,
+                          color: theme.appBarTheme.iconTheme!.color,
+                        ),
+                      ),
                     ),
                   ],
                 )
@@ -111,12 +115,20 @@ class DefaultAppBarTheme extends ConsumerWidget {
                     const Spacer(),
                     // const Spacer(),
 
-                    Icon(
-                      Icons.menu_rounded,
-                      size: 20.h,
-                      // color: theme.dividerColor,
-                      color: theme.appBarTheme.iconTheme!.color,
+                    MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        onTap: () {
+                          Scaffold.of(context).openDrawer();
+                        },
+                        child: Icon(
+                          Icons.menu,
+                          size: 35.h,
+                          color: theme.appBarTheme.iconTheme!.color,
+                        ),
+                      ),
                     ),
+
                     // SvgPicture.asset(
                     //   ThemeIcons.menu,
                     //   height: 20.h,
@@ -130,7 +142,7 @@ class DefaultAppBarTheme extends ConsumerWidget {
             height: 1,
             width: double.infinity, // getHorizontalSize(310.00),
 
-            decoration: BoxDecoration(color: theme.bottomAppBarColor),
+            decoration: BoxDecoration(color: theme.colorScheme.outlineVariant),
           ),
         ],
       ),
