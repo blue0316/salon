@@ -53,6 +53,8 @@ ThemeData getGlamDataTheme(String? colorCode) {
 ThemeData getGlamBarbershopTheme(String? colorCode) {
   switch (colorCode) {
     case null:
+      GlamBarberShopTheme.primaryColor1 = const Color(0XFFDDC686);
+
       return GlamBarberShopTheme.mainTheme;
     case 'DDC686':
       return GlamBarberShopTheme.AccentDDC686;
@@ -112,6 +114,8 @@ ThemeData getGlamGradientTheme(String? colorCode) {
 ThemeData getBarbershopTheme(String? colorCode) {
   switch (colorCode) {
     case null:
+      BarbershopTheme.primaryColor1 = const Color(0XFFDDC686);
+
       return BarbershopTheme.mainTheme;
     case 'E3824F':
       return BarbershopTheme.AccentE3824F;
@@ -155,6 +159,8 @@ ThemeData getBarbershopTheme(String? colorCode) {
 ThemeData getGlamLightTheme(String? colorCode) {
   switch (colorCode) {
     case null:
+      GlamLightTheme.primaryColor1 = Colors.black;
+
       return GlamLightTheme.mainTheme;
 
     // case 'FFC692':
@@ -180,6 +186,8 @@ ThemeData getGlamLightTheme(String? colorCode) {
 ThemeData getGlamMinimalLightTheme(String? colorCode) {
   switch (colorCode) {
     case null: // 'FFC692':
+      GlamMinimalLight.themeBackgroundColor = Colors.white;
+
       return GlamMinimalLight.mainTheme;
 
     // case 'FFC692':
@@ -192,9 +200,9 @@ ThemeData getGlamMinimalLightTheme(String? colorCode) {
           String valueString = colorCode.split('(0x')[1].split(')')[0];
           int value = int.parse(valueString, radix: 16);
 
-          GlamMinimalLight.primaryColor1 = Color(value);
+          GlamMinimalLight.themeBackgroundColor = Color(value);
         } catch (e) {
-          GlamMinimalLight.primaryColor1 = Colors.black;
+          GlamMinimalLight.themeBackgroundColor = Colors.white;
         }
       }
 
@@ -206,6 +214,8 @@ ThemeData getGlamMinimalLightTheme(String? colorCode) {
 ThemeData getGlamMinimalDarkTheme(String? colorCode) {
   switch (colorCode) {
     case null: // 'FFC692':
+      GlamMinimalDark.primaryColor1 = Colors.white;
+
       return GlamMinimalDark.mainTheme;
 
     // case 'FFC692':
