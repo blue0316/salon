@@ -185,8 +185,11 @@ class _MiniamlPromotionViewState extends ConsumerState<MiniamlPromotionView> {
                         SquareButton(
                           text: 'GET A DISCOUNT',
                           borderColor: theme.primaryColor, // black
-                          textColor: (themeType == ThemeType.GlamMinimalLight) ? Colors.black : Colors.white, // black
-                          buttonColor: (themeType == ThemeType.GlamMinimalLight) ? Colors.white : Colors.black,
+                          // textColor: (themeType == ThemeType.GlamMinimalLight) ? Colors.black : Colors.white, // black
+                          // buttonColor: (themeType == ThemeType.GlamMinimalLight) ? Colors.white : Colors.black,
+                          buttonColor: theme.cardColor,
+                          textColor: theme.primaryColor,
+
                           showSuffix: false,
                           textSize: 16.sp,
                           onTap: () {},

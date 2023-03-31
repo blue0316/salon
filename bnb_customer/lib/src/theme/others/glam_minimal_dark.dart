@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // Theme 7 ThemeData
 class GlamMinimalDark {
-  static const Color themeBackgroundColor = Colors.black;
+  static Color themeBackgroundColor = Colors.black;
 
   static const Color textBlack = Color(0xff0E141E);
   static const Color lightBlack = Color(0xff1E2D3D);
@@ -21,7 +21,6 @@ class GlamMinimalDark {
     primaryColor: primaryColor1,
     primaryColorDark: primaryColor1,
     primaryColorLight: Colors.white,
-    backgroundColor: themeBackgroundColor,
     scaffoldBackgroundColor: Colors.black,
     textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
 
@@ -45,7 +44,7 @@ class GlamMinimalDark {
       onSecondaryContainer: Colors.white, // Color of sub text on cards
 
       surface: Colors.white,
-      background: Colors.black,
+      background: themeBackgroundColor,
       error: redishPink,
       onPrimary: (Colors.green[900])!,
       onSecondary: creamBrownLight,
