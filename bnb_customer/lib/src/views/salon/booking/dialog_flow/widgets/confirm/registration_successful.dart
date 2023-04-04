@@ -40,8 +40,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
-          // AppLocalizations.of(context)?.verificationSuccessful.toCapitalized() ?? 'Verification was successful!', // TODO: LOCALIZATIONS
-          'Verification was successful!',
+          AppLocalizations.of(context)?.verificationSuccessful.toCapitalized() ?? 'Verification was successful!',
           style: theme.textTheme.bodyText1!.copyWith(
             fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
             color: defaultTheme ? Colors.black : Colors.white,
@@ -137,24 +136,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
             // http: //localhost:57436/home/salon?id=Zi3WxBc0HGL612BnhCE2
 
             // Create Appointment
-            CustomerModel customer = CustomerModel(
-                customerId: currentCustomer.customerId,
-                personalInfo: _personalInfo,
-                registeredSalons: [],
-                createdAt: DateTime.now(),
-                avgRating: 3.0,
-                noOfRatings: 6,
-                profilePicUploaded: false,
-                profilePic: "",
-                profileCompleted: false,
-                quizCompleted: false,
-                preferredGender: "male",
-                preferredCategories: [],
-                locations: [],
-                fcmToken: "",
-                locale: "en",
-                favSalons: [],
-                referralLink: "");
+            CustomerModel customer = CustomerModel(customerId: currentCustomer.customerId, personalInfo: _personalInfo, registeredSalons: [], createdAt: DateTime.now(), avgRating: 3.0, noOfRatings: 6, profilePicUploaded: false, profilePic: "", profileCompleted: false, quizCompleted: false, preferredGender: "male", preferredCategories: [], locations: [], fcmToken: "", locale: "en", favSalons: [], referralLink: "");
             if (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.singleMaster) {
               await _createAppointmentProvider.createAppointment(
                 customerModel: customer,

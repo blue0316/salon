@@ -103,9 +103,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
         ),
         const Space(factor: 1.5),
         Text(
-          // TODO: LOCALIZATIONS
-          // '${AppLocalizations.of(context)?.mandatoryFields ?? '*Mandatory fields'}',
-          "*Mandatory fields",
+          AppLocalizations.of(context)?.mandatoryFields ?? '*Mandatory fields',
           style: AppTheme.bodyText2.copyWith(
             color: defaultTheme ? AppTheme.textBlack : Colors.white,
           ),
@@ -136,7 +134,6 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                     _createAppointmentProvider.nextPageView(1);
                   },
                 ); // , appointmentModel: appointment);
-
               }
             } else {
               print('*********************');
@@ -154,24 +151,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                   // Customer Personal Info has name and email
 
                   // Create Appointment
-                  CustomerModel customer = CustomerModel(
-                      customerId: currentCustomer.customerId,
-                      personalInfo: currentCustomer.personalInfo,
-                      registeredSalons: [],
-                      createdAt: DateTime.now(),
-                      avgRating: 3.0,
-                      noOfRatings: 6,
-                      profilePicUploaded: false,
-                      profilePic: "",
-                      profileCompleted: false,
-                      quizCompleted: false,
-                      preferredGender: "male",
-                      preferredCategories: [],
-                      locations: [],
-                      fcmToken: "",
-                      locale: "en",
-                      favSalons: [],
-                      referralLink: "");
+                  CustomerModel customer = CustomerModel(customerId: currentCustomer.customerId, personalInfo: currentCustomer.personalInfo, registeredSalons: [], createdAt: DateTime.now(), avgRating: 3.0, noOfRatings: 6, profilePicUploaded: false, profilePic: "", profileCompleted: false, quizCompleted: false, preferredGender: "male", preferredCategories: [], locations: [], fcmToken: "", locale: "en", favSalons: [], referralLink: "");
                   if (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.singleMaster) {
                     await _createAppointmentProvider.createAppointment(customerModel: customer, context: context);
                   } else {
