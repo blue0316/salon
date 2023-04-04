@@ -57,6 +57,7 @@ class DisplaySettings {
     required this.reviews,
     required this.showRequestForm,
     required this.showContact,
+    required this.enableOTP,
   });
 
   final bool showSpecialization;
@@ -71,6 +72,7 @@ class DisplaySettings {
   final Reviews reviews;
   final bool showRequestForm;
   final bool showContact;
+  final bool enableOTP;
 
   factory DisplaySettings.fromJson(Map<String, dynamic> json) => DisplaySettings(
         showSpecialization: (json["showSpecialization"] != null) ? json["showSpecialization"] : true,
@@ -85,6 +87,7 @@ class DisplaySettings {
         reviews: (json["reviews"] != null) ? Reviews.fromJson(json["reviews"]) : Reviews.fromJson({}),
         showRequestForm: (json["showRequestForm"] != null) ? json["showRequestForm"] : true,
         showContact: (json["showContact"] != null) ? json["showContact"] : true,
+        enableOTP: (json["enableOTP"] != null) ? json["enableOTP"] : true,
       );
 
   Map<String, dynamic> toJson() => {
@@ -100,6 +103,7 @@ class DisplaySettings {
         "reviews": reviews.toJson(),
         "showRequestForm": showRequestForm,
         "showContact": showContact,
+        "enableOTP": enableOTP,
       };
 }
 
