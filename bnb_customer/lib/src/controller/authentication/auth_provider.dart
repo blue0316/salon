@@ -68,6 +68,7 @@ class AuthProvider with ChangeNotifier {
   Status saveNameStatus = Status.init;
   Status updateCustomerPersonalInfoStatus = Status.init;
   CustomerModel? currentCustomer;
+  CustomerModel? currentCustomerWithoutOTP;
   int start = 60;
   late CreateAppointmentProvider createAppointment;
   TextEditingController phoneNoController = TextEditingController();
@@ -651,8 +652,8 @@ class AuthProvider with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  CustomerModel returnCustomerWithoutOTP({required String firstName, required String email}) {
-    return CustomerModel(
+  void setCurrentCustomerWithoutOTP({required String firstName, required String email}) {
+    currentCustomerWithoutOTP = CustomerModel(
       customerId: phoneNoController.text,
       personalInfo: PersonalInfo(
         phone: phoneNoController.text,
@@ -679,5 +680,6 @@ class AuthProvider with ChangeNotifier {
       favSalons: [],
       referralLink: "",
     );
+    notifyListeners();
   }
 }

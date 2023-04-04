@@ -9,7 +9,11 @@ class CustomerWebSettings {
     if (data["salonId"] != null) salonId = data["salonId"];
     if (data["docId"] != null) docId = data["docId"];
     if (data["theme"] != null) theme = WebTheme.fromJson(data["theme"]);
-    if (data["displaySettings"] != null) displaySettings = DisplaySettings.fromJson(data["displaySettings"]);
+    displaySettings = (data["displaySettings"] != null)
+        ? DisplaySettings.fromJson(
+            data["displaySettings"],
+          )
+        : DisplaySettings.fromJson({});
   }
 
   toJson() {
@@ -72,22 +76,22 @@ class DisplaySettings {
   final Reviews reviews;
   final bool showRequestForm;
   final bool showContact;
-  final bool enableOTP;
+  final dynamic enableOTP;
 
   factory DisplaySettings.fromJson(Map<String, dynamic> json) => DisplaySettings(
-        showSpecialization: (json["showSpecialization"] != null) ? json["showSpecialization"] : true,
-        showFeatures: (json["showFeatures"] != null) ? json["showFeatures"] : true,
-        showBrands: (json["showBrands"] != null) ? json["showBrands"] : true,
-        showPromotions: (json["showPromotions"] != null) ? json["showPromotions"] : true,
-        showAbout: (json["showAbout"] != null) ? json["showAbout"] : true,
-        showPhotosOfWork: (json["showPhotosOfWork"] != null) ? json["showPhotosOfWork"] : true,
-        services: (json["services"] != null) ? Services.fromJson(json["services"]) : Services.fromJson({}),
-        product: (json["product"] != null) ? Product.fromJson(json["product"]) : Product.fromJson({}),
-        showTeam: (json["showTeam"] != null) ? json["showTeam"] : true,
-        reviews: (json["reviews"] != null) ? Reviews.fromJson(json["reviews"]) : Reviews.fromJson({}),
-        showRequestForm: (json["showRequestForm"] != null) ? json["showRequestForm"] : true,
-        showContact: (json["showContact"] != null) ? json["showContact"] : true,
-        enableOTP: (json["enableOTP"] != null) ? json["enableOTP"] : true,
+        showSpecialization: (json["showSpecialization"] == null) ? true : json["showSpecialization"],
+        showFeatures: (json["showFeatures"] == null) ? true : json["showFeatures"],
+        showBrands: (json["showBrands"] == null) ? true : json["showBrands"],
+        showPromotions: (json["showPromotions"] == null) ? true : json["showPromotions"],
+        showAbout: (json["showAbout"] == null) ? true : json["showAbout"],
+        showPhotosOfWork: (json["showPhotosOfWork"] == null) ? true : json["showPhotosOfWork"],
+        services: (json["services"] == null) ? Services.fromJson({}) : Services.fromJson(json["services"]),
+        product: (json["product"] == null) ? Product.fromJson({}) : Product.fromJson(json["product"]),
+        showTeam: (json["showTeam"] == null) ? true : json["showTeam"],
+        reviews: (json["reviews"] == null) ? Reviews.fromJson({}) : Reviews.fromJson(json["reviews"]),
+        showRequestForm: (json["showRequestForm"] == null) ? true : json["showRequestForm"],
+        showContact: (json["showContact"] == null) ? true : json["showContact"],
+        enableOTP: (json["enableOTP"] == null) ? true : json["enableOTP"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -119,9 +123,9 @@ class Product {
   final bool showProductOutOfStock;
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
-        showProduct: (json["showProduct"] != null) ? json["showProduct"] : true,
-        showPrductPrices: (json["showPrductPrices"] != null) ? json["showPrductPrices"] : true,
-        showProductOutOfStock: (json["showProductOutOfStock"] != null) ? json["showProductOutOfStock"] : true,
+        showProduct: (json["showProduct"] == null) ? true : json["showProduct"],
+        showPrductPrices: (json["showPrductPrices"] == null) ? true : json["showPrductPrices"],
+        showProductOutOfStock: (json["showProductOutOfStock"] == null) ? true : json["showProductOutOfStock"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -143,9 +147,9 @@ class Reviews {
   final bool showLatest;
 
   factory Reviews.fromJson(Map<String, dynamic> json) => Reviews(
-        showReviews: (json["showReviews"] != null) ? json["showReviews"] : true,
-        showReviewRating: (json["showReviewRating"] != null) ? json["showReviewRating"] : true,
-        showLatest: (json["showLatest"] != null) ? json["showLatest"] : true,
+        showReviews: (json["showReviews"] == null) ? true : json["showReviews"],
+        showReviewRating: (json["showReviewRating"] == null) ? true : json["showReviewRating"],
+        showLatest: (json["showLatest"] == null) ? true : json["showLatest"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -167,9 +171,9 @@ class Services {
   final bool showServicesWithPhotos;
 
   factory Services.fromJson(Map<String, dynamic> json) => Services(
-        showServices: (json["showServices"] != null) ? json["showServices"] : true,
-        showServicePrices: (json["showServicePrices"] != null) ? json["showServicePrices"] : true,
-        showServicesWithPhotos: (json["showServicesWithPhotos"] != null) ? json["showServicesWithPhotos"] : true,
+        showServices: (json["showServices"] == null) ? true : json["showServices"],
+        showServicePrices: (json["showServicePrices"] == null) ? true : json["showServicePrices"],
+        showServicesWithPhotos: (json["showServicesWithPhotos"] == null) ? true : json["showServicesWithPhotos"],
       );
 
   Map<String, dynamic> toJson() => {

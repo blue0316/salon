@@ -111,34 +111,74 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
         DefaultButton(
           borderRadius: 60,
           onTap: () async {
+            bool enabledOTP = _salonProfileProvider.themeSettings?.displaySettings?.enableOTP;
             // Check if fields are filled
             if (nameController.text.isEmpty || emailController.text.isEmpty) {
               showToast(AppLocalizations.of(context)?.emptyFields ?? "Field cannot be empty, please fill the required fields");
               return;
             }
 
-            CustomerModel? currentCustomer = _authProvider.currentCustomer;
+            CustomerModel? currentCustomer;
+            PersonalInfo _personalInfo;
+            bool success;
 
-            PersonalInfo _personalInfo = PersonalInfo(
-              phone: currentCustomer!.personalInfo.phone,
-              firstName: nameController.text,
-              lastName: currentCustomer.personalInfo.lastName,
-              description: currentCustomer.personalInfo.description ?? '',
-              dob: currentCustomer.personalInfo.dob ?? DateTime.now().subtract(const Duration(days: 365 * 26)),
-              email: emailController.text,
-              sex: currentCustomer.personalInfo.sex ?? '',
-            );
+            if (enabledOTP == false) {
+              // Since enableOTP is false, customer did not login
 
-            // Store name and email in customer collection
-            bool success = await _authProvider.updateCustomerPersonalInfo(
-              customerId: _authProvider.currentCustomer!.customerId,
-              personalInfo: _personalInfo,
-            );
+              _authProvider.setCurrentCustomerWithoutOTP(firstName: nameController.text, email: emailController.text);
 
-            // http: //localhost:57436/home/salon?id=Zi3WxBc0HGL612BnhCE2
+              currentCustomer = _authProvider.currentCustomerWithoutOTP;
+
+              _personalInfo = PersonalInfo(
+                phone: _authProvider.phoneNoController.text,
+                firstName: nameController.text,
+                lastName: '',
+                email: emailController.text,
+              );
+            } else {
+              currentCustomer = _authProvider.currentCustomer;
+
+              _personalInfo = PersonalInfo(
+                phone: currentCustomer!.personalInfo.phone,
+                firstName: nameController.text,
+                lastName: currentCustomer.personalInfo.lastName,
+                description: currentCustomer.personalInfo.description ?? '',
+                dob: currentCustomer.personalInfo.dob ?? DateTime.now().subtract(const Duration(days: 365 * 26)),
+                email: emailController.text,
+                sex: currentCustomer.personalInfo.sex ?? '',
+              );
+            }
+
+            if (enabledOTP) {
+              // update name and email of customer in customer collection
+              success = await _authProvider.updateCustomerPersonalInfo(
+                customerId: _authProvider.currentCustomer!.customerId,
+                personalInfo: _personalInfo,
+              );
+            } else {
+              success = true;
+            }
 
             // Create Appointment
-            CustomerModel customer = CustomerModel(customerId: currentCustomer.customerId, personalInfo: _personalInfo, registeredSalons: [], createdAt: DateTime.now(), avgRating: 3.0, noOfRatings: 6, profilePicUploaded: false, profilePic: "", profileCompleted: false, quizCompleted: false, preferredGender: "male", preferredCategories: [], locations: [], fcmToken: "", locale: "en", favSalons: [], referralLink: "");
+            CustomerModel customer = CustomerModel(
+              customerId: currentCustomer!.customerId,
+              personalInfo: _personalInfo,
+              registeredSalons: [],
+              createdAt: DateTime.now(),
+              avgRating: 3.0,
+              noOfRatings: 6,
+              profilePicUploaded: false,
+              profilePic: "",
+              profileCompleted: false,
+              quizCompleted: false,
+              preferredGender: "male",
+              preferredCategories: [],
+              locations: [],
+              fcmToken: "",
+              locale: "en",
+              favSalons: [],
+              referralLink: "",
+            );
             if (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.singleMaster) {
               await _createAppointmentProvider.createAppointment(
                 customerModel: customer,
@@ -157,8 +197,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
               // Move to next screen
               _createAppointmentProvider.nextPageView(3);
             } else {
-              // TODO: LOCALIZATION
-              // showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? "Something went wrong, please try again");
+              showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? "Something went wrong, please try again");
               showToast("Something went wrong, please try again");
             }
           },

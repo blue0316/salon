@@ -451,6 +451,8 @@ class _OrderListState extends ConsumerState<OrderDetails> {
               DefaultButton(
                 borderRadius: 60,
                 onTap: () async {
+                  bool enabledOTP = _salonProfileProvider.themeSettings?.displaySettings?.enableOTP;
+
                   if (!acceptTerms) {
                     // Terms Checkbox is unchecked
 
@@ -461,7 +463,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
 
                   bool success = await _createAppointmentProvider.finishBooking(
                     context: context,
-                    customerModel: _auth.currentCustomer!, // _auth.customerFromSuccessfulRegistration,
+                    customerModel: enabledOTP ? _auth.currentCustomer! : _auth.currentCustomerWithoutOTP!,
                   );
 
                   if (success) {
