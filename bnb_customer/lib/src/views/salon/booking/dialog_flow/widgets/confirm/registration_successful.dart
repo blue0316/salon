@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
@@ -99,19 +101,19 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
 
         const Space(factor: 1.5),
 
-        // Text(
-        //   "*Mandatory fields",
-        //   style: AppTheme.bodyText2.copyWith(
-        //     color: defaultTheme ? AppTheme.textBlack : Colors.white,
-        //   ),
-        // ),
+        Text(
+          "*Mandatory fields",
+          style: AppTheme.bodyText2.copyWith(
+            color: defaultTheme ? AppTheme.textBlack : Colors.white,
+          ),
+        ),
         const Spacer(),
         DefaultButton(
           borderRadius: 60,
           onTap: () async {
             // Check if fields are filled
-            if (nameController.text.isEmpty) {
-              showToast(AppLocalizations.of(context)?.emptyFields ?? "Field cannot be empty, please fill required field");
+            if (nameController.text.isEmpty || emailController.text.isEmpty) {
+              showToast(AppLocalizations.of(context)?.emptyFields ?? "Field cannot be empty, please fill the required fields");
               return;
             }
 
