@@ -650,4 +650,34 @@ class AuthProvider with ChangeNotifier {
   //   customerFromSuccessfulRegistration = customerUpdate;
   //   notifyListeners();
   // }
+
+  CustomerModel returnCustomerWithoutOTP({required String firstName, required String email}) {
+    return CustomerModel(
+      customerId: phoneNoController.text,
+      personalInfo: PersonalInfo(
+        phone: phoneNoController.text,
+        firstName: firstName,
+        lastName: '',
+        description: '',
+        dob: DateTime.now().subtract(const Duration(days: 365 * 26)),
+        email: email,
+        sex: '',
+      ),
+      registeredSalons: [],
+      createdAt: DateTime.now(),
+      avgRating: 3.0,
+      noOfRatings: 6,
+      profilePicUploaded: false,
+      profilePic: "",
+      profileCompleted: false,
+      quizCompleted: false,
+      preferredGender: "male",
+      preferredCategories: [],
+      locations: [],
+      fcmToken: "",
+      locale: "en",
+      favSalons: [],
+      referralLink: "",
+    );
+  }
 }
