@@ -32,7 +32,7 @@ import 'salon_all_works.dart';
 import 'salon_services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class SalonPage extends ConsumerStatefulWidget {
+class SalonPage2 extends ConsumerStatefulWidget {
   static const route = 'salon';
   final String salonId;
 
@@ -41,12 +41,12 @@ class SalonPage extends ConsumerStatefulWidget {
   final List<ServiceModel> chosenServices;
   final bool showBackButton;
 
-  const SalonPage({Key? key, required this.salonId, this.locale = "uk", this.showBackButton = true, this.switchSalon = true, this.chosenServices = const []}) : super(key: key);
+  const SalonPage2({Key? key, required this.salonId, this.locale = "uk", this.showBackButton = true, this.switchSalon = true, this.chosenServices = const []}) : super(key: key);
   @override
   _SaloonProfileState createState() => _SaloonProfileState();
 }
 
-class _SaloonProfileState extends ConsumerState<SalonPage> {
+class _SaloonProfileState extends ConsumerState<SalonPage2> {
   final _mainScrollController = ScrollController();
   final ScrollController _scrollController = ScrollController();
   final PageController _pageController = PageController();
@@ -201,33 +201,6 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
                                     iconPadding: const EdgeInsets.only(top: 100, bottom: 100),
                                     child: Column(
                                       children: [
-                                        // Padding(
-                                        //   padding: EdgeInsets.only(
-                                        //     left: DeviceConstraints.getResponsiveSize(context, 16, 24, 32),
-                                        //   ),
-                                        //   child: Row(
-                                        //     mainAxisAlignment: MainAxisAlignment.start,
-                                        //     children: [
-                                        //       Text(
-                                        //         "Promotions",
-                                        //         textAlign: TextAlign.left,
-                                        //         style: GoogleFonts.epilogue(
-                                        //           fontSize: DeviceConstraints.getResponsiveSize(context, 16, 16, 20),
-                                        //           fontWeight: FontWeight.w500,
-                                        //           color: Color(0xff89959F),
-                                        //         ),
-                                        //       ),
-                                        //     ],
-                                        //   ),
-                                        // ),
-                                        // Padding(
-                                        //   padding: EdgeInsets.only(
-                                        //     top: DeviceConstraints.getResponsiveSize(context, 16, 16, 24),
-                                        //     bottom: DeviceConstraints.getResponsiveSize(context, 16, 16, 24),
-                                        //     left: DeviceConstraints.getResponsiveSize(context, 16, 24, 32),
-                                        //   ),
-                                        //   child: PromotionScroll(),
-                                        // ),
                                         // SERVICES - ABOUT - MASTERS - ALL WORKS
                                         Padding(
                                           padding: EdgeInsets.zero,

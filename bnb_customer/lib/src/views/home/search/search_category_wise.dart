@@ -16,6 +16,7 @@ import '../map_view/map_view.dart';
 import 'filter/filter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:bbblient/src/views/salon/salon_home/salon_profile_copy.dart';
 
 class SearchCategoryWise extends ConsumerStatefulWidget {
   const SearchCategoryWise({Key? key}) : super(key: key);
@@ -30,8 +31,7 @@ class _SearchCategoryWiseState extends ConsumerState<SearchCategoryWise> {
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
-    final SalonSearchProvider _salonSearchProvider =
-        ref.watch(salonSearchProvider);
+    final SalonSearchProvider _salonSearchProvider = ref.watch(salonSearchProvider);
     final BnbProvider _bnbProvider = ref.watch(bnbProvider);
     return WillPopScope(
       onWillPop: () async {
@@ -52,8 +52,7 @@ class _SearchCategoryWiseState extends ConsumerState<SearchCategoryWise> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                _salonSearchProvider.getCategoryNameFromId(
-                    _salonSearchProvider.selectedCategoryId ?? ''),
+                _salonSearchProvider.getCategoryNameFromId(_salonSearchProvider.selectedCategoryId ?? ''),
                 style: Theme.of(context).textTheme.headline3,
               ),
             ],
@@ -82,10 +81,7 @@ class _SearchCategoryWiseState extends ConsumerState<SearchCategoryWise> {
                             child: Text(
                               _salonSearchProvider.tempAddress,
                               overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline4!
-                                  .copyWith(fontWeight: FontWeight.w400),
+                              style: Theme.of(context).textTheme.headline4!.copyWith(fontWeight: FontWeight.w400),
                             ),
                           ),
                           const SizedBox(
@@ -103,8 +99,7 @@ class _SearchCategoryWiseState extends ConsumerState<SearchCategoryWise> {
                               );
                             },
                             child: Text(
-                              AppLocalizations.of(context)?.viewOnMap ??
-                                  "View on map",
+                              AppLocalizations.of(context)?.viewOnMap ?? "View on map",
                               style: Theme.of(context).textTheme.headline3,
                             ),
                           ),
@@ -131,12 +126,8 @@ class _SearchCategoryWiseState extends ConsumerState<SearchCategoryWise> {
                                       Icons.search,
                                       color: Colors.grey,
                                     ),
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(12),
-                                        borderSide: BorderSide.none),
-                                    hintText:
-                                        AppLocalizations.of(context)?.search ??
-                                            "Search"),
+                                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
+                                    hintText: AppLocalizations.of(context)?.search ?? "Search"),
                               ),
                             ),
                           ),
@@ -146,11 +137,7 @@ class _SearchCategoryWiseState extends ConsumerState<SearchCategoryWise> {
                             width: 52,
                             child: GestureDetector(
                               onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const FilterSearch()));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => const FilterSearch()));
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -192,41 +179,34 @@ class _SearchCategoryWiseState extends ConsumerState<SearchCategoryWise> {
                             height: 16,
                           ),
                           Text(
-                            AppLocalizations.of(context)
-                                    ?.noSalonsNearbyTryDifferentLocation ??
-                                "No salons found in filters",
+                            AppLocalizations.of(context)?.noSalonsNearbyTryDifferentLocation ?? "No salons found in filters",
                             style: Theme.of(context).textTheme.headline4,
                           ),
                         ],
                       )
                     ],
-                    DeviceConstraints.getDeviceType(mediaQuery) ==
-                            DeviceScreenType.tab
+                    DeviceConstraints.getDeviceType(mediaQuery) == DeviceScreenType.tab
                         ? GridView.builder(
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: _salonSearchProvider.nearbySalons.length,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 3,
                               mainAxisSpacing: 16,
                               crossAxisSpacing: 16,
                             ),
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
-                              final SalonModel _salon =
-                                  _salonSearchProvider.nearbySalons[index];
+                              final SalonModel _salon = _salonSearchProvider.nearbySalons[index];
                               return SalonContainerForWeb(
                                   salon: _salon,
                                   showDialogForFavToggle: false,
                                   isFav: _bnbProvider.checkForFav(_salon.salonId),
-                                  onFavouriteCallback: () =>
-                                      _bnbProvider.toggleFav(_salon.salonId),
+                                  onFavouriteCallback: () => _bnbProvider.toggleFav(_salon.salonId),
                                   onBookTapped: () {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        settings: const RouteSettings(
-                                            name: SalonPage.route),
+                                        settings: const RouteSettings(name: SalonPage.route),
                                         builder: (context) => SalonPage(
                                           salonId: _salon.salonId,
                                           switchSalon: true,
@@ -241,23 +221,17 @@ class _SearchCategoryWiseState extends ConsumerState<SearchCategoryWise> {
                             shrinkWrap: true,
                             itemCount: _salonSearchProvider.filteredSalons.length,
                             itemBuilder: (BuildContext context, int index) {
-                              final _salon =
-                                  _salonSearchProvider.filteredSalons[index];
+                              final _salon = _salonSearchProvider.filteredSalons[index];
                               return SalonContainer(
                                 salon: _salon,
                                 showDialogForFavToggle: false,
                                 isFav: _bnbProvider.checkForFav(_salon.salonId),
-                                onFavouriteCallback: () =>
-                                    _bnbProvider.toggleFav(_salon.salonId),
+                                onFavouriteCallback: () => _bnbProvider.toggleFav(_salon.salonId),
                                 onBookTapped: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => SalonPage(
-                                          salonId: _salonSearchProvider
-                                              .filteredSalons[index].salonId,
-
-                                          switchSalon: true),
+                                      builder: (context) => SalonPage(salonId: _salonSearchProvider.filteredSalons[index].salonId, switchSalon: true),
                                     ),
                                   );
                                 },

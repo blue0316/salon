@@ -1,0 +1,195 @@
+import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
+import 'package:bbblient/src/models/salon_master/salon.dart';
+import 'package:bbblient/src/theme/app_main_theme.dart';
+import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/utils/icons.dart';
+import 'package:bbblient/src/utils/utils.dart';
+import 'package:bbblient/src/views/widgets/widgets.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+class Header extends ConsumerWidget {
+  final SalonModel salonModel;
+
+  const Header({Key? key, required this.salonModel}) : super(key: key);
+
+  void _launchURL(String url) async => await canLaunchUrl(Uri.parse(url))
+      ? await canLaunchUrl(Uri.parse(url))
+      : showToast(
+          'Could not launch $url',
+        );
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
+    bool isLightTheme = (theme == AppTheme.lightTheme);
+
+    return Center(
+      child: Container(
+        height: 100.h,
+        color: theme.colorScheme.background,
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: 10,
+            horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 20.w, 30.w),
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                flex: 1,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: DeviceConstraints.getResponsiveSize(context, 50.h, 50.h, 70.h),
+                      width: DeviceConstraints.getResponsiveSize(context, 50.h, 50.h, 70.h),
+                      child: Image.asset(AppIcons.logoBnbPNG, fit: BoxFit.fill),
+                    ),
+                    const SpaceHorizontal(factor: 0.8),
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            salonModel.salonName,
+                            style: theme.textTheme.displayLarge!.copyWith(
+                              fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 20.sp, 20.sp),
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const Space(factor: 0.4),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SvgPicture.asset(
+                                AppIcons.mapPin2WhiteSVG,
+                                height: 15.sp,
+                                color: isLightTheme ? Colors.black : Colors.white,
+                              ),
+                              const SizedBox(width: 10),
+                              Flexible(
+                                child: Text(
+                                  salonModel.address,
+                                  style: theme.textTheme.displayMedium!.copyWith(
+                                    fontSize: 13.sp,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                flex: 0,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Utils().launchCaller(salonModel.phoneNumber.replaceAll("-", ""));
+                          },
+                          child: Container(
+                            // height: DeviceConstraints.getResponsiveSize(context, 20, 25, 40),
+                            // width: DeviceConstraints.getResponsiveSize(context, 20, 25, 40),
+                            height: 35.h,
+                            width: 35.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              border: Border.all(color: theme.primaryIconTheme.color!, width: 1.3),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0.sp),
+                              child: Center(
+                                child: SvgPicture.asset(
+                                  AppIcons.phoneWhiteSVG,
+                                  color: theme.primaryIconTheme.color,
+                                  height: DeviceConstraints.getResponsiveSize(context, 40, 50, 70),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        GestureDetector(
+                          onTap: () {
+                            if ((salonModel.position?.geoPoint?.latitude ?? 0) == 0 && (salonModel.position?.geoPoint?.longitude ?? 0) == 0) {
+                              BnbProvider _bnbProvider = ref.read(bnbProvider);
+                              _bnbProvider.getLocale.toString() == "en"
+                                  ? showToast("Salon's Location Not Added")
+                                  : showToast(
+                                      "Місцезнаходження салону не додано",
+                                    );
+                            } else {
+                              if (kIsWeb) {
+                                _launchURL(
+                                  "https://maps.google.com/maps?q=${salonModel.position?.geoPoint?.latitude ?? 0},${salonModel.position?.geoPoint?.longitude ?? 0}&",
+                                );
+                              } else {
+                                Utils().launchMaps(
+                                  coordinates: Coordinates(
+                                    salonModel.position?.geoPoint?.latitude ?? 0,
+                                    salonModel.position?.geoPoint?.longitude ?? 0,
+                                  ),
+                                  label: salonModel.address,
+                                  context: context,
+                                );
+                              }
+                            }
+                          },
+                          child: Container(
+                            height: 35.h,
+                            width: 35.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              border: Border.all(color: theme.primaryIconTheme.color!, width: 1.3),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0.sp),
+                              child: Center(
+                                child: SvgPicture.asset(
+                                  AppIcons.send,
+                                  color: theme.primaryIconTheme.color,
+                                  height: DeviceConstraints.getResponsiveSize(context, 40, 50, 70),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

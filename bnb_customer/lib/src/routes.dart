@@ -8,6 +8,7 @@ import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/policy/policy.dart';
 import 'package:bbblient/src/views/policy/testes.dart';
+import 'package:bbblient/src/views/salon/salon_home/salon_profile_copy.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +69,7 @@ final GoRouter router = GoRouter(
           final String id = state.queryParams['id']!;
           final String locale = state.queryParams['locale'] ?? "en";
           final String id2 = state.queryParams['id2'] ?? "";
-          printIt('idefeeeeeeeeeeeeeeee  + ${id2}');
+          printIt('idefeeeeeeeeeeeeeeee  + $id2');
           bool back = true;
           MasterModel? salonMaster;
           if (state.queryParams['back'] != null) {

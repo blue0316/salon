@@ -15,11 +15,7 @@ class AppTheme {
     ),
   ];
   static final List<BoxShadow> lightShadow = [
-    const BoxShadow(
-        color: Colors.black12,
-        offset: Offset(1, 2),
-        blurRadius: 3.0,
-        spreadRadius: 3),
+    const BoxShadow(color: Colors.black12, offset: Offset(1, 2), blurRadius: 3.0, spreadRadius: 3),
   ];
 
   static const padding = EdgeInsets.all(margin);
@@ -88,18 +84,7 @@ class AppTheme {
   static const Color master8 = Color(0xff14213d);
   static const Color master9 = Color(0xffcaffbf);
   static const Color master10 = Color(0xffa5a58d);
-  static const List<Color> masterColors = [
-    master1,
-    master2,
-    master3,
-    master4,
-    master5,
-    master6,
-    master7,
-    master8,
-    master9,
-    master10
-  ];
+  static const List<Color> masterColors = [master1, master2, master3, master4, master5, master6, master7, master8, master9, master10];
 
 // colorScheme
   static const Color creamBrownPrimaryVariant = Color(0xFFAE7C63);
@@ -113,104 +98,105 @@ class AppTheme {
   );
 
   static final TextStyle hintStyle = TextStyle(
-    fontFamily: "Montserrat",
+    fontFamily: "Gilroy",
     fontSize: 14.sp,
     fontWeight: FontWeight.w400,
     color: lightGrey,
   );
 
   static final TextStyle headLine1 = TextStyle(
-    fontFamily: "Montserrat",
+    fontFamily: "Gilroy",
     fontSize: 24.sp,
     fontWeight: FontWeight.w600,
     color: lightBlack,
   );
   static final TextStyle headLine2 = TextStyle(
-    fontFamily: "Montserrat",
+    fontFamily: "Gilroy",
     fontSize: 18.sp,
     fontWeight: FontWeight.w600,
     color: Colors.white,
   );
   static final TextStyle headLine3 = TextStyle(
-    fontFamily: "Montserrat",
+    fontFamily: "Gilroy",
     fontSize: 18.sp,
     fontWeight: FontWeight.w600,
     color: lightBlack,
   );
   static final TextStyle headLine4 = TextStyle(
-    fontFamily: "Montserrat",
+    fontFamily: "Gilroy",
     fontSize: 16.sp,
     fontWeight: FontWeight.normal,
     color: lightGrey,
   );
   static final TextStyle headLine5 = TextStyle(
-    fontFamily: "Montserrat",
+    fontFamily: "Gilroy",
     fontSize: 16.sp,
     fontWeight: FontWeight.w300,
     color: lightGrey,
   );
   static final TextStyle bodyText1 = TextStyle(
-    fontFamily: "Montserrat",
+    fontFamily: "Gilroy",
     fontSize: 16.sp,
     fontWeight: FontWeight.w500,
     color: textBlack,
   );
   static final TextStyle bodyText2 = TextStyle(
-    fontFamily: "Montserrat",
+    fontFamily: "Gilroy",
     fontSize: 14.sp,
     fontWeight: FontWeight.w400,
     color: lightGrey,
   );
   static final TextStyle subTitle1 = TextStyle(
-    fontFamily: "Montserrat",
+    fontFamily: "Gilroy",
     fontSize: 16.sp,
     fontWeight: FontWeight.w600,
     color: lightBlack,
   );
   static final TextStyle appointmentSubtitle = TextStyle(
-    fontFamily: "Montserrat",
+    fontFamily: "Gilroy",
     fontSize: 14.sp,
     fontWeight: FontWeight.w600,
     color: black2,
   );
   static const TextStyle calTextStyle = TextStyle(
-    fontFamily: "Montserrat",
+    fontFamily: "Gilroy",
     fontSize: 14,
     color: Colors.white,
     fontWeight: FontWeight.w500,
   );
 
   static const TextStyle calTextStyle2 = TextStyle(
-    fontFamily: "Montserrat",
+    fontFamily: "Gilroy",
     fontSize: 14,
     color: Colors.black,
     fontWeight: FontWeight.w500,
   );
 
   static const TextStyle appointmentTitleStyle = TextStyle(
-    fontFamily: "Montserrat",
+    fontFamily: "Gilroy",
     fontSize: 14,
     color: lightGrey3,
     fontWeight: FontWeight.w500,
   );
 
+  static const Color primaryLightThemeColor = Colors.white;
+  static const Color primaryDarkBackgroundThemeColor = Colors.black;
+  static const Color darkPrimaryThemeColor = Color(0XFFF49071);
+
   static final ThemeData lightTheme = ThemeData(
     primaryColor: creamBrown,
-    dialogBackgroundColor: Colors.white,
+    dialogBackgroundColor: primaryLightThemeColor,
     tabBarTheme: TabBarTheme(
       unselectedLabelColor: Colors.black,
       labelColor: Colors.white,
-      indicator: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
-        color: Colors.black,
-      ),
+      indicator: BoxDecoration(borderRadius: BorderRadius.circular(50), color: Colors.black),
       labelStyle: AppTheme.bodyText1,
     ),
     colorScheme: const ColorScheme(
       primary: creamBrown,
       secondary: creamBrownLight,
       surface: Colors.white,
-      background: milkeyGrey,
+      background: primaryLightThemeColor,
       error: redishPink,
       onPrimary: creamBrown,
       onSecondary: creamBrownLight,
@@ -224,54 +210,45 @@ class AppTheme {
       backgroundColor: Colors.white,
       elevation: 1.2,
     ),
-    textSelectionTheme: const TextSelectionThemeData(
-      cursorColor: lightBlack,
-    ),
-    inputDecorationTheme: InputDecorationTheme(
-      hintStyle: hintStyle,
-    ),
+    textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
+    inputDecorationTheme: InputDecorationTheme(hintStyle: hintStyle),
     textTheme: TextTheme(
-      headline1: headLine1,
-      headline2: headLine2,
-      headline3: headLine3,
-      headline4: headLine4,
-      headline5: headLine5,
-      bodyText1: bodyText1,
-      bodyText2: bodyText2,
-      //text-field style
-      subtitle1: subTitle1,
+      displayLarge: headLine1.copyWith(color: Colors.black),
+      displayMedium: headLine2.copyWith(color: Colors.black),
+      displaySmall: headLine3.copyWith(color: Colors.black),
+      headlineMedium: headLine4.copyWith(color: Colors.black),
+      headlineSmall: headLine5.copyWith(color: Colors.black),
+      bodyLarge: bodyText1.copyWith(color: Colors.black),
+      bodyMedium: bodyText2.copyWith(color: Colors.black),
+      titleMedium: subTitle1.copyWith(color: Colors.black),
     ),
     appBarTheme: AppBarTheme(
-      backgroundColor: Colors.white,
+      backgroundColor: primaryLightThemeColor,
       titleTextStyle: bodyText1,
-      iconTheme: const IconThemeData(
-        color: textBlack,
-      ),
+      iconTheme: const IconThemeData(color: textBlack),
     ),
-    dividerColor: Colors.white,
+    dividerColor: Colors.black,
     focusColor: lightGrey,
-    highlightColor:
-        const Color(0XFFEBE9E9), // Color to select services on booking dialog
-
+    highlightColor: const Color(0XFFEBE9E9), // Color to select services on booking dialog
     splashColor: milkeyGreyDark,
     hoverColor: milkeyGreyDark,
-    unselectedWidgetColor: const Color.fromARGB(
-        255, 239, 239, 239), // Color for not valid time slot container
+    unselectedWidgetColor: const Color.fromARGB(255, 239, 239, 239), // Color for not valid time slot container
+    primaryIconTheme: const IconThemeData(color: Colors.black),
   );
 
   static final ThemeData darkTheme = ThemeData(
-    scaffoldBackgroundColor: lightBlack,
+    scaffoldBackgroundColor: darkPrimaryThemeColor,
     textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      backgroundColor: Colors.white,
+      backgroundColor: primaryDarkBackgroundThemeColor,
       elevation: 1.2,
     ),
     inputDecorationTheme: InputDecorationTheme(hintStyle: hintStyle),
     colorScheme: const ColorScheme(
       primary: creamBrown,
       secondary: creamBrownLight,
-      surface: Colors.white,
-      background: milkeyGrey,
+      surface: primaryDarkBackgroundThemeColor,
+      background: primaryDarkBackgroundThemeColor,
       error: redishPink,
       onPrimary: creamBrown,
       onSecondary: creamBrownLight,
@@ -281,28 +258,25 @@ class AppTheme {
       brightness: Brightness.light,
     ),
     textTheme: TextTheme(
-      headline1: headLine1,
-      headline2: headLine2,
-      headline3: headLine3,
-      headline4: headLine4,
-      headline5: headLine5,
-
-      bodyText1: bodyText1,
-      bodyText2: bodyText2,
-      //text-field style
-      subtitle1: subTitle1,
+      displayLarge: headLine1.copyWith(color: darkPrimaryThemeColor),
+      displayMedium: headLine2.copyWith(color: Colors.white),
+      displaySmall: headLine3.copyWith(color: Colors.white),
+      headlineMedium: headLine4.copyWith(color: Colors.white),
+      headlineSmall: headLine5.copyWith(color: Colors.white),
+      bodyLarge: bodyText1.copyWith(color: Colors.white),
+      bodyMedium: bodyText2.copyWith(color: Colors.white),
+      titleMedium: subTitle1.copyWith(color: Colors.white),
     ),
     appBarTheme: AppBarTheme(
-      backgroundColor: Colors.white,
+      backgroundColor: primaryDarkBackgroundThemeColor,
       titleTextStyle: bodyText1,
-      iconTheme: const IconThemeData(
-        color: textBlack,
-      ),
+      iconTheme: const IconThemeData(color: textBlack),
     ),
     dividerColor: Colors.white,
     focusColor: lightGrey,
     highlightColor: milkeyGreyDark,
     splashColor: milkeyGreyDark,
     hoverColor: milkeyGreyDark,
+    primaryIconTheme: const IconThemeData(color: darkPrimaryThemeColor),
   );
 }

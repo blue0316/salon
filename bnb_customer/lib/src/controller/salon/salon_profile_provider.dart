@@ -13,6 +13,7 @@ import 'package:bbblient/src/models/review.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/utils.dart';
+import 'package:bbblient/src/views/salon/default_profile_view/salon_profile.dart';
 import 'package:bbblient/src/views/themes/glam_one/glam_one.dart';
 import 'package:bbblient/src/views/themes/utils/theme_color.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
@@ -85,7 +86,7 @@ class SalonProfileProvider with ChangeNotifier {
     '7', // Glam Minimal Dark
   };
 
-  dynamic getTheme() {
+  Widget getTheme() {
     if (availableThemes.contains(themeSettings?.theme?.testId)) {
       // If theme number is not in this set, it means that's a default theme
       switch (themeSettings?.theme?.testId) {
@@ -144,7 +145,8 @@ class SalonProfileProvider with ChangeNotifier {
       themeType = ThemeType.Default;
 
       notifyListeners();
-      return null; // This should be the default theme if there's no theme number
+
+      return const DefaultLandingTheme(); // Default landing theme
     }
   }
 

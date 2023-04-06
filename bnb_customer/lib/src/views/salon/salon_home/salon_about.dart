@@ -14,7 +14,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:url_launcher/url_launcher.dart' as lauch;
 import '../../../models/salon_master/salon.dart';
 import '../../../theme/app_main_theme.dart';
 import '../../../utils/icons.dart';
@@ -41,14 +40,6 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
     _authProvider = ref.read(authProvider);
     super.initState();
   }
-
-  void _launchURL(String url) async => await lauch.canLaunchUrl(
-        Uri.parse(url),
-      )
-          ? await lauch.canLaunchUrl(Uri.parse(url))
-          : showToast(
-              'Could not launch $url',
-            );
 
   getFeature(String s) {
     debugPrint(widget.salonModel.ownerType);
@@ -102,7 +93,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
           SizedBox(height: 20.h),
           Text(
             (AppLocalizations.of(context)?.localeName == 'uk') ? saloonDetailsTitlesUK[1] : saloonDetailsTitles[1].toCapitalized(),
-            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                   color: AppTheme.textBlack,
                   fontWeight: FontWeight.w600,
                   fontSize: 30.sp,

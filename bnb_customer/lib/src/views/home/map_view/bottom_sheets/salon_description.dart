@@ -1,4 +1,5 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/views/salon/salon_home/salon_profile_copy.dart';
 import 'package:bbblient/src/views/salon/salon_home/salon_profile.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,10 +25,7 @@ class SalonDescriptionDraggable extends StatelessWidget {
         maxChildSize: 0.75,
         builder: (BuildContext context, ScrollController scrollController) {
           return Container(
-            decoration: const BoxDecoration(
-                color: AppTheme.white,
-                borderRadius:
-                    BorderRadius.only(topLeft: Radius.circular(AppTheme.margin), topRight: Radius.circular(AppTheme.margin))),
+            decoration: const BoxDecoration(color: AppTheme.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(AppTheme.margin), topRight: Radius.circular(AppTheme.margin))),
             child: Column(
               children: [
                 Padding(
@@ -104,15 +102,14 @@ class SalonDescription extends ConsumerWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(100),
                 child: SizedBox(
-                  height: 100.sp,
-                  width: 100.sp,
-                  child: _salon.profilePics.isEmpty
-                      ? SvgPicture.asset(
-                          AppIcons.salonPlaceHolder,
-                          fit: BoxFit.cover,
-                        )
-                      : CachedImage(url: _salon.profilePics[0])
-                ),
+                    height: 100.sp,
+                    width: 100.sp,
+                    child: _salon.profilePics.isEmpty
+                        ? SvgPicture.asset(
+                            AppIcons.salonPlaceHolder,
+                            fit: BoxFit.cover,
+                          )
+                        : CachedImage(url: _salon.profilePics[0])),
               ),
             ),
             Expanded(
@@ -133,10 +130,7 @@ class SalonDescription extends ConsumerWidget {
                         child: Text(
                           _address,
                           overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline4!
-                              .copyWith(fontWeight: FontWeight.w400, color: AppTheme.textBlack),
+                          style: Theme.of(context).textTheme.headline4!.copyWith(fontWeight: FontWeight.w400, color: AppTheme.textBlack),
                         ),
                       ),
                     ],
@@ -164,10 +158,7 @@ class SalonDescription extends ConsumerWidget {
                             ),
                             Text(
                               _salon.reviewCount.toInt().toString(),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline4!
-                                  .copyWith(fontWeight: FontWeight.w400, color: AppTheme.textBlack),
+                              style: Theme.of(context).textTheme.headline4!.copyWith(fontWeight: FontWeight.w400, color: AppTheme.textBlack),
                             )
                           ],
                         ),
@@ -235,10 +226,7 @@ class SalonDescription extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(100),
                 ),
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => SalonPage(salonId: _mapViewProvider.selectedSalon!.salonId, switchSalon: true)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => SalonPage(salonId: _mapViewProvider.selectedSalon!.salonId, switchSalon: true)));
                 },
                 child: Ink(
                     width: 140,
@@ -282,14 +270,9 @@ class _WorkingDaysState extends State<WorkingDays> {
           children: [
             SizedBox(
               width: 50,
-              child: Text(day,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w400, color: AppTheme.textBlack, fontFamily: "Montserrat", fontSize: 13)),
+              child: Text(day, overflow: TextOverflow.ellipsis, style: const TextStyle(fontWeight: FontWeight.w400, color: AppTheme.textBlack, fontFamily: "Montserrat", fontSize: 13)),
             ),
-            Text(hours ?? '',
-                style: const TextStyle(
-                    fontFamily: "Montserrat", fontSize: 13, fontWeight: FontWeight.w600, color: AppTheme.textBlack)),
+            Text(hours ?? '', style: const TextStyle(fontFamily: "Montserrat", fontSize: 13, fontWeight: FontWeight.w600, color: AppTheme.textBlack)),
             if (showToggleButton)
               const SizedBox(
                 width: 8,
@@ -319,13 +302,9 @@ class _WorkingDaysState extends State<WorkingDays> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: showTodayOnly
               ? [
-                  if (widget.workingHoursMap.containsKey(today))
-                    hourPalette(today, widget.workingHoursMap[today], showToggleButton: true),
+                  if (widget.workingHoursMap.containsKey(today)) hourPalette(today, widget.workingHoursMap[today], showToggleButton: true),
                 ]
-              : [
-                  for (int key in widget.workingHoursMap.keys)
-                    hourPalette(key, widget.workingHoursMap[key], showToggleButton: key == 1)
-                ],
+              : [for (int key in widget.workingHoursMap.keys) hourPalette(key, widget.workingHoursMap[key], showToggleButton: key == 1)],
         ));
   }
 }
