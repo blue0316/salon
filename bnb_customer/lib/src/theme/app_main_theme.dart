@@ -98,82 +98,82 @@ class AppTheme {
   );
 
   static final TextStyle hintStyle = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "Jost",
     fontSize: 14.sp,
     fontWeight: FontWeight.w400,
     color: lightGrey,
   );
 
   static final TextStyle headLine1 = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "Jost",
     fontSize: 24.sp,
     fontWeight: FontWeight.w600,
     color: lightBlack,
   );
   static final TextStyle headLine2 = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "Jost",
     fontSize: 18.sp,
     fontWeight: FontWeight.w600,
     color: Colors.white,
   );
   static final TextStyle headLine3 = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "Jost",
     fontSize: 18.sp,
     fontWeight: FontWeight.w600,
     color: lightBlack,
   );
   static final TextStyle headLine4 = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "Jost",
     fontSize: 16.sp,
     fontWeight: FontWeight.normal,
     color: lightGrey,
   );
   static final TextStyle headLine5 = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "Jost",
     fontSize: 16.sp,
     fontWeight: FontWeight.w300,
     color: lightGrey,
   );
   static final TextStyle bodyText1 = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "Jost",
     fontSize: 16.sp,
     fontWeight: FontWeight.w500,
     color: textBlack,
   );
   static final TextStyle bodyText2 = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "Jost",
     fontSize: 14.sp,
     fontWeight: FontWeight.w400,
     color: lightGrey,
   );
   static final TextStyle subTitle1 = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "Jost",
     fontSize: 16.sp,
     fontWeight: FontWeight.w600,
     color: lightBlack,
   );
   static final TextStyle appointmentSubtitle = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "Jost",
     fontSize: 14.sp,
     fontWeight: FontWeight.w600,
     color: black2,
   );
   static const TextStyle calTextStyle = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "Jost",
     fontSize: 14,
     color: Colors.white,
     fontWeight: FontWeight.w500,
   );
 
   static const TextStyle calTextStyle2 = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "Jost",
     fontSize: 14,
     color: Colors.black,
     fontWeight: FontWeight.w500,
   );
 
   static const TextStyle appointmentTitleStyle = TextStyle(
-    fontFamily: "Gilroy",
+    fontFamily: "Jost",
     fontSize: 14,
     color: lightGrey3,
     fontWeight: FontWeight.w500,
@@ -184,7 +184,7 @@ class AppTheme {
   static const Color darkPrimaryThemeColor = Color(0XFFF49071);
 
   static final ThemeData lightTheme = ThemeData(
-    primaryColor: creamBrown,
+    primaryColor: Colors.black,
     dialogBackgroundColor: primaryLightThemeColor,
     tabBarTheme: TabBarTheme(
       unselectedLabelColor: Colors.black,
@@ -237,7 +237,7 @@ class AppTheme {
   );
 
   static final ThemeData darkTheme = ThemeData(
-    scaffoldBackgroundColor: darkPrimaryThemeColor,
+    primaryColor: darkPrimaryThemeColor,
     textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: primaryDarkBackgroundThemeColor,

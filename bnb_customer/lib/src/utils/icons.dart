@@ -140,6 +140,7 @@ class AppIcons {
   static const String linkInsta = "assets/icons/link_insta.svg";
   static const String linkTikTok = "assets/icons/link_tiktok.svg";
   static const String linkFacebook = "assets/icons/link_facebook.svg";
+  static const String photoSlider = "assets/images/photo_slider.png";
 
   //"assets/images/Logo.svg";
   static const String passwordFilledSVG = "assets/icons/password_filled.svg";

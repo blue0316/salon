@@ -141,7 +141,7 @@ class SalonProfileProvider with ChangeNotifier {
 
       return const GlamOneScreen(); // New Themes Base Widget
     } else {
-      salonTheme = AppTheme.lightTheme;
+      salonTheme = AppTheme.darkTheme;
       themeType = ThemeType.Default;
 
       notifyListeners();

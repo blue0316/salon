@@ -18,7 +18,7 @@ class SectionSpacer extends StatelessWidget {
         Text(
           title.toUpperCase(),
           style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 25.sp, 30.sp),
+                fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 30.sp, 35.sp),
                 color: Colors.white,
               ),
         ),

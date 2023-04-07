@@ -36,6 +36,7 @@ class RatingGraph extends ConsumerWidget {
                 style: theme.textTheme.bodyLarge!.copyWith(
                   fontSize: 28.sp,
                   fontWeight: FontWeight.bold,
+                  color: theme.primaryColor,
                 ),
               ),
             ),
@@ -52,6 +53,7 @@ class RatingGraph extends ConsumerWidget {
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     decoration: TextDecoration.underline,
                     fontSize: 14.sp,
+                    color: isLightTheme ? Colors.black : Colors.white,
                   ),
             ),
           ],
@@ -129,7 +131,10 @@ class _DistributedRatingState extends ConsumerState<DistributedRating> {
         children: [
           Text(
             ratingLabel,
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 13),
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  fontSize: 13,
+                  color: isLightTheme ? Colors.black : Colors.white,
+                ),
           ),
           const SpaceHorizontal(),
           Stack(

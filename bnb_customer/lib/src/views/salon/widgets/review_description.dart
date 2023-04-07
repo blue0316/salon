@@ -23,12 +23,17 @@ class ReviewDescription extends ConsumerWidget {
 
     return Container(
       decoration: BoxDecoration(
-          // color: Colors.white,
-          border: Border(
-        // hide top border when using list View
-        top: BorderSide(color: Colors.black, width: isFirst ? 0.8 : 0),
-        bottom: const BorderSide(color: Colors.black, width: 0.8),
-      )),
+        border: Border(
+          top: BorderSide(
+            color: isLightTheme ? Colors.black : Colors.white,
+            width: isFirst ? 0.8 : 0,
+          ),
+          bottom: BorderSide(
+            color: isLightTheme ? Colors.black : Colors.white,
+            width: 0.8,
+          ),
+        ),
+      ),
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 18.h, horizontal: 0),
         child: Row(
@@ -59,6 +64,7 @@ class ReviewDescription extends ConsumerWidget {
                     style: theme.textTheme.titleMedium!.copyWith(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w600,
+                      color: isLightTheme ? Colors.black : Colors.white,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -66,7 +72,10 @@ class ReviewDescription extends ConsumerWidget {
                   const SizedBox(height: 5),
                   Text(
                     Time().getLocaleDate2(review.createdAt, AppLocalizations.of(context)?.localeName ?? "uk"),
-                    style: theme.textTheme.bodyMedium!.copyWith(fontSize: 12.sp),
+                    style: theme.textTheme.bodyMedium!.copyWith(
+                      fontSize: 12.sp,
+                      color: Colors.grey,
+                    ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -76,6 +85,7 @@ class ReviewDescription extends ConsumerWidget {
                     style: theme.textTheme.bodyLarge!.copyWith(
                       fontWeight: FontWeight.w500,
                       fontSize: 14.5.sp,
+                      color: isLightTheme ? Colors.black : Colors.white,
                     ),
                     maxLines: 6,
                     overflow: TextOverflow.ellipsis,

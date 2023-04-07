@@ -1,3 +1,4 @@
+import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/review.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,10 @@ class _ReviewSectionState extends ConsumerState<ReviewSection> {
   Widget build(BuildContext context) {
     final bool isTab = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab);
     final int reviewCount = widget.reviews.length;
+    final _salonProfileProvider = ref.watch(salonProfileProvider);
+
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+    bool isLightTheme = (theme == AppTheme.lightTheme);
 
     return Expanded(
       flex: 0,
@@ -38,6 +43,7 @@ class _ReviewSectionState extends ConsumerState<ReviewSection> {
             style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                   fontWeight: FontWeight.bold,
                   fontSize: 15.sp,
+                  color: isLightTheme ? Colors.black : Colors.white,
                 ),
           ),
           const SizedBox(height: 20),

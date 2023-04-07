@@ -72,8 +72,10 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
   Widget build(BuildContext context) {
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
     final _salonProfileProvider = ref.watch(salonProfileProvider);
-
     BnbProvider _bnbProvider = ref.read(bnbProvider);
+
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+    bool isLightTheme = (theme == AppTheme.lightTheme);
 
     return SingleChildScrollView(
       child: Column(
@@ -86,7 +88,7 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
           Container(
             // height: 1000.h,
             width: double.infinity,
-            color: Colors.white.withOpacity(0.7),
+            color: theme.colorScheme.background.withOpacity(0.7),
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 20.h),
               child: Column(
@@ -130,7 +132,7 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                                     if (AppIcons.getIconFromFacilityString(feature: s) != null) ...[
                                       if (_bnbProvider.locale == const Locale('en')) ...[
                                         Container(
-                                          color: Colors.white,
+                                          color: theme.colorScheme.background,
                                           height: DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
                                           width: DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
                                           child: Column(
@@ -139,30 +141,26 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                                             children: [
                                               GestureDetector(
                                                 onTap: () => showDialog<bool>(
-                                                    context: context,
-                                                    builder: (BuildContext context) {
-                                                      return ShowAdditionaFeatureInfo(_bnbProvider, s);
-                                                    }),
-                                                child: Container(
-                                                  height: DeviceConstraints.getResponsiveSize(context, 30.sp, 30.sp, 40.sp),
-                                                  width: DeviceConstraints.getResponsiveSize(context, 30.sp, 30.sp, 40.sp),
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(color: AppTheme.black, width: 1),
-                                                    borderRadius: BorderRadius.circular(50),
-                                                  ),
-                                                  child: Padding(
-                                                    padding: EdgeInsets.all(10.sp),
-                                                    child: SvgPicture.asset(
-                                                      AppIcons.getIconFromFacilityString(feature: s)!,
-                                                      height: DeviceConstraints.getResponsiveSize(context, 30.sp, 30.sp, 40.sp),
-                                                    ),
-                                                  ),
+                                                  context: context,
+                                                  builder: (BuildContext context) {
+                                                    return ShowAdditionaFeatureInfo(_bnbProvider, s);
+                                                  },
+                                                ),
+                                                child: SvgPicture.asset(
+                                                  AppIcons.getIconFromFacilityString(feature: s)!,
+                                                  height: DeviceConstraints.getResponsiveSize(context, 30.h, 30.h, 30.h),
+                                                  color: theme.primaryColor,
                                                 ),
                                               ),
                                               const SizedBox(height: 5),
                                               Text(
                                                 getFeature(s) ?? '',
-                                                style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 13.sp),
+                                                style: TextStyle(
+                                                  overflow: TextOverflow.ellipsis,
+                                                  fontSize: 13.sp,
+                                                  height: 0,
+                                                  color: isLightTheme ? Colors.black : Colors.white,
+                                                ),
                                                 maxLines: 2,
                                                 textAlign: TextAlign.center,
                                               ),
@@ -171,38 +169,36 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                                         ),
                                       ],
                                       if (_bnbProvider.locale == const Locale('uk')) ...[
-                                        SizedBox(
+                                        Container(
+                                          color: theme.colorScheme.background,
                                           height: DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
                                           width: DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
                                           child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               GestureDetector(
                                                 onTap: () => showDialog<bool>(
-                                                    context: context,
-                                                    builder: (BuildContext context) {
-                                                      debugPrint(s);
-                                                      return ShowAdditionaFeatureInfo(_bnbProvider, s);
-                                                    }),
-                                                child: Container(
-                                                  height: DeviceConstraints.getResponsiveSize(context, 30.sp, 30.sp, 40.sp),
-                                                  width: DeviceConstraints.getResponsiveSize(context, 30.sp, 30.sp, 40.sp),
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(color: AppTheme.black, width: 1),
-                                                    borderRadius: BorderRadius.circular(50),
-                                                  ),
-                                                  child: Padding(
-                                                    padding: EdgeInsets.all(10.sp),
-                                                    child: SvgPicture.asset(
-                                                      AppIcons.getIconFromFacilityString(feature: s)!,
-                                                      height: DeviceConstraints.getResponsiveSize(context, 30.sp, 30.sp, 40.sp),
-                                                    ),
-                                                  ),
+                                                  context: context,
+                                                  builder: (BuildContext context) {
+                                                    return ShowAdditionaFeatureInfo(_bnbProvider, s);
+                                                  },
+                                                ),
+                                                child: SvgPicture.asset(
+                                                  AppIcons.getIconFromFacilityString(feature: s)!,
+                                                  height: DeviceConstraints.getResponsiveSize(context, 50.h, 50.h, 60.h),
+                                                  color: theme.primaryColor,
                                                 ),
                                               ),
                                               const SizedBox(height: 5),
                                               Text(
                                                 getFeatureUk(s) ?? '',
-                                                style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 13.sp),
+                                                style: TextStyle(
+                                                  overflow: TextOverflow.ellipsis,
+                                                  fontSize: 13.sp,
+                                                  height: 0,
+                                                  color: isLightTheme ? Colors.black : Colors.white,
+                                                ),
                                                 maxLines: 2,
                                                 textAlign: TextAlign.center,
                                               ),
@@ -230,14 +226,14 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                                   }
                                 },
                                 child: Container(
-                                    decoration: const BoxDecoration(
+                                    decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: Colors.white,
+                                      color: theme.colorScheme.background,
                                     ),
-                                    child: const Center(
+                                    child: Center(
                                       child: Icon(
                                         Icons.keyboard_arrow_down_rounded,
-                                        color: Colors.black,
+                                        color: theme.primaryColor,
                                       ),
                                     )),
                               ),
@@ -260,6 +256,7 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                           style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15.sp,
+                                color: isLightTheme ? Colors.black : Colors.white,
                               ),
                         ),
                         const SizedBox(height: 10),
@@ -268,8 +265,9 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: const [
                             SocialLink(icon: AppIcons.linkGlobe),
-                            SocialLink(icon: AppIcons.linkGlobe),
-                            SocialLink(icon: AppIcons.linkGlobe),
+                            SocialLink(icon: AppIcons.linkInsta),
+                            SocialLink(icon: AppIcons.linkTikTok),
+                            SocialLink(icon: AppIcons.linkFacebook),
                           ],
                         ),
                       ],
@@ -290,13 +288,16 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
   }
 }
 
-class SocialLink extends StatelessWidget {
+class SocialLink extends ConsumerWidget {
   final String icon;
 
   const SocialLink({Key? key, required this.icon}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
     return Expanded(
       flex: 0,
       child: Padding(
@@ -304,12 +305,12 @@ class SocialLink extends StatelessWidget {
         child: Container(
           height: 50.h,
           width: 50.h,
-          color: Colors.white,
+          color: theme.colorScheme.background,
           child: Center(
             child: SvgPicture.asset(
               icon,
               height: 30.h,
-              color: Colors.black,
+              color: theme.primaryColor,
             ),
           ),
         ),

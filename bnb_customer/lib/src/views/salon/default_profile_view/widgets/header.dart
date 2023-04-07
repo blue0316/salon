@@ -66,6 +66,7 @@ class Header extends ConsumerWidget {
                             salonModel.salonName,
                             style: theme.textTheme.displayLarge!.copyWith(
                               fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 20.sp, 20.sp),
+                              color: theme.primaryColor,
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -87,6 +88,7 @@ class Header extends ConsumerWidget {
                                   style: theme.textTheme.displayMedium!.copyWith(
                                     fontSize: 13.sp,
                                     fontWeight: FontWeight.w400,
+                                    color: isLightTheme ? Colors.black : Colors.white,
                                   ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -121,14 +123,14 @@ class Header extends ConsumerWidget {
                             width: 35.h,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(50),
-                              border: Border.all(color: theme.primaryIconTheme.color!, width: 1.3),
+                              border: Border.all(color: theme.primaryColor, width: 1.3),
                             ),
                             child: Padding(
                               padding: EdgeInsets.all(8.0.sp),
                               child: Center(
                                 child: SvgPicture.asset(
                                   AppIcons.phoneWhiteSVG,
-                                  color: theme.primaryIconTheme.color,
+                                  color: theme.primaryColor,
                                   height: DeviceConstraints.getResponsiveSize(context, 40, 50, 70),
                                 ),
                               ),
@@ -167,14 +169,14 @@ class Header extends ConsumerWidget {
                             width: 35.h,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(50),
-                              border: Border.all(color: theme.primaryIconTheme.color!, width: 1.3),
+                              border: Border.all(color: theme.primaryColor, width: 1.3),
                             ),
                             child: Padding(
                               padding: EdgeInsets.all(8.0.sp),
                               child: Center(
                                 child: SvgPicture.asset(
                                   AppIcons.send,
-                                  color: theme.primaryIconTheme.color,
+                                  color: theme.primaryColor,
                                   height: DeviceConstraints.getResponsiveSize(context, 40, 50, 70),
                                 ),
                               ),

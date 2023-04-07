@@ -60,6 +60,10 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
     final createAppointment = ref.watch(createAppointmentProvider);
     var mediaQuery = MediaQuery.of(context);
 
+    final _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+    bool isLightTheme = (theme == AppTheme.lightTheme);
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Theme(
@@ -73,7 +77,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
           trailing: const SizedBox.shrink(),
           backgroundColor: Colors.transparent,
           title: Container(
-            color: Colors.white.withOpacity(0.7),
+            color: theme.colorScheme.background.withOpacity(0.7),
             height: 70,
             width: double.infinity,
             child: Padding(
@@ -91,6 +95,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                               fontWeight: FontWeight.bold,
                               fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
+                              color: theme.primaryColor,
                             ),
                       ),
                       if (DeviceConstraints.getDeviceType(mediaQuery) == DeviceScreenType.portrait)
@@ -100,12 +105,16 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const SizedBox(height: 10),
-                              Container(height: 1.3, width: 35, color: Colors.black),
+                              Container(
+                                height: 1.3,
+                                width: 35,
+                                color: theme.primaryColor,
+                              ),
                               const SizedBox(height: 10),
                               Text(
                                 'Save up to 15%',
                                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w400,
                                       fontSize: 14.sp,
                                       color: const Color(0XFFFF5C5C),
                                     ),
@@ -131,7 +140,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                             'Save up to 15%',
                             style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                   fontSize: 14.sp,
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: FontWeight.w400,
                                   color: const Color(0XFFFF5C5C),
                                 ),
                           ),
@@ -139,21 +148,28 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                       ),
                   const Spacer(),
                   Container(
-                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(50)),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.background,
+                      borderRadius: BorderRadius.circular(50),
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
                       child: Text(
                         '${widget.services.length} Services',
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                               fontSize: DeviceConstraints.getResponsiveSize(context, 13.sp, 13.sp, 15.sp),
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w400,
+                              color: theme.primaryColor,
                             ),
                       ),
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 7),
-                    child: Icon(Icons.expand_more),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 7),
+                    child: Icon(
+                      Icons.expand_more,
+                      color: isLightTheme ? Colors.black : Colors.white,
+                    ),
                   ),
                 ],
               ),
@@ -161,7 +177,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
           ),
           children: [
             Container(
-              color: Colors.white.withOpacity(0.7),
+              color: theme.colorScheme.background.withOpacity(0.7),
               child: Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: DeviceConstraints.getResponsiveSize(context, 15, 30, 50),
@@ -225,6 +241,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                                                         fontWeight: FontWeight.bold,
                                                                         fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
+                                                                        color: theme.primaryColor,
                                                                       ),
                                                                   overflow: TextOverflow.ellipsis,
                                                                   maxLines: 2,
@@ -245,6 +262,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                                               AppIcons.informationSVG,
                                                                               height: DeviceConstraints.getResponsiveSize(context, 12, 12, 12),
                                                                               width: DeviceConstraints.getResponsiveSize(context, 12, 12, 12),
+                                                                              color: isLightTheme ? Colors.black : Colors.white,
                                                                             ),
                                                                           ),
                                                                         ),
@@ -267,7 +285,10 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                       height: 12.h,
                                                       width: 12.h,
                                                       child: Center(
-                                                        child: SvgPicture.asset(AppIcons.clockSVG, color: AppTheme.black),
+                                                        child: SvgPicture.asset(
+                                                          AppIcons.clockSVG,
+                                                          color: isLightTheme ? Colors.black : Colors.white,
+                                                        ),
                                                       ),
                                                     ),
                                                     const SizedBox(width: 7),
@@ -275,19 +296,31 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                         ? service.isFixedDuration
                                                             ? Text(
                                                                 "${service.priceAndDuration.duration} minutes",
-                                                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 15.sp, fontWeight: FontWeight.w500),
+                                                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                                                      fontSize: 15.sp,
+                                                                      fontWeight: FontWeight.w500,
+                                                                      color: isLightTheme ? Colors.black : Colors.white,
+                                                                    ),
                                                                 overflow: TextOverflow.ellipsis,
                                                                 maxLines: 1,
                                                               )
                                                             : Text(
                                                                 "${service.priceAndDuration.duration} minutes - ${service.priceAndDurationMax!.duration} minutes",
-                                                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 16.sp, fontWeight: FontWeight.w500),
+                                                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                                                      fontSize: 16.sp,
+                                                                      fontWeight: FontWeight.w500,
+                                                                      color: isLightTheme ? Colors.black : Colors.white,
+                                                                    ),
                                                                 overflow: TextOverflow.ellipsis,
                                                                 maxLines: 1,
                                                               )
                                                         : Text(
                                                             "${service.priceAndDuration.duration} minutes",
-                                                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 15.sp, fontWeight: FontWeight.w500),
+                                                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                                                  fontSize: 15.sp,
+                                                                  fontWeight: FontWeight.w500,
+                                                                  color: isLightTheme ? Colors.black : Colors.white,
+                                                                ),
                                                             overflow: TextOverflow.ellipsis,
                                                             maxLines: 1,
                                                           ),
@@ -315,7 +348,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                                       fontWeight: FontWeight.bold,
                                                       fontSize: 16.sp,
-                                                      color: AppTheme.textBlack,
+                                                      color: isLightTheme ? Colors.black : Colors.white,
                                                     ),
                                                 overflow: TextOverflow.visible,
                                                 maxLines: 1,
@@ -362,7 +395,11 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                       ],
                                     ),
                                     const Space(factor: 0.7),
-                                    if (index != widget.services.length - 1) const Divider(color: Colors.black, thickness: 1.3),
+                                    if (index != widget.services.length - 1)
+                                      Divider(
+                                        color: isLightTheme ? Colors.black : Colors.white,
+                                        thickness: 1.3,
+                                      ),
                                   ],
                                 ),
                               ),

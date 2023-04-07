@@ -20,13 +20,8 @@ class _SalonServicesState extends ConsumerState<SalonServices> {
 
   @override
   Widget build(BuildContext context) {
-    final _salonProfileProvider = ref.watch(salonProfileProvider);
     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
     final _salonSearchProvider = ref.watch(salonSearchProvider);
-
-    final ThemeData theme = _salonProfileProvider.salonTheme;
-
-    // bool isLightTheme = (theme == AppTheme.lightTheme);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,

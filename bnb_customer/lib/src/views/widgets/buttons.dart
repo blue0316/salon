@@ -189,7 +189,7 @@ class _BnbCheckCircleState extends State<BnbCheckCircle> {
   }
 }
 
-class ServicesBnbCheckCircle extends StatefulWidget {
+class ServicesBnbCheckCircle extends ConsumerStatefulWidget {
   final bool value;
   const ServicesBnbCheckCircle({
     Key? key,
@@ -200,9 +200,13 @@ class ServicesBnbCheckCircle extends StatefulWidget {
   _ServicesBnbCheckCircleState createState() => _ServicesBnbCheckCircleState();
 }
 
-class _ServicesBnbCheckCircleState extends State<ServicesBnbCheckCircle> {
+class _ServicesBnbCheckCircleState extends ConsumerState<ServicesBnbCheckCircle> {
   @override
   Widget build(BuildContext context) {
+    final _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+    bool isLightTheme = (theme == AppTheme.lightTheme);
+
     return Container(
       height: DeviceConstraints.getResponsiveSize(context, 28.h, 40.h, 40.h),
       width: DeviceConstraints.getResponsiveSize(context, 28.h, 40.h, 40.h),
@@ -213,7 +217,7 @@ class _ServicesBnbCheckCircleState extends State<ServicesBnbCheckCircle> {
       child: Center(
         child: Icon(
           Icons.add_rounded,
-          color: widget.value ? Colors.white : Colors.black,
+          color: widget.value ? theme.primaryColor : Colors.black,
           size: DeviceConstraints.getResponsiveSize(context, 20.h, 30.h, 30.h),
         ),
       ),
