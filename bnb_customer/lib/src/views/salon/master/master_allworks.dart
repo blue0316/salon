@@ -1,8 +1,9 @@
+import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/enums/profile_datails_tabs.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
-import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/chat/image_preview.dart';
+import 'package:bbblient/src/views/salon/default_profile_view/widgets/section_spacer.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -29,99 +30,95 @@ class _MasterAllWorksState extends State<MasterAllWorks> {
 
   @override
   Widget build(BuildContext context) {
-    return ConstrainedContainer(
+    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+
+    return SingleChildScrollView(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SizedBox(height: 20.h),
-          Text(
-            (AppLocalizations.of(context)?.localeName == 'uk') ? masterDetailsTitles[2] : masterDetailsTitles[2].toCapitalized(),
-            style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 30.sp,
-                  letterSpacing: -1,
-                ),
+          SectionSpacer(
+            title: (AppLocalizations.of(context)?.localeName == 'uk') ? masterDetailsTitles[2] : masterDetailsTitles[2],
           ),
-          const Space(factor: 2),
-          const Divider(color: Color(0XFF9D9D9D), thickness: 1.3),
-          const Space(factor: 0.5),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "${AppLocalizations.of(context)?.all ?? "all"} (${widget.master.photosOfWork?.length ?? 0})",
-                style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                    // fontSize: 30.sp,
-                    ),
-              ),
-              SizedBox(width: 16.w),
+          Container(
+            width: double.infinity,
+            color: Colors.white.withOpacity(0.7),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 20.h),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    (widget.master.photosOfWork != null && (widget.master.photosOfWork?.isNotEmpty ?? false))
+                        ? GridView.builder(
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: DeviceConstraints.getResponsiveSize(context, 1, 2, 3).toInt(),
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: DeviceConstraints.getResponsiveSize(context, 10, 10, 10),
+                              mainAxisExtent: DeviceConstraints.getResponsiveSize(context, 250.h, 200.h, 200.h), // childAspectRatio: 1,
+                              // mainAxisExtent: DeviceConstraints.getResponsiveSize(context, 0, 0, 256),
+                            ),
+                            shrinkWrap: true,
+                            primary: false,
+                            itemCount: widget.master.photosOfWork!.length,
+                            controller: _gridViewScrollController,
+                            // padding: EdgeInsets.all(20.w),
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ImagePreview(imageUrls: widget.master.photosOfWork, index: index),
+                                    ),
+                                  );
+                                },
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: SizedBox(
+                                        height: DeviceConstraints.getResponsiveSize(context, 250, 200, 100),
+                                        width: isPortrait ? double.infinity : DeviceConstraints.getResponsiveSize(context, 200, 300, 400),
+                                        // decoration: const BoxDecoration(color: Colors.green),
+                                        child: CachedImage(
+                                          url: widget.master.photosOfWork![index],
+                                          fit: BoxFit.contain,
+                                        ),
+                                      ),
+                                    ),
 
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.end,
-              //   children: [
-              //     Container(
-              //       height: 32.w,
-              //       width: 32.w,
-              //       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
-              //       child: Padding(
-              //         padding: EdgeInsets.all(8.0.w),
-              //         child: SvgPicture.asset(AppIcons.lensBlackSVG),
-              //       ),
-              //     ),
-              //     SizedBox(
-              //       width: 16.w,
-              //     ),
-              //     Container(
-              //       height: 32.w,
-              //       width: 32.w,
-              //       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
-              //       child: Padding(
-              //         padding: EdgeInsets.all(8.0.w),
-              //         child: SvgPicture.asset(AppIcons.filterBlackSVG),
-              //       ),
-              //     ),
-              //   ],
-              // ),
-            ],
+                                    // const SizedBox(height: 10),
+                                    // Text(
+                                    //   (widget.master.photosOfWork![index]. .description != null && widget.master.photosOfWork![index].description != '') ? '${widget.master.photosOfWork![index].description}' : '...',
+                                    //   style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.normal, fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 15.sp), color: Colors.black),
+                                    //   maxLines: 2,
+                                    //   overflow: TextOverflow.ellipsis,
+                                    // ),
+                                    // const SizedBox(height: 15),
+                                  ],
+                                ),
+                              );
+                            })
+                        : Center(
+                            child: Text(
+                              'NO PHOTOS OF WORKS AVAILABLE AT THE MOMENT',
+                              style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                                    fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                  ],
+                ),
+              ),
+            ),
           ),
-          SizedBox(
-            height: 4.h,
-          ),
-          (widget.master.photosOfWork != null && (widget.master.photosOfWork?.isNotEmpty ?? false))
-              ? GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: DeviceConstraints.getResponsiveSize(context, 2, 3, 4).toInt(),
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 12,
-                  ),
-                  shrinkWrap: true,
-                  primary: false,
-                  itemCount: widget.master.photosOfWork!.length,
-                  controller: _gridViewScrollController,
-                  padding: EdgeInsets.all(20.w),
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ImagePreview(
-                                      imageUrls: widget.master.photosOfWork,
-                                      index: index,
-                                    )));
-                      },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: CachedImage(
-                          url: widget.master.photosOfWork![index],
-                        ),
-                      ),
-                    );
-                  })
-              : SizedBox(
-                  height: 0.5.sh,
-                )
         ],
       ),
     );

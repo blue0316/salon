@@ -40,121 +40,117 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
         children: [
           Expanded(
             child: SingleChildScrollView(
-              child: Container(
-                // height: MediaQuery.of(context).size.height,
-                // color: Colors.yellow,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Header(salonModel: _salonProfileProvider.chosenSalon),
-                    Space(
-                      factor: DeviceConstraints.getResponsiveSize(context, 2, 3, 5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Header(salonModel: _salonProfileProvider.chosenSalon),
+                  Space(
+                    factor: DeviceConstraints.getResponsiveSize(context, 2, 3, 5),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 50.w, 90.w),
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 50.w, 90.w),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: DeviceConstraints.getResponsiveSize(context, 0, 0, 25.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: DeviceConstraints.getResponsiveSize(context, 0, 0, 25.w),
+                          ),
+                          child: Container(
+                            height: 75.h,
+                            width: double.infinity,
+                            color: Colors.white,
+                            margin: EdgeInsets.symmetric(
+                              horizontal: DeviceConstraints.getResponsiveSize(context, 5.w, 5.w, 10.w),
+                              vertical: 20.h,
                             ),
-                            child: Container(
-                              height: 75.h,
-                              width: double.infinity,
-                              color: Colors.white,
-                              margin: EdgeInsets.symmetric(
-                                horizontal: DeviceConstraints.getResponsiveSize(context, 5.w, 5.w, 10.w),
-                                vertical: 20.h,
-                              ),
-                              child: Center(
-                                child: SizedBox(
-                                  height: 30.h,
-                                  width: double.infinity,
-                                  child: Center(
-                                    child: ListView.separated(
-                                      itemCount: (_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon) ? saloonDetailsTitles.length : masterDetailsTitles.length,
-                                      scrollDirection: Axis.horizontal,
-                                      shrinkWrap: true,
-                                      controller: _scrollController,
-                                      separatorBuilder: (_, index) => Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 8),
-                                        child: Container(
-                                          width: 2.5,
-                                          height: 18.h,
-                                          decoration: BoxDecoration(color: const Color(0XFFEDEDED), borderRadius: BorderRadius.circular(50)),
-                                        ),
+                            child: Center(
+                              child: SizedBox(
+                                height: 30.h,
+                                width: double.infinity,
+                                child: Center(
+                                  child: ListView.separated(
+                                    itemCount: (_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon) ? saloonDetailsTitles.length : masterDetailsTitles.length,
+                                    scrollDirection: Axis.horizontal,
+                                    shrinkWrap: true,
+                                    controller: _scrollController,
+                                    separatorBuilder: (_, index) => Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 8),
+                                      child: Container(
+                                        width: 2.5,
+                                        height: 18.h,
+                                        decoration: BoxDecoration(color: const Color(0XFFEDEDED), borderRadius: BorderRadius.circular(50)),
                                       ),
-                                      itemBuilder: (_, index) {
-                                        return Center(
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 12),
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                setState(() {
-                                                  _pageController.jumpToPage(index);
-                                                  _activeTab = index;
-                                                });
-                                              },
-                                              child: Text(
-                                                ((_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon)
-                                                        ? (AppLocalizations.of(context)?.localeName == 'uk')
-                                                            ? saloonDetailsTitlesUK[index]
-                                                            : saloonDetailsTitles[index]
-                                                        : (AppLocalizations.of(context)?.localeName == 'uk')
-                                                            ? masterDetailsTitlesUk[index]
-                                                            : masterDetailsTitles[index])
-                                                    .toUpperCase(),
-                                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 18.sp, 20.sp),
-                                                      color: AppTheme.textBlack,
-                                                      fontWeight: _activeTab == index ? FontWeight.w800 : FontWeight.w600,
-                                                      decoration: _activeTab == index ? TextDecoration.underline : null,
-                                                    ),
-                                              ),
+                                    ),
+                                    itemBuilder: (_, index) {
+                                      return Center(
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                _pageController.jumpToPage(index);
+                                                _activeTab = index;
+                                              });
+                                            },
+                                            child: Text(
+                                              ((_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon)
+                                                      ? (AppLocalizations.of(context)?.localeName == 'uk')
+                                                          ? saloonDetailsTitlesUK[index]
+                                                          : saloonDetailsTitles[index]
+                                                      : (AppLocalizations.of(context)?.localeName == 'uk')
+                                                          ? masterDetailsTitlesUk[index]
+                                                          : masterDetailsTitles[index])
+                                                  .toUpperCase(),
+                                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                                    fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 18.sp, 20.sp),
+                                                    color: AppTheme.textBlack,
+                                                    fontWeight: _activeTab == index ? FontWeight.w800 : FontWeight.w600,
+                                                    decoration: _activeTab == index ? TextDecoration.underline : null,
+                                                  ),
                                             ),
                                           ),
-                                        );
-                                      },
-                                    ),
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                          ExpandablePageView(
-                            padEnds: false,
-                            key: const ValueKey("exp"),
-                            physics: const NeverScrollableScrollPhysics(),
-                            controller: _pageController,
-                            onPageChanged: (i) {
-                              setState(() {
-                                _activeTab = i;
-                              });
-                            },
-                            children: [
-                              const SalonServices(),
-                              SalonAbout(
+                        ),
+                        ExpandablePageView(
+                          padEnds: false,
+                          key: const ValueKey("exp"),
+                          physics: const NeverScrollableScrollPhysics(),
+                          controller: _pageController,
+                          onPageChanged: (i) {
+                            setState(() {
+                              _activeTab = i;
+                            });
+                          },
+                          children: [
+                            const SalonServices(),
+                            SalonAbout(
+                              salonModel: _salonProfileProvider.chosenSalon,
+                            ),
+                            if (_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon)
+                              SalonMasters(
                                 salonModel: _salonProfileProvider.chosenSalon,
                               ),
-                              if (_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon)
-                                SalonMasters(
-                                  salonModel: _salonProfileProvider.chosenSalon,
-                                ),
-                              SalonAllWorks(
-                                salonModel: _salonProfileProvider.chosenSalon,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                            SalonAllWorks(
+                              salonModel: _salonProfileProvider.chosenSalon,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

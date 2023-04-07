@@ -178,11 +178,11 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                         ? InkWell(
                             key: const ValueKey("tap-service"),
                             onTap: () {
-                              // createAppointment.toggleService(
-                              //   serviceModel: service,
-                              //   clearChosenMaster: false,
-                              //   context: context,
-                              // );
+                              createAppointment.toggleService(
+                                serviceModel: service,
+                                clearChosenMaster: false,
+                                context: context,
+                              );
                             },
                             child: SizedBox(
                               width: MediaQuery.of(context).size.width,

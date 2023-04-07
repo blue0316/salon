@@ -142,6 +142,7 @@ class _SaloonMastersState extends ConsumerState<SaloonMasters> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) => MasterProfile(
+                                              salonModel: widget.salonModel,
                                               masterModel: _filteredMasters[index],
                                             ),
                                           ),

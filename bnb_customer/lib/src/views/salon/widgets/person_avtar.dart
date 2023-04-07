@@ -16,7 +16,7 @@ class PersonAvtar extends ConsumerWidget {
   final double? rating;
   final double starSize;
   final Color? ratingColor;
-  final double? padding;
+  final double? padding, height;
 
   const PersonAvtar({
     Key? key,
@@ -29,6 +29,7 @@ class PersonAvtar extends ConsumerWidget {
     required this.starSize,
     this.ratingColor,
     this.padding,
+    this.height,
   }) : super(key: key);
 
   @override
@@ -41,8 +42,8 @@ class PersonAvtar extends ConsumerWidget {
       // mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Container(
-          height: 100,
-          width: 100,
+          height: height ?? 100,
+          width: height ?? 100,
           decoration: const BoxDecoration(color: AppTheme.coolGrey),
           child: (personImageUrl != null && personImageUrl != '')
               ? Image.network(

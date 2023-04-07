@@ -110,7 +110,6 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
 
                                   /// --- MASTER AVATAR ----
                                   Container(
-                                    color: Colors.brown,
                                     height: DeviceConstraints.getResponsiveSize(context, 170.h, 140.h, 180.h),
                                     alignment: Alignment.centerLeft,
                                     child: ListView.builder(
@@ -130,6 +129,7 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) => MasterProfile(
+                                                    salonModel: widget.salonModel,
                                                     masterModel: _filteredMasters[index],
                                                   ),
                                                 ),

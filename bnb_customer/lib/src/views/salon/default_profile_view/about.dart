@@ -98,79 +98,73 @@ class PortraitAboutHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Expanded(
-          flex: 1,
-          child: SizedBox(
-            // height: 150.h,
-            width: double.infinity,
-            child: Image.asset(
-              AppIcons.onboardingFirstPNG,
-              fit: BoxFit.contain,
-            ),
+        SizedBox(
+          height: 150.h,
+          width: double.infinity,
+          child: Image.asset(
+            AppIcons.onboardingFirstPNG,
+            fit: BoxFit.contain,
           ),
         ),
         const Space(factor: 1.5),
-        Expanded(
-          flex: 1,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    salonModel.salonName,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18.sp,
-                        ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const Space(factor: 0.7),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Image.asset(
-                        AppIcons.mapPinPNG,
-                        height: DeviceConstraints.getResponsiveSize(context, 18.h, 18.h, 15.h),
-                      ),
-                      const SizedBox(width: 6),
-                      Text(
-                        salonModel.address,
-                        style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w500,
-                            ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              const Space(factor: 0.5),
-              BnbRatings(
-                rating: salonModel.rating,
-                editable: false,
-                starSize: 12,
-              ),
-              const Space(factor: 1),
-              if (salonModel.description != '')
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
                 Text(
-                  '''Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.''',
+                  salonModel.salonName,
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14.sp,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.sp,
                       ),
-                  maxLines: 8,
+                  maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-            ],
-          ),
+                const Space(factor: 0.7),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Image.asset(
+                      AppIcons.mapPinPNG,
+                      height: DeviceConstraints.getResponsiveSize(context, 18.h, 18.h, 15.h),
+                    ),
+                    const SizedBox(width: 6),
+                    Text(
+                      salonModel.address,
+                      style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const Space(factor: 0.5),
+            BnbRatings(
+              rating: salonModel.rating,
+              editable: false,
+              starSize: 12,
+            ),
+            const Space(factor: 1),
+            if (salonModel.description != '')
+              Text(
+                salonModel.description,
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14.sp,
+                    ),
+                maxLines: 8,
+                overflow: TextOverflow.ellipsis,
+              ),
+          ],
         ),
       ],
     );

@@ -16,7 +16,6 @@ import 'package:bbblient/src/views/salon/widgets/additional%20featured.dart';
 import 'package:bbblient/src/views/salon/widgets/service_expension_tile.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'about.dart';
-import 'salon_profile.dart';
 import 'salon_reviews.dart';
 import 'widgets/section_spacer.dart';
 
@@ -97,7 +96,7 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                   Expanded(
                     flex: 0,
                     child: SizedBox(
-                      height: isPortrait ? 500.h : 200.h,
+                      height: isPortrait ? null : 200.h,
                       child: isPortrait
                           ? PortraitAboutHeader(
                               salonModel: widget.salonModel,
@@ -110,142 +109,143 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                   SizedBox(
                     height: DeviceConstraints.getResponsiveSize(context, 10, 10, 30),
                   ),
-                  Expanded(
-                    flex: 0,
-                    child: SizedBox(
-                      // height: 200.h,
-                      width: double.infinity,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            flex: 3,
-                            child: ExtendedWrap(
-                              spacing: 10,
-                              maxLines: maxLinesForAdditionalFeature,
-                              runSpacing: 10.h,
-                              children: [
-                                for (String s in widget.salonModel.additionalFeatures) ...[
-                                  if (AppIcons.getIconFromFacilityString(feature: s) != null) ...[
-                                    if (_bnbProvider.locale == const Locale('en')) ...[
-                                      Container(
-                                        color: Colors.white,
-                                        height: DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
-                                        width: DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            GestureDetector(
-                                              onTap: () => showDialog<bool>(
-                                                  context: context,
-                                                  builder: (BuildContext context) {
-                                                    return ShowAdditionaFeatureInfo(_bnbProvider, s);
-                                                  }),
-                                              child: Container(
-                                                height: DeviceConstraints.getResponsiveSize(context, 30.sp, 30.sp, 40.sp),
-                                                width: DeviceConstraints.getResponsiveSize(context, 30.sp, 30.sp, 40.sp),
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(color: AppTheme.black, width: 1),
-                                                  borderRadius: BorderRadius.circular(50),
-                                                ),
-                                                child: Padding(
-                                                  padding: EdgeInsets.all(10.sp),
-                                                  child: SvgPicture.asset(
-                                                    AppIcons.getIconFromFacilityString(feature: s)!,
-                                                    height: DeviceConstraints.getResponsiveSize(context, 30.sp, 30.sp, 40.sp),
+                  if (widget.salonModel.additionalFeatures.isNotEmpty)
+                    Expanded(
+                      flex: 0,
+                      child: SizedBox(
+                        // height: 200.h,
+                        width: double.infinity,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              flex: 3,
+                              child: ExtendedWrap(
+                                spacing: 10,
+                                maxLines: maxLinesForAdditionalFeature,
+                                runSpacing: 10.h,
+                                children: [
+                                  for (String s in widget.salonModel.additionalFeatures) ...[
+                                    if (AppIcons.getIconFromFacilityString(feature: s) != null) ...[
+                                      if (_bnbProvider.locale == const Locale('en')) ...[
+                                        Container(
+                                          color: Colors.white,
+                                          height: DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
+                                          width: DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () => showDialog<bool>(
+                                                    context: context,
+                                                    builder: (BuildContext context) {
+                                                      return ShowAdditionaFeatureInfo(_bnbProvider, s);
+                                                    }),
+                                                child: Container(
+                                                  height: DeviceConstraints.getResponsiveSize(context, 30.sp, 30.sp, 40.sp),
+                                                  width: DeviceConstraints.getResponsiveSize(context, 30.sp, 30.sp, 40.sp),
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(color: AppTheme.black, width: 1),
+                                                    borderRadius: BorderRadius.circular(50),
+                                                  ),
+                                                  child: Padding(
+                                                    padding: EdgeInsets.all(10.sp),
+                                                    child: SvgPicture.asset(
+                                                      AppIcons.getIconFromFacilityString(feature: s)!,
+                                                      height: DeviceConstraints.getResponsiveSize(context, 30.sp, 30.sp, 40.sp),
+                                                    ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                            const SizedBox(height: 5),
-                                            Text(
-                                              getFeature(s) ?? '',
-                                              style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 13.sp),
-                                              maxLines: 2,
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ],
+                                              const SizedBox(height: 5),
+                                              Text(
+                                                getFeature(s) ?? '',
+                                                style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 13.sp),
+                                                maxLines: 2,
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                    if (_bnbProvider.locale == const Locale('uk')) ...[
-                                      SizedBox(
-                                        height: DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
-                                        width: DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
-                                        child: Column(
-                                          children: [
-                                            GestureDetector(
-                                              onTap: () => showDialog<bool>(
-                                                  context: context,
-                                                  builder: (BuildContext context) {
-                                                    debugPrint(s);
-                                                    return ShowAdditionaFeatureInfo(_bnbProvider, s);
-                                                  }),
-                                              child: Container(
-                                                height: DeviceConstraints.getResponsiveSize(context, 30.sp, 30.sp, 40.sp),
-                                                width: DeviceConstraints.getResponsiveSize(context, 30.sp, 30.sp, 40.sp),
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(color: AppTheme.black, width: 1),
-                                                  borderRadius: BorderRadius.circular(50),
-                                                ),
-                                                child: Padding(
-                                                  padding: EdgeInsets.all(10.sp),
-                                                  child: SvgPicture.asset(
-                                                    AppIcons.getIconFromFacilityString(feature: s)!,
-                                                    height: DeviceConstraints.getResponsiveSize(context, 30.sp, 30.sp, 40.sp),
+                                      ],
+                                      if (_bnbProvider.locale == const Locale('uk')) ...[
+                                        SizedBox(
+                                          height: DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
+                                          width: DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
+                                          child: Column(
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () => showDialog<bool>(
+                                                    context: context,
+                                                    builder: (BuildContext context) {
+                                                      debugPrint(s);
+                                                      return ShowAdditionaFeatureInfo(_bnbProvider, s);
+                                                    }),
+                                                child: Container(
+                                                  height: DeviceConstraints.getResponsiveSize(context, 30.sp, 30.sp, 40.sp),
+                                                  width: DeviceConstraints.getResponsiveSize(context, 30.sp, 30.sp, 40.sp),
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(color: AppTheme.black, width: 1),
+                                                    borderRadius: BorderRadius.circular(50),
+                                                  ),
+                                                  child: Padding(
+                                                    padding: EdgeInsets.all(10.sp),
+                                                    child: SvgPicture.asset(
+                                                      AppIcons.getIconFromFacilityString(feature: s)!,
+                                                      height: DeviceConstraints.getResponsiveSize(context, 30.sp, 30.sp, 40.sp),
+                                                    ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                            const SizedBox(height: 5),
-                                            Text(
-                                              getFeatureUk(s) ?? '',
-                                              style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 13.sp),
-                                              maxLines: 2,
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ],
+                                              const SizedBox(height: 5),
+                                              Text(
+                                                getFeatureUk(s) ?? '',
+                                                style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 13.sp),
+                                                maxLines: 2,
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
+                                      ]
                                     ]
-                                  ]
+                                  ],
                                 ],
-                              ],
+                              ),
                             ),
-                          ),
-                          Expanded(
-                            flex: 0,
-                            child: GestureDetector(
-                              onTap: () {
-                                if (maxLinesForAdditionalFeature != widget.salonModel.additionalFeatures.length) {
-                                  setState(() {
-                                    maxLinesForAdditionalFeature = widget.salonModel.additionalFeatures.length;
-                                  });
-                                } else {
-                                  setState(() {
-                                    maxLinesForAdditionalFeature = 1;
-                                  });
-                                }
-                              },
-                              child: Container(
-                                  decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.white,
-                                  ),
-                                  child: const Center(
-                                    child: Icon(
-                                      Icons.keyboard_arrow_down_rounded,
-                                      color: Colors.black,
+                            Expanded(
+                              flex: 0,
+                              child: GestureDetector(
+                                onTap: () {
+                                  if (maxLinesForAdditionalFeature != widget.salonModel.additionalFeatures.length) {
+                                    setState(() {
+                                      maxLinesForAdditionalFeature = widget.salonModel.additionalFeatures.length;
+                                    });
+                                  } else {
+                                    setState(() {
+                                      maxLinesForAdditionalFeature = 1;
+                                    });
+                                  }
+                                },
+                                child: Container(
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.white,
                                     ),
-                                  )),
+                                    child: const Center(
+                                      child: Icon(
+                                        Icons.keyboard_arrow_down_rounded,
+                                        color: Colors.black,
+                                      ),
+                                    )),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
                   SizedBox(
                     height: DeviceConstraints.getResponsiveSize(context, 15, 15, 30),
                   ),

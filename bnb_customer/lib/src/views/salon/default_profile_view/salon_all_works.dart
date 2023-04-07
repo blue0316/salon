@@ -42,7 +42,7 @@ class _SalonAllWorksState extends State<SalonAllWorks> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    (widget.salonModel.photosOfWorks!.isNotEmpty)
+                    (widget.salonModel.photosOfWorks != null && widget.salonModel.photosOfWorks!.isNotEmpty)
                         ? GridView.builder(
                             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: DeviceConstraints.getResponsiveSize(context, 1, 2, 3).toInt(),
@@ -91,11 +91,8 @@ class _SalonAllWorksState extends State<SalonAllWorks> {
 
                                     const SizedBox(height: 10),
                                     Text(
-                                      (widget.salonModel.photosOfWorks![index].description != null || widget.salonModel.photosOfWorks![index].description != '') ? '${widget.salonModel.photosOfWorks![index].description}' : '...',
-                                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 15.sp),
-                                          ),
+                                      (widget.salonModel.photosOfWorks![index].description != null && widget.salonModel.photosOfWorks![index].description != '') ? '${widget.salonModel.photosOfWorks![index].description}' : '...',
+                                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.normal, fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 15.sp), color: Colors.black),
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                     ),
