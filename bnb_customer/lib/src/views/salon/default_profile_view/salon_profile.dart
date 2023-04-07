@@ -1,23 +1,18 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
-import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/enums/profile_datails_tabs.dart';
-import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
-import 'package:bbblient/src/utils/extensions/exstension.dart';
-import 'package:bbblient/src/utils/icons.dart';
-import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_about.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_services.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'salon_all_works.dart';
+import 'salon_masters.dart';
 import 'widgets/header.dart';
 
 class DefaultLandingTheme extends ConsumerStatefulWidget {
@@ -39,13 +34,15 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
     bool isLightTheme = (theme == AppTheme.lightTheme);
 
     return Scaffold(
-        body: SizedBox(
+        body: Container(
+      color: Colors.pink,
       child: Column(
         children: [
           Expanded(
             child: SingleChildScrollView(
               child: Container(
-                color: Colors.yellow,
+                // height: MediaQuery.of(context).size.height,
+                // color: Colors.yellow,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -145,15 +142,11 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
                                 salonModel: _salonProfileProvider.chosenSalon,
                               ),
                               if (_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon)
-                                Container(
-                                  height: 1000.h,
-                                  width: double.infinity,
-                                  color: Colors.green,
+                                SalonMasters(
+                                  salonModel: _salonProfileProvider.chosenSalon,
                                 ),
-                              Container(
-                                height: 1000.h,
-                                width: double.infinity,
-                                color: Colors.purple,
+                              SalonAllWorks(
+                                salonModel: _salonProfileProvider.chosenSalon,
                               ),
                             ],
                           ),
@@ -168,30 +161,5 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
         ],
       ),
     ));
-  }
-}
-
-class SectionSpacer extends StatelessWidget {
-  final String title;
-
-  const SectionSpacer({Key? key, required this.title}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Space(factor: DeviceConstraints.getResponsiveSize(context, 1, 1.5, 3)),
-        Text(
-          title.toUpperCase(),
-          style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 25.sp, 30.sp),
-                color: Colors.white,
-              ),
-        ),
-        Space(factor: DeviceConstraints.getResponsiveSize(context, 1, 1, 2)),
-      ],
-    );
   }
 }

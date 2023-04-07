@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'salon_profile.dart';
+import 'widgets/section_spacer.dart';
 import 'widgets/service_tile.dart';
 
 class SalonServices extends ConsumerStatefulWidget {
@@ -36,10 +37,10 @@ class _SalonServicesState extends ConsumerState<SalonServices> {
         SectionSpacer(
           title: (AppLocalizations.of(context)?.localeName == 'uk') ? saloonDetailsTitlesUK[0] : saloonDetailsTitles[0],
         ),
-        Container(
-          height: 1000.h,
+        SizedBox(
+          // height: 1000.h,
           width: double.infinity,
-          color: Colors.teal,
+          // color: Colors.white.withOpacity(0.7),
           child: ListView.builder(
             itemCount: _salonSearchProvider.categories.length,
             shrinkWrap: true,

@@ -15,6 +15,8 @@ class PersonAvtar extends ConsumerWidget {
   final bool showRating;
   final double? rating;
   final double starSize;
+  final Color? ratingColor;
+  final double? padding;
 
   const PersonAvtar({
     Key? key,
@@ -25,6 +27,8 @@ class PersonAvtar extends ConsumerWidget {
     required this.showRating,
     required this.rating,
     required this.starSize,
+    this.ratingColor,
+    this.padding,
   }) : super(key: key);
 
   @override
@@ -36,35 +40,48 @@ class PersonAvtar extends ConsumerWidget {
     return Column(
       // mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        (personImageUrl != null && personImageUrl != '')
-            ? CircleAvatar(
-                radius: radius,
-                backgroundColor: AppTheme.coolGrey,
-                backgroundImage: NetworkImage(personImageUrl!),
-              )
-            : CircleAvatar(
-                radius: radius,
-                backgroundColor: AppTheme.white,
-                backgroundImage: const AssetImage(AppIcons.masterDefaultAvtar),
-              ),
-        const SizedBox(height: 8),
+        Container(
+          height: 100,
+          width: 100,
+          decoration: const BoxDecoration(color: AppTheme.coolGrey),
+          child: (personImageUrl != null && personImageUrl != '')
+              ? Image.network(
+                  personImageUrl!,
+                  fit: BoxFit.cover,
+                )
+              : Image.asset(AppIcons.masterDefaultAvtar, fit: BoxFit.cover),
+        ),
+        // (personImageUrl != null && personImageUrl != '')
+        //     ? CircleAvatar(
+        //         radius: radius,
+        //         backgroundColor: AppTheme.coolGrey,
+        //         backgroundImage: NetworkImage(personImageUrl!),
+        //       )
+        //     : CircleAvatar(
+        //         radius: radius,
+        //         backgroundColor: AppTheme.white,
+        //         backgroundImage: const AssetImage(AppIcons.masterDefaultAvtar),
+        //       ),
+        const SizedBox(height: 10),
         Text(
           personName ?? "",
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                fontSize: 13.sp,
-                fontWeight: FontWeight.w500,
+          style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w600,
                 color: defaultTheme ? AppTheme.textBlack : Colors.white,
               ),
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
         ),
         if (rating != 0) ...[
-          const SizedBox(height: 5),
+          const SizedBox(height: 7),
           BnbRatings(
             rating: rating ?? 0,
             editable: false,
             starSize: starSize,
+            color: ratingColor,
+            padding: padding,
           ),
         ],
       ],

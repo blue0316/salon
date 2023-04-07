@@ -135,6 +135,12 @@ class AppIcons {
 
   static const String appLogo = "assets/images/Logo.png";
 
+  // New Default UI SVGs
+  static const String linkGlobe = "assets/icons/link_globe.svg";
+  static const String linkInsta = "assets/icons/link_insta.svg";
+  static const String linkTikTok = "assets/icons/link_tiktok.svg";
+  static const String linkFacebook = "assets/icons/link_facebook.svg";
+
   //"assets/images/Logo.svg";
   static const String passwordFilledSVG = "assets/icons/password_filled.svg";
   static const String paymentHistorySVG = "assets/icons/payment_history.svg";

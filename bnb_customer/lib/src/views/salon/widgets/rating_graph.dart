@@ -1,11 +1,13 @@
+import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/models/review.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../theme/app_main_theme.dart';
 import '../../widgets/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class RatingGraph extends StatelessWidget {
+class RatingGraph extends ConsumerWidget {
   final double avgRating;
   final int noOfReviews;
   final List<ReviewModel> allReviews;
@@ -13,23 +15,44 @@ class RatingGraph extends StatelessWidget {
   const RatingGraph({Key? key, required this.avgRating, required this.noOfReviews, required this.allReviews}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
+    bool isLightTheme = (theme == AppTheme.lightTheme);
+
     final _ratingStr = avgRating.toString();
+
     return Row(
       // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text(
-              _ratingStr.length > 3 ? _ratingStr.substring(0, 3) : _ratingStr,
-              style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 38),
+            Center(
+              child: Text(
+                _ratingStr.length > 3 ? _ratingStr.substring(0, 3) : _ratingStr,
+                style: theme.textTheme.bodyLarge!.copyWith(
+                  fontSize: 28.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
-            SizedBox(height: 8.h),
-            BnbRatings(rating: avgRating, editable: false, starSize: 15),
-            SizedBox(height: 8.h),
+            SizedBox(height: 10.h),
+            BnbRatings(
+              rating: avgRating,
+              editable: false,
+              starSize: 10,
+              color: isLightTheme ? const Color(0XFFF49071) : const Color(0XFFFFA755),
+            ),
+            SizedBox(height: 10.h),
             Text(
               "${noOfReviews.toInt()} ${AppLocalizations.of(context)?.reviews ?? "reviews"}",
-              style: Theme.of(context).textTheme.bodyText2,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    decoration: TextDecoration.underline,
+                    fontSize: 14.sp,
+                  ),
             ),
           ],
         ),
@@ -42,15 +65,15 @@ class RatingGraph extends StatelessWidget {
   }
 }
 
-class DistributedRating extends StatefulWidget {
+class DistributedRating extends ConsumerStatefulWidget {
   final List<ReviewModel> allReviews;
   const DistributedRating({Key? key, required this.allReviews}) : super(key: key);
 
   @override
-  State<DistributedRating> createState() => _DistributedRatingState();
+  ConsumerState<DistributedRating> createState() => _DistributedRatingState();
 }
 
-class _DistributedRatingState extends State<DistributedRating> {
+class _DistributedRatingState extends ConsumerState<DistributedRating> {
   //count of reviews
   int totalCount = 0;
   int reviewCount1 = 0;
@@ -94,6 +117,11 @@ class _DistributedRatingState extends State<DistributedRating> {
   }
 
   Widget rating(String ratingLabel, rating) {
+    final _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
+    bool isLightTheme = (theme == AppTheme.lightTheme);
+
     return Padding(
       padding: EdgeInsets.only(bottom: 2.sp),
       child: Row(
@@ -101,27 +129,23 @@ class _DistributedRatingState extends State<DistributedRating> {
         children: [
           Text(
             ratingLabel,
-            style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 13),
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 13),
           ),
           const SpaceHorizontal(),
           Stack(
             children: [
               Container(
                 height: 8,
-                width: 160,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                ),
+                width: 100,
+                decoration: const BoxDecoration(color: Colors.white),
               ),
               Positioned(
                 left: 0,
                 child: Container(
                   height: 8,
-                  width: 160.0 * (totalCount == 0 ? 0 : (rating / totalCount)),
+                  width: 100.0 * (totalCount == 0 ? 0 : (rating / totalCount)),
                   decoration: BoxDecoration(
-                    color: AppTheme.creamBrownLight,
-                    borderRadius: BorderRadius.circular(12),
+                    color: isLightTheme ? const Color(0XFFF49071) : const Color(0XFFFFA755),
                   ),
                 ),
               )

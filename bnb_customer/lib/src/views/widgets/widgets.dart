@@ -116,8 +116,20 @@ class BnbRatings extends StatelessWidget {
   final bool editable;
   final double starSize;
   final Function? onRatingUpdate;
+  final Color? color, unratedColor;
+  final double? padding;
 
-  const BnbRatings({Key? key, required this.rating, required this.editable, required this.starSize, this.onRatingUpdate}) : super(key: key);
+  const BnbRatings({
+    Key? key,
+    required this.rating,
+    required this.editable,
+    required this.starSize,
+    this.onRatingUpdate,
+    this.color,
+    this.unratedColor,
+    this.padding,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
@@ -131,15 +143,18 @@ class BnbRatings extends StatelessWidget {
       );
     } else {
       return RatingBar.builder(
-        unratedColor: Colors.white, // Changed to reflect properly on Booking Dialog //TODO - WORK ON THIS ON OTHER SCREENS
+        unratedColor: unratedColor ?? Colors.white, // Changed to reflect properly on Booking Dialog //TODO - WORK ON THIS ON OTHER SCREENS
         initialRating: rating,
         minRating: 0,
         direction: Axis.horizontal,
         allowHalfRating: true,
         itemCount: 5,
-        itemPadding: const EdgeInsets.symmetric(horizontal: 0.0),
+        itemPadding: EdgeInsets.symmetric(horizontal: padding ?? 0.0),
         itemBuilder: (context, _) {
-          return SvgPicture.asset('assets/icons/flutterRating.svg',color: AppTheme.bookingYellow,);
+          return SvgPicture.asset(
+            'assets/icons/flutterRating.svg',
+            color: color ?? AppTheme.bookingYellow,
+          );
         },
         onRatingUpdate: (rating) {
           onRatingUpdate!();

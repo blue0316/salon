@@ -1,3 +1,9 @@
+import 'package:extended_wrap/extended_wrap.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
@@ -9,14 +15,10 @@ import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/views/salon/widgets/additional%20featured.dart';
 import 'package:bbblient/src/views/salon/widgets/service_expension_tile.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
-import 'package:extended_wrap/extended_wrap.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'about.dart';
 import 'salon_profile.dart';
+import 'salon_reviews.dart';
+import 'widgets/section_spacer.dart';
 
 class SalonAbout extends ConsumerStatefulWidget {
   final SalonModel salonModel;
@@ -65,13 +67,14 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
   }
 
   int maxLinesForAdditionalFeature = 1;
+  int totalReviewsToShow = 3;
 
   @override
   Widget build(BuildContext context) {
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+    final _salonProfileProvider = ref.watch(salonProfileProvider);
 
     BnbProvider _bnbProvider = ref.read(bnbProvider);
-    // final _salonProfileProvider = ref.watch(salonProfileProvider);
 
     return SingleChildScrollView(
       child: Column(
@@ -107,7 +110,6 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                   SizedBox(
                     height: DeviceConstraints.getResponsiveSize(context, 10, 10, 30),
                   ),
-
                   Expanded(
                     flex: 0,
                     child: SizedBox(
@@ -150,7 +152,10 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                                                 ),
                                                 child: Padding(
                                                   padding: EdgeInsets.all(10.sp),
-                                                  child: SvgPicture.asset(AppIcons.getIconFromFacilityString(feature: s)!),
+                                                  child: SvgPicture.asset(
+                                                    AppIcons.getIconFromFacilityString(feature: s)!,
+                                                    height: DeviceConstraints.getResponsiveSize(context, 30.sp, 30.sp, 40.sp),
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -187,7 +192,10 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                                                 ),
                                                 child: Padding(
                                                   padding: EdgeInsets.all(10.sp),
-                                                  child: SvgPicture.asset(AppIcons.getIconFromFacilityString(feature: s)!),
+                                                  child: SvgPicture.asset(
+                                                    AppIcons.getIconFromFacilityString(feature: s)!,
+                                                    height: DeviceConstraints.getResponsiveSize(context, 30.sp, 30.sp, 40.sp),
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -238,27 +246,73 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 30),
+                  SizedBox(
+                    height: DeviceConstraints.getResponsiveSize(context, 15, 15, 30),
+                  ),
                   Expanded(
                     flex: 0,
-                    child: Container(
-                      height: 100.h,
-                      color: Colors.green,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          (AppLocalizations.of(context)?.socialMedia ?? "Social media").toUpperCase(),
+                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15.sp,
+                              ),
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: const [
+                            SocialLink(icon: AppIcons.linkGlobe),
+                            SocialLink(icon: AppIcons.linkGlobe),
+                            SocialLink(icon: AppIcons.linkGlobe),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                  // const SizedBox(height: 30),
-                  // Expanded(
-                  //   flex: 0,
-                  //   child: Container(
-                  //     height: 100.h,
-                  //     color: Colors.pink,
-                  //   ),
-                  // ),
+                  const Space(factor: 2),
+                  ReviewSection(
+                    reviews: _salonProfileProvider.salonReviews,
+                    avgRating: widget.salonModel.avgRating,
+                  ),
                 ],
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class SocialLink extends StatelessWidget {
+  final String icon;
+
+  const SocialLink({Key? key, required this.icon}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      flex: 0,
+      child: Padding(
+        padding: const EdgeInsets.only(right: 15),
+        child: Container(
+          height: 50.h,
+          width: 50.h,
+          color: Colors.white,
+          child: Center(
+            child: SvgPicture.asset(
+              icon,
+              height: 30.h,
+              color: Colors.black,
+            ),
+          ),
+        ),
       ),
     );
   }
