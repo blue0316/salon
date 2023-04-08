@@ -1,7 +1,10 @@
+import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/enums/profile_datails_tabs.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
+import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'widgets/section_spacer.dart';
@@ -9,21 +12,25 @@ import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/chat/image_preview.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 
-class SalonAllWorks extends StatefulWidget {
+class SalonAllWorks extends ConsumerStatefulWidget {
   final SalonModel salonModel;
 
   const SalonAllWorks({Key? key, required this.salonModel}) : super(key: key);
 
   @override
-  State<SalonAllWorks> createState() => _SalonAllWorksState();
+  ConsumerState<SalonAllWorks> createState() => _SalonAllWorksState();
 }
 
-class _SalonAllWorksState extends State<SalonAllWorks> {
+class _SalonAllWorksState extends ConsumerState<SalonAllWorks> {
   final ScrollController _gridViewScrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+    final _salonProfileProvider = ref.watch(salonProfileProvider);
+
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+    bool isLightTheme = (theme == AppTheme.lightTheme);
 
     return SingleChildScrollView(
       child: Column(
@@ -32,11 +39,11 @@ class _SalonAllWorksState extends State<SalonAllWorks> {
             title: (AppLocalizations.of(context)?.localeName == 'uk') ? saloonDetailsTitlesUK[3] : saloonDetailsTitles[3],
           ),
           Container(
-            // height: 1000.h,
+            height: 1000.h,
             width: double.infinity,
-            color: Colors.white.withOpacity(0.7),
+            color: theme.colorScheme.background.withOpacity(0.7),
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 20.h),
+              padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 50.h),
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -92,7 +99,11 @@ class _SalonAllWorksState extends State<SalonAllWorks> {
                                     const SizedBox(height: 10),
                                     Text(
                                       (widget.salonModel.photosOfWorks![index].description != null && widget.salonModel.photosOfWorks![index].description != '') ? '${widget.salonModel.photosOfWorks![index].description}' : '...',
-                                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.normal, fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 15.sp), color: Colors.black),
+                                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 15.sp),
+                                            color: isLightTheme ? Colors.black : Colors.white,
+                                          ),
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                     ),
@@ -106,7 +117,7 @@ class _SalonAllWorksState extends State<SalonAllWorks> {
                               'NO PHOTOS OF WORKS AVAILABLE AT THE MOMENT',
                               style: Theme.of(context).textTheme.displayLarge!.copyWith(
                                     fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
-                                    color: Colors.black,
+                                    color: isLightTheme ? Colors.black : Colors.white,
                                     fontWeight: FontWeight.w600,
                                   ),
                               textAlign: TextAlign.center,

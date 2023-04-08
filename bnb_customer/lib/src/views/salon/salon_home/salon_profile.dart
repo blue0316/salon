@@ -375,9 +375,7 @@ class _SaloonProfileState extends ConsumerState<SalonPage2> {
                       (_salonProfileProvider.getTheme() == null)
                           ? const Align(
                               alignment: Alignment.bottomCenter,
-                              child: FloatingBar(
-                                themeNo: 0,
-                              ),
+                              child: FloatingBar(),
                             )
                           : SizedBox.shrink(),
                     ],

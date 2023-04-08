@@ -1,3 +1,4 @@
+import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bot_toast/bot_toast.dart';
@@ -26,16 +27,32 @@ class LogoDark extends StatelessWidget {
   }
 }
 
-void showToast(message, {duration = const Duration(seconds: 1)}) => BotToast.showText(text: message, duration: duration);
+void showToast(message, {duration = const Duration(seconds: 1)}) => BotToast.showText(
+      text: message,
+      duration: duration,
+    );
 
-void showToast2(context, {duration = const Duration(seconds: 1)}) => BotToast.showText(text: AppLocalizations.of(context)?.new_code_sent ?? 'New Code Sent', duration: duration, contentColor: const Color(0xff4BBB53));
+void showToast2(context, {duration = const Duration(seconds: 1)}) => BotToast.showText(
+      text: AppLocalizations.of(context)?.new_code_sent ?? 'New Code Sent',
+      duration: duration,
+      contentColor: const Color(
+        0xff4BBB53,
+      ),
+    );
 
 class Loader extends StatelessWidget {
   final Widget? child;
   final Status? status;
   final EdgeInsetsGeometry iconPadding;
   final Widget? errorWidget;
-  const Loader({Key? key, this.status, this.child, this.iconPadding = EdgeInsets.zero, this.errorWidget}) : super(key: key);
+
+  const Loader({
+    Key? key,
+    this.status,
+    this.child,
+    this.iconPadding = EdgeInsets.zero,
+    this.errorWidget,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +128,7 @@ class Back extends StatelessWidget {
   }
 }
 
-class BnbRatings extends StatelessWidget {
+class BnbRatings extends ConsumerWidget {
   final double rating;
   final bool editable;
   final double starSize;
@@ -131,13 +148,18 @@ class BnbRatings extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     var mediaQuery = MediaQuery.of(context);
+
+    final _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
     if (rating == 0) {
       return Text(
         AppLocalizations.of(context)?.noRating ?? "no ratings",
         style: TextStyle(
           fontSize: DeviceConstraints.getDeviceType(mediaQuery) == DeviceScreenType.tab ? 12 : 12.sp,
+          color: theme.primaryColor,
         ),
         textAlign: TextAlign.center,
       );
@@ -216,7 +238,10 @@ class CategoryButton extends ConsumerWidget {
             Flexible(
               child: Text(
                 title,
-                style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 14, fontWeight: FontWeight.w400),
+                style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
                 maxLines: 2,
               ),
             )
@@ -236,7 +261,16 @@ class CustomDivider extends StatelessWidget {
   final double width;
   final double? height;
 
-  const CustomDivider({this.left = 0, this.top = 0, this.right = 0, this.bottom = 0, this.color, this.height, this.width = 1.0, Key? key}) : super(key: key);
+  const CustomDivider({
+    this.left = 0,
+    this.top = 0,
+    this.right = 0,
+    this.bottom = 0,
+    this.color,
+    this.height,
+    this.width = 1.0,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -263,7 +297,16 @@ class ConstrainedContainer extends StatelessWidget {
   final bool isLargeSize;
   final bool disableCenter;
   final Alignment? alignment;
-  const ConstrainedContainer({this.margin = const EdgeInsets.symmetric(horizontal: 0), this.child, this.maxWidth, this.isLargeSize = true, Key? key, this.disableCenter = false, this.alignment}) : super(key: key);
+
+  const ConstrainedContainer({
+    this.margin = const EdgeInsets.symmetric(horizontal: 0),
+    this.child,
+    this.maxWidth,
+    this.isLargeSize = true,
+    Key? key,
+    this.disableCenter = false,
+    this.alignment,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -271,7 +314,9 @@ class ConstrainedContainer extends StatelessWidget {
       alignment: alignment ?? Alignment.topCenter,
       child: Container(
         margin: margin,
-        constraints: BoxConstraints(maxWidth: maxWidth ?? (isLargeSize ? DeviceConstraints.breakPointTab : DeviceConstraints.breakPointPhone)),
+        constraints: BoxConstraints(
+          maxWidth: maxWidth ?? (isLargeSize ? DeviceConstraints.breakPointTab : DeviceConstraints.breakPointPhone),
+        ),
         child: child,
       ),
     );

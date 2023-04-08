@@ -151,7 +151,6 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
                                 unselectedLabelColor: defaultTheme ? Colors.black : Colors.white,
                                 tabs: [
                                   Tab(
-                                    // text: (_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon && widget.master == false) ? 'Masters' : 'Services',
                                     text: AppLocalizations.of(context)?.services ?? 'Services',
                                   ),
                                   const Tab(

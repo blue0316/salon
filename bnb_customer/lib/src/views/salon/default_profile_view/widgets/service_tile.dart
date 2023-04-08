@@ -133,7 +133,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                           Container(
                             height: 13,
                             width: 1.3,
-                            color: Colors.black,
+                            color: theme.primaryColor,
                           ),
                           const SizedBox(width: 25),
                           Text(

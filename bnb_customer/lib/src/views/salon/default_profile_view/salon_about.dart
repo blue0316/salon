@@ -98,7 +98,7 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                   Expanded(
                     flex: 0,
                     child: SizedBox(
-                      height: isPortrait ? null : 200.h,
+                      height: isPortrait ? null : 250.h,
                       child: isPortrait
                           ? PortraitAboutHeader(
                               salonModel: widget.salonModel,
@@ -157,7 +157,7 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                                                 getFeature(s) ?? '',
                                                 style: TextStyle(
                                                   overflow: TextOverflow.ellipsis,
-                                                  fontSize: 13.sp,
+                                                  fontSize: 12.sp,
                                                   height: 0,
                                                   color: isLightTheme ? Colors.black : Colors.white,
                                                 ),
@@ -186,7 +186,7 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                                                 ),
                                                 child: SvgPicture.asset(
                                                   AppIcons.getIconFromFacilityString(feature: s)!,
-                                                  height: DeviceConstraints.getResponsiveSize(context, 50.h, 50.h, 60.h),
+                                                  height: DeviceConstraints.getResponsiveSize(context, 30.h, 30.h, 30.h),
                                                   color: theme.primaryColor,
                                                 ),
                                               ),
@@ -195,7 +195,7 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                                                 getFeatureUk(s) ?? '',
                                                 style: TextStyle(
                                                   overflow: TextOverflow.ellipsis,
-                                                  fontSize: 13.sp,
+                                                  fontSize: 12.sp,
                                                   height: 0,
                                                   color: isLightTheme ? Colors.black : Colors.white,
                                                 ),
@@ -297,6 +297,7 @@ class SocialLink extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    bool isLightTheme = (theme == AppTheme.lightTheme);
 
     return Expanded(
       flex: 0,
@@ -310,7 +311,7 @@ class SocialLink extends ConsumerWidget {
             child: SvgPicture.asset(
               icon,
               height: 30.h,
-              color: theme.primaryColor,
+              color: !isLightTheme ? theme.primaryColor : null,
             ),
           ),
         ),

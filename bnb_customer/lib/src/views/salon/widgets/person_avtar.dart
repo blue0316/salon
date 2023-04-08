@@ -36,7 +36,7 @@ class PersonAvtar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool defaultTheme = theme == AppTheme.lightTheme;
+    bool isLightTheme = (theme == AppTheme.lightTheme);
 
     return Column(
       // mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -44,7 +44,10 @@ class PersonAvtar extends ConsumerWidget {
         Container(
           height: height ?? 100,
           width: height ?? 100,
-          decoration: const BoxDecoration(color: AppTheme.coolGrey),
+          decoration: BoxDecoration(
+            color: AppTheme.coolGrey,
+            border: !isLightTheme ? Border.all(color: Colors.white, width: 1) : null,
+          ),
           child: (personImageUrl != null && personImageUrl != '')
               ? Image.network(
                   personImageUrl!,
@@ -70,7 +73,7 @@ class PersonAvtar extends ConsumerWidget {
           style: Theme.of(context).textTheme.titleMedium!.copyWith(
                 fontSize: 15.sp,
                 fontWeight: FontWeight.w600,
-                color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                color: isLightTheme ? AppTheme.textBlack : Colors.white,
               ),
           maxLines: 2,
           overflow: TextOverflow.ellipsis,

@@ -42,7 +42,7 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
           Container(
             // height: 1000.h,
             width: double.infinity,
-            color: Colors.white.withOpacity(0.7),
+            color: theme.colorScheme.background.withOpacity(0.7),
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 20.h),
               child: SingleChildScrollView(
@@ -50,7 +50,10 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const Divider(color: Colors.black, thickness: 1),
+                    Divider(
+                      color: isLightTheme ? Colors.black : Colors.white,
+                      thickness: 1,
+                    ),
                     SizedBox(
                       // color: Colors.yellow,
                       width: double.infinity,
@@ -83,6 +86,7 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
                                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 18.sp, //  DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
+                                              color: theme.primaryColor,
                                             ),
                                       ),
                                       SpaceHorizontal(
@@ -90,7 +94,7 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
                                       ),
                                       Container(
                                         decoration: BoxDecoration(
-                                          color: const Color.fromARGB(255, 239, 239, 239),
+                                          color: isLightTheme ? const Color.fromARGB(255, 239, 239, 239) : theme.colorScheme.background,
                                           borderRadius: BorderRadius.circular(50),
                                         ),
                                         child: Padding(
@@ -100,6 +104,7 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
                                             style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                                   fontSize: 12.sp,
                                                   fontWeight: FontWeight.w600,
+                                                  color: theme.primaryColor,
                                                 ),
                                           ),
                                         ),
@@ -136,6 +141,7 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
                                               );
                                             },
                                             child: PersonAvtar(
+                                              height: 70,
                                               personImageUrl: _filteredMasters[index].profilePicUrl,
                                               personName: Utils().getNameMaster(_filteredMasters[index].personalInfo),
                                               radius: DeviceConstraints.getResponsiveSize(context, 25, 35, 50),
@@ -152,7 +158,10 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
                                     ),
                                   ),
                                   const Space(factor: 0.2),
-                                  const Divider(color: Colors.black, thickness: 1),
+                                  Divider(
+                                    color: isLightTheme ? Colors.black : Colors.white,
+                                    thickness: 1,
+                                  ),
                                 ],
                               ),
                             );

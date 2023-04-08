@@ -239,6 +239,13 @@ class AppTheme {
   static final ThemeData darkTheme = ThemeData(
     primaryColor: darkPrimaryThemeColor,
     textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
+    dialogBackgroundColor: primaryDarkBackgroundThemeColor,
+    tabBarTheme: TabBarTheme(
+      unselectedLabelColor: Colors.white,
+      labelColor: Colors.black,
+      labelStyle: bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.w600),
+      indicator: BoxDecoration(borderRadius: BorderRadius.circular(50), color: darkPrimaryThemeColor),
+    ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: primaryDarkBackgroundThemeColor,
       elevation: 1.2,
@@ -278,5 +285,6 @@ class AppTheme {
     splashColor: milkeyGreyDark,
     hoverColor: milkeyGreyDark,
     primaryIconTheme: const IconThemeData(color: darkPrimaryThemeColor),
+    unselectedWidgetColor: const Color.fromARGB(255, 85, 85, 85), // Color for not valid time slot container
   );
 }

@@ -217,7 +217,11 @@ class _ServicesBnbCheckCircleState extends ConsumerState<ServicesBnbCheckCircle>
       child: Center(
         child: Icon(
           Icons.add_rounded,
-          color: widget.value ? theme.primaryColor : Colors.black,
+          color: widget.value
+              ? isLightTheme
+                  ? Colors.white
+                  : theme.primaryColor
+              : Colors.black,
           size: DeviceConstraints.getResponsiveSize(context, 20.h, 30.h, 30.h),
         ),
       ),
