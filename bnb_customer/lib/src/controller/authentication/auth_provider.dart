@@ -68,6 +68,7 @@ class AuthProvider with ChangeNotifier {
   Status saveNameStatus = Status.init;
   Status updateCustomerPersonalInfoStatus = Status.init;
   CustomerModel? currentCustomer;
+  CustomerModel? currentCustomerWithoutOTP;
   int start = 60;
   late CreateAppointmentProvider createAppointment;
   TextEditingController phoneNoController = TextEditingController();
@@ -650,4 +651,35 @@ class AuthProvider with ChangeNotifier {
   //   customerFromSuccessfulRegistration = customerUpdate;
   //   notifyListeners();
   // }
+
+  void setCurrentCustomerWithoutOTP({required String firstName, required String email}) {
+    currentCustomerWithoutOTP = CustomerModel(
+      customerId: phoneNoController.text,
+      personalInfo: PersonalInfo(
+        phone: phoneNoController.text,
+        firstName: firstName,
+        lastName: '',
+        description: '',
+        dob: DateTime.now().subtract(const Duration(days: 365 * 26)),
+        email: email,
+        sex: '',
+      ),
+      registeredSalons: [],
+      createdAt: DateTime.now(),
+      avgRating: 3.0,
+      noOfRatings: 6,
+      profilePicUploaded: false,
+      profilePic: "",
+      profileCompleted: false,
+      quizCompleted: false,
+      preferredGender: "male",
+      preferredCategories: [],
+      locations: [],
+      fcmToken: "",
+      locale: "en",
+      favSalons: [],
+      referralLink: "",
+    );
+    notifyListeners();
+  }
 }

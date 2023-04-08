@@ -2,6 +2,7 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
+import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/appointment/serviceAndMaster.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
@@ -103,9 +104,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
         ),
         const Space(factor: 1.5),
         Text(
-          // TODO: LOCALIZATIONS
-          // '${AppLocalizations.of(context)?.mandatoryFields ?? '*Mandatory fields'}',
-          "*Mandatory fields",
+          AppLocalizations.of(context)?.mandatoryFields ?? '*Mandatory fields',
           style: AppTheme.bodyText2.copyWith(
             color: defaultTheme ? AppTheme.textBlack : Colors.white,
           ),
@@ -116,45 +115,57 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
           onTap: () async {
             showToast(AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
 
-            // send otp
-            if (!_auth.userLoggedIn) {
-              await _auth.verifyPhoneNumber(context: context);
+            // print('inside here 1 --- enableOTP = ${_salonProfileProvider.themeSettings?.displaySettings?.enableOTP}');
 
-              if (_auth.otpStatus != Status.failed) {
-                showTopSnackBar(
-                  context,
-                  CustomSnackBar.success(
-                    message: AppLocalizations.of(context)?.otpSent ?? "Otp has been sent to your phone",
-                    backgroundColor: theme.primaryColor,
-                  ),
-                );
-                checkUser2(
-                  context,
-                  ref,
-                  isLoggedIn: () {},
-                  notLoggedIn: () {
-                    _createAppointmentProvider.nextPageView(1);
-                  },
-                ); // , appointmentModel: appointment);
+            /// Check if OTP is enabled on Web Settings
+            // If Disabled:
+            if (_salonProfileProvider.themeSettings?.displaySettings?.enableOTP == false) {
+              // Go to pageview that has fields to update personal info
+              _createAppointmentProvider.nextPageView(2); // PageView screen that contains name and email fields
 
-              }
-            } else {
-              print('*********************');
-              print('user is logged in');
-              print('*********************');
+              return;
+            }
 
-              CustomerModel? currentCustomer = _auth.currentCustomer;
-              if (currentCustomer != null) {
-                if (currentCustomer.personalInfo.firstName == '' || currentCustomer.personalInfo.email == null) {
-                  // Customer Personal Info is missing name and email
+            // If Enabled:
+            if (_salonProfileProvider.themeSettings?.displaySettings?.enableOTP == true) {
+              // send otp
+              if (!_auth.userLoggedIn) {
+                await _auth.verifyPhoneNumber(context: context);
 
-                  // Go to pageview that has fields to update personal info
-                  _createAppointmentProvider.nextPageView(2); // PageView screen that contains name and email fields
-                } else {
-                  // Customer Personal Info has name and email
+                if (_auth.otpStatus != Status.failed) {
+                  showTopSnackBar(
+                    context,
+                    CustomSnackBar.success(
+                      message: AppLocalizations.of(context)?.otpSent ?? "Otp has been sent to your phone",
+                      backgroundColor: theme.primaryColor,
+                    ),
+                  );
+                  checkUser2(
+                    context,
+                    ref,
+                    isLoggedIn: () {},
+                    notLoggedIn: () {
+                      _createAppointmentProvider.nextPageView(1);
+                    },
+                  ); // , appointmentModel: appointment);
+                }
+              } else {
+                print('*********************');
+                print('user is logged in');
+                print('*********************');
 
-                  // Create Appointment
-                  CustomerModel customer = CustomerModel(
+                CustomerModel? currentCustomer = _auth.currentCustomer;
+                if (currentCustomer != null) {
+                  if (currentCustomer.personalInfo.firstName == '' || currentCustomer.personalInfo.email == null) {
+                    // Customer Personal Info is missing name and email
+
+                    // Go to pageview that has fields to update personal info
+                    _createAppointmentProvider.nextPageView(2); // PageView screen that contains name and email fields
+                  } else {
+                    // Customer Personal Info has name and email
+
+                    // Create Appointment
+                    CustomerModel customer = CustomerModel(
                       customerId: currentCustomer.customerId,
                       personalInfo: currentCustomer.personalInfo,
                       registeredSalons: [],
@@ -171,15 +182,23 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                       fcmToken: "",
                       locale: "en",
                       favSalons: [],
-                      referralLink: "");
-                  if (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.singleMaster) {
-                    await _createAppointmentProvider.createAppointment(customerModel: customer, context: context);
-                  } else {
-                    await _createAppointmentProvider.creatAppointmentSalonOwner(customerModel: customer, context: context);
-                  }
+                      referralLink: "",
+                    );
+                    if (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.singleMaster) {
+                      await _createAppointmentProvider.createAppointment(
+                        customerModel: customer,
+                        context: context,
+                      );
+                    } else {
+                      await _createAppointmentProvider.creatAppointmentSalonOwner(
+                        customerModel: customer,
+                        context: context,
+                      );
+                    }
 
-                  // Go to PageView Order List Screen
-                  _createAppointmentProvider.nextPageView(3);
+                    // Go to PageView Order List Screen
+                    _createAppointmentProvider.nextPageView(3);
+                  }
                 }
               }
             }
