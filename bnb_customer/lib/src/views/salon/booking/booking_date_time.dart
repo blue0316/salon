@@ -775,9 +775,28 @@ class TimeSlotContainer extends ConsumerWidget {
 
     // final Theme a = AppTheme as Theme;
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool defaultTheme = theme == AppTheme.lightTheme;
+    bool defaultThemeLight = theme == AppTheme.lightTheme;
 
-    Color x = defaultTheme ? AppTheme.textBlack : theme.primaryColor;
+    Color x = defaultThemeLight ? AppTheme.textBlack : theme.primaryColor;
+
+    // String defaultLightOrDarkOrOther = (theme == AppTheme.lightTheme)
+    //     ? 'light'
+    //     : (theme == AppTheme.darkTheme)
+    //         ? 'dark'
+    //         : 'others';
+
+    // Color selectedColor(String type, ThemeData theme) {
+    //   switch (type) {
+    //     case 'light':
+    //       return AppTheme.textBlack;
+
+    //     case 'dark':
+    //       return Colors.white;
+
+    //     default:
+    //       return theme.primaryColor;
+    //   }
+    // }
 
     return GestureDetector(
       onTap: () {
@@ -793,14 +812,9 @@ class TimeSlotContainer extends ConsumerWidget {
         decoration: BoxDecoration(
           color: valid
               ? choosen
-                  ? x
+                  ? theme.primaryColor
                   : Colors.white
-              : theme.unselectedWidgetColor, // const Color.fromARGB(255, 239, 239, 239),
-          // color: valid
-          //     ? choosen
-          //         ? AppTheme.textBlack
-          //         : Colors.white
-          //     : const Color.fromARGB(255, 239, 239, 239),
+              : theme.unselectedWidgetColor,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: valid
@@ -808,15 +822,13 @@ class TimeSlotContainer extends ConsumerWidget {
                     ? x
                     : (Colors.grey[300]!)
                 : theme.unselectedWidgetColor,
-            // (Colors.grey[300]!),
-            // color: const Color.fromARGB(255, 239, 239, 239),
             width: 1,
           ),
         ),
         child: Center(
             child: Text(
           time,
-          style: Theme.of(context).textTheme.headline3!.copyWith(
+          style: Theme.of(context).textTheme.displaySmall!.copyWith(
                 color: choosen ? Colors.white : AppTheme.textBlack,
               ),
         )),

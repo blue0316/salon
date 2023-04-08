@@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:bbblient/src/views/salon/salon_home/salon_profile_copy.dart';
 
 class SearchAll extends ConsumerStatefulWidget {
   const SearchAll({Key? key}) : super(key: key);
@@ -117,16 +118,14 @@ class _SearchAllState extends ConsumerState<SearchAll> {
               if (status == Status.loading) ...[
                 const CircularProgressIndicator(),
               ],
-              if (salonSearchController.salonsForServicesSearched.isNotEmpty &&
-                  salonSearchController.servicesSearched.isNotEmpty) ...[
+              if (salonSearchController.salonsForServicesSearched.isNotEmpty && salonSearchController.servicesSearched.isNotEmpty) ...[
                 ListView.builder(
                     itemCount: salonSearchController.servicesSearched.length,
                     shrinkWrap: true,
                     primary: false,
                     itemBuilder: (context, index) {
                       SalonModel? salon;
-                      int salonIndex = salonSearchController.salonsForServicesSearched
-                          .indexWhere((element) => element.salonId == salonSearchController.servicesSearched[index].salonId);
+                      int salonIndex = salonSearchController.salonsForServicesSearched.indexWhere((element) => element.salonId == salonSearchController.servicesSearched[index].salonId);
                       if (salonIndex != -1) {
                         salon = salonSearchController.salonsForServicesSearched[salonIndex];
                       }
@@ -139,13 +138,12 @@ class _SearchAllState extends ConsumerState<SearchAll> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => SalonPage(
-                                        salonId: salon?.salonId??"",
+                                        salonId: salon?.salonId ?? "",
                                         switchSalon: true,
                                       ),
                                     ));
                               },
-                              child:
-                                  SalonSearchCard(salonModel: salon, serviceModel: salonSearchController.servicesSearched[index]))
+                              child: SalonSearchCard(salonModel: salon, serviceModel: salonSearchController.servicesSearched[index]))
                           : const SizedBox();
                     }),
               ],
@@ -161,7 +159,6 @@ class _SearchAllState extends ConsumerState<SearchAll> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => SalonPage(
-
                                     salonId: salonSearchController.salonsSearched[index].salonId,
                                     switchSalon: true,
                                   ),

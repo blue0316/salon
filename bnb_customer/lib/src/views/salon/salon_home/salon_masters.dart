@@ -93,7 +93,7 @@ class _SaloonMastersState extends ConsumerState<SaloonMasters> {
                               ),
                               Text(
                                 _salonSearchProvider.categories[index].translations[AppLocalizations.of(context)?.localeName],
-                                style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 18.sp, //  DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
                                     ),
@@ -110,7 +110,7 @@ class _SaloonMastersState extends ConsumerState<SaloonMasters> {
                                   padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
                                   child: Text(
                                     " (${_filteredMasters.length}) masters ",
-                                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                           fontSize: 13.sp,
                                           // fontWeight: FontWeight.w600,
                                         ),
@@ -142,6 +142,7 @@ class _SaloonMastersState extends ConsumerState<SaloonMasters> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) => MasterProfile(
+                                              salonModel: widget.salonModel,
                                               masterModel: _filteredMasters[index],
                                             ),
                                           ),

@@ -8,6 +8,7 @@ import 'views/salon/salon_home/salon_profile.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
 import 'dart:html' as html;
 import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
+import 'package:bbblient/src/views/salon/salon_home/salon_profile_copy.dart';
 
 class LoadingLink extends StatefulWidget {
   final String myPath;

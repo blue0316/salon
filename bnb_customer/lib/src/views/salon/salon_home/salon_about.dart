@@ -14,7 +14,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:url_launcher/url_launcher.dart' as lauch;
 import '../../../models/salon_master/salon.dart';
 import '../../../theme/app_main_theme.dart';
 import '../../../utils/icons.dart';
@@ -41,14 +40,6 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
     _authProvider = ref.read(authProvider);
     super.initState();
   }
-
-  void _launchURL(String url) async => await lauch.canLaunchUrl(
-        Uri.parse(url),
-      )
-          ? await lauch.canLaunchUrl(Uri.parse(url))
-          : showToast(
-              'Could not launch $url',
-            );
 
   getFeature(String s) {
     debugPrint(widget.salonModel.ownerType);
@@ -102,7 +93,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
           SizedBox(height: 20.h),
           Text(
             (AppLocalizations.of(context)?.localeName == 'uk') ? saloonDetailsTitlesUK[1] : saloonDetailsTitles[1].toCapitalized(),
-            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                   color: AppTheme.textBlack,
                   fontWeight: FontWeight.w600,
                   fontSize: 30.sp,
@@ -138,7 +129,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                       children: [
                         Text(
                           widget.salonModel.salonName,
-                          style: Theme.of(context).textTheme.headline2!.copyWith(
+                          style: Theme.of(context).textTheme.displayMedium!.copyWith(
                                 fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 20.sp, 20.sp),
                                 color: AppTheme.textBlack,
                               ),
@@ -159,7 +150,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                         const SizedBox(width: 6),
                         Text(
                           widget.salonModel.address,
-                          style: Theme.of(context).textTheme.headline2!.copyWith(
+                          style: Theme.of(context).textTheme.displayMedium!.copyWith(
                                 fontSize: 13.sp,
                                 fontWeight: FontWeight.w400,
                                 color: AppTheme.textBlack,
@@ -195,7 +186,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                       trimMode: TrimMode.Line,
                       trimCollapsedText: AppLocalizations.of(context)?.readMore ?? '...Read More',
                       trimExpandedText: AppLocalizations.of(context)?.less ?? '  Less',
-                      style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w400),
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w400),
                     ),
                   ],
                 ),
@@ -529,7 +520,7 @@ class _ReviewWidgetState extends State<ReviewWidget> {
         if (widget.reviews.isNotEmpty) ...[
           Text(
             AppLocalizations.of(context)?.reviews ?? "Reviews",
-            style: Theme.of(context).textTheme.bodyText1,
+            style: Theme.of(context).textTheme.bodyLarge,
           ),
           SizedBox(height: 20.h),
           RatingGraph(
@@ -593,7 +584,7 @@ class _ReviewWidgetState extends State<ReviewWidget> {
                           // const SizedBox(width: 6),
                           Text(
                             totalReviewsToShow == 3 ? AppLocalizations.of(context)?.moreReviews ?? "More reviews" : AppLocalizations.of(context)?.lessReviews ?? "Less Reviews",
-                            style: Theme.of(context).textTheme.subtitle1!.copyWith(fontSize: 12, color: AppTheme.white),
+                            style: Theme.of(context).textTheme.titleMedium!.copyWith(fontSize: 12, color: AppTheme.white),
                           ),
                         ],
                       ),

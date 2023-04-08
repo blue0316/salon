@@ -39,10 +39,8 @@ class _SaloonAllWorksState extends State<SaloonAllWorks> {
           children: [
             SizedBox(height: 20.h),
             Text(
-              (AppLocalizations.of(context)?.localeName == 'uk')
-                  ? saloonDetailsTitlesUK[3]
-                  : saloonDetailsTitles[3].toCapitalized(),
-              style: Theme.of(context).textTheme.bodyText1!.copyWith(
+              (AppLocalizations.of(context)?.localeName == 'uk') ? saloonDetailsTitlesUK[3] : saloonDetailsTitles[3].toCapitalized(),
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     fontWeight: FontWeight.w600,
                     fontSize: 30.sp,
                     letterSpacing: -1,
@@ -52,13 +50,10 @@ class _SaloonAllWorksState extends State<SaloonAllWorks> {
             (widget.salonModel.photosOfWorks!.isNotEmpty)
                 ? GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount:
-                          DeviceConstraints.getResponsiveSize(context, 2, 3, 3)
-                              .toInt(),
+                      crossAxisCount: DeviceConstraints.getResponsiveSize(context, 2, 3, 3).toInt(),
                       crossAxisSpacing: 15,
                       mainAxisSpacing: 15,
-                      mainAxisExtent: DeviceConstraints.getResponsiveSize(
-                          context, 250.h, 250.h, 300.h),
+                      mainAxisExtent: DeviceConstraints.getResponsiveSize(context, 250.h, 250.h, 300.h),
 
                       // mainAxisExtent: DeviceConstraints.getResponsiveSize(context, 0, 0, 256),
                     ),
@@ -88,16 +83,13 @@ class _SaloonAllWorksState extends State<SaloonAllWorks> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             SizedBox(
-                              height: DeviceConstraints.getResponsiveSize(
-                                  context, 150, 200, 200),
-                              width: DeviceConstraints.getResponsiveSize(
-                                  context, 200, 300, 400),
+                              height: DeviceConstraints.getResponsiveSize(context, 150, 200, 200),
+                              width: DeviceConstraints.getResponsiveSize(context, 200, 300, 400),
                               // decoration: const BoxDecoration(color: Colors.green),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(15),
                                 child: CachedImage(
-                                  url:
-                                      '${widget.salonModel.photosOfWorks![index].image}',
+                                  url: '${widget.salonModel.photosOfWorks![index].image}',
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -106,13 +98,8 @@ class _SaloonAllWorksState extends State<SaloonAllWorks> {
                             const SizedBox(height: 10),
                             Text(
                               '${widget.salonModel.photosOfWorks![index].description}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .copyWith(
-                                    fontSize:
-                                        DeviceConstraints.getResponsiveSize(
-                                            context, 15.sp, 15.sp, 16.sp),
+                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 16.sp),
                                   ),
                               maxLines: 3,
                               overflow: TextOverflow.ellipsis,

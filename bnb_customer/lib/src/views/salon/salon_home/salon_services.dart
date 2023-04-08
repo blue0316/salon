@@ -15,9 +15,7 @@ class SalonServices extends ConsumerStatefulWidget {
   final SalonModel salonModel;
   final List<CategoryModel> categories;
 
-  const SalonServices(
-      {Key? key, required this.salonModel, required this.categories})
-      : super(key: key);
+  const SalonServices({Key? key, required this.salonModel, required this.categories}) : super(key: key);
   @override
   _SaloonServicesState createState() => _SaloonServicesState();
 }
@@ -46,9 +44,7 @@ class _SaloonServicesState extends ConsumerState<SalonServices> {
           children: [
             SizedBox(height: 20.h),
             Text(
-              (AppLocalizations.of(context)?.localeName == 'uk')
-                  ? saloonDetailsTitlesUK[0]
-                  : saloonDetailsTitles[0].toCapitalized(),
+              (AppLocalizations.of(context)?.localeName == 'uk') ? saloonDetailsTitlesUK[0] : saloonDetailsTitles[0].toCapitalized(),
               style: Theme.of(context).textTheme.bodyText1!.copyWith(
                     fontWeight: FontWeight.w600,
                     fontSize: 30.sp,
@@ -102,37 +98,21 @@ class _SaloonServicesState extends ConsumerState<SalonServices> {
                 controller: _listViewController,
                 padding: const EdgeInsets.all(0),
                 itemBuilder: (context, index) {
-                  if (_createAppointmentProvider.categoryServicesMap[
-                              _salonSearchProvider.categories[index].categoryId
-                                  .toString()] !=
-                          null &&
-                      _createAppointmentProvider
-                          .categoryServicesMap[_salonSearchProvider
-                              .categories[index].categoryId
-                              .toString()]!
-                          .isNotEmpty) {
-                    final CategoryModel categoryModel = _salonSearchProvider
-                        .categories
+                  if (_createAppointmentProvider.categoryServicesMap[_salonSearchProvider.categories[index].categoryId.toString()] != null && _createAppointmentProvider.categoryServicesMap[_salonSearchProvider.categories[index].categoryId.toString()]!.isNotEmpty) {
+                    final CategoryModel categoryModel = _salonSearchProvider.categories
                         .where((
                           element,
                         ) =>
-                            element.categoryId ==
-                            _salonSearchProvider.categories[index].categoryId
-                                .toString())
+                            element.categoryId == _salonSearchProvider.categories[index].categoryId.toString())
                         .first;
                     return ServiceTile(
-                      services: _createAppointmentProvider.categoryServicesMap[
-                              _salonSearchProvider.categories[index].categoryId
-                                  .toString()] ??
-                          [],
+                      services: _createAppointmentProvider.categoryServicesMap[_salonSearchProvider.categories[index].categoryId.toString()] ?? [],
                       categoryModel: categoryModel,
                       listViewController: _listViewController,
                       // initiallyExpanded: true,
-                      initiallyExpanded: _createAppointmentProvider
-                          .chosenServices
+                      initiallyExpanded: _createAppointmentProvider.chosenServices
                           .where(
-                            (element) =>
-                                element.categoryId == categoryModel.categoryId,
+                            (element) => element.categoryId == categoryModel.categoryId,
                           )
                           .isNotEmpty,
                     );

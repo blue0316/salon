@@ -13,6 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:bbblient/src/views/salon/salon_home/salon_profile_copy.dart';
 
 class Search extends ConsumerStatefulWidget {
   final String locale;

@@ -13,6 +13,7 @@ import 'package:bbblient/src/models/review.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/utils.dart';
+import 'package:bbblient/src/views/salon/default_profile_view/salon_profile.dart';
 import 'package:bbblient/src/views/themes/glam_one/glam_one.dart';
 import 'package:bbblient/src/views/themes/utils/theme_color.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
@@ -60,8 +61,7 @@ class SalonProfileProvider with ChangeNotifier {
       chosenSalon = (await _salonApi.getSalonFromId(salonId))!;
       // await Time().setTimeSlot(chosenSalon.timeSlotsInterval);
       themeSettings = await CustomerWebSettingsApi().getSalonTheme(salonId: salonId);
-      // theme = themeSettings?.theme?.testId; // themeSettings['testId']; // TODO: REFACTOR: USE THEME TYPE GENERALLY
-      themeType = getThemeTypeEnum(themeSettings?.theme?.testId); // (themeSettings['testId']);
+      themeType = getThemeTypeEnum(themeSettings?.theme?.testId);
 
       await getSalonReviews(salonId: salonId);
       await getProductsData(context, salonId: salonId);
@@ -85,53 +85,53 @@ class SalonProfileProvider with ChangeNotifier {
     '7', // Glam Minimal Dark
   };
 
-  dynamic getTheme() {
+  Widget getTheme() {
     if (availableThemes.contains(themeSettings?.theme?.testId)) {
       // If theme number is not in this set, it means that's a default theme
       switch (themeSettings?.theme?.testId) {
         case '1':
-          salonTheme = getGlamDataTheme(themeSettings?.theme?.colorCode); // (themeSettings['colorCode']);
+          salonTheme = getGlamDataTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.Glam;
           notifyListeners();
           break;
 
         case '2':
-          salonTheme = getGlamBarbershopTheme(themeSettings?.theme?.colorCode); // (themeSettings['colorCode']);
+          salonTheme = getGlamBarbershopTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.GlamBarbershop;
 
           notifyListeners();
           break;
 
         case '3':
-          salonTheme = getGlamGradientTheme(themeSettings?.theme?.colorCode); // (themeSettings['colorCode']);
+          salonTheme = getGlamGradientTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.GlamGradient;
 
           notifyListeners();
           break;
 
         case '4':
-          salonTheme = getBarbershopTheme(themeSettings?.theme?.colorCode); // (themeSettings['colorCode']);
+          salonTheme = getBarbershopTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.Barbershop;
 
           notifyListeners();
           break;
 
         case '5':
-          salonTheme = getGlamLightTheme(themeSettings?.theme?.colorCode); // (themeSettings['colorCode']);
+          salonTheme = getGlamLightTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.GlamLight;
 
           notifyListeners();
           break;
 
         case '6':
-          salonTheme = getGlamMinimalLightTheme(themeSettings?.theme?.colorCode); // (themeSettings['colorCode']);
+          salonTheme = getGlamMinimalLightTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.GlamMinimalLight;
 
           notifyListeners();
           break;
 
         case '7':
-          salonTheme = getGlamMinimalDarkTheme(themeSettings?.theme?.colorCode); // (themeSettings['colorCode']);
+          salonTheme = getGlamMinimalDarkTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.GlamMinimalDark;
 
           notifyListeners();
@@ -140,11 +140,17 @@ class SalonProfileProvider with ChangeNotifier {
 
       return const GlamOneScreen(); // New Themes Base Widget
     } else {
-      salonTheme = AppTheme.lightTheme;
       themeType = ThemeType.Default;
 
+      if (themeSettings?.theme?.colorCode == 'black') {
+        salonTheme = AppTheme.darkTheme;
+      } else {
+        salonTheme = AppTheme.lightTheme;
+      }
+
       notifyListeners();
-      return null; // This should be the default theme if there's no theme number
+
+      return const DefaultLandingTheme(); // Default landing theme
     }
   }
 

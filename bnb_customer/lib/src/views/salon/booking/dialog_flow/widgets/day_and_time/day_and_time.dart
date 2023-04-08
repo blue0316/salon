@@ -4,6 +4,7 @@ import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/utils/table_calender/table_calender.dart';
 import 'package:bbblient/src/views/salon/booking/booking_date_time.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/service_tab/service_list.dart';
@@ -37,7 +38,6 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
   Widget build(BuildContext context) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
-    final _salonSearchProvider = ref.watch(salonSearchProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool defaultTheme = (theme == AppTheme.lightTheme);
@@ -48,92 +48,53 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
       ),
       child: ListView(
         shrinkWrap: true,
-
-        // crossAxisAlignment: CrossAxisAlignment.start,
-        // mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
-            // AppLocalizations.of(context)?.serviceAndMaster.toCapitalized() ?? 'Service & Master',
-            'Service & Master',
-            style: theme.textTheme.bodyText1!.copyWith(
+            AppLocalizations.of(context)?.serviceAndMaster.toCapitalized() ?? 'Service & Master',
+            style: theme.textTheme.bodyLarge!.copyWith(
               fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
               color: defaultTheme ? AppTheme.textBlack : Colors.white,
             ),
           ),
           // SizedBox(height: 5.h),
-          Container(
-            // flex: 1,
-            // color: Colors.brown,
-            // height: DeviceConstraints.getResponsiveSize(context, 225.h, 220.h, 220.h),
-            child: SingleChildScrollView(
-              // shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              // itemCount: _createAppointmentProvider.chosenServices.length,
-              child: Row(
-                children: _createAppointmentProvider.chosenServices.map(
-                  (service) {
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 15),
-                      child: SizedBox(
-                        width: DeviceConstraints.getResponsiveSize(
-                          context,
-                          MediaQuery.of(context).size.width / 1.2,
-                          MediaQuery.of(context).size.width / 1.7,
-                          MediaQuery.of(context).size.width / 3.5,
-                        ),
-                        child: ServiceCard(
-                          service: service,
-                          pickMasters: true,
-                          isAdded: true,
-                          masters: _createAppointmentProvider.availableMasters,
-                          // pickMasterOnTap: () async {
-
-                          // },
-                          // selected: _createAppointmentProvider.chosenMaster?.masterId == _createAppointmentProvider.availableMasters[index].masterId,
-                        ),
+          SingleChildScrollView(
+            // shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            // itemCount: _createAppointmentProvider.chosenServices.length,
+            child: Row(
+              children: _createAppointmentProvider.chosenServices.map(
+                (service) {
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 15),
+                    child: SizedBox(
+                      width: DeviceConstraints.getResponsiveSize(
+                        context,
+                        MediaQuery.of(context).size.width / 1.2,
+                        MediaQuery.of(context).size.width / 1.7,
+                        MediaQuery.of(context).size.width / 3.5,
                       ),
-                    );
-                  },
-                ).toList(),
-              ),
+                      child: ServiceCard(
+                        service: service,
+                        pickMasters: true,
+                        isAdded: true,
+                        masters: _createAppointmentProvider.availableMasters,
+                        // pickMasterOnTap: () async {
 
-              // itemBuilder: (context, index) {
-              //   final ServiceModel service =
-              //       _createAppointmentProvider.chosenServices[index];
-              //   List<MasterModel> masters =
-              //       _createAppointmentProvider.availableMasters;
-
-              //   return Padding(
-              //     padding: const EdgeInsets.only(right: 15),
-              //     child: SizedBox(
-              //       width: DeviceConstraints.getResponsiveSize(
-              //         context,
-              //         MediaQuery.of(context).size.width / 1.2,
-              //         MediaQuery.of(context).size.width / 1.7,
-              //         MediaQuery.of(context).size.width / 3.5,
-              //       ),
-              //       child: ServiceCard(
-              //         service: service,
-              //         pickMasters: true,
-              //         isAdded: true,
-              //         masters: masters,
-              //         // pickMasterOnTap: () async {
-
-              //         // },
-              //         // selected: _createAppointmentProvider.chosenMaster?.masterId == _createAppointmentProvider.availableMasters[index].masterId,
-              //       ),
-              //     ),
-              //   );
-              // },
+                        // },
+                        // selected: _createAppointmentProvider.chosenMaster?.masterId == _createAppointmentProvider.availableMasters[index].masterId,
+                      ),
+                    ),
+                  );
+                },
+              ).toList(),
             ),
           ),
           SizedBox(height: DeviceConstraints.getResponsiveSize(context, 15.h, 20.h, 20.h)),
           const Divider(color: AppTheme.grey, thickness: 1.4),
           SizedBox(height: DeviceConstraints.getResponsiveSize(context, 20.h, 20.h, 20.h)),
           Text(
-            // AppLocalizations.of(context)?.selectDateAndTime.toCapitalized() ?? 'Select time and date', // TODO: LOCALIZE
-            'Select time and date',
-            style: theme.textTheme.bodyText1!.copyWith(
+            AppLocalizations.of(context)?.selectDateAndTime ?? 'Select time and date',
+            style: theme.textTheme.bodyLarge!.copyWith(
               fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
               color: defaultTheme ? AppTheme.textBlack : Colors.white,
             ),
@@ -170,7 +131,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
               disabledTextStyle: AppTheme.calTextStyle2.copyWith(
                 color: defaultTheme ? Colors.black : Colors.white,
               ),
-              selectedTextStyle: Theme.of(context).textTheme.headline2!.copyWith(
+              selectedTextStyle: Theme.of(context).textTheme.displayMedium!.copyWith(
                     fontSize: 15,
                     color: Colors.black,
                     fontWeight: FontWeight.w600,
@@ -219,19 +180,21 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                       ))
                       .isAfter(start))
                   : true)) {
-                setState(() {
-                  if (_createAppointmentProvider.chosenSalon!.ownerType != OwnerType.singleMaster) {
-                    _createAppointmentProvider.chosenDay = start;
-                    _createAppointmentProvider.chosenSlots.clear();
-                    for (int i = 1; i <= _createAppointmentProvider.chosenServices.length; i++) {
-                      _createAppointmentProvider.chosenSlots.add('');
+                setState(
+                  () {
+                    if (_createAppointmentProvider.chosenSalon!.ownerType != OwnerType.singleMaster) {
+                      _createAppointmentProvider.chosenDay = start;
+                      _createAppointmentProvider.chosenSlots.clear();
+                      for (int i = 1; i <= _createAppointmentProvider.chosenServices.length; i++) {
+                        _createAppointmentProvider.chosenSlots.add('');
+                      }
+                      _createAppointmentProvider.calculateAvailableMasters(day: start);
+                      _createAppointmentProvider.refreshSlotsSalonOwner(context);
+                    } else {
+                      _createAppointmentProvider.setUpSlots(day: start, context: context, showNotWorkingToast: true);
                     }
-                    _createAppointmentProvider.calculateAvailableMasters(day: start);
-                    _createAppointmentProvider.refreshSlotsSalonOwner(context);
-                  } else {
-                    _createAppointmentProvider.setUpSlots(day: start, context: context, showNotWorkingToast: true);
-                  }
-                });
+                  },
+                );
               } else {
                 showToast(
                   AppLocalizations.of(context)?.bookRestricted ?? "Booking is restricted",
@@ -287,10 +250,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                   ),
                 ),
               ],
-              if (_createAppointmentProvider.eveningTimeslots.isEmpty &&
-                  _createAppointmentProvider.morningTimeslots.isEmpty &&
-                  _createAppointmentProvider.eveningTimeslots.isEmpty &&
-                  _createAppointmentProvider.slotsStatus != Status.loading) ...[
+              if (_createAppointmentProvider.eveningTimeslots.isEmpty && _createAppointmentProvider.morningTimeslots.isEmpty && _createAppointmentProvider.eveningTimeslots.isEmpty && _createAppointmentProvider.slotsStatus != Status.loading) ...[
                 SizedBox(
                   height: 100.h,
                   width: 1.sw,
@@ -302,7 +262,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                               context,
                             )?.noSlotsAvailableTrydifferentDate ??
                             'no slots available, try different date',
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
                               color: defaultTheme ? AppTheme.creamBrown : Colors.white,
@@ -318,7 +278,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     AppLocalizations.of(context)?.morning ?? "Morning",
-                    style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           color: defaultTheme ? AppTheme.creamBrown : Colors.white,
                         ),
                   ),
@@ -346,7 +306,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     AppLocalizations.of(context)?.afternoon ?? "Afternoon",
-                    style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           color: defaultTheme ? AppTheme.creamBrown : Colors.white,
                         ),
                   ),
@@ -374,7 +334,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     AppLocalizations.of(context)?.evening ?? "Evening",
-                    style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           color: defaultTheme ? AppTheme.creamBrown : Colors.white,
                         ),
                   ),

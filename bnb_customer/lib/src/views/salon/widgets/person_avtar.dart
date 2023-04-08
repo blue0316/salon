@@ -15,6 +15,8 @@ class PersonAvtar extends ConsumerWidget {
   final bool showRating;
   final double? rating;
   final double starSize;
+  final Color? ratingColor;
+  final double? padding, height;
 
   const PersonAvtar({
     Key? key,
@@ -25,46 +27,65 @@ class PersonAvtar extends ConsumerWidget {
     required this.showRating,
     required this.rating,
     required this.starSize,
+    this.ratingColor,
+    this.padding,
+    this.height,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool defaultTheme = theme == AppTheme.lightTheme;
+    bool isLightTheme = (theme == AppTheme.lightTheme);
 
     return Column(
       // mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        (personImageUrl != null && personImageUrl != '')
-            ? CircleAvatar(
-                radius: radius,
-                backgroundColor: AppTheme.coolGrey,
-                backgroundImage: NetworkImage(personImageUrl!),
-              )
-            : CircleAvatar(
-                radius: radius,
-                backgroundColor: AppTheme.white,
-                backgroundImage: const AssetImage(AppIcons.masterDefaultAvtar),
-              ),
-        const SizedBox(height: 8),
+        Container(
+          height: height ?? 100,
+          width: height ?? 100,
+          decoration: BoxDecoration(
+            color: AppTheme.coolGrey,
+            border: !isLightTheme ? Border.all(color: Colors.white, width: 1) : null,
+          ),
+          child: (personImageUrl != null && personImageUrl != '')
+              ? Image.network(
+                  personImageUrl!,
+                  fit: BoxFit.cover,
+                )
+              : Image.asset(AppIcons.masterDefaultAvtar, fit: BoxFit.cover),
+        ),
+        // (personImageUrl != null && personImageUrl != '')
+        //     ? CircleAvatar(
+        //         radius: radius,
+        //         backgroundColor: AppTheme.coolGrey,
+        //         backgroundImage: NetworkImage(personImageUrl!),
+        //       )
+        //     : CircleAvatar(
+        //         radius: radius,
+        //         backgroundColor: AppTheme.white,
+        //         backgroundImage: const AssetImage(AppIcons.masterDefaultAvtar),
+        //       ),
+        const SizedBox(height: 10),
         Text(
           personName ?? "",
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                fontSize: 13.sp,
-                fontWeight: FontWeight.w500,
-                color: defaultTheme ? AppTheme.textBlack : Colors.white,
+          style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w600,
+                color: isLightTheme ? AppTheme.textBlack : Colors.white,
               ),
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
         ),
         if (rating != 0) ...[
-          const SizedBox(height: 5),
+          const SizedBox(height: 7),
           BnbRatings(
             rating: rating ?? 0,
             editable: false,
             starSize: starSize,
+            color: ratingColor,
+            padding: padding,
           ),
         ],
       ],
