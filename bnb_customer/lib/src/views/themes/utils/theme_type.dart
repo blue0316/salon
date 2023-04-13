@@ -1,39 +1,40 @@
 // ignore_for_file: constant_identifier_names
 
 enum ThemeType {
-  Default, // 0
-  Glam, // 1
-  GlamBarbershop, // 2
-  GlamGradient, // 3
-  Barbershop, // 4
-  GlamLight, // 5
-  GlamMinimalLight, // 6
-  GlamMinimalDark, // 7
+  DefaultLight, // 0
+  DefaultDark, // 1
+  Glam, // 2
+  GlamBarbershop, // 3
+  GlamGradient, // 4
+  Barbershop, // 5
+  GlamLight, // 6
+  GlamMinimalLight, // 7
+  GlamMinimalDark, // 8
 }
 
 ThemeType getThemeTypeEnum(String? themeId) {
   switch (themeId) {
     case '0':
-      return ThemeType.Default;
+      return ThemeType.DefaultLight;
     case '1':
-      return ThemeType.Glam;
+      return ThemeType.DefaultDark;
     case '2':
-      return ThemeType.GlamBarbershop;
+      return ThemeType.Glam;
     case '3':
-      return ThemeType.GlamGradient;
+      return ThemeType.GlamBarbershop;
     case '4':
-      return ThemeType.Barbershop;
+      return ThemeType.GlamGradient;
     case '5':
-      return ThemeType.GlamLight;
-
+      return ThemeType.Barbershop;
     case '6':
-      return ThemeType.GlamMinimalLight;
-
+      return ThemeType.GlamLight;
     case '7':
+      return ThemeType.GlamMinimalLight;
+    case '8':
       return ThemeType.GlamMinimalDark;
 
     default:
-      return ThemeType.Default;
+      return ThemeType.DefaultLight;
   }
 }
 

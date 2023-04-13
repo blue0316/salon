@@ -46,7 +46,7 @@ class SalonProfileProvider with ChangeNotifier {
   ThemeData salonTheme = AppTheme.lightTheme;
   // String? theme;
 
-  ThemeType themeType = ThemeType.Default;
+  ThemeType themeType = ThemeType.DefaultLight;
 
   Status enquiryStatus = Status.init;
 
@@ -76,61 +76,85 @@ class SalonProfileProvider with ChangeNotifier {
   }
 
   Set availableThemes = {
-    '1', // Glam
-    '2', // Glam Barbershop
-    '3', // Glam Gradient
-    '4', // Barbershop
-    '5', // Glam Light
-    '6', // Glam Minimal Light
-    '7', // Glam Minimal Dark
+    '0', // DefaultLight
+    '1', // DefaultDark
+    '2', // Glam
+    '3', // Glam Barbershop
+    '4', // Glam Gradient
+    '5', // Barbershop
+    '6', // Glam Light
+    '7', // Glam Minimal Light
+    '8', // Glam Minimal Dark
   };
 
   Widget getTheme() {
     if (availableThemes.contains(themeSettings?.theme?.testId)) {
       // If theme number is not in this set, it means that's a default theme
       switch (themeSettings?.theme?.testId) {
+        //     themeType = ThemeType.DefaultLight;
+
+        // if (themeSettings?.theme?.colorCode == 'black') {
+        //   salonTheme = AppTheme.darkTheme;
+        // } else {
+        //   salonTheme = AppTheme.lightTheme;
+        // }
+
+        // notifyListeners();
+
+        // return const DefaultLandingTheme(); // D
+
+        case '0':
+          salonTheme = getGlamDataTheme(themeSettings?.theme?.colorCode);
+          themeType = ThemeType.DefaultLight;
+          notifyListeners();
+          break;
         case '1':
+          salonTheme = getGlamDataTheme(themeSettings?.theme?.colorCode);
+          themeType = ThemeType.DefaultDark;
+          notifyListeners();
+          break;
+        case '2':
           salonTheme = getGlamDataTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.Glam;
           notifyListeners();
           break;
 
-        case '2':
+        case '3':
           salonTheme = getGlamBarbershopTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.GlamBarbershop;
 
           notifyListeners();
           break;
 
-        case '3':
+        case '4':
           salonTheme = getGlamGradientTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.GlamGradient;
 
           notifyListeners();
           break;
 
-        case '4':
+        case '5':
           salonTheme = getBarbershopTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.Barbershop;
 
           notifyListeners();
           break;
 
-        case '5':
+        case '6':
           salonTheme = getGlamLightTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.GlamLight;
 
           notifyListeners();
           break;
 
-        case '6':
+        case '7':
           salonTheme = getGlamMinimalLightTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.GlamMinimalLight;
 
           notifyListeners();
           break;
 
-        case '7':
+        case '8':
           salonTheme = getGlamMinimalDarkTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.GlamMinimalDark;
 
@@ -140,7 +164,7 @@ class SalonProfileProvider with ChangeNotifier {
 
       return const GlamOneScreen(); // New Themes Base Widget
     } else {
-      themeType = ThemeType.Default;
+      themeType = ThemeType.DefaultLight;
 
       if (themeSettings?.theme?.colorCode == 'black') {
         salonTheme = AppTheme.darkTheme;
