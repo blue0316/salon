@@ -120,7 +120,6 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
 
   @override
   Widget build(BuildContext context) {
-    final _salonSearchProvider = ref.watch(salonSearchProvider);
     final _salonProfileProvider = ref.watch(salonProfileProvider);
 
     return _salonProfileProvider.loadingStatus == Status.loading
