@@ -179,9 +179,9 @@ class AppTheme {
     fontWeight: FontWeight.w500,
   );
 
-  static const Color primaryLightThemeColor = Colors.white;
+  static Color primaryLightThemeColor = const Color(0XFFFFF5F1);
   static const Color primaryDarkBackgroundThemeColor = Colors.black;
-  static const Color darkPrimaryThemeColor = Color(0XFFF49071);
+  static Color darkPrimaryThemeColor = const Color(0XFFF48B72);
 
   static final ThemeData lightTheme = ThemeData(
     primaryColor: Colors.black,
@@ -192,7 +192,7 @@ class AppTheme {
       indicator: BoxDecoration(borderRadius: BorderRadius.circular(50), color: Colors.black),
       labelStyle: AppTheme.bodyText1,
     ),
-    colorScheme: const ColorScheme(
+    colorScheme: ColorScheme(
       primary: creamBrown,
       secondary: creamBrownLight,
       surface: Colors.white,
@@ -284,7 +284,7 @@ class AppTheme {
     highlightColor: milkeyGreyDark,
     splashColor: milkeyGreyDark,
     hoverColor: milkeyGreyDark,
-    primaryIconTheme: const IconThemeData(color: darkPrimaryThemeColor),
+    primaryIconTheme: IconThemeData(color: darkPrimaryThemeColor),
     unselectedWidgetColor: const Color.fromARGB(255, 85, 85, 85), // Color for not valid time slot container
   );
 }

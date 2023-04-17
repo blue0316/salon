@@ -104,12 +104,12 @@ class SalonProfileProvider with ChangeNotifier {
         // return const DefaultLandingTheme(); // D
 
         case '0':
-          salonTheme = getGlamDataTheme(themeSettings?.theme?.colorCode);
+          salonTheme = getDefaultLightTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.DefaultLight;
           notifyListeners();
           break;
         case '1':
-          salonTheme = getGlamDataTheme(themeSettings?.theme?.colorCode);
+          salonTheme = getDefaultDarkTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.DefaultDark;
           notifyListeners();
           break;
@@ -165,13 +165,6 @@ class SalonProfileProvider with ChangeNotifier {
       return const GlamOneScreen(); // New Themes Base Widget
     } else {
       themeType = ThemeType.DefaultLight;
-
-      if (themeSettings?.theme?.colorCode == 'black') {
-        salonTheme = AppTheme.darkTheme;
-      } else {
-        salonTheme = AppTheme.lightTheme;
-      }
-
       notifyListeners();
 
       return const DefaultLandingTheme(); // Default landing theme

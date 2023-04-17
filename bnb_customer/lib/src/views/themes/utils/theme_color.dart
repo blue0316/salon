@@ -1,3 +1,4 @@
+import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/theme/others/barbershop.dart';
 import 'package:bbblient/src/theme/others/glam_barbershop.dart';
 import 'package:bbblient/src/theme/others/glam_gradient.dart';
@@ -7,7 +8,55 @@ import 'package:bbblient/src/theme/others/glam_minimal_light.dart';
 import 'package:bbblient/src/theme/others/glam_one.dart';
 import 'package:flutter/material.dart';
 
-// Theme 1 - GLAM
+// Theme 0 - DEFAULT LIGHT
+ThemeData getDefaultLightTheme(String? colorCode) {
+  switch (colorCode) {
+    case null:
+      AppTheme.primaryLightThemeColor = const Color(0XFFFFF5F1);
+      return AppTheme.lightTheme;
+
+    default:
+      if (colorCode != null) {
+        try {
+          // Decode color from string
+          String valueString = colorCode.split('(0x')[1].split(')')[0];
+          int value = int.parse(valueString, radix: 16);
+
+          AppTheme.primaryLightThemeColor = Color(value);
+        } catch (e) {
+          AppTheme.primaryLightThemeColor = const Color(0XFFFFF5F1);
+        }
+      }
+
+      return AppTheme.lightTheme;
+  }
+}
+
+// Theme 1 - DEFAULT DARK
+ThemeData getDefaultDarkTheme(String? colorCode) {
+  switch (colorCode) {
+    case null:
+      AppTheme.darkPrimaryThemeColor = const Color(0XFFF48B72);
+      return AppTheme.darkTheme;
+
+    default:
+      if (colorCode != null) {
+        try {
+          // Decode color from string
+          String valueString = colorCode.split('(0x')[1].split(')')[0];
+          int value = int.parse(valueString, radix: 16);
+
+          AppTheme.darkPrimaryThemeColor = Color(value);
+        } catch (e) {
+          AppTheme.darkPrimaryThemeColor = const Color(0XFFF48B72);
+        }
+      }
+
+      return AppTheme.darkTheme;
+  }
+}
+
+// Theme 2- GLAM
 ThemeData getGlamDataTheme(String? colorCode) {
   switch (colorCode) {
     case null:
@@ -49,7 +98,7 @@ ThemeData getGlamDataTheme(String? colorCode) {
   }
 }
 
-// Theme 2 - GLAM BARBERSHOP
+// Theme 3 - GLAM BARBERSHOP
 ThemeData getGlamBarbershopTheme(String? colorCode) {
   switch (colorCode) {
     case null:
@@ -89,7 +138,7 @@ ThemeData getGlamBarbershopTheme(String? colorCode) {
   }
 }
 
-// Theme 3 - GLAM GRADIENT
+// Theme 4 - GLAM GRADIENT
 ThemeData getGlamGradientTheme(String? colorCode) {
   switch (colorCode) {
     case null: // 'FFC692':
@@ -110,7 +159,7 @@ ThemeData getGlamGradientTheme(String? colorCode) {
   }
 }
 
-// Theme 4 - BARBERSHOP
+// Theme 5 - BARBERSHOP
 ThemeData getBarbershopTheme(String? colorCode) {
   switch (colorCode) {
     case null:
@@ -155,7 +204,7 @@ ThemeData getBarbershopTheme(String? colorCode) {
   }
 }
 
-// Theme 5 - GLAM LIGHT
+// Theme 6 - GLAM LIGHT
 ThemeData getGlamLightTheme(String? colorCode) {
   switch (colorCode) {
     case null:
@@ -182,7 +231,7 @@ ThemeData getGlamLightTheme(String? colorCode) {
   }
 }
 
-// Theme 6 - GLAM MINIMAL LIGHT
+// Theme 7 - GLAM MINIMAL LIGHT
 ThemeData getGlamMinimalLightTheme(String? colorCode) {
   switch (colorCode) {
     case null: // 'FFC692':
@@ -210,7 +259,7 @@ ThemeData getGlamMinimalLightTheme(String? colorCode) {
   }
 }
 
-// Theme 7 - GLAM MINIMAL DARK
+// Theme 8 - GLAM MINIMAL DARK
 ThemeData getGlamMinimalDarkTheme(String? colorCode) {
   switch (colorCode) {
     case null: // 'FFC692':
