@@ -107,12 +107,14 @@ class SalonProfileProvider with ChangeNotifier {
           salonTheme = getDefaultLightTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.DefaultLight;
           notifyListeners();
-          break;
+          return const DefaultLandingTheme();
+
         case '1':
           salonTheme = getDefaultDarkTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.DefaultDark;
           notifyListeners();
-          break;
+          return const DefaultLandingTheme();
+
         case '2':
           salonTheme = getGlamDataTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.Glam;

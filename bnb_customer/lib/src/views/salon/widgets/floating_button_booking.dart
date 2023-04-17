@@ -51,7 +51,7 @@ class _FloatingBarState extends ConsumerState<FloatingBar> {
                         AppLocalizations.of(context)?.bookNow ?? "Book Now",
                         style: AppTheme.headLine2.copyWith(
                           fontWeight: FontWeight.w500,
-                          color: Colors.black,
+                          color: Colors.white,
                           fontSize: 18.sp,
                         ),
                       ),

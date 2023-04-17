@@ -7,7 +7,9 @@ import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_about.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_services.dart';
 import 'package:bbblient/src/views/salon/widgets/floating_button_booking.dart';
+import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -36,149 +38,155 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
     bool isLightTheme = (theme == AppTheme.lightTheme);
 
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.darken),
-            image: const AssetImage(AppIcons.photoSlider),
-            fit: BoxFit.cover,
+      body: Stack(
+        children: [
+          SizedBox(
+            width: double.infinity,
+            child: ColorFiltered(
+              colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.darken),
+              child: (_salonProfileProvider.themeSettings?.backgroundImage != null && _salonProfileProvider.themeSettings?.backgroundImage != '')
+                  ? CachedImage(
+                      url: _salonProfileProvider.themeSettings!.backgroundImage!,
+                      fit: BoxFit.cover,
+                    )
+                  : Image.asset(
+                      AppIcons.photoSlider,
+                      fit: BoxFit.cover,
+                    ),
+            ),
           ),
-        ),
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Header(salonModel: _salonProfileProvider.chosenSalon),
-                        Space(
-                          factor: DeviceConstraints.getResponsiveSize(context, 2, 3, 5),
+          Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Header(salonModel: _salonProfileProvider.chosenSalon),
+                      Space(
+                        factor: DeviceConstraints.getResponsiveSize(context, 2, 3, 5),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 50.w, 90.w),
                         ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 50.w, 90.w),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: DeviceConstraints.getResponsiveSize(context, 0, 0, 25.w),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: DeviceConstraints.getResponsiveSize(context, 0, 0, 25.w),
+                              ),
+                              child: Container(
+                                height: 75.h,
+                                width: double.infinity,
+                                color: theme.colorScheme.background,
+                                margin: EdgeInsets.symmetric(
+                                  horizontal: DeviceConstraints.getResponsiveSize(context, 5.w, 5.w, 10.w),
+                                  vertical: 20.h,
                                 ),
-                                child: Container(
-                                  height: 75.h,
-                                  width: double.infinity,
-                                  color: theme.colorScheme.background,
-                                  margin: EdgeInsets.symmetric(
-                                    horizontal: DeviceConstraints.getResponsiveSize(context, 5.w, 5.w, 10.w),
-                                    vertical: 20.h,
-                                  ),
-                                  child: Center(
-                                    child: SizedBox(
-                                      height: 30.h,
-                                      width: double.infinity,
-                                      child: Center(
-                                        child: ListView.separated(
-                                          itemCount: (_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon) ? saloonDetailsTitles.length : masterDetailsTitles.length,
-                                          scrollDirection: Axis.horizontal,
-                                          shrinkWrap: true,
-                                          controller: _scrollController,
-                                          separatorBuilder: (_, index) => Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 8),
-                                            child: Container(
-                                              width: 3,
-                                              height: 20.h,
-                                              decoration: BoxDecoration(
-                                                color: isLightTheme ? Colors.white : const Color(0XFFEDEDED),
-                                                borderRadius: BorderRadius.circular(50),
-                                              ),
+                                child: Center(
+                                  child: SizedBox(
+                                    height: 30.h,
+                                    width: double.infinity,
+                                    child: Center(
+                                      child: ListView.separated(
+                                        itemCount: (_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon) ? saloonDetailsTitles.length : masterDetailsTitles.length,
+                                        scrollDirection: Axis.horizontal,
+                                        shrinkWrap: true,
+                                        controller: _scrollController,
+                                        separatorBuilder: (_, index) => Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 8),
+                                          child: Container(
+                                            width: 3,
+                                            height: 20.h,
+                                            decoration: BoxDecoration(
+                                              color: isLightTheme ? Colors.white : const Color(0XFFEDEDED),
+                                              borderRadius: BorderRadius.circular(50),
                                             ),
                                           ),
-                                          itemBuilder: (_, index) {
-                                            return Center(
-                                              child: Padding(
-                                                padding: const EdgeInsets.symmetric(horizontal: 12),
-                                                child: GestureDetector(
-                                                  onTap: () {
-                                                    setState(() {
-                                                      _pageController.jumpToPage(index);
-                                                      _activeTab = index;
-                                                    });
-                                                  },
-                                                  child: Text(
-                                                    ((_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon)
-                                                            ? (AppLocalizations.of(context)?.localeName == 'uk')
-                                                                ? saloonDetailsTitlesUK[index]
-                                                                : saloonDetailsTitles[index]
-                                                            : (AppLocalizations.of(context)?.localeName == 'uk')
-                                                                ? masterDetailsTitlesUk[index]
-                                                                : masterDetailsTitles[index])
-                                                        .toUpperCase(),
-                                                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 18.sp, 20.sp),
-                                                          color: _activeTab == index ? theme.primaryColor : unselectedTabColor(theme, isLightTheme),
-                                                          fontWeight: _activeTab == index ? FontWeight.w700 : FontWeight.w500,
-                                                          decoration: !isLightTheme
-                                                              ? null
-                                                              : _activeTab == index
-                                                                  ? TextDecoration.underline
-                                                                  : null,
-                                                        ),
-                                                  ),
+                                        ),
+                                        itemBuilder: (_, index) {
+                                          return Center(
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 12),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  setState(() {
+                                                    _pageController.jumpToPage(index);
+                                                    _activeTab = index;
+                                                  });
+                                                },
+                                                child: Text(
+                                                  ((_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon)
+                                                          ? (AppLocalizations.of(context)?.localeName == 'uk')
+                                                              ? saloonDetailsTitlesUK[index]
+                                                              : saloonDetailsTitles[index]
+                                                          : (AppLocalizations.of(context)?.localeName == 'uk')
+                                                              ? masterDetailsTitlesUk[index]
+                                                              : masterDetailsTitles[index])
+                                                      .toUpperCase(),
+                                                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                                        fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 18.sp, 20.sp),
+                                                        color: _activeTab == index ? theme.primaryColor : unselectedTabColor(theme, isLightTheme),
+                                                        fontWeight: _activeTab == index ? FontWeight.w700 : FontWeight.w500,
+                                                        decoration: !isLightTheme
+                                                            ? null
+                                                            : _activeTab == index
+                                                                ? TextDecoration.underline
+                                                                : null,
+                                                      ),
                                                 ),
                                               ),
-                                            );
-                                          },
-                                        ),
+                                            ),
+                                          );
+                                        },
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
-                              ExpandablePageView(
-                                padEnds: false,
-                                key: const ValueKey("exp"),
-                                physics: const NeverScrollableScrollPhysics(),
-                                controller: _pageController,
-                                onPageChanged: (i) {
-                                  setState(() {
-                                    _activeTab = i;
-                                  });
-                                },
-                                children: [
-                                  const SalonServices(),
-                                  SalonAbout(
+                            ),
+                            ExpandablePageView(
+                              padEnds: false,
+                              key: const ValueKey("exp"),
+                              physics: const NeverScrollableScrollPhysics(),
+                              controller: _pageController,
+                              onPageChanged: (i) {
+                                setState(() {
+                                  _activeTab = i;
+                                });
+                              },
+                              children: [
+                                const SalonServices(),
+                                SalonAbout(
+                                  salonModel: _salonProfileProvider.chosenSalon,
+                                ),
+                                if (_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon)
+                                  SalonMasters(
                                     salonModel: _salonProfileProvider.chosenSalon,
                                   ),
-                                  if (_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon)
-                                    SalonMasters(
-                                      salonModel: _salonProfileProvider.chosenSalon,
-                                    ),
-                                  SalonAllWorks(
-                                    salonModel: _salonProfileProvider.chosenSalon,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+                                SalonAllWorks(
+                                  salonModel: _salonProfileProvider.chosenSalon,
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-            const Align(
-              alignment: Alignment.bottomCenter,
-              child: FloatingBar(),
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+          const Align(
+            alignment: Alignment.bottomCenter,
+            child: FloatingBar(),
+          ),
+        ],
       ),
     );
   }
