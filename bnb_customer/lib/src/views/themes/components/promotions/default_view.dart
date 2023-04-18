@@ -83,7 +83,7 @@ class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
           children: [
             Text(
               AppLocalizations.of(context)?.promotions ?? 'Promotions'.toUpperCase(),
-              style: theme.textTheme.headline2?.copyWith(
+              style: theme.textTheme.displayMedium?.copyWith(
                 fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),
               ),
             ),
@@ -129,7 +129,7 @@ class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
             children: [
               Text(
                 "${AppLocalizations.of(context)?.discounts ?? "Discounts"}  $promotionDiscount $discountUnit".toUpperCase(),
-                style: theme.textTheme.headline3?.copyWith(
+                style: theme.textTheme.displaySmall?.copyWith(
                   fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 22.sp, 28.sp),
                 ),
               ),
@@ -138,7 +138,7 @@ class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
                 promotionDescription,
                 maxLines: 4,
                 overflow: TextOverflow.ellipsis,
-                style: theme.textTheme.bodyText2?.copyWith(
+                style: theme.textTheme.bodyMedium?.copyWith(
                   color: Colors.white,
                   fontSize: 15.sp,
                 ),
@@ -179,8 +179,8 @@ class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
                   children: [
                     Text(
                       "${AppLocalizations.of(context)?.discounts ?? "Discounts"}  $promotionDiscount $discountUnit".toUpperCase(),
-                      style: theme.textTheme.headline3?.copyWith(
-                        fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 22.sp, 28.sp),
+                      style: theme.textTheme.displaySmall?.copyWith(
+                        fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 22.sp, 26.sp),
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -188,7 +188,7 @@ class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
                       promotionDescription,
                       maxLines: 4,
                       overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.bodyText2?.copyWith(
+                      style: theme.textTheme.bodyMedium?.copyWith(
                         color: Colors.white,
                         fontSize: 15.sp,
                       ),

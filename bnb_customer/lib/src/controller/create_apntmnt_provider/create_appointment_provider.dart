@@ -561,7 +561,6 @@ class CreateAppointmentProvider with ChangeNotifier {
 
 // gets list of master providing sevice
   getMasterProvidingService(ServiceModel service) {
-    print('here dfsdeer234');
     List<MasterModel> masters = [];
     for (MasterModel element in salonMasters) {
       if (element.serviceIds!.contains(service.serviceId)) {
@@ -820,9 +819,12 @@ class CreateAppointmentProvider with ChangeNotifier {
 
       for (MasterModel master in salonMasters) {
         if (master.workingHours != null) {
-          print('mmmm${master.workingHours} ${day.weekday}');
-          bool isMasterWorking = (Time().getWorkingHoursFromWeekDay(day.weekday, master.workingHours)?.isWorking == true || (master.irregularWorkingHours != null ? master.irregularWorkingHours!.containsKey(DateFormat('yyyy-MM-dd').format(day).toString()) : false));
-          print("this is date");
+          bool isMasterWorking = (Time().getWorkingHoursFromWeekDay(day.weekday, master.workingHours)?.isWorking == true ||
+              (master.irregularWorkingHours != null
+                  ? master.irregularWorkingHours!.containsKey(
+                      DateFormat('yyyy-MM-dd').format(day).toString(),
+                    )
+                  : false));
 
           bool servicesAvailable = mastersServicesMap[master.masterId] != null;
           bool servicesAvailableCount = mastersServicesMap[master.masterId]?.isNotEmpty ?? false;
@@ -888,11 +890,10 @@ class CreateAppointmentProvider with ChangeNotifier {
         return;
       }
     } else if (yclientActive && chosenMaster != null) {
-      print("na here 2");
       List<String>? slots = await YClientsEngine().getMasterSlots(day, master: chosenMaster!);
-      printIt("yclient result $slots");
+      // printIt("yclient result $slots");
       List<String>? _masterslots = slots;
-      printIt(_masterslots);
+      // printIt(_masterslots);
       if (_masterslots != null) {
         if (_masterslots.isEmpty) {
           if (showNotWorkingToast) {
@@ -1010,7 +1011,6 @@ class CreateAppointmentProvider with ChangeNotifier {
           notifyListeners();
         }
       } else {
-        print('salon masterrrr');
         Hours? workingHours;
 
         if (chosenSalon!.irregularWorkingHours != null && chosenSalon!.irregularWorkingHours!.containsKey(DateFormat('yyyy-MM-dd').format(chosenDay).toString())) {
@@ -1346,16 +1346,16 @@ class CreateAppointmentProvider with ChangeNotifier {
                 .toString()))
             .toList()[0];
       } else {
-        print("this is time" +
-            Time()
-                .timeToString(TimeOfDay.fromDateTime(DateTime(
-                  chosenDay.year,
-                  chosenDay.month,
-                  chosenDay.day,
-                  nearestStepStartTime ~/ 60,
-                  nearestStepStartTime % 60,
-                )))
-                .toString());
+        // print("this is time" +
+        //     Time()
+        //         .timeToString(TimeOfDay.fromDateTime(DateTime(
+        //           chosenDay.year,
+        //           chosenDay.month,
+        //           chosenDay.day,
+        //           nearestStepStartTime ~/ 60,
+        //           nearestStepStartTime % 60,
+        //         )))
+        //         .toString());
         MasterServiceAtPresentTime = serviceMasterDup
             .where((element) => element.validSlots!.contains(Time()
                 .timeToString(TimeOfDay.fromDateTime(DateTime(
@@ -1384,8 +1384,6 @@ class CreateAppointmentProvider with ChangeNotifier {
       servicesOrder = _services;
       notifyListeners();
 
-      print(_services.length);
-      print(serviceAgainstMaster.length);
       appointmentModel = AppointmentModel(
         appointmentStartTime: _startTime,
         appointmentEndTime: _endTime,

@@ -59,6 +59,7 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context).size;
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool defaultTheme = (theme == AppTheme.lightTheme);
@@ -109,7 +110,10 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
                       ),
                       const Spacer(flex: 2),
                       GestureDetector(
-                        onTap: () => Navigator.pop(context),
+                        onTap: () {
+                          _createAppointmentProvider.resetFlow();
+                          Navigator.pop(context);
+                        },
                         child: Padding(
                           padding: const EdgeInsets.only(right: 15),
                           child: Icon(

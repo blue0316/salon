@@ -356,27 +356,27 @@ class AuthProvider with ChangeNotifier {
     // print(otp);
     // print(verificationCode);
     // print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-    printIt(otp);
-    printIt(verificationCode);
+    // printIt(otp);
+    // printIt(verificationCode);
     BnbProvider _bnbProvider = ref.read(bnbProvider);
     var locale = _bnbProvider.getLocale;
-    printIt('locale');
-    printIt(locale);
+    // printIt('locale');
+    // printIt(locale);
     try {
       loginStatus = Status.loading;
       notifyListeners();
 
       UserCredential? _userResult;
       if (kIsWeb) {
-        printIt("It's webbb");
+        // printIt("It's webbb");
         _userResult = await webOTPConfirmationResult?.confirm(otp);
-        print('#################################');
-        print(_userResult);
-        print('-------');
-        print(_userResult?.user);
-        print('-------');
-        print(_userResult?.additionalUserInfo);
-        print('#################################');
+        // print('#################################');
+        // print(_userResult);
+        // print('-------');
+        // print(_userResult?.user);
+        // print('-------');
+        // print(_userResult?.additionalUserInfo);
+        // print('#################################');
         phoneNoController.clear();
       } else {
         final AuthCredential _authCredential = PhoneAuthProvider.credential(
@@ -387,16 +387,16 @@ class AuthProvider with ChangeNotifier {
       }
 
       if (_userResult != null && _userResult.user != null) {
-        printIt(_userResult.user);
+        // printIt(_userResult.user);
         await callBack();
         userLoggedIn = true;
         loginStatus = Status.success;
-        printIt("New Login Status");
-        printIt(loginStatus);
+        // printIt("New Login Status");
+        // printIt(loginStatus);
       } else {
         loginStatus = Status.failed;
-        printIt("New Login Status");
-        printIt(loginStatus);
+        // printIt("New Login Status");
+        // printIt(loginStatus);
         showToast(AppLocalizations.of(context)?.errorOccurred ?? 'error occurred');
       }
 
@@ -407,17 +407,17 @@ class AuthProvider with ChangeNotifier {
       var translator = GoogleTranslator();
       loginStatus = Status.failed;
       notifyListeners();
-      printIt("$e");
+      // printIt("$e");
       String? error = ErrorCodes.getFirebaseErrorMessage(e);
       if (error != null) {
         if (error == "invalid-verification-code") {
           showToast(AppLocalizations.of(context)?.invalidOTP ?? 'Invalid OTP');
         } else {
           if (locale != null && locale != 'en') {
-            printIt(locale);
+            // printIt(locale);
             var translatederror = await translator.translate(ErrorCodes.getFirebaseErrorMessage(e)!, from: 'en', to: locale);
-            printIt('Else Error ');
-            printIt(translatederror);
+            // printIt('Else Error ');
+            // printIt(translatederror);
             showToast(translatederror);
           } else {
             printIt('Firebase Error');
