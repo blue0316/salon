@@ -134,7 +134,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
 
             if (FirebaseAuth.instance.currentUser?.phoneNumber != null && FirebaseAuth.instance.currentUser?.phoneNumber != _authProvider.phoneNoController.text) {
               // Log the former account out
-              await FirebaseAuth.instance.signOut();
+              await _auth.signOut();
             }
 
             // If Enabled:
