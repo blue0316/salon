@@ -11,11 +11,13 @@ import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
+import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/registration/authenticate/login.dart';
 import 'package:bbblient/src/views/widgets/buttons.dart';
 import 'package:bbblient/src/views/widgets/text_fields.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -128,6 +130,12 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
               return;
             }
 
+            // If user has logged in with another number and decides to use a new number to book
+            if (_auth.currentCustomer?.personalInfo.phone != null && _auth.currentCustomer?.personalInfo.phone != _authProvider.phoneNoController.text) {
+              // Log the former account out
+              await FirebaseAuth.instance.signOut();
+            }
+
             // If Enabled:
             if (_salonProfileProvider.themeSettings?.displaySettings?.enableOTP == true) {
               // send otp
@@ -152,9 +160,9 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                   ); // , appointmentModel: appointment);
                 }
               } else {
-                print('*********************');
-                print('user is logged in');
-                print('*********************');
+                printIt('*********************');
+                printIt('user is logged in');
+                printIt('*********************');
 
                 CustomerModel? currentCustomer = _auth.currentCustomer;
                 if (currentCustomer != null) {
