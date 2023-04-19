@@ -22,6 +22,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+// ORDER LIST
 class OrderDetails extends ConsumerStatefulWidget {
   final TabController tabController;
 
@@ -65,7 +66,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
             children: [
               Text(
                 AppLocalizations.of(context)?.orderList ?? 'Order List'.toString(),
-                style: theme.textTheme.bodyText1!.copyWith(
+                style: theme.textTheme.bodyLarge!.copyWith(
                   fontSize: 20.sp,
                   color: defaultTheme ? Colors.black : Colors.white,
                 ),
@@ -124,7 +125,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                                   'en']
                                               .toString(),
                                       // 'Eyebrow Tinting',
-                                      style: theme.textTheme.bodyText1!.copyWith(
+                                      style: theme.textTheme.bodyLarge!.copyWith(
                                         fontWeight: FontWeight.w600,
                                         fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 16.sp, 16.sp),
                                         color: defaultTheme ? Colors.black : Colors.white,
@@ -147,7 +148,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                             : notSingleMasterService.service!.isPriceRange
                                                 ? "${Keys.dollars}${notSingleMasterService.service!.priceAndDuration.price} - ${Keys.dollars}${notSingleMasterService.service!.priceAndDurationMax!.price}"
                                                 : "${Keys.dollars}${notSingleMasterService.service!.priceAndDuration.price} - ${Keys.dollars}∞",
-                                    style: theme.textTheme.bodyText1!.copyWith(
+                                    style: theme.textTheme.bodyLarge!.copyWith(
                                       color: defaultTheme ? Colors.black : Colors.white,
                                       fontWeight: FontWeight.w700,
                                       fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 16.sp, 16.sp),
@@ -191,7 +192,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                                 ? "${notSingleMasterService.service?.priceAndDuration.duration} minutes"
                                                 : "${notSingleMasterService.service?.priceAndDuration.duration} minutes - ${notSingleMasterService.service?.priceAndDurationMax!.duration} minutes"
                                             : "${notSingleMasterService.service!.priceAndDuration.duration} minutes",
-                                    style: theme.textTheme.bodyText1!.copyWith(
+                                    style: theme.textTheme.bodyLarge!.copyWith(
                                       fontSize: 14.sp,
                                       color: defaultTheme ? Colors.black : Colors.white,
                                     ),
@@ -236,9 +237,9 @@ class _OrderListState extends ConsumerState<OrderDetails> {
               Space(factor: DeviceConstraints.getResponsiveSize(context, 1, 0.3, 0.3).toDouble()),
               Text(
                 AppLocalizations.of(context)?.youChoosed ?? 'You choosed'.toString(),
-                style: theme.textTheme.bodyText1!.copyWith(
+                style: theme.textTheme.bodyLarge!.copyWith(
                   color: defaultTheme ? Colors.black : Colors.white,
-                  fontSize: 18.sp,
+                  fontSize: 20.sp,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -253,7 +254,8 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                     children: [
                       Text(
                         "${AppLocalizations.of(context)?.service ?? 'Service'} :",
-                        style: theme.textTheme.bodyText1!.copyWith(
+                        style: theme.textTheme.bodyLarge!.copyWith(
+                          fontSize: 20.sp,
                           color: defaultTheme ? Colors.black : Colors.white,
                         ),
                       ),
@@ -261,7 +263,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                         '${isSingleMaster ? _createAppointmentProvider.chosenServices.length : _createAppointmentProvider.serviceAgainstMaster.length} ${AppLocalizations.of(
                               context,
                             )?.services ?? 'services'}',
-                        style: theme.textTheme.bodyText2!.copyWith(
+                        style: theme.textTheme.bodyMedium!.copyWith(
                           fontSize: 20.sp,
                           color: defaultTheme ? Colors.black : Colors.white,
                         ),
@@ -275,13 +277,14 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                     children: [
                       Text(
                         "${AppLocalizations.of(context)?.date ?? 'Date'} :",
-                        style: theme.textTheme.bodyText1!.copyWith(
+                        style: theme.textTheme.bodyLarge!.copyWith(
+                          fontSize: 20.sp,
                           color: defaultTheme ? Colors.black : Colors.white,
                         ),
                       ),
                       Text(
                         _date,
-                        style: theme.textTheme.bodyText2!.copyWith(
+                        style: theme.textTheme.bodyMedium!.copyWith(
                           fontSize: 20.sp,
                           color: defaultTheme ? Colors.black : Colors.white,
                         ),
@@ -295,13 +298,14 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                     children: [
                       Text(
                         "${AppLocalizations.of(context)?.time ?? 'Time'} :",
-                        style: theme.textTheme.bodyText1!.copyWith(
+                        style: theme.textTheme.bodyLarge!.copyWith(
+                          fontSize: 20.sp,
                           color: defaultTheme ? Colors.black : Colors.white,
                         ),
                       ),
                       Text(
                         _time,
-                        style: theme.textTheme.bodyText2!.copyWith(
+                        style: theme.textTheme.bodyMedium!.copyWith(
                           fontSize: 20.sp,
                           color: defaultTheme ? Colors.black : Colors.white,
                         ),
@@ -313,8 +317,8 @@ class _OrderListState extends ConsumerState<OrderDetails> {
               SizedBox(height: 15.h),
               Text(
                 "${AppLocalizations.of(context)?.orderSummary ?? 'Order summary'} :",
-                style: theme.textTheme.bodyText1!.copyWith(
-                  fontSize: 18.sp,
+                style: theme.textTheme.bodyLarge!.copyWith(
+                  fontSize: 22.sp,
                   fontWeight: FontWeight.w600,
                   color: defaultTheme ? Colors.black : Colors.white,
                 ),
@@ -330,14 +334,15 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                     children: [
                       Text(
                         "${AppLocalizations.of(context)?.orderAmount ?? 'Order amount'} :",
-                        style: theme.textTheme.bodyText1!.copyWith(
+                        style: theme.textTheme.bodyLarge!.copyWith(
+                          fontSize: 20.sp,
                           color: defaultTheme ? Colors.black : Colors.white,
                         ),
                       ),
                       const SizedBox(height: 2),
                       Text(
                         "${Keys.dollars}${_createAppointmentProvider.totalPrice}",
-                        style: theme.textTheme.bodyText2!.copyWith(
+                        style: theme.textTheme.bodyMedium!.copyWith(
                           fontSize: 20.sp,
                           color: defaultTheme ? Colors.black : Colors.white,
                         ),
@@ -351,13 +356,14 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                     children: [
                       Text(
                         "${AppLocalizations.of(context)?.discounts.toCapitalized() ?? 'Discount'} 15%:",
-                        style: theme.textTheme.bodyText1!.copyWith(
+                        style: theme.textTheme.bodyLarge!.copyWith(
+                          fontSize: 20.sp,
                           color: defaultTheme ? Colors.black : Colors.white,
                         ),
                       ),
                       Text(
                         "-\$00",
-                        style: theme.textTheme.bodyText2!.copyWith(
+                        style: theme.textTheme.bodyMedium!.copyWith(
                           fontSize: 20.sp,
                           color: Colors.red,
                           fontWeight: FontWeight.bold,
@@ -379,7 +385,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                 children: [
                   Text(
                     AppLocalizations.of(context)?.total ?? 'Total',
-                    style: theme.textTheme.bodyText1!.copyWith(
+                    style: theme.textTheme.bodyLarge!.copyWith(
                       fontSize: 20.sp,
                       fontWeight: FontWeight.w700,
                       color: defaultTheme ? Colors.black : theme.primaryColor,
@@ -387,7 +393,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                   ),
                   Text(
                     "${Keys.dollars}${_createAppointmentProvider.totalPrice}",
-                    style: theme.textTheme.bodyText1!.copyWith(
+                    style: theme.textTheme.bodyLarge!.copyWith(
                       fontSize: 20.sp,
                       fontWeight: FontWeight.w700,
                       color: defaultTheme ? Colors.black : theme.primaryColor,
@@ -431,7 +437,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                   const SizedBox(width: 10),
                   Text(
                     "${AppLocalizations.of(context)?.registration_line11} *",
-                    style: theme.textTheme.bodyText1!.copyWith(
+                    style: theme.textTheme.bodyLarge!.copyWith(
                       fontSize: 20.sp,
                       fontWeight: FontWeight.normal,
                       color: defaultTheme ? Colors.black : Colors.white,
@@ -451,7 +457,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
               DefaultButton(
                 borderRadius: 60,
                 onTap: () async {
-                  bool enabledOTP = _salonProfileProvider.themeSettings?.displaySettings?.enableOTP;
+                  bool enabledOTP = _salonProfileProvider.themeSettings?.displaySettings?.enableOTP ?? true;
 
                   if (!acceptTerms) {
                     // Terms Checkbox is unchecked

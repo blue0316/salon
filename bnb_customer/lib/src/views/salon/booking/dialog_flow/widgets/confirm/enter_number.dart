@@ -50,7 +50,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
       children: [
         Text(
           '${AppLocalizations.of(context)?.phoneNumber ?? 'Phone Number'} *',
-          style: theme.textTheme.bodyText1!.copyWith(
+          style: theme.textTheme.bodyLarge!.copyWith(
             fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
             color: defaultTheme ? Colors.black : Colors.white,
           ),
@@ -96,6 +96,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                     onChanged: (val) {
                       _authProvider.phoneNumber = val;
                     },
+                    textSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
                   ),
                 ),
               ],
@@ -105,7 +106,8 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
         const Space(factor: 1.5),
         Text(
           AppLocalizations.of(context)?.mandatoryFields ?? '*Mandatory fields',
-          style: AppTheme.bodyText2.copyWith(
+          style: theme.textTheme.bodyLarge!.copyWith(
+            fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 15.sp),
             color: defaultTheme ? AppTheme.textBlack : Colors.white,
           ),
         ),

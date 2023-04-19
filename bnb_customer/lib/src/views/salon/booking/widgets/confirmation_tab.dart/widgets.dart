@@ -26,7 +26,7 @@ class OTPField9 extends ConsumerWidget {
       length: 6,
       keyboardType: TextInputType.number,
       obscureText: false,
-      cursorColor: Theme.of(context).primaryColor,
+      cursorColor: theme.primaryColor,
       animationType: AnimationType.fade,
       textStyle: TextStyle(
         fontFamily: "Montserrat",
@@ -76,42 +76,42 @@ class TermsOfServiceText extends ConsumerWidget {
       text: TextSpan(
         children: [
           TextSpan(
-            text: AppLocalizations.of(context)?.termsOfService1 ?? 'We have updated our ',
-            style: AppTheme.bodyText1.copyWith(
-              fontSize: 15.sp,
-              fontWeight: FontWeight.w400,
+            text: '${AppLocalizations.of(context)?.termsOfService1 ?? 'We have updated our'} ',
+            style: theme.textTheme.bodyLarge!.copyWith(
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w500,
               color: defaultTheme ? Colors.black : Colors.white,
             ),
           ),
           TextSpan(
-            text: "${AppLocalizations.of(context)?.termsOfService ?? 'Terms of Service '}. ",
-            style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
-                  color: defaultTheme ? Colors.black : Colors.white,
-                ),
-          ),
-          TextSpan(
-            text: "${AppLocalizations.of(context)?.and ?? 'and'}. ",
-            style: AppTheme.bodyText1.copyWith(
-              fontSize: 15.sp,
-              fontWeight: FontWeight.w400,
+            text: '${AppLocalizations.of(context)?.termsOfService ?? 'Terms of Service'} ',
+            style: theme.textTheme.bodyLarge!.copyWith(
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w600,
               color: defaultTheme ? Colors.black : Colors.white,
             ),
           ),
           TextSpan(
-            text: "${AppLocalizations.of(context)?.policy ?? 'Privacy Policy'}. ",
-            style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
-                  color: defaultTheme ? Colors.black : Colors.white,
-                ),
+            text: '${AppLocalizations.of(context)?.and ?? 'and'} ',
+            style: theme.textTheme.bodyLarge!.copyWith(
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w500,
+              color: defaultTheme ? Colors.black : Colors.white,
+            ),
           ),
           TextSpan(
-            text: "${AppLocalizations.of(context)?.termsOfService2 ?? 'By continuining to use our service, you accept these terms and policies.'}. ",
-            style: AppTheme.bodyText1.copyWith(
-              fontSize: 15.sp,
-              fontWeight: FontWeight.w400,
+            text: '${AppLocalizations.of(context)?.policy ?? 'Privacy Policy'}. ',
+            style: theme.textTheme.bodyLarge!.copyWith(
+              fontSize: 20.sp,
+              fontWeight: FontWeight.w600,
+              color: defaultTheme ? Colors.black : Colors.white,
+            ),
+          ),
+          TextSpan(
+            text: AppLocalizations.of(context)?.termsOfService2 ?? 'By continuining to use our service, you accept these terms and policies.',
+            style: theme.textTheme.bodyLarge!.copyWith(
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w500,
               color: defaultTheme ? Colors.black : Colors.white,
             ),
           ),

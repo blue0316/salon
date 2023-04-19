@@ -43,7 +43,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
       children: [
         Text(
           AppLocalizations.of(context)?.verificationSuccessful.toCapitalized() ?? 'Verification was successful!',
-          style: theme.textTheme.bodyText1!.copyWith(
+          style: theme.textTheme.bodyLarge!.copyWith(
             fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
             color: defaultTheme ? Colors.black : Colors.white,
           ),
@@ -79,7 +79,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
         // -- Your Email
         Text(
           "Your ${AppLocalizations.of(context)?.email.toCapitalized() ?? "Email"}",
-          style: AppTheme.bodyText1.copyWith(
+          style: theme.textTheme.bodyLarge?.copyWith(
             fontSize: 18.sp,
             color: defaultTheme ? AppTheme.textBlack : Colors.white,
           ),
@@ -103,7 +103,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
 
         Text(
           "*Mandatory fields",
-          style: AppTheme.bodyText2.copyWith(
+          style: theme.textTheme.bodyMedium?.copyWith(
             color: defaultTheme ? AppTheme.textBlack : Colors.white,
           ),
         ),
@@ -111,7 +111,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
         DefaultButton(
           borderRadius: 60,
           onTap: () async {
-            bool enabledOTP = _salonProfileProvider.themeSettings?.displaySettings?.enableOTP;
+            bool enabledOTP = _salonProfileProvider.themeSettings?.displaySettings?.enableOTP ?? true;
             // Check if fields are filled
             if (nameController.text.isEmpty || emailController.text.isEmpty) {
               showToast(AppLocalizations.of(context)?.emptyFields ?? "Field cannot be empty, please fill the required fields");

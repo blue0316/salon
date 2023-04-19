@@ -58,7 +58,7 @@ class DefaultButton extends ConsumerWidget {
                     Text(
                       label ?? "Sign up",
                       textAlign: TextAlign.center,
-                      style: theme.textTheme.bodyText1?.copyWith(
+                      style: theme.textTheme.bodyLarge?.copyWith(
                         color: textColor,
                         fontWeight: FontWeight.bold,
                         fontSize: 20.sp,
@@ -69,7 +69,7 @@ class DefaultButton extends ConsumerWidget {
               : Text(
                   label ?? "Sign up",
                   textAlign: TextAlign.center,
-                  style: theme.textTheme.bodyText1?.copyWith(
+                  style: theme.textTheme.bodyLarge?.copyWith(
                     color: textColor,
                     fontWeight: FontWeight.bold,
                     fontSize: 20.sp,
@@ -151,7 +151,7 @@ class BnbMaterialButton extends StatelessWidget {
       minWidth: minWidth,
       child: Text(
         title,
-        style: Theme.of(context).textTheme.headline2,
+        style: Theme.of(context).textTheme.displayMedium,
       ),
     );
   }

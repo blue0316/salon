@@ -111,8 +111,8 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
                       const Spacer(flex: 2),
                       GestureDetector(
                         onTap: () {
-                          _createAppointmentProvider.resetFlow();
                           Navigator.pop(context);
+                          _createAppointmentProvider.resetFlow();
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(right: 15),

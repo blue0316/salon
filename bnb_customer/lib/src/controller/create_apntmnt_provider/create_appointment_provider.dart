@@ -1405,8 +1405,16 @@ class CreateAppointmentProvider with ChangeNotifier {
           pic: "",
         ),
         priceAndDuration: PriceAndDurationModel(
-          duration: MasterServiceAtPresentTime.service!.isPriceRange ? int.parse(MasterServiceAtPresentTime.service!.priceAndDurationMax!.duration).toString() : int.parse(MasterServiceAtPresentTime.service!.priceAndDuration.duration).toString(),
-          price: MasterServiceAtPresentTime.service!.isPriceRange ? int.parse(MasterServiceAtPresentTime.service!.priceAndDurationMax!.price).toString() : int.parse(MasterServiceAtPresentTime.service!.priceAndDuration.price).toString(),
+          duration: MasterServiceAtPresentTime.service!.isPriceRange
+              ? int.parse(
+                  MasterServiceAtPresentTime.service!.priceAndDurationMax!.duration,
+                ).toString()
+              : int.parse(MasterServiceAtPresentTime.service!.priceAndDuration.duration).toString(),
+          price: MasterServiceAtPresentTime.service!.isPriceRange
+              ? int.parse(MasterServiceAtPresentTime.service!.priceAndDurationMax!.price).toString()
+              : int.parse(
+                  MasterServiceAtPresentTime.service!.priceAndDuration.price,
+                ).toString(),
         ),
 
         paymentInfo: null,
@@ -1639,6 +1647,7 @@ class CreateAppointmentProvider with ChangeNotifier {
     required CustomerModel customerModel,
   }) async {
     loadingStatus = Status.loading;
+    notifyListeners();
     // if (customerModel.salonIdsBlocked!.contains(chosenSalon!.salonId)) {
     //   showToast("You have been blocked from making appointments by this salon");
     //   loadingStatus = Status.failed;
@@ -1681,8 +1690,8 @@ class CreateAppointmentProvider with ChangeNotifier {
 
         // AppointmentNotification().sendNotifications(
         //     appointmentModel!, customerModel, chosenSalon!, context);
-        printIt(finalAppointment?.toJson());
-        resetFlow();
+        // printIt(finalAppointment?.toJson());
+        // resetFlow();
 
         Collection.customers.doc(customerModel.customerId).update({
           'registeredSalons': FieldValue.arrayUnion([appointmentModel!.salon.id])
@@ -1788,7 +1797,7 @@ class CreateAppointmentProvider with ChangeNotifier {
         // AppointmentNotification().sendNotifications(
         //     appointmentModel!, customerModel, chosenSalon!, context);
         // printIt(finalAppointment?.toJson());
-        resetFlow();
+        // resetFlow();
 
         Collection.customers.doc(customerModel.customerId).update({
           'registeredSalons': FieldValue.arrayUnion([appointmentModel!.salon.id])

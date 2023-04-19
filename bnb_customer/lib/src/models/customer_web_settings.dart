@@ -79,7 +79,7 @@ class DisplaySettings {
   final Reviews reviews;
   final bool showRequestForm;
   final bool showContact;
-  final dynamic enableOTP;
+  bool enableOTP = true;
 
   factory DisplaySettings.fromJson(Map<String, dynamic> json) => DisplaySettings(
         showSpecialization: (json["showSpecialization"] == null) ? true : json["showSpecialization"],
