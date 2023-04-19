@@ -131,7 +131,8 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
             }
 
             // If user has logged in with another number and decides to use a new number to book
-            if (_auth.currentCustomer?.personalInfo.phone != null && _auth.currentCustomer?.personalInfo.phone != _authProvider.phoneNoController.text) {
+
+            if (FirebaseAuth.instance.currentUser?.phoneNumber != null && FirebaseAuth.instance.currentUser?.phoneNumber != _authProvider.phoneNoController.text) {
               // Log the former account out
               await FirebaseAuth.instance.signOut();
             }
