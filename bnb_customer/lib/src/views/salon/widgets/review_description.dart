@@ -19,7 +19,7 @@ class ReviewDescription extends ConsumerWidget {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool isLightTheme = (theme == AppTheme.lightTheme);
+    bool isLightTheme = (theme == AppTheme.customLightTheme);
 
     return Container(
       decoration: BoxDecoration(
@@ -82,7 +82,7 @@ class ReviewDescription extends ConsumerWidget {
                   SizedBox(height: 15.h),
                   Text(
                     review.review,
-                    style: theme.textTheme.bodyLarge!.copyWith(
+                    style: theme.textTheme.displayMedium!.copyWith(
                       fontWeight: FontWeight.w500,
                       fontSize: 14.5.sp,
                       color: isLightTheme ? Colors.black : Colors.white,

@@ -1,72 +1,71 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
+import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/enums/profile_datails_tabs.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
-import 'package:bbblient/src/utils/extensions/exstension.dart';
+import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_reviews.dart';
-import 'package:bbblient/src/views/salon/default_profile_view/widgets/section_spacer.dart';
-import 'package:bbblient/src/views/salon/salon_home/salon_about.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../theme/app_main_theme.dart';
-import '../../../utils/read_more_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'about.dart';
 
-import 'master_service.dart';
-
-class MasterAbout extends StatelessWidget {
+class MasterAbout extends ConsumerWidget {
   final MasterModel master;
+  final List<CategoryModel> categories;
 
-  const MasterAbout({Key? key, required this.master}) : super(key: key);
+  const MasterAbout({Key? key, required this.master, required this.categories}) : super(key: key);
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+
+    final _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
     return ConstrainedContainer(
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SectionSpacer(
-              title: (AppLocalizations.of(context)?.localeName == 'uk') ? masterDetailsTitles[1] : masterDetailsTitles[1],
-            ),
             Container(
               width: double.infinity,
-              color: Colors.white.withOpacity(0.7),
+              color: theme.canvasColor.withOpacity(0.7),
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 20.h),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    MasterImageHeader(
-                      master: master,
-                    ),
-                    if (master.personalInfo != null && master.personalInfo!.description != null && master.personalInfo!.description != "") ...[
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 0.w),
-                        child: Container(
-                          constraints: BoxConstraints(maxHeight: 300.h),
-                          child: Scrollbar(
-                            child: ListView(
-                              shrinkWrap: true,
-                              primary: false,
-                              children: [
-                                ReadMoreText(
-                                  '${master.personalInfo?.description}',
-                                  trimLines: 4,
-                                  colorClickableText: AppTheme.textBlack,
-                                  trimMode: TrimMode.Line,
-                                  trimCollapsedText: " ...${AppLocalizations.of(context)?.readMore ?? 'Read More'}",
-                                  trimExpandedText: "  ${AppLocalizations.of(context)?.less ?? 'Less'}",
-                                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w400),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                    const Space(factor: 1.5),
+                    Text(
+                      ((AppLocalizations.of(context)?.localeName == 'uk') ? masterDetailsTitles[1] : masterDetailsTitles[1]).toUpperCase(),
+                      style: theme.textTheme.displayLarge!.copyWith(
+                        fontSize: DeviceConstraints.getResponsiveSize(context, 23.sp, 26.sp, 32.sp),
+                        color: Colors.black,
+                        fontWeight: FontWeight.w800,
                       ),
-                    ],
+                    ),
+                    const Space(factor: 2.5),
+                    Expanded(
+                      flex: 0,
+                      child: SizedBox(
+                        height: isPortrait ? null : 150.h,
+                        child: isPortrait
+                            ? MasterPortraitAboutHeader(
+                                master: master,
+                                categories: categories,
+                              )
+                            : MasterLandscapeAboutHeader(
+                                master: master,
+                                categories: categories,
+                              ),
+                      ),
+                    ),
+                    const Space(factor: 2),
                     Consumer(
                       builder: (context, ref, child) => ReviewSection(
                         reviews: ref.watch(salonProfileProvider).masterReviews,

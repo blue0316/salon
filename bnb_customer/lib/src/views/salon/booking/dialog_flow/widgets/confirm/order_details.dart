@@ -41,7 +41,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
     final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
     final AuthProvider _auth = ref.watch(authProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool defaultTheme = theme == AppTheme.lightTheme;
+    bool defaultTheme = theme == AppTheme.customLightTheme;
 
     final String _date = Time().getLocaleDate(
       _createAppointmentProvider.appointmentModel!.appointmentStartTime,

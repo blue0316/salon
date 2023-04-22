@@ -1,13 +1,15 @@
 import 'package:bbblient/src/controller/home/salon_search_provider.dart';
+import 'package:bbblient/src/firebase/appointments.dart';
+import 'package:bbblient/src/firebase/collections.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
+import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
-// import 'package:bbblient/src/utils/utils.dart';
+import 'package:bbblient/src/utils/time.dart';
+import 'package:bbblient/src/utils/utils.dart';
+import 'package:bbblient/src/views/widgets/widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
-
-import '../../firebase/appointments.dart';
-import '../../models/enums/status.dart';
-import '../../utils/time.dart';
 
 class AppointmentProvider with ChangeNotifier {
   static final DateTime _today = Time().getDate();
@@ -31,12 +33,14 @@ class AppointmentProvider with ChangeNotifier {
   Map<DateTime, List<AppointmentModel>> appointmentMap = {};
 
   Status appointmentStatus = Status.loading;
+  Status updateSubStatus = Status.init;
+  Status cancelAppointmentStatus = Status.init;
 
   init() {
     selectedDayAppointments.clear();
     getEventsForDay(selectedDay).forEach((element) => selectedDayAppointments.add(element));
     selectedDayAppointments.sort((a, b) => a.appointmentStartTime.compareTo(b.appointmentStartTime));
-    notifyListeners(); 
+    notifyListeners();
   }
 
   loadAppointments({required String customerId, required SalonSearchProvider salonSearchProvider}) {
@@ -104,4 +108,95 @@ class AppointmentProvider with ChangeNotifier {
       return [];
     }
   }
+
+  Future<AppointmentModel?> fetchAppointment({required String appointmentID}) async {
+    appointmentStatus = Status.loading;
+    notifyListeners();
+    try {
+      DocumentSnapshot appointmentDoc = await Collection.appointments.doc(appointmentID).get();
+
+      // print('***********************');
+      // print(appointmuentDoc);
+      // print(appointmentDoc.data());
+      // print('***********************');
+
+      if (!appointmentDoc.exists) {
+        appointmentStatus = Status.success;
+        notifyListeners();
+        return null;
+      }
+
+      Map<String, dynamic> _temp = appointmentDoc.data() as Map<String, dynamic>;
+
+      AppointmentModel appointment = AppointmentModel.fromJson(_temp);
+      appointmentStatus = Status.success;
+      notifyListeners();
+
+      return appointment;
+    } catch (e) {
+      printIt('Error on fetchAppointment() - ${e.toString()}');
+      appointmentStatus = Status.failed;
+      notifyListeners();
+    }
+
+    return null;
+  }
+
+  void updateAppointmentSubStatus({required String appointmentID, Function? callback}) async {
+    updateSubStatus = Status.loading;
+    notifyListeners();
+    try {
+      await Collection.appointments.doc(appointmentID).set(
+        {
+          'status': 'confirmed',
+          'subStatus': 'confirmed',
+          'updates': FieldValue.arrayUnion(['confirmedByCustomer'])
+        },
+        SetOptions(merge: true),
+      );
+
+      // SHOW TOAST
+      showToast('YOUR APPOINTMENT HAS BEEN CONFIRMED');
+
+      // REFRESH SCREEN
+      callback!();
+
+      updateSubStatus = Status.success;
+      notifyListeners();
+    } catch (e) {
+      printIt('Error on updateAppointmentSubStatus() - ${e.toString()}');
+      updateSubStatus = Status.failed;
+      notifyListeners();
+    }
+  }
+
+  void cancelAppointment({required String appointmentID, Function? callback}) async {
+    cancelAppointmentStatus = Status.loading;
+    notifyListeners();
+    try {
+      await Collection.appointments.doc(appointmentID).set(
+        {
+          'status': 'cancelled',
+          'subStatus': 'cancelledbyClient',
+          'updates': FieldValue.arrayUnion(['cancelledByCustomer'])
+        },
+        SetOptions(merge: true),
+      );
+
+      // SHOW TOAST
+      showToast('YOUR APPOINTMENT HAS BEEN CANCELLED');
+
+      // REFRESH SCREEN
+      callback!();
+
+      cancelAppointmentStatus = Status.success;
+      notifyListeners();
+    } catch (e) {
+      printIt('Error on cancelAppointment() - ${e.toString()}');
+      cancelAppointmentStatus = Status.failed;
+      notifyListeners();
+    }
+  }
 }
+
+// http://localhost:58317/appointments?id=KFobyqnivYiOHNJvWI12

@@ -48,7 +48,7 @@ class _VerifyOtpState extends ConsumerState<VerifyOtp> {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool defaultTheme = theme == AppTheme.lightTheme;
+    bool defaultTheme = theme == AppTheme.customLightTheme;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,24 +142,7 @@ class _VerifyOtpState extends ConsumerState<VerifyOtp> {
                         // Customer Personal Info has name and email
 
                         // Create Appointment
-                        CustomerModel customer = CustomerModel(
-                            customerId: currentCustomer.customerId,
-                            personalInfo: currentCustomer.personalInfo,
-                            registeredSalons: [],
-                            createdAt: DateTime.now(),
-                            avgRating: 3.0,
-                            noOfRatings: 6,
-                            profilePicUploaded: false,
-                            profilePic: "",
-                            profileCompleted: false,
-                            quizCompleted: false,
-                            preferredGender: "male",
-                            preferredCategories: [],
-                            locations: [],
-                            fcmToken: "",
-                            locale: "en",
-                            favSalons: [],
-                            referralLink: "");
+                        CustomerModel customer = CustomerModel(customerId: currentCustomer.customerId, personalInfo: currentCustomer.personalInfo, registeredSalons: [], createdAt: DateTime.now(), avgRating: 3.0, noOfRatings: 6, profilePicUploaded: false, profilePic: "", profileCompleted: false, quizCompleted: false, preferredGender: "male", preferredCategories: [], locations: [], fcmToken: "", locale: "en", favSalons: [], referralLink: "");
                         if (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.singleMaster) {
                           await _createAppointmentProvider.createAppointment(customerModel: customer, context: context);
                         } else {

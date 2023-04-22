@@ -74,6 +74,7 @@ class AppTheme {
   static const Color bookingWhite = Color(0xffF5F5F5);
   static const Color bookingGray = Color(0xff9D9D9D);
   static const Color bookingYellow = Color(0xffFBC844);
+  static const Color fontColor = black2;
 
   static const Color master2 = divider;
   static const Color master3 = Color(0xffB6CDD7);
@@ -84,108 +85,177 @@ class AppTheme {
   static const Color master8 = Color(0xff14213d);
   static const Color master9 = Color(0xffcaffbf);
   static const Color master10 = Color(0xffa5a58d);
-  static const List<Color> masterColors = [master1, master2, master3, master4, master5, master6, master7, master8, master9, master10];
+
+  ///common colors
+  static const Color whiteCategory = Color(0xffF7F7F7);
+  static const Color bottomBarColor = Color(0xffF5ECE7);
+  static const Color backgroundColor = Color(0xffFCF8F7);
+  static const Color productTextColor = Color(0xffAB7358);
+  static const Color dashboardBackgroundColor = Color(0xffFCF9F7);
+  static const Color hintColor = Color(0xff857E7B);
+  static const Color red = Color(0xffD7584E);
+  static const Color red2 = Color(0xffDB6960);
+  static const Color primary = Color(0xffBB534B);
+  static const Color lightBrown = Color(0xffCCBCB8);
+  static const Color dividerColor = Color(0xffEAEAEA);
+  static const Color boldBlack = Color(0xff1B1B1B);
+
+  static const List<Color> masterColors = [
+    master1,
+    master2,
+    master3,
+    master4,
+    master5,
+    master6,
+    master7,
+    master8,
+    master9,
+    master10,
+  ];
 
 // colorScheme
   static const Color creamBrownPrimaryVariant = Color(0xFFAE7C63);
   static const Color creamBrownSecondaryVarient = Color(0xffE3AF7B);
 
-  static final TextStyle aboutScreenStyle = TextStyle(
-    fontFamily: "Poppins",
-    fontSize: 40.sp,
-    fontWeight: FontWeight.w600,
-    color: bookingBlack,
-  );
-
-  static final TextStyle hintStyle = TextStyle(
-    fontFamily: "Jost",
-    fontSize: 14.sp,
-    fontWeight: FontWeight.w400,
-    color: lightGrey,
-  );
-
-  static final TextStyle headLine1 = TextStyle(
-    fontFamily: "Jost",
+  static final TextStyle displayLarge = TextStyle(
+    fontFamily: "Inter",
     fontSize: 24.sp,
     fontWeight: FontWeight.w600,
     color: lightBlack,
+    letterSpacing: 0,
   );
-  static final TextStyle headLine2 = TextStyle(
-    fontFamily: "Jost",
+
+  static final TextStyle displayMedium = TextStyle(
+    fontFamily: "Montserrat",
     fontSize: 18.sp,
     fontWeight: FontWeight.w600,
     color: Colors.white,
   );
+
+  static final TextStyle titleSmall = TextStyle(
+    fontFamily: "Montserrat",
+    fontSize: 16.sp,
+    fontWeight: FontWeight.normal,
+    color: Colors.black,
+  );
+
   static final TextStyle headLine3 = TextStyle(
-    fontFamily: "Jost",
+    fontFamily: "Montserrat",
     fontSize: 18.sp,
     fontWeight: FontWeight.w600,
     color: lightBlack,
   );
   static final TextStyle headLine4 = TextStyle(
-    fontFamily: "Jost",
+    fontFamily: "Montserrat",
     fontSize: 16.sp,
     fontWeight: FontWeight.normal,
     color: lightGrey,
   );
   static final TextStyle headLine5 = TextStyle(
-    fontFamily: "Jost",
+    fontFamily: "Montserrat",
     fontSize: 16.sp,
     fontWeight: FontWeight.w300,
     color: lightGrey,
   );
   static final TextStyle bodyText1 = TextStyle(
-    fontFamily: "Jost",
+    fontFamily: "Montserrat",
     fontSize: 16.sp,
     fontWeight: FontWeight.w500,
     color: textBlack,
   );
   static final TextStyle bodyText2 = TextStyle(
-    fontFamily: "Jost",
+    fontFamily: "Montserrat",
     fontSize: 14.sp,
     fontWeight: FontWeight.w400,
     color: lightGrey,
   );
   static final TextStyle subTitle1 = TextStyle(
-    fontFamily: "Jost",
+    fontFamily: "Montserrat",
     fontSize: 16.sp,
     fontWeight: FontWeight.w600,
     color: lightBlack,
   );
   static final TextStyle appointmentSubtitle = TextStyle(
-    fontFamily: "Jost",
+    fontFamily: "Montserrat",
     fontSize: 14.sp,
     fontWeight: FontWeight.w600,
     color: black2,
   );
   static const TextStyle calTextStyle = TextStyle(
-    fontFamily: "Jost",
+    fontFamily: "Montserrat",
     fontSize: 14,
     color: Colors.white,
     fontWeight: FontWeight.w500,
   );
 
   static const TextStyle calTextStyle2 = TextStyle(
-    fontFamily: "Jost",
+    fontFamily: "Montserrat",
     fontSize: 14,
     color: Colors.black,
     fontWeight: FontWeight.w500,
   );
 
   static const TextStyle appointmentTitleStyle = TextStyle(
-    fontFamily: "Jost",
+    fontFamily: "Montserrat",
     fontSize: 14,
-    color: lightGrey3,
     fontWeight: FontWeight.w500,
+  );
+
+  static final TextStyle aboutScreenStyle = TextStyle(
+    fontFamily: "Poppins",
+    fontSize: 40.sp,
+    fontWeight: FontWeight.w600,
+  );
+
+  static final TextStyle hintStyle = TextStyle(
+    fontFamily: "Montserrat",
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w400,
+    color: lightGrey,
   );
 
   static Color primaryLightThemeColor = const Color(0XFFFFF5F1);
   static const Color primaryDarkBackgroundThemeColor = Colors.black;
   static Color darkPrimaryThemeColor = const Color(0XFFF48B72);
 
-  static final ThemeData lightTheme = ThemeData(
+  static final ThemeData mainTheme = ThemeData(
+    textSelectionTheme: TextSelectionThemeData(
+      cursorColor: fontColor.withOpacity(0.8),
+    ),
+    // cursorColor:
+    fontFamily: 'Montserrat',
+    primaryColor: primary,
+    disabledColor: grey2,
+    primaryColorDark: fontColor,
+    scaffoldBackgroundColor: backgroundColor,
+    hintColor: hintColor,
+    dividerColor: divider,
+    splashColor: bottomBarColor,
+    highlightColor: Colors.transparent,
+    textTheme: TextTheme(
+      displayLarge: displayLarge.copyWith(color: Colors.black),
+      displayMedium: displayMedium.copyWith(color: Colors.black),
+      displaySmall: headLine3.copyWith(color: Colors.black),
+      headlineMedium: headLine4.copyWith(color: Colors.black),
+      headlineSmall: headLine5.copyWith(color: Colors.black),
+      bodyLarge: displayLarge.copyWith(color: Colors.black),
+      bodyMedium: bodyText2.copyWith(color: Colors.black),
+      titleMedium: subTitle1.copyWith(color: Colors.black),
+      titleSmall: titleSmall.copyWith(color: Colors.black),
+    ),
+    colorScheme: const ColorScheme.light()
+        .copyWith(secondary: red2, primary: red2)
+        .copyWith(
+          secondary: const Color(0xffBB544C),
+        )
+        .copyWith(background: backgroundColor),
+  );
+
+  static final ThemeData customLightTheme = ThemeData(
     primaryColor: Colors.black,
     dialogBackgroundColor: primaryLightThemeColor,
+    canvasColor: primaryLightThemeColor,
+
     tabBarTheme: TabBarTheme(
       unselectedLabelColor: Colors.black,
       labelColor: Colors.white,
@@ -195,7 +265,7 @@ class AppTheme {
     colorScheme: ColorScheme(
       primary: creamBrown,
       secondary: creamBrownLight,
-      surface: Colors.white,
+      surface: primaryLightThemeColor,
       background: primaryLightThemeColor,
       error: redishPink,
       onPrimary: creamBrown,
@@ -206,21 +276,22 @@ class AppTheme {
       brightness: Brightness.light,
     ),
     scaffoldBackgroundColor: milkeyGrey,
-    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      backgroundColor: Colors.white,
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: primaryLightThemeColor,
       elevation: 1.2,
     ),
     textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
     inputDecorationTheme: InputDecorationTheme(hintStyle: hintStyle),
     textTheme: TextTheme(
-      displayLarge: headLine1.copyWith(color: Colors.black),
-      displayMedium: headLine2.copyWith(color: Colors.black),
+      displayLarge: displayLarge.copyWith(color: Colors.black),
+      displayMedium: displayMedium.copyWith(color: Colors.black),
       displaySmall: headLine3.copyWith(color: Colors.black),
       headlineMedium: headLine4.copyWith(color: Colors.black),
       headlineSmall: headLine5.copyWith(color: Colors.black),
-      bodyLarge: bodyText1.copyWith(color: Colors.black),
+      bodyLarge: displayLarge.copyWith(color: Colors.black),
       bodyMedium: bodyText2.copyWith(color: Colors.black),
       titleMedium: subTitle1.copyWith(color: Colors.black),
+      titleSmall: titleSmall.copyWith(color: Colors.black),
     ),
     appBarTheme: AppBarTheme(
       backgroundColor: primaryLightThemeColor,
@@ -230,14 +301,13 @@ class AppTheme {
     dividerColor: Colors.black,
     focusColor: lightGrey,
     highlightColor: const Color(0XFFEBE9E9), // Color to select services on booking dialog
-    splashColor: milkeyGreyDark,
-    hoverColor: milkeyGreyDark,
     unselectedWidgetColor: const Color.fromARGB(255, 239, 239, 239), // Color for not valid time slot container
     primaryIconTheme: const IconThemeData(color: Colors.black),
   );
 
   static final ThemeData darkTheme = ThemeData(
     primaryColor: darkPrimaryThemeColor,
+    canvasColor: primaryDarkBackgroundThemeColor,
     textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
     dialogBackgroundColor: primaryDarkBackgroundThemeColor,
     tabBarTheme: TabBarTheme(
@@ -265,14 +335,15 @@ class AppTheme {
       brightness: Brightness.light,
     ),
     textTheme: TextTheme(
-      displayLarge: headLine1.copyWith(color: darkPrimaryThemeColor),
-      displayMedium: headLine2.copyWith(color: Colors.white),
-      displaySmall: headLine3.copyWith(color: Colors.white),
-      headlineMedium: headLine4.copyWith(color: Colors.white),
-      headlineSmall: headLine5.copyWith(color: Colors.white),
-      bodyLarge: bodyText1.copyWith(color: Colors.white),
-      bodyMedium: bodyText2.copyWith(color: Colors.white),
-      titleMedium: subTitle1.copyWith(color: Colors.white),
+      displayLarge: displayLarge.copyWith(color: Colors.black),
+      displayMedium: displayMedium.copyWith(color: Colors.black),
+      displaySmall: headLine3.copyWith(color: Colors.black),
+      headlineMedium: headLine4.copyWith(color: Colors.black),
+      headlineSmall: headLine5.copyWith(color: Colors.black),
+      bodyLarge: displayLarge.copyWith(color: Colors.black),
+      bodyMedium: bodyText2.copyWith(color: Colors.black),
+      titleMedium: subTitle1.copyWith(color: Colors.black),
+      titleSmall: titleSmall.copyWith(color: Colors.black),
     ),
     appBarTheme: AppBarTheme(
       backgroundColor: primaryDarkBackgroundThemeColor,

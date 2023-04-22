@@ -49,7 +49,7 @@ class ReviewCard extends ConsumerWidget {
               margin: EdgeInsets.only(top: DeviceConstraints.getResponsiveSize(context, 40, 40, 45)),
               padding: const EdgeInsets.symmetric(horizontal: 5),
               decoration: BoxDecoration(
-                color: theme.colorScheme.background,
+                color: theme.canvasColor,
                 border: Border.all(color: theme.primaryColor, width: 2),
               ),
               child: Padding(

@@ -43,7 +43,7 @@ class SalonProfileProvider with ChangeNotifier {
   // List<ServiceModel> salonServices = [];
 
   CustomerWebSettings? themeSettings;
-  ThemeData salonTheme = AppTheme.lightTheme;
+  ThemeData salonTheme = AppTheme.customLightTheme;
   // String? theme;
 
   ThemeType themeType = ThemeType.DefaultLight;
@@ -91,18 +91,6 @@ class SalonProfileProvider with ChangeNotifier {
     if (availableThemes.contains(themeSettings?.theme?.testId)) {
       // If theme number is not in this set, it means that's a default theme
       switch (themeSettings?.theme?.testId) {
-        //     themeType = ThemeType.DefaultLight;
-
-        // if (themeSettings?.theme?.colorCode == 'black') {
-        //   salonTheme = AppTheme.darkTheme;
-        // } else {
-        //   salonTheme = AppTheme.lightTheme;
-        // }
-
-        // notifyListeners();
-
-        // return const DefaultLandingTheme(); // D
-
         case '0':
           salonTheme = getDefaultLightTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.DefaultLight;
@@ -166,6 +154,14 @@ class SalonProfileProvider with ChangeNotifier {
 
       return const GlamOneScreen(); // New Themes Base Widget
     } else {
+      print('*****---*****');
+      print('*****---*****');
+      print('*****---*****');
+      print('*****---*****');
+      print('*****---*****');
+      print('*****---*****');
+      print('*****---*****');
+      print('*****---*****');
       themeType = ThemeType.DefaultLight;
       notifyListeners();
 

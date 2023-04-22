@@ -13,7 +13,7 @@ ThemeData getDefaultLightTheme(String? colorCode) {
   switch (colorCode) {
     case null:
       AppTheme.primaryLightThemeColor = const Color(0XFFFFF5F1);
-      return AppTheme.lightTheme;
+      return AppTheme.customLightTheme;
 
     default:
       if (colorCode != null) {
@@ -28,7 +28,7 @@ ThemeData getDefaultLightTheme(String? colorCode) {
         }
       }
 
-      return AppTheme.lightTheme;
+      return AppTheme.customLightTheme;
   }
 }
 

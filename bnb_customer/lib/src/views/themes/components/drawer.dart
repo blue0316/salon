@@ -23,7 +23,7 @@ class ThemeDrawer extends ConsumerWidget {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: Drawer(
-        backgroundColor: theme.colorScheme.background,
+        backgroundColor: theme.canvasColor,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: isPortrait ? 40.w : 20.w, vertical: 20.h),
           child: LayoutBuilder(

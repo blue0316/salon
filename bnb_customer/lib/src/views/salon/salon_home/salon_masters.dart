@@ -144,6 +144,7 @@ class _SaloonMastersState extends ConsumerState<SaloonMasters> {
                                             builder: (context) => MasterProfile(
                                               salonModel: widget.salonModel,
                                               masterModel: _filteredMasters[index],
+                                              categories: const [],
                                             ),
                                           ),
                                         );

@@ -41,7 +41,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool defaultTheme = theme == AppTheme.lightTheme;
+    bool defaultTheme = theme == AppTheme.customLightTheme;
 
     return Dialog(
       backgroundColor: theme.dialogBackgroundColor,
@@ -197,7 +197,7 @@ class TopDetails extends ConsumerWidget {
     final AuthProvider _auth = ref.watch(authProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool defaultTheme = theme == AppTheme.lightTheme;
+    bool defaultTheme = theme == AppTheme.customLightTheme;
 
     final String _date = Time().getLocaleDate(
       _createAppointment.appointmentModel!.appointmentStartTime,
@@ -409,7 +409,7 @@ class BottomDetails extends ConsumerWidget {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool defaultTheme = theme == AppTheme.lightTheme;
+    bool defaultTheme = theme == AppTheme.customLightTheme;
 
     return Padding(
       padding: EdgeInsets.symmetric(

@@ -35,7 +35,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
     final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool defaultTheme = (theme == AppTheme.lightTheme);
+    bool defaultTheme = (theme == AppTheme.customLightTheme);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

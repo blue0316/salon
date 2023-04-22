@@ -32,7 +32,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
     final _salonSearchProvider = ref.watch(salonSearchProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool defaultTheme = (theme == AppTheme.lightTheme);
+    bool defaultTheme = (theme == AppTheme.customLightTheme);
 
     // // Combine all services available into one to show in 'All' tab
     // List<ServiceModel> allServices = [];

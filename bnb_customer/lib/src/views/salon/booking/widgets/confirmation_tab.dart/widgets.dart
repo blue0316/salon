@@ -18,7 +18,7 @@ class OTPField9 extends ConsumerWidget {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool defaultTheme = theme == AppTheme.lightTheme;
+    bool defaultTheme = theme == AppTheme.customLightTheme;
 
     return PinCodeTextField(
       autoFocus: true,
@@ -70,7 +70,7 @@ class TermsOfServiceText extends ConsumerWidget {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool defaultTheme = theme == AppTheme.lightTheme;
+    bool defaultTheme = theme == AppTheme.customLightTheme;
 
     return RichText(
       text: TextSpan(

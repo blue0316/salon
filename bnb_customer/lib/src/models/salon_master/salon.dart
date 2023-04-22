@@ -52,6 +52,7 @@ class SalonModel {
   late bool requestSalon;
   late String salonLogo;
   late String selectedCurrency;
+  bool? isAutomaticBookingConfirmation;
 
   SalonModel({
     required this.salonId,
@@ -91,6 +92,7 @@ class SalonModel {
     this.requestSalon = false,
     required this.salonLogo,
     required this.selectedCurrency,
+    this.isAutomaticBookingConfirmation = false,
   });
 
   SalonModel.fromJson(Map<String, dynamic> json) {
@@ -147,6 +149,7 @@ class SalonModel {
     requestSalon = json['requestSalon'] ?? false;
     salonLogo = json['salonLogo'] ?? '';
     selectedCurrency = json['selectedCurrency'] ?? '\$';
+    isAutomaticBookingConfirmation = json['isAutomaticBookingConfirmation'] ?? false;
   }
 
   Map<String, dynamic> toJson() {
@@ -240,7 +243,6 @@ class Position {
   //main backup => LatLng(50.45445, 30.52088);
   // test salon coordinates=> LatLng( 40.71427, -74.00597);
   // ukraine second test const LatLng( 50.450001, 30.523333);
-
 }
 
 class Links {

@@ -30,12 +30,12 @@ class Header extends ConsumerWidget {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
-    bool isLightTheme = (theme == AppTheme.lightTheme);
+    bool isLightTheme = (theme == AppTheme.customLightTheme);
 
     return Center(
       child: Container(
         height: 100.h,
-        color: theme.colorScheme.background,
+        color: theme.canvasColor,
         child: Padding(
           padding: EdgeInsets.symmetric(
             vertical: 10,

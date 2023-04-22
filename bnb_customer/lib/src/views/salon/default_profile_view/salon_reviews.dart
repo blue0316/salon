@@ -30,7 +30,7 @@ class _ReviewSectionState extends ConsumerState<ReviewSection> {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool isLightTheme = (theme == AppTheme.lightTheme);
+    bool isLightTheme = (theme == AppTheme.customLightTheme);
 
     return Expanded(
       flex: 0,
@@ -40,11 +40,11 @@ class _ReviewSectionState extends ConsumerState<ReviewSection> {
         children: [
           Text(
             (AppLocalizations.of(context)?.reviews ?? "Reviews").toUpperCase(),
-            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15.sp,
-                  color: isLightTheme ? Colors.black : Colors.white,
-                ),
+            style: theme.textTheme.bodyLarge!.copyWith(
+              fontWeight: FontWeight.bold,
+              fontSize: 15.sp,
+              color: isLightTheme ? Colors.black : Colors.white,
+            ),
           ),
           const SizedBox(height: 20),
           if (!isTab)
@@ -125,10 +125,10 @@ class _ReviewSectionState extends ConsumerState<ReviewSection> {
                                       // const SizedBox(width: 6),
                                       Text(
                                         totalReviewsToShow == 3 ? AppLocalizations.of(context)?.moreReviews ?? "More reviews" : AppLocalizations.of(context)?.lessReviews ?? "Less Reviews",
-                                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                                              fontSize: 12,
-                                              color: AppTheme.white,
-                                            ),
+                                        style: theme.textTheme.titleMedium!.copyWith(
+                                          fontSize: 12,
+                                          color: AppTheme.white,
+                                        ),
                                       ),
                                     ],
                                   ),

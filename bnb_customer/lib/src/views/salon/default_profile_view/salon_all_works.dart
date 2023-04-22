@@ -30,7 +30,7 @@ class _SalonAllWorksState extends ConsumerState<SalonAllWorks> {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool isLightTheme = (theme == AppTheme.lightTheme);
+    bool isLightTheme = (theme == AppTheme.customLightTheme);
 
     return SingleChildScrollView(
       child: Column(
@@ -41,7 +41,7 @@ class _SalonAllWorksState extends ConsumerState<SalonAllWorks> {
           Container(
             height: 1000.h,
             width: double.infinity,
-            color: theme.colorScheme.background.withOpacity(0.7),
+            color: theme.canvasColor.withOpacity(0.7),
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 50.h),
               child: SingleChildScrollView(

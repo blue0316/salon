@@ -40,7 +40,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool defaultTheme = (theme == AppTheme.lightTheme);
+    bool defaultTheme = (theme == AppTheme.customLightTheme);
 
     return Padding(
       padding: EdgeInsets.symmetric(

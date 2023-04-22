@@ -205,7 +205,7 @@ class _ServicesBnbCheckCircleState extends ConsumerState<ServicesBnbCheckCircle>
   Widget build(BuildContext context) {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool isLightTheme = (theme == AppTheme.lightTheme);
+    bool isLightTheme = (theme == AppTheme.customLightTheme);
 
     return Container(
       height: DeviceConstraints.getResponsiveSize(context, 28.h, 40.h, 40.h),

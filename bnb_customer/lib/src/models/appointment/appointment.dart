@@ -29,6 +29,7 @@ class AppointmentModel {
   String? bookedForName;
   String? bookedForPhoneNo;
   late String status;
+  late String subStatus;
 
   late PaymentInfo? paymentInfo;
 
@@ -50,37 +51,39 @@ class AppointmentModel {
 
   String? beautyProId;
   String? yClientsId;
-  AppointmentModel(
-      {required this.appointmentStartTime,
-      required this.appointmentEndTime,
-      required this.createdAt,
-      required this.appointmentTime,
-      required this.appointmentDate,
-      required this.appointmentId,
-      required this.priceAndDuration,
-      required this.updates,
-      required this.status,
-      required this.services,
-      required this.createdBy,
-      required this.bookedForSelf,
-      required this.masterReviewed,
-      required this.salonReviewed,
-      required this.paymentInfo,
-      this.type = AppointmentType.reservation,
-      this.updatedAt,
-      required this.salon,
-      this.master,
-      this.customer,
-      this.chatId,
-      this.bookedForName,
-      this.locale,
-      this.firstName,
-      this.lastName,
-      this.bookedForPhoneNo,
-      this.salonOwnerType = OwnerType.salon,
-      this.note,
-      this.beautyProId,
-      this.yClientsId});
+  AppointmentModel({
+    required this.appointmentStartTime,
+    required this.appointmentEndTime,
+    required this.createdAt,
+    required this.appointmentTime,
+    required this.appointmentDate,
+    required this.appointmentId,
+    required this.priceAndDuration,
+    required this.updates,
+    required this.status,
+    this.subStatus = AppointmentSubStatus.unconfirmed,
+    required this.services,
+    required this.createdBy,
+    required this.bookedForSelf,
+    required this.masterReviewed,
+    required this.salonReviewed,
+    required this.paymentInfo,
+    this.type = AppointmentType.reservation,
+    this.updatedAt,
+    required this.salon,
+    this.master,
+    this.customer,
+    this.chatId,
+    this.bookedForName,
+    this.locale,
+    this.firstName,
+    this.lastName,
+    this.bookedForPhoneNo,
+    this.salonOwnerType = OwnerType.salon,
+    this.note,
+    this.beautyProId,
+    this.yClientsId,
+  });
 
   AppointmentModel.fromJson(Map<String, dynamic> json) {
     printIt(json['updatedAt']);
@@ -126,6 +129,7 @@ class AppointmentModel {
     }
     updates = json['updates'] == null ? [] : json['updates'].cast<String>();
     status = json['status'];
+    subStatus = json['subStatus'] ?? AppointmentSubStatus.unconfirmed;
     services = json['services'] != null ? json['services'].map<Service>((e) => Service.fromJson(e)).toList() : [];
     masterReviewed = json['masterReviewed'] ?? false;
     salonReviewed = json['salonReviewed'] ?? false;
@@ -164,6 +168,7 @@ class AppointmentModel {
     data['priceAndDuration'] = priceAndDuration.toJson();
     data['updates'] = updates;
     data['status'] = status;
+    data['subStatus'] = subStatus;
     data['services'] = services.map((e) => e.toJson()).toList();
     data['masterReviewed'] = masterReviewed;
     data['salonReviewed'] = salonReviewed;
@@ -348,7 +353,7 @@ class PaymentInfo {
   bool paymentDone;
   bool onlinePayment;
   String? referralId;
-  String paymentMethod;
+  String? paymentMethod;
   String? paymentTransectionId;
   DateTime? payedAt;
 

@@ -10,6 +10,13 @@ class AppointmentStatus {
   static const checkedIn = "checkedIn";
 }
 
+class AppointmentSubStatus {
+  static const confirmed = "confirmed";
+  static const unconfirmed = "unconfirmed";
+  static const cancelledbyClient = "cancelledbyClient";
+  static const cancelledbySalon = "cancelledbySalon";
+}
+
 ///contains all the actions possible on an appointment
 class AppointmentUpdates {
   static const createdByCustomer = "createdByCustomer";

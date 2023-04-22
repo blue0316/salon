@@ -1397,6 +1397,7 @@ class CreateAppointmentProvider with ChangeNotifier {
         bookedForSelf: bookedForSelf,
         updates: [AppointmentUpdates.createdByCustomer],
         status: chosenSalon!.requestSalon ? AppointmentStatus.requested : AppointmentStatus.active,
+        subStatus: (chosenSalon!.isAutomaticBookingConfirmation == true) ? AppointmentSubStatus.confirmed : AppointmentSubStatus.unconfirmed,
         services: _services,
         customer: Customer(
           id: customerModel!.customerId, //"00iomPh4TKeE1GFGSNqI",
@@ -1514,6 +1515,8 @@ class CreateAppointmentProvider with ChangeNotifier {
         bookedForSelf: bookedForSelf,
         updates: [AppointmentUpdates.createdByCustomer],
         status: chosenSalon!.requestSalon ? AppointmentStatus.requested : AppointmentStatus.active,
+        subStatus: (chosenSalon!.isAutomaticBookingConfirmation == true) ? AppointmentSubStatus.confirmed : AppointmentSubStatus.unconfirmed,
+
         services: _services,
         customer: Customer(
           id: customerModel!.customerId,
@@ -1595,6 +1598,8 @@ class CreateAppointmentProvider with ChangeNotifier {
         bookedForSelf: bookedForSelf,
         updates: [AppointmentUpdates.createdByCustomer],
         status: chosenSalon!.requestSalon ? AppointmentStatus.requested : AppointmentStatus.active,
+        subStatus: (chosenSalon!.isAutomaticBookingConfirmation == true) ? AppointmentSubStatus.confirmed : AppointmentSubStatus.unconfirmed,
+
         services: _services,
         customer: Customer(
           id: "customerModel!.customerId",

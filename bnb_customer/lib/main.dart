@@ -71,7 +71,7 @@ class MyApp extends ConsumerWidget {
         },
         locale: _bnbProvider.getLocale,
         title: 'bnb',
-        theme: AppTheme.lightTheme,
+        theme: AppTheme.mainTheme,
 
         builder: BotToastInit(),
 

@@ -51,7 +51,7 @@ class SalonTeam extends ConsumerWidget {
             Center(
               child: Text(
                 (AppLocalizations.of(context)?.ourTeam ?? 'Our Team').toUpperCase(),
-                style: theme.textTheme.headline2?.copyWith(
+                style: theme.textTheme.displayMedium?.copyWith(
                   color: theme.colorScheme.secondary,
                   fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),
                 ),
@@ -163,7 +163,7 @@ class TeamMember extends ConsumerWidget {
                 const SizedBox(height: 15),
                 Text(
                   name ?? '',
-                  style: theme.textTheme.bodyText1?.copyWith(
+                  style: theme.textTheme.bodyLarge?.copyWith(
                     color: theme.colorScheme.secondary,
                     fontSize: 17.sp,
                     fontWeight: FontWeight.w600,
@@ -188,7 +188,7 @@ class TeamMember extends ConsumerWidget {
               .map(
                 (item) => Text(
                   item.translations[AppLocalizations.of(context)?.localeName] ?? '',
-                  style: theme.textTheme.subtitle2?.copyWith(
+                  style: theme.textTheme.titleSmall?.copyWith(
                     color: theme.colorScheme.onSecondaryContainer,
                     fontSize: 15.sp,
                   ),

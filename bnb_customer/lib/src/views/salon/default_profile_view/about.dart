@@ -17,7 +17,7 @@ class LandscapeAboutHeader extends ConsumerWidget {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool isLightTheme = (theme == AppTheme.lightTheme);
+    bool isLightTheme = (theme == AppTheme.customLightTheme);
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -40,11 +40,11 @@ class LandscapeAboutHeader extends ConsumerWidget {
                 children: [
                   Text(
                     salonModel.salonName,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18.sp,
-                          color: isLightTheme ? Colors.black : Colors.white,
-                        ),
+                    style: theme.textTheme.bodyLarge!.copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18.sp,
+                      color: isLightTheme ? Colors.black : Colors.white,
+                    ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -61,11 +61,11 @@ class LandscapeAboutHeader extends ConsumerWidget {
                       const SizedBox(width: 6),
                       Text(
                         salonModel.address,
-                        style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w500,
-                              color: isLightTheme ? Colors.black : Colors.white,
-                            ),
+                        style: theme.textTheme.displayMedium!.copyWith(
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w500,
+                          color: isLightTheme ? Colors.black : Colors.white,
+                        ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -83,11 +83,11 @@ class LandscapeAboutHeader extends ConsumerWidget {
               if (salonModel.description != '')
                 Text(
                   salonModel.description,
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 13.sp,
-                        color: isLightTheme ? Colors.black : Colors.white,
-                      ),
+                  style: theme.textTheme.displayMedium!.copyWith(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 13.sp,
+                    color: isLightTheme ? Colors.black : Colors.white,
+                  ),
                   maxLines: 6,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -109,7 +109,7 @@ class PortraitAboutHeader extends ConsumerWidget {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool isLightTheme = (theme == AppTheme.lightTheme);
+    bool isLightTheme = (theme == AppTheme.customLightTheme);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,11 +137,11 @@ class PortraitAboutHeader extends ConsumerWidget {
               children: [
                 Text(
                   salonModel.salonName,
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.sp,
-                        color: isLightTheme ? Colors.black : Colors.white,
-                      ),
+                  style: theme.textTheme.bodyLarge!.copyWith(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18.sp,
+                    color: isLightTheme ? Colors.black : Colors.white,
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -158,11 +158,11 @@ class PortraitAboutHeader extends ConsumerWidget {
                     const SizedBox(width: 6),
                     Text(
                       salonModel.address,
-                      style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.w500,
-                            color: isLightTheme ? Colors.black : Colors.white,
-                          ),
+                      style: theme.textTheme.displayMedium!.copyWith(
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w500,
+                        color: isLightTheme ? Colors.black : Colors.white,
+                      ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -181,11 +181,11 @@ class PortraitAboutHeader extends ConsumerWidget {
             if (salonModel.description != '')
               Text(
                 salonModel.description,
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14.sp,
-                      color: isLightTheme ? Colors.black : Colors.white,
-                    ),
+                style: theme.textTheme.displayMedium!.copyWith(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14.sp,
+                  color: isLightTheme ? Colors.black : Colors.white,
+                ),
                 maxLines: 8,
                 overflow: TextOverflow.ellipsis,
               ),

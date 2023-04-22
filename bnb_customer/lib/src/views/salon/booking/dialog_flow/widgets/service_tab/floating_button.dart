@@ -19,7 +19,7 @@ class FloatingButton extends ConsumerWidget {
     int noOfServices = _createAppointmentProvider.chosenServices.length;
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool defaultTheme = (theme == AppTheme.lightTheme);
+    bool defaultTheme = (theme == AppTheme.customLightTheme);
 
     return noOfServices != 0
         ? Padding(

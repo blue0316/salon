@@ -49,7 +49,7 @@ class _FloatingBarState extends ConsumerState<FloatingBar> {
                       padding: const EdgeInsets.symmetric(horizontal: 35),
                       child: Text(
                         AppLocalizations.of(context)?.bookNow ?? "Book Now",
-                        style: AppTheme.headLine2.copyWith(
+                        style: AppTheme.displayMedium.copyWith(
                           fontWeight: FontWeight.w500,
                           color: Colors.white,
                           fontSize: 18.sp,

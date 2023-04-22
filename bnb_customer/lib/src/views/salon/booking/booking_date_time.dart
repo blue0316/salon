@@ -775,11 +775,11 @@ class TimeSlotContainer extends ConsumerWidget {
 
     // final Theme a = AppTheme as Theme;
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool defaultThemeLight = theme == AppTheme.lightTheme;
+    bool defaultThemeLight = theme == AppTheme.customLightTheme;
 
     Color x = defaultThemeLight ? AppTheme.textBlack : theme.primaryColor;
 
-    // String defaultLightOrDarkOrOther = (theme == AppTheme.lightTheme)
+    // String defaultLightOrDarkOrOther = (theme == AppTheme.customLightTheme)
     //     ? 'light'
     //     : (theme == AppTheme.darkTheme)
     //         ? 'dark'

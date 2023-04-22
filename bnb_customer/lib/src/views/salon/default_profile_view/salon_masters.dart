@@ -1,3 +1,6 @@
+import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
+import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
+import 'package:bbblient/src/utils/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,7 +34,7 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool isLightTheme = (theme == AppTheme.lightTheme);
+    bool isLightTheme = (theme == AppTheme.customLightTheme);
 
     return SingleChildScrollView(
       child: Column(
@@ -42,7 +45,7 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
           Container(
             // height: 1000.h,
             width: double.infinity,
-            color: theme.colorScheme.background.withOpacity(0.7),
+            color: theme.canvasColor.withOpacity(0.7),
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 20.h),
               child: SingleChildScrollView(
@@ -94,7 +97,7 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
                                       ),
                                       Container(
                                         decoration: BoxDecoration(
-                                          color: isLightTheme ? const Color.fromARGB(255, 239, 239, 239) : theme.colorScheme.background,
+                                          color: isLightTheme ? const Color.fromARGB(255, 239, 239, 239) : theme.canvasColor,
                                           borderRadius: BorderRadius.circular(50),
                                         ),
                                         child: Padding(
@@ -123,6 +126,17 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
                                       shrinkWrap: true,
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder: (context, index) {
+                                        List<String> masterCategoryIds = _filteredMasters[index].categoryIds!;
+
+                                        // Find Master Service
+                                        // a master might have multiple services (but I just picked the first index to show on landing page)
+                                        List<CategoryModel> categories = _salonSearchProvider.categories; // All available Categories
+
+                                        List<CategoryModel> masterCategories = [];
+                                        for (String id in masterCategoryIds) {
+                                          masterCategories.add(categories.firstWhere((element) => element.categoryId == id));
+                                        }
+
                                         return Padding(
                                           padding: EdgeInsets.only(right: 12.w), // (left: 40.0.w, right: 8.w),
                                           child: GestureDetector(
@@ -136,21 +150,16 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
                                                   builder: (context) => MasterProfile(
                                                     salonModel: widget.salonModel,
                                                     masterModel: _filteredMasters[index],
+                                                    categories: masterCategories,
                                                   ),
                                                 ),
                                               );
                                             },
-                                            child: PersonAvtar(
-                                              height: 70,
+                                            child: MasterAvatar(
                                               personImageUrl: _filteredMasters[index].profilePicUrl,
                                               personName: Utils().getNameMaster(_filteredMasters[index].personalInfo),
-                                              radius: DeviceConstraints.getResponsiveSize(context, 25, 35, 50),
-                                              showBorder: false,
-                                              showRating: true,
                                               rating: _filteredMasters[index].avgRating,
-                                              starSize: 10,
-                                              ratingColor: isLightTheme ? const Color(0XFFF49071) : const Color(0XFFFFA755),
-                                              padding: 3.5,
+                                              categories: masterCategories,
                                             ),
                                           ),
                                         );
@@ -178,6 +187,80 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class MasterAvatar extends ConsumerWidget {
+  final String? personImageUrl;
+  final String? personName;
+  final double? rating;
+  final List<CategoryModel> categories;
+
+  const MasterAvatar({
+    Key? key,
+    required this.personImageUrl,
+    required this.personName,
+    required this.rating,
+    required this.categories,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+    bool isLightTheme = (theme == AppTheme.customLightTheme);
+
+    return Column(
+      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+          height: 70,
+          width: 70,
+          decoration: BoxDecoration(
+            color: AppTheme.coolGrey,
+            border: !isLightTheme ? Border.all(color: Colors.white, width: 1) : null,
+          ),
+          child: (personImageUrl != null && personImageUrl != '')
+              ? Image.network(
+                  personImageUrl!,
+                  fit: BoxFit.cover,
+                )
+              : Image.asset(AppIcons.masterDefaultAvtar, fit: BoxFit.cover),
+        ),
+        const SizedBox(height: 10),
+        // Text(
+        //   categories[0].translations[AppLocalizations.of(context)?.localeName], //  'Nail Professional',
+        //   style: theme.textTheme.bodyLarge!.copyWith(
+        //     fontWeight: FontWeight.w500,
+        //     fontSize: 16.sp,
+        //     color: isLightTheme ? Colors.black : theme.primaryColor,
+        //   ),
+        // ),
+        // const SizedBox(height: 5),
+        Text(
+          personName ?? "",
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w600,
+                color: isLightTheme ? AppTheme.textBlack : Colors.white,
+              ),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
+        const SizedBox(height: 5),
+        if (rating != 0) ...[
+          const SizedBox(height: 7),
+          BnbRatings(
+            rating: rating ?? 0,
+            editable: false,
+            starSize: 10,
+            color: isLightTheme ? const Color(0XFFF49071) : const Color(0XFFFFA755),
+            padding: 3.5,
+          ),
+        ],
+      ],
     );
   }
 }

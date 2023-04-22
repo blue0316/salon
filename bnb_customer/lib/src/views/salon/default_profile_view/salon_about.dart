@@ -75,7 +75,7 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
     BnbProvider _bnbProvider = ref.read(bnbProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool isLightTheme = (theme == AppTheme.lightTheme);
+    bool isLightTheme = (theme == AppTheme.customLightTheme);
 
     return SingleChildScrollView(
       child: Column(
@@ -88,7 +88,7 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
           Container(
             // height: 1000.h,
             width: double.infinity,
-            color: theme.colorScheme.background.withOpacity(0.7),
+            color: theme.canvasColor.withOpacity(0.7),
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 20.h),
               child: Column(
@@ -132,7 +132,7 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                                     if (AppIcons.getIconFromFacilityString(feature: s) != null) ...[
                                       if (_bnbProvider.locale == const Locale('en')) ...[
                                         Container(
-                                          color: theme.colorScheme.background,
+                                          color: theme.canvasColor,
                                           height: DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
                                           width: DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
                                           child: Column(
@@ -170,7 +170,7 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                                       ],
                                       if (_bnbProvider.locale == const Locale('uk')) ...[
                                         Container(
-                                          color: theme.colorScheme.background,
+                                          color: theme.canvasColor,
                                           height: DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
                                           width: DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
                                           child: Column(
@@ -228,7 +228,7 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                                 child: Container(
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: theme.colorScheme.background,
+                                      color: theme.canvasColor,
                                     ),
                                     child: Center(
                                       child: Icon(
@@ -253,22 +253,29 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                       children: [
                         Text(
                           (AppLocalizations.of(context)?.socialMedia ?? "Social media").toUpperCase(),
-                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15.sp,
-                                color: isLightTheme ? Colors.black : Colors.white,
-                              ),
+                          style: theme.textTheme.bodyLarge!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15.sp,
+                            color: isLightTheme ? Colors.black : Colors.white,
+                          ),
                         ),
                         const SizedBox(height: 10),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.start,
-                          children: const [
-                            SocialLink(icon: AppIcons.linkGlobe),
-                            SocialLink(icon: AppIcons.linkInsta),
-                            SocialLink(icon: AppIcons.linkTikTok),
-                            SocialLink(icon: AppIcons.linkFacebook),
-                          ],
+                          children: isLightTheme
+                              ? [
+                                  const SocialLink(icon: AppIcons.linkGlobe),
+                                  const SocialLink(icon: AppIcons.linkInsta),
+                                  const SocialLink(icon: AppIcons.linkTikTok),
+                                  const SocialLink(icon: AppIcons.linkFacebook),
+                                ]
+                              : [
+                                  const SocialLink(icon: AppIcons.linkGlobeDark),
+                                  const SocialLink(icon: AppIcons.linkInstaDark),
+                                  const SocialLink(icon: AppIcons.linkTikTokDark),
+                                  const SocialLink(icon: AppIcons.linkFacebookDark),
+                                ],
                         ),
                       ],
                     ),
@@ -297,7 +304,6 @@ class SocialLink extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool isLightTheme = (theme == AppTheme.lightTheme);
 
     return Expanded(
       flex: 0,
@@ -306,12 +312,11 @@ class SocialLink extends ConsumerWidget {
         child: Container(
           height: 50.h,
           width: 50.h,
-          color: theme.colorScheme.background,
+          color: theme.canvasColor,
           child: Center(
             child: SvgPicture.asset(
               icon,
               height: 30.h,
-              color: !isLightTheme ? theme.primaryColor : null,
             ),
           ),
         ),
