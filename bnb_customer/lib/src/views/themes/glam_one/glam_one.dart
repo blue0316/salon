@@ -1,5 +1,6 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
+import 'package:bbblient/src/models/customer_web_settings.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/views/themes/components/drawer.dart';
 import 'package:bbblient/src/views/themes/components/header/landing_header.dart';
@@ -44,6 +45,7 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final SalonModel chosenSalon = _salonProfileProvider.chosenSalon;
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    final DisplaySettings? displaySettings = _salonProfileProvider.themeSettings?.displaySettings;
 
     return SafeArea(
       top: false,
@@ -67,62 +69,66 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                       children: [
                         const LandingHeader(),
                         // TAGS
-                        SizedBox.fromSize(size: Size.zero, key: controller.tags),
-                        if (chosenSalon.additionalFeatures.isNotEmpty)
-                          SalonTags(
-                            salonModel: chosenSalon,
-                            additionalFeatures: chosenSalon.additionalFeatures,
-                          ),
+                        if (displaySettings?.showBrands == true) SizedBox.fromSize(size: Size.zero, key: controller.tags),
+                        if (displaySettings?.showBrands == true)
+                          if (chosenSalon.additionalFeatures.isNotEmpty)
+                            SalonTags(
+                              salonModel: chosenSalon,
+                              additionalFeatures: chosenSalon.additionalFeatures,
+                            ),
 
                         // PROMOTIONS
-                        SizedBox.fromSize(size: Size.zero, key: controller.promotions),
-                        if (_createAppointmentProvider.salonPromotions.isNotEmpty)
-                          SalonPromotions(
-                            salonPromotionsList: _createAppointmentProvider.salonPromotions,
-                          ),
+                        if (displaySettings?.showPromotions == true) SizedBox.fromSize(size: Size.zero, key: controller.promotions),
+                        if (displaySettings?.showPromotions == true)
+                          if (_createAppointmentProvider.salonPromotions.isNotEmpty)
+                            SalonPromotions(
+                              salonPromotionsList: _createAppointmentProvider.salonPromotions,
+                            ),
 
                         // ABOUT
-                        SizedBox.fromSize(size: Size.zero, key: controller.about),
-                        SalonAbout2(salonModel: chosenSalon),
+                        if (displaySettings?.showAbout == true) SizedBox.fromSize(size: Size.zero, key: controller.about),
+                        if (displaySettings?.showAbout == true) SalonAbout2(salonModel: chosenSalon),
 
                         // SPONSORS
-                        SizedBox.fromSize(size: Size.zero, key: controller.sponsor),
-                        const SalonSponsors(),
+                        if (displaySettings?.showBrands == true) SizedBox.fromSize(size: Size.zero, key: controller.sponsor),
+                        if (displaySettings?.showBrands == true) const SalonSponsors(),
 
                         // WORKS
-                        SizedBox.fromSize(size: Size.zero, key: controller.works),
-                        SalonWorks(salonModel: chosenSalon),
+                        if (displaySettings?.showPhotosOfWork == true) SizedBox.fromSize(size: Size.zero, key: controller.works),
+                        if (displaySettings?.showPhotosOfWork == true) SalonWorks(salonModel: chosenSalon),
 
                         // PRICE
-                        SizedBox.fromSize(size: Size.zero, key: controller.price),
-                        SalonPrice222(
-                          salonModel: chosenSalon,
-                          categories: _salonSearchProvider.categories,
-                          categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
-                        ),
-
-                        // SHOP
-                        SizedBox.fromSize(size: Size.zero, key: controller.shop),
-                        const SalonShop(),
-
-                        // TEAM
-                        SizedBox.fromSize(size: Size.zero, key: controller.team),
-                        if (_salonProfileProvider.chosenSalon.ownerType != OwnerType.singleMaster)
-                          SalonTeam(
+                        if (displaySettings?.services.showServices == true) SizedBox.fromSize(size: Size.zero, key: controller.price),
+                        if (displaySettings?.services.showServices == true)
+                          SalonPrice222(
                             salonModel: chosenSalon,
+                            categories: _salonSearchProvider.categories,
+                            categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
                           ),
 
+                        // SHOP
+                        if (displaySettings?.product.showProduct == true) SizedBox.fromSize(size: Size.zero, key: controller.shop),
+                        if (displaySettings?.product.showProduct == true) const SalonShop(),
+
+                        // TEAM
+                        if (displaySettings?.showTeam == true) SizedBox.fromSize(size: Size.zero, key: controller.team),
+                        if (displaySettings?.showTeam == true)
+                          if (_salonProfileProvider.chosenSalon.ownerType != OwnerType.singleMaster)
+                            SalonTeam(
+                              salonModel: chosenSalon,
+                            ),
+
                         // REVIEWS
-                        SizedBox.fromSize(size: Size.zero, key: controller.reviews),
-                        SalonReviews(salonModel: chosenSalon),
+                        if (displaySettings?.reviews.showReviews == true) SizedBox.fromSize(size: Size.zero, key: controller.reviews),
+                        if (displaySettings?.reviews.showReviews == true) SalonReviews(salonModel: chosenSalon),
 
                         // WRITE TO US
-                        SizedBox.fromSize(size: Size.zero, key: controller.writeToUs),
-                        WriteToUs(salonModel: chosenSalon),
+                        if (displaySettings?.showRequestForm == true) SizedBox.fromSize(size: Size.zero, key: controller.writeToUs),
+                        if (displaySettings?.showRequestForm == true) WriteToUs(salonModel: chosenSalon),
 
                         // CONTACT
-                        SizedBox.fromSize(size: Size.zero, key: controller.contacts),
-                        SalonContact(salonModel: chosenSalon),
+                        if (displaySettings?.showContact == true) SizedBox.fromSize(size: Size.zero, key: controller.contacts),
+                        if (displaySettings?.showContact == true) SalonContact(salonModel: chosenSalon),
 
                         // BOTTOM ITEM
                         Padding(

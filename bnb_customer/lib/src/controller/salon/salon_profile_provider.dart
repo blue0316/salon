@@ -154,14 +154,14 @@ class SalonProfileProvider with ChangeNotifier {
 
       return const GlamOneScreen(); // New Themes Base Widget
     } else {
-      print('*****---*****');
-      print('*****---*****');
-      print('*****---*****');
-      print('*****---*****');
-      print('*****---*****');
-      print('*****---*****');
-      print('*****---*****');
-      print('*****---*****');
+      // print('*****---*****');
+      // print('*****---*****');
+      // print('*****---*****');
+      // print('*****---*****');
+      // print('*****---*****');
+      // print('*****---*****');
+      // print('*****---*****');
+      // print('*****---*****');
       themeType = ThemeType.DefaultLight;
       notifyListeners();
 
