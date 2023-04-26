@@ -3,18 +3,8 @@ import 'package:bbblient/src/models/customer_web_settings.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
-import 'package:bbblient/src/views/themes/components/drawer.dart';
-import 'package:bbblient/src/views/themes/components/header/landing_header.dart';
-import 'package:bbblient/src/views/themes/components/about/salon_about.dart';
-import 'package:bbblient/src/views/themes/components/contacts/salon_contact.dart';
-import 'package:bbblient/src/views/themes/components/promotions/salon_promotions.dart';
-import 'package:bbblient/src/views/themes/components/reviews/salon_reviews.dart';
-import 'package:bbblient/src/views/themes/components/shop/salon_shop.dart';
 import 'package:bbblient/src/views/themes/components/salon_sponsors.dart';
 import 'package:bbblient/src/views/themes/components/salon_tags.dart';
-import 'package:bbblient/src/views/themes/components/salon_team.dart';
-import 'package:bbblient/src/views/themes/components/works/salon_works.dart';
-import 'package:bbblient/src/views/themes/components/write_to_us/write_to_us.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -72,46 +62,47 @@ class _UniqueMasterProfileState extends ConsumerState<UniqueMasterProfile> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        // MasterLandingHeader(
-                        //   masterModel: widget.masterModel,
-                        // ),
-                        // // TAGS
-                        // if (displaySettings?.showBrands == true) SizedBox.fromSize(size: Size.zero, key: controller.tags),
-                        // if (displaySettings?.showBrands == true)
-                        //   if (chosenSalon.additionalFeatures.isNotEmpty)
-                        //     SalonTags(
-                        //       salonModel: chosenSalon,
-                        //       additionalFeatures: chosenSalon.additionalFeatures,
-                        //     ),
+                        MasterLandingHeader(
+                          masterModel: widget.masterModel,
+                        ),
 
-                        // // ABOUT
-                        // if (displaySettings?.showAbout == true) SizedBox.fromSize(size: Size.zero, key: controller.about),
-                        // if (displaySettings?.showAbout == true) MasterAboutUnique(masterModel: widget.masterModel),
+                        // TAGS
+                        if (displaySettings?.showBrands == true) SizedBox.fromSize(size: Size.zero, key: controller.tags),
+                        if (displaySettings?.showBrands == true)
+                          if (chosenSalon.additionalFeatures.isNotEmpty)
+                            SalonTags(
+                              salonModel: chosenSalon,
+                              additionalFeatures: chosenSalon.additionalFeatures,
+                            ),
 
-                        // // SPONSORS
-                        // if (displaySettings?.showBrands == true) SizedBox.fromSize(size: Size.zero, key: controller.sponsor),
-                        // if (displaySettings?.showBrands == true) const SalonSponsors(),
+                        // ABOUT
+                        if (displaySettings?.showAbout == true) SizedBox.fromSize(size: Size.zero, key: controller.about),
+                        if (displaySettings?.showAbout == true) MasterAboutUnique(masterModel: widget.masterModel),
 
-                        // // WORKS
-                        // if (displaySettings?.showPhotosOfWork == true) SizedBox.fromSize(size: Size.zero, key: controller.works),
-                        // if (displaySettings?.showPhotosOfWork == true) MasterWorksUnique(masterModel: widget.masterModel),
+                        // SPONSORS
+                        if (displaySettings?.showBrands == true) SizedBox.fromSize(size: Size.zero, key: controller.sponsor),
+                        if (displaySettings?.showBrands == true) const SalonSponsors(),
+
+                        // WORKS
+                        if (displaySettings?.showPhotosOfWork == true) SizedBox.fromSize(size: Size.zero, key: controller.works),
+                        if (displaySettings?.showPhotosOfWork == true) MasterWorksUnique(masterModel: widget.masterModel),
 
                         // PRICE
-                        // if (displaySettings?.services.showServices == true) SizedBox.fromSize(size: Size.zero, key: controller.price),
-                        // if (displaySettings?.services.showServices == true)
-                        //   MasterPriceUnique(
-                        //     masterModel: widget.masterModel,
-                        //     categories: _salonSearchProvider.categories,
-                        //     categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
-                        //   ),
+                        if (displaySettings?.services.showServices == true) SizedBox.fromSize(size: Size.zero, key: controller.price),
+                        if (displaySettings?.services.showServices == true)
+                          MasterPriceUnique(
+                            masterModel: widget.masterModel,
+                            categories: _salonSearchProvider.categories,
+                            categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
+                          ),
 
                         // REVIEWS
                         if (displaySettings?.reviews.showReviews == true) SizedBox.fromSize(size: Size.zero, key: controller.reviews),
                         if (displaySettings?.reviews.showReviews == true) MasterReviewsUnique(masterModel: widget.masterModel),
 
-                        // // CONTACT
-                        // if (displaySettings?.showContact == true) SizedBox.fromSize(size: Size.zero, key: controller.contacts),
-                        // if (displaySettings?.showContact == true) MasterContactUnique(masterModel: widget.masterModel),
+                        // CONTACT
+                        if (displaySettings?.showContact == true) SizedBox.fromSize(size: Size.zero, key: controller.contacts),
+                        if (displaySettings?.showContact == true) MasterContactUnique(masterModel: widget.masterModel),
 
                         // BOTTOM ITEM
                         Padding(
