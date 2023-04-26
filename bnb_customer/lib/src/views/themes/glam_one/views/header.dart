@@ -1,7 +1,9 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
+import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/booking_dialog_2.dart';
 import 'package:bbblient/src/views/themes/components/widgets/button.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/buttons.dart';
@@ -13,8 +15,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ThemeHeader extends ConsumerWidget {
   final SalonModel salonModel;
+  final MasterModel? masterModel;
 
-  const ThemeHeader({Key? key, required this.salonModel}) : super(key: key);
+  const ThemeHeader({Key? key, required this.salonModel, this.masterModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -30,14 +33,23 @@ class ThemeHeader extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         const SizedBox(height: 20),
-        Text(
-          (salonModel.salonName).toUpperCase(), //"Miami's Best",
-          style: theme.textTheme.headline1?.copyWith(
-            letterSpacing: 0.5,
-            fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 75.sp, 85.sp),
-          ),
-          textAlign: TextAlign.center,
-        ),
+        (masterModel == null)
+            ? Text(
+                (salonModel.salonName).toUpperCase(), //"Miami's Best",
+                style: theme.textTheme.displayLarge?.copyWith(
+                  letterSpacing: 0.5,
+                  fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 75.sp, 85.sp),
+                ),
+                textAlign: TextAlign.center,
+              )
+            : Text(
+                Utils().getNameMaster(masterModel?.personalInfo).toUpperCase(),
+                style: theme.textTheme.displayLarge?.copyWith(
+                  letterSpacing: 0.5,
+                  fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 75.sp, 85.sp),
+                ),
+                textAlign: TextAlign.center,
+              ),
         // if (isPortrait) const SizedBox(height: 20),
         // Text(
         //   "Beauty Salon",

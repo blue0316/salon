@@ -61,52 +61,27 @@ class ServiceModel {
   }
 
   ServiceModel.fromJson(dynamic json) {
-    salonId = json["salonId"].runtimeType.toString() == "String"
-        ? json["salonId"]
-        : "";
-    parentServiceId = json["parentServiceId"].runtimeType.toString() == "String"
-        ? json["parentServiceId"]
-        : "";
-    serviceId = json["serviceId"].runtimeType.toString() == "String"
-        ? json["serviceId"] ?? ""
-        : "";
-    categoryId = json["categoryId"].runtimeType.toString() == "String"
-        ? json["categoryId"]
-        : "";
-    bookOrderId = json["bookOrderId"].runtimeType.toString() == "String"
-        ? json["bookOrderId"]
-        : "";
-    subCategoryId = json["subCategoryId"].runtimeType.toString() == "String"
-        ? json["subCategoryId"]
-        : "";
-    preferredGender = json["preferredGender"].runtimeType.toString() == "String"
-        ? json["preferredGender"]
-        : "";
-    serviceName = json["serviceName"].runtimeType.toString() == "String"
-        ? json["serviceName"]
-        : "";
-    description = json["description"].runtimeType.toString() == "String"
-        ? json["description"] ?? ''
-        : "";
+    salonId = json["salonId"].runtimeType.toString() == "String" ? json["salonId"] : "";
+    parentServiceId = json["parentServiceId"].runtimeType.toString() == "String" ? json["parentServiceId"] : "";
+    serviceId = json["serviceId"].runtimeType.toString() == "String" ? json["serviceId"] ?? "" : "";
+    categoryId = json["categoryId"].runtimeType.toString() == "String" ? json["categoryId"] : "";
+    bookOrderId = json["bookOrderId"].runtimeType.toString() == "String" ? json["bookOrderId"] : "";
+    subCategoryId = json["subCategoryId"].runtimeType.toString() == "String" ? json["subCategoryId"] : "";
+    preferredGender = json["preferredGender"].runtimeType.toString() == "String" ? json["preferredGender"] : "";
+    serviceName = json["serviceName"].runtimeType.toString() == "String" ? json["serviceName"] : "";
+    description = json["description"].runtimeType.toString() == "String" ? json["description"] ?? '' : "";
     isFixedPrice = json["isFixedPrice"] ?? true;
     isFixedDuration = json["isFixedDuration"] ?? true;
     isPriceRange = json["isPriceRange"] ?? false;
     isPriceStartAt = json["isPriceStartAt"] ?? false;
-    isAvailableOnline = json["isAvailableOnline"] ?? false;
-    priceAndDuration = json['priceAndDuration'] != null
-        ? PriceAndDurationModel.fromJson(json['priceAndDuration'])
-        : PriceAndDurationModel(duration: "0", price: "0");
+    isAvailableOnline = json["isAvailableOnline"] ?? true;
+    priceAndDuration = json['priceAndDuration'] != null ? PriceAndDurationModel.fromJson(json['priceAndDuration']) : PriceAndDurationModel(duration: "0", price: "0");
     if (json['priceAndDurationMax'] != null) {
-      priceAndDurationMax =
-          PriceAndDurationModel.fromJson(json['priceAndDurationMax']);
+      priceAndDurationMax = PriceAndDurationModel.fromJson(json['priceAndDurationMax']);
     }
-    searchTags =
-        json['searchTags'] != null ? json['searchTags'].cast<String>() : [];
-    translations =
-        (json["translations"] != null) ? {...json["translations"]} : {};
-    subCatTranslations = json["subCatTranslations"] != null
-        ? {...json["subCatTranslations"]}
-        : {};
+    searchTags = json['searchTags'] != null ? json['searchTags'].cast<String>() : [];
+    translations = (json["translations"] != null) ? {...json["translations"]} : {};
+    subCatTranslations = json["subCatTranslations"] != null ? {...json["subCatTranslations"]} : {};
   }
 
   Map<String, dynamic> toJson() {
@@ -170,11 +145,8 @@ class ParentServiceModel {
     subCategoryId = json["subCategoryId"];
 
     serviceName = json["serviceName"];
-    translations =
-        (json["translations"] != null) ? {...json["translations"]} : {};
-    subCatTranslations = json["subCatTranslations"] != null
-        ? {...json["subCatTranslations"]}
-        : {};
+    translations = (json["translations"] != null) ? {...json["translations"]} : {};
+    subCatTranslations = json["subCatTranslations"] != null ? {...json["subCatTranslations"]} : {};
   }
 
   Map<String, dynamic> toJson() {

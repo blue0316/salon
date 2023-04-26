@@ -3,6 +3,7 @@ import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/views/themes/glam_one/master_profile/unique_master_profile.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +42,7 @@ class _MinimalWorksViewState extends ConsumerState<MinimalWorksView> {
         children: [
           Text(
             (isSingleMaster ? (AppLocalizations.of(context)?.myWorks ?? 'My Works') : (AppLocalizations.of(context)?.ourWorks ?? 'Our Works')).toUpperCase(),
-            style: theme.textTheme.headline2?.copyWith(
+            style: theme.textTheme.displayMedium?.copyWith(
               color: theme.colorScheme.secondary,
               fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),
             ),
@@ -85,7 +86,10 @@ class _MinimalWorksViewState extends ConsumerState<MinimalWorksView> {
                         .toList(),
                   ),
                 )
-              : SizedBox(height: 20.h),
+              : NoSectionYet(
+                  text: 'No photos of works', // AppLocalizations.of(context)?.noWorks ?? 'No photos of works',
+                  color: theme.colorScheme.secondary,
+                ),
         ],
       ),
     );

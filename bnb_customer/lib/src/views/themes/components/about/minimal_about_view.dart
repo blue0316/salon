@@ -74,7 +74,7 @@ class MinimalAboutView extends ConsumerWidget {
                         const SizedBox(height: 30),
                         Text(
                           (salonModel.description != '') ? salonModel.description : 'No description yet',
-                          style: theme.textTheme.bodyText2?.copyWith(
+                          style: theme.textTheme.bodyMedium?.copyWith(
                             color: theme.primaryColor,
                             fontSize: 20.sp,
                           ),
@@ -158,7 +158,7 @@ class PortraitView extends ConsumerWidget {
             children: [
               Text(
                 (salonModel.description != '') ? salonModel.description : 'No description yet',
-                style: theme.textTheme.bodyText2?.copyWith(
+                style: theme.textTheme.bodyMedium?.copyWith(
                   color: theme.primaryColor,
                   fontSize: 15.sp,
                 ),

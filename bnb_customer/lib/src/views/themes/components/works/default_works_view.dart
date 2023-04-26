@@ -5,6 +5,7 @@ import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/chat/image_preview.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/prev_and_next.dart';
+import 'package:bbblient/src/views/themes/glam_one/master_profile/unique_master_profile.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -56,7 +57,7 @@ class _DefaultWorksViewState extends ConsumerState<DefaultWorksView> {
               children: [
                 Text(
                   (isSingleMaster ? (AppLocalizations.of(context)?.myWorks ?? 'My Works') : (AppLocalizations.of(context)?.ourWorks ?? 'Our Works')).toUpperCase(),
-                  style: theme.textTheme.headline2?.copyWith(
+                  style: theme.textTheme.displayMedium?.copyWith(
                     color: theme.colorScheme.secondary,
                     fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),
                   ),
@@ -115,7 +116,10 @@ class _DefaultWorksViewState extends ConsumerState<DefaultWorksView> {
                           .toList(),
                     ),
                   )
-                : SizedBox(height: 20.h),
+                : NoSectionYet(
+                    text: 'No photos of works', // AppLocalizations.of(context)?.noWorks ?? 'No photos of works',
+                    color: theme.colorScheme.secondary,
+                  ),
           ],
         ),
       ),

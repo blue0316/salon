@@ -7,11 +7,13 @@ import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/confirm/confirm.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/service_tab/service_tab.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'widgets/colors.dart';
 import 'widgets/day_and_time/day_and_time.dart';
 
 class BookingDialogWidget222<T> extends ConsumerStatefulWidget {
@@ -62,6 +64,8 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
     final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    ThemeType themeType = _salonProfileProvider.themeType;
+
     bool defaultTheme = (theme == AppTheme.customLightTheme);
 
     return MouseRegion(
@@ -92,18 +96,12 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
                     children: [
                       const Spacer(flex: 2),
                       Text(
-                        (DeviceConstraints.getDeviceType(MediaQuery.of(
-                                  context,
-                                )) !=
-                                DeviceScreenType.portrait)
-                            ? AppLocalizations.of(context)?.onlineBooking.toUpperCase() ?? 'ONLINE BOOKING'
-                            : AppLocalizations.of(context)?.onlineBooking.toCapitalized() ?? 'Online Booking',
+                        (AppLocalizations.of(context)?.onlineBooking ?? 'ONLINE BOOKING').toUpperCase(),
                         style: AppTheme.bodyText1.copyWith(
                           fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 25.sp, 40.sp),
                           fontWeight: FontWeight.w600,
                           fontFamily: 'Poppins',
-
-                          color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                          color: theme.colorScheme.onBackground,
 
                           // color: a.black,
                         ),
@@ -118,7 +116,8 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
                           padding: const EdgeInsets.only(right: 15),
                           child: Icon(
                             Icons.close_rounded,
-                            color: AppTheme.lightGrey,
+                            // color: AppTheme.lightGrey,
+                            color: theme.colorScheme.onBackground,
                             size: DeviceConstraints.getResponsiveSize(context, 20.h, 30.h, 30.h),
                           ),
                         ),
@@ -152,6 +151,11 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
                                 labelStyle: theme.tabBarTheme.labelStyle!.copyWith(
                                   fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 20.sp, 18.sp),
                                 ),
+                                // labelStyle: theme.textTheme.labelStyle?.copyWith(
+                                //   color: labelColorTheme(themeType, theme), // theme.tabBarTheme.labelColor,
+                                //   fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 20.sp, 18.sp),
+                                // ),
+                                labelColor: dialogLabelColorTheme(themeType, theme),
                                 unselectedLabelColor: defaultTheme ? Colors.black : Colors.white,
                                 tabs: [
                                   Tab(

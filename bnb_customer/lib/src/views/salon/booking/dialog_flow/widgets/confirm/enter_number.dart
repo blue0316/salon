@@ -2,10 +2,7 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/models/appointment/appointment.dart';
-import 'package:bbblient/src/models/appointment/serviceAndMaster.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
-import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/customer/customer.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
@@ -13,6 +10,8 @@ import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/registration/authenticate/login.dart';
+import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/colors.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/buttons.dart';
 import 'package:bbblient/src/views/widgets/text_fields.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
@@ -44,7 +43,8 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
     final _auth = ref.watch(authProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool defaultTheme = (theme == AppTheme.customLightTheme);
+    // bool defaultTheme = (theme == AppTheme.customLightTheme);
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,7 +54,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
           '${AppLocalizations.of(context)?.phoneNumber ?? 'Phone Number'} *',
           style: theme.textTheme.bodyLarge!.copyWith(
             fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
-            color: defaultTheme ? Colors.black : Colors.white,
+            color: theme.colorScheme.tertiary,
           ),
         ),
         SizedBox(height: 20.h),
@@ -62,7 +62,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(40),
             border: Border.all(
-              color: defaultTheme ? Colors.black : Colors.white,
+              color: theme.colorScheme.tertiary,
               width: 0.7,
             ),
           ),
@@ -84,7 +84,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                   showCountryOnly: false,
                   showOnlyCountryWhenClosed: false,
                   alignLeft: false,
-                  textStyle: TextStyle(color: defaultTheme ? Colors.black : Colors.white),
+                  textStyle: TextStyle(color: theme.colorScheme.tertiary), // defaultTheme ? Colors.black : Colors.white),
                   showFlag: false,
                 ),
                 const SizedBox(width: 15),
@@ -92,9 +92,10 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                   child: BNBTextField(
                     controller: _authProvider.phoneNoController,
                     hint: AppLocalizations.of(context)?.phoneNumber.toCapitalized() ?? "Phone Number",
+                    keyboardType: TextInputType.number,
                     vPadding: 0, // 20.h,
                     border: InputBorder.none,
-                    textColor: defaultTheme ? Colors.black : Colors.white,
+                    textColor: theme.colorScheme.tertiary, //
                     onChanged: (val) {
                       _authProvider.phoneNumber = val;
                     },
@@ -110,126 +111,153 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
           AppLocalizations.of(context)?.mandatoryFields ?? '*Mandatory fields',
           style: theme.textTheme.bodyLarge!.copyWith(
             fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 15.sp),
-            color: defaultTheme ? AppTheme.textBlack : Colors.white,
+            color: theme.colorScheme.tertiary, //defaultTheme ? AppTheme.textBlack : Colors.white,
           ),
         ),
         const Spacer(),
-        DefaultButton(
-          borderRadius: 60,
-          onTap: () async {
-            showToast(AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 2),
+          child: Column(
+            children: [
+              DefaultButton(
+                borderRadius: 60,
+                onTap: () async {
+                  if (_authProvider.phoneNoController.text.isEmpty) {
+                    showToast('Please input your phone number');
+                    return;
+                  }
+                  // if (_authProvider.phoneNoController.text.contains(RegExp('[a-zA-Z !@#\$%^&*()-_+={}[]|:;"<>,.?/]'))) {
+                  //   showToast('Invalid number, Please check number again');
+                  //   return;
+                  // }
 
-            // print('inside here 1 --- enableOTP = ${_salonProfileProvider.themeSettings?.displaySettings?.enableOTP}');
+                  showToast(AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
 
-            /// Check if OTP is enabled on Web Settings
-            // If Disabled:
-            if (_salonProfileProvider.themeSettings?.displaySettings?.enableOTP == false) {
-              // Go to pageview that has fields to update personal info
-              _createAppointmentProvider.nextPageView(2); // PageView screen that contains name and email fields
+                  // print('inside here 1 --- enableOTP = ${_salonProfileProvider.themeSettings?.displaySettings?.enableOTP}');
 
-              return;
-            }
-
-            // If user has logged in with another number and decides to use a new number to book
-
-            if (FirebaseAuth.instance.currentUser?.phoneNumber != null && FirebaseAuth.instance.currentUser?.phoneNumber != _authProvider.phoneNoController.text) {
-              // Log the former account out
-              await _auth.signOut();
-            }
-
-            // If Enabled:
-            if (_salonProfileProvider.themeSettings?.displaySettings?.enableOTP == true) {
-              // send otp
-              if (!_auth.userLoggedIn) {
-                await _auth.verifyPhoneNumber(context: context);
-
-                if (_auth.otpStatus != Status.failed) {
-                  showTopSnackBar(
-                    context,
-                    CustomSnackBar.success(
-                      message: AppLocalizations.of(context)?.otpSent ?? "Otp has been sent to your phone",
-                      backgroundColor: theme.primaryColor,
-                    ),
-                  );
-                  checkUser2(
-                    context,
-                    ref,
-                    isLoggedIn: () {},
-                    notLoggedIn: () {
-                      _createAppointmentProvider.nextPageView(1);
-                    },
-                  ); // , appointmentModel: appointment);
-                }
-              } else {
-                printIt('*********************');
-                printIt('user is logged in');
-                printIt('*********************');
-
-                CustomerModel? currentCustomer = _auth.currentCustomer;
-                if (currentCustomer != null) {
-                  if (currentCustomer.personalInfo.firstName == '' || currentCustomer.personalInfo.email == null) {
-                    // Customer Personal Info is missing name and email
-
+                  /// Check if OTP is enabled on Web Settings
+                  // If Disabled:
+                  if (_salonProfileProvider.themeSettings?.displaySettings?.enableOTP == false) {
                     // Go to pageview that has fields to update personal info
                     _createAppointmentProvider.nextPageView(2); // PageView screen that contains name and email fields
-                  } else {
-                    // Customer Personal Info has name and email
 
-                    // Create Appointment
-                    CustomerModel customer = CustomerModel(
-                      customerId: currentCustomer.customerId,
-                      personalInfo: currentCustomer.personalInfo,
-                      registeredSalons: [],
-                      createdAt: DateTime.now(),
-                      avgRating: 3.0,
-                      noOfRatings: 6,
-                      profilePicUploaded: false,
-                      profilePic: "",
-                      profileCompleted: false,
-                      quizCompleted: false,
-                      preferredGender: "male",
-                      preferredCategories: [],
-                      locations: [],
-                      fcmToken: "",
-                      locale: "en",
-                      favSalons: [],
-                      referralLink: "",
-                    );
-                    if (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.singleMaster) {
-                      await _createAppointmentProvider.createAppointment(
-                        customerModel: customer,
-                        context: context,
-                      );
-                    } else {
-                      await _createAppointmentProvider.creatAppointmentSalonOwner(
-                        customerModel: customer,
-                        context: context,
-                      );
-                    }
-
-                    // Go to PageView Order List Screen
-                    _createAppointmentProvider.nextPageView(3);
+                    return;
                   }
-                }
-              }
-            }
-          },
-          color: defaultTheme ? Colors.black : theme.primaryColor,
-          textColor: defaultTheme ? Colors.white : Colors.black,
-          height: 60,
-          label: AppLocalizations.of(context)?.nextStep ?? 'Next Step',
-          isLoading: _authProvider.otpStatus == Status.loading,
-          loaderColor: defaultTheme ? Colors.white : Colors.black,
-        ),
-        SizedBox(height: 15.h),
-        DefaultButton(
-          borderRadius: 60,
-          onTap: () => widget.tabController.animateTo(1),
-          color: defaultTheme ? Colors.white : Colors.transparent,
-          borderColor: defaultTheme ? Colors.black : theme.primaryColor,
-          textColor: defaultTheme ? Colors.black : theme.primaryColor,
-          height: 60,
-          label: AppLocalizations.of(context)?.back ?? 'Back',
+
+                  // If user has logged in with another number and decides to use a new number to book
+
+                  if (FirebaseAuth.instance.currentUser?.phoneNumber != null && FirebaseAuth.instance.currentUser?.phoneNumber != _authProvider.phoneNoController.text) {
+                    // Log the former account out
+                    await _auth.signOut();
+                  }
+
+                  // If Enabled:
+                  if (_salonProfileProvider.themeSettings?.displaySettings?.enableOTP == true) {
+                    // send otp
+                    if (!_auth.userLoggedIn) {
+                      await _auth.verifyPhoneNumber(context: context);
+
+                      if (_auth.otpStatus != Status.failed) {
+                        showTopSnackBar(
+                          context,
+                          CustomSnackBar.success(
+                            message: AppLocalizations.of(context)?.otpSent ?? "Otp has been sent to your phone",
+                            backgroundColor: AppTheme.creamBrown,
+                            textStyle: theme.textTheme.bodyLarge!.copyWith(
+                              fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                              color: Colors.black,
+                            ),
+                          ),
+                        );
+                        checkUser2(
+                          context,
+                          ref,
+                          isLoggedIn: () {},
+                          notLoggedIn: () {
+                            _createAppointmentProvider.nextPageView(1);
+                          },
+                        ); // , appointmentModel: appointment);
+                      }
+                    } else {
+                      printIt('*********************');
+                      printIt('user is logged in');
+                      printIt('*********************');
+
+                      CustomerModel? currentCustomer = _auth.currentCustomer;
+                      if (currentCustomer != null) {
+                        if (currentCustomer.personalInfo.firstName == '' || currentCustomer.personalInfo.email == null) {
+                          // Customer Personal Info is missing name and email
+
+                          // Go to pageview that has fields to update personal info
+                          _createAppointmentProvider.nextPageView(2); // PageView screen that contains name and email fields
+                        } else {
+                          // Customer Personal Info has name and email
+
+                          // Create Appointment
+                          CustomerModel customer = CustomerModel(
+                            customerId: currentCustomer.customerId,
+                            personalInfo: currentCustomer.personalInfo,
+                            registeredSalons: [],
+                            createdAt: DateTime.now(),
+                            avgRating: 3.0,
+                            noOfRatings: 6,
+                            profilePicUploaded: false,
+                            profilePic: "",
+                            profileCompleted: false,
+                            quizCompleted: false,
+                            preferredGender: "male",
+                            preferredCategories: [],
+                            locations: [],
+                            fcmToken: "",
+                            locale: "en",
+                            favSalons: [],
+                            referralLink: "",
+                          );
+                          if (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.singleMaster) {
+                            await _createAppointmentProvider.createAppointment(
+                              customerModel: customer,
+                              context: context,
+                            );
+                          } else {
+                            await _createAppointmentProvider.creatAppointmentSalonOwner(
+                              customerModel: customer,
+                              context: context,
+                            );
+                          }
+
+                          // Go to PageView Order List Screen
+                          _createAppointmentProvider.nextPageView(3);
+                        }
+                      }
+                    }
+                  }
+                },
+                color: dialogButtonColor(themeType, theme), // theme.dialogBackgroundColor, // defaultTheme ? Colors.black : theme.primaryColor,
+                textColor: loaderColor(themeType), // defaultTheme ? Colors.white : Colors.black,
+
+                // color: defaultTheme ? Colors.black : theme.primaryColor,
+                // textColor: defaultTheme ? Colors.white : Colors.black,
+                height: 60,
+
+                borderColor: theme.primaryColor,
+
+                label: AppLocalizations.of(context)?.nextStep ?? 'Next Step',
+                isLoading: _authProvider.otpStatus == Status.loading,
+                loaderColor: loaderColor(themeType), // defaultTheme ? Colors.white : Colors.black,
+              ),
+              SizedBox(height: 15.h),
+              DefaultButton(
+                borderRadius: 60,
+                onTap: () => widget.tabController.animateTo(1),
+
+                color: dialogBackButtonColor(themeType, theme), // defaultTheme ? Colors.white :
+                borderColor: theme.primaryColor, // defaultTheme ? Colors.black : theme.primaryColor,
+                textColor: theme.colorScheme.tertiary, // defaultTheme ? Colors.black : theme.primaryColor,
+                height: 60,
+                label: AppLocalizations.of(context)?.back ?? 'Back',
+              ),
+            ],
+          ),
         ),
       ],
     );

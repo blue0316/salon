@@ -175,6 +175,7 @@ class AuthProvider with ChangeNotifier {
     otpSent = true;
     start = 60;
     phoneNoController.clear();
+    _timer.cancel();
     startTimer();
     notifyListeners();
   }

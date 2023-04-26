@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_final_fields
 
 import 'package:bbblient/src/views/themes/components/promotions/salon_promotions.dart';
+import 'package:bbblient/src/views/themes/glam_one/master_profile/unique_master_profile.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:flutter/material.dart';
@@ -122,7 +123,7 @@ class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
           ],
         ),
         SizedBox(height: 50.h),
-        if (isPortrait)
+        if (isPortrait && _createAppointmentProvider.salonPromotions.isNotEmpty)
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -164,90 +165,95 @@ class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
               const SizedBox(height: 30),
             ],
           ),
-        SizedBox(
-          height: 250.h,
-          width: double.infinity,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: DeviceConstraints.getResponsiveSize(context, 0, size.width * 0.25, size.width * 0.15),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        (_createAppointmentProvider.salonPromotions.isNotEmpty)
+            ? SizedBox(
+                height: 250.h,
+                width: double.infinity,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(
-                      "${AppLocalizations.of(context)?.discounts ?? "Discounts"}  $promotionDiscount $discountUnit".toUpperCase(),
-                      style: theme.textTheme.displaySmall?.copyWith(
-                        fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 22.sp, 26.sp),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      promotionDescription,
-                      maxLines: 4,
-                      overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: Colors.white,
-                        fontSize: 15.sp,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    (themeType == ThemeType.GlamBarbershop || themeType == ThemeType.Barbershop)
-                        ? SquareButton(
-                            text: 'GET A DISCOUNT',
-                            height: 50.h,
-                            // width: isLandscape ?  : null,
-                            buttonColor: Colors.transparent,
-                            borderColor: Colors.white,
-                            textColor: Colors.white,
-                            textSize: 15.sp,
-                            onTap: () {},
-                          )
-                        : OvalButton(
-                            text: 'Get a discount',
-                            onTap: () {
-                              // _salonProfileProvider.chosenSalon.prom;
-                            },
+                    SizedBox(
+                      width: DeviceConstraints.getResponsiveSize(context, 0, size.width * 0.25, size.width * 0.15),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "${AppLocalizations.of(context)?.discounts ?? "Discounts"}  $promotionDiscount $discountUnit".toUpperCase(),
+                            style: theme.textTheme.displaySmall?.copyWith(
+                              fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 22.sp, 26.sp),
+                            ),
                           ),
+                          const SizedBox(height: 10),
+                          Text(
+                            promotionDescription,
+                            maxLines: 4,
+                            overflow: TextOverflow.ellipsis,
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              color: Colors.white,
+                              fontSize: 15.sp,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          (themeType == ThemeType.GlamBarbershop || themeType == ThemeType.Barbershop)
+                              ? SquareButton(
+                                  text: 'GET A DISCOUNT',
+                                  height: 50.h,
+                                  // width: isLandscape ?  : null,
+                                  buttonColor: Colors.transparent,
+                                  borderColor: Colors.white,
+                                  textColor: Colors.white,
+                                  textSize: 15.sp,
+                                  onTap: () {},
+                                )
+                              : OvalButton(
+                                  text: 'Get a discount',
+                                  onTap: () {
+                                    // _salonProfileProvider.chosenSalon.prom;
+                                  },
+                                ),
+                        ],
+                      ),
+                    ),
+                    if (!isPortrait) SizedBox(width: 25.w),
+                    Expanded(
+                      flex: 0,
+                      child: SizedBox(
+                        width: DeviceConstraints.getResponsiveSize(context, size.width - 40.w, size.width * 0.55, size.width * 0.5),
+                        child: PageView(
+                          scrollDirection: Axis.horizontal,
+                          controller: pageController,
+                          padEnds: false,
+                          // physics: NeverScrollableScrollPhysics(),
+
+                          children: widget.salonPromotionsList.map((item) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              child: (widget.salonPromotionsList.indexOf(item) == 0)
+                                  ? LandscapePageViewElement(
+                                      image: '${item.promotionImage}',
+                                      text: getPromotionType(type: item.promotionType!),
+                                    )
+                                  : ColorFiltered(
+                                      colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.dstATop),
+                                      child: LandscapePageViewElement(
+                                        image: '${item.promotionImage}',
+                                        text: getPromotionType(type: item.promotionType!),
+                                      ),
+                                    ),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
+              )
+            : NoSectionYet(
+                text: 'No promotions at the moment', // AppLocalizations.of(context)?.noWorks ?? 'No photos of works',
+                color: theme.colorScheme.secondary,
               ),
-              if (!isPortrait) SizedBox(width: 25.w),
-              Expanded(
-                flex: 0,
-                child: SizedBox(
-                  width: DeviceConstraints.getResponsiveSize(context, size.width - 40.w, size.width * 0.55, size.width * 0.5),
-                  child: PageView(
-                    scrollDirection: Axis.horizontal,
-                    controller: pageController,
-                    padEnds: false,
-                    // physics: NeverScrollableScrollPhysics(),
-
-                    children: widget.salonPromotionsList.map((item) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: (widget.salonPromotionsList.indexOf(item) == 0)
-                            ? LandscapePageViewElement(
-                                image: '${item.promotionImage}',
-                                text: getPromotionType(type: item.promotionType!),
-                              )
-                            : ColorFiltered(
-                                colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.dstATop),
-                                child: LandscapePageViewElement(
-                                  image: '${item.promotionImage}',
-                                  text: getPromotionType(type: item.promotionType!),
-                                ),
-                              ),
-                      );
-                    }).toList(),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
       ],
     );
   }

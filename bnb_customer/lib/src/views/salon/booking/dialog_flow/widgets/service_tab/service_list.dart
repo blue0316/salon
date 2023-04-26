@@ -7,7 +7,9 @@ import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/utils/keys.dart';
 import 'package:bbblient/src/utils/time.dart';
 import 'package:bbblient/src/utils/utils.dart';
+import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/colors.dart';
 import 'package:bbblient/src/views/salon/widgets/service_expension_tile.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,8 +28,7 @@ class ServiceList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final SalonProfileProvider _salonProfileProvider =
-    //     ref.watch(salonProfileProvider);
+    // final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
     // final _salonSearchProvider = ref.watch(salonSearchProvider);
     // final ThemeData theme = _salonProfileProvider.salonTheme;
@@ -35,6 +36,7 @@ class ServiceList extends ConsumerWidget {
     return ListView.builder(
       itemCount: services.length,
       shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         final ServiceModel service = services[index];
         bool isAdded = _createAppointmentProvider.isAdded(serviceModel: service);
@@ -85,16 +87,17 @@ class ServiceCard extends ConsumerWidget {
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool defaultTheme = (theme == AppTheme.customLightTheme);
     List<MasterModel> theMasters = _createAppointmentProvider.getMasterProvidingService(service);
+    ThemeType themeType = _salonProfileProvider.themeType;
 
-    Color selectedColor = defaultTheme ? const Color.fromARGB(255, 239, 239, 239) : const Color(0XFF202020);
+    Color selectedColor = defaultTheme ? const Color.fromARGB(255, 239, 239, 239) : selectedServiceCardOnDayAndTime(themeType, theme); // Color(0XFF202020);
     BoxBorder? border = defaultTheme
         ? Border.all(
             width: 1.5,
             color: const Color.fromARGB(255, 239, 239, 239),
           )
         : Border.all(
-            width: 2,
-            color: const Color(0XFF202020), //theme.highlightColor, //
+            width: 1.5,
+            color: const Color(0XFF202020), //theme.highlightColor,
           );
 
     return Padding(
@@ -130,7 +133,7 @@ class ServiceCard extends ConsumerWidget {
                             style: AppTheme.bodyText1.copyWith(
                               fontWeight: FontWeight.w500,
                               fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
-                              color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                              color: isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
                             ),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
@@ -149,7 +152,7 @@ class ServiceCard extends ConsumerWidget {
                         //           : service.isPriceRange
                         //               ? "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}"
                         //               : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}∞",
-                        //       style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                        //       style: theme.textTheme.bodyText1!.copyWith(
                         //             fontWeight: FontWeight.w500,
                         //             fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 25.sp, 30.sp),
                         //             color: Colors.red,
@@ -164,10 +167,10 @@ class ServiceCard extends ConsumerWidget {
                         //           : service.isPriceRange
                         //               ? "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}"
                         //               : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}∞",
-                        //       style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                        //       style: theme.textTheme.bodyText1!.copyWith(
                         //             fontWeight: FontWeight.w500,
                         //             fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 20.sp, 25.sp),
-                        //             color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                        //             color: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
                         //             decoration: TextDecoration.lineThrough,
                         //           ),
                         //       overflow: TextOverflow.visible,
@@ -181,11 +184,11 @@ class ServiceCard extends ConsumerWidget {
                               : service.isPriceRange
                                   ? "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}"
                                   : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}∞",
-                          style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                fontWeight: FontWeight.w500,
-                                fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
-                                color: defaultTheme ? AppTheme.textBlack : Colors.white,
-                              ),
+                          style: theme.textTheme.bodyLarge!.copyWith(
+                            fontWeight: FontWeight.w500,
+                            fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                            color: isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
+                          ),
                           overflow: TextOverflow.visible,
                           maxLines: 1,
                         ),
@@ -206,7 +209,7 @@ class ServiceCard extends ConsumerWidget {
                           child: Center(
                             child: SvgPicture.asset(
                               AppIcons.clockSVG,
-                              color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                              color: isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
                             ),
                           ),
                         ),
@@ -215,28 +218,28 @@ class ServiceCard extends ConsumerWidget {
                             ? service.isFixedDuration
                                 ? Text(
                                     "${service.priceAndDuration.duration} minutes",
-                                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                          fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 20.sp, 20.sp),
-                                          color: defaultTheme ? AppTheme.textBlack : Colors.white,
-                                        ),
+                                    style: theme.textTheme.bodyLarge!.copyWith(
+                                      fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 20.sp, 20.sp),
+                                      color: isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
+                                    ),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                   )
                                 : Text(
                                     "${service.priceAndDuration.duration} minutes - ${service.priceAndDurationMax!.duration} minutes",
-                                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                          fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 20.sp, 20.sp),
-                                          color: defaultTheme ? AppTheme.textBlack : Colors.white,
-                                        ),
+                                    style: theme.textTheme.bodyLarge!.copyWith(
+                                      fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 20.sp, 20.sp),
+                                      color: isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
+                                    ),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                   )
                             : Text(
                                 "${service.priceAndDuration.duration} minutes",
-                                style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                      fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 20.sp, 20.sp),
-                                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
-                                    ),
+                                style: theme.textTheme.bodyLarge!.copyWith(
+                                  fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 20.sp, 20.sp),
+                                  color: isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
+                                ),
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                               ),
@@ -256,7 +259,7 @@ class ServiceCard extends ConsumerWidget {
                                       AppIcons.informationSVG,
                                       height: DeviceConstraints.getResponsiveSize(context, 20, 25, 28),
                                       width: DeviceConstraints.getResponsiveSize(context, 20, 25, 28),
-                                      color: defaultTheme ? AppTheme.textBlack : theme.primaryColor,
+                                      color: isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
                                     ),
                                   ),
                                 ),
@@ -284,19 +287,42 @@ class ServiceCard extends ConsumerWidget {
                                     child: Container(
                                       height: 45.h,
                                       decoration: BoxDecoration(
-                                        color: (_createAppointmentProvider.serviceAgainstMaster.where((element) => element.service!.serviceId == service.serviceId && element.isRandom!).toList().isNotEmpty) ? theme.primaryColor : Colors.transparent,
+                                        color: (_createAppointmentProvider.serviceAgainstMaster
+                                                .where(
+                                                  (element) => element.service!.serviceId == service.serviceId && element.isRandom!,
+                                                )
+                                                .toList()
+                                                .isNotEmpty)
+                                            ? selectMasterContainerColor(themeType, theme)
+                                            : Colors.transparent, // theme.primaryColor : Colors.transparent,
                                         borderRadius: BorderRadius.circular(70),
-                                        border: (_createAppointmentProvider.serviceAgainstMaster.where((element) => element.service!.serviceId == service.serviceId && element.isRandom!).toList().isNotEmpty) ? null : Border.all(color: Colors.white, width: 1.6),
+                                        // border: (_createAppointmentProvider.serviceAgainstMaster
+                                        //         .where(
+                                        //           (element) => element.service!.serviceId == service.serviceId && element.isRandom!,
+                                        //         )
+                                        //         .toList()
+                                        //         .isNotEmpty)
+                                        //     ? Border.all(color: Colors.white, width: 1.6)
+                                        //     : null, // ? null : Border.all(color: Colors.white, width: 1.6),
+                                        border: Border.all(color: theme.dialogBackgroundColor, width: 1.2),
                                       ),
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 25),
                                         child: Center(
                                           child: Text(
                                             'Anyone',
-                                            style: theme.textTheme.bodyText1!.copyWith(
+                                            style: theme.textTheme.bodyLarge!.copyWith(
                                               fontSize: 14.sp,
                                               fontWeight: FontWeight.bold,
-                                              color: defaultTheme ? Colors.black : Colors.white,
+                                              // color: defaultTheme ? Colors.black : Colors.white,
+                                              color: (_createAppointmentProvider.serviceAgainstMaster
+                                                      .where(
+                                                        (element) => element.service!.serviceId == service.serviceId && element.isRandom!,
+                                                      )
+                                                      .toList()
+                                                      .isNotEmpty)
+                                                  ? selectMasterColor(themeType)
+                                                  : unSelectedMasterColor(themeType),
                                             ),
                                           ),
                                         ),
@@ -347,9 +373,24 @@ class ServiceCard extends ConsumerWidget {
                                               },
                                               child: Container(
                                                 decoration: BoxDecoration(
-                                                  color: (_createAppointmentProvider.serviceAgainstMaster.where((element) => (element.service!.serviceId == service.serviceId) && element.master!.masterId == master.masterId && !element.isRandom!).toList().isNotEmpty) ? theme.primaryColor : Colors.transparent,
+                                                  color: (_createAppointmentProvider.serviceAgainstMaster
+                                                          .where(
+                                                            (element) => (element.service!.serviceId == service.serviceId) && element.master!.masterId == master.masterId && !element.isRandom!,
+                                                          )
+                                                          .toList()
+                                                          .isNotEmpty)
+                                                      ? selectMasterContainerColor(themeType, theme)
+                                                      : Colors.transparent, // ? theme.primaryColor: Colors.transparent,
                                                   borderRadius: BorderRadius.circular(70),
-                                                  border: (_createAppointmentProvider.serviceAgainstMaster.where((element) => element.service!.serviceId == service.serviceId && element.master!.masterId == master.masterId && !element.isRandom!).toList().isNotEmpty) ? null : Border.all(color: Colors.white, width: 1.6),
+                                                  // border: (_createAppointmentProvider.serviceAgainstMaster
+                                                  //         .where(
+                                                  //           (element) => element.service!.serviceId == service.serviceId && element.master!.masterId == master.masterId && !element.isRandom!,
+                                                  //         )
+                                                  //         .toList()
+                                                  //         .isNotEmpty)
+                                                  //     ? Border.all(color: Colors.white, width: 1.6)
+                                                  //     : null, //  ? null : Border.all(color: Colors.white, width: 1.6),
+                                                  border: Border.all(color: theme.dialogBackgroundColor, width: 1.2),
                                                 ),
                                                 child: Padding(
                                                   padding: const EdgeInsets.only(top: 3, bottom: 3, right: 20, left: 10),
@@ -380,7 +421,7 @@ class ServiceCard extends ConsumerWidget {
                                                       const SizedBox(width: 10),
                                                       Text(
                                                         Utils().getNameMaster(master.personalInfo),
-                                                        style: theme.textTheme.bodyText1!.copyWith(
+                                                        style: theme.textTheme.bodyLarge!.copyWith(
                                                           fontSize: 14.sp,
                                                           fontWeight: FontWeight.bold,
                                                           color: (_createAppointmentProvider.serviceAgainstMaster
@@ -389,10 +430,8 @@ class ServiceCard extends ConsumerWidget {
                                                                   )
                                                                   .toList()
                                                                   .isNotEmpty)
-                                                              ? Colors.black
-                                                              : defaultTheme
-                                                                  ? Colors.black
-                                                                  : Colors.white,
+                                                              ? selectMasterColor(themeType)
+                                                              : unSelectedMasterColor(themeType),
                                                         ),
                                                       ),
                                                     ],
@@ -421,9 +460,9 @@ class ServiceCard extends ConsumerWidget {
                           '${AppLocalizations.of(context)?.noMastersAvailableOn} ${Time().getDateInStandardFormat(
                             _createAppointmentProvider.chosenDay,
                           )}',
-                          style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                color: defaultTheme ? AppTheme.textBlack : Colors.white,
-                              ),
+                          style: theme.textTheme.bodyLarge!.copyWith(
+                            color: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
+                          ),
                         ),
                       )
                   ],

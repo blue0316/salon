@@ -28,7 +28,6 @@ class ContactDefaultView extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
-          // "${isSingleMaster ? "" : "OUR "} CONTACTS",
           isSingleMaster
               ? (AppLocalizations.of(context)?.contacts ?? 'Contacts')
               : (AppLocalizations.of(
@@ -36,7 +35,7 @@ class ContactDefaultView extends ConsumerWidget {
                       )?.contactUs ??
                       'Contact Us')
                   .toUpperCase(),
-          style: theme.textTheme.headline2!.copyWith(
+          style: theme.textTheme.displayMedium!.copyWith(
             fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
           ),
           textAlign: TextAlign.center,

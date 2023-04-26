@@ -143,7 +143,10 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
                                             behavior: HitTestBehavior.translucent,
                                             key: const ValueKey("tap-master"),
                                             onTap: () {
-                                              _createAppointmentProvider.setMaster(masterModel: _filteredMasters[index]);
+                                              _createAppointmentProvider.setMaster(
+                                                masterModel: _filteredMasters[index],
+                                                categories: _salonSearchProvider.categories,
+                                              );
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(

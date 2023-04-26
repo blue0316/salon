@@ -796,5 +796,6 @@
   "bookingDetails" : "Booking details",
   "date" : "Date",
   "time" : "Time",
-  "contactUs": "Contact Us"
+  "contactUs": "Contact Us",
+  "noWorks": "Фотографій робіт немає"
 }

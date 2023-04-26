@@ -61,25 +61,25 @@ ThemeData getGlamDataTheme(String? colorCode) {
   switch (colorCode) {
     case null:
       GlamOneTheme.primaryOption1 = const Color(0XFFFFC692);
-      return GlamOneTheme.AccentFFC692;
-    case 'F48B72':
-      return GlamOneTheme.AccentF48B72;
-    case 'F79F7B':
-      return GlamOneTheme.AccentF79F7B;
-    case 'FFCF71':
-      return GlamOneTheme.AccentFFCF71;
-    case 'E3AB9E':
-      return GlamOneTheme.AccentE3AB9E;
-    case 'E2BCBF':
-      return GlamOneTheme.AccentE2BCBF;
-    case 'F9EFE6':
-      return GlamOneTheme.AccentF9EFE6;
-    case 'AFC7D2':
-      return GlamOneTheme.AccentAFC7D2;
-    case 'D7AFFF':
-      return GlamOneTheme.AccentD7AFFF;
-    case 'F9E0CA':
-      return GlamOneTheme.AccentF9E0CA;
+      return GlamOneTheme.mainTheme;
+    // case 'F48B72':
+    //   return GlamOneTheme.AccentF48B72;
+    // case 'F79F7B':
+    //   return GlamOneTheme.AccentF79F7B;
+    // case 'FFCF71':
+    //   return GlamOneTheme.AccentFFCF71;
+    // case 'E3AB9E':
+    //   return GlamOneTheme.AccentE3AB9E;
+    // case 'E2BCBF':
+    //   return GlamOneTheme.AccentE2BCBF;
+    // case 'F9EFE6':
+    //   return GlamOneTheme.AccentF9EFE6;
+    // case 'AFC7D2':
+    //   return GlamOneTheme.AccentAFC7D2;
+    // case 'D7AFFF':
+    //   return GlamOneTheme.AccentD7AFFF;
+    // case 'F9E0CA':
+    //   return GlamOneTheme.AccentF9E0CA;
 
     default:
       if (colorCode != null) {
@@ -94,7 +94,7 @@ ThemeData getGlamDataTheme(String? colorCode) {
         }
       }
 
-      return GlamOneTheme.AccentFFC692;
+      return GlamOneTheme.mainTheme;
   }
 }
 
@@ -105,22 +105,6 @@ ThemeData getGlamBarbershopTheme(String? colorCode) {
       GlamBarberShopTheme.primaryColor1 = const Color(0XFFDDC686);
 
       return GlamBarberShopTheme.mainTheme;
-    case 'DDC686':
-      return GlamBarberShopTheme.AccentDDC686;
-    case 'E3824F':
-      return GlamBarberShopTheme.AccentE3824F;
-    case 'D5824C':
-      return GlamBarberShopTheme.AccentD5824C;
-    case 'FABD64':
-      return GlamBarberShopTheme.AccentFABD64;
-    case 'E3A681':
-      return GlamBarberShopTheme.AccentE3A681;
-    case 'F89F54':
-      return GlamBarberShopTheme.AccentF89F54;
-    case 'C17150':
-      return GlamBarberShopTheme.AccentC17150;
-    case 'E4954A':
-      return GlamBarberShopTheme.AccentE4954A;
 
     default:
       if (colorCode != null) {
@@ -208,7 +192,7 @@ ThemeData getBarbershopTheme(String? colorCode) {
 ThemeData getGlamLightTheme(String? colorCode) {
   switch (colorCode) {
     case null:
-      GlamLightTheme.primaryColor1 = Colors.black;
+      GlamLightTheme.themeBackgroundColor = const Color(0XFFFFF5F1);
 
       return GlamLightTheme.mainTheme;
 
@@ -222,9 +206,9 @@ ThemeData getGlamLightTheme(String? colorCode) {
           String valueString = colorCode.split('(0x')[1].split(')')[0];
           int value = int.parse(valueString, radix: 16);
 
-          GlamLightTheme.primaryColor1 = Color(value);
+          GlamLightTheme.themeBackgroundColor = Color(value);
         } catch (e) {
-          GlamLightTheme.primaryColor1 = Colors.black;
+          GlamLightTheme.themeBackgroundColor = const Color(0XFFFFF5F1);
         }
       }
       return GlamLightTheme.mainTheme;

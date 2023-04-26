@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import '../utils/theme_type.dart';
 import 'salon_tags.dart';
 
@@ -105,7 +104,7 @@ class _SalonSponsorsState extends ConsumerState<SalonSponsors> {
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Text(
                     AppLocalizations.of(context)?.noBrandsForThisProfile ?? "No brands available for this profile",
-                    style: theme.textTheme.bodyText1?.copyWith(
+                    style: theme.textTheme.bodyLarge?.copyWith(
                       color: theme.dividerColor,
                       fontSize: 18.sp,
                     ),
@@ -138,7 +137,7 @@ class _SalonSponsorsState extends ConsumerState<SalonSponsors> {
                                     padding: const EdgeInsets.symmetric(horizontal: 20),
                                     child: Text(
                                       item.translations![AppLocalizations.of(context)?.localeName ?? 'en'],
-                                      style: theme.textTheme.bodyText1?.copyWith(
+                                      style: theme.textTheme.bodyLarge?.copyWith(
                                         color: theme.dividerColor,
                                         fontSize: 18.sp,
                                       ),

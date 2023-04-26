@@ -135,7 +135,7 @@ class _ReviewSectionTitleState extends ConsumerState<ReviewSectionTitle> {
               "${_salonProfileProvider.salonReviews.length} ${AppLocalizations.of(context)?.reviews ?? 'Reviews'}",
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.left,
-              style: theme.textTheme.bodyText2?.copyWith(
+              style: theme.textTheme.bodyMedium?.copyWith(
                 fontSize: 18.sp,
                 decoration: TextDecoration.underline,
                 color: bottomDetailsColor(themeType, theme),

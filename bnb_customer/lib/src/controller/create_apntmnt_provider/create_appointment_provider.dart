@@ -88,6 +88,9 @@ class CreateAppointmentProvider with ChangeNotifier {
   /// <catId, List<services>>
   Map<String, List<ServiceModel>> categoryServicesMap = {};
 
+  /// Separate categories for masters
+  Map<CategoryModel, List<ServiceModel>> masterCategoryAndServices = {};
+
   Map<String, List<ServiceModel>> mastersServicesMap = {};
   List<MasterModel> availableMasters = [];
   Map<String, PriceAndDurationModel> mastersPriceDurationMap = {};
@@ -116,6 +119,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 
   List<CategoryModel> categoriesAvailable = [];
   List<List<ServiceModel>> servicesAvailable = [];
+  List<List<ServiceModel>> masterServicesAvailable = [];
 
   // TextField Controllers on `Book Now` Dialog
   // TextEditingController nameController = TextEditingController();
@@ -124,7 +128,6 @@ class CreateAppointmentProvider with ChangeNotifier {
 
   // PageView Controller on `Confirmation` Tab Bar
   final PageController confirmationPageController = PageController();
-  List<Service> servicesOrder = []; // To show on order list page view // TODO: DELETE (UNUSED)
 
   // void verifyControllers(
   //     BuildContext context, AuthProvider _authProvider) async {
@@ -206,7 +209,14 @@ class CreateAppointmentProvider with ChangeNotifier {
           categoriesAvailable.add(categoryModel);
           List<ServiceModel> services = categoryServicesMap[cat.categoryId.toString()] ?? [];
 
-          servicesAvailable.add(services);
+          List<ServiceModel> availableServices = [];
+          // find service where isAvailableOnline = false and remove it
+          for (var service in services) {
+            if (service.isAvailableOnline) {
+              availableServices.add(service);
+            }
+          }
+          servicesAvailable.add(availableServices);
         }
       }
     }
@@ -551,11 +561,42 @@ class CreateAppointmentProvider with ChangeNotifier {
     }
   }
 
-  setMaster({required MasterModel masterModel}) {
+  setMaster({required MasterModel masterModel, required List<CategoryModel> categories}) {
     chosenMaster = masterModel;
     chosenServices.clear();
+    masterServicesAvailable.clear();
+    masterCategoryAndServices.clear();
     totalPrice = 0;
     totalMinutes = 0;
+    notifyListeners();
+
+    // categorize master services
+    for (int i = 0; i <= categories.length + 1; i++) {
+      List<ServiceModel> _services = mastersServicesMapAll[masterModel.masterId]
+              ?.where(
+                (element) => element.categoryId == (i).toString(),
+              )
+              .toList() ??
+          [];
+
+      List<ServiceModel> availableServices = [];
+
+      if (_services.isNotEmpty) {
+        // find service where isAvailableOnline = false and remove it
+        for (var service in _services) {
+          if (service.isAvailableOnline) {
+            availableServices.add(service);
+          }
+        }
+
+        masterServicesAvailable.add(availableServices);
+
+        CategoryModel cat = categories.where((element) => element.categoryId == (i).toString()).first;
+
+        masterCategoryAndServices[cat] = _services;
+      }
+    }
+
     notifyListeners();
   }
 
@@ -1381,7 +1422,6 @@ class CreateAppointmentProvider with ChangeNotifier {
       nextStart = _endTime;
 
       final List<Service> _services = [Service.fromService(serviceModel: MasterServiceAtPresentTime.service!)];
-      servicesOrder = _services;
       notifyListeners();
 
       appointmentModel = AppointmentModel(
@@ -1499,7 +1539,6 @@ class CreateAppointmentProvider with ChangeNotifier {
               )
               .toList();
 
-      servicesOrder = _services;
       notifyListeners();
 
       appointmentModel = AppointmentModel(

@@ -133,14 +133,14 @@ class FormColumn extends ConsumerWidget {
             children: [
               TextSpan(
                 text: (AppLocalizations.of(context)?.name ?? "Name").toCapitalized(), // "Name",
-                style: theme.textTheme.subtitle2?.copyWith(
+                style: theme.textTheme.titleSmall?.copyWith(
                   color: theme.colorScheme.onSecondaryContainer,
                   fontSize: 17.sp,
                 ),
               ),
               TextSpan(
                 text: " *",
-                style: theme.textTheme.bodyText2?.copyWith(
+                style: theme.textTheme.bodyMedium?.copyWith(
                   color: Colors.red,
                   fontWeight: FontWeight.w800,
                 ),
@@ -166,14 +166,14 @@ class FormColumn extends ConsumerWidget {
             children: [
               TextSpan(
                 text: (AppLocalizations.of(context)?.phone ?? "Phone").toCapitalized(), // "Phone",
-                style: theme.textTheme.subtitle2?.copyWith(
+                style: theme.textTheme.titleSmall?.copyWith(
                   color: theme.colorScheme.onSecondaryContainer,
                   fontSize: 17.sp,
                 ),
               ),
               TextSpan(
                 text: " *",
-                style: theme.textTheme.bodyText2!.copyWith(
+                style: theme.textTheme.bodyMedium!.copyWith(
                   color: Colors.red,
                   fontWeight: FontWeight.w800,
                 ),
@@ -199,7 +199,7 @@ class FormColumn extends ConsumerWidget {
             children: [
               TextSpan(
                 text: AppLocalizations.of(context)?.email ?? "Email".toCapitalized(), // "Email",
-                style: theme.textTheme.subtitle2?.copyWith(
+                style: theme.textTheme.titleSmall?.copyWith(
                   color: theme.colorScheme.onSecondaryContainer,
                   fontSize: 17.sp,
                 ),

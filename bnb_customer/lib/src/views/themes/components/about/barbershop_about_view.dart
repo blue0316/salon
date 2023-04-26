@@ -93,7 +93,7 @@ class BarbershopAboutUs extends ConsumerWidget {
                   Flexible(
                     child: Text(
                       (salonModel.description != '') ? salonModel.description : 'No description yet',
-                      style: theme.textTheme.bodyText2?.copyWith(
+                      style: theme.textTheme.bodyMedium?.copyWith(
                         color: Colors.white,
                         fontSize: 15.5.sp,
                       ),

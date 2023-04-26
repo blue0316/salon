@@ -66,14 +66,14 @@ class GlamLightAboutUs extends ConsumerWidget {
                       children: [
                         Text(
                           isSingleMaster ? (AppLocalizations.of(context)?.aboutMe ?? 'About Me') : (AppLocalizations.of(context)?.aboutUs ?? 'About Us').toUpperCase(),
-                          style: theme.textTheme.headline2?.copyWith(
+                          style: theme.textTheme.displayMedium?.copyWith(
                             fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
                           ),
                         ),
                         SizedBox(height: 30.h),
                         Text(
                           (salonModel.description != '') ? salonModel.description : 'No description yet',
-                          style: theme.textTheme.bodyText2?.copyWith(
+                          style: theme.textTheme.bodyMedium?.copyWith(
                             color: Colors.black,
                             fontSize: 20.sp,
                           ),
@@ -112,7 +112,7 @@ class PortraitView extends ConsumerWidget {
           padding: EdgeInsets.only(left: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w)),
           child: Text(
             isSingleMaster ? (AppLocalizations.of(context)?.aboutMe ?? 'About Me') : (AppLocalizations.of(context)?.aboutUs ?? 'About Us').toUpperCase(),
-            style: theme.textTheme.headline2?.copyWith(
+            style: theme.textTheme.displayMedium?.copyWith(
               fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
             ),
           ),
@@ -126,7 +126,7 @@ class PortraitView extends ConsumerWidget {
             children: [
               Text(
                 (salonModel.description != '') ? salonModel.description : 'No description yet',
-                style: theme.textTheme.bodyText2?.copyWith(
+                style: theme.textTheme.bodyMedium?.copyWith(
                   color: Colors.black,
                   fontSize: 15.sp,
                 ),

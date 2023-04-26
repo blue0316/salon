@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
@@ -10,6 +8,8 @@ import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
+import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/colors.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/buttons.dart';
 import 'package:bbblient/src/views/widgets/text_fields.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
@@ -35,7 +35,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
     final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool defaultTheme = (theme == AppTheme.customLightTheme);
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,7 +45,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
           AppLocalizations.of(context)?.verificationSuccessful.toCapitalized() ?? 'Verification was successful!',
           style: theme.textTheme.bodyLarge!.copyWith(
             fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
-            color: defaultTheme ? Colors.black : Colors.white,
+            color: theme.colorScheme.tertiary,
           ),
         ),
 
@@ -56,7 +56,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
           "Your ${AppLocalizations.of(context)?.name.toCapitalized() ?? "Name"}*",
           style: AppTheme.bodyText1.copyWith(
             fontSize: 18.sp,
-            color: defaultTheme ? AppTheme.textBlack : Colors.white,
+            color: theme.colorScheme.tertiary, //defaultTheme ? AppTheme.textBlack : Colors.white,
           ),
         ),
 
@@ -67,8 +67,8 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
           hint: AppLocalizations.of(context)?.pleaseEnterFirstName.toCapitalized() ?? "Enter first name",
           borderWidth: 0.7,
           vPadding: 20.h,
-          textColor: defaultTheme ? Colors.black : Colors.white,
-          borderColor: defaultTheme ? AppTheme.lightGrey : Colors.white,
+          textColor: theme.colorScheme.tertiary, // defaultTheme ? Colors.black : Colors.white,
+          borderColor: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.lightGrey : Colors.white,
           onChanged: (String val) {
             _authProvider.firstName = val;
           },
@@ -81,7 +81,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
           "Your ${AppLocalizations.of(context)?.email.toCapitalized() ?? "Email"}",
           style: theme.textTheme.bodyLarge?.copyWith(
             fontSize: 18.sp,
-            color: defaultTheme ? AppTheme.textBlack : Colors.white,
+            color: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,
           ),
         ),
 
@@ -92,8 +92,8 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
           hint: AppLocalizations.of(context)?.registration_line4.toCapitalized() ?? "Enter E-mail",
           borderWidth: 0.7,
           vPadding: 20.h,
-          textColor: defaultTheme ? Colors.black : Colors.white,
-          borderColor: defaultTheme ? AppTheme.lightGrey : Colors.white,
+          textColor: theme.colorScheme.tertiary, //  defaultTheme ? Colors.black : Colors.white,
+          borderColor: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.lightGrey : Colors.white,
           onChanged: (String val) {
             // _authProvider.firstName =
           },
@@ -104,7 +104,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
         Text(
           "*Mandatory fields",
           style: theme.textTheme.bodyMedium?.copyWith(
-            color: defaultTheme ? AppTheme.textBlack : Colors.white,
+            color: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,
           ),
         ),
         const Spacer(),
@@ -201,12 +201,17 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
               showToast("Something went wrong, please try again");
             }
           },
-          color: defaultTheme ? Colors.black : theme.primaryColor,
-          textColor: defaultTheme ? Colors.white : Colors.black,
+          color: dialogButtonColor(themeType, theme), // theme.dialogBackgroundColor, // defaultTheme ? Colors.black : theme.primaryColor,
+          textColor: loaderColor(themeType), // defaultTheme ? Colors.white : Colors.black,
+
+          // color: defaultTheme ? Colors.black : theme.primaryColor,
+          // textColor: defaultTheme ? Colors.white : Colors.black,
           height: 60,
           label: AppLocalizations.of(context)?.nextStep ?? 'Next Step',
           isLoading: (_authProvider.updateCustomerPersonalInfoStatus == Status.loading),
-          loaderColor: defaultTheme ? Colors.white : Colors.black,
+          loaderColor: loaderColor(themeType), // defaultTheme ? Colors.white : Colors.black,
+
+          // loaderColor: defaultTheme ? Colors.white : Colors.black,
         ),
         SizedBox(height: 15.h),
         DefaultButton(
@@ -214,9 +219,13 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
           onTap: () {
             _createAppointmentProvider.nextPageView(1);
           },
-          color: defaultTheme ? Colors.white : Colors.transparent,
-          borderColor: defaultTheme ? Colors.black : theme.primaryColor,
-          textColor: defaultTheme ? Colors.black : theme.primaryColor,
+          color: dialogBackButtonColor(themeType, theme), // defaultTheme ? Colors.white :
+          borderColor: theme.primaryColor, // defaultTheme ? Colors.black : theme.primaryColor,
+          textColor: theme.colorScheme.tertiary, // defaultTheme ? Colors.black : theme.primaryColor,
+
+          // color: defaultTheme ? Colors.white : Colors.transparent,
+          // borderColor: defaultTheme ? Colors.black : theme.primaryColor,
+          // textColor: defaultTheme ? Colors.black : theme.primaryColor,
           height: 60,
           label: AppLocalizations.of(context)?.back ?? 'Back',
         ),

@@ -795,5 +795,6 @@
   "pleaseEnterVerificationCode" : "Please enter verification code",
   "verificationSuccessful" : "Verification was successful!",
   "somethingWentWrongPleaseTryAgain" : "Something went wrong, please try again",
-  "contactUs": "Contact Us"
+  "contactUs": "Contact Us",
+  "noWorks": "No photos of works"
 }

@@ -7,7 +7,9 @@ import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/utils/table_calender/table_calender.dart';
 import 'package:bbblient/src/views/salon/booking/booking_date_time.dart';
+import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/colors.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/service_tab/service_list.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/buttons.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +43,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool defaultTheme = (theme == AppTheme.customLightTheme);
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     return Padding(
       padding: EdgeInsets.symmetric(
@@ -53,7 +56,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
             AppLocalizations.of(context)?.serviceAndMaster.toCapitalized() ?? 'Service & Master',
             style: theme.textTheme.bodyLarge!.copyWith(
               fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
-              color: defaultTheme ? AppTheme.textBlack : Colors.white,
+              color: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,
             ),
           ),
           // SizedBox(height: 5.h),
@@ -96,7 +99,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
             AppLocalizations.of(context)?.selectDateAndTime ?? 'Select time and date',
             style: theme.textTheme.bodyLarge!.copyWith(
               fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
-              color: defaultTheme ? AppTheme.textBlack : Colors.white,
+              color: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,
             ),
           ),
           SizedBox(height: DeviceConstraints.getResponsiveSize(context, 20.h, 20.h, 20.h)),
@@ -114,28 +117,29 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
             locale: AppLocalizations.of(context)?.localeName ?? 'en',
             calendarStyle: CalendarStyle(
               defaultTextStyle: AppTheme.calTextStyle2.copyWith(
-                color: defaultTheme ? Colors.black : Colors.white,
+                color: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,
               ),
               todayTextStyle: AppTheme.calTextStyle2.copyWith(
-                color: defaultTheme ? Colors.black : Colors.white,
+                color: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,
               ),
               holidayTextStyle: AppTheme.calTextStyle2.copyWith(
-                color: defaultTheme ? Colors.black : Colors.white,
+                color: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,
               ),
               weekendTextStyle: AppTheme.calTextStyle2.copyWith(
-                color: defaultTheme ? Colors.black : Colors.white,
+                color: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,
               ),
               outsideTextStyle: AppTheme.calTextStyle2.copyWith(
-                color: defaultTheme ? Colors.black : Colors.white,
+                color: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,
               ),
               disabledTextStyle: AppTheme.calTextStyle2.copyWith(
-                color: defaultTheme ? Colors.black : Colors.white,
+                color: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,
               ),
-              selectedTextStyle: Theme.of(context).textTheme.displayMedium!.copyWith(
-                    fontSize: 15,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
-                  ),
+              selectedTextStyle: theme.textTheme.displayMedium!.copyWith(
+                fontSize: 15,
+                color: isAddedSelectedColor(themeType), // Colors.black,
+                fontWeight: FontWeight.w600,
+                fontFamily: "Poppins",
+              ),
               isTodayHighlighted: false,
               selectedDecoration: BoxDecoration(
                 color: defaultTheme ? const Color.fromARGB(255, 239, 239, 239) : theme.primaryColor,
@@ -205,7 +209,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
               headerMargin: const EdgeInsets.symmetric(vertical: 10),
               titleTextStyle: AppTheme.calTextStyle2.copyWith(
                 fontSize: 20.sp,
-                color: defaultTheme ? Colors.black : Colors.white,
+                color: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,
               ),
               formatButtonVisible: false,
               leftChevronMargin: EdgeInsets.only(left: 0.2.sw),
@@ -213,12 +217,12 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
               titleCentered: true,
               leftChevronIcon: Icon(
                 Icons.arrow_back_ios,
-                color: defaultTheme ? Colors.black : Colors.white,
+                color: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,
                 size: 18,
               ),
               rightChevronIcon: Icon(
                 Icons.arrow_forward_ios,
-                color: defaultTheme ? Colors.black : Colors.white,
+                color: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,
                 key: const ValueKey("next"),
                 size: 18,
               ),
@@ -262,11 +266,11 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                               context,
                             )?.noSlotsAvailableTrydifferentDate ??
                             'no slots available, try different date',
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: defaultTheme ? AppTheme.creamBrown : Colors.white,
-                            ),
+                        style: theme.textTheme.bodyLarge!.copyWith(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.creamBrown : Colors.white,
+                        ),
                       ),
                     ),
                   ),
@@ -278,9 +282,9 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     AppLocalizations.of(context)?.morning ?? "Morning",
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: defaultTheme ? AppTheme.creamBrown : Colors.white,
-                        ),
+                    style: theme.textTheme.bodyLarge?.copyWith(
+                      color: theme.colorScheme.tertiary, //defaultTheme ? AppTheme.creamBrown : Colors.white,
+                    ),
                   ),
                 ),
                 SizedBox(height: 12.h),
@@ -306,9 +310,9 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     AppLocalizations.of(context)?.afternoon ?? "Afternoon",
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: defaultTheme ? AppTheme.creamBrown : Colors.white,
-                        ),
+                    style: theme.textTheme.bodyLarge?.copyWith(
+                      color: theme.colorScheme.tertiary, //defaultTheme ? AppTheme.creamBrown : Colors.white,
+                    ),
                   ),
                 ),
                 SizedBox(height: 12.h),
@@ -334,9 +338,9 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     AppLocalizations.of(context)?.evening ?? "Evening",
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: defaultTheme ? AppTheme.creamBrown : Colors.white,
-                        ),
+                    style: theme.textTheme.bodyLarge?.copyWith(
+                      color: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.creamBrown : Colors.white,
+                    ),
                   ),
                 ),
                 SizedBox(height: 12.h),
@@ -363,7 +367,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: EdgeInsets.only(bottom: 10.h),
+              padding: EdgeInsets.only(bottom: 10.h, left: 2, right: 2),
               child: Column(
                 children: [
                   DefaultButton(
@@ -377,8 +381,9 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                       // Next Page
                       widget.tabController.animateTo(2);
                     },
-                    color: defaultTheme ? Colors.black : theme.primaryColor,
-                    textColor: defaultTheme ? Colors.white : Colors.black,
+                    color: dialogButtonColor(themeType, theme), // defaultTheme ? Colors.black : theme.primaryColor,
+                    borderColor: theme.primaryColor,
+                    textColor: loaderColor(themeType), //  dialogTextColor(themeType, theme), // theme.colorScheme.tertiary, // defaultTheme ? Colors.white : Colors.black,
                     height: 60,
                     label: AppLocalizations.of(context)?.next ?? "Next",
                   ),
@@ -389,9 +394,9 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                       // Next Page
                       widget.tabController.animateTo(0);
                     },
-                    color: defaultTheme ? Colors.white : Colors.transparent,
-                    borderColor: defaultTheme ? Colors.black : theme.primaryColor,
-                    textColor: defaultTheme ? Colors.black : theme.primaryColor,
+                    color: dialogBackButtonColor(themeType, theme), // defaultTheme ? Colors.white :
+                    borderColor: theme.primaryColor, // dialogButtonColor(themeType, theme), // defaultTheme ? Colors.black : theme.primaryColor,
+                    textColor: theme.colorScheme.tertiary, // defaultTheme ? Colors.black : theme.primaryColor,
                     height: 60,
                     label: AppLocalizations.of(context)?.back ?? "Back",
                   ),

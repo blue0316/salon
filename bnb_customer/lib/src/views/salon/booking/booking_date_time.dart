@@ -9,8 +9,10 @@ import 'package:bbblient/src/utils/time.dart';
 import 'package:bbblient/src/utils/utils.dart';
 // import 'package:bbblient/src/views/registration/authenticate/login.dart';
 import 'package:bbblient/src/views/salon/booking/confirm_booking.dart';
+import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/colors.dart';
 import 'package:bbblient/src/views/salon/booking/widgets/bottom_sheet_booking.dart';
 import 'package:bbblient/src/views/salon/widgets/person_avtar.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -59,6 +61,12 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
   Widget build(BuildContext context) {
     createAppointment = ref.watch(createAppointmentProvider);
     final _auth = ref.watch(authProvider);
+
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+    // bool defaultTheme = (theme == AppTheme.customLightTheme);
+
     return Scaffold(
       body: SafeArea(
         bottom: false,
@@ -98,11 +106,11 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                                 weekendTextStyle: AppTheme.calTextStyle,
                                 outsideTextStyle: AppTheme.calTextStyle,
                                 disabledTextStyle: AppTheme.calTextStyle,
-                                selectedTextStyle: Theme.of(context).textTheme.headline2!.copyWith(
-                                      fontSize: 16,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                                selectedTextStyle: theme.textTheme.displayMedium!.copyWith(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
                                 isTodayHighlighted: false,
                                 selectedDecoration: BoxDecoration(
                                   color: AppTheme.creamBrownLight,
@@ -182,7 +190,7 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                       children: [
                         Text(
                           "${AppLocalizations.of(context)?.all ?? "All"} ${AppLocalizations.of(context)?.services ?? "services"}",
-                          style: Theme.of(context).textTheme.bodyText2,
+                          style: theme.textTheme.bodyMedium,
                         ),
                         const SizedBox(
                           height: 4,
@@ -201,7 +209,7 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                                         createAppointment.mastersPriceDurationMap[createAppointment.chosenMaster?.masterId]?.duration == createAppointment.mastersPriceDurationMapMax[createAppointment.chosenMaster?.masterId]?.duration
                                             ? "${createAppointment.mastersServicesMap[createAppointment.chosenMaster?.masterId]?.length} ${AppLocalizations.of(context)?.services ?? "services"} (${createAppointment.mastersPriceDurationMap[createAppointment.chosenMaster?.masterId]?.duration} ${AppLocalizations.of(context)?.min ?? "min"})"
                                             : "${createAppointment.mastersServicesMap[createAppointment.chosenMaster?.masterId]?.length} ${AppLocalizations.of(context)?.services ?? "services"} (${createAppointment.mastersPriceDurationMap[createAppointment.chosenMaster?.masterId]?.duration} ${AppLocalizations.of(context)?.min ?? "min"} - ${createAppointment.mastersPriceDurationMapMax[createAppointment.chosenMaster?.masterId]?.duration} ${AppLocalizations.of(context)?.min ?? "min"} )",
-                                        style: Theme.of(context).textTheme.bodyText2!.copyWith(color: AppTheme.textBlack, fontWeight: FontWeight.w500),
+                                        style: theme.textTheme.bodyMedium!.copyWith(color: AppTheme.textBlack, fontWeight: FontWeight.w500),
                                       ),
                                       const SizedBox(
                                         height: 4,
@@ -210,7 +218,7 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                                         createAppointment.mastersPriceDurationMap[createAppointment.chosenMaster?.masterId]?.price == createAppointment.mastersPriceDurationMapMax[createAppointment.chosenMaster?.masterId]?.price
                                             ? "${Keys.dollars}${createAppointment.mastersPriceDurationMap[createAppointment.chosenMaster?.masterId]?.price}"
                                             : "${Keys.dollars}${createAppointment.mastersPriceDurationMap[createAppointment.chosenMaster?.masterId]?.price} - ${Keys.dollars}${createAppointment.mastersPriceDurationMapMax[createAppointment.chosenMaster?.masterId]?.price}",
-                                        style: Theme.of(context).textTheme.bodyText2!.copyWith(color: AppTheme.textBlack, fontWeight: FontWeight.w500),
+                                        style: theme.textTheme.bodyMedium!.copyWith(color: AppTheme.textBlack, fontWeight: FontWeight.w500),
                                       ),
                                     ],
                                   ),
@@ -225,14 +233,14 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                                     createAppointment.totalMinutes == createAppointment.totalMinutesWithFixed
                                         ? "${createAppointment.chosenServices.length} ${AppLocalizations.of(context)?.services ?? "services"} (${createAppointment.totalMinutes} ${AppLocalizations.of(context)?.min ?? "min"})"
                                         : "${createAppointment.chosenServices.length} ${AppLocalizations.of(context)?.services ?? "services"} (${createAppointment.totalMinutesWithFixed} ${AppLocalizations.of(context)?.min ?? "min"} - ${createAppointment.totalMinutes} ${AppLocalizations.of(context)?.min ?? "min"})",
-                                    style: Theme.of(context).textTheme.bodyText2!.copyWith(color: AppTheme.textBlack, fontWeight: FontWeight.w500),
+                                    style: theme.textTheme.bodyMedium!.copyWith(color: AppTheme.textBlack, fontWeight: FontWeight.w500),
                                   ),
                                   const SizedBox(
                                     height: 4,
                                   ),
                                   Text(
                                     createAppointment.totalPrice == createAppointment.totalPricewithFixed ? "${Keys.dollars}${createAppointment.totalPrice}" : "${Keys.dollars}${createAppointment.totalPricewithFixed} - ${Keys.dollars}${createAppointment.totalPrice}",
-                                    style: Theme.of(context).textTheme.bodyText2!.copyWith(color: AppTheme.textBlack, fontWeight: FontWeight.w500),
+                                    style: theme.textTheme.bodyMedium!.copyWith(color: AppTheme.textBlack, fontWeight: FontWeight.w500),
                                   ),
                                 ],
                               ),
@@ -265,7 +273,7 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                             initiallyExpanded: true,
                             title: Text(
                               AppLocalizations.of(context)?.availableMasters ?? 'Available masters',
-                              style: Theme.of(context).textTheme.bodyText1!.copyWith(color: AppTheme.creamBrown),
+                              style: theme.textTheme.bodyLarge!.copyWith(color: AppTheme.creamBrown),
                             ),
                             children: [
                               Column(
@@ -282,10 +290,10 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                                         padding: const EdgeInsets.all(16.0),
                                         child: Text(
                                           '${AppLocalizations.of(context)?.noMastersAvailableOn} ${Time().getDateInStandardFormat(createAppointment.chosenDay)}',
-                                          style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w400,
-                                              ),
+                                          style: theme.textTheme.bodyLarge!.copyWith(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400,
+                                          ),
                                         ),
                                       ),
                                     )
@@ -327,14 +335,14 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                                                   children: [
                                                     Text(
                                                       "${createAppointment.mastersServicesMap[createAppointment.availableMasters[index].masterId]?.length} ${AppLocalizations.of(context)?.services ?? "services"}",
-                                                      style: Theme.of(context).textTheme.bodyText2!.copyWith(color: AppTheme.textBlack, fontWeight: FontWeight.w500),
+                                                      style: theme.textTheme.bodyMedium!.copyWith(color: AppTheme.textBlack, fontWeight: FontWeight.w500),
                                                     ),
                                                     const SizedBox(
                                                       height: 4,
                                                     ),
                                                     Text(
                                                       "${Keys.dollars}${createAppointment.mastersPriceDurationMap[createAppointment.availableMasters[index].masterId]?.price}",
-                                                      style: Theme.of(context).textTheme.bodyText2!.copyWith(color: AppTheme.textBlack, fontWeight: FontWeight.w500),
+                                                      style: theme.textTheme.bodyMedium!.copyWith(color: AppTheme.textBlack, fontWeight: FontWeight.w500),
                                                     ),
                                                   ],
                                                 ),
@@ -354,7 +362,7 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                           initiallyExpanded: true,
                           title: Text(
                             AppLocalizations.of(context)?.availableTime ?? "Available Time",
-                            style: Theme.of(context).textTheme.bodyText1!.copyWith(color: AppTheme.creamBrown),
+                            style: theme.textTheme.bodyLarge!.copyWith(color: AppTheme.creamBrown),
                           ),
                           children: [
                             Column(
@@ -386,10 +394,10 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                                         padding: const EdgeInsets.all(16.0),
                                         child: Text(
                                           AppLocalizations.of(context)?.noSlotsAvailableTrydifferentDate ?? 'no slots available, try different date',
-                                          style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w400,
-                                              ),
+                                          style: theme.textTheme.bodyLarge!.copyWith(
+                                            fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                                            fontWeight: FontWeight.w400,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -403,10 +411,10 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                                     alignment: Alignment.centerLeft,
                                     child: Text(
                                       AppLocalizations.of(context)?.morning ?? "Morning",
-                                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                          ),
+                                      style: theme.textTheme.bodyLarge!.copyWith(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                     ),
                                   ),
                                   SizedBox(
@@ -436,10 +444,10 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                                     alignment: Alignment.centerLeft,
                                     child: Text(
                                       AppLocalizations.of(context)?.afternoon ?? "Afternoon",
-                                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                          ),
+                                      style: theme.textTheme.bodyLarge!.copyWith(
+                                        fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                     ),
                                   ),
                                   SizedBox(
@@ -469,10 +477,10 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                                     alignment: Alignment.centerLeft,
                                     child: Text(
                                       AppLocalizations.of(context)?.evening ?? "Evening",
-                                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                          ),
+                                      style: theme.textTheme.bodyLarge!.copyWith(
+                                        fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                     ),
                                   ),
                                   SizedBox(
@@ -522,7 +530,7 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                   //           Text(
                   //             AppLocalizations.of(context)?.appointmentFor ??
                   //                 "Appointment for",
-                  //             style: Theme.of(context)
+                  //             style: theme
                   //                 .textTheme
                   //                 .bodyText1!
                   //                 .copyWith(fontSize: 16),
@@ -556,7 +564,7 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                   //                         : AppLocalizations.of(context)
                   //                                 ?.anotherPerson ??
                   //                             "Another person",
-                  //                     style: Theme.of(context)
+                  //                     style: theme
                   //                         .textTheme
                   //                         .headline2
                   //                         ?.copyWith(fontSize: 15)),
@@ -567,7 +575,7 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                   //                   child: Text(
                   //                     AppLocalizations.of(context)?.myself ??
                   //                         "Myself",
-                  //                     style: Theme.of(context)
+                  //                     style: theme
                   //                         .textTheme
                   //                         .headline2
                   //                         ?.copyWith(
@@ -583,7 +591,7 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                   //                     AppLocalizations.of(context)
                   //                             ?.anotherPerson ??
                   //                         "Another person",
-                  //                     style: Theme.of(context)
+                  //                     style: theme
                   //                         .textTheme
                   //                         .headline2
                   //                         ?.copyWith(
@@ -615,7 +623,7 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                   //                   hintText: AppLocalizations.of(context)
                   //                           ?.clientName ??
                   //                       "Client name",
-                  //                   hintStyle: Theme.of(context)
+                  //                   hintStyle: theme
                   //                       .textTheme
                   //                       .bodyText1!
                   //                       .copyWith(
@@ -641,7 +649,7 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                   //                   hintText: AppLocalizations.of(context)
                   //                           ?.clientNumber ??
                   //                       "Client number",
-                  //                   hintStyle: Theme.of(context)
+                  //                   hintStyle: theme
                   //                       .textTheme
                   //                       .bodyText1!
                   //                       .copyWith(
@@ -738,7 +746,7 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                           child: Center(
                             child: Text(
                               AppLocalizations.of(context)?.continue_word ?? "Continue",
-                              style: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.white),
+                              style: theme.textTheme.titleMedium!.copyWith(color: Colors.white),
                             ),
                           ),
                         ),
@@ -778,6 +786,7 @@ class TimeSlotContainer extends ConsumerWidget {
     bool defaultThemeLight = theme == AppTheme.customLightTheme;
 
     Color x = defaultThemeLight ? AppTheme.textBlack : theme.primaryColor;
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     // String defaultLightOrDarkOrOther = (theme == AppTheme.customLightTheme)
     //     ? 'light'
@@ -812,7 +821,7 @@ class TimeSlotContainer extends ConsumerWidget {
         decoration: BoxDecoration(
           color: valid
               ? choosen
-                  ? theme.primaryColor
+                  ? selectTimeSlot(themeType, theme)
                   : Colors.white
               : theme.unselectedWidgetColor,
           borderRadius: BorderRadius.circular(12),
@@ -828,16 +837,18 @@ class TimeSlotContainer extends ConsumerWidget {
         child: Center(
             child: Text(
           time,
-          style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                color: choosen ? Colors.white : AppTheme.textBlack,
-              ),
+          style: theme.textTheme.displaySmall!.copyWith(
+            color: choosen ? Colors.white : AppTheme.textBlack,
+            fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 15.sp),
+            fontFamily: "Poppins",
+          ),
         )),
       ),
     );
   }
 }
 
-class MastersRowContainer extends StatelessWidget {
+class MastersRowContainer extends ConsumerWidget {
   final String? name;
   final String? imageUrl;
   final double? rating;
@@ -853,12 +864,15 @@ class MastersRowContainer extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
     return GestureDetector(
       onTap: () => onTap(),
       child: Container(
         decoration: BoxDecoration(
-            color: selected ? Colors.white : Theme.of(context).scaffoldBackgroundColor,
+            color: selected ? Colors.white : theme.scaffoldBackgroundColor,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
               color: selected ? AppTheme.creamBrownLight : Colors.transparent,

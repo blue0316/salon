@@ -43,7 +43,7 @@ class OvalButton extends ConsumerWidget {
             child: Center(
               child: Text(
                 text,
-                style: theme.textTheme.bodyText2!.copyWith(
+                style: theme.textTheme.bodyMedium!.copyWith(
                   fontSize: textSize ?? 14.sp,
                   fontFamily: "Poppins",
                 ),

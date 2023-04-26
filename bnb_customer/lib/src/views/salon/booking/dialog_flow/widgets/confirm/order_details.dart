@@ -12,8 +12,10 @@ import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/utils/keys.dart';
 import 'package:bbblient/src/utils/time.dart';
+import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/colors.dart';
 import 'package:bbblient/src/views/salon/booking/widgets/confirmation_tab.dart/confirmed_dialog.dart';
 import 'package:bbblient/src/views/salon/booking/widgets/confirmation_tab.dart/widgets.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/buttons.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +43,8 @@ class _OrderListState extends ConsumerState<OrderDetails> {
     final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
     final AuthProvider _auth = ref.watch(authProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool defaultTheme = theme == AppTheme.customLightTheme;
+    // bool defaultTheme = theme == AppTheme.customLightTheme;
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     final String _date = Time().getLocaleDate(
       _createAppointmentProvider.appointmentModel!.appointmentStartTime,
@@ -67,8 +70,8 @@ class _OrderListState extends ConsumerState<OrderDetails> {
               Text(
                 AppLocalizations.of(context)?.orderList ?? 'Order List'.toString(),
                 style: theme.textTheme.bodyLarge!.copyWith(
-                  fontSize: 20.sp,
-                  color: defaultTheme ? Colors.black : Colors.white,
+                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
+                  color: theme.colorScheme.tertiary, // ,
                 ),
               ),
               SizedBox(height: 10.h),
@@ -87,11 +90,11 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                       child: Container(
                         width: DeviceConstraints.getResponsiveSize(context, 175.w, 160.w, 105.w),
                         decoration: BoxDecoration(
-                          color: defaultTheme ? Colors.white : Colors.transparent,
+                          color: Colors.white,
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
                             width: 1.5,
-                            color: defaultTheme ? Colors.black : theme.primaryColor,
+                            color: theme.primaryColor, // defaultTheme ? Colors.black : theme.primaryColor,
                           ),
                         ),
                         child: Padding(
@@ -128,7 +131,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                       style: theme.textTheme.bodyLarge!.copyWith(
                                         fontWeight: FontWeight.w600,
                                         fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 16.sp, 16.sp),
-                                        color: defaultTheme ? Colors.black : Colors.white,
+                                        color: theme.colorScheme.tertiary, // ,
                                       ),
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: DeviceConstraints.getResponsiveSize(context, 2, 1, 1).toInt(),
@@ -149,7 +152,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                                 ? "${Keys.dollars}${notSingleMasterService.service!.priceAndDuration.price} - ${Keys.dollars}${notSingleMasterService.service!.priceAndDurationMax!.price}"
                                                 : "${Keys.dollars}${notSingleMasterService.service!.priceAndDuration.price} - ${Keys.dollars}∞",
                                     style: theme.textTheme.bodyLarge!.copyWith(
-                                      color: defaultTheme ? Colors.black : Colors.white,
+                                      color: theme.colorScheme.tertiary, // ,
                                       fontWeight: FontWeight.w700,
                                       fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 16.sp, 16.sp),
                                     ),
@@ -171,7 +174,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                     child: Center(
                                       child: SvgPicture.asset(
                                         AppIcons.clockSVG,
-                                        color: defaultTheme ? Colors.black : theme.primaryColor,
+                                        color: theme.colorScheme.tertiary, //  defaultTheme ? Colors.black : theme.primaryColor,
                                       ),
                                     ),
                                   ),
@@ -194,7 +197,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                             : "${notSingleMasterService.service!.priceAndDuration.duration} minutes",
                                     style: theme.textTheme.bodyLarge!.copyWith(
                                       fontSize: 14.sp,
-                                      color: defaultTheme ? Colors.black : Colors.white,
+                                      color: theme.colorScheme.tertiary, // ,
                                     ),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
@@ -238,8 +241,9 @@ class _OrderListState extends ConsumerState<OrderDetails> {
               Text(
                 AppLocalizations.of(context)?.youChoosed ?? 'You choosed'.toString(),
                 style: theme.textTheme.bodyLarge!.copyWith(
-                  color: defaultTheme ? Colors.black : Colors.white,
-                  fontSize: 20.sp,
+                  color: theme.colorScheme.tertiary, // ,
+                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
+
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -255,8 +259,8 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                       Text(
                         "${AppLocalizations.of(context)?.service ?? 'Service'} :",
                         style: theme.textTheme.bodyLarge!.copyWith(
-                          fontSize: 20.sp,
-                          color: defaultTheme ? Colors.black : Colors.white,
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
+                          color: theme.colorScheme.tertiary, // ,
                         ),
                       ),
                       Text(
@@ -264,8 +268,8 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                               context,
                             )?.services ?? 'services'}',
                         style: theme.textTheme.bodyMedium!.copyWith(
-                          fontSize: 20.sp,
-                          color: defaultTheme ? Colors.black : Colors.white,
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
+                          color: theme.colorScheme.tertiary, // ,
                         ),
                       ),
                     ],
@@ -278,15 +282,15 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                       Text(
                         "${AppLocalizations.of(context)?.date ?? 'Date'} :",
                         style: theme.textTheme.bodyLarge!.copyWith(
-                          fontSize: 20.sp,
-                          color: defaultTheme ? Colors.black : Colors.white,
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
+                          color: theme.colorScheme.tertiary, // ,
                         ),
                       ),
                       Text(
                         _date,
                         style: theme.textTheme.bodyMedium!.copyWith(
-                          fontSize: 20.sp,
-                          color: defaultTheme ? Colors.black : Colors.white,
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
+                          color: theme.colorScheme.tertiary, // ,
                         ),
                       ),
                     ],
@@ -299,15 +303,15 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                       Text(
                         "${AppLocalizations.of(context)?.time ?? 'Time'} :",
                         style: theme.textTheme.bodyLarge!.copyWith(
-                          fontSize: 20.sp,
-                          color: defaultTheme ? Colors.black : Colors.white,
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
+                          color: theme.colorScheme.tertiary, // ,
                         ),
                       ),
                       Text(
                         _time,
                         style: theme.textTheme.bodyMedium!.copyWith(
-                          fontSize: 20.sp,
-                          color: defaultTheme ? Colors.black : Colors.white,
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
+                          color: theme.colorScheme.tertiary, // ,
                         ),
                       ),
                     ],
@@ -318,9 +322,9 @@ class _OrderListState extends ConsumerState<OrderDetails> {
               Text(
                 "${AppLocalizations.of(context)?.orderSummary ?? 'Order summary'} :",
                 style: theme.textTheme.bodyLarge!.copyWith(
-                  fontSize: 22.sp,
+                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
                   fontWeight: FontWeight.w600,
-                  color: defaultTheme ? Colors.black : Colors.white,
+                  color: theme.colorScheme.tertiary, // ,
                 ),
               ),
               const SizedBox(height: 10),
@@ -335,16 +339,16 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                       Text(
                         "${AppLocalizations.of(context)?.orderAmount ?? 'Order amount'} :",
                         style: theme.textTheme.bodyLarge!.copyWith(
-                          fontSize: 20.sp,
-                          color: defaultTheme ? Colors.black : Colors.white,
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
+                          color: theme.colorScheme.tertiary, // ,
                         ),
                       ),
                       const SizedBox(height: 2),
                       Text(
                         "${Keys.dollars}${_createAppointmentProvider.totalPrice}",
                         style: theme.textTheme.bodyMedium!.copyWith(
-                          fontSize: 20.sp,
-                          color: defaultTheme ? Colors.black : Colors.white,
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
+                          color: theme.colorScheme.tertiary, // ,
                         ),
                       ),
                     ],
@@ -357,14 +361,14 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                       Text(
                         "${AppLocalizations.of(context)?.discounts.toCapitalized() ?? 'Discount'} 15%:",
                         style: theme.textTheme.bodyLarge!.copyWith(
-                          fontSize: 20.sp,
-                          color: defaultTheme ? Colors.black : Colors.white,
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
+                          color: theme.colorScheme.tertiary, // ,
                         ),
                       ),
                       Text(
                         "-\$00",
                         style: theme.textTheme.bodyMedium!.copyWith(
-                          fontSize: 20.sp,
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
                           color: Colors.red,
                           fontWeight: FontWeight.bold,
                         ),
@@ -386,17 +390,17 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                   Text(
                     AppLocalizations.of(context)?.total ?? 'Total',
                     style: theme.textTheme.bodyLarge!.copyWith(
-                      fontSize: 20.sp,
+                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
                       fontWeight: FontWeight.w700,
-                      color: defaultTheme ? Colors.black : theme.primaryColor,
+                      color: theme.colorScheme.tertiary, // defaultTheme ? Colors.black : theme.primaryColor,
                     ),
                   ),
                   Text(
                     "${Keys.dollars}${_createAppointmentProvider.totalPrice}",
                     style: theme.textTheme.bodyLarge!.copyWith(
-                      fontSize: 20.sp,
+                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
                       fontWeight: FontWeight.w700,
-                      color: defaultTheme ? Colors.black : theme.primaryColor,
+                      color: theme.colorScheme.tertiary, // defaultTheme ? Colors.black : theme.primaryColor,
                     ),
                   ),
                 ],
@@ -406,7 +410,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                 // height: 100,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: defaultTheme ? Colors.grey[100] : const Color(0XFF202020),
+                  color: Colors.grey, // defaultTheme ? Colors.grey[100] : const Color(0XFF202020),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: const Padding(
@@ -421,7 +425,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                 children: [
                   Theme(
                     data: Theme.of(context).copyWith(
-                      unselectedWidgetColor: defaultTheme ? Colors.black : Colors.white,
+                      unselectedWidgetColor: theme.colorScheme.tertiary, // ,
                     ),
                     child: Checkbox(
                       checkColor: Colors.white,
@@ -435,12 +439,14 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                     ),
                   ),
                   const SizedBox(width: 10),
-                  Text(
-                    "${AppLocalizations.of(context)?.registration_line11} *",
-                    style: theme.textTheme.bodyLarge!.copyWith(
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.normal,
-                      color: defaultTheme ? Colors.black : Colors.white,
+                  Flexible(
+                    child: Text(
+                      "${AppLocalizations.of(context)?.registration_line11} *",
+                      style: theme.textTheme.bodyLarge!.copyWith(
+                        fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
+                        fontWeight: FontWeight.normal,
+                        color: theme.colorScheme.tertiary, // ,
+                      ),
                     ),
                   ),
                 ],
@@ -520,12 +526,15 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                   //       _createAppointmentProvider.appointmentModelSalonOwner!,
                   // ).show(context);
                 },
-                color: defaultTheme ? Colors.black : theme.primaryColor,
-                textColor: defaultTheme ? Colors.white : Colors.black,
+                color: dialogButtonColor(themeType, theme), // theme.dialogBackgroundColor, // defaultTheme ? Colors.black : theme.primaryColor,
+                textColor: loaderColor(themeType), // defaultTheme ? Colors.white : Colors.black,
+
+                // color: defaultTheme ? Colors.black : theme.primaryColor,
+                // textColor: defaultTheme ? Colors.white : Colors.black,
                 height: 60,
                 label: AppLocalizations.of(context)?.book ?? 'Book',
                 isLoading: _createAppointmentProvider.loadingStatus == Status.loading,
-                loaderColor: defaultTheme ? Colors.white : Colors.black,
+                loaderColor: loaderColor(themeType), // defaultTheme ? Colors.white : Colors.black,
               ),
               SizedBox(height: 15.h),
               DefaultButton(
@@ -536,9 +545,13 @@ class _OrderListState extends ConsumerState<OrderDetails> {
 
                   // _createAppointmentProvider.nextPageView(2);
                 },
-                color: defaultTheme ? Colors.white : Colors.transparent,
-                borderColor: defaultTheme ? Colors.black : theme.primaryColor,
-                textColor: defaultTheme ? Colors.black : theme.primaryColor,
+                color: dialogBackButtonColor(themeType, theme), // defaultTheme ? Colors.white :
+                borderColor: theme.primaryColor, // defaultTheme ? Colors.black : theme.primaryColor,
+                textColor: theme.colorScheme.tertiary, // defaultTheme ? Colors.black : theme.primaryColor,
+
+                // color: defaultTheme ? Colors.white : Colors.transparent,
+                // borderColor: defaultTheme ? Colors.black : theme.primaryColor,
+                // textColor: defaultTheme ? Colors.black : theme.primaryColor,
                 height: 60,
                 label: AppLocalizations.of(context)?.back ?? 'Back',
               ),

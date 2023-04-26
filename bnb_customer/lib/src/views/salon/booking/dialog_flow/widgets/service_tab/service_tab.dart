@@ -4,12 +4,14 @@ import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/utils/extensions/exstension.dart';
+import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/colors.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/service_tab/service_list.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import 'floating_button.dart';
 
 class ServiceTab extends ConsumerStatefulWidget {
@@ -42,6 +44,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
 
     // // To populate page view children
     // List<List<ServiceModel>> services = [allServices, ..._createAppointmentProvider.servicesAvailable];
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     return Padding(
       padding: EdgeInsets.symmetric(
@@ -60,11 +63,10 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        // AppLocalizations.of(context)?.selectAService.toCapitalized() ?? 'Select a service',
-                        'Select a service',
-                        style: theme.textTheme.bodyText1!.copyWith(
+                        AppLocalizations.of(context)?.selectAService.toCapitalized() ?? 'Select a service',
+                        style: theme.textTheme.bodyLarge!.copyWith(
                           fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
-                          color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                          color: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,
                         ),
                       ),
                       SizedBox(height: 20.h),
@@ -77,6 +79,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                             scrollDirection: Axis.horizontal,
                             shrinkWrap: true,
                             controller: _scrollController,
+                            physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (_, index) {
                               List<CategoryModel> catList = [
                                 CategoryModel(
@@ -90,9 +93,8 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                               bool isServiceAddedBelogingToCategory = _createAppointmentProvider.isCategoryServiceAdded(
                                 categoryModel: catList[index],
                               );
-                              // Color selectedColor = theme.highlightColor;
-                              Color selectedColor = defaultTheme ? const Color.fromARGB(255, 239, 239, 239) : const Color(0XFF202020);
 
+                              Color selectedColor = defaultTheme ? Colors.grey : theme.colorScheme.tertiary; //const Color.fromARGB(255, 239, 239, 239)
                               return Padding(
                                 padding: EdgeInsets.only(
                                   right: DeviceConstraints.getResponsiveSize(context, 15.w, 10.w, 7.w),
@@ -110,7 +112,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                                       border: isServiceAddedBelogingToCategory
                                           ? null
                                           : Border.all(
-                                              color: defaultTheme ? Colors.black : Colors.white,
+                                              color: theme.colorScheme.tertiary, //defaultTheme ? Colors.black : Colors.white,
                                               width: DeviceConstraints.getResponsiveSize(context, 1, 1, 1.4),
                                             ),
 
@@ -124,11 +126,11 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                                         ),
                                         child: Text(
                                           catList[index].translations[AppLocalizations.of(context)?.localeName ?? 'en'],
-                                          style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                                color: defaultTheme ? Colors.black : Colors.white,
-                                                // color: Colors.white, // _activeTab == index ? AppTheme.textBlack : AppTheme.lightGrey,
-                                                fontWeight: FontWeight.w400, // _activeTab == index ? FontWeight.w500 : FontWeight.w400,
-                                              ),
+                                          style: theme.textTheme.bodyLarge!.copyWith(
+                                            color: isServiceAddedBelogingToCategory ? serviceTabCategoryColor(themeType) : theme.colorScheme.tertiary, //defaultTheme ? Colors.black : Colors.white,
+                                            // color: Colors.white, // _activeTab == index ? AppTheme.textBlack : AppTheme.lightGrey,
+                                            fontWeight: FontWeight.w400, // _activeTab == index ? FontWeight.w500 : FontWeight.w400,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -170,14 +172,17 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
                                         SizedBox(height: DeviceConstraints.getResponsiveSize(context, 15.h, 15.h, 15.h)),
-                                        Divider(color: defaultTheme ? Colors.black : Colors.white, thickness: 1),
+                                        Divider(
+                                          color: theme.colorScheme.tertiary, //defaultTheme ? Colors.black : Colors.white,
+                                          thickness: 1,
+                                        ),
                                         SizedBox(height: DeviceConstraints.getResponsiveSize(context, 15.h, 15.h, 20.h)),
                                         Text(
                                           categoryModel.categoryName,
-                                          style: theme.textTheme.bodyText1!.copyWith(
+                                          style: theme.textTheme.bodyLarge!.copyWith(
                                             fontWeight: FontWeight.w600,
                                             fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
-                                            color: defaultTheme ? AppTheme.textBlack : Colors.white,
+                                            color: theme.colorScheme.tertiary, //defaultTheme ? AppTheme.textBlack : Colors.white,
                                           ),
                                         ),
                                         SizedBox(
@@ -236,9 +241,9 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                 : Center(
                     child: Text(
                       (AppLocalizations.of(context)?.noServicesAvailable ?? 'No services available').toUpperCase(),
-                      style: theme.textTheme.bodyText1?.copyWith(
+                      style: theme.textTheme.bodyLarge?.copyWith(
                         fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
-                        color: defaultTheme ? Colors.black : Colors.white,
+                        color: theme.colorScheme.tertiary, // defaultTheme ? Colors.black : Colors.white,
                       ),
                     ),
                   ),

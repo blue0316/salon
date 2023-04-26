@@ -40,7 +40,7 @@ class MinimalAppBar extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Socials(
-                      socialIcon: ThemeIcons.minimalInstagram,
+                      socialIcon: 'ThemeIcons.minimalInstagram',
                       socialUrl: salonModel.links?.instagram,
                     ),
                     const SizedBox(width: 20),

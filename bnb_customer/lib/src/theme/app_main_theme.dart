@@ -161,7 +161,6 @@ class AppTheme {
     fontFamily: "Montserrat",
     fontSize: 16.sp,
     fontWeight: FontWeight.w500,
-    color: textBlack,
   );
   static final TextStyle bodyText2 = TextStyle(
     fontFamily: "Montserrat",
@@ -214,7 +213,7 @@ class AppTheme {
     color: lightGrey,
   );
 
-  static Color primaryLightThemeColor = const Color(0XFFFFF5F1);
+  static Color primaryLightThemeColor = Colors.white; // const Color(0XFFFFF5F1);
   static const Color primaryDarkBackgroundThemeColor = Colors.black;
   static Color darkPrimaryThemeColor = const Color(0XFFF48B72);
 
@@ -271,7 +270,10 @@ class AppTheme {
       onPrimary: creamBrown,
       onSecondary: creamBrownLight,
       onSurface: lightGrey,
-      onBackground: lightGrey,
+      // Dialog Colors
+      onBackground: Colors.black,
+      tertiary: Colors.black, // Text colors on dialog
+
       onError: redishPink,
       brightness: Brightness.light,
     ),
@@ -288,7 +290,7 @@ class AppTheme {
       displaySmall: headLine3.copyWith(color: Colors.black),
       headlineMedium: headLine4.copyWith(color: Colors.black),
       headlineSmall: headLine5.copyWith(color: Colors.black),
-      bodyLarge: displayLarge.copyWith(color: Colors.black),
+      bodyLarge: bodyText1.copyWith(color: Colors.black),
       bodyMedium: bodyText2.copyWith(color: Colors.black),
       titleMedium: subTitle1.copyWith(color: Colors.black),
       titleSmall: titleSmall.copyWith(color: Colors.black),
@@ -330,7 +332,10 @@ class AppTheme {
       onPrimary: creamBrown,
       onSecondary: creamBrownLight,
       onSurface: lightGrey,
-      onBackground: lightGrey,
+      // Dialog Colors
+      onBackground: Colors.white,
+      tertiary: Colors.white, // Text colors on dialog
+
       onError: redishPink,
       brightness: Brightness.light,
     ),
@@ -340,7 +345,7 @@ class AppTheme {
       displaySmall: headLine3.copyWith(color: Colors.black),
       headlineMedium: headLine4.copyWith(color: Colors.black),
       headlineSmall: headLine5.copyWith(color: Colors.black),
-      bodyLarge: displayLarge.copyWith(color: Colors.black),
+      bodyLarge: bodyText1.copyWith(color: Colors.black),
       bodyMedium: bodyText2.copyWith(color: Colors.black),
       titleMedium: subTitle1.copyWith(color: Colors.black),
       titleSmall: titleSmall.copyWith(color: Colors.black),

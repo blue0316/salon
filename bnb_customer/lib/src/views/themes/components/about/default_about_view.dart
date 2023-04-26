@@ -108,7 +108,7 @@ class _DefaultAboutViewState extends ConsumerState<DefaultAboutView> {
                           SizedBox(
                             child: Text(
                               (widget.salonModel.description != '') ? widget.salonModel.description : 'No description yet',
-                              style: theme.textTheme.bodyText2?.copyWith(
+                              style: theme.textTheme.bodyMedium?.copyWith(
                                 color: Colors.white,
                                 fontSize: 15.5.sp,
                               ),
@@ -155,7 +155,7 @@ class _DefaultAboutViewState extends ConsumerState<DefaultAboutView> {
                   const SizedBox(height: 20),
                   Text(
                     (widget.salonModel.description != '') ? widget.salonModel.description : 'No description yet',
-                    style: theme.textTheme.bodyText2?.copyWith(
+                    style: theme.textTheme.bodyMedium?.copyWith(
                       color: Colors.white,
                       fontSize: 15.5.sp,
                     ),

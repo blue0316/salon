@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'profile/widgets/minimal_app_bar.dart';
@@ -65,11 +66,17 @@ class Socials extends ConsumerWidget {
             showToast("No social page for this profile");
           }
         },
-        child: SvgPicture.asset(
-          socialIcon,
-          height: height ?? 25.h,
-          color: theme.appBarTheme.iconTheme!.color,
-        ),
+        child: (socialIcon != 'ThemeIcons.minimalInstagram')
+            ? SvgPicture.asset(
+                socialIcon,
+                height: height ?? 25.h,
+                color: theme.appBarTheme.iconTheme!.color,
+              )
+            : FaIcon(
+                FontAwesomeIcons.squareInstagram,
+                size: height ?? 25.h,
+                color: theme.appBarTheme.iconTheme!.color,
+              ),
       ),
     );
   }

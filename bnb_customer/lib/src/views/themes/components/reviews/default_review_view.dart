@@ -60,7 +60,7 @@ class _DefaultReviewsViewState extends ConsumerState<DefaultReviewsView> {
                   child: Center(
                     child: Text(
                       (AppLocalizations.of(context)?.noReviews ?? 'No reviews yet').toUpperCase(),
-                      style: theme.textTheme.bodyText1?.copyWith(
+                      style: theme.textTheme.bodyLarge?.copyWith(
                         fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
                       ),
                     ),

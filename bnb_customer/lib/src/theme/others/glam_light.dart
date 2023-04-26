@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // Theme 5 ThemeData
 class GlamLightTheme {
-  static const Color themeBackgroundColor = Color(0XFFFFF5F1);
+  static Color themeBackgroundColor = const Color(0XFFFFF5F1);
 
   static const Color textBlack = Color(0xff0E141E);
   static const Color lightBlack = Color(0xff1E2D3D);
@@ -21,23 +21,22 @@ class GlamLightTheme {
     primaryColor: primaryColor1,
     primaryColorDark: primaryColor1,
     primaryColorLight: Colors.black87,
-    backgroundColor: themeBackgroundColor,
     scaffoldBackgroundColor: Colors.black,
     textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
 
     tabBarTheme: TabBarTheme(
-      unselectedLabelColor: Colors.black,
-      labelColor: Colors.white,
+      unselectedLabelColor: Colors.white,
+      labelColor: Colors.black,
       labelStyle: bodyText1.copyWith(
-        color: Colors.white,
+        color: Colors.black,
         fontWeight: FontWeight.w600,
       ),
       indicator: BoxDecoration(
         borderRadius: BorderRadius.circular(50),
-        color: primaryColor1,
+        color: themeBackgroundColor,
       ),
     ),
-    dialogBackgroundColor: Colors.black,
+    dialogBackgroundColor: themeBackgroundColor,
     cardColor: themeBackgroundColor,
     colorScheme: ColorScheme(
       primary: (Colors.pink[900])!,
@@ -45,28 +44,32 @@ class GlamLightTheme {
       onSecondaryContainer: Colors.black, // Color of sub text on cards
 
       surface: Colors.white,
-      background: Colors.black,
+      background: themeBackgroundColor,
       error: redishPink,
       onPrimary: (Colors.green[900])!,
       onSecondary: creamBrownLight,
       onSurface: lightGrey,
-      onBackground: lightGrey,
+
+      // Dialog Colors
+      onBackground: primaryColor1,
+      tertiary: primaryColor1, // Text colors on dialog
+
       onError: redishPink,
       brightness: Brightness.light,
       outlineVariant: Colors.black, // Color of divider on appbar
     ),
     textTheme: TextTheme(
-      headline1: headLine1.copyWith(color: primaryColor1),
-      headline2: headLine2.copyWith(color: primaryColor1),
-      headline3: headLine3.copyWith(color: primaryColor1),
-      headline4: headLine4.copyWith(color: primaryColor1),
-      headline5: headLine5.copyWith(color: primaryColor1),
+      displayLarge: headLine1.copyWith(color: primaryColor1),
+      displayMedium: headLine2.copyWith(color: primaryColor1),
+      displaySmall: headLine3.copyWith(color: primaryColor1),
+      headlineMedium: headLine4.copyWith(color: primaryColor1),
+      headlineSmall: headLine5.copyWith(color: primaryColor1),
 
-      bodyText1: bodyText1.copyWith(color: primaryColor1),
-      bodyText2: bodyText2.copyWith(color: primaryColor1),
+      bodyLarge: bodyText1.copyWith(color: primaryColor1),
+      bodyMedium: bodyText2.copyWith(color: primaryColor1),
       //text-field style
-      subtitle1: subTitle1.copyWith(color: primaryColor1),
-      subtitle2: subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
+      titleMedium: subTitle1.copyWith(color: primaryColor1),
+      titleSmall: subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
     ),
     dividerColor: Colors.black,
 
