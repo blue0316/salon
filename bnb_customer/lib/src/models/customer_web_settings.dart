@@ -3,14 +3,26 @@ class CustomerWebSettings {
   String? docId;
   WebTheme? theme;
   String? backgroundImage;
+  String? aboutSectionImage;
+  List<String>? glamLightImages;
   DisplaySettings? displaySettings;
 
-  CustomerWebSettings({this.salonId, this.docId, this.theme, this.displaySettings, this.backgroundImage});
+  CustomerWebSettings({
+    this.salonId,
+    this.docId,
+    this.theme,
+    this.displaySettings,
+    this.backgroundImage,
+    this.aboutSectionImage,
+    this.glamLightImages,
+  });
 
   CustomerWebSettings.fromJson(Map data) {
     if (data["salonId"] != null) salonId = data["salonId"];
     if (data["docId"] != null) docId = data["docId"];
     if (data["backgroundImage"] != null) backgroundImage = data["backgroundImage"];
+    if (data["aboutSectionImage"] != null) aboutSectionImage = data["aboutSectionImage"];
+    if (data['glamLightImages'] != null) glamLightImages = data['glamLightImages'].cast<String>();
     if (data["theme"] != null) theme = WebTheme.fromJson(data["theme"]);
     displaySettings = (data["displaySettings"] != null)
         ? DisplaySettings.fromJson(
