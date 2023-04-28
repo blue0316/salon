@@ -180,9 +180,9 @@ class SocialNetwork extends ConsumerWidget {
             ),
             const SizedBox(width: 20),
             Socials(
-              type: 'facebook',
+              type: (themeType == ThemeType.GlamMinimalLight) ? 'facebook' : 'tiktok',
               socialIcon: (themeType == ThemeType.GlamMinimalLight) ? ThemeIcons.minimalFacebook : ThemeIcons.tiktok,
-              socialUrl: salonModel.links?.facebook,
+              socialUrl: (themeType == ThemeType.GlamMinimalLight) ? salonModel.links?.facebook : salonModel.links?.tiktok,
               height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 26.sp),
               color: theme.primaryColorDark,
             ),

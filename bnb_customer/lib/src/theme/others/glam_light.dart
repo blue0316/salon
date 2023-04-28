@@ -26,9 +26,9 @@ class GlamLightTheme {
 
     tabBarTheme: TabBarTheme(
       unselectedLabelColor: Colors.white,
-      labelColor: Colors.black,
+      labelColor: Colors.white,
       labelStyle: bodyText1.copyWith(
-        color: Colors.black,
+        color: Colors.white,
         fontWeight: FontWeight.w600,
       ),
       indicator: BoxDecoration(
