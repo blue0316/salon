@@ -1,6 +1,7 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
+import 'package:bbblient/src/models/customer_web_settings.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
@@ -25,6 +26,7 @@ class MinimalAboutView extends ConsumerWidget {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    CustomerWebSettings? themeSettings = _salonProfileProvider.themeSettings;
 
     return Padding(
       padding: const EdgeInsets.only(
@@ -48,12 +50,17 @@ class MinimalAboutView extends ConsumerWidget {
                     child: SizedBox(
                       height: 470.h,
                       // width: double.infinity,
-                      child: salonModel.photosOfWork.isNotEmpty
+                      child: (themeSettings?.aboutSectionImage != null || themeSettings?.aboutSectionImage != '')
                           ? CachedImage(
-                              url: salonModel.photosOfWork[0],
+                              url: themeSettings!.aboutSectionImage!,
                               fit: BoxFit.cover,
                             )
-                          : Image.asset(ThemeImages.makeup, fit: BoxFit.cover),
+                          : salonModel.photosOfWork.isNotEmpty
+                              ? CachedImage(
+                                  url: salonModel.photosOfWork[0],
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.asset(ThemeImages.makeup, fit: BoxFit.cover),
                     ),
                   ),
                   SizedBox(
@@ -67,7 +74,7 @@ class MinimalAboutView extends ConsumerWidget {
                       children: [
                         Text(
                           isSingleMaster ? (AppLocalizations.of(context)?.aboutMe ?? 'About Me') : (AppLocalizations.of(context)?.aboutUs ?? 'About Us').toUpperCase(),
-                          style: theme.textTheme.headline2?.copyWith(
+                          style: theme.textTheme.displayMedium?.copyWith(
                             fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
                           ),
                         ),
@@ -116,6 +123,8 @@ class PortraitView extends ConsumerWidget {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
+    CustomerWebSettings? themeSettings = _salonProfileProvider.themeSettings;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -125,12 +134,17 @@ class PortraitView extends ConsumerWidget {
           child: SizedBox(
             height: DeviceConstraints.getResponsiveSize(context, 250.h, 350.h, 400.h),
             width: double.infinity,
-            child: salonModel.photosOfWork.isNotEmpty
+            child: (themeSettings?.aboutSectionImage != null || themeSettings?.aboutSectionImage != '')
                 ? CachedImage(
-                    url: salonModel.photosOfWork[0],
+                    url: themeSettings!.aboutSectionImage!,
                     fit: BoxFit.cover,
                   )
-                : Image.asset(ThemeImages.makeup, fit: BoxFit.cover),
+                : salonModel.photosOfWork.isNotEmpty
+                    ? CachedImage(
+                        url: salonModel.photosOfWork[0],
+                        fit: BoxFit.cover,
+                      )
+                    : Image.asset(ThemeImages.makeup, fit: BoxFit.cover),
           ),
         ),
         const SizedBox(height: 30),
@@ -141,7 +155,7 @@ class PortraitView extends ConsumerWidget {
           ),
           child: Text(
             isSingleMaster ? (AppLocalizations.of(context)?.aboutMe ?? 'About Me') : (AppLocalizations.of(context)?.aboutUs ?? 'About Us').toUpperCase(),
-            style: theme.textTheme.headline2?.copyWith(
+            style: theme.textTheme.displayMedium?.copyWith(
               fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
             ),
           ),

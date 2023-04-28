@@ -1,6 +1,7 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
+import 'package:bbblient/src/models/customer_web_settings.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
@@ -25,6 +26,7 @@ class GlamLightAboutUs extends ConsumerWidget {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    CustomerWebSettings? themeSettings = _salonProfileProvider.themeSettings;
 
     return Padding(
         padding: EdgeInsets.only(
@@ -46,12 +48,17 @@ class GlamLightAboutUs extends ConsumerWidget {
                       // width: double.infinity,
                       child: ClipRRect(
                         borderRadius: const BorderRadius.horizontal(right: Radius.elliptical(200, 180)),
-                        child: salonModel.photosOfWork.isNotEmpty
+                        child: (themeSettings?.aboutSectionImage != null || themeSettings?.aboutSectionImage != '')
                             ? CachedImage(
-                                url: salonModel.photosOfWork[0],
+                                url: themeSettings!.aboutSectionImage!,
                                 fit: BoxFit.cover,
                               )
-                            : Image.asset(ThemeImages.makeup, fit: BoxFit.cover),
+                            : salonModel.photosOfWork.isNotEmpty
+                                ? CachedImage(
+                                    url: salonModel.photosOfWork[0],
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.asset(ThemeImages.makeup, fit: BoxFit.cover),
                       ),
                     ),
                   ),
@@ -103,6 +110,7 @@ class PortraitView extends ConsumerWidget {
     final bool isSingleMaster = (salonModel.ownerType == OwnerType.singleMaster);
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    CustomerWebSettings? themeSettings = _salonProfileProvider.themeSettings;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,12 +159,17 @@ class PortraitView extends ConsumerWidget {
               width: double.infinity,
               child: ClipRRect(
                 borderRadius: const BorderRadius.horizontal(right: Radius.elliptical(200, 180)),
-                child: salonModel.photosOfWork.isNotEmpty
+                child: (themeSettings?.aboutSectionImage != null || themeSettings?.aboutSectionImage != '')
                     ? CachedImage(
-                        url: salonModel.photosOfWork[0],
+                        url: themeSettings!.aboutSectionImage!,
                         fit: BoxFit.cover,
                       )
-                    : Image.asset(ThemeImages.makeup, fit: BoxFit.cover),
+                    : salonModel.photosOfWork.isNotEmpty
+                        ? CachedImage(
+                            url: salonModel.photosOfWork[0],
+                            fit: BoxFit.cover,
+                          )
+                        : Image.asset(ThemeImages.makeup, fit: BoxFit.cover),
               ),
             ),
           ),

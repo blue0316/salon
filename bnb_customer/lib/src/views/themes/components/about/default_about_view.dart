@@ -100,7 +100,7 @@ class _DefaultAboutViewState extends ConsumerState<DefaultAboutView> {
                         children: [
                           Text(
                             isSingleMaster ? (AppLocalizations.of(context)?.aboutMe ?? 'About Me') : (AppLocalizations.of(context)?.aboutUs ?? 'About Us').toUpperCase(),
-                            style: theme.textTheme.headline2?.copyWith(
+                            style: theme.textTheme.displayMedium?.copyWith(
                               fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 30.sp, 50.sp),
                             ),
                           ),
@@ -148,7 +148,7 @@ class _DefaultAboutViewState extends ConsumerState<DefaultAboutView> {
                 children: [
                   Text(
                     "${AppLocalizations.of(context)?.about} ${isSingleMaster ? "ME" : "US"}".toUpperCase(),
-                    style: theme.textTheme.headline2?.copyWith(
+                    style: theme.textTheme.displayMedium?.copyWith(
                       fontSize: 40.sp,
                     ),
                   ),
