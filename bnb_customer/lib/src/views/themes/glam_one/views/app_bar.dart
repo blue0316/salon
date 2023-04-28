@@ -40,12 +40,20 @@ Widget appBarTheme(ThemeType themeType, SalonModel salon) {
 }
 
 class Socials extends ConsumerWidget {
+  final String type;
   final String socialIcon;
   final String? socialUrl;
   final Color? color;
   final double? height;
 
-  const Socials({Key? key, required this.socialIcon, required this.socialUrl, this.color, this.height}) : super(key: key);
+  const Socials({
+    Key? key,
+    required this.socialIcon,
+    required this.socialUrl,
+    this.color,
+    this.height,
+    required this.type,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -56,10 +64,10 @@ class Socials extends ConsumerWidget {
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
         onTap: () async {
-          String instaUrl = socialUrl ?? '';
+          Uri uri = Uri.parse(socialLinks(type, socialUrl ?? ''));
 
-          Uri uri = Uri.parse(instaUrl);
-          debugPrint("launching Insta Url: $uri");
+          debugPrint("launching Url: $uri");
+
           if (await canLaunchUrl(uri)) {
             await launchUrl(uri);
           } else {
@@ -81,3 +89,56 @@ class Socials extends ConsumerWidget {
     );
   }
 }
+
+String socialLinks(String type, String username) {
+  switch (type) {
+    case 'insta':
+      return 'https://www.instagram.com/$username/';
+
+    case 'twitter':
+      return 'https://twitter.com/$username';
+
+    case 'pinterest':
+      return 'https://www.pinterest.com/$username/';
+
+    case 'yelp':
+      return 'https://www.yelp.com/biz/$username/';
+
+    case 'tiktok':
+      return 'https://www.tiktok.com/@$username';
+
+    case 'facebook':
+      return 'https://web.facebook.com/$username/';
+
+    case 'whatsapp':
+      return 'https://wa.me/$username';
+
+    case 'website':
+      return username;
+
+    default:
+      return '';
+  }
+}
+
+// Widget socialIcon(String type) {
+//   switch (type) {
+//     case 'insta':
+//       return SvgPicture.asset('assets/social_media/insta.svg');
+//     case 'twitter':
+//       return const FaIcon(FontAwesomeIcons.twitter);
+//     case 'pinterest':
+//       return const FaIcon(FontAwesomeIcons.pinterest);
+//     case 'yelp':
+//       return const FaIcon(FontAwesomeIcons.yelp);
+//     case 'tiktok':
+//       return const FaIcon(FontAwesomeIcons.tiktok);
+//     case 'facebook':
+//       return SvgPicture.asset('assets/social_media/facebook_messenger.svg');
+//     case 'website':
+//       return const FaIcon(FontAwesomeIcons.globe);
+
+//     default:
+//       return const SizedBox();
+//   }
+// }

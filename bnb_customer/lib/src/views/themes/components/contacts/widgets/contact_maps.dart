@@ -21,16 +21,16 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
   Widget build(BuildContext context) {
     ui.platformViewRegistry.registerViewFactory(htmlId, (int viewId) {
       final myLatlng = maps.LatLng(
-        widget.salonModel!.position!.geoPoint!.latitude ?? 1.3521,
-        widget.salonModel!.position!.geoPoint!.longitude ?? 103.8198,
+        widget.salonModel!.position?.geoPoint?.latitude ?? 1.3521,
+        widget.salonModel!.position?.geoPoint?.longitude ?? 103.8198,
       );
 
       final mapOptions = maps.MapOptions()
         ..zoom = 10
         ..maxZoom = 19
         ..center = maps.LatLng(
-          widget.salonModel!.position!.geoPoint!.latitude ?? 1.3521,
-          widget.salonModel!.position!.geoPoint!.longitude ?? 103.8198,
+          widget.salonModel!.position?.geoPoint?.latitude ?? 1.3521,
+          widget.salonModel!.position?.geoPoint?.longitude ?? 103.8198,
         );
 
       final elem = DivElement()

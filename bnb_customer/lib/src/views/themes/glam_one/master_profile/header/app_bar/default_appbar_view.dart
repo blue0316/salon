@@ -8,7 +8,6 @@ import 'package:bbblient/src/views/themes/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class DefaultAppBarTheme extends ConsumerWidget {
   final SalonModel salonModel;
@@ -38,7 +37,7 @@ class DefaultAppBarTheme extends ConsumerWidget {
                     Flexible(
                       child: Text(
                         salonModel.salonName.toUpperCase(),
-                        style: theme.textTheme.bodyText1!.copyWith(
+                        style: theme.textTheme.bodyLarge!.copyWith(
                           color: Colors.white,
                           fontSize: 22.sp,
                           letterSpacing: 0.9,
@@ -75,18 +74,21 @@ class DefaultAppBarTheme extends ConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Socials(
+                              type: 'insta',
                               socialIcon: ThemeIcons.insta,
                               socialUrl: salonModel.links?.instagram,
                             ),
                             const SizedBox(width: 20),
                             Socials(
+                              type: 'facebook',
                               socialIcon: ThemeIcons.tiktok,
-                              socialUrl: salonModel.links?.facebookMessenger,
+                              socialUrl: salonModel.links?.facebook,
                             ),
                             const SizedBox(width: 20),
                             Socials(
+                              type: 'whatsapp',
                               socialIcon: ThemeIcons.whatsapp,
-                              socialUrl: salonModel.links?.whatsapp,
+                              socialUrl: salonModel.phoneNumber,
                             ),
                           ],
                         ),
@@ -104,7 +106,7 @@ class DefaultAppBarTheme extends ConsumerWidget {
                     //     :
                     Text(
                       salonModel.salonName.toUpperCase(),
-                      style: theme.textTheme.bodyText1!.copyWith(
+                      style: theme.textTheme.bodyLarge!.copyWith(
                         color: Colors.white,
                         fontSize: 22.sp,
                         letterSpacing: 0.9,

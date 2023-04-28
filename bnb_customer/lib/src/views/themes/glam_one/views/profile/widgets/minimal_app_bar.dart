@@ -40,18 +40,21 @@ class MinimalAppBar extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Socials(
+                      type: 'insta',
                       socialIcon: 'ThemeIcons.minimalInstagram',
                       socialUrl: salonModel.links?.instagram,
                     ),
                     const SizedBox(width: 20),
                     Socials(
+                      type: 'facebook',
                       socialIcon: ThemeIcons.minimalFacebook,
-                      socialUrl: salonModel.links?.facebookMessenger,
+                      socialUrl: salonModel.links?.facebook,
                     ),
                     const SizedBox(width: 20),
                     Socials(
+                      type: 'insta',
                       socialIcon: ThemeIcons.whatsapp,
-                      socialUrl: salonModel.links?.whatsapp,
+                      socialUrl: salonModel.phoneNumber,
                     ),
                   ],
                 ),
@@ -59,7 +62,7 @@ class MinimalAppBar extends ConsumerWidget {
             if (isTab) const Spacer(),
             Text(
               salonModel.salonName.toUpperCase(),
-              style: theme.textTheme.headline1!.copyWith(
+              style: theme.textTheme.displayLarge!.copyWith(
                 color: theme.dividerColor,
                 fontSize: 22.sp,
                 letterSpacing: 0.9,

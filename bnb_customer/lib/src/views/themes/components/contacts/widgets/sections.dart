@@ -179,6 +179,7 @@ class SocialNetwork extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Socials(
+              type: 'insta',
               socialIcon: (themeType == ThemeType.GlamMinimalLight) ? 'ThemeIcons.minimalInstagram' : ThemeIcons.insta,
               socialUrl: salonModel.links?.instagram,
               height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 26.sp),
@@ -186,15 +187,17 @@ class SocialNetwork extends ConsumerWidget {
             ),
             const SizedBox(width: 20),
             Socials(
+              type: 'facebook',
               socialIcon: (themeType == ThemeType.GlamMinimalLight) ? ThemeIcons.minimalFacebook : ThemeIcons.tiktok,
-              socialUrl: salonModel.links?.facebookMessenger,
+              socialUrl: salonModel.links?.facebook,
               height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 26.sp),
               color: theme.primaryColorDark,
             ),
             const SizedBox(width: 20),
             Socials(
+              type: 'whatsapp',
               socialIcon: (themeType == ThemeType.GlamMinimalLight) ? ThemeIcons.whatsapp : ThemeIcons.whatsapp,
-              socialUrl: salonModel.links?.whatsapp,
+              socialUrl: salonModel.phoneNumber,
               height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 26.sp),
               color: theme.primaryColorDark,
             ),

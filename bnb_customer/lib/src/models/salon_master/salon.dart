@@ -245,34 +245,6 @@ class Position {
   // ukraine second test const LatLng( 50.450001, 30.523333);
 }
 
-class Links {
-  String? facebookMessenger;
-  String? viber;
-  String? telegram;
-  String? whatsapp;
-  String? instagram;
-
-  Links(Map map, {this.facebookMessenger, this.viber, this.telegram, this.whatsapp, this.instagram});
-
-  Links.fromJson(Map<String, dynamic> json) {
-    facebookMessenger = json['facebookMessenger'];
-    viber = json['viber'];
-    telegram = json['telegram'];
-    whatsapp = json['whatsapp'];
-    instagram = json['instagram'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {};
-    data['facebookMessenger'] = facebookMessenger;
-    data['viber'] = viber;
-    data['telegram'] = telegram;
-    data['whatsapp'] = whatsapp;
-    data['instagram'] = instagram;
-    return data;
-  }
-}
-
 class PhotosOfWorks {
   dynamic createdAt;
   String? image;
@@ -296,6 +268,49 @@ class PhotosOfWorks {
     data['image'] = image;
     data['description'] = description;
 
+    return data;
+  }
+}
+
+class Links {
+  String? facebook;
+  String? instagram;
+  String? twitter;
+  String? pinterest;
+  String? yelp;
+  String? tiktok;
+  String? website;
+
+  Links(
+    Map map, {
+    this.facebook,
+    this.instagram,
+    this.twitter,
+    this.pinterest,
+    this.yelp,
+    this.tiktok,
+    this.website,
+  });
+
+  Links.fromJson(Map<String, dynamic> json) {
+    facebook = json['facebook'];
+    instagram = json['instagram'];
+    twitter = json['twitter'];
+    pinterest = json['pinterest'];
+    yelp = json['yelp'];
+    tiktok = json['tiktok'];
+    website = json['website'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = {};
+    data['facebook'] = facebook;
+    data['instagram'] = instagram;
+    data['twitter'] = twitter;
+    data['pinterest'] = pinterest;
+    data['yelp'] = yelp;
+    data['tiktok'] = tiktok;
+    data['website'] = website;
     return data;
   }
 }
