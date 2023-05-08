@@ -161,6 +161,23 @@ class SalonSearchProvider with ChangeNotifier {
     } else {
       status = Status.success;
     }
+
+    bool addDaria = true;
+
+    // Add Daria's salon to nearby on homepage
+    SalonModel? dariaSalon = await SalonApi().getSalonFromId('Q9tHZc8qzVrxoIcvozI7');
+
+    for (SalonModel salon in nearbySalons) {
+      if (salon.salonId == dariaSalon?.salonId) {
+        addDaria = false;
+      }
+    }
+
+    if (addDaria) {
+      if (dariaSalon != null) {
+        nearbySalons.add(dariaSalon);
+      }
+    }
     notifyListeners();
   }
 

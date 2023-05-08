@@ -14,8 +14,6 @@ import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/chat/chat_list.dart';
 import 'package:bbblient/src/views/home/widgets/banner_scroll.dart';
 import 'package:bbblient/src/views/registration/authenticate/login.dart';
-import 'package:bbblient/src/views/themes/glam_one/glam_one.dart';
-
 import 'package:bbblient/src/views/widgets/salon_widgets.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -80,7 +78,7 @@ class _HomeState extends ConsumerState<Home> {
                       padding: const EdgeInsets.all(24.0),
                       child: Text(
                         AppLocalizations.of(context)?.nearby ?? "Nearby",
-                        style: Theme.of(context).textTheme.headline4,
+                        style: Theme.of(context).textTheme.headlineMedium,
                       ),
                     )),
               ),
@@ -98,7 +96,7 @@ class _HomeState extends ConsumerState<Home> {
                       ),
                       Text(
                         AppLocalizations.of(context)?.noSalonsNearbyTryDifferentLocation ?? '',
-                        style: Theme.of(context).textTheme.headline4,
+                        style: Theme.of(context).textTheme.headlineMedium,
                       ),
                     ],
                   ),
