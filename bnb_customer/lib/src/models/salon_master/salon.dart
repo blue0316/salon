@@ -4,15 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../backend_codings/working_hours.dart';
 
-// { // POSSIBLE THEME FORMAT IN DATABSE ??
-//   '0': 'default',
-//   '1': 'solo-glam',
-//   '2': 'glam-barbershop',
-//   '3': 'glam-gradient',
-//   '4': 'barbershop',
-//   '5': 'glam-light',
-// }
-
 class SalonModel {
   late String salonId = '';
   late String salonName;
@@ -273,33 +264,33 @@ class PhotosOfWorks {
 }
 
 class Links {
-  String? facebook;
-  String? instagram;
-  String? twitter;
-  String? pinterest;
-  String? yelp;
-  String? tiktok;
-  String? website;
+  late String facebook;
+  late String instagram;
+  late String twitter;
+  late String pinterest;
+  late String yelp;
+  late String tiktok;
+  late String website;
 
   Links(
     Map map, {
-    this.facebook,
-    this.instagram,
-    this.twitter,
-    this.pinterest,
-    this.yelp,
-    this.tiktok,
-    this.website,
+    required this.facebook,
+    required this.instagram,
+    required this.twitter,
+    required this.pinterest,
+    required this.yelp,
+    required this.tiktok,
+    required this.website,
   });
 
   Links.fromJson(Map<String, dynamic> json) {
-    facebook = json['facebook'];
-    instagram = json['instagram'];
-    twitter = json['twitter'];
-    pinterest = json['pinterest'];
-    yelp = json['yelp'];
-    tiktok = json['tiktok'];
-    website = json['website'];
+    facebook = json['facebook'] ?? '';
+    instagram = json['instagram'] ?? '';
+    twitter = json['twitter'] ?? '';
+    pinterest = json['pinterest'] ?? '';
+    yelp = json['yelp'] ?? '';
+    tiktok = json['tiktok'] ?? '';
+    website = json['website'] ?? '';
   }
 
   Map<String, dynamic> toJson() {

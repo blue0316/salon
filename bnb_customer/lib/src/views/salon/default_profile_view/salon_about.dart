@@ -1,3 +1,4 @@
+import 'package:bbblient/src/views/themes/glam_one/views/app_bar.dart';
 import 'package:extended_wrap/extended_wrap.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -15,6 +16,7 @@ import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/views/salon/widgets/additional%20featured.dart';
 import 'package:bbblient/src/views/salon/widgets/service_expension_tile.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'about.dart';
 import 'salon_reviews.dart';
 import 'widgets/section_spacer.dart';
@@ -71,6 +73,8 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
   @override
   Widget build(BuildContext context) {
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+    final bool isLandscape = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.landScape);
+    final bool isTab = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab);
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     BnbProvider _bnbProvider = ref.read(bnbProvider);
 
@@ -130,11 +134,12 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                                 children: [
                                   for (String s in widget.salonModel.additionalFeatures) ...[
                                     if (AppIcons.getIconFromFacilityString(feature: s) != null) ...[
-                                      if (_bnbProvider.locale == const Locale('en')) ...[
-                                        Container(
-                                          color: theme.canvasColor,
-                                          height: DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
-                                          width: DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
+                                      Container(
+                                        color: theme.canvasColor,
+                                        height: DeviceConstraints.getResponsiveSize(context, 100.h, 100.h, 110.h),
+                                        width: DeviceConstraints.getResponsiveSize(context, 100.h, 100.h, 110.h),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(5),
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.center,
                                             mainAxisAlignment: MainAxisAlignment.center,
@@ -152,80 +157,43 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                                                   color: theme.primaryColor,
                                                 ),
                                               ),
-                                              const SizedBox(height: 5),
+                                              const SizedBox(height: 10),
                                               Text(
-                                                getFeature(s) ?? '',
+                                                _bnbProvider.locale == const Locale('en') ? (getFeature(s) ?? '') : (getFeatureUk(s) ?? ''),
                                                 style: TextStyle(
                                                   overflow: TextOverflow.ellipsis,
-                                                  fontSize: 12.sp,
+                                                  fontSize: DeviceConstraints.getResponsiveSize(context, 10.sp, 10.sp, 12.sp),
                                                   height: 0,
                                                   color: isLightTheme ? Colors.black : Colors.white,
                                                 ),
-                                                maxLines: 2,
+                                                maxLines: 3,
                                                 textAlign: TextAlign.center,
                                               ),
                                             ],
                                           ),
                                         ),
-                                      ],
-                                      if (_bnbProvider.locale == const Locale('uk')) ...[
-                                        Container(
-                                          color: theme.canvasColor,
-                                          height: DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
-                                          width: DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              GestureDetector(
-                                                onTap: () => showDialog<bool>(
-                                                  context: context,
-                                                  builder: (BuildContext context) {
-                                                    return ShowAdditionaFeatureInfo(_bnbProvider, s);
-                                                  },
-                                                ),
-                                                child: SvgPicture.asset(
-                                                  AppIcons.getIconFromFacilityString(feature: s)!,
-                                                  height: DeviceConstraints.getResponsiveSize(context, 30.h, 30.h, 30.h),
-                                                  color: theme.primaryColor,
-                                                ),
-                                              ),
-                                              const SizedBox(height: 5),
-                                              Text(
-                                                getFeatureUk(s) ?? '',
-                                                style: TextStyle(
-                                                  overflow: TextOverflow.ellipsis,
-                                                  fontSize: 12.sp,
-                                                  height: 0,
-                                                  color: isLightTheme ? Colors.black : Colors.white,
-                                                ),
-                                                maxLines: 2,
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ]
+                                      ),
                                     ]
                                   ],
                                 ],
                               ),
                             ),
-                            Expanded(
-                              flex: 0,
-                              child: GestureDetector(
-                                onTap: () {
-                                  if (maxLinesForAdditionalFeature != widget.salonModel.additionalFeatures.length) {
-                                    setState(() {
-                                      maxLinesForAdditionalFeature = widget.salonModel.additionalFeatures.length;
-                                    });
-                                  } else {
-                                    setState(() {
-                                      maxLinesForAdditionalFeature = 1;
-                                    });
-                                  }
-                                },
-                                child: Container(
+                            if ((isPortrait && widget.salonModel.additionalFeatures.length > 3) || (isLandscape && widget.salonModel.additionalFeatures.length > 4) || (isTab && widget.salonModel.additionalFeatures.length > 6))
+                              Expanded(
+                                flex: 0,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    if (maxLinesForAdditionalFeature != widget.salonModel.additionalFeatures.length) {
+                                      setState(() {
+                                        maxLinesForAdditionalFeature = widget.salonModel.additionalFeatures.length;
+                                      });
+                                    } else {
+                                      setState(() {
+                                        maxLinesForAdditionalFeature = 1;
+                                      });
+                                    }
+                                  },
+                                  child: Container(
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       color: theme.canvasColor,
@@ -235,15 +203,16 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                                         Icons.keyboard_arrow_down_rounded,
                                         color: theme.primaryColor,
                                       ),
-                                    )),
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
                           ],
                         ),
                       ),
                     ),
                   SizedBox(
-                    height: DeviceConstraints.getResponsiveSize(context, 15, 15, 30),
+                    height: DeviceConstraints.getResponsiveSize(context, 20, 20, 30),
                   ),
                   Expanded(
                     flex: 0,
@@ -263,19 +232,32 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.start,
-                          children: isLightTheme
-                              ? [
-                                  const SocialLink(icon: AppIcons.linkGlobe),
-                                  const SocialLink(icon: AppIcons.linkInsta),
-                                  const SocialLink(icon: AppIcons.linkTikTok),
-                                  const SocialLink(icon: AppIcons.linkFacebook),
-                                ]
-                              : [
-                                  const SocialLink(icon: AppIcons.linkGlobeDark),
-                                  const SocialLink(icon: AppIcons.linkInstaDark),
-                                  const SocialLink(icon: AppIcons.linkTikTokDark),
-                                  const SocialLink(icon: AppIcons.linkFacebookDark),
-                                ],
+                          children: [
+                            if (widget.salonModel.links?.website != '')
+                              SocialLink(
+                                icon: isLightTheme ? AppIcons.linkGlobe : AppIcons.linkGlobeDark,
+                                type: 'website',
+                                socialUrl: widget.salonModel.links?.website,
+                              ),
+                            if (widget.salonModel.links?.website != '')
+                              SocialLink(
+                                icon: isLightTheme ? AppIcons.linkInsta : AppIcons.linkInstaDark,
+                                type: 'insta',
+                                socialUrl: widget.salonModel.links?.instagram,
+                              ),
+                            if (widget.salonModel.links?.website != '')
+                              SocialLink(
+                                icon: isLightTheme ? AppIcons.linkTikTok : AppIcons.linkTikTokDark,
+                                type: 'tiktok',
+                                socialUrl: widget.salonModel.links?.tiktok,
+                              ),
+                            if (widget.salonModel.links?.website != '')
+                              SocialLink(
+                                icon: isLightTheme ? AppIcons.linkFacebook : AppIcons.linkFacebookDark,
+                                type: 'facebook',
+                                socialUrl: widget.salonModel.links?.facebook,
+                              ),
+                          ],
                         ),
                       ],
                     ),
@@ -297,8 +279,15 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
 
 class SocialLink extends ConsumerWidget {
   final String icon;
+  final String type;
+  final String? socialUrl;
 
-  const SocialLink({Key? key, required this.icon}) : super(key: key);
+  const SocialLink({
+    Key? key,
+    required this.icon,
+    required this.type,
+    required this.socialUrl,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -307,16 +296,29 @@ class SocialLink extends ConsumerWidget {
 
     return Expanded(
       flex: 0,
-      child: Padding(
-        padding: const EdgeInsets.only(right: 15),
-        child: Container(
-          height: 50.h,
-          width: 50.h,
-          color: theme.canvasColor,
-          child: Center(
-            child: SvgPicture.asset(
-              icon,
-              height: 30.h,
+      child: GestureDetector(
+        onTap: () async {
+          Uri uri = Uri.parse(socialLinks(type, socialUrl ?? ''));
+
+          debugPrint("launching Url: $uri");
+
+          if (await canLaunchUrl(uri)) {
+            await launchUrl(uri);
+          } else {
+            showToast("No social page for this profile");
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.only(right: 15),
+          child: Container(
+            height: 50.h,
+            width: 50.h,
+            color: theme.canvasColor,
+            child: Center(
+              child: SvgPicture.asset(
+                icon,
+                height: 30.h,
+              ),
             ),
           ),
         ),

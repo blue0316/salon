@@ -67,9 +67,9 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
                       children: [
                         InkWell(
                           onTap: () {
-                            print('here');
-                            print(AppTheme.primaryLightThemeColor);
-                            print(theme.canvasColor);
+                            // print('here');
+                            // print(AppTheme.primaryLightThemeColor);
+                            // print(theme.canvasColor);
                           },
                           child: Header(salonModel: _salonProfileProvider.chosenSalon),
                         ),
@@ -110,7 +110,7 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
                                           separatorBuilder: (_, index) => Padding(
                                             padding: EdgeInsets.symmetric(
                                               vertical: 5,
-                                              horizontal: DeviceConstraints.getResponsiveSize(context, 2.w, 5.w, 10.w),
+                                              horizontal: DeviceConstraints.getResponsiveSize(context, 2.w, 5.w, 5.w),
                                             ),
                                             child: Container(
                                               width: 1.5,
@@ -145,11 +145,7 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
                                                       fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 16.sp, 18.sp),
                                                       color: _activeTab == index ? theme.primaryColor : unselectedTabColor(theme, isLightTheme),
                                                       fontWeight: _activeTab == index ? FontWeight.w700 : FontWeight.w500,
-                                                      decoration: !isLightTheme
-                                                          ? null
-                                                          : _activeTab == index
-                                                              ? TextDecoration.underline
-                                                              : null,
+                                                      decoration: _activeTab == index ? TextDecoration.underline : null,
                                                       letterSpacing: 0,
                                                       fontFamily: "Inter",
                                                     ),

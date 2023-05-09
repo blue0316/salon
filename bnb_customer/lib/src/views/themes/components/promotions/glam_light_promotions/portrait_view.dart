@@ -89,7 +89,7 @@ class GlamLightPromotionCarousel extends ConsumerWidget {
                   children: [
                     Text(
                       "${AppLocalizations.of(context)?.discounts ?? "Discounts"}  ${promotion.promotionDiscount} ${promotion.discountUnit == "PCT(%)" ? '%' : '₴'}".toUpperCase(),
-                      style: theme.textTheme.headline2?.copyWith(fontSize: 25.sp),
+                      style: theme.textTheme.displayMedium?.copyWith(fontSize: 25.sp),
                     ),
                     const SizedBox(height: 10),
                     Flexible(
@@ -97,7 +97,7 @@ class GlamLightPromotionCarousel extends ConsumerWidget {
                         '${promotion.promotionDescription}',
                         maxLines: 4,
                         overflow: TextOverflow.ellipsis,
-                        style: theme.textTheme.bodyText1?.copyWith(
+                        style: theme.textTheme.bodyLarge?.copyWith(
                           color: Colors.black,
                           fontSize: 15.sp,
                         ),

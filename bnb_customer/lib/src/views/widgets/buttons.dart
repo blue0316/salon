@@ -191,10 +191,8 @@ class _BnbCheckCircleState extends State<BnbCheckCircle> {
 
 class ServicesBnbCheckCircle extends ConsumerStatefulWidget {
   final bool value;
-  const ServicesBnbCheckCircle({
-    Key? key,
-    required this.value,
-  }) : super(key: key);
+
+  const ServicesBnbCheckCircle({Key? key, required this.value}) : super(key: key);
 
   @override
   _ServicesBnbCheckCircleState createState() => _ServicesBnbCheckCircleState();
@@ -208,8 +206,8 @@ class _ServicesBnbCheckCircleState extends ConsumerState<ServicesBnbCheckCircle>
     bool isLightTheme = (theme == AppTheme.customLightTheme);
 
     return Container(
-      height: DeviceConstraints.getResponsiveSize(context, 28.h, 40.h, 40.h),
-      width: DeviceConstraints.getResponsiveSize(context, 28.h, 40.h, 40.h),
+      height: DeviceConstraints.getResponsiveSize(context, 25.h, 35.h, 35.h),
+      width: DeviceConstraints.getResponsiveSize(context, 25.h, 35.h, 35.h),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: widget.value ? AppTheme.textBlack : Colors.white,
@@ -222,7 +220,7 @@ class _ServicesBnbCheckCircleState extends ConsumerState<ServicesBnbCheckCircle>
                   ? Colors.white
                   : theme.primaryColor
               : Colors.black,
-          size: DeviceConstraints.getResponsiveSize(context, 20.h, 30.h, 30.h),
+          size: DeviceConstraints.getResponsiveSize(context, 18.h, 28.h, 28.h),
         ),
       ),
     );

@@ -5,13 +5,16 @@ import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/utils/utils.dart';
+import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Header extends ConsumerWidget {
@@ -51,10 +54,16 @@ class Header extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    SizedBox(
+                    Container(
                       height: DeviceConstraints.getResponsiveSize(context, 50.h, 50.h, 70.h),
                       width: DeviceConstraints.getResponsiveSize(context, 50.h, 50.h, 70.h),
-                      child: Image.asset(AppIcons.logoBnbPNG, fit: BoxFit.fill),
+                      decoration: const BoxDecoration(shape: BoxShape.circle),
+                      child: (salonModel.salonLogo != '')
+                          ? CachedImage(url: salonModel.salonLogo)
+                          : Image.asset(
+                              AppIcons.logoBnbPNG,
+                              fit: BoxFit.fill,
+                            ),
                     ),
                     const SpaceHorizontal(factor: 0.8),
                     Flexible(
@@ -72,29 +81,34 @@ class Header extends ConsumerWidget {
                             overflow: TextOverflow.ellipsis,
                           ),
                           const Space(factor: 0.4),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              SvgPicture.asset(
-                                AppIcons.mapPin2WhiteSVG,
-                                height: 15.sp,
-                                color: isLightTheme ? Colors.black : Colors.white,
-                              ),
-                              const SizedBox(width: 10),
-                              Flexible(
-                                child: Text(
-                                  salonModel.address,
-                                  style: theme.textTheme.displayMedium!.copyWith(
-                                    fontSize: 13.sp,
-                                    fontWeight: FontWeight.w400,
-                                    color: isLightTheme ? Colors.black : Colors.white,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
+                          GestureDetector(
+                            onTap: () {
+                              MapsLauncher.launchQuery(salonModel.address);
+                            },
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                SvgPicture.asset(
+                                  AppIcons.mapPin2WhiteSVG,
+                                  height: 15.sp,
+                                  color: isLightTheme ? Colors.black : Colors.white,
                                 ),
-                              ),
-                            ],
+                                const SizedBox(width: 10),
+                                Flexible(
+                                  child: Text(
+                                    salonModel.address,
+                                    style: theme.textTheme.displayMedium!.copyWith(
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.w400,
+                                      color: isLightTheme ? Colors.black : Colors.white,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -129,7 +143,7 @@ class Header extends ConsumerWidget {
                               padding: EdgeInsets.all(8.0.sp),
                               child: Center(
                                 child: SvgPicture.asset(
-                                  AppIcons.phoneWhiteSVG,
+                                  AppIcons.phone1,
                                   color: theme.primaryColor,
                                   height: DeviceConstraints.getResponsiveSize(context, 40, 50, 70),
                                 ),
@@ -139,29 +153,13 @@ class Header extends ConsumerWidget {
                         ),
                         const SizedBox(width: 10),
                         GestureDetector(
-                          onTap: () {
-                            if ((salonModel.position?.geoPoint?.latitude ?? 0) == 0 && (salonModel.position?.geoPoint?.longitude ?? 0) == 0) {
-                              BnbProvider _bnbProvider = ref.read(bnbProvider);
-                              _bnbProvider.getLocale.toString() == "en"
-                                  ? showToast("Salon's Location Not Added")
-                                  : showToast(
-                                      "Місцезнаходження салону не додано",
-                                    );
+                          onTap: () async {
+                            final url = Uri.parse('sms:${salonModel.phoneNumber}');
+                            if (await canLaunchUrl(url)) {
+                              await launchUrl(url);
                             } else {
-                              if (kIsWeb) {
-                                _launchURL(
-                                  "https://maps.google.com/maps?q=${salonModel.position?.geoPoint?.latitude ?? 0},${salonModel.position?.geoPoint?.longitude ?? 0}&",
-                                );
-                              } else {
-                                Utils().launchMaps(
-                                  coordinates: Coordinates(
-                                    salonModel.position?.geoPoint?.latitude ?? 0,
-                                    salonModel.position?.geoPoint?.longitude ?? 0,
-                                  ),
-                                  label: salonModel.address,
-                                  context: context,
-                                );
-                              }
+                              await launchUrl(url);
+                              throw 'could not launch';
                             }
                           },
                           child: Container(
@@ -175,7 +173,7 @@ class Header extends ConsumerWidget {
                               padding: EdgeInsets.all(8.0.sp),
                               child: Center(
                                 child: SvgPicture.asset(
-                                  AppIcons.send,
+                                  AppIcons.send1,
                                   color: theme.primaryColor,
                                   height: DeviceConstraints.getResponsiveSize(context, 40, 50, 70),
                                 ),

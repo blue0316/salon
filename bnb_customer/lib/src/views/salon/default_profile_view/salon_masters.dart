@@ -14,7 +14,6 @@ import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/salon/master/master_profile.dart';
 import '../../../models/salon_master/master.dart';
-import '../widgets/person_avtar.dart';
 import 'widgets/section_spacer.dart';
 
 class SalonMasters extends ConsumerStatefulWidget {
@@ -53,10 +52,12 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    SizedBox(height: 60.h),
                     Divider(
                       color: isLightTheme ? Colors.black : Colors.white,
                       thickness: 1,
                     ),
+                    // SizedBox(height: 20.h),
                     SizedBox(
                       // color: Colors.yellow,
                       width: double.infinity,
@@ -77,7 +78,7 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
 
                           if (_filteredMasters.isNotEmpty) {
                             return Padding(
-                              padding: const EdgeInsets.symmetric(vertical: AppTheme.margin * 0.6),
+                              padding: const EdgeInsets.only(top: AppTheme.margin * 1),
                               child: Column(
                                 children: [
                                   Row(
@@ -114,7 +115,8 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
                                       ),
                                     ],
                                   ),
-                                  const Space(factor: 1),
+                                  // const Space(factor: 1),
+                                  SizedBox(height: 35.h),
 
                                   /// --- MASTER AVATAR ----
                                   Container(

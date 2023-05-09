@@ -154,39 +154,28 @@ class BnbRatings extends ConsumerWidget {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
-    if (rating == 0) {
-      return Text(
-        AppLocalizations.of(context)?.noRating ?? "no ratings",
-        style: TextStyle(
-          fontSize: DeviceConstraints.getDeviceType(mediaQuery) == DeviceScreenType.tab ? 12 : 12.sp,
-          color: theme.primaryColor,
-        ),
-        textAlign: TextAlign.center,
-      );
-    } else {
-      return RatingBar.builder(
-        unratedColor: unratedColor ?? Colors.white, // Changed to reflect properly on Booking Dialog //TODO - WORK ON THIS ON OTHER SCREENS
-        initialRating: rating,
-        minRating: 0,
-        direction: Axis.horizontal,
-        allowHalfRating: true,
-        itemCount: 5,
-        itemPadding: EdgeInsets.symmetric(horizontal: padding ?? 0.0),
-        itemBuilder: (context, _) {
-          return SvgPicture.asset(
-            'assets/icons/flutterRating.svg',
-            color: color ?? AppTheme.bookingYellow,
-          );
-        },
-        onRatingUpdate: (rating) {
-          onRatingUpdate!();
-        },
-        itemSize: DeviceConstraints.getResponsiveSize(context, starSize, starSize * 1.2, starSize * 1.3),
-        glow: false,
-        updateOnDrag: true,
-        ignoreGestures: !editable,
-      );
-    }
+    return RatingBar.builder(
+      unratedColor: unratedColor ?? Colors.white, // Changed to reflect properly on Booking Dialog //TODO - WORK ON THIS ON OTHER SCREENS
+      initialRating: rating,
+      minRating: 0,
+      direction: Axis.horizontal,
+      allowHalfRating: true,
+      itemCount: 5,
+      itemPadding: EdgeInsets.symmetric(horizontal: padding ?? 0.0),
+      itemBuilder: (context, _) {
+        return SvgPicture.asset(
+          'assets/icons/flutterRating.svg',
+          color: color ?? AppTheme.bookingYellow,
+        );
+      },
+      onRatingUpdate: (rating) {
+        onRatingUpdate!();
+      },
+      itemSize: DeviceConstraints.getResponsiveSize(context, starSize, starSize * 1.2, starSize * 1.3),
+      glow: false,
+      updateOnDrag: true,
+      ignoreGestures: !editable,
+    );
   }
 }
 

@@ -142,7 +142,7 @@ class _DistributedRatingState extends ConsumerState<DistributedRating> {
               Container(
                 height: 8,
                 width: 100,
-                decoration: const BoxDecoration(color: Colors.white),
+                decoration: BoxDecoration(color: isLightTheme ? Colors.white : Colors.black),
               ),
               Positioned(
                 left: 0,

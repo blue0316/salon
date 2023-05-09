@@ -4,7 +4,6 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/extracted/expansion_tile.dart';
 import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
-import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/icons.dart';
@@ -80,54 +79,54 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                           color: theme.primaryColor,
                         ),
                       ),
-                      if (DeviceConstraints.getDeviceType(mediaQuery) == DeviceScreenType.portrait)
-                        if (widget.categoryModel.categoryId == '2')
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const SizedBox(height: 10),
-                              Container(
-                                height: 1.5,
-                                width: 35,
-                                color: theme.primaryColor,
-                              ),
-                              const SizedBox(height: 10),
-                              Text(
-                                'Save up to 15%',
-                                style: theme.textTheme.displayMedium!.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 14.sp,
-                                  color: const Color(0XFFFF5C5C),
-                                ),
-                              ),
-                            ],
-                          ),
+                      // if (DeviceConstraints.getDeviceType(mediaQuery) == DeviceScreenType.portrait)
+                      //   if (widget.categoryModel.categoryId == '2')
+                      //     Column(
+                      //       crossAxisAlignment: CrossAxisAlignment.start,
+                      //       mainAxisAlignment: MainAxisAlignment.center,
+                      //       children: [
+                      //         const SizedBox(height: 10),
+                      //         Container(
+                      //           height: 1.5,
+                      //           width: 35,
+                      //           color: theme.primaryColor,
+                      //         ),
+                      //         const SizedBox(height: 10),
+                      //         Text(
+                      //           'Save up to 15%',
+                      //           style: theme.textTheme.displayMedium!.copyWith(
+                      //             fontWeight: FontWeight.w600,
+                      //             fontSize: 14.sp,
+                      //             color: const Color(0XFFFF5C5C),
+                      //           ),
+                      //         ),
+                      //       ],
+                      //     ),
                     ],
                   ),
-                  if (DeviceConstraints.getDeviceType(mediaQuery) != DeviceScreenType.portrait)
-                    if (widget.categoryModel.categoryId == '2')
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const SizedBox(width: 25),
-                          Container(
-                            height: 13,
-                            width: 1.5,
-                            color: theme.primaryColor,
-                          ),
-                          const SizedBox(width: 25),
-                          Text(
-                            'Save up to 15%',
-                            style: theme.textTheme.displayMedium!.copyWith(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14.sp,
-                              color: const Color(0XFFFF5C5C),
-                            ),
-                          ),
-                        ],
-                      ),
+                  // if (DeviceConstraints.getDeviceType(mediaQuery) != DeviceScreenType.portrait)
+                  //   if (widget.categoryModel.categoryId == '2')
+                  //     Row(
+                  //       crossAxisAlignment: CrossAxisAlignment.center,
+                  //       mainAxisAlignment: MainAxisAlignment.start,
+                  //       children: [
+                  //         const SizedBox(width: 25),
+                  //         Container(
+                  //           height: 13,
+                  //           width: 1.5,
+                  //           color: theme.primaryColor,
+                  //         ),
+                  //         const SizedBox(width: 25),
+                  //         Text(
+                  //           'Save up to 15%',
+                  //           style: theme.textTheme.displayMedium!.copyWith(
+                  //             fontWeight: FontWeight.w600,
+                  //             fontSize: 14.sp,
+                  //             color: const Color(0XFFFF5C5C),
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
                   const Spacer(),
                   Container(
                     decoration: BoxDecoration(
@@ -148,9 +147,13 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 7),
-                    child: Icon(
-                      Icons.expand_more,
-                      color: isLightTheme ? Colors.black : Colors.white,
+                    child: RotatedBox(
+                      quarterTurns: -1,
+                      child: Icon(
+                        Icons.arrow_back_ios_new_rounded,
+                        color: theme.primaryColor,
+                        size: 20.sp,
+                      ),
                     ),
                   ),
                 ],
@@ -486,7 +489,7 @@ class ShowAdditionaFeatureInfo extends StatelessWidget {
                       //     service: service,
                       //     langCode:
                       //         AppLocalizations.of(context)?.localeName ?? 'en'),
-                      style: const TextStyle(color: AppTheme.white3),
+                      style: TextStyle(color: AppTheme.white3),
                     ),
                   ),
                   GestureDetector(

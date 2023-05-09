@@ -19,7 +19,8 @@ class _FloatingBarState extends ConsumerState<FloatingBar> {
   @override
   Widget build(BuildContext context) {
     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
-    int noOfServices = _createAppointmentProvider.chosenServices.length;
+    // int noOfServices = _createAppointmentProvider.chosenServices.length;
+
     return GestureDetector(
       onTap: () => const BookingDialogWidget222().show(context),
       child: Padding(
@@ -38,7 +39,7 @@ class _FloatingBarState extends ConsumerState<FloatingBar> {
               InkWell(
                 onTap: () => const BookingDialogWidget222().show(context),
                 child: Container(
-                  key: ValueKey(noOfServices),
+                  // key: ValueKey(noOfServices),
                   height: 45.h,
                   decoration: BoxDecoration(
                     color: const Color(0XFF9D9D9D),
@@ -48,7 +49,7 @@ class _FloatingBarState extends ConsumerState<FloatingBar> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 35),
                       child: Text(
-                        AppLocalizations.of(context)?.bookNow ?? "Book Now",
+                        AppLocalizations.of(context)?.bookNow ?? "Book ${_createAppointmentProvider.chosenServices.length} Now",
                         style: AppTheme.displayMedium.copyWith(
                           fontWeight: FontWeight.w500,
                           color: Colors.white,

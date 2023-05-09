@@ -3,6 +3,7 @@ import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/icons.dart';
+import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,7 +26,12 @@ class LandscapeAboutHeader extends ConsumerWidget {
       children: [
         Expanded(
           flex: 1,
-          child: Image.asset(AppIcons.onboardingFirstPNG, fit: BoxFit.cover),
+          child: (salonModel.profilePics.isNotEmpty)
+              ? CachedImage(url: salonModel.profilePics[0])
+              : Image.asset(
+                  AppIcons.onboardingFirstPNG,
+                  fit: BoxFit.contain,
+                ),
         ),
         const SizedBox(width: 35),
         Expanded(
@@ -42,13 +48,15 @@ class LandscapeAboutHeader extends ConsumerWidget {
                     salonModel.salonName,
                     style: theme.textTheme.bodyLarge!.copyWith(
                       fontWeight: FontWeight.bold,
-                      fontSize: 18.sp,
+                      fontSize: 20.sp,
                       color: isLightTheme ? Colors.black : Colors.white,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const Space(factor: 0.7),
+                  // const Space(factor: 0.7),
+                  const SizedBox(height: 15),
+
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -73,13 +81,16 @@ class LandscapeAboutHeader extends ConsumerWidget {
                   ),
                 ],
               ),
-              const Space(factor: 0.5),
+              // const Space(factor: 0.5),
+              const SizedBox(height: 10),
               BnbRatings(
                 rating: salonModel.rating,
                 editable: false,
                 starSize: 12,
               ),
-              const Space(factor: 0.5),
+              // const Space(factor: 0.5),
+              const SizedBox(height: 20),
+
               if (salonModel.description != '')
                 Text(
                   salonModel.description,
@@ -116,17 +127,20 @@ class PortraitAboutHeader extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Container(
-          height: 150.h,
+          height: 180.h,
           width: double.infinity,
           decoration: BoxDecoration(
             border: !isLightTheme ? Border.all(color: Colors.white, width: 1.2) : null,
           ),
-          child: Image.asset(
-            AppIcons.onboardingFirstPNG,
-            fit: BoxFit.contain,
-          ),
+          child: (salonModel.profilePics.isNotEmpty)
+              ? CachedImage(url: salonModel.profilePics[0])
+              : Image.asset(
+                  AppIcons.onboardingFirstPNG,
+                  fit: BoxFit.contain,
+                ),
         ),
-        const Space(factor: 1.5),
+        // const Space(factor: 1.5),
+        const SizedBox(height: 20),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -139,13 +153,14 @@ class PortraitAboutHeader extends ConsumerWidget {
                   salonModel.salonName,
                   style: theme.textTheme.bodyLarge!.copyWith(
                     fontWeight: FontWeight.bold,
-                    fontSize: 18.sp,
+                    fontSize: 20.sp,
                     color: isLightTheme ? Colors.black : Colors.white,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                const Space(factor: 0.7),
+                // const Space(factor: 0.7),
+                const SizedBox(height: 10),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -170,14 +185,16 @@ class PortraitAboutHeader extends ConsumerWidget {
                 ),
               ],
             ),
-            const Space(factor: 0.5),
+            // const Space(factor: 0.5),
+            const SizedBox(height: 15),
             BnbRatings(
               rating: salonModel.rating,
               editable: false,
               starSize: 12,
               color: isLightTheme ? const Color(0XFFF49071) : const Color(0XFFFFA755),
             ),
-            const Space(factor: 1),
+            // const Space(factor: 1),
+            const SizedBox(height: 20),
             if (salonModel.description != '')
               Text(
                 salonModel.description,

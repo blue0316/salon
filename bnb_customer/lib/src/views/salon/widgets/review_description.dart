@@ -46,18 +46,6 @@ class ReviewDescription extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  // CircleAvatar(
-                  //   radius: DeviceConstraints.getResponsiveSize(context, 26, 35, 48),
-                  //   backgroundColor: AppTheme.white,
-                  //   backgroundImage: review.customerPic != ''
-                  //       ? NetworkImage(review.customerPic)
-                  //       : const AssetImage(
-                  //           AppIcons.defaultUserAvtarPNG,
-                  //         ) as ImageProvider,
-                  // ),
-                  // SizedBox(
-                  //   height: 8.h,
-                  // ),
                   Text(
                     (review.customerName != '' ? review.customerName : 'bnb user').toCapitalized(),
                     textAlign: TextAlign.center,
@@ -69,7 +57,7 @@ class ReviewDescription extends ConsumerWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 5),
+                  SizedBox(height: 12.h),
                   Text(
                     Time().getLocaleDate2(review.createdAt, AppLocalizations.of(context)?.localeName ?? "uk"),
                     style: theme.textTheme.bodyMedium!.copyWith(
@@ -83,7 +71,7 @@ class ReviewDescription extends ConsumerWidget {
                   Text(
                     review.review,
                     style: theme.textTheme.displayMedium!.copyWith(
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w400,
                       fontSize: 14.5.sp,
                       color: isLightTheme ? Colors.black : Colors.white,
                     ),

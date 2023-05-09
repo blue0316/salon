@@ -177,6 +177,8 @@ class AppIcons {
   static const String mapPin2WhiteSVG = "assets/icons/map-pin.svg";
   static const String mapPinPNG = "assets/icons/map-pin.png";
   static const String send = "assets/icons/send.svg";
+  static const String send1 = "assets/icons/send1.svg";
+  static const String phone1 = "assets/icons/phone1.svg";
   static const String messageWhiteSVG = "assets/icons/message_icon_white.svg";
   static const String dotActiveSVG = "assets/icons/dot_active.svg";
   static const String dotInactiveSVG = "assets/icons/dot_inactive.svg";
