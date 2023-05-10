@@ -51,10 +51,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
       AppLocalizations.of(context)?.localeName ?? 'en',
     );
 
-    final String _time = Time().getAppointmentStartEndTime(
-          _createAppointmentProvider.appointmentModel!,
-        ) ??
-        '';
+    final String _time = Time().getAppointmentStartEndTimeWithTimeFormat(_createAppointmentProvider.appointmentModel!, _salonProfileProvider.chosenSalon) ?? '';
 
     bool isSingleMaster = (_salonProfileProvider.chosenSalon.ownerType == OwnerType.singleMaster);
     final List<ServiceModel> singleMasterServiceList = _createAppointmentProvider.chosenServices;

@@ -143,6 +143,7 @@ class AppIcons {
   static const String photoSlider = "assets/images/photo_slider.png";
   static const String linkGlobeDark = "assets/icons/link_globe_dark.svg";
   static const String linkInstaDark = "assets/icons/link_insta_dark.svg";
+  static const String linkInstaDark2 = "assets/icons/insta_3.svg";
   static const String linkTikTokDark = "assets/icons/link_tiktok_dark.svg";
   static const String linkFacebookDark = "assets/icons/link_facebook_dark.svg";
   static const String photoSliderDark = "assets/images/photo_slider.png";

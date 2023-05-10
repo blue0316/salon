@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../backend_codings/working_hours.dart';
 
+enum TimeFormat { amPM, twentyFourHr }
+
 class SalonModel {
   late String salonId = '';
   late String salonName;
@@ -44,6 +46,7 @@ class SalonModel {
   late String salonLogo;
   late String selectedCurrency;
   bool? isAutomaticBookingConfirmation;
+  late TimeFormat timeFormat;
 
   SalonModel({
     required this.salonId,
@@ -84,6 +87,7 @@ class SalonModel {
     required this.salonLogo,
     required this.selectedCurrency,
     this.isAutomaticBookingConfirmation = false,
+    this.timeFormat = TimeFormat.amPM,
   });
 
   SalonModel.fromJson(Map<String, dynamic> json) {
@@ -141,6 +145,7 @@ class SalonModel {
     salonLogo = json['salonLogo'] ?? '';
     selectedCurrency = json['selectedCurrency'] ?? '\$';
     isAutomaticBookingConfirmation = json['isAutomaticBookingConfirmation'] ?? false;
+    timeFormat = (json['timeFormat'] == '24H') ? timeFormat = TimeFormat.twentyFourHr : timeFormat = TimeFormat.amPM;
   }
 
   Map<String, dynamic> toJson() {
@@ -183,6 +188,7 @@ class SalonModel {
     data['additionalFeatures'] = additionalFeatures;
     data['requestSalon'] = requestSalon;
     data['selectedCurrency'] = selectedCurrency;
+    data['timeFormat'] = timeFormat;
     // data['selectedTheme'] = selectedTheme;
     return data;
   }

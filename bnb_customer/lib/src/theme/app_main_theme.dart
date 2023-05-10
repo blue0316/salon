@@ -213,7 +213,7 @@ class AppTheme {
     color: lightGrey,
   );
 
-  static Color primaryLightThemeColor = Colors.white; // const Color(0XFFFFF5F1);
+  static Color primaryLightThemeColor = const Color(0XFFFFF5F1);
   static const Color primaryDarkBackgroundThemeColor = Colors.black;
   static Color darkPrimaryThemeColor = const Color(0XFFF48B72);
 

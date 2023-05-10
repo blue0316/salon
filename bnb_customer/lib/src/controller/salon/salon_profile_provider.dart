@@ -43,7 +43,7 @@ class SalonProfileProvider with ChangeNotifier {
   // List<ServiceModel> salonServices = [];
 
   CustomerWebSettings? themeSettings;
-  ThemeData salonTheme = AppTheme.customLightTheme;
+  ThemeData salonTheme = AppTheme.mainTheme;
   // String? theme;
 
   ThemeType themeType = ThemeType.DefaultLight;
@@ -54,7 +54,7 @@ class SalonProfileProvider with ChangeNotifier {
   final TextEditingController requestController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-// lf31oWACmY7UTCbnPNQ3
+
   Future<SalonModel?> init(context, salonId) async {
     try {
       loadingStatus = Status.loading;
@@ -91,15 +91,15 @@ class SalonProfileProvider with ChangeNotifier {
     if (availableThemes.contains(themeSettings?.theme?.testId)) {
       // If theme number is not in this set, it means that's a default theme
       switch (themeSettings?.theme?.testId) {
-        case '0':
-          salonTheme = getDefaultLightTheme(themeSettings?.theme?.colorCode);
-          themeType = ThemeType.DefaultLight;
-          notifyListeners();
-          return const DefaultLandingTheme();
-
         case '1':
           salonTheme = getDefaultDarkTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.DefaultDark;
+          notifyListeners();
+          return const DefaultLandingTheme();
+
+        case '0':
+          salonTheme = getDefaultLightTheme(themeSettings?.theme?.colorCode);
+          themeType = ThemeType.DefaultLight;
           notifyListeners();
           return const DefaultLandingTheme();
 

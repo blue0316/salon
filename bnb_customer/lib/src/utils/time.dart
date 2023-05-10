@@ -1,6 +1,7 @@
 import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/backend_codings/working_hours.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
+import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -452,6 +453,28 @@ class Time {
       String? _time2 = timeToString(time2);
       String? _time1 = timeToString(time1);
       return "$_time1-$_time2";
+    } else {
+      return appointment.appointmentTime;
+    }
+  }
+
+  String? getAppointmentStartEndTimeWithTimeFormat(AppointmentModel appointment, SalonModel salonModel) {
+    if (appointment.appointmentTime != '' && appointment.priceAndDuration.duration != '0' && appointment.priceAndDuration.duration != '0') {
+      TimeOfDay time1 = stringToTime(appointment.appointmentTime);
+      TimeOfDay time2 = time1.addMinutes(int.parse(appointment.priceAndDuration.duration));
+      String? _time2 = timeToString(time2);
+      String? _time1 = timeToString(time1);
+
+      if (salonModel.timeFormat == TimeFormat.amPM) {
+        return "$_time1-$_time2";
+      } else {
+        // 24 HR
+
+        DateTime fromTime = DateFormat("hh:mma").parse(time1.toString());
+        DateTime toTime = DateFormat("hh:mma").parse(time2.toString());
+
+        return "${DateFormat('HH:mm').format(fromTime)}-${DateFormat('HH:mm').format(toTime)}";
+      }
     } else {
       return appointment.appointmentTime;
     }

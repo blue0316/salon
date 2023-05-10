@@ -204,10 +204,7 @@ class TopDetails extends ConsumerWidget {
       AppLocalizations.of(context)?.localeName ?? 'en',
     );
 
-    final String _time = Time().getAppointmentStartEndTime(
-          _createAppointment.appointmentModel!,
-        ) ??
-        '';
+    final String _time = Time().getAppointmentStartEndTimeWithTimeFormat(_createAppointment.appointmentModel!, _salonProfileProvider.chosenSalon) ?? '';
 
     bool isSingleMaster = (_salonProfileProvider.chosenSalon.ownerType == OwnerType.singleMaster);
 

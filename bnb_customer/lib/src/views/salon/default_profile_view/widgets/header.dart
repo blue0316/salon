@@ -1,5 +1,4 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
-import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
@@ -7,13 +6,10 @@ import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -21,12 +17,6 @@ class Header extends ConsumerWidget {
   final SalonModel salonModel;
 
   const Header({Key? key, required this.salonModel}) : super(key: key);
-
-  void _launchURL(String url) async => await canLaunchUrl(Uri.parse(url))
-      ? await canLaunchUrl(Uri.parse(url))
-      : showToast(
-          'Could not launch $url',
-        );
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -55,14 +45,19 @@ class Header extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
-                      height: DeviceConstraints.getResponsiveSize(context, 50.h, 50.h, 70.h),
-                      width: DeviceConstraints.getResponsiveSize(context, 50.h, 50.h, 70.h),
-                      decoration: const BoxDecoration(shape: BoxShape.circle),
+                      height: DeviceConstraints.getResponsiveSize(context, 50.h, 50.h, 60.h),
+                      width: DeviceConstraints.getResponsiveSize(context, 50.h, 50.h, 60.h),
+                      decoration: BoxDecoration(shape: BoxShape.circle, color: salonModel.salonLogo != '' ? null : theme.primaryColor),
                       child: (salonModel.salonLogo != '')
                           ? CachedImage(url: salonModel.salonLogo)
-                          : Image.asset(
-                              AppIcons.logoBnbPNG,
-                              fit: BoxFit.fill,
+                          : Center(
+                              child: Text(
+                                salonModel.salonName[0].toUpperCase(),
+                                style: theme.textTheme.displayLarge!.copyWith(
+                                  fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 30.sp, 30.sp),
+                                  color: Colors.white,
+                                ),
+                              ),
                             ),
                     ),
                     const SpaceHorizontal(factor: 0.8),

@@ -12,7 +12,8 @@ import 'package:flutter/material.dart';
 ThemeData getDefaultLightTheme(String? colorCode) {
   switch (colorCode) {
     case null:
-      AppTheme.primaryLightThemeColor = const Color(0XFFFFF5F1);
+      AppTheme.primaryLightThemeColor = const Color(0XFFFFF5F1); //           DefaultLightTheme.defaultLightColor = const Color(0XFFFFF5F1);
+
       return AppTheme.customLightTheme;
 
     default:

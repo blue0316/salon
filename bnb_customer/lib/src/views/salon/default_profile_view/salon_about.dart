@@ -220,12 +220,15 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(
-                          (AppLocalizations.of(context)?.socialMedia ?? "Social media").toUpperCase(),
-                          style: theme.textTheme.bodyLarge!.copyWith(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15.sp,
-                            color: isLightTheme ? Colors.black : Colors.white,
+                        GestureDetector(
+                          onTap: () => print(widget.salonModel.timeFormat),
+                          child: Text(
+                            (AppLocalizations.of(context)?.socialMedia ?? "Social media").toUpperCase(),
+                            style: theme.textTheme.bodyLarge!.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15.sp,
+                              color: isLightTheme ? Colors.black : Colors.white,
+                            ),
                           ),
                         ),
                         const SizedBox(height: 10),
@@ -239,19 +242,19 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                                 type: 'website',
                                 socialUrl: widget.salonModel.links?.website,
                               ),
-                            if (widget.salonModel.links?.website != '')
+                            if (widget.salonModel.links?.instagram != '')
                               SocialLink(
-                                icon: isLightTheme ? AppIcons.linkInsta : AppIcons.linkInstaDark,
+                                icon: isLightTheme ? AppIcons.linkInsta : AppIcons.linkInstaDark2,
                                 type: 'insta',
                                 socialUrl: widget.salonModel.links?.instagram,
                               ),
-                            if (widget.salonModel.links?.website != '')
+                            if (widget.salonModel.links?.tiktok != '')
                               SocialLink(
                                 icon: isLightTheme ? AppIcons.linkTikTok : AppIcons.linkTikTokDark,
                                 type: 'tiktok',
                                 socialUrl: widget.salonModel.links?.tiktok,
                               ),
-                            if (widget.salonModel.links?.website != '')
+                            if (widget.salonModel.links?.facebook != '')
                               SocialLink(
                                 icon: isLightTheme ? AppIcons.linkFacebook : AppIcons.linkFacebookDark,
                                 type: 'facebook',
@@ -293,6 +296,7 @@ class SocialLink extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    bool isLightTheme = (theme == AppTheme.customLightTheme);
 
     return Expanded(
       flex: 0,
@@ -318,6 +322,7 @@ class SocialLink extends ConsumerWidget {
               child: SvgPicture.asset(
                 icon,
                 height: 30.h,
+                color: isLightTheme ? null : theme.primaryColor,
               ),
             ),
           ),
