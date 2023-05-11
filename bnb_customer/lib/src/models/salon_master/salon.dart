@@ -1,5 +1,6 @@
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/enums/gender.dart';
+import 'package:bbblient/src/utils/currency/currency.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../backend_codings/working_hours.dart';
@@ -143,7 +144,8 @@ class SalonModel {
     additionalFeatures = json['additionalFeatures'] != null ? json['additionalFeatures'].cast<String>() : [];
     requestSalon = json['requestSalon'] ?? false;
     salonLogo = json['salonLogo'] ?? '';
-    selectedCurrency = json['selectedCurrency'] ?? '\$';
+    selectedCurrency = (json['selectedCurrency'] != null) ? getCurrency(json['selectedCurrency']) : '\$';
+
     isAutomaticBookingConfirmation = json['isAutomaticBookingConfirmation'] ?? false;
     timeFormat = (json['timeFormat'] == '24H') ? timeFormat = TimeFormat.twentyFourHr : timeFormat = TimeFormat.amPM;
   }

@@ -213,7 +213,7 @@ class AppTheme {
     color: lightGrey,
   );
 
-  static Color primaryLightThemeColor = const Color(0XFFFFF5F1);
+  static Color primaryLightThemeColor = const Color(0XFFFFFFFF);
   static const Color primaryDarkBackgroundThemeColor = Colors.black;
   static Color darkPrimaryThemeColor = const Color(0XFFF48B72);
 
@@ -303,7 +303,7 @@ class AppTheme {
     dividerColor: Colors.black,
     focusColor: lightGrey,
     highlightColor: const Color(0XFFEBE9E9), // Color to select services on booking dialog
-    unselectedWidgetColor: const Color.fromARGB(255, 239, 239, 239), // Color for not valid time slot container
+    unselectedWidgetColor: Colors.grey[700], // Color.fromARGB(255, 239, 239, 239), // Color for not valid time slot container
     primaryIconTheme: const IconThemeData(color: Colors.black),
   );
 

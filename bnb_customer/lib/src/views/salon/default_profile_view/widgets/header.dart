@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -137,11 +138,17 @@ class Header extends ConsumerWidget {
                             child: Padding(
                               padding: EdgeInsets.all(8.0.sp),
                               child: Center(
-                                child: SvgPicture.asset(
-                                  AppIcons.phone1,
+                                child: FaIcon(
+                                  FontAwesomeIcons.phone,
+                                  // size: DeviceConstraints.getResponsiveSize(context, 40, 50, 70),
                                   color: theme.primaryColor,
-                                  height: DeviceConstraints.getResponsiveSize(context, 40, 50, 70),
+                                  size: 15.h,
                                 ),
+                                //   SvgPicture.asset(
+                                //   AppIcons.phone1,
+                                //   color: theme.primaryColor,
+                                //   height: DeviceConstraints.getResponsiveSize(context, 40, 50, 70),
+                                // ),
                               ),
                             ),
                           ),

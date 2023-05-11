@@ -1,9 +1,11 @@
 // ignore_for_file: unnecessary_this
 
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
+import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/keys.dart';
 import 'package:bbblient/src/utils/translation.dart';
@@ -58,6 +60,9 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
   @override
   Widget build(BuildContext context) {
     final createAppointment = ref.watch(createAppointmentProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    SalonModel salonModel = _salonProfileProvider.chosenSalon;
+
     var mediaQuery = MediaQuery.of(context);
 
     return Container(
@@ -102,7 +107,7 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                 children: [
                   Text(
                     widget.categoryModel.translations[AppLocalizations.of(context)?.localeName ?? 'en'],
-                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           fontWeight: FontWeight.w500,
                           fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
                         ),
@@ -118,7 +123,7 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 7),
                         child: Text(
                           'Save up to 15%',
-                          style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                 fontSize: 14.sp,
                                 color: AppTheme.lightGrey,
                               ),
@@ -138,7 +143,7 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                     padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 7),
                     child: Text(
                       'Save up to 15%',
-                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             fontSize: 14.sp,
                             color: AppTheme.lightGrey,
                           ),
@@ -155,7 +160,7 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
                   child: Text(
                     '${widget.services.length} Services',
-                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           fontSize: DeviceConstraints.getResponsiveSize(context, 13.sp, 13.sp, 15.sp),
                           fontWeight: FontWeight.normal,
                         ),
@@ -221,7 +226,7 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                                             flex: DeviceConstraints.getResponsiveSize(context, 1, 0, 0).toInt(),
                                                             child: Text(
                                                               widget.services[index].translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
-                                                              style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                                                     fontWeight: FontWeight.w500,
                                                                     fontSize: 16.sp,
                                                                   ),
@@ -275,7 +280,7 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                                         ? service.isFixedDuration
                                                             ? Text(
                                                                 "${service.priceAndDuration.duration} minutes",
-                                                                style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                                                       fontSize: 15.sp,
                                                                     ),
                                                                 overflow: TextOverflow.ellipsis,
@@ -283,7 +288,7 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                                               )
                                                             : Text(
                                                                 "${service.priceAndDuration.duration} minutes - ${service.priceAndDurationMax!.duration} minutes",
-                                                                style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                                                       fontSize: 16.sp,
                                                                     ),
                                                                 overflow: TextOverflow.ellipsis,
@@ -315,10 +320,10 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                               if (service.priceAndDuration.price == '200') // TODO: REMOVE THIS
                                                 Text(
                                                   service.isFixedPrice
-                                                      ? "${Keys.dollars}${service.priceAndDuration.price}"
+                                                      ? "${salonModel.selectedCurrency}${service.priceAndDuration.price}"
                                                       : service.isPriceStartAt
-                                                          ? "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}∞"
-                                                          : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}",
+                                                          ? "${salonModel.selectedCurrency}${service.priceAndDuration.price} - ${salonModel.selectedCurrency}∞"
+                                                          : "${salonModel.selectedCurrency}${service.priceAndDuration.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}",
                                                   style: Theme.of(context).textTheme.bodyText1!.copyWith(
                                                         fontWeight: FontWeight.w400,
                                                         fontSize: 12.5.sp,
@@ -333,10 +338,10 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                                 // TODO: NOTE - Service PRICE
 
                                                 service.isFixedPrice
-                                                    ? "${Keys.dollars}${service.priceAndDuration.price}"
+                                                    ? "${salonModel.selectedCurrency}${service.priceAndDuration.price}"
                                                     : service.isPriceStartAt
-                                                        ? "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}∞"
-                                                        : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}",
+                                                        ? "${salonModel.selectedCurrency}${service.priceAndDuration.price} - ${salonModel.selectedCurrency}∞"
+                                                        : "${salonModel.selectedCurrency}${service.priceAndDuration.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}",
 
                                                 style: Theme.of(context).textTheme.bodyText1!.copyWith(
                                                       fontWeight: FontWeight.w600,

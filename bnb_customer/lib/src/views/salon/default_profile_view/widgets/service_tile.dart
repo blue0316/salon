@@ -4,6 +4,7 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/extracted/expansion_tile.dart';
 import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
+import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/icons.dart';
@@ -38,10 +39,11 @@ class NewServiceTile extends ConsumerStatefulWidget {
 class _NewServiceTileState extends ConsumerState<NewServiceTile> {
   @override
   Widget build(BuildContext context) {
-    final createAppointment = ref.watch(createAppointmentProvider);
-    var mediaQuery = MediaQuery.of(context);
-
     final _salonProfileProvider = ref.watch(salonProfileProvider);
+    final createAppointment = ref.watch(createAppointmentProvider);
+
+    SalonModel salonModel = _salonProfileProvider.chosenSalon;
+
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool isLightTheme = (theme == AppTheme.customLightTheme);
 
@@ -327,10 +329,10 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
 
                                               Text(
                                                 service.isFixedPrice
-                                                    ? "${Keys.dollars}${service.priceAndDuration.price}"
+                                                    ? "${salonModel.selectedCurrency}${service.priceAndDuration.price}"
                                                     : service.isPriceStartAt
-                                                        ? "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}∞"
-                                                        : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}",
+                                                        ? "${salonModel.selectedCurrency}${service.priceAndDuration.price} - ${salonModel.selectedCurrency}∞"
+                                                        : "${salonModel.selectedCurrency}${service.priceAndDuration.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}",
                                                 style: theme.textTheme.displayMedium!.copyWith(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 16.sp,
@@ -340,25 +342,25 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                 overflow: TextOverflow.visible,
                                                 maxLines: 1,
                                               ),
-                                              if (service.priceAndDuration.price == '200') const SizedBox(height: 7),
+                                              // if (service.priceAndDuration.price == '200') const SizedBox(height: 7),
 
-                                              // PREVIOUS PRICE
-                                              if (service.priceAndDuration.price == '200') // TODO: REMOVE THIS (DUMMY IMPLEMENTATION FOR UI)
-                                                Text(
-                                                  service.isFixedPrice
-                                                      ? "${Keys.dollars}${service.priceAndDuration.price}"
-                                                      : service.isPriceStartAt
-                                                          ? "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}∞"
-                                                          : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}",
-                                                  style: theme.textTheme.titleSmall!.copyWith(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 14.sp,
-                                                    color: Colors.red,
-                                                    decoration: TextDecoration.lineThrough,
-                                                  ),
-                                                  overflow: TextOverflow.visible,
-                                                  maxLines: 1,
-                                                ),
+                                              // // PREVIOUS PRICE
+                                              // if (service.priceAndDuration.price == '200') // TODO: REMOVE THIS (DUMMY IMPLEMENTATION FOR UI)
+                                              //   Text(
+                                              //     service.isFixedPrice
+                                              //         ? "${Keys.dollars}${service.priceAndDuration.price}"
+                                              //         : service.isPriceStartAt
+                                              //             ? "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}∞"
+                                              //             : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}",
+                                              //     style: theme.textTheme.titleSmall!.copyWith(
+                                              //       fontWeight: FontWeight.bold,
+                                              //       fontSize: 14.sp,
+                                              //       color: Colors.red,
+                                              //       decoration: TextDecoration.lineThrough,
+                                              //     ),
+                                              //     overflow: TextOverflow.visible,
+                                              //     maxLines: 1,
+                                              //   ),
                                             ],
                                           ),
                                         ),

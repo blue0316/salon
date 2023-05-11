@@ -162,8 +162,8 @@
 //                                     ),
 //                                   ),
 //                                   Text(
-//                                     "${Keys.dollars}${service.priceAndDuration.price}",
-//                                     // service.isFixedPrice ? "${Keys.dollars}${service.priceAndDuration.price}" : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}",
+//                                     "${salonModel.selectedCurrency}${service.priceAndDuration.price}",
+//                                     // service.isFixedPrice ? "${salonModel.selectedCurrency}${service.priceAndDuration.price}" : "${salonModel.selectedCurrency}${service.priceAndDuration.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}",
 //                                     style: Theme.of(context).textTheme.bodyText1!.copyWith(
 //                                           color: defaultTheme ? Colors.black : Colors.white,
 //                                           fontWeight: FontWeight.w700,
@@ -392,7 +392,7 @@
 //                     ),
 //                   ),
 //                   Text(
-//                     "${Keys.dollars}${appointment.appointmentModel!.priceAndDuration.price}",
+//                     "${salonModel.selectedCurrency}${appointment.appointmentModel!.priceAndDuration.price}",
 //                     style: AppTheme.bodyText1.copyWith(
 //                       fontSize: 17.sp,
 //                       fontWeight: FontWeight.w700,

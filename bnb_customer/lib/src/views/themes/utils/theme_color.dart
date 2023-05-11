@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 ThemeData getDefaultLightTheme(String? colorCode) {
   switch (colorCode) {
     case null:
-      AppTheme.primaryLightThemeColor = const Color(0XFFFFF5F1); //           DefaultLightTheme.defaultLightColor = const Color(0XFFFFF5F1);
+      AppTheme.primaryLightThemeColor = const Color(0XFFFFFFFF); //           DefaultLightTheme.defaultLightColor = const Color(0XFFFFF5F1);
 
       return AppTheme.customLightTheme;
 
@@ -25,7 +25,7 @@ ThemeData getDefaultLightTheme(String? colorCode) {
 
           AppTheme.primaryLightThemeColor = Color(value);
         } catch (e) {
-          AppTheme.primaryLightThemeColor = const Color(0XFFFFF5F1);
+          AppTheme.primaryLightThemeColor = const Color(0XFFFFFFFF);
         }
       }
 

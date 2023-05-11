@@ -117,7 +117,7 @@ class AuthProvider with ChangeNotifier {
     // phoneNumber = '';
     phoneNoController.clear();
     otpSent = sent;
-    _timer.cancel();
+    // _timer.cancel();
     notifyListeners();
   }
 
@@ -175,8 +175,8 @@ class AuthProvider with ChangeNotifier {
     otpSent = true;
     start = 60;
     phoneNoController.clear();
-    _timer.cancel();
-    startTimer();
+    // _timer.cancel();
+    // startTimer();
     notifyListeners();
   }
 
@@ -401,7 +401,7 @@ class AuthProvider with ChangeNotifier {
         showToast(AppLocalizations.of(context)?.errorOccurred ?? 'error occurred');
       }
 
-      _timer.cancel();
+      // _timer.cancel();
 
       notifyListeners();
     } on FirebaseAuthException catch (e) {

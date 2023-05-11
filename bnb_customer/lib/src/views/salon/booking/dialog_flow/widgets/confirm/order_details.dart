@@ -6,11 +6,10 @@ import 'package:bbblient/src/models/appointment/serviceAndMaster.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/enums/status.dart';
-import 'package:bbblient/src/theme/app_main_theme.dart';
+import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/utils/icons.dart';
-import 'package:bbblient/src/utils/keys.dart';
 import 'package:bbblient/src/utils/time.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/colors.dart';
 import 'package:bbblient/src/views/salon/booking/widgets/confirmation_tab.dart/confirmed_dialog.dart';
@@ -42,8 +41,9 @@ class _OrderListState extends ConsumerState<OrderDetails> {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
     final AuthProvider _auth = ref.watch(authProvider);
+    SalonModel salonModel = _salonProfileProvider.chosenSalon;
+
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    // bool defaultTheme = theme == AppTheme.customLightTheme;
     ThemeType themeType = _salonProfileProvider.themeType;
 
     final String _date = Time().getLocaleDate(
@@ -97,7 +97,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                         child: Padding(
                           padding: EdgeInsets.symmetric(
                             vertical: 10,
-                            horizontal: DeviceConstraints.getResponsiveSize(context, 10, 15, 25),
+                            horizontal: DeviceConstraints.getResponsiveSize(context, 10, 10, 15),
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,16 +138,16 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                     // single master
                                     isSingleMaster
                                         ? singleMasterService.isFixedPrice
-                                            ? "${Keys.dollars}${singleMasterService.priceAndDuration.price}"
+                                            ? "${salonModel.selectedCurrency}${singleMasterService.priceAndDuration.price}"
                                             : singleMasterService.isPriceRange
-                                                ? "${Keys.dollars}${singleMasterService.priceAndDuration.price} - ${Keys.dollars}${singleMasterService.priceAndDurationMax!.price}"
-                                                : "${Keys.dollars}${singleMasterService.priceAndDuration.price} - ${Keys.dollars}∞"
+                                                ? "${salonModel.selectedCurrency}${singleMasterService.priceAndDuration.price} - ${salonModel.selectedCurrency}${singleMasterService.priceAndDurationMax!.price}"
+                                                : "${salonModel.selectedCurrency}${singleMasterService.priceAndDuration.price} - ${salonModel.selectedCurrency}∞"
                                         // not a single master
                                         : notSingleMasterService.service!.isFixedPrice
-                                            ? "${Keys.dollars}${notSingleMasterService.service!.priceAndDuration.price}"
+                                            ? "${salonModel.selectedCurrency}${notSingleMasterService.service!.priceAndDuration.price}"
                                             : notSingleMasterService.service!.isPriceRange
-                                                ? "${Keys.dollars}${notSingleMasterService.service!.priceAndDuration.price} - ${Keys.dollars}${notSingleMasterService.service!.priceAndDurationMax!.price}"
-                                                : "${Keys.dollars}${notSingleMasterService.service!.priceAndDuration.price} - ${Keys.dollars}∞",
+                                                ? "${salonModel.selectedCurrency}${notSingleMasterService.service!.priceAndDuration.price} - ${salonModel.selectedCurrency}${notSingleMasterService.service!.priceAndDurationMax!.price}"
+                                                : "${salonModel.selectedCurrency}${notSingleMasterService.service!.priceAndDuration.price} - ${salonModel.selectedCurrency}∞",
                                     style: theme.textTheme.bodyLarge!.copyWith(
                                       color: theme.colorScheme.tertiary, // ,
                                       fontWeight: FontWeight.w700,
@@ -342,7 +342,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                       ),
                       const SizedBox(height: 2),
                       Text(
-                        "${Keys.dollars}${_createAppointmentProvider.totalPrice}",
+                        "${salonModel.selectedCurrency}${_createAppointmentProvider.totalPrice}",
                         style: theme.textTheme.bodyMedium!.copyWith(
                           fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
                           color: theme.colorScheme.tertiary, // ,
@@ -363,7 +363,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                         ),
                       ),
                       Text(
-                        "-\$00",
+                        "-${salonModel.selectedCurrency}00",
                         style: theme.textTheme.bodyMedium!.copyWith(
                           fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
                           color: Colors.red,
@@ -393,7 +393,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                     ),
                   ),
                   Text(
-                    "${Keys.dollars}${_createAppointmentProvider.totalPrice}",
+                    "${salonModel.selectedCurrency}${_createAppointmentProvider.totalPrice}",
                     style: theme.textTheme.bodyLarge!.copyWith(
                       fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
                       fontWeight: FontWeight.w700,

@@ -16,6 +16,7 @@ import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/views/salon/widgets/additional%20featured.dart';
 import 'package:bbblient/src/views/salon/widgets/service_expension_tile.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'about.dart';
 import 'salon_reviews.dart';
@@ -319,11 +320,23 @@ class SocialLink extends ConsumerWidget {
             width: 50.h,
             color: theme.canvasColor,
             child: Center(
-              child: SvgPicture.asset(
-                icon,
-                height: 30.h,
-                color: isLightTheme ? null : theme.primaryColor,
-              ),
+              child: (icon == AppIcons.linkGlobeDark)
+                  ? FaIcon(
+                      FontAwesomeIcons.globe,
+                      size: 30.h,
+                      color: theme.primaryColor,
+                    )
+                  : (icon == AppIcons.linkInstaDark2)
+                      ? FaIcon(
+                          FontAwesomeIcons.instagram,
+                          size: 30.h,
+                          color: theme.primaryColor,
+                        )
+                      : SvgPicture.asset(
+                          icon,
+                          height: 30.h,
+                          color: isLightTheme ? null : theme.primaryColor,
+                        ),
             ),
           ),
         ),

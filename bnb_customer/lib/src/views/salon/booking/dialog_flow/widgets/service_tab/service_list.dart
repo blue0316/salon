@@ -2,9 +2,9 @@ import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointme
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
+import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/icons.dart';
-import 'package:bbblient/src/utils/keys.dart';
 import 'package:bbblient/src/utils/time.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/colors.dart';
@@ -83,17 +83,19 @@ class ServiceCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
+    SalonModel salonModel = _salonProfileProvider.chosenSalon;
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool defaultTheme = (theme == AppTheme.customLightTheme);
     List<MasterModel> theMasters = _createAppointmentProvider.getMasterProvidingService(service);
     ThemeType themeType = _salonProfileProvider.themeType;
 
-    Color selectedColor = defaultTheme ? const Color.fromARGB(255, 239, 239, 239) : selectedServiceCardOnDayAndTime(themeType, theme); // Color(0XFF202020);
+    Color selectedColor = defaultTheme ? (Colors.grey[400]!) : selectedServiceCardOnDayAndTime(themeType, theme); // Color(0XFF202020);
+    // Color selectedColor = defaultTheme ? const Color.fromARGB(255, 239, 239, 239) : selectedServiceCardOnDayAndTime(themeType, theme); // Color(0XFF202020);
     BoxBorder? border = defaultTheme
         ? Border.all(
             width: 1.5,
-            color: const Color.fromARGB(255, 239, 239, 239),
+            color: (Colors.grey[400]!), // const Color.fromARGB(255, 239, 239, 239),
           )
         : Border.all(
             width: 1.5,
@@ -148,10 +150,10 @@ class ServiceCard extends ConsumerWidget {
                         //   children: [
                         //     Text(
                         //       service.isFixedPrice
-                        //           ? "${Keys.dollars}${service.priceAndDuration.price}"
+                        //           ? "${salonModel.selectedCurrency}${service.priceAndDuration.price}"
                         //           : service.isPriceRange
-                        //               ? "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}"
-                        //               : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}∞",
+                        //               ? "${salonModel.selectedCurrency}${service.priceAndDuration.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}"
+                        //               : "${salonModel.selectedCurrency}${service.priceAndDuration.price} - ${salonModel.selectedCurrency}∞",
                         //       style: theme.textTheme.bodyText1!.copyWith(
                         //             fontWeight: FontWeight.w500,
                         //             fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 25.sp, 30.sp),
@@ -163,10 +165,10 @@ class ServiceCard extends ConsumerWidget {
                         //     const SizedBox(height: 5),
                         //     Text(
                         //       service.isFixedPrice
-                        //           ? "${Keys.dollars}${service.priceAndDuration.price}"
+                        //           ? "${salonModel.selectedCurrency}${service.priceAndDuration.price}"
                         //           : service.isPriceRange
-                        //               ? "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}"
-                        //               : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}∞",
+                        //               ? "${salonModel.selectedCurrency}${service.priceAndDuration.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}"
+                        //               : "${salonModel.selectedCurrency}${service.priceAndDuration.price} - ${salonModel.selectedCurrency}∞",
                         //       style: theme.textTheme.bodyText1!.copyWith(
                         //             fontWeight: FontWeight.w500,
                         //             fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 20.sp, 25.sp),
@@ -180,10 +182,10 @@ class ServiceCard extends ConsumerWidget {
                         // ),
                         Text(
                           service.isFixedPrice
-                              ? "${Keys.dollars}${service.priceAndDuration.price}"
+                              ? "${salonModel.selectedCurrency}${service.priceAndDuration.price}"
                               : service.isPriceRange
-                                  ? "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}"
-                                  : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}∞",
+                                  ? "${salonModel.selectedCurrency}${service.priceAndDuration.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}"
+                                  : "${salonModel.selectedCurrency}${service.priceAndDuration.price} - ${salonModel.selectedCurrency}∞",
                           style: theme.textTheme.bodyLarge!.copyWith(
                             fontWeight: FontWeight.w500,
                             fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),

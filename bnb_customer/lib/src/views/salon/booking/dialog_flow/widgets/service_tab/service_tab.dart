@@ -94,7 +94,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                                 categoryModel: catList[index],
                               );
 
-                              Color selectedColor = defaultTheme ? Colors.grey : theme.colorScheme.tertiary; //const Color.fromARGB(255, 239, 239, 239)
+                              Color selectedColor = defaultTheme ? (Colors.grey[400]!) : theme.colorScheme.tertiary;
                               return Padding(
                                 padding: EdgeInsets.only(
                                   right: DeviceConstraints.getResponsiveSize(context, 15.w, 10.w, 7.w),

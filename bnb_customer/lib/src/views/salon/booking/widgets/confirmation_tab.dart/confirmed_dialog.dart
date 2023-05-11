@@ -4,10 +4,10 @@ import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointme
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
+import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
-import 'package:bbblient/src/utils/keys.dart';
 import 'package:bbblient/src/utils/time.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/salon/booking/widgets/confirmation_tab.dart/widgets.dart';
@@ -404,6 +404,7 @@ class BottomDetails extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final CreateAppointmentProvider _createAppointment = ref.watch(createAppointmentProvider);
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    SalonModel salonModel = _salonProfileProvider.chosenSalon;
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool defaultTheme = theme == AppTheme.customLightTheme;
@@ -438,7 +439,7 @@ class BottomDetails extends ConsumerWidget {
                     ),
                   ),
                   Text(
-                    "${Keys.dollars}${_createAppointment.totalPrice}",
+                    "${salonModel.selectedCurrency}${_createAppointment.totalPrice}",
                     style: theme.textTheme.bodyMedium!.copyWith(
                       fontSize: 15.sp,
                       color: defaultTheme ? AppTheme.textBlack : Colors.white,
@@ -485,7 +486,7 @@ class BottomDetails extends ConsumerWidget {
                     ),
                   ),
                   Text(
-                    "${Keys.dollars}${_createAppointment.totalPrice}",
+                    "${salonModel.selectedCurrency}${_createAppointment.totalPrice}",
                     style: theme.textTheme.bodyLarge!.copyWith(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w700,

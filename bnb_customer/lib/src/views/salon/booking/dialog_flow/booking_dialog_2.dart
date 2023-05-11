@@ -116,7 +116,6 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
                           padding: const EdgeInsets.only(right: 15),
                           child: Icon(
                             Icons.close_rounded,
-                            // color: AppTheme.lightGrey,
                             color: theme.colorScheme.onBackground,
                             size: DeviceConstraints.getResponsiveSize(context, 20.h, 30.h, 30.h),
                           ),
@@ -137,7 +136,9 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
                         mediaQuery.width / 2.7,
                       ),
                       decoration: BoxDecoration(
-                        color: defaultTheme ? const Color.fromARGB(255, 239, 239, 239) : const Color(0XFF202020),
+                        color: defaultTheme ? Colors.grey[350] : const Color(0XFF202020),
+                        // color: defaultTheme ? Colors.greenAccent : const Color(0XFF202020), //  Color.fromARGB(255, 239, 239, 239)
+
                         borderRadius: BorderRadius.circular(60),
                       ),
                       child: Padding(
