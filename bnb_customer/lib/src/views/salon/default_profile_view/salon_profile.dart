@@ -36,6 +36,8 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool isLightTheme = (theme == AppTheme.customLightTheme);
 
+    final _createAppointmentProvider = ref.watch(createAppointmentProvider);
+
     return Scaffold(
       body: MouseRegion(
         cursor: SystemMouseCursors.click,
@@ -68,7 +70,7 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
                         InkWell(
                           onTap: () {
                             // print('here');
-                            // print(AppTheme.primaryLightThemeColor);
+                            // print(_createAppointmentProvider.categoriesAvailable);
                             // print(theme.canvasColor);
                           },
                           child: Header(salonModel: _salonProfileProvider.chosenSalon),

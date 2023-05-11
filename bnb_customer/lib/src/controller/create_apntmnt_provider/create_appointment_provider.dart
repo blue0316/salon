@@ -198,6 +198,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 
   getSalonServices({required List<CategoryModel> categories}) async {
     categoriesAvailable.clear();
+    notifyListeners();
     servicesAvailable.clear();
     for (CategoryModel cat in categories) {
       if (categoryServicesMap[cat.categoryId.toString()] != null && categoryServicesMap[cat.categoryId.toString()]!.isNotEmpty) {
@@ -1988,6 +1989,13 @@ class CreateAppointmentProvider with ChangeNotifier {
     beautyProActive = false;
     beautyProConfig = null;
     slotsStatus = Status.init;
+    notifyListeners();
+  }
+
+  cle() {
+    categoriesAvailable = [];
+    servicesAvailable = [];
+    masterServicesAvailable = [];
     notifyListeners();
   }
 }
