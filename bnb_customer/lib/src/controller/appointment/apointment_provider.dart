@@ -1,11 +1,15 @@
 import 'package:bbblient/src/controller/home/salon_search_provider.dart';
+import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/firebase/appointments.dart';
 import 'package:bbblient/src/firebase/collections.dart';
+import 'package:bbblient/src/firebase/customer_web_settings.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
+import 'package:bbblient/src/models/customer_web_settings.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/time.dart';
 import 'package:bbblient/src/utils/utils.dart';
+import 'package:bbblient/src/views/themes/utils/theme_color.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +39,9 @@ class AppointmentProvider with ChangeNotifier {
   Status appointmentStatus = Status.loading;
   Status updateSubStatus = Status.init;
   Status cancelAppointmentStatus = Status.init;
+
+  // CustomerWebSettings? themeSettings;
+  ThemeData? salonTheme;
 
   init() {
     selectedDayAppointments.clear();
@@ -194,6 +201,74 @@ class AppointmentProvider with ChangeNotifier {
     } catch (e) {
       printIt('Error on cancelAppointment() - ${e.toString()}');
       cancelAppointmentStatus = Status.failed;
+      notifyListeners();
+    }
+  }
+
+  void getSalonTheme(salonId) async {
+    print('----------------------------');
+    print(salonId);
+    print('----------------------------');
+
+    CustomerWebSettings? themeSettings = await CustomerWebSettingsApi().getSalonTheme(salonId: salonId);
+
+    // print('----------------------------');
+
+    // print('----------------------------');
+
+    getTheme(themeSettings);
+  }
+
+  void getTheme(CustomerWebSettings? themeSettings) {
+    if (availableThemes.contains(themeSettings?.theme?.testId)) {
+      switch (themeSettings?.theme?.testId) {
+        case '1':
+          salonTheme = getDefaultDarkTheme(themeSettings?.theme?.colorCode);
+          notifyListeners();
+          break;
+
+        case '0':
+          salonTheme = getDefaultLightTheme(themeSettings?.theme?.colorCode);
+          notifyListeners();
+          break;
+
+        case '2':
+          salonTheme = getGlamDataTheme(themeSettings?.theme?.colorCode);
+          notifyListeners();
+          break;
+
+        case '3':
+          salonTheme = getGlamBarbershopTheme(themeSettings?.theme?.colorCode);
+          notifyListeners();
+          break;
+
+        case '4':
+          salonTheme = getGlamGradientTheme(themeSettings?.theme?.colorCode);
+          notifyListeners();
+          break;
+
+        case '5':
+          salonTheme = getBarbershopTheme(themeSettings?.theme?.colorCode);
+          notifyListeners();
+          break;
+
+        case '6':
+          salonTheme = getGlamLightTheme(themeSettings?.theme?.colorCode);
+          notifyListeners();
+          break;
+
+        case '7':
+          salonTheme = getGlamMinimalLightTheme(themeSettings?.theme?.colorCode);
+          notifyListeners();
+          break;
+
+        case '8':
+          salonTheme = getGlamMinimalDarkTheme(themeSettings?.theme?.colorCode);
+          notifyListeners();
+          break;
+      }
+    } else {
+      salonTheme = getDefaultLightTheme(themeSettings?.theme?.colorCode);
       notifyListeners();
     }
   }

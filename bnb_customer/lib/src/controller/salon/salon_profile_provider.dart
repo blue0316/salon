@@ -43,7 +43,7 @@ class SalonProfileProvider with ChangeNotifier {
   // List<ServiceModel> salonServices = [];
 
   CustomerWebSettings? themeSettings;
-  ThemeData salonTheme = AppTheme.mainTheme;
+  ThemeData salonTheme = AppTheme.initial;
   // String? theme;
 
   ThemeType themeType = ThemeType.DefaultLight;
@@ -74,18 +74,6 @@ class SalonProfileProvider with ChangeNotifier {
     notifyListeners();
     return chosenSalon;
   }
-
-  Set availableThemes = {
-    '0', // DefaultLight
-    '1', // DefaultDark
-    '2', // Glam
-    '3', // Glam Barbershop
-    '4', // Glam Gradient
-    '5', // Barbershop
-    '6', // Glam Light
-    '7', // Glam Minimal Light
-    '8', // Glam Minimal Dark
-  };
 
   Widget getTheme() {
     if (availableThemes.contains(themeSettings?.theme?.testId)) {
@@ -321,3 +309,15 @@ class SalonProfileProvider with ChangeNotifier {
   //   }
   // }
 }
+
+Set availableThemes = {
+  '0', // DefaultLight
+  '1', // DefaultDark
+  '2', // Glam
+  '3', // Glam Barbershop
+  '4', // Glam Gradient
+  '5', // Barbershop
+  '6', // Glam Light
+  '7', // Glam Minimal Light
+  '8', // Glam Minimal Dark
+};

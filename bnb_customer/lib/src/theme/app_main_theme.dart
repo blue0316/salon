@@ -363,4 +363,61 @@ class AppTheme {
     primaryIconTheme: IconThemeData(color: darkPrimaryThemeColor),
     unselectedWidgetColor: const Color.fromARGB(255, 85, 85, 85), // Color for not valid time slot container
   );
+
+  static final ThemeData initial = ThemeData(
+    primaryColor: Colors.black,
+    dialogBackgroundColor: primaryLightThemeColor,
+    canvasColor: primaryLightThemeColor,
+
+    tabBarTheme: TabBarTheme(
+      unselectedLabelColor: Colors.black,
+      labelColor: Colors.white,
+      indicator: BoxDecoration(borderRadius: BorderRadius.circular(50), color: Colors.black),
+      labelStyle: AppTheme.bodyText1,
+    ),
+    colorScheme: ColorScheme(
+      primary: creamBrown,
+      secondary: creamBrownLight,
+      surface: primaryLightThemeColor,
+      background: primaryLightThemeColor,
+      error: redishPink,
+      onPrimary: creamBrown,
+      onSecondary: creamBrownLight,
+      onSurface: lightGrey,
+      // Dialog Colors
+      onBackground: Colors.black,
+      tertiary: Colors.black, // Text colors on dialog
+
+      onError: redishPink,
+      brightness: Brightness.light,
+    ),
+    scaffoldBackgroundColor: milkeyGrey,
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: primaryLightThemeColor,
+      elevation: 1.2,
+    ),
+    textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
+    inputDecorationTheme: InputDecorationTheme(hintStyle: hintStyle),
+    textTheme: TextTheme(
+      displayLarge: displayLarge.copyWith(color: Colors.black),
+      displayMedium: displayMedium.copyWith(color: Colors.black),
+      displaySmall: headLine3.copyWith(color: Colors.black),
+      headlineMedium: headLine4.copyWith(color: Colors.black),
+      headlineSmall: headLine5.copyWith(color: Colors.black),
+      bodyLarge: bodyText1.copyWith(color: Colors.black),
+      bodyMedium: bodyText2.copyWith(color: Colors.black),
+      titleMedium: subTitle1.copyWith(color: Colors.black),
+      titleSmall: titleSmall.copyWith(color: Colors.black),
+    ),
+    appBarTheme: AppBarTheme(
+      backgroundColor: primaryLightThemeColor,
+      titleTextStyle: bodyText1,
+      iconTheme: const IconThemeData(color: textBlack),
+    ),
+    dividerColor: Colors.black,
+    focusColor: lightGrey,
+    highlightColor: const Color(0XFFEBE9E9), // Color to select services on booking dialog
+    unselectedWidgetColor: Colors.grey[700], // Color.fromARGB(255, 239, 239, 239), // Color for not valid time slot container
+    primaryIconTheme: const IconThemeData(color: Colors.black),
+  );
 }
