@@ -6,6 +6,7 @@ import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -118,72 +119,71 @@ class Header extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Utils().launchCaller(salonModel.phoneNumber.replaceAll("-", ""));
-                          },
-                          child: Container(
-                            // height: DeviceConstraints.getResponsiveSize(context, 20, 25, 40),
-                            // width: DeviceConstraints.getResponsiveSize(context, 20, 25, 40),
-                            height: 35.h,
-                            width: 35.h,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              border: Border.all(color: theme.primaryColor, width: 1.3),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.all(8.0.sp),
+                    MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Utils().launchCaller(salonModel.phoneNumber.replaceAll("-", ""));
+                            },
+                            child: Container(
+                              // height: DeviceConstraints.getResponsiveSize(context, 20, 25, 40),
+                              // width: DeviceConstraints.getResponsiveSize(context, 20, 25, 40),
+                              height: 35.h,
+                              width: 35.h,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                border: Border.all(color: theme.primaryColor, width: 1.3),
+                              ),
                               child: Center(
-                                child: FaIcon(
-                                  FontAwesomeIcons.phone,
-                                  // size: DeviceConstraints.getResponsiveSize(context, 40, 50, 70),
+                                child: Icon(
+                                  CupertinoIcons.phone,
                                   color: theme.primaryColor,
-                                  size: 15.h,
+                                  size: DeviceConstraints.getResponsiveSize(context, 15.h, 16.h, 18.h),
                                 ),
-                                //   SvgPicture.asset(
-                                //   AppIcons.phone1,
+                                // FaIcon(
+                                //   FontAwesomeIcons.phone,
                                 //   color: theme.primaryColor,
-                                //   height: DeviceConstraints.getResponsiveSize(context, 40, 50, 70),
+                                //   size: DeviceConstraints.getResponsiveSize(context, 15.h, 16.h, 18.h),
                                 // ),
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(width: 10),
-                        GestureDetector(
-                          onTap: () async {
-                            final url = Uri.parse('sms:${salonModel.phoneNumber}');
-                            if (await canLaunchUrl(url)) {
-                              await launchUrl(url);
-                            } else {
-                              await launchUrl(url);
-                              throw 'could not launch';
-                            }
-                          },
-                          child: Container(
-                            height: 35.h,
-                            width: 35.h,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              border: Border.all(color: theme.primaryColor, width: 1.3),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.all(8.0.sp),
-                              child: Center(
-                                child: SvgPicture.asset(
-                                  AppIcons.send1,
-                                  color: theme.primaryColor,
-                                  height: DeviceConstraints.getResponsiveSize(context, 40, 50, 70),
+                          const SizedBox(width: 10),
+                          MouseRegion(
+                            cursor: SystemMouseCursors.click,
+                            child: GestureDetector(
+                              onTap: () async {
+                                final url = Uri.parse('sms:${salonModel.phoneNumber}');
+                                if (await canLaunchUrl(url)) {
+                                  await launchUrl(url);
+                                } else {
+                                  await launchUrl(url);
+                                  throw 'could not launch';
+                                }
+                              },
+                              child: Container(
+                                height: 35.h,
+                                width: 35.h,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  border: Border.all(color: theme.primaryColor, width: 1.3),
+                                ),
+                                child: Center(
+                                  child: Icon(
+                                    CupertinoIcons.paperplane,
+                                    color: theme.primaryColor,
+                                    size: DeviceConstraints.getResponsiveSize(context, 15.h, 16.h, 18.h),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),

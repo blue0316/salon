@@ -126,76 +126,76 @@ class AppTheme {
   );
 
   static final TextStyle displayMedium = TextStyle(
-    fontFamily: "Montserrat",
+    fontFamily: "Poppins",
     fontSize: 18.sp,
     fontWeight: FontWeight.w600,
     color: Colors.white,
   );
 
   static final TextStyle titleSmall = TextStyle(
-    fontFamily: "Montserrat",
+    fontFamily: "Poppins",
     fontSize: 16.sp,
     fontWeight: FontWeight.normal,
     color: Colors.black,
   );
 
   static final TextStyle headLine3 = TextStyle(
-    fontFamily: "Montserrat",
+    fontFamily: "Poppins",
     fontSize: 18.sp,
     fontWeight: FontWeight.w600,
     color: lightBlack,
   );
   static final TextStyle headLine4 = TextStyle(
-    fontFamily: "Montserrat",
+    fontFamily: "Poppins",
     fontSize: 16.sp,
     fontWeight: FontWeight.normal,
     color: lightGrey,
   );
   static final TextStyle headLine5 = TextStyle(
-    fontFamily: "Montserrat",
+    fontFamily: "Poppins",
     fontSize: 16.sp,
     fontWeight: FontWeight.w300,
     color: lightGrey,
   );
   static final TextStyle bodyText1 = TextStyle(
-    fontFamily: "Montserrat",
+    fontFamily: "Poppins",
     fontSize: 16.sp,
     fontWeight: FontWeight.w500,
   );
   static final TextStyle bodyText2 = TextStyle(
-    fontFamily: "Montserrat",
+    fontFamily: "Poppins",
     fontSize: 14.sp,
     fontWeight: FontWeight.w400,
     color: lightGrey,
   );
   static final TextStyle subTitle1 = TextStyle(
-    fontFamily: "Montserrat",
+    fontFamily: "Poppins",
     fontSize: 16.sp,
     fontWeight: FontWeight.w600,
     color: lightBlack,
   );
   static final TextStyle appointmentSubtitle = TextStyle(
-    fontFamily: "Montserrat",
+    fontFamily: "Poppins",
     fontSize: 14.sp,
     fontWeight: FontWeight.w600,
     color: black2,
   );
   static const TextStyle calTextStyle = TextStyle(
-    fontFamily: "Montserrat",
+    fontFamily: "Poppins",
     fontSize: 14,
     color: Colors.white,
     fontWeight: FontWeight.w500,
   );
 
   static const TextStyle calTextStyle2 = TextStyle(
-    fontFamily: "Montserrat",
+    fontFamily: "Poppins",
     fontSize: 14,
     color: Colors.black,
     fontWeight: FontWeight.w500,
   );
 
   static const TextStyle appointmentTitleStyle = TextStyle(
-    fontFamily: "Montserrat",
+    fontFamily: "Poppins",
     fontSize: 14,
     fontWeight: FontWeight.w500,
   );
@@ -207,7 +207,7 @@ class AppTheme {
   );
 
   static final TextStyle hintStyle = TextStyle(
-    fontFamily: "Montserrat",
+    fontFamily: "Poppins",
     fontSize: 14.sp,
     fontWeight: FontWeight.w400,
     color: lightGrey,
@@ -222,7 +222,7 @@ class AppTheme {
       cursorColor: fontColor.withOpacity(0.8),
     ),
     // cursorColor:
-    fontFamily: 'Montserrat',
+    fontFamily: 'Poppins',
     primaryColor: primary,
     disabledColor: grey2,
     primaryColorDark: fontColor,

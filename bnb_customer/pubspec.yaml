@@ -91,7 +91,7 @@ dependencies:
   top_snackbar_flutter: ^2.1.1
   translator: ^0.1.7
   transparent_image: ^2.0.0
-  url_launcher: ^6.0.13
+  url_launcher: ^6.1.11
   uuid: ^3.0.5
   vibration: ^1.7.4-nullsafety.0
   google_maps: ^6.2.0
@@ -99,7 +99,8 @@ dependencies:
   extended_wrap: 0.1.5 
   font_awesome_flutter: ^10.4.0
   maps_launcher: ^2.2.0
-
+  googleapis_auth: ^1.4.0
+  googleapis: ^11.0.0
 
 dev_dependencies:
   build_runner: ^2.1.4

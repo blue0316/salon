@@ -22,10 +22,14 @@ class CustomerWebSettingsApi {
       // print(_response.docs);
       // print('***********************');
 
-      Map<String, dynamic> _temp = _response.docs[0].data() as Map<String, dynamic>;
+      if (_response.docs.isNotEmpty) {
+        Map<String, dynamic> _temp = _response.docs[0].data() as Map<String, dynamic>;
 
-      CustomerWebSettings webSettings = CustomerWebSettings.fromJson(_temp);
-      return webSettings;
+        CustomerWebSettings webSettings = CustomerWebSettings.fromJson(_temp);
+        return webSettings;
+      } else {
+        return null;
+      }
     } catch (e) {
       printIt('Error on getSalonTheme() - ${e.toString()}');
     }

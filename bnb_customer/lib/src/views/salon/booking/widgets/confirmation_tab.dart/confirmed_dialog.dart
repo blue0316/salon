@@ -148,12 +148,12 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                         //   color: defaultTheme ? Colors.black : theme.primaryColor,
                         //   height: 60,
                         //   textColor: defaultTheme?Colors.white :  Colors.black,
-                        //   prefixIcon: SvgPicture.asset(
-                        //     AppIcons.appleLogoSvg,
-                        //     fit: BoxFit.cover,
-                        //     height: 18.sp,
-                        //     color: defaultTheme ? Colors.white : Colors.black,
-                        //   ),
+                        // prefixIcon: SvgPicture.asset(
+                        //   AppIcons.appleLogoSvg,
+                        //   fit: BoxFit.cover,
+                        //   height: 18.sp,
+                        //   color: defaultTheme ? Colors.white : Colors.black,
+                        // ),
                         //   onTap: () {},
                         // ),
                         // SizedBox(height: 10.h),

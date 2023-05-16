@@ -167,14 +167,19 @@ final GoRouter router = GoRouter(
 class ErrorScreen extends StatelessWidget {
   static const route = "/error";
   final String? error;
+  final Color? backgroundColor, textColor;
 
-  const ErrorScreen({Key? key, this.error}) : super(key: key);
+  const ErrorScreen({Key? key, this.error, this.backgroundColor, this.textColor}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       body: Center(
-        child: Text(error ?? "Something went wrong"),
+        child: Text(
+          error ?? "Something went wrong",
+          style: TextStyle(color: textColor),
+        ),
       ),
     );
   }
