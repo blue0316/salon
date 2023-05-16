@@ -26,17 +26,23 @@ class LandscapeAboutHeader extends ConsumerWidget {
       children: [
         Expanded(
           flex: 1,
-          child: (salonModel.profilePics.isEmpty)
-              ? CachedImage(url: salonModel.profilePics[0])
-              : Center(
-                  child: Text(
-                    salonModel.salonName[0].toUpperCase(),
-                    style: theme.textTheme.displayLarge!.copyWith(
-                      fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 80.sp, 100.sp),
-                      color: Colors.white,
+          child: Container(
+            decoration: BoxDecoration(
+              border: !isLightTheme ? Border.all(color: Colors.white, width: 1.2) : null,
+              color: salonModel.profilePics.isNotEmpty ? null : theme.primaryColor,
+            ),
+            child: (salonModel.profilePics.isNotEmpty)
+                ? CachedImage(url: salonModel.profilePics[0])
+                : Center(
+                    child: Text(
+                      salonModel.salonName[0].toUpperCase(),
+                      style: theme.textTheme.displayLarge!.copyWith(
+                        fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 80.sp, 100.sp),
+                        color: Colors.white,
+                      ),
                     ),
                   ),
-                ),
+          ),
         ),
         const SizedBox(width: 35),
         Expanded(

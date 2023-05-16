@@ -854,12 +854,19 @@ class CreateAppointmentProvider with ChangeNotifier {
   }
 
   calculateAvailableMasters({required DateTime day}) {
+    print('entered here ??? ');
+    print(salonMasters);
+    print('entered here ??? ');
+
     if (salonMasters.isNotEmpty) {
       availableMasters.clear();
 
       notifyListeners();
 
       for (MasterModel master in salonMasters) {
+        print('##############');
+        print(master.workingHours);
+        print('##############');
         if (master.workingHours != null) {
           bool isMasterWorking = (Time().getWorkingHoursFromWeekDay(day.weekday, master.workingHours)?.isWorking == true ||
               (master.irregularWorkingHours != null
@@ -870,6 +877,11 @@ class CreateAppointmentProvider with ChangeNotifier {
 
           bool servicesAvailable = mastersServicesMap[master.masterId] != null;
           bool servicesAvailableCount = mastersServicesMap[master.masterId]?.isNotEmpty ?? false;
+          print('---------------------------------------------------------------------------------------------------------');
+          print(servicesAvailable);
+          print(servicesAvailableCount);
+          print(isMasterWorking);
+          print('---------------------------------------------------------------------------------------------------------');
           if (isMasterWorking && servicesAvailable && servicesAvailableCount) {
             availableMasters.add(master);
           }

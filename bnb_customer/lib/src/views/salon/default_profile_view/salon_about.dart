@@ -310,7 +310,7 @@ class SocialLink extends ConsumerWidget {
           if (await canLaunchUrl(uri)) {
             await launchUrl(uri);
           } else {
-            showToast("No social page for this profile");
+            showToast("Social Link is not available");
           }
         },
         child: Padding(
