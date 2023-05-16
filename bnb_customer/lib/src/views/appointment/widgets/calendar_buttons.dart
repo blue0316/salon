@@ -77,7 +77,7 @@ class AddToCalendars extends StatelessWidget {
             ),
             // const SizedBox(width: 10),
             CalendarButton(
-              icon: AppIcons.coloredGoogleLogoSVG,
+              icon: AppIcons.googleLogoSVG,
               text: 'Add to Google Calendar',
               onTap: () async {
                 // Date
