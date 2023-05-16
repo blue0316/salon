@@ -208,6 +208,8 @@ class CreateAppointmentProvider with ChangeNotifier {
 
         if (categoryModel != null) {
           categoriesAvailable.add(categoryModel);
+          notifyListeners();
+
           List<ServiceModel> services = categoryServicesMap[cat.categoryId.toString()] ?? [];
 
           List<ServiceModel> availableServices = [];
@@ -1956,7 +1958,7 @@ class CreateAppointmentProvider with ChangeNotifier {
     totalPriceWithMaster = 0;
     chosenServices = [];
     serviceAgainstMaster = [];
-    mastersServicesMapAll = {};
+    // mastersServicesMapAll = {};
     chosenBonus = null;
     paymentMethod = null;
     yclientActive = false;

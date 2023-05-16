@@ -121,6 +121,7 @@ class MasterLandscapeAboutHeader extends ConsumerWidget {
                             style: theme.textTheme.displayMedium!.copyWith(
                               fontWeight: FontWeight.w500,
                               fontSize: 14.sp,
+                              color: isLightTheme ? Colors.black : Colors.white,
                             ),
                           ),
                         ],
@@ -240,6 +241,7 @@ class MasterPortraitAboutHeader extends ConsumerWidget {
                           style: theme.textTheme.displayMedium!.copyWith(
                             fontWeight: FontWeight.w500,
                             fontSize: 14.sp,
+                            color: isLightTheme ? Colors.black : Colors.white,
                           ),
                         ),
                       ],

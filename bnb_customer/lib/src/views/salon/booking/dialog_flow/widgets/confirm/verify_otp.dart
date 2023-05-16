@@ -5,7 +5,6 @@ import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/customer/customer.dart';
 import 'package:bbblient/src/models/enums/status.dart';
-import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/utils/utils.dart';

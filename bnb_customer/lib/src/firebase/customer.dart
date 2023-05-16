@@ -19,19 +19,15 @@ class CustomerApi {
     try {
       if (_firebaseAuth.currentUser == null) return null;
 
-      DocumentSnapshot snap = await Collection.customersAdmins
-          .doc(_firebaseAuth.currentUser?.uid)
-          .get();
+      DocumentSnapshot snap = await Collection.customersAdmins.doc(_firebaseAuth.currentUser?.uid).get();
 
       if (snap.exists) {
         Map<String, dynamic> adminData = snap.data() as Map<String, dynamic>;
-        DocumentSnapshot doc =
-            await Collection.customers.doc(adminData['customerIds'][0]).get();
+        DocumentSnapshot doc = await Collection.customers.doc(adminData['customerIds'][0]).get();
 
         printIt(doc.data());
         if (doc.exists) {
-          final CustomerModel customer =
-              CustomerModel.fromJson(doc.data() as Map<String, dynamic>);
+          final CustomerModel customer = CustomerModel.fromJson(doc.data() as Map<String, dynamic>);
           customer.customerId = doc.id;
 
           FCMTokenHandler.updateCustomerFCMToken(customer);
@@ -55,8 +51,7 @@ class CustomerApi {
     try {
       // //f (_firebaseAuth.currentUser == null) return null;
 
-      Query snap =
-          Collection.customers.where('personalInfo.phone', isEqualTo: number);
+      Query snap = Collection.customers.where('personalInfo.phone', isEqualTo: number);
 
       final getData = await snap.get();
       if (getData.docs.isEmpty) {
@@ -84,8 +79,7 @@ class CustomerApi {
       DocumentSnapshot doc = await Collection.customers.doc(customerId).get();
       printIt(doc.data());
       if (doc.exists) {
-        final CustomerModel user =
-            CustomerModel.fromJson(doc.data() as Map<String, dynamic>);
+        final CustomerModel user = CustomerModel.fromJson(doc.data() as Map<String, dynamic>);
         user.customerId = doc.id;
         return user;
       } else {
@@ -117,8 +111,7 @@ class CustomerApi {
     }
   }
 
-  updateReferral(
-      {required String customerId, required String referralLink}) async {
+  updateReferral({required String customerId, required String referralLink}) async {
     try {
       await Collection.customers.doc(customerId).update(
         {
@@ -140,16 +133,10 @@ class CustomerApi {
     }
   }
 
-  updatePreferences(
-      {required String customerId,
-      required String preferredGender,
-      required List<String> preferredCategories}) async {
+  updatePreferences({required String customerId, required String preferredGender, required List<String> preferredCategories}) async {
     try {
       await Collection.customers.doc(customerId).update(
-        {
-          'preferredCategories': preferredCategories,
-          'preferredGender': preferredGender
-        },
+        {'preferredCategories': preferredCategories, 'preferredGender': preferredGender},
       );
     } catch (e) {
       printIt(e);
@@ -173,21 +160,14 @@ class CustomerApi {
 
   Future<String?> updateCustomer({required CustomerModel customerModel}) async {
     try {
-      DocumentSnapshot snap = await Collection.customersAdmins
-          .doc(_firebaseAuth.currentUser?.uid)
-          .get();
+      DocumentSnapshot snap = await Collection.customersAdmins.doc(_firebaseAuth.currentUser?.uid).get();
       printIt(snap.data());
       if (snap.exists) {
         Map<String, dynamic> adminData = snap.data() as Map<String, dynamic>;
-        await Collection.customers
-            .doc(adminData['customerIds'][0])
-            .set(customerModel.toJson());
+        await Collection.customers.doc(adminData['customerIds'][0]).set(customerModel.toJson());
       } else {
-        DocumentReference doc =
-            await Collection.customers.add(customerModel.toJson());
-        await Collection.customersAdmins
-            .doc(_firebaseAuth.currentUser?.uid)
-            .set({
+        DocumentReference doc = await Collection.customers.add(customerModel.toJson());
+        await Collection.customersAdmins.doc(_firebaseAuth.currentUser?.uid).set({
           'customerIds': [doc.id]
         });
       }
@@ -200,9 +180,7 @@ class CustomerApi {
 
   Future<bool> addCustomerLocation({required Position newPosition}) async {
     try {
-      DocumentSnapshot snap = await Collection.customersAdmins
-          .doc(_firebaseAuth.currentUser?.uid)
-          .get();
+      DocumentSnapshot snap = await Collection.customersAdmins.doc(_firebaseAuth.currentUser?.uid).get();
       printIt(snap.data());
       if (snap.exists) {
         Map<String, dynamic> adminData = snap.data() as Map<String, dynamic>;

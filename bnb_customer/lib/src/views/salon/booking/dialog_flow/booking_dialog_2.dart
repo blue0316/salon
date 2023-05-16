@@ -1,6 +1,7 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
+import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/confirm/confirm.dart';
@@ -16,7 +17,9 @@ import 'widgets/day_and_time/day_and_time.dart';
 
 class BookingDialogWidget222<T> extends ConsumerStatefulWidget {
   final bool master;
-  const BookingDialogWidget222({Key? key, this.master = false}) : super(key: key);
+  final MasterModel? masterModel;
+
+  const BookingDialogWidget222({Key? key, this.master = false, this.masterModel}) : super(key: key);
 
   Future<void> show(BuildContext context) async {
     await showDialog<T>(
@@ -108,7 +111,7 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
                       GestureDetector(
                         onTap: () {
                           Navigator.pop(context);
-                          _createAppointmentProvider.resetFlow();
+                          _createAppointmentProvider.resetFlow(); // TODO: // HMM
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(right: 15),
@@ -185,7 +188,11 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
                         physics: const NeverScrollableScrollPhysics(),
                         children: [
                           // Service
-                          ServiceTab(tabController: bookingTabController!),
+                          ServiceTab(
+                            tabController: bookingTabController!,
+                            master: widget.master,
+                            masterModel: widget.masterModel,
+                          ),
 
                           // Day And Time
                           DayAndTime(tabController: bookingTabController!),

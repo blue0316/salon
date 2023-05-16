@@ -3,6 +3,7 @@ import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/enums/profile_datails_tabs.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
+import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_reviews.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
@@ -24,6 +25,7 @@ class MasterAbout extends ConsumerWidget {
 
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    bool isLightTheme = (theme == AppTheme.customLightTheme);
 
     return ConstrainedContainer(
       child: SingleChildScrollView(
@@ -44,9 +46,9 @@ class MasterAbout extends ConsumerWidget {
                     Text(
                       ((AppLocalizations.of(context)?.localeName == 'uk') ? masterDetailsTitles[1] : masterDetailsTitles[1]).toUpperCase(),
                       style: theme.textTheme.displayLarge!.copyWith(
-                        fontSize: DeviceConstraints.getResponsiveSize(context, 23.sp, 26.sp, 32.sp),
-                        color: Colors.black,
-                        fontWeight: FontWeight.w800,
+                        fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 30.sp, 35.sp),
+                        color: isLightTheme ? Colors.black : Colors.white,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                     const Space(factor: 2.5),

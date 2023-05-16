@@ -8,6 +8,7 @@ import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/icons.dart';
+import 'package:bbblient/src/views/salon/default_profile_view/salon_profile.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/widgets/header.dart';
 import 'package:bbblient/src/views/salon/widgets/floating_button_booking.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
@@ -74,6 +75,7 @@ class _MasterProfileState extends ConsumerState<MasterProfile> {
     _createAppointmentProvider = ref.watch(createAppointmentProvider);
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    bool isLightTheme = (theme == AppTheme.customLightTheme);
 
     return Scaffold(
       body: MouseRegion(
@@ -106,7 +108,7 @@ class _MasterProfileState extends ConsumerState<MasterProfile> {
                       children: [
                         Header(salonModel: _salonProfileProvider.chosenSalon),
                         Space(
-                          factor: DeviceConstraints.getResponsiveSize(context, 2, 3, 5),
+                          factor: DeviceConstraints.getResponsiveSize(context, 2, 2, 2.5),
                         ),
                         Expanded(
                           flex: 0,
@@ -116,10 +118,9 @@ class _MasterProfileState extends ConsumerState<MasterProfile> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 10),
                         Padding(
                           padding: EdgeInsets.symmetric(
-                            horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 50.w, 90.w),
+                            horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 40.w, 80.w),
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -149,7 +150,7 @@ class _MasterProfileState extends ConsumerState<MasterProfile> {
                                               children: [
                                                 Icon(
                                                   Icons.arrow_back_rounded,
-                                                  color: Colors.black,
+                                                  color: isLightTheme ? AppTheme.textBlack : Colors.white,
                                                   size: 20.sp,
                                                 ),
                                                 SizedBox(width: 5),
@@ -157,8 +158,8 @@ class _MasterProfileState extends ConsumerState<MasterProfile> {
                                                   'BACK'.toUpperCase(),
                                                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                                         fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 15.sp),
-                                                        color: AppTheme.textBlack,
-                                                        fontWeight: FontWeight.w600,
+                                                        color: isLightTheme ? AppTheme.textBlack : Colors.white,
+                                                        fontWeight: FontWeight.w500,
                                                       ),
                                                 ),
                                               ],
@@ -196,7 +197,8 @@ class _MasterProfileState extends ConsumerState<MasterProfile> {
                                                   separatorBuilder: (_, index) => Padding(
                                                     padding: EdgeInsets.symmetric(
                                                       vertical: 5,
-                                                      horizontal: DeviceConstraints.getResponsiveSize(context, 2.w, 3.w, 7.w),
+                                                      horizontal: DeviceConstraints.getResponsiveSize(context, 2.w, 5.w, 5.w),
+                                                      // horizontal: DeviceConstraints.getResponsiveSize(context, 2.w, 3.w, 7.w),
                                                     ),
                                                     child: Container(
                                                       width: 1.5,
@@ -222,9 +224,11 @@ class _MasterProfileState extends ConsumerState<MasterProfile> {
                                                             ((AppLocalizations.of(context)?.localeName == 'uk') ? masterDetailsTitlesUk[index] : masterDetailsTitles[index]).toUpperCase(),
                                                             style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                                                   fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 15.sp),
-                                                                  color: AppTheme.textBlack,
-                                                                  fontWeight: _activeTab == index ? FontWeight.w800 : FontWeight.w600,
+                                                                  color: _activeTab == index ? theme.primaryColor : unselectedTabColor(theme, isLightTheme),
+                                                                  fontWeight: _activeTab == index ? FontWeight.w700 : FontWeight.w500,
                                                                   decoration: _activeTab == index ? TextDecoration.underline : null,
+                                                                  letterSpacing: 0,
+                                                                  fontFamily: "Inter",
                                                                 ),
                                                           ),
                                                         ),
@@ -269,9 +273,12 @@ class _MasterProfileState extends ConsumerState<MasterProfile> {
                 ),
               ],
             ),
-            const Align(
+            Align(
               alignment: Alignment.bottomCenter,
-              child: FloatingBar(),
+              child: FloatingBar(
+                master: true,
+                masterModel: widget.masterModel,
+              ),
             ),
           ],
         ),

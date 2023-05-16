@@ -32,7 +32,7 @@ class _MasterServicesState extends ConsumerState<MasterServices> {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    // bool isLightTheme = (theme == AppTheme.lightTheme);
+    bool isLightTheme = (theme == AppTheme.customLightTheme);
 
     return SingleChildScrollView(
       child: Column(
@@ -50,9 +50,9 @@ class _MasterServicesState extends ConsumerState<MasterServices> {
                   Text(
                     ((AppLocalizations.of(context)?.localeName == 'uk') ? masterDetailsTitles[0] : masterDetailsTitles[0]).toUpperCase(),
                     style: theme.textTheme.displayLarge!.copyWith(
-                      fontSize: DeviceConstraints.getResponsiveSize(context, 23.sp, 26.sp, 32.sp),
-                      color: Colors.black,
-                      fontWeight: FontWeight.w800,
+                      fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 30.sp, 35.sp),
+                      color: isLightTheme ? Colors.black : Colors.white,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                   const Space(factor: 2.5),
@@ -101,7 +101,7 @@ class MasterImageHeader extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        const Space(factor: 1),
+        const Space(factor: 0.5),
         SizedBox(
           height: 220.h,
           // width: 150.h,

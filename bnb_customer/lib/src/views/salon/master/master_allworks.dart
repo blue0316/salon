@@ -2,6 +2,7 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/enums/profile_datails_tabs.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
+import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/chat/image_preview.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
@@ -34,6 +35,7 @@ class _MasterAllWorksState extends ConsumerState<MasterAllWorks> {
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    bool isLightTheme = (theme == AppTheme.customLightTheme);
 
     return SingleChildScrollView(
       child: Column(
@@ -54,9 +56,9 @@ class _MasterAllWorksState extends ConsumerState<MasterAllWorks> {
                     Text(
                       ((AppLocalizations.of(context)?.localeName == 'uk') ? masterDetailsTitles[2] : masterDetailsTitles[2]).toUpperCase(),
                       style: theme.textTheme.displayLarge!.copyWith(
-                        fontSize: DeviceConstraints.getResponsiveSize(context, 23.sp, 26.sp, 32.sp),
-                        color: Colors.black,
-                        fontWeight: FontWeight.w800,
+                        fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 30.sp, 35.sp),
+                        color: isLightTheme ? Colors.black : Colors.white,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                     const Space(factor: 2.5),
@@ -118,7 +120,7 @@ class _MasterAllWorksState extends ConsumerState<MasterAllWorks> {
                               'NO PHOTOS OF WORKS AVAILABLE AT THE MOMENT',
                               style: Theme.of(context).textTheme.displayLarge!.copyWith(
                                     fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
-                                    color: Colors.black,
+                                    color: isLightTheme ? Colors.black : Colors.white,
                                     fontWeight: FontWeight.w600,
                                   ),
                               textAlign: TextAlign.center,

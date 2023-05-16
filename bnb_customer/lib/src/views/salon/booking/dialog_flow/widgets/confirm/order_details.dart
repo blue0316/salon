@@ -68,7 +68,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                 AppLocalizations.of(context)?.orderList ?? 'Order List'.toString(),
                 style: theme.textTheme.bodyLarge!.copyWith(
                   fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
-                  color: theme.colorScheme.tertiary, // ,
+                  color: theme.colorScheme.tertiary,
                 ),
               ),
               SizedBox(height: 10.h),
@@ -87,7 +87,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                       child: Container(
                         width: DeviceConstraints.getResponsiveSize(context, 175.w, 160.w, 105.w),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: theme.primaryColor, // Colors.white,
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
                             width: 1.5,
