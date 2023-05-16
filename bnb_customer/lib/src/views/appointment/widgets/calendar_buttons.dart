@@ -77,7 +77,7 @@ class AddToCalendars extends StatelessWidget {
             ),
             // const SizedBox(width: 10),
             CalendarButton(
-              icon: AppIcons.googleLogoSVG,
+              icon: AppIcons.coloredGoogleLogoPNG,
               text: 'Add to Google Calendar',
               onTap: () async {
                 // Date
@@ -157,12 +157,17 @@ class CalendarButton extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SvgPicture.asset(
-                  icon,
-                  fit: BoxFit.cover,
-                  height: 20.sp,
-                  color: borderColor(themeType, theme),
-                ),
+                (icon == AppIcons.coloredGoogleLogoPNG)
+                    ? Image.asset(
+                        AppIcons.coloredGoogleLogoPNG,
+                        height: 20.sp,
+                      )
+                    : SvgPicture.asset(
+                        icon,
+                        fit: BoxFit.cover,
+                        height: 20.sp,
+                        color: borderColor(themeType, theme),
+                      ),
                 const SizedBox(width: 8),
                 Text(
                   text,

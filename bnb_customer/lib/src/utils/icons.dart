@@ -192,6 +192,7 @@ class AppIcons {
   static const String googleLogoPNG = "assets/icons/google_logo.png";
   static const String googleLogoSVG = "assets/icons/google_logo.svg";
   static const String coloredGoogleLogoSVG = "assets/icons/google_colored.svg";
+  static const String coloredGoogleLogoPNG = "assets/icons/google_coloredPNG.png";
   static const String speechBubbleSVG = "assets/icons/chat_bubble.svg";
   static const String closeRoundSVG = "assets/icons/close_round.svg";
   static const String priceTagSVG = "assets/icons/Price.svg";
