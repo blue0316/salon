@@ -297,7 +297,7 @@ class AppointmentProvider with ChangeNotifier {
   void addToAppleCalendar(context, {required AppointmentModel appointment, required String appointmentId, required String startTime, required String endTime}) async {
     appleCalendarStatus = Status.loading;
     notifyListeners();
-    var url = Uri.parse('https://us-central1-bowandbeautiful-dev.cloudfunctions.net/calendar-appleCalendar');
+    var url = Uri.parse('https://us-central1-bowandbeautiful-3372d.cloudfunctions.net/calendar-appleCalendar');
     final Map<String, String> body = {
       "starttime": startTime,
       "endtime": endTime,
