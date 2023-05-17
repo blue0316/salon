@@ -1459,6 +1459,7 @@ class CreateAppointmentProvider with ChangeNotifier {
           name: Utils().getName(customerModel.personalInfo), //"Banjo Oluwatimmy",
           phoneNumber: customerModel.personalInfo.phone,
           pic: "",
+          email: customerModel.personalInfo.email ?? '',
         ),
         priceAndDuration: PriceAndDurationModel(
           duration: MasterServiceAtPresentTime.service!.isPriceRange
@@ -1577,6 +1578,7 @@ class CreateAppointmentProvider with ChangeNotifier {
           name: Utils().getName(customerModel.personalInfo),
           phoneNumber: customerModel.personalInfo.phone,
           pic: customerModel.profilePic,
+          email: customerModel.personalInfo.email ?? '',
         ),
         priceAndDuration: _totalPriceAndDuration,
         paymentInfo: null,
@@ -1660,6 +1662,7 @@ class CreateAppointmentProvider with ChangeNotifier {
           name: "Utils().getName(customerModel.personalInfo)",
           phoneNumber: " customerModel.personalInfo.phone",
           pic: " customerModel.profilePic",
+          email: '',
         ),
         priceAndDuration: _totalPriceAndDuration,
         paymentInfo: null,

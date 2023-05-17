@@ -8,6 +8,7 @@ import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/customer_web_settings.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
+import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/time.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/themes/utils/theme_color.dart';
@@ -15,7 +16,11 @@ import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:http/http.dart' as http;
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class AppointmentProvider with ChangeNotifier {
   static final DateTime _today = Time().getDate();
@@ -41,6 +46,7 @@ class AppointmentProvider with ChangeNotifier {
   Status appointmentStatus = Status.loading;
   Status updateSubStatus = Status.init;
   Status cancelAppointmentStatus = Status.init;
+  Status appleCalendarStatus = Status.init;
 
   // CustomerWebSettings? themeSettings;
   ThemeData? salonTheme;
@@ -286,6 +292,59 @@ class AppointmentProvider with ChangeNotifier {
       notifyListeners();
       return themeType;
     }
+  }
+
+  void addToAppleCalendar(context, {required AppointmentModel appointment, required String appointmentId, required String startTime, required String endTime}) async {
+    appleCalendarStatus = Status.loading;
+    notifyListeners();
+    var url = Uri.parse('https://us-central1-bowandbeautiful-dev.cloudfunctions.net/calendar-appleCalendar');
+    final Map<String, String> body = {
+      "starttime": startTime,
+      "endtime": endTime,
+      "salonName": appointment.salon.name,
+      "email": appointment.customer?.email ?? '',
+      "address": appointment.salon.address,
+      "salonPhone": appointment.salon.phoneNo,
+      "appointmentId": appointmentId,
+      "locale": "en",
+    };
+
+    print(body);
+
+    var response = await http.post(url, body: body);
+
+    print(response);
+
+    debugPrint('Response status: ${response.statusCode}');
+    debugPrint('Response body: ${response.body}');
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      showTopSnackBar(
+        context,
+        CustomSnackBar.success(
+          message: "Invite successfully sent to your email",
+          backgroundColor: AppTheme.creamBrown,
+          textStyle: AppTheme.customLightTheme.textTheme.bodyLarge!.copyWith(
+            fontSize: 20.sp,
+            color: Colors.black,
+          ),
+        ),
+      );
+    } else {
+      showTopSnackBar(
+        context,
+        CustomSnackBar.success(
+          message: "Something went wrong please try again",
+          backgroundColor: AppTheme.creamBrown,
+          textStyle: AppTheme.customLightTheme.textTheme.bodyLarge!.copyWith(
+            fontSize: 20.sp,
+            color: Colors.black,
+          ),
+        ),
+      );
+    }
+    appleCalendarStatus = Status.init;
+    notifyListeners();
   }
 }
 

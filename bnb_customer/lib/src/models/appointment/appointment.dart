@@ -305,12 +305,14 @@ class Customer {
   late String name;
   late String? pic;
   late String phoneNumber;
+  late String email;
 
   Customer({
     required this.id,
     required this.name,
     required this.pic,
     required this.phoneNumber,
+    required this.email,
   });
 
   Customer.fromJson(dynamic json) {
@@ -318,6 +320,7 @@ class Customer {
     name = json["name"];
     pic = json["pic"];
     phoneNumber = json["phoneNumber"];
+    email = json["email"];
   }
 
   Map<String, dynamic> toJson() {
@@ -326,6 +329,7 @@ class Customer {
     map["name"] = name;
     map["pic"] = pic;
     map["phoneNumber"] = phoneNumber;
+    map["email"] = email;
     return map;
   }
 }

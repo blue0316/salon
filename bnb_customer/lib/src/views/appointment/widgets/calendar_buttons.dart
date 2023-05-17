@@ -1,6 +1,7 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
+import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/google_calendar.dart';
@@ -15,13 +16,18 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'theme_colors.dart';
 
-class AddToCalendars extends StatelessWidget {
+class AddToCalendars extends ConsumerWidget {
   final AppointmentModel appointment;
+  final String appointmentID;
 
-  const AddToCalendars({Key? key, required this.appointment}) : super(key: key);
+  const AddToCalendars({Key? key, required this.appointment, required this.appointmentID}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final _appointmentProvider = ref.watch(appointmentProvider);
+    ThemeData theme = _appointmentProvider.salonTheme ?? AppTheme.customLightTheme;
+    ThemeType themeType = _appointmentProvider.themeType ?? ThemeType.DefaultLight;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),
       child: Center(
@@ -49,31 +55,25 @@ class AddToCalendars extends StatelessWidget {
                   Time().getAppointmentEndTime(appointment) ?? '',
                 );
 
-                // Convert to YYYYMMDDTHHMMSSZ
-                final DateTime startFormat = DateTime(start.year, start.month, start.day, start.hour, start.minute, 0, 0, 0);
-                final DateTime endFormat = DateTime(end.year, end.month, end.day, end.hour, end.minute, 0, 0, 0);
-                final String formattedStartDateTime = AddToCalendar().formatDateTime(startFormat);
-                final String formattedEndDateTime = AddToCalendar().formatDateTime(endFormat);
+                print(start);
+                print(end);
 
-                // Create Event Template
-                final String url = AddToCalendar().getAppleCalendarUrl(
-                  title: 'Appointment Confirmation',
-                  description: 'Appointment with ${appointment.master?.name} at ${appointment.salon.name}',
-                  startTime: formattedStartDateTime,
-                  endTime: formattedEndDateTime,
+                _appointmentProvider.addToAppleCalendar(
+                  context,
+                  appointment: appointment,
+                  appointmentId: appointmentID,
+                  startTime: start.toIso8601String(),
+                  endTime: end.toIso8601String(),
                 );
 
-                debugPrint(url);
-                // Launch URL
-                final parsedURL = Uri.parse(url);
-                if (await canLaunchUrl(parsedURL)) {
-                  await launchUrl(parsedURL);
-                } else {
-                  await launchUrl(parsedURL);
-                  debugPrint('didn\'t launch');
-                  showToast('Something went wrong, please try again');
-                }
+                // // Convert to YYYYMMDDTHHMMSSZ
+                // final DateTime startFormat = DateTime(start.year, start.month, start.day, start.hour, start.minute, 0, 0, 0);
+                // final DateTime endFormat = DateTime(end.year, end.month, end.day, end.hour, end.minute, 0, 0, 0);
+                // final String formattedStartDateTime = AddToCalendar().formatDateTime(startFormat);
+                // final String formattedEndDateTime = AddToCalendar().formatDateTime(endFormat);
               },
+              isLoading: _appointmentProvider.appleCalendarStatus == Status.loading,
+              loaderColor: transparentLoaderColor(themeType, theme),
             ),
             // const SizedBox(width: 10),
             CalendarButton(
@@ -126,8 +126,17 @@ class AddToCalendars extends StatelessWidget {
 class CalendarButton extends ConsumerWidget {
   final String text, icon;
   final VoidCallback onTap;
+  final bool isLoading;
+  final Color? loaderColor;
 
-  const CalendarButton({Key? key, required this.text, required this.icon, required this.onTap}) : super(key: key);
+  const CalendarButton({
+    Key? key,
+    required this.text,
+    required this.icon,
+    required this.onTap,
+    this.isLoading = false,
+    this.loaderColor,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -153,33 +162,41 @@ class CalendarButton extends ConsumerWidget {
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                (icon == AppIcons.coloredGoogleLogoPNG)
-                    ? Image.asset(
-                        AppIcons.coloredGoogleLogoPNG,
-                        height: 20.sp,
-                      )
-                    : SvgPicture.asset(
-                        icon,
-                        fit: BoxFit.cover,
-                        height: 20.sp,
-                        color: borderColor(themeType, theme),
+            child: isLoading
+                ? Center(
+                    child: SizedBox(
+                      height: 25,
+                      width: 25,
+                      child: CircularProgressIndicator(color: loaderColor ?? Colors.white),
+                    ),
+                  )
+                : Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      (icon == AppIcons.coloredGoogleLogoPNG)
+                          ? Image.asset(
+                              AppIcons.coloredGoogleLogoPNG,
+                              height: 20.sp,
+                            )
+                          : SvgPicture.asset(
+                              icon,
+                              fit: BoxFit.cover,
+                              height: 20.sp,
+                              color: borderColor(themeType, theme),
+                            ),
+                      const SizedBox(width: 8),
+                      Text(
+                        text,
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.bodyLarge?.copyWith(
+                          color: borderColor(themeType, theme),
+                          fontWeight: FontWeight.w600,
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 15.sp, 16.sp),
+                        ),
                       ),
-                const SizedBox(width: 8),
-                Text(
-                  text,
-                  textAlign: TextAlign.center,
-                  style: theme.textTheme.bodyLarge?.copyWith(
-                    color: borderColor(themeType, theme),
-                    fontWeight: FontWeight.w600,
-                    fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 15.sp, 16.sp),
+                    ],
                   ),
-                ),
-              ],
-            ),
           ),
         ),
       ),

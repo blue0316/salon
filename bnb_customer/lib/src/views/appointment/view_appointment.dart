@@ -111,6 +111,7 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                     ),
                                     AddToCalendars(
                                       appointment: appointment!,
+                                      appointmentID: widget.appointmentDocId,
                                     ),
                                     Padding(
                                       padding: EdgeInsets.symmetric(
