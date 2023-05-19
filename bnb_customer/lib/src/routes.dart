@@ -3,9 +3,11 @@
 import 'package:bbblient/main.dart';
 import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
 import 'package:bbblient/src/loadingLink.dart';
+import 'package:bbblient/src/models/backend_codings/payment_methods.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/appointment/view_appointment.dart';
+import 'package:bbblient/src/views/payment/payment.dart';
 import 'package:bbblient/src/views/policy/policy.dart';
 import 'package:bbblient/src/views/policy/testes.dart';
 import 'package:bbblient/src/views/salon/salon_home/salon_profile_copy.dart';
@@ -73,6 +75,12 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: EasyWebDemo.route,
       pageBuilder: (context, state) => MaterialPage(key: state.pageKey, child: const NewTEst()),
+    ),
+
+    /// privacy
+    GoRoute(
+      path: Payment.route,
+      pageBuilder: (context, state) => MaterialPage(key: state.pageKey, child: const Payment()),
     ),
 
     /// home/salon for either master or salonOwner
