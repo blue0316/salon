@@ -70,8 +70,8 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                         const LandingHeader(),
 
                         // TAGS
-                        if (displaySettings?.showBrands == true) SizedBox.fromSize(size: Size.zero, key: controller.tags),
-                        if (displaySettings?.showBrands == true)
+                        if (displaySettings?.showFeatures == true) SizedBox.fromSize(size: Size.zero, key: controller.tags),
+                        if (displaySettings?.showFeatures == true)
                           if (chosenSalon.additionalFeatures.isNotEmpty)
                             SalonTags(
                               salonModel: chosenSalon,
