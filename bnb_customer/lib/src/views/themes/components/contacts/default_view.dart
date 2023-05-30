@@ -27,18 +27,24 @@ class ContactDefaultView extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Text(
-          isSingleMaster
-              ? (AppLocalizations.of(context)?.contacts ?? 'Contacts')
-              : (AppLocalizations.of(
-                        context,
-                      )?.contactUs ??
-                      'Contact Us')
-                  .toUpperCase(),
-          style: theme.textTheme.displayMedium!.copyWith(
-            fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 45.sp, 65.sp),
+        GestureDetector(
+          onTap: () {
+            print(salonModel.position?.geoPoint?.latitude);
+            print(salonModel.position?.geoPoint?.longitude);
+          },
+          child: Text(
+            isSingleMaster
+                ? (AppLocalizations.of(context)?.contacts ?? 'Contacts')
+                : (AppLocalizations.of(
+                          context,
+                        )?.contactUs ??
+                        'Contact Us')
+                    .toUpperCase(),
+            style: theme.textTheme.displayMedium!.copyWith(
+              fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 45.sp, 65.sp),
+            ),
+            textAlign: TextAlign.center,
           ),
-          textAlign: TextAlign.center,
         ),
         const SizedBox(height: 50),
         SizedBox(
