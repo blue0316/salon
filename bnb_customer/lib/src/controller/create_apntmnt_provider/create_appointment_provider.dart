@@ -856,9 +856,9 @@ class CreateAppointmentProvider with ChangeNotifier {
   }
 
   calculateAvailableMasters({required DateTime day}) {
-    print('entered here ??? ');
-    print(salonMasters);
-    print('entered here ??? ');
+    // print('entered here ??? ');
+    // print(salonMasters);
+    // print('entered here ??? ');
 
     if (salonMasters.isNotEmpty) {
       availableMasters.clear();
@@ -866,9 +866,9 @@ class CreateAppointmentProvider with ChangeNotifier {
       notifyListeners();
 
       for (MasterModel master in salonMasters) {
-        print('##############');
-        print(master.workingHours);
-        print('##############');
+        // print('##############');
+        // print(master.workingHours);
+        // print('##############');
         if (master.workingHours != null) {
           bool isMasterWorking = (Time().getWorkingHoursFromWeekDay(day.weekday, master.workingHours)?.isWorking == true ||
               (master.irregularWorkingHours != null
@@ -879,11 +879,11 @@ class CreateAppointmentProvider with ChangeNotifier {
 
           bool servicesAvailable = mastersServicesMap[master.masterId] != null;
           bool servicesAvailableCount = mastersServicesMap[master.masterId]?.isNotEmpty ?? false;
-          print('---------------------------------------------------------------------------------------------------------');
-          print(servicesAvailable);
-          print(servicesAvailableCount);
-          print(isMasterWorking);
-          print('---------------------------------------------------------------------------------------------------------');
+          // print('---------------------------------------------------------------------------------------------------------');
+          // print(servicesAvailable);
+          // print(servicesAvailableCount);
+          // print(isMasterWorking);
+          // print('---------------------------------------------------------------------------------------------------------');
           if (isMasterWorking && servicesAvailable && servicesAvailableCount) {
             availableMasters.add(master);
           }
@@ -1570,7 +1570,7 @@ class CreateAppointmentProvider with ChangeNotifier {
         bookedForSelf: bookedForSelf,
         updates: [AppointmentUpdates.createdByCustomer],
         status: chosenSalon!.requestSalon ? AppointmentStatus.requested : AppointmentStatus.active,
-        subStatus: (chosenSalon!.isAutomaticBookingConfirmation == true) ? AppointmentSubStatus.confirmed : AppointmentSubStatus.unconfirmed,
+        subStatus: AppointmentSubStatus.unconfirmed, //  (chosenSalon!.isAutomaticBookingConfirmation == true) ? AppointmentSubStatus.confirmed : AppointmentSubStatus.unconfirmed,
 
         services: _services,
         customer: Customer(

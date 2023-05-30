@@ -32,7 +32,10 @@ Widget background(ThemeType themeType, SalonModel salon, SalonProfileProvider sa
       return const GradientBackground();
 
     case ThemeType.GlamMinimalDark:
-      return const DefaultImageBG(image: ThemeImages.minimalBackground);
+      return const FilteredAssetImage(
+        image: ThemeImages.minimalBackground,
+        opacity: 0.55,
+      );
 
     case ThemeType.GlamMinimalLight:
       return const DefaultImageBG(image: ThemeImages.minimalBackground);
@@ -83,6 +86,21 @@ class FilteredImage extends StatelessWidget {
         url: _salonProfileProvider.themeSettings!.backgroundImage!,
         fit: BoxFit.cover,
       ),
+    );
+  }
+}
+
+class FilteredAssetImage extends StatelessWidget {
+  final String image;
+  final double? opacity;
+
+  const FilteredAssetImage({Key? key, required this.image, this.opacity}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ColorFiltered(
+      colorFilter: ColorFilter.mode(Colors.black.withOpacity(opacity ?? 0.3), BlendMode.dstATop),
+      child: Image.asset(image, fit: BoxFit.cover),
     );
   }
 }

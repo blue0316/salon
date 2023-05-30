@@ -97,7 +97,7 @@ final GoRouter router = GoRouter(
               final String id = state.queryParams['id']!;
               final String locale = state.queryParams['locale'] ?? "en";
               final String id2 = state.queryParams['id2'] ?? "";
-              printIt('idefeeeeeeeeeeeeeeee  + $id2');
+              // printIt('idefeeeeeeeeeeeeeeee  + $id2');
               bool back = true;
               MasterModel? salonMaster;
               if (state.queryParams['back'] != null) {

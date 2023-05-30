@@ -40,7 +40,7 @@ class DefaultLandingHeaderView extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     ThemeAppBar(salonModel: chosenSalon),
-                    const SizedBox(height: 100),
+                    (themeType == ThemeType.Barbershop) ? SizedBox(height: 170.sp) : const SizedBox(height: 100),
                     ThemeHeader(salonModel: chosenSalon, masterModel: masterModel),
                   ],
                 ),

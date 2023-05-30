@@ -7,7 +7,6 @@ import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/utils/utils.dart';
-import 'package:bbblient/src/views/salon/master/master_profile.dart';
 import 'package:bbblient/src/views/themes/glam_one/master_profile/unique_master_profile.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
@@ -55,21 +54,22 @@ class SalonTeam extends ConsumerWidget {
                 (AppLocalizations.of(context)?.ourTeam ?? 'Our Team').toUpperCase(),
                 style: theme.textTheme.displayMedium?.copyWith(
                   color: theme.colorScheme.secondary,
-                  fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),
+                  fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 45.sp, 65.sp),
                 ),
               ),
             ),
-            const Space(factor: 4),
+            const Space(factor: 3.5),
             Center(
               child: Container(
-                height: size.height * 0.30, // DeviceConstraints.getResponsiveSize(context, 230.h, 230.h, 210.h),
+                // color: Colors.yellow,
+                height: size.height * 0.4, // DeviceConstraints.getResponsiveSize(context, 230.h, 230.h, 210.h),
                 alignment: Alignment.center,
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   physics: const BouncingScrollPhysics(),
                   shrinkWrap: true,
                   separatorBuilder: (context, index) {
-                    return const SizedBox(width: 20);
+                    return SizedBox(width: 50.sp);
                   },
                   itemCount: _createAppointmentProvider.salonMasters.length,
                   itemBuilder: (context, index) {
@@ -218,7 +218,8 @@ class TeamMember extends ConsumerWidget {
                     item.translations[AppLocalizations.of(context)?.localeName] ?? '',
                     style: theme.textTheme.titleSmall?.copyWith(
                       color: theme.colorScheme.onSecondaryContainer,
-                      fontSize: 15.sp,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.normal,
                     ),
                   ),
                 )
@@ -256,15 +257,15 @@ class CircularTeamAvatar extends ConsumerWidget {
     ThemeType themeType = _salonProfileProvider.themeType;
 
     return Container(
-      height: 100,
-      width: 100,
+      height: 120.sp,
+      width: 120.sp,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: AppTheme.white, // coolGrey,
         border: (themeType == ThemeType.GlamLight) ? Border.all(color: Colors.black) : null,
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(100),
+        borderRadius: BorderRadius.circular(100.sp),
         child: (image != null && image != '')
             ? CachedImage(url: image!, fit: BoxFit.cover)
             : Image.asset(

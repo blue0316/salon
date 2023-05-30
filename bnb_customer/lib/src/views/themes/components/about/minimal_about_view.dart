@@ -50,7 +50,7 @@ class MinimalAboutView extends ConsumerWidget {
                     child: SizedBox(
                       height: 470.h,
                       // width: double.infinity,
-                      child: (themeSettings?.aboutSectionImage != null || themeSettings?.aboutSectionImage != '')
+                      child: (themeSettings?.aboutSectionImage != null && themeSettings?.aboutSectionImage != '')
                           ? CachedImage(
                               url: themeSettings!.aboutSectionImage!,
                               fit: BoxFit.cover,
@@ -99,6 +99,8 @@ class MinimalAboutView extends ConsumerWidget {
                               borderColor: theme.primaryColor,
                               textSize: 16.5.sp,
                               showSuffix: false,
+                              width: 180.sp,
+                              buttonWidth: 1,
                               onTap: () => const BookingDialogWidget222().show(context),
                             ),
                           ],
@@ -134,7 +136,7 @@ class PortraitView extends ConsumerWidget {
           child: SizedBox(
             height: DeviceConstraints.getResponsiveSize(context, 250.h, 350.h, 400.h),
             width: double.infinity,
-            child: (themeSettings?.aboutSectionImage != null || themeSettings?.aboutSectionImage != '')
+            child: (themeSettings?.aboutSectionImage != null && themeSettings?.aboutSectionImage != '')
                 ? CachedImage(
                     url: themeSettings!.aboutSectionImage!,
                     fit: BoxFit.cover,
@@ -190,6 +192,8 @@ class PortraitView extends ConsumerWidget {
                     borderColor: theme.primaryColor,
                     textSize: 16.sp,
                     showSuffix: false,
+                    width: 180.sp,
+                    buttonWidth: 1,
                     onTap: () => const BookingDialogWidget222().show(context),
                   ),
                 ],

@@ -36,7 +36,7 @@ class ContactDefaultView extends ConsumerWidget {
                       'Contact Us')
                   .toUpperCase(),
           style: theme.textTheme.displayMedium!.copyWith(
-            fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+            fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 45.sp, 65.sp),
           ),
           textAlign: TextAlign.center,
         ),

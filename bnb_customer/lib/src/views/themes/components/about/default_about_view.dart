@@ -53,13 +53,15 @@ class _DefaultAboutViewState extends ConsumerState<DefaultAboutView> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(
+                    // color: Colors.yellow,
                     // height: 500.h,
                     width: DeviceConstraints.getResponsiveSize(context, 50, 200.w, 200.w),
                     child: Stack(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 30),
+                          padding: const EdgeInsets.symmetric(vertical: 0),
                           child: SizedBox(
+                            // color: Colors.brown,
                             height: 500.h,
                             child: CarouselSlider(
                               carouselController: _controller,
@@ -101,7 +103,7 @@ class _DefaultAboutViewState extends ConsumerState<DefaultAboutView> {
                           Text(
                             isSingleMaster ? (AppLocalizations.of(context)?.aboutMe ?? 'About Me') : (AppLocalizations.of(context)?.aboutUs ?? 'About Us').toUpperCase(),
                             style: theme.textTheme.displayMedium?.copyWith(
-                              fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 30.sp, 50.sp),
+                              fontSize: DeviceConstraints.getResponsiveSize(context, 35.sp, 40.sp, 60.sp),
                             ),
                           ),
                           const SizedBox(height: 10),
@@ -129,6 +131,8 @@ class _DefaultAboutViewState extends ConsumerState<DefaultAboutView> {
                                 )
                               : OvalButton(
                                   text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
+                                  width: 180.h,
+                                  height: 60.h,
                                   onTap: () => const BookingDialogWidget222().show(context),
                                 ),
                         ],

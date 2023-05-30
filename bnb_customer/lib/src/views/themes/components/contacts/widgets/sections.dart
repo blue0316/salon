@@ -85,6 +85,7 @@ class ContactCard extends ConsumerWidget {
               style: theme.textTheme.bodyLarge?.copyWith(
                 color: iconColor(themeType), // (themeType == ThemeType.GlamLight) ? Colors.black : Colors.white,
                 fontSize: 20.sp,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ),
@@ -185,7 +186,7 @@ class SocialNetwork extends ConsumerWidget {
               height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 26.sp),
               color: theme.primaryColorDark,
             ),
-            const SizedBox(width: 20),
+            SizedBox(width: 37.sp),
             Socials(
               type: (themeType == ThemeType.GlamMinimalLight) ? 'facebook' : 'tiktok',
               socialIcon: (themeType == ThemeType.GlamMinimalLight) ? ThemeIcons.minimalFacebook : ThemeIcons.tiktok,
@@ -193,7 +194,7 @@ class SocialNetwork extends ConsumerWidget {
               height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 26.sp),
               color: theme.primaryColorDark,
             ),
-            const SizedBox(width: 20),
+            SizedBox(width: 37.sp),
             Socials(
               type: 'whatsapp',
               socialIcon: (themeType == ThemeType.GlamMinimalLight) ? ThemeIcons.whatsapp : ThemeIcons.whatsapp,

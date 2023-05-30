@@ -22,11 +22,12 @@ class ShopCard extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.only(right: 20),
       child: SizedBox(
+        // color: Colors.orange,
         width: DeviceConstraints.getResponsiveSize(
           context,
-          size / 1.5,
-          size / 2.5,
-          100.w,
+          size / 1.2,
+          size / 2.3,
+          70.w,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,13 +36,16 @@ class ShopCard extends ConsumerWidget {
             Expanded(
               flex: 1,
               child: Container(
-                color: Colors.white,
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  border: Border.all(color: theme.primaryColorDark, width: 0.3),
+                ),
                 // height: 300.h,
                 width: DeviceConstraints.getResponsiveSize(
                   context,
-                  size / 1.5,
-                  size / 2.5,
-                  100.w,
+                  size / 1.2,
+                  size / 2.3,
+                  70.w,
                 ),
 
                 child: (product.productImageUrlList!.isNotEmpty)
@@ -52,15 +56,16 @@ class ShopCard extends ConsumerWidget {
                     : Center(
                         child: Text(
                           'Photo N/A',
-                          style: theme.textTheme.bodyText1?.copyWith(
+                          style: theme.textTheme.bodyLarge?.copyWith(
                             color: theme.primaryColorDark,
-                            fontSize: 25.sp,
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.normal,
                           ),
                         ),
                       ),
               ),
             ),
-            // const SizedBox(height: 15),
+            const SizedBox(height: 10),
             Expanded(
               flex: 0,
               child: Row(
@@ -69,19 +74,20 @@ class ShopCard extends ConsumerWidget {
                 children: [
                   Text(
                     '${product.productName}',
-                    style: theme.textTheme.bodyText1?.copyWith(
+                    style: theme.textTheme.bodyLarge?.copyWith(
                       color: theme.primaryColorDark,
-                      fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 16.sp),
+                      fontWeight: FontWeight.normal,
                     ),
                   ),
                   // Spacer(),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(
                     '\$${product.clientPrice}',
-                    style: theme.textTheme.bodyText1?.copyWith(
+                    style: theme.textTheme.bodyLarge?.copyWith(
                       color: theme.primaryColorLight,
-                      fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
-                      fontWeight: FontWeight.w600,
+                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 16.sp),
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ],

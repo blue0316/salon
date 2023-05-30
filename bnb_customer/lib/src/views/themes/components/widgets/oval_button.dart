@@ -3,11 +3,12 @@ import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 class OvalButton extends ConsumerWidget {
   final double? height, width;
   final String text;
-  final double? textSize;
+  final double? textSize, buttonWidth;
   final VoidCallback onTap;
 
   const OvalButton({
@@ -16,6 +17,7 @@ class OvalButton extends ConsumerWidget {
     this.textSize,
     this.height,
     this.width,
+    this.buttonWidth,
     required this.onTap,
   }) : super(key: key);
 
@@ -28,27 +30,38 @@ class OvalButton extends ConsumerWidget {
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
         onTap: onTap,
-        child: Container(
+        child: SizedBox(
           width: width ?? 145.h,
           height: height ?? 45.h,
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: theme.primaryColor,
-              width: 1.5,
-            ),
-            borderRadius: const BorderRadius.all(Radius.elliptical(150, 50)),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 3),
-            child: Center(
-              child: Text(
-                text,
-                style: theme.textTheme.bodyMedium!.copyWith(
-                  fontSize: textSize ?? 14.sp,
-                  fontFamily: "Poppins",
+          // color: Colors.blue,
+          // decoration: BoxDecoration(
+          //   border: Border.all(
+          //     color: theme.primaryColor,
+          //     width: buttonWidth ?? 1.5,
+          //   ),
+          //   borderRadius: const BorderRadius.all(Radius.elliptical(150, 50)),
+          // ),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              SvgPicture.asset(
+                'assets/themes/glam_one/svg/button_oval.svg',
+                fit: BoxFit.contain,
+                color: theme.primaryColor,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 3),
+                child: Center(
+                  child: Text(
+                    text,
+                    style: theme.textTheme.bodyMedium!.copyWith(
+                      fontSize: textSize ?? 14.sp,
+                      fontFamily: "Poppins",
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
         ),
       ),

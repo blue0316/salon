@@ -55,11 +55,12 @@ class _ReviewSectionTitleState extends ConsumerState<ReviewSectionTitle> {
           children: [
             Text(
               (AppLocalizations.of(context)?.reviews ?? 'Reviews').toUpperCase(),
-              style: theme.textTheme.headline2?.copyWith(
-                fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),
+              style: theme.textTheme.displayMedium?.copyWith(
+                fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 45.sp, 65.sp),
               ),
             ),
             PrevAndNextButtons(
+              forwardColor: theme.primaryColorDark,
               backOnTap: isTab
                   ? () {
                       if (tabInitial < 3) return;
@@ -104,33 +105,36 @@ class _ReviewSectionTitleState extends ConsumerState<ReviewSectionTitle> {
           children: [
             Text(
               _ratingStr.length > 3 ? _ratingStr.substring(0, 3) : _ratingStr, // "4,5",
-              style: theme.textTheme.bodyText1?.copyWith(
+              style: theme.textTheme.bodyLarge?.copyWith(
                 fontSize: 18.sp,
                 color: bottomDetailsColor(themeType, theme),
               ),
             ),
-            const SizedBox(width: 15),
-            RatingBar.builder(
-              initialRating: widget.salonModel.avgRating,
-              minRating: 0,
-              direction: Axis.horizontal,
-              allowHalfRating: false,
-              itemSize: 20,
-              itemCount: 5,
-              updateOnDrag: true,
-              glowColor: Colors.yellow,
-              glow: true,
-              glowRadius: 10,
-              unratedColor: Colors.grey,
-              onRatingUpdate: (rating) {},
-              itemBuilder: (context, _) {
-                return Icon(
-                  Icons.star,
-                  color: theme.primaryColorDark,
-                );
-              },
+            SizedBox(
+              width: DeviceConstraints.getResponsiveSize(context, 30.sp, 70.sp, 150.sp),
             ),
-            const SizedBox(width: 15),
+
+            // RatingBar.builder(
+            //   initialRating: widget.salonModel.avgRating,
+            //   minRating: 0,
+            //   direction: Axis.horizontal,
+            //   allowHalfRating: false,
+            //   itemSize: 20,
+            //   itemCount: 5,
+            //   updateOnDrag: true,
+            //   glowColor: Colors.yellow,
+            //   glow: true,
+            //   glowRadius: 10,
+            //   unratedColor: Colors.grey,
+            //   onRatingUpdate: (rating) {},
+            //   itemBuilder: (context, _) {
+            //     return Icon(
+            //       Icons.star,
+            //       color: theme.primaryColorDark,
+            //     );
+            //   },
+            // ),
+            // const SizedBox(width: 15),
             Text(
               "${_salonProfileProvider.salonReviews.length} ${AppLocalizations.of(context)?.reviews ?? 'Reviews'}",
               overflow: TextOverflow.ellipsis,

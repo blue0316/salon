@@ -72,7 +72,7 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
             Text(
               isSingleMaster ? (AppLocalizations.of(context)?.price ?? 'Price') : (AppLocalizations.of(context)?.ourPrice ?? 'Our Price').toUpperCase(),
               style: theme.textTheme.displayMedium?.copyWith(
-                fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),
+                fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 45.sp, 65.sp),
               ),
             ),
             const SizedBox(height: 50),
@@ -82,7 +82,8 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: SizedBox(
-                        height: 60.h,
+                        // color: Colors.blue,
+                        height: MediaQuery.of(context).size.height * 0.065, // 60.h,
                         child: TabBar(
                           onTap: (index) {
                             setState(() {

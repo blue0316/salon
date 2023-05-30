@@ -59,7 +59,7 @@ class _DefaultWorksViewState extends ConsumerState<DefaultWorksView> {
                   (isSingleMaster ? (AppLocalizations.of(context)?.myWorks ?? 'My Works') : (AppLocalizations.of(context)?.ourWorks ?? 'Our Works')).toUpperCase(),
                   style: theme.textTheme.displayMedium?.copyWith(
                     color: theme.colorScheme.secondary,
-                    fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),
+                    fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 45.sp, 65.sp),
                   ),
                 ),
                 const Spacer(),

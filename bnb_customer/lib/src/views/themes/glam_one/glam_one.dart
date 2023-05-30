@@ -139,17 +139,11 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                               children: [
                                 TextSpan(
                                   text: "Design By ",
-                                  style: theme.textTheme.bodyLarge!.copyWith(
-                                    fontSize: 20.sp,
-                                    color: theme.primaryColorLight,
-                                  ),
+                                  style: theme.textTheme.bodyLarge!.copyWith(fontSize: 20.sp, color: theme.primaryColorLight),
                                 ),
                                 TextSpan(
                                   text: "GlamIris",
-                                  style: theme.textTheme.bodyLarge!.copyWith(
-                                    fontSize: 20.sp,
-                                    color: theme.primaryColorDark,
-                                  ),
+                                  style: theme.textTheme.bodyLarge!.copyWith(fontSize: 20.sp, color: theme.primaryColorDark),
                                 ),
                               ],
                             ),
@@ -167,3 +161,5 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
     );
   }
 }
+
+ // fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 50.sp, 60.sp),

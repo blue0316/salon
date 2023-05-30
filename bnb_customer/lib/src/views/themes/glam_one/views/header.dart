@@ -70,6 +70,7 @@ class ThemeHeader extends ConsumerWidget {
             child: Wrap(
               spacing: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 10.w),
               runSpacing: DeviceConstraints.getResponsiveSize(context, 10.h, 20.w, 10.w),
+              direction: Axis.horizontal,
               alignment: WrapAlignment.center,
               children: _createAppointmentProvider.categoriesAvailable
                   .map(
@@ -98,6 +99,7 @@ Widget getThemeButton(context, ThemeType themeType) {
       ),
     ],
   );
+
   switch (themeType) {
     case ThemeType.GlamBarbershop:
       return squareButton;
@@ -106,10 +108,22 @@ Widget getThemeButton(context, ThemeType themeType) {
       return squareButton;
 
     case ThemeType.GlamMinimalLight:
-      return squareButton;
+      return SquareButton(
+        width: 180.sp,
+        text: (AppLocalizations.of(context)?.bookNow ?? "Book Now").toUpperCase(),
+        height: 60.h,
+        showSuffix: false,
+        onTap: () => const BookingDialogWidget222().show(context),
+      );
 
     case ThemeType.GlamMinimalDark:
-      return squareButton;
+      return SquareButton(
+        width: 180.sp,
+        text: (AppLocalizations.of(context)?.bookNow ?? "Book Now").toUpperCase(),
+        height: 60.h,
+        showSuffix: false,
+        onTap: () => const BookingDialogWidget222().show(context),
+      );
 
     default:
       return RotatedBookNow(
@@ -121,27 +135,28 @@ Widget getThemeButton(context, ThemeType themeType) {
 
 class GlamOneWrap extends ConsumerWidget {
   final String text;
-  final VoidCallback? onTap;
-  const GlamOneWrap({Key? key, required this.text, this.onTap}) : super(key: key);
+  const GlamOneWrap({Key? key, required this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
-    return GestureDetector(
-      onTap: onTap,
+    return FittedBox(
       child: Container(
-        width: 150.h,
-        height: 50.h,
+        // width: text.length * 10.sp, // 150.h,
+        // height: 50.h,
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.white, width: 1.5),
+          border: Border.all(color: Colors.white, width: 1),
         ),
-        child: Center(
-          child: Text(
-            text,
-            style: theme.textTheme.bodyText1!.copyWith(color: Colors.white),
-            textAlign: TextAlign.center,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 30.sp, vertical: 13.sp),
+          child: Center(
+            child: Text(
+              text,
+              style: theme.textTheme.bodyLarge!.copyWith(color: Colors.white),
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
       ),

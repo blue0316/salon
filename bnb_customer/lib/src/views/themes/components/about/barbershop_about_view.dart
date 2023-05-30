@@ -54,7 +54,7 @@ class BarbershopAboutUs extends ConsumerWidget {
                   child: SizedBox(
                     height: 200.h,
                     width: double.infinity,
-                    child: (themeSettings?.aboutSectionImage != null || themeSettings?.aboutSectionImage != '')
+                    child: (themeSettings?.aboutSectionImage != null && themeSettings?.aboutSectionImage != '')
                         ? CachedImage(
                             url: themeSettings!.aboutSectionImage!,
                             fit: BoxFit.cover,
@@ -81,7 +81,7 @@ class BarbershopAboutUs extends ConsumerWidget {
                       child: SizedBox(
                         height: DeviceConstraints.getResponsiveSize(context, 0, 150.h, 180.h),
                         width: DeviceConstraints.getResponsiveSize(context, 0, 150.w, 100.w),
-                        child: (themeSettings?.aboutSectionImage != null || themeSettings?.aboutSectionImage != '')
+                        child: (themeSettings?.aboutSectionImage != null && themeSettings?.aboutSectionImage != '')
                             ? CachedImage(
                                 url: themeSettings!.aboutSectionImage!,
                                 fit: BoxFit.cover,

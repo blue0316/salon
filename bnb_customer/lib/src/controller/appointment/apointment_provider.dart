@@ -166,7 +166,7 @@ class AppointmentProvider with ChangeNotifier {
     try {
       await Collection.appointments.doc(appointmentID).set(
         {
-          'status': 'confirmed',
+          'status': 'active',
           'subStatus': 'confirmed',
           'updates': FieldValue.arrayUnion(['confirmedByCustomer'])
         },

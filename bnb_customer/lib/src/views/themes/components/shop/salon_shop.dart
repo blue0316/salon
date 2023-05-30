@@ -58,7 +58,14 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
         // Adding 1 because of the 'All' tab
         length: 1 + _salonProfileProvider.tabs.length,
         child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.7,
+          // color: Colors.teal,
+          // height: MediaQuery.of(context).size.height * 0.6,
+          height: DeviceConstraints.getResponsiveSize(
+            context,
+            MediaQuery.of(context).size.height * 0.5,
+            MediaQuery.of(context).size.height * 0.4,
+            MediaQuery.of(context).size.height * 0.5,
+          ), // 60.h,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -69,41 +76,34 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
                 children: [
                   Text(
                     (AppLocalizations.of(context)?.shop ?? 'Shop').toUpperCase(),
-                    style: theme.textTheme.headline2?.copyWith(
-                      fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),
+                    style: theme.textTheme.displayMedium?.copyWith(
+                      fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 45.sp, 65.sp),
                     ),
                   ),
                   // PrevAndNext(salonProfileProvider: _salonProfileProvider),
                 ],
               ),
-              SizedBox(height: DeviceConstraints.getResponsiveSize(context, 50, 40, 30)),
+              _salonProfileProvider.tabs.isNotEmpty ? const SizedBox(height: 10) : const SizedBox(height: 50),
               _salonProfileProvider.tabs.isNotEmpty
                   ? Expanded(
                       flex: 0,
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: SizedBox(
-                          height: 60.h,
+                          height: MediaQuery.of(context).size.height * 0.06, // 60.h,
                           child: TabBar(
                             controller: shopTabController,
-                            // unselectedLabelColor: theme.primaryColorLight,
-                            // labelColor: theme.primaryColorDark, // GlamOneTheme.deepOrange,
-                            // labelStyle: theme.textTheme.bodyText1?.copyWith(
-                            //   color: theme.primaryColorDark, // GlamOneTheme.deepOrange,
-                            //   fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 25.sp),
-                            //   fontWeight: FontWeight.w600,
-                            // ),
                             unselectedLabelColor: theme.tabBarTheme.unselectedLabelColor,
-                            labelColor: theme.tabBarTheme.labelColor,
-                            unselectedLabelStyle: theme.textTheme.bodyText1?.copyWith(
+                            labelColor: theme.primaryColorDark,
+                            unselectedLabelStyle: theme.textTheme.bodyLarge?.copyWith(
                               color: theme.tabBarTheme.unselectedLabelColor,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 20.sp,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16.sp,
                             ),
-                            labelStyle: theme.textTheme.bodyText1?.copyWith(
-                              color: theme.tabBarTheme.labelColor,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 20.sp,
+                            labelStyle: theme.textTheme.bodyLarge?.copyWith(
+                              color: theme.primaryColorDark,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16.sp,
                             ),
                             indicator: shopTabBarTheme(themeType, theme),
 
@@ -138,7 +138,7 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
                       child: Center(
                         child: Text(
                           (AppLocalizations.of(context)?.noItemsAvailable ?? 'No items available for sale').toUpperCase(),
-                          style: theme.textTheme.bodyText1?.copyWith(
+                          style: theme.textTheme.bodyLarge?.copyWith(
                             fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
                           ),
                         ),
@@ -152,16 +152,23 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
                   ? Expanded(
                       flex: 1,
                       child: SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.4,
+                        // color: Colors.pink,
+                        // height: DeviceConstraints.getResponsiveSize(
+                        //   context,
+                        //   MediaQuery.of(context).size.height * 0.1,
+                        //   MediaQuery.of(context).size.height * 0.3,
+                        //   MediaQuery.of(context).size.height * 0.4,
+                        // ),
 
                         // height: MediaQuery.of(context).size.height * 0.5, // 400,
-                        // width: double.infinity,
+                        width: double.infinity,
                         child: TabBarView(
                           controller: shopTabController,
                           physics: const NeverScrollableScrollPhysics(),
                           children: [
                             // ALL PRODUCTS
                             SizedBox(
+                              // color: Colors.brown,
                               // height: 100,
                               width: DeviceConstraints.getResponsiveSize(context, 700.w, 500.w, 300.w),
                               child: ListView.builder(

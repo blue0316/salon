@@ -78,13 +78,13 @@ class DefaultAppBarTheme extends ConsumerWidget {
                               socialIcon: ThemeIcons.insta,
                               socialUrl: salonModel.links?.instagram,
                             ),
-                            const SizedBox(width: 20),
+                            SizedBox(width: 37.sp),
                             Socials(
                               type: 'tiktok',
                               socialIcon: ThemeIcons.tiktok,
                               socialUrl: salonModel.links?.tiktok,
                             ),
-                            const SizedBox(width: 20),
+                            SizedBox(width: 37.sp),
                             Socials(
                               type: 'whatsapp',
                               socialIcon: ThemeIcons.whatsapp,
@@ -123,20 +123,49 @@ class DefaultAppBarTheme extends ConsumerWidget {
                         onTap: () {
                           Scaffold.of(context).openDrawer();
                         },
-                        child: Icon(
-                          Icons.menu,
-                          size: 35.h,
-                          color: theme.appBarTheme.iconTheme!.color,
+                        child: Container(
+                          color: Colors.transparent,
+                          height: 20.sp,
+                          width: 35.sp,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                height: 1.sp,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(2),
+                                  color: theme.appBarTheme.iconTheme!.color,
+                                ),
+                              ),
+                              Container(
+                                height: 1.sp,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(2),
+                                  color: theme.appBarTheme.iconTheme!.color,
+                                ),
+                              ),
+                              Container(
+                                height: 1.sp,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(2),
+                                  color: theme.appBarTheme.iconTheme!.color,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
+
+                        // child: Icon(
+                        //   Icons.menu,
+                        //   size: 35.h,
+                        // color: theme.appBarTheme.iconTheme!.color,
+                        // ),
                       ),
                     ),
-
-                    // SvgPicture.asset(
-                    //   ThemeIcons.menu,
-                    //   height: 20.h,
-                    //   // color: theme.dividerColor,
-                    //   color: theme.appBarTheme.iconTheme!.color,
-                    // ),
                   ],
                 ),
           const SizedBox(height: 10),

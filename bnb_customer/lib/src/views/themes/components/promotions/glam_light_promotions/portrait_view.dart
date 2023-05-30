@@ -88,7 +88,7 @@ class GlamLightPromotionCarousel extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "${AppLocalizations.of(context)?.discounts ?? "Discounts"}  ${promotion.promotionDiscount} ${promotion.discountUnit == "PCT(%)" ? '%' : '₴'}".toUpperCase(),
+                      "${AppLocalizations.of(context)?.discounts ?? "Discounts"}  ${promotion.promotionDiscount}%".toUpperCase(),
                       style: theme.textTheme.displayMedium?.copyWith(fontSize: 25.sp),
                     ),
                     const SizedBox(height: 10),

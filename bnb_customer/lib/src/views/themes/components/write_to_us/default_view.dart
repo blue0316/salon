@@ -9,7 +9,6 @@ import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/themes/components/widgets/button.dart';
 import 'package:bbblient/src/views/themes/components/widgets/oval_button.dart';
 import 'package:bbblient/src/views/themes/images.dart';
-import 'package:bbblient/src/views/themes/glam_one/views/profile/widgets/custom_text_form_field.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
@@ -39,54 +38,55 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
     ThemeType themeType = _salonProfileProvider.themeType;
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        (themeType == ThemeType.GlamLight && isTab)
-            ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    (AppLocalizations.of(context)?.weWillHelpYou ?? "We will help you").toUpperCase(),
-                    textAlign: TextAlign.center,
-                    style: theme.textTheme.headline2?.copyWith(
-                      color: theme.colorScheme.secondary,
-                      fontWeight: FontWeight.w600,
-                      fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 45.sp, 60.sp),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Padding(
-                    padding: EdgeInsets.only(left: 80.w),
-                    child: Text(
-                      (AppLocalizations.of(context)?.decideOnTheService ?? "decide on the service").toUpperCase(),
-                      textAlign: TextAlign.center,
-                      style: theme.textTheme.headline2?.copyWith(
-                        color: theme.colorScheme.secondary,
-                        fontWeight: FontWeight.w600,
-                        fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 45.sp, 60.sp),
-                      ),
-                    ),
-                  ),
-                ],
-              )
-            : Center(
-                child: Text(
-                  ('Not sure? Ask Us').toUpperCase(),
-                  // (AppLocalizations.of(
-                  //           context,
-                  //         )?.writeToUsAndWeWillHelpYouDecideOnTheService ??
-                  //         "Write to us and we will help you decide on the service")
-                  //     .toUpperCase(),
-                  textAlign: TextAlign.center,
-                  style: theme.textTheme.headline2?.copyWith(
-                    color: theme.colorScheme.secondary,
-                    fontWeight: FontWeight.w600,
-                    fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 45.sp, 50.sp),
-                  ),
+        // (themeType == ThemeType.GlamLight && isTab)
+        // ?
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              (AppLocalizations.of(context)?.weWillHelpYou ?? "We will help you").toUpperCase(),
+              textAlign: TextAlign.center,
+              style: theme.textTheme.displayMedium?.copyWith(
+                color: theme.colorScheme.secondary,
+                fontWeight: FontWeight.w500,
+                fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 45.sp, 65.sp),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 0), // 80.w),
+              child: Text(
+                (AppLocalizations.of(context)?.decideOnTheService ?? "decide on the service").toUpperCase(),
+                textAlign: TextAlign.center,
+                style: theme.textTheme.displayMedium?.copyWith(
+                  color: theme.colorScheme.secondary,
+                  fontWeight: FontWeight.w500,
+                  fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 45.sp, 65.sp),
                 ),
               ),
+            ),
+          ],
+        ),
+
+        // : Center(
+        //     child: Text(
+        //       ('Not sure? Ask Us').toUpperCase(),
+        //       // (AppLocalizations.of(
+        //       //           context,
+        //       //         )?.writeToUsAndWeWillHelpYouDecideOnTheService ??
+        //       //         "Write to us and we will help you decide on the service")
+        //       //     .toUpperCase(),
+        //       textAlign: TextAlign.center,
+        //       style: theme.textTheme.displayMedium?.copyWith(
+        //         color: theme.colorScheme.secondary,
+        //         fontWeight: FontWeight.w500,
+        //     fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 45.sp, 65.sp),
+        //       ),
+        //     ),
+        //   ),
         const SizedBox(height: 60),
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -118,117 +118,176 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: (!isPortrait && !isLandScape) ? 20.w : 10),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: (AppLocalizations.of(context)?.name ?? "Name").toCapitalized(), // "Name",
-                                style: theme.textTheme.titleSmall?.copyWith(
-                                  color: theme.colorScheme.onSecondaryContainer,
-                                  fontSize: 15.sp,
+                    SizedBox(
+                      // color: Colors.green,
+                      height: MediaQuery.of(context).size.height * 0.3,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            flex: 0,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: (AppLocalizations.of(context)?.name ?? "Name").toCapitalized(), // "Name",
+                                        style: theme.textTheme.titleSmall?.copyWith(
+                                          color: theme.colorScheme.onSecondaryContainer,
+                                          fontSize: 17.sp,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: " *",
+                                        style: theme.textTheme.bodyMedium?.copyWith(
+                                          color: theme.primaryColorDark,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  textAlign: TextAlign.center,
                                 ),
-                              ),
-                              TextSpan(
-                                text: " *",
-                                style: theme.textTheme.bodyMedium?.copyWith(
-                                  color: theme.primaryColor,
-                                  fontWeight: FontWeight.w800,
+                                SizedBox(height: 4.sp),
+                                Container(
+                                  height: 50.sp,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.black, width: 1),
+                                    borderRadius: BorderRadius.circular(50.sp),
+                                  ),
+                                  child: Center(
+                                    child: TextFormField(
+                                      controller: _salonProfileProvider.nameController,
+                                      decoration: InputDecoration(
+                                        hintText: (AppLocalizations.of(context)?.name ?? "Name").toCapitalized(), // "Name",
+                                        hintStyle: const TextStyle(color: Color(0XFF333333), fontWeight: FontWeight.w400),
+                                        contentPadding: EdgeInsets.only(left: 30.sp, right: 30.sp, bottom: 10.sp),
+                                        border: InputBorder.none,
+                                        focusedBorder: InputBorder.none,
+                                        enabledBorder: InputBorder.none,
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                          textAlign: TextAlign.left,
-                        ),
-                        CustomTextFormField(
-                          // width:  (isPortrait) ? 350.w : 100.w,
-                          focusNode: FocusNode(),
-                          controller: _salonProfileProvider.nameController,
-                          hintText: (AppLocalizations.of(context)?.name ?? "Name").toCapitalized(), // "Name",
-                          margin: const EdgeInsets.only(top: 10),
-                          contentPadding: 20,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 15),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: (AppLocalizations.of(context)?.phone ?? "Phone").toCapitalized(), // "Phone",
-                                style: theme.textTheme.titleSmall?.copyWith(
-                                  color: theme.colorScheme.onSecondaryContainer,
-                                  fontSize: 15.sp,
+                          // const SizedBox(height: 15),
+                          Expanded(
+                            flex: 0,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: (AppLocalizations.of(context)?.phone ?? "Phone").toCapitalized(), // "Phone",
+                                        style: theme.textTheme.titleSmall?.copyWith(
+                                          color: theme.colorScheme.onSecondaryContainer,
+                                          fontSize: 17.sp,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: " *",
+                                        style: theme.textTheme.titleSmall!.copyWith(
+                                          color: theme.primaryColorDark,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  textAlign: TextAlign.center,
                                 ),
-                              ),
-                              TextSpan(
-                                text: " *",
-                                style: theme.textTheme.bodyMedium!.copyWith(
-                                  color: theme.primaryColor,
-                                  fontWeight: FontWeight.w800,
+                                SizedBox(height: 4.sp),
+                                Container(
+                                  height: 50.sp,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.black, width: 1),
+                                    borderRadius: BorderRadius.circular(50.sp),
+                                  ),
+                                  child: Center(
+                                    child: TextFormField(
+                                      controller: _salonProfileProvider.phoneController,
+                                      decoration: InputDecoration(
+                                        hintText: (AppLocalizations.of(context)?.phone ?? "Phone").toCapitalized(), // "Phone",
+                                        hintStyle: const TextStyle(color: Color(0XFF333333), fontWeight: FontWeight.w400),
+                                        contentPadding: EdgeInsets.only(left: 30.sp, right: 30.sp, bottom: 10.sp),
+                                        border: InputBorder.none,
+                                        focusedBorder: InputBorder.none,
+                                        enabledBorder: InputBorder.none,
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                          textAlign: TextAlign.left,
-                        ),
-                        CustomTextFormField(
-                          // width: (isPortrait) ? 350.w : 100.w,
-                          focusNode: FocusNode(),
-                          controller: _salonProfileProvider.phoneController,
-                          hintText: (AppLocalizations.of(context)?.phone ?? "Phone").toCapitalized(), // "Phone",
-                          contentPadding: 20,
-                          margin: const EdgeInsets.only(top: 10),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 15),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: AppLocalizations.of(context)?.request ?? "Request".toCapitalized(), // "Email",
-                                style: theme.textTheme.titleSmall?.copyWith(
-                                  color: theme.colorScheme.onSecondaryContainer,
-                                  fontSize: 15.sp,
+                          // const SizedBox(height: 15),
+                          Expanded(
+                            flex: 0,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: AppLocalizations.of(context)?.request ?? "Request".toCapitalized(), // "Email",
+                                        style: theme.textTheme.titleSmall?.copyWith(
+                                          color: theme.colorScheme.onSecondaryContainer,
+                                          fontSize: 17.sp,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: " *",
+                                        style: theme.textTheme.bodyMedium?.copyWith(
+                                          color: theme.primaryColorDark,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  textAlign: TextAlign.center,
                                 ),
-                              ),
-                              TextSpan(
-                                text: " *",
-                                style: theme.textTheme.bodyMedium?.copyWith(
-                                  color: theme.primaryColor,
-                                  fontWeight: FontWeight.w800,
+                                SizedBox(height: 4.sp),
+                                Container(
+                                  height: 50.sp,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.black, width: 1),
+                                    borderRadius: BorderRadius.circular(50.sp),
+                                  ),
+                                  child: Center(
+                                    child: TextFormField(
+                                      controller: _salonProfileProvider.requestController,
+                                      decoration: InputDecoration(
+                                        hintText: (AppLocalizations.of(context)?.request ?? "Request").toCapitalized(), // "Email",
+                                        hintStyle: const TextStyle(color: Color(0XFF333333), fontWeight: FontWeight.w400),
+                                        contentPadding: EdgeInsets.only(left: 30.sp, right: 30.sp, bottom: 10.sp),
+                                        border: InputBorder.none,
+                                        focusedBorder: InputBorder.none,
+                                        enabledBorder: InputBorder.none,
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                          textAlign: TextAlign.left,
-                        ),
-                        CustomTextFormField(
-                          // width: (isPortrait) ? 350.w : 100.w,
-                          focusNode: FocusNode(),
-                          controller: _salonProfileProvider.requestController,
-                          hintText: (AppLocalizations.of(context)?.request ?? "Request").toCapitalized(), // "Email",
-                          contentPadding: 20,
-                          margin: const EdgeInsets.only(top: 10),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                    const SizedBox(height: 40),
+                    SizedBox(height: 30.sp),
                     Align(
                       alignment: Alignment.center,
                       child: _salonProfileProvider.enquiryStatus == Status.loading
@@ -248,13 +307,15 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
                                   ),
                                 )
                               : SquareButton(
-                                  height: 50,
+                                  height: 50.sp,
                                   // width: (isPortrait) ? 350.w : null, // DeviceConstraints.getResponsiveSize(context, 0, 120.w, 70.w),
                                   text: (themeType == ThemeType.GlamBarbershop || themeType == ThemeType.Barbershop) ? (AppLocalizations.of(context)?.submitEnquiry ?? "Submit an Enquiry").toUpperCase() : AppLocalizations.of(context)?.submitEnquiry ?? "Submit an Enquiry",
                                   onTap: () => _salonProfileProvider.sendEnquiryToSalon(context, salonId: widget.salonModel.salonId),
                                   buttonColor: theme.primaryColorDark,
                                   borderColor: theme.primaryColorDark,
                                   borderRadius: (themeType == ThemeType.GlamBarbershop || themeType == ThemeType.Barbershop) ? 0 : 25,
+                                  textColor: Colors.white, showSuffix: false,
+                                  weight: FontWeight.normal,
                                 ),
                     ),
                   ],

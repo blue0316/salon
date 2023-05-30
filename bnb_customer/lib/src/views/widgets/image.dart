@@ -9,6 +9,7 @@ class CachedImage extends StatelessWidget {
   final LoadingErrorWidgetBuilder? errorWidget;
   final int? cacheWidth;
   final BoxFit? fit;
+  final Widget Function(BuildContext, ImageProvider<Object>)? imageBuilder;
 
   const CachedImage({
     Key? key,
@@ -19,6 +20,7 @@ class CachedImage extends StatelessWidget {
     this.placeHolder,
     this.errorWidget,
     this.fit,
+    this.imageBuilder,
   }) : super(key: key);
 
   @override
@@ -38,6 +40,7 @@ class CachedImage extends StatelessWidget {
         // decoration: BoxDecoration(shape: BoxShape.circle),
         child: Center(child: Icon(Icons.error, size: height, color: Colors.red)),
       ),
+      imageBuilder: imageBuilder,
       placeholder: placeHolder,
       memCacheWidth: _cachedWidth,
     );

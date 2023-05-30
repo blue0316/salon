@@ -48,7 +48,7 @@ class GlamLightAboutUs extends ConsumerWidget {
                       // width: double.infinity,
                       child: ClipRRect(
                         borderRadius: const BorderRadius.horizontal(right: Radius.elliptical(200, 180)),
-                        child: (themeSettings?.aboutSectionImage != null || themeSettings?.aboutSectionImage != '')
+                        child: (themeSettings?.aboutSectionImage != null && themeSettings?.aboutSectionImage != '')
                             ? CachedImage(
                                 url: themeSettings!.aboutSectionImage!,
                                 fit: BoxFit.cover,
@@ -159,7 +159,7 @@ class PortraitView extends ConsumerWidget {
               width: double.infinity,
               child: ClipRRect(
                 borderRadius: const BorderRadius.horizontal(right: Radius.elliptical(200, 180)),
-                child: (themeSettings?.aboutSectionImage != null || themeSettings?.aboutSectionImage != '')
+                child: (themeSettings?.aboutSectionImage != null && themeSettings?.aboutSectionImage != '')
                     ? CachedImage(
                         url: themeSettings!.aboutSectionImage!,
                         fit: BoxFit.cover,

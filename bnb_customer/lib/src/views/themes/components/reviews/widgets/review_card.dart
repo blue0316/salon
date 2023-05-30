@@ -46,14 +46,20 @@ class ReviewCard extends ConsumerWidget {
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              margin: EdgeInsets.only(top: DeviceConstraints.getResponsiveSize(context, 40, 40, 45)),
+              margin: EdgeInsets.only(
+                // top: DeviceConstraints.getResponsiveSize(context, 40, 40, 45),
+                top: DeviceConstraints.getResponsiveSize(context, 65.h, 65.h, 70.h) / 2,
+              ),
               padding: const EdgeInsets.symmetric(horizontal: 5),
               decoration: BoxDecoration(
                 color: theme.colorScheme.background,
                 border: Border.all(color: theme.primaryColor, width: 2),
               ),
               child: Padding(
-                padding: const EdgeInsets.only(top: 20),
+                padding: EdgeInsets.only(
+                  // top: 20,
+                  top: DeviceConstraints.getResponsiveSize(context, 65.h, 65.h, 70.h) / 3.5,
+                ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -62,7 +68,7 @@ class ReviewCard extends ConsumerWidget {
                       child: Text(
                         ((reviewUser == null || reviewUser == '' || reviewUser!.isEmpty) ? 'bnb user' : reviewUser!).toUpperCase(),
                         style: theme.textTheme.bodyLarge?.copyWith(
-                          fontSize: 20.sp,
+                          fontSize: 25.sp,
                           fontWeight: FontWeight.w600,
                         ),
                         maxLines: 1,
@@ -70,28 +76,28 @@ class ReviewCard extends ConsumerWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(vertical: 5),
+                    //   child: RatingBar.builder(
+                    //     initialRating: reviewStars ?? 5,
+                    //     minRating: 0,
+                    //     direction: Axis.horizontal,
+                    //     allowHalfRating: false,
+                    //     itemSize: 17,
+                    //     itemCount: 5,
+                    //     updateOnDrag: true,
+                    //     unratedColor: Colors.grey,
+                    //     onRatingUpdate: (rating) {},
+                    //     itemBuilder: (context, _) {
+                    //       return Icon(
+                    //         Icons.star,
+                    //         color: theme.primaryColorDark,
+                    //       );
+                    //     },
+                    //   ),
+                    // ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 5),
-                      child: RatingBar.builder(
-                        initialRating: reviewStars ?? 5,
-                        minRating: 0,
-                        direction: Axis.horizontal,
-                        allowHalfRating: false,
-                        itemSize: 17,
-                        itemCount: 5,
-                        updateOnDrag: true,
-                        unratedColor: Colors.grey,
-                        onRatingUpdate: (rating) {},
-                        itemBuilder: (context, _) {
-                          return Icon(
-                            Icons.star,
-                            color: theme.primaryColorDark,
-                          );
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      padding: EdgeInsets.symmetric(vertical: 10.sp),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -99,7 +105,7 @@ class ReviewCard extends ConsumerWidget {
                             alignment: Alignment.bottomLeft,
                             child: SvgPicture.asset(
                               ThemeIcons.leftQuote,
-                              height: 15,
+                              height: DeviceConstraints.getResponsiveSize(context, 17.sp, 18.sp, 18.sp),
                               color: theme.primaryColor,
                             ),
                           ),
@@ -122,7 +128,7 @@ class ReviewCard extends ConsumerWidget {
                             alignment: Alignment.topRight,
                             child: SvgPicture.asset(
                               ThemeIcons.rightQuote,
-                              height: 15,
+                              height: DeviceConstraints.getResponsiveSize(context, 17.sp, 18.sp, 18.sp),
                               color: theme.primaryColor,
                             ),
                           ),

@@ -8,7 +8,6 @@ import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/themes/components/widgets/button.dart';
 import 'package:bbblient/src/views/themes/images.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/profile/widgets/custom_text_form_field.dart';
-import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -45,10 +44,10 @@ class _MinimalWriteToUsViewState extends ConsumerState<MinimalWriteToUsView> {
               child: Text(
                 (AppLocalizations.of(context)?.writeToUsAndWeWillHelpYouDecideOnTheService ?? "Write to us and we will help you decide on the service").toUpperCase(),
                 textAlign: TextAlign.center,
-                style: theme.textTheme.headline2?.copyWith(
+                style: theme.textTheme.displayMedium?.copyWith(
                   color: theme.colorScheme.secondary,
                   fontWeight: FontWeight.w600,
-                  fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                  fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 45.sp, 65.sp),
                 ),
               ),
             ),
@@ -71,10 +70,10 @@ class _MinimalWriteToUsViewState extends ConsumerState<MinimalWriteToUsView> {
                     Text(
                       (AppLocalizations.of(context)?.writeToUsAndWeWillHelpYouDecideOnTheService ?? "Write to us and we will help you decide on the service").toUpperCase(),
                       textAlign: TextAlign.center,
-                      style: theme.textTheme.headline2?.copyWith(
+                      style: theme.textTheme.displayMedium?.copyWith(
                         color: theme.colorScheme.secondary,
                         fontWeight: FontWeight.w600,
-                        fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                        fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 45.sp, 65.sp),
                       ),
                     ),
                     const SizedBox(height: 40),
