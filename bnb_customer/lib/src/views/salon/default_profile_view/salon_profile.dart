@@ -166,7 +166,7 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
                               ExpandablePageView(
                                 padEnds: false,
                                 key: const ValueKey("exp"),
-                                physics: const NeverScrollableScrollPhysics(),
+                                // physics: const NeverScrollableScrollPhysics(),
                                 controller: _pageController,
                                 onPageChanged: (i) {
                                   setState(() {
