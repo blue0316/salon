@@ -63,6 +63,7 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
               children: [
                 Expanded(
                   child: SingleChildScrollView(
+                    physics: const NeverScrollableScrollPhysics(),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
