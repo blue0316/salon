@@ -16,6 +16,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'as.dart';
 import 'utils/analytics.dart';
 import 'dart:html' as html;
 
@@ -46,6 +47,26 @@ final GoRouter router = GoRouter(
   },
   initialLocation: NavigatorPage.route,
   routes: [
+    GoRoute(
+      path: '/test123',
+      name: '/test123',
+      pageBuilder: (context, state) {
+        return const MaterialPage(
+          child: AppointmentViewDetails22(),
+        );
+      },
+    ),
+
+    GoRoute(
+      path: '/test1234',
+      name: '/test1234',
+      pageBuilder: (context, state) {
+        return const MaterialPage(
+          child: AppointmentViewDetails222(),
+        );
+      },
+    ),
+
     // Appointments
     GoRoute(
       path: AppointmentViewDetails.route,

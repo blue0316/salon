@@ -797,5 +797,6 @@
   "date" : "Date",
   "time" : "Time",
   "contactUs": "Contact Us",
-  "noWorks": "Фотографій робіт немає"
+  "noWorks": "Фотографій робіт немає",
+  "contacts": "контакти"
 }

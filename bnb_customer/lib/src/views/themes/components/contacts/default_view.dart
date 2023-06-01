@@ -23,14 +23,15 @@ class ContactDefaultView extends ConsumerWidget {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
+    final _bnbProvider = ref.watch(bnbProvider);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         GestureDetector(
           onTap: () {
-            print(salonModel.position?.geoPoint?.latitude);
-            print(salonModel.position?.geoPoint?.longitude);
+            _bnbProvider.changeLocale(locale: const Locale('uk'));
           },
           child: Text(
             isSingleMaster

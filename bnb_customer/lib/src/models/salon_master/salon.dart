@@ -48,6 +48,7 @@ class SalonModel {
   late String selectedCurrency;
   bool? isAutomaticBookingConfirmation;
   late TimeFormat timeFormat;
+  late List<String> customerWebLanguages = [];
 
   SalonModel({
     required this.salonId,
@@ -89,6 +90,7 @@ class SalonModel {
     required this.selectedCurrency,
     this.isAutomaticBookingConfirmation = false,
     this.timeFormat = TimeFormat.amPM,
+    required this.customerWebLanguages,
   });
 
   SalonModel.fromJson(Map<String, dynamic> json) {
@@ -148,6 +150,7 @@ class SalonModel {
 
     isAutomaticBookingConfirmation = json['isAutomaticBookingConfirmation'] ?? false;
     timeFormat = (json['timeFormat'] == '24H') ? timeFormat = TimeFormat.twentyFourHr : timeFormat = TimeFormat.amPM;
+    customerWebLanguages = json['customerWebLanguages'] ?? ['en'];
   }
 
   Map<String, dynamic> toJson() {
@@ -191,6 +194,8 @@ class SalonModel {
     data['requestSalon'] = requestSalon;
     data['selectedCurrency'] = selectedCurrency;
     data['timeFormat'] = timeFormat;
+    data['customerWebLanguages'] = customerWebLanguages;
+
     // data['selectedTheme'] = selectedTheme;
     return data;
   }
