@@ -76,7 +76,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                       Text(
                         ('${widget.categoryModel.translations[AppLocalizations.of(context)?.localeName ?? 'en']}').toUpperCase(),
                         style: theme.textTheme.displayLarge!.copyWith(
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w600,
                           fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
                           color: theme.primaryColor,
                         ),

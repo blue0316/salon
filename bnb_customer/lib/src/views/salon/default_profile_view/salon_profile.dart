@@ -150,7 +150,7 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
                                                     style: theme.textTheme.displayLarge!.copyWith(
                                                       fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 16.sp, 18.sp),
                                                       color: _activeTab == index ? theme.primaryColor : unselectedTabColor(theme, isLightTheme),
-                                                      fontWeight: _activeTab == index ? FontWeight.w500 : FontWeight.w400,
+                                                      fontWeight: _activeTab == index ? FontWeight.w600 : FontWeight.w400,
                                                       decoration: _activeTab == index ? TextDecoration.underline : null,
                                                       letterSpacing: 0,
                                                       fontFamily: "Inter",
