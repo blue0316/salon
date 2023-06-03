@@ -1570,7 +1570,7 @@ class CreateAppointmentProvider with ChangeNotifier {
         bookedForSelf: bookedForSelf,
         updates: [AppointmentUpdates.createdByCustomer],
         status: chosenSalon!.requestSalon ? AppointmentStatus.requested : AppointmentStatus.active,
-        subStatus: AppointmentSubStatus.unconfirmed, //  (chosenSalon!.isAutomaticBookingConfirmation == true) ? AppointmentSubStatus.confirmed : AppointmentSubStatus.unconfirmed,
+        subStatus: (chosenSalon!.isAutomaticBookingConfirmation == true) ? AppointmentSubStatus.confirmed : AppointmentSubStatus.unconfirmed, // AppointmentSubStatus.unconfirmed,
 
         services: _services,
         customer: Customer(
