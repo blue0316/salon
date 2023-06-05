@@ -66,7 +66,8 @@ class SalonTeam extends ConsumerWidget {
                 alignment: Alignment.center,
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
-                  physics: const BouncingScrollPhysics(),
+                  // physics: const BouncingScrollPhysics(),
+                  physics: const ClampingScrollPhysics(),
                   shrinkWrap: true,
                   separatorBuilder: (context, index) {
                     return SizedBox(width: 50.sp);

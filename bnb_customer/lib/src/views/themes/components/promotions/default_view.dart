@@ -173,7 +173,7 @@ class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
             ],
           ),
         (_createAppointmentProvider.salonPromotions.isNotEmpty)
-            ? Container(
+            ? SizedBox(
                 // color: Colors.amber,
                 height: 250.h,
                 width: double.infinity,
@@ -229,7 +229,7 @@ class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
                     if (!isPortrait) SizedBox(width: 25.w),
                     Expanded(
                       flex: 0,
-                      child: Container(
+                      child: SizedBox(
                         // color: Colors.green,
                         width: DeviceConstraints.getResponsiveSize(context, size.width - 40.w, size.width * 0.55, size.width * 0.5),
                         child: PageView(

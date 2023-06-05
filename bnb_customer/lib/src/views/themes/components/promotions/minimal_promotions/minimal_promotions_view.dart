@@ -63,6 +63,7 @@ class _MiniamlPromotionViewState extends ConsumerState<MiniamlPromotionView> {
                 ? SizedBox(
                     height: MediaQuery.of(context).size.height * 0.8, // 700.h,
                     child: SingleChildScrollView(
+                      physics: const ClampingScrollPhysics(),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -116,6 +117,7 @@ class _MiniamlPromotionViewState extends ConsumerState<MiniamlPromotionView> {
                                     height: MediaQuery.of(context).size.height * 0.35, // 300.h,
                                     // color: Colors.blue,
                                     child: ListView.separated(
+                                      physics: const ClampingScrollPhysics(),
                                       shrinkWrap: true,
                                       scrollDirection: Axis.horizontal,
                                       separatorBuilder: (context, index) => const SizedBox(width: 30),
@@ -275,6 +277,7 @@ class _MiniamlPromotionViewState extends ConsumerState<MiniamlPromotionView> {
                         Expanded(
                           flex: 2,
                           child: ListView.separated(
+                            physics: const ClampingScrollPhysics(),
                             shrinkWrap: true,
                             separatorBuilder: (context, index) => const SizedBox(height: 30),
                             itemCount: widget.salonPromotionsList.length,

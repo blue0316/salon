@@ -62,6 +62,7 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
             children: [
               Expanded(
                 child: SingleChildScrollView(
+                  physics: const ClampingScrollPhysics(),
                   child: SizedBox(
                     // width: size.width,
                     child: Column(

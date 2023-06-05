@@ -25,7 +25,7 @@ class GlamLightTheme {
     textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
 
     tabBarTheme: TabBarTheme(
-      unselectedLabelColor: Colors.white,
+      unselectedLabelColor: primaryColor1,
       labelColor: Colors.white,
       labelStyle: bodyText1.copyWith(
         color: Colors.white,
