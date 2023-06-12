@@ -164,3 +164,5 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
 }
 
  // fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 50.sp, 60.sp),
+
+// Hidaya's salon - 8pumEiCIZhMXid6gjF5x

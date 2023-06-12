@@ -25,7 +25,6 @@
   "daily_calendar": "Daily calendar",
   "bookRestricted":"Booking is restricted",
   "all": "All",
-  
   "resend":"Resend",
   "inputPhoneNumber":"Welcome back, Please Input your \n Phone number below",
   "enter":"Enter",
@@ -33,7 +32,6 @@
   "inputotp":"Kindly input your OTP",
   "verify":"Verify",
   "nootp":"Didn’t Receive an OTP?",
-
   "hairdressing": "Hairdressing",
   "manicure_and_pedicure": "Manicure and pedicure",
   "eyebrows_and_eyelashes": "Eyebrows and eyelashes",
@@ -702,7 +700,6 @@
   "youHaveToPay":"You Have to pay",
   "confirmBooking":"Confirm booking",
   "requestBooking":"Request booking",
-
   "youGotTwoWelcomeBonuses":"You got 2 welcome bonuses",
   "pleaseWait":"Please wait...",
   "invalidOTP":"Invalid OTP",

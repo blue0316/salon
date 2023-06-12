@@ -39,8 +39,8 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
-    final _salonSearchProvider = ref.watch(salonSearchProvider);
-    final _createAppointmentProvider = ref.watch(createAppointmentProvider);
+    // final _salonSearchProvider = ref.watch(salonSearchProvider);
+    // final _createAppointmentProvider = ref.watch(createAppointmentProvider);
 
     final List<ProductModel> allProducts = _salonProfileProvider.allProducts;
     ThemeType themeType = _salonProfileProvider.themeType;
@@ -62,9 +62,9 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
           // height: MediaQuery.of(context).size.height * 0.6,
           height: DeviceConstraints.getResponsiveSize(
             context,
-            MediaQuery.of(context).size.height * 0.5,
-            MediaQuery.of(context).size.height * 0.4,
-            MediaQuery.of(context).size.height * 0.5,
+            MediaQuery.of(context).size.height * 0.53,
+            MediaQuery.of(context).size.height * 0.43,
+            MediaQuery.of(context).size.height * 0.53,
           ), // 60.h,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,8 +83,8 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
                   // PrevAndNext(salonProfileProvider: _salonProfileProvider),
                 ],
               ),
-              _salonProfileProvider.tabs.isNotEmpty ? const SizedBox(height: 10) : const SizedBox(height: 50),
-              _salonProfileProvider.tabs.isNotEmpty
+              _salonProfileProvider.allProducts.isNotEmpty ? const SizedBox(height: 10) : const SizedBox(height: 50),
+              (_salonProfileProvider.allProducts.isNotEmpty)
                   ? Expanded(
                       flex: 0,
                       child: Align(
@@ -148,63 +148,62 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
               SizedBox(height: 30.h),
 
               // -- TAB BAR VIEW
-              _salonProfileProvider.tabs.isNotEmpty
-                  ? Expanded(
-                      flex: 1,
-                      child: SizedBox(
-                        // color: Colors.pink,
-                        // height: DeviceConstraints.getResponsiveSize(
-                        //   context,
-                        //   MediaQuery.of(context).size.height * 0.1,
-                        //   MediaQuery.of(context).size.height * 0.3,
-                        //   MediaQuery.of(context).size.height * 0.4,
-                        // ),
+              Expanded(
+                flex: 1,
+                child: SizedBox(
+                  // color: Colors.pink,
+                  // height: DeviceConstraints.getResponsiveSize(
+                  //   context,
+                  //   MediaQuery.of(context).size.height * 0.1,
+                  //   MediaQuery.of(context).size.height * 0.3,
+                  //   MediaQuery.of(context).size.height * 0.4,
+                  // ),
 
-                        // height: MediaQuery.of(context).size.height * 0.5, // 400,
-                        width: double.infinity,
-                        child: TabBarView(
-                          controller: shopTabController,
-                          physics: const NeverScrollableScrollPhysics(),
-                          children: [
-                            // ALL PRODUCTS
-                            SizedBox(
-                              // color: Colors.brown,
-                              // height: 100,
-                              width: DeviceConstraints.getResponsiveSize(context, 700.w, 500.w, 300.w),
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: allProducts.length,
-                                itemBuilder: (context, index) {
-                                  final ProductModel product = allProducts[index];
-                                  return ShopCard(product: product);
-                                },
-                              ),
-                            ),
-
-                            // FILTERED PRODUCTS
-                            ..._salonProfileProvider.tabs.entries.map(
-                              (entry) {
-                                return SizedBox(
-                                  width: DeviceConstraints.getResponsiveSize(context, 700.w, 500.w, 300.w),
-                                  child: ListView.builder(
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: entry.value.length,
-                                    itemBuilder: (context, index) {
-                                      final ProductModel product = entry.value[index];
-
-                                      return ShopCard(product: product);
-                                    },
-                                  ),
-                                );
-                              },
-                            ).toList(),
-                          ],
+                  // height: MediaQuery.of(context).size.height * 0.5, // 400,
+                  width: double.infinity,
+                  child: TabBarView(
+                    controller: shopTabController,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      // ALL PRODUCTS
+                      SizedBox(
+                        // color: Colors.brown,
+                        // height: 100,
+                        width: DeviceConstraints.getResponsiveSize(context, 700.w, 500.w, 300.w),
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: allProducts.length,
+                          itemBuilder: (context, index) {
+                            final ProductModel product = allProducts[index];
+                            return ShopCard(product: product);
+                          },
                         ),
                       ),
-                    )
-                  : const SizedBox.shrink(),
+
+                      // FILTERED PRODUCTS
+                      // if (_salonProfileProvider.tabs.isNotEmpty)
+                      ..._salonProfileProvider.tabs.entries.map(
+                        (entry) {
+                          return SizedBox(
+                            width: DeviceConstraints.getResponsiveSize(context, 700.w, 500.w, 300.w),
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: entry.value.length,
+                              itemBuilder: (context, index) {
+                                final ProductModel product = entry.value[index];
+
+                                return ShopCard(product: product);
+                              },
+                            ),
+                          );
+                        },
+                      ).toList(),
+                    ],
+                  ),
+                ),
+              ),
 
               // Section Divider
 

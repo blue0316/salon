@@ -72,12 +72,22 @@ class ShopCard extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    '${product.productName}',
-                    style: theme.textTheme.bodyLarge?.copyWith(
-                      color: theme.primaryColorDark,
-                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 16.sp),
-                      fontWeight: FontWeight.normal,
+                  Expanded(
+                    child: SizedBox(
+                      height: 45.sp,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          '${product.productName}',
+                          style: theme.textTheme.bodyLarge?.copyWith(
+                            color: theme.primaryColorDark,
+                            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 16.sp),
+                            fontWeight: FontWeight.normal,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     ),
                   ),
                   // Spacer(),

@@ -224,6 +224,15 @@ class SalonProfileProvider with ChangeNotifier {
     // Get Salon Products
     allProducts = await ProductsApi().getSalonProducts(salonId: salonId);
 
+    // print('____++++++____');
+    // print(allProducts);
+    // print('All products length - ${allProducts.length}');
+    // print('____++++++____');
+    // print('____++++++____');
+    // print('____++++++____');
+    // print('____++++++____');
+    // print('____++++++____');
+
     // Split into categories
     for (ProductModel product in allProducts) {
       for (String? productCategoryId in (product.categoryIdList ?? [])) {
