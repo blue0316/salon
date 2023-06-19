@@ -52,18 +52,17 @@ Widget bookNowButtonTheme(context, {required ThemeType themeType, required Theme
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SquareButton(
-            text: '  BOOK NOW  ',
-            height: 60.h,
-            // buttonColor: Colors.white,
-            // borderColor: Colors.black,
-            // textColor: Colors.black,
-            buttonColor: theme.cardColor,
-            textColor: theme.primaryColor,
-            borderColor: theme.primaryColor,
-
-            showSuffix: false,
-            onTap: () => const BookingDialogWidget222().show(context),
-          ),
+              text: '  BOOK NOW  ',
+              height: 60.h,
+              // buttonColor: Colors.white,
+              // borderColor: Colors.black,
+              // textColor: Colors.black,
+              buttonColor: theme.cardColor,
+              textColor: theme.primaryColor,
+              borderColor: theme.primaryColor,
+              showSuffix: false,
+              onTap: () {} // => const BookingDialogWidget222().show(context),
+              ),
         ],
       );
     case ThemeType.GlamMinimalDark:
@@ -72,17 +71,17 @@ Widget bookNowButtonTheme(context, {required ThemeType themeType, required Theme
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SquareButton(
-            text: '  BOOK NOW  ',
-            height: 60.h,
-            // buttonColor: Colors.black,
-            // borderColor: Colors.white,
-            // textColor: Colors.white,
-            buttonColor: theme.cardColor,
-            textColor: theme.primaryColor,
-            borderColor: theme.primaryColor,
-            showSuffix: false,
-            onTap: () => const BookingDialogWidget222().show(context),
-          ),
+              text: '  BOOK NOW  ',
+              height: 60.h,
+              // buttonColor: Colors.black,
+              // borderColor: Colors.white,
+              // textColor: Colors.white,
+              buttonColor: theme.cardColor,
+              textColor: theme.primaryColor,
+              borderColor: theme.primaryColor,
+              showSuffix: false,
+              onTap: () {} // => const BookingDialogWidget222().show(context),
+              ),
         ],
       );
     case ThemeType.GlamBarbershop:
@@ -90,14 +89,8 @@ Widget bookNowButtonTheme(context, {required ThemeType themeType, required Theme
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SquareButton(
-            text: 'BOOK NOW',
-            height: 60.h,
-            buttonColor: theme.primaryColor,
-            borderColor: Colors.transparent,
-            textColor: Colors.black,
-            onTap: () => const BookingDialogWidget222().show(context),
-          ),
+          SquareButton(text: 'BOOK NOW', height: 60.h, buttonColor: theme.primaryColor, borderColor: Colors.transparent, textColor: Colors.black, onTap: () {} // => const BookingDialogWidget222().show(context),
+              ),
         ],
       );
     case ThemeType.Barbershop:
@@ -105,24 +98,13 @@ Widget bookNowButtonTheme(context, {required ThemeType themeType, required Theme
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SquareButton(
-            text: 'BOOK NOW',
-            height: 60.h,
-            buttonColor: theme.primaryColor,
-            borderColor: Colors.transparent,
-            textColor: Colors.black,
-            onTap: () => const BookingDialogWidget222().show(context),
-          ),
+          SquareButton(text: 'BOOK NOW', height: 60.h, buttonColor: theme.primaryColor, borderColor: Colors.transparent, textColor: Colors.black, onTap: () {} // => const BookingDialogWidget222().show(context),
+              ),
         ],
       );
 
     default:
-      return OvalButton(
-        width: 180.h,
-        height: 60.h,
-        textSize: 18.sp,
-        text: 'Book Now',
-        onTap: () => const BookingDialogWidget222().show(context),
-      );
+      return OvalButton(width: 180.h, height: 60.h, textSize: 18.sp, text: 'Book Now', onTap: () {} // => const BookingDialogWidget222().show(context),
+          );
   }
 }

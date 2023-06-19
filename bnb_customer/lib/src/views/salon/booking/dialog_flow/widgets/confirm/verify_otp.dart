@@ -2,6 +2,7 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
+import 'package:bbblient/src/models/appointment/serviceAndMaster.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/customer/customer.dart';
 import 'package:bbblient/src/models/enums/status.dart';
@@ -148,8 +149,31 @@ class _VerifyOtpState extends ConsumerState<VerifyOtp> {
                               if (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.singleMaster) {
                                 await _createAppointmentProvider.createAppointment(customerModel: customer, context: context);
                               } else {
+                                // print('Entered here lmao');
+                                // print(_createAppointmentProvider.serviceAgainstMaster);
+                                // print('------');
+
+                                // for (ServiceAndMaster e in _createAppointmentProvider.serviceAgainstMaster) {
+                                //   print('___++++____@@@@_____');
+                                //   print(e.master?.personalInfo?.firstName);
+                                //   print(e.validSlots);
+                                //   print('___++++____@@@@_____');
+                                // }
+
+                                // showToast('Testing shit');
+                                // return;
                                 await _createAppointmentProvider.creatAppointmentSalonOwner(customerModel: customer, context: context);
                               }
+
+                              // RUN CHECKS
+                              ///if selected service is greater than one
+                              // if (_createAppointmentProvider.chosenServices.length > 1) {
+                              //   //call this single appointment service save function
+                              //   await _createAppointmentProvider.saveNewAppointmentForMultipleServices();
+                              // } else {
+                              //   //call multiple appointment service save option
+                              //   await _createAppointmentProvider.saveAppointment();
+                              // }
 
                               // Go to PageView Order List Screen
                               _createAppointmentProvider.nextPageView(3);

@@ -66,10 +66,11 @@ class _DefaultAboutViewState extends ConsumerState<DefaultAboutView> {
                             child: CarouselSlider(
                               carouselController: _controller,
                               options: CarouselOptions(
-                                scrollPhysics: const AlwaysScrollableScrollPhysics(),
+                                scrollPhysics: const NeverScrollableScrollPhysics(),
                                 autoPlay: false,
                                 pauseAutoPlayOnTouch: true,
                                 viewportFraction: 1,
+
                                 // height: DeviceConstraints.getResponsiveSize(context, 280.h, 320, 350.h),
                               ),
                               items: widget.salonModel.photosOfWork.isNotEmpty
@@ -123,18 +124,12 @@ class _DefaultAboutViewState extends ConsumerState<DefaultAboutView> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    SquareButton(
-                                      text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
-                                      onTap: () => const BookingDialogWidget222().show(context),
-                                    ),
+                                    SquareButton(text: AppLocalizations.of(context)?.bookNow ?? "Book Now", onTap: () {} // {} // => const BookingDialogWidget222().show(context),
+                                        ),
                                   ],
                                 )
-                              : OvalButton(
-                                  text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
-                                  width: 180.h,
-                                  height: 60.h,
-                                  onTap: () => const BookingDialogWidget222().show(context),
-                                ),
+                              : OvalButton(text: AppLocalizations.of(context)?.bookNow ?? "Book Now", width: 180.h, height: 60.h, onTap: () {} // => const BookingDialogWidget222().show(context),
+                                  ),
                         ],
                       ),
                     ),
@@ -167,33 +162,29 @@ class _DefaultAboutViewState extends ConsumerState<DefaultAboutView> {
                   ),
                   const SizedBox(height: 30),
                   (themeType == ThemeType.GlamBarbershop)
-                      ? SquareButton(
-                          text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
-                          onTap: () => const BookingDialogWidget222().show(context),
-                        )
-                      : OvalButton(
-                          width: 180.h,
-                          height: 60.h,
-                          textSize: 18.sp,
-                          text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
-                          onTap: () => const BookingDialogWidget222().show(context),
-                        ),
+                      ? SquareButton(text: AppLocalizations.of(context)?.bookNow ?? "Book Now", onTap: () {} // => const BookingDialogWidget222().show(context),
+                          )
+                      : OvalButton(width: 180.h, height: 60.h, textSize: 18.sp, text: AppLocalizations.of(context)?.bookNow ?? "Book Now", onTap: () {} // => const BookingDialogWidget222().show(context),
+                          ),
                   const SizedBox(height: 35),
                   SizedBox(
-                    height: 300.h,
+                    height: 360.sp,
                     width: double.infinity,
                     child: Stack(
                       children: [
                         SizedBox(
-                          height: 300.h,
+                          height: 360.sp,
+                          width: double.infinity,
                           child: CarouselSlider(
                             carouselController: _controller,
                             options: CarouselOptions(
-                              scrollPhysics: const AlwaysScrollableScrollPhysics(),
+                              scrollPhysics: const NeverScrollableScrollPhysics(),
                               autoPlay: false,
                               pauseAutoPlayOnTouch: true,
+
                               viewportFraction: 1,
-                              height: 300.h, //  DeviceConstraints.getResponsiveSize(context, 280.h, 320, 350.h),
+
+                              height: 360.sp, //  DeviceConstraints.getResponsiveSize(context, 280.h, 320, 350.h),
                             ),
                             items: widget.salonModel.photosOfWork.isNotEmpty
                                 ? widget.salonModel.photosOfWork
@@ -202,7 +193,7 @@ class _DefaultAboutViewState extends ConsumerState<DefaultAboutView> {
                                         url: item,
                                         fit: BoxFit.cover,
                                         height: 300.h,
-                                        width: MediaQuery.of(context).size.width - 20.w,
+                                        width: MediaQuery.of(context).size.width,
                                       ),
                                     )
                                     .toList()

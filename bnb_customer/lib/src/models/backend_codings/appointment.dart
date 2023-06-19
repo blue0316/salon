@@ -10,11 +10,18 @@ class AppointmentStatus {
   static const checkedIn = "checkedIn";
 }
 
-class AppointmentSubStatus {
+class ActiveAppointmentSubStatus {
+  static const requested = "requested";
+  //status is active and isrequested
+  static const unConfirmed = "unConfirmed";
+
+  //status is active and is upcomming but client hasn't confirmed
   static const confirmed = "confirmed";
-  static const unconfirmed = "unconfirmed";
-  static const cancelledbyClient = "cancelledbyClient";
-  static const cancelledbySalon = "cancelledbySalon";
+//status is active and is upcomming and client has confirmed
+  static const cancelledByCustomer = "cancelledByCustomer";
+  static const cancelledBySalon = "cancelledBySalon";
+
+  static const reviewed = "reviewed";
 }
 
 ///contains all the actions possible on an appointment
@@ -29,6 +36,8 @@ class AppointmentUpdates {
 
 class AppointmentType {
   static const reservation = "reservation";
+  static const cleanUpTime = "cleanUpTime";
+  static const preparationTime = "preparationTime";
   static const blockTime = "blockTime";
 }
 

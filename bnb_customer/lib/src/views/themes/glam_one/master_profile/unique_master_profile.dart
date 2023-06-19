@@ -1,4 +1,5 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/models/customer_web_settings.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
@@ -26,9 +27,17 @@ class UniqueMasterProfile extends ConsumerStatefulWidget {
 }
 
 class _UniqueMasterProfileState extends ConsumerState<UniqueMasterProfile> {
+  late CreateAppointmentProvider _createAppointmentProvider;
+
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _createAppointmentProvider.chosenServices.clear();
   }
 
   @override

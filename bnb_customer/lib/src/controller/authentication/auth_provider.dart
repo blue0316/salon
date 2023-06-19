@@ -210,6 +210,7 @@ class AuthProvider with ChangeNotifier {
 
           _showOTPScreen();
         } else {
+          print('kIsWeb is NOT TRUE!!!!');
           await _auth.verifyPhoneNumber(
             phoneNumber: _phone.trim(),
             codeAutoRetrievalTimeout: (String verId) {

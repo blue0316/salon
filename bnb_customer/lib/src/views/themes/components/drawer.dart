@@ -26,161 +26,156 @@ class ThemeDrawer extends ConsumerWidget {
         backgroundColor: theme.colorScheme.background,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: isPortrait ? 40.w : 20.w, vertical: 20.h),
-          child: LayoutBuilder(
-            builder: (context8, constraint) {
-              return SingleChildScrollView(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(minHeight: constraint.maxHeight),
-                  child: IntrinsicHeight(
-                    child: Column(
-                      crossAxisAlignment: isPortrait ? CrossAxisAlignment.start : CrossAxisAlignment.center,
-                      mainAxisAlignment: isPortrait ? MainAxisAlignment.start : MainAxisAlignment.center,
-                      children: [
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: MouseRegion(
-                            cursor: SystemMouseCursors.click,
-                            child: GestureDetector(
-                              onTap: () => Navigator.pop(context),
-                              child: Icon(
-                                Icons.close,
-                                color: Colors.white,
-                                size: 40.h,
-                              ),
-                            ),
+          child: ListView(
+            children: [
+              IntrinsicHeight(
+                child: Column(
+                  crossAxisAlignment: isPortrait ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+                  mainAxisAlignment: isPortrait ? MainAxisAlignment.start : MainAxisAlignment.center,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: GestureDetector(
+                          onTap: () => Navigator.pop(context),
+                          child: Icon(
+                            Icons.close,
+                            color: Colors.white,
+                            size: 40.h,
                           ),
                         ),
-                        SizedBox(height: 30.h),
-
-                        // PROMOTIONS
-                        DrawerText(
-                          drawerText: AppLocalizations.of(context)?.promotions ?? 'Promotions',
-                          onTap: () {
-                            Navigator.pop(context8);
-                            Scrollable.ensureVisible(
-                              controller.promotions.currentContext!,
-                              duration: const Duration(seconds: 2),
-                              curve: Curves.ease,
-                            );
-                          },
-                        ),
-
-                        // ABOUT US
-                        DrawerText(
-                          drawerText: isSingleMaster
-                              ? (AppLocalizations.of(
-                                    context,
-                                  )?.aboutMe ??
-                                  'About Me')
-                              : (AppLocalizations.of(context)?.aboutUs ?? 'About Us'),
-                          onTap: () {
-                            Navigator.pop(context8);
-                            Scrollable.ensureVisible(
-                              controller.about.currentContext!,
-                              duration: const Duration(seconds: 2),
-                              curve: Curves.ease,
-                            );
-                          },
-                        ),
-
-                        // OUR WORKS
-                        DrawerText(
-                          drawerText: (isSingleMaster
-                              ? (AppLocalizations.of(
-                                    context,
-                                  )?.myWorks ??
-                                  'My Works')
-                              : (AppLocalizations.of(context)?.ourWorks ?? 'Our Works')),
-                          onTap: () {
-                            Navigator.pop(context8);
-                            Scrollable.ensureVisible(
-                              controller.works.currentContext!,
-                              duration: const Duration(seconds: 2),
-                              curve: Curves.ease,
-                            );
-                          },
-                        ),
-
-                        // OUR PRICE
-                        DrawerText(
-                          drawerText: isSingleMaster
-                              ? (AppLocalizations.of(
-                                    context,
-                                  )?.price ??
-                                  'Price')
-                              : (AppLocalizations.of(context)?.ourPrice ?? 'Our Price'),
-                          onTap: () {
-                            Navigator.pop(context8);
-                            Scrollable.ensureVisible(
-                              controller.price.currentContext!,
-                              duration: const Duration(seconds: 2),
-                              curve: Curves.ease,
-                            );
-                          },
-                        ),
-
-                        // SHOP
-                        DrawerText(
-                          drawerText: (AppLocalizations.of(context)?.shop ?? 'Shop'),
-                          onTap: () {
-                            Navigator.pop(context8);
-                            Scrollable.ensureVisible(
-                              controller.shop.currentContext!,
-                              duration: const Duration(seconds: 2),
-                              curve: Curves.ease,
-                            );
-                          },
-                        ),
-
-                        // TEAM
-                        DrawerText(
-                          drawerText: AppLocalizations.of(context)?.ourTeam ?? 'Our Team',
-                          onTap: () {
-                            Navigator.pop(context8);
-                            Scrollable.ensureVisible(
-                              controller.team.currentContext!,
-                              duration: const Duration(seconds: 2),
-                              curve: Curves.ease,
-                            );
-                          },
-                        ),
-
-                        // REVIEWS
-                        DrawerText(
-                          drawerText: AppLocalizations.of(context)?.reviews ?? 'Reviews',
-                          onTap: () {
-                            Navigator.pop(context8);
-                            Scrollable.ensureVisible(
-                              controller.reviews.currentContext!,
-                              duration: const Duration(seconds: 2),
-                              curve: Curves.ease,
-                            );
-                          },
-                        ),
-
-                        // CONTACTS
-                        DrawerText(
-                          drawerText: isSingleMaster
-                              ? (AppLocalizations.of(context)?.contacts ?? 'Contacts')
-                              : (AppLocalizations.of(
-                                    context,
-                                  )?.contactUs ??
-                                  'Contact Us'),
-                          onTap: () {
-                            Navigator.pop(context8);
-                            Scrollable.ensureVisible(
-                              controller.contacts.currentContext!,
-                              duration: const Duration(seconds: 2),
-                              curve: Curves.ease,
-                            );
-                          },
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                    SizedBox(height: 30.h),
+
+                    // PROMOTIONS
+                    DrawerText(
+                      drawerText: AppLocalizations.of(context)?.promotions ?? 'Promotions',
+                      onTap: () {
+                        Navigator.pop(context);
+                        Scrollable.ensureVisible(
+                          controller.promotions.currentContext!,
+                          duration: const Duration(seconds: 2),
+                          curve: Curves.ease,
+                        );
+                      },
+                    ),
+
+                    // ABOUT US
+                    DrawerText(
+                      drawerText: isSingleMaster
+                          ? (AppLocalizations.of(
+                                context,
+                              )?.aboutMe ??
+                              'About Me')
+                          : (AppLocalizations.of(context)?.aboutUs ?? 'About Us'),
+                      onTap: () {
+                        Navigator.pop(context);
+                        Scrollable.ensureVisible(
+                          controller.about.currentContext!,
+                          duration: const Duration(seconds: 2),
+                          curve: Curves.ease,
+                        );
+                      },
+                    ),
+
+                    // OUR WORKS
+                    DrawerText(
+                      drawerText: (isSingleMaster
+                          ? (AppLocalizations.of(
+                                context,
+                              )?.myWorks ??
+                              'My Works')
+                          : (AppLocalizations.of(context)?.ourWorks ?? 'Our Works')),
+                      onTap: () {
+                        Navigator.pop(context);
+                        Scrollable.ensureVisible(
+                          controller.works.currentContext!,
+                          duration: const Duration(seconds: 2),
+                          curve: Curves.ease,
+                        );
+                      },
+                    ),
+
+                    // OUR PRICE
+                    DrawerText(
+                      drawerText: isSingleMaster
+                          ? (AppLocalizations.of(
+                                context,
+                              )?.price ??
+                              'Price')
+                          : (AppLocalizations.of(context)?.ourPrice ?? 'Our Price'),
+                      onTap: () {
+                        Navigator.pop(context);
+                        Scrollable.ensureVisible(
+                          controller.price.currentContext!,
+                          duration: const Duration(seconds: 2),
+                          curve: Curves.ease,
+                        );
+                      },
+                    ),
+
+                    // SHOP
+                    DrawerText(
+                      drawerText: (AppLocalizations.of(context)?.shop ?? 'Shop'),
+                      onTap: () {
+                        Navigator.pop(context);
+                        Scrollable.ensureVisible(
+                          controller.shop.currentContext!,
+                          duration: const Duration(seconds: 2),
+                          curve: Curves.ease,
+                        );
+                      },
+                    ),
+
+                    // TEAM
+                    DrawerText(
+                      drawerText: AppLocalizations.of(context)?.ourTeam ?? 'Our Team',
+                      onTap: () {
+                        Navigator.pop(context);
+                        Scrollable.ensureVisible(
+                          controller.team.currentContext!,
+                          duration: const Duration(seconds: 2),
+                          curve: Curves.ease,
+                        );
+                      },
+                    ),
+
+                    // REVIEWS
+                    DrawerText(
+                      drawerText: AppLocalizations.of(context)?.reviews ?? 'Reviews',
+                      onTap: () {
+                        Navigator.pop(context);
+                        Scrollable.ensureVisible(
+                          controller.reviews.currentContext!,
+                          duration: const Duration(seconds: 2),
+                          curve: Curves.ease,
+                        );
+                      },
+                    ),
+
+                    // CONTACTS
+                    DrawerText(
+                      drawerText: isSingleMaster
+                          ? (AppLocalizations.of(context)?.contacts ?? 'Contacts')
+                          : (AppLocalizations.of(
+                                context,
+                              )?.contactUs ??
+                              'Contact Us'),
+                      onTap: () {
+                        Navigator.pop(context);
+                        Scrollable.ensureVisible(
+                          controller.contacts.currentContext!,
+                          duration: const Duration(seconds: 2),
+                          curve: Curves.ease,
+                        );
+                      },
+                    ),
+                  ],
                 ),
-              );
-            },
+              ),
+            ],
           ),
         ),
       ),
@@ -216,7 +211,7 @@ class _DrawerTextState extends ConsumerState<DrawerText> {
           onTap: widget.onTap,
           child: Padding(
             padding: EdgeInsets.symmetric(
-              vertical: DeviceConstraints.getResponsiveSize(context, 5.h, 15.h, 15.h),
+              vertical: DeviceConstraints.getResponsiveSize(context, 15.h, 15.h, 15.h),
             ),
             child: Text(
               widget.drawerText,

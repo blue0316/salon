@@ -11,7 +11,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DefaultAppBarTheme extends ConsumerWidget {
   final SalonModel salonModel;
-  const DefaultAppBarTheme({Key? key, required this.salonModel}) : super(key: key);
+  final bool isSalonMaster;
+
+  const DefaultAppBarTheme({
+    Key? key,
+    required this.salonModel,
+    this.isSalonMaster = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -34,6 +40,16 @@ class DefaultAppBarTheme extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    if (isSalonMaster)
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: theme.appBarTheme.iconTheme!.color,
+                        ),
+                      ),
                     Flexible(
                       child: Text(
                         salonModel.salonName.toUpperCase(),
@@ -65,6 +81,17 @@ class DefaultAppBarTheme extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    if (isSalonMaster)
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: theme.appBarTheme.iconTheme!.color,
+                        ),
+                      ),
+                    SizedBox(width: 10.sp),
                     if (!isTab) const Spacer(),
                     if (isTab)
                       MouseRegion(

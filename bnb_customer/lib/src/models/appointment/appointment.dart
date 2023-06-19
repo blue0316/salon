@@ -14,7 +14,7 @@ class AppointmentModel {
   late DateTime appointmentEndTime;
   late String appointmentTime;
   late String appointmentDate;
-  late String appointmentId;
+  String? appointmentId;
   late Salon salon;
   Master? master;
   Customer? customer;
@@ -25,7 +25,7 @@ class AppointmentModel {
   String? locale;
 
   /// [OwnerType.]
-  bool bookedForSelf = true;
+  bool? bookedForSelf = true;
   String? bookedForName;
   String? bookedForPhoneNo;
   late String status;
@@ -42,8 +42,8 @@ class AppointmentModel {
 
   late List<Service> services;
   late PriceAndDurationModel priceAndDuration;
-  late bool masterReviewed = false;
-  late bool salonReviewed = false;
+  late bool? masterReviewed = false;
+  late bool? salonReviewed = false;
 
   ///Client's names to be shown while booking an appointment
   String? firstName;
@@ -51,22 +51,26 @@ class AppointmentModel {
 
   String? beautyProId;
   String? yClientsId;
+
+  ///for identifing the 3 appointments created (prep ,clean up and all)
+  String? appointmentIdentifier;
+
   AppointmentModel({
     required this.appointmentStartTime,
     required this.appointmentEndTime,
     required this.createdAt,
     required this.appointmentTime,
     required this.appointmentDate,
-    required this.appointmentId,
+    this.appointmentId,
     required this.priceAndDuration,
     required this.updates,
     required this.status,
-    this.subStatus = AppointmentSubStatus.unconfirmed,
+    this.subStatus = ActiveAppointmentSubStatus.unConfirmed,
     required this.services,
     required this.createdBy,
-    required this.bookedForSelf,
-    required this.masterReviewed,
-    required this.salonReviewed,
+    this.bookedForSelf,
+    this.masterReviewed,
+    this.salonReviewed,
     required this.paymentInfo,
     this.type = AppointmentType.reservation,
     this.updatedAt,
@@ -89,6 +93,8 @@ class AppointmentModel {
     printIt(json['updatedAt']);
     type = json['type'] ?? AppointmentType.reservation;
     appointmentStartTime = json['appointmentStartTime'].toDate();
+    appointmentIdentifier = json['appointmentIdentifier'] ?? "";
+
     createdAt = json['createdAt'].toDate();
     appointmentEndTime = json['appointmentEndTime'].toDate();
     if (json['updatedAt'] != null && json['updatedAt'].isNotEmpty) {
@@ -129,7 +135,7 @@ class AppointmentModel {
     }
     updates = json['updates'] == null ? [] : json['updates'].cast<String>();
     status = json['status'];
-    subStatus = json['subStatus'] ?? AppointmentSubStatus.unconfirmed;
+    subStatus = json['subStatus'] ?? ActiveAppointmentSubStatus.unConfirmed;
     services = json['services'] != null ? json['services'].map<Service>((e) => Service.fromJson(e)).toList() : [];
     masterReviewed = json['masterReviewed'] ?? false;
     salonReviewed = json['salonReviewed'] ?? false;
@@ -142,6 +148,7 @@ class AppointmentModel {
     data['type'] = type;
     data['appointmentStartTime'] = appointmentStartTime;
     data['createdAt'] = createdAt;
+    data['appointmentIdentifier'] = appointmentIdentifier;
     data['appointmentEndTime'] = appointmentEndTime;
     data['updatedAt'] = updatedAt;
     data['appointmentTime'] = appointmentTime;
@@ -190,6 +197,18 @@ class Service {
   late PriceAndDurationModel priceAndDuration;
   late PriceAndDurationModel? priceAndDurationMax;
   late Map translations;
+  // includes processing time duration during apppointment that is opened for booking after start processing
+  bool hasProcessingTime = false;
+  // start of processing for special services
+  int? startProcessingTime;
+  // processing time used to finish appoitment with user
+  int? endProcessingTime;
+  // clean up time for salon after an appointment
+  int? cleanUpTime;
+  // preparation time before an appointment
+  int? preparationTime;
+  //processing time
+  int? processingTime;
 
   Service({
     required this.serviceId,
@@ -199,6 +218,12 @@ class Service {
     required this.priceAndDuration,
     this.priceAndDurationMax,
     required this.translations,
+    this.hasProcessingTime = false,
+    this.startProcessingTime,
+    this.endProcessingTime,
+    this.cleanUpTime,
+    this.preparationTime,
+    this.processingTime,
   });
 
   Service.fromJson(dynamic json) {
@@ -213,6 +238,13 @@ class Service {
       priceAndDurationMax = PriceAndDurationModel.fromJson(json['priceAndDurationMax']);
     }
     if (json["translations"] != null) translations = {...json["translations"]};
+
+    hasProcessingTime = json["hasProcessingTime"] ?? false;
+    if (json["startProcessingTime"] != null) startProcessingTime = json["startProcessingTime"];
+    if (json["endProcessingTime"] != null) endProcessingTime = json["endProcessingTime"];
+    if (json["processingTime"] != null) processingTime = json["processingTime"];
+    if (json["cleanUpTime"] != null) cleanUpTime = json["cleanUpTime"];
+    if (json["preparationTime"] != null) preparationTime = json["preparationTime"];
   }
 
   Map<String, dynamic> toJson() {
@@ -223,6 +255,13 @@ class Service {
     map["serviceName"] = serviceName;
     map['priceAndDuration'] = priceAndDuration.toJson();
     map["translations"] = translations;
+    map['hasProcessingTime'] = hasProcessingTime;
+    if (startProcessingTime != null) map['startProcessingTime'] = startProcessingTime;
+    if (endProcessingTime != null) map['endProcessingTime'] = endProcessingTime;
+    if (processingTime != null) map['processingTime'] = processingTime;
+    if (cleanUpTime != null) map['cleanUpTime'] = cleanUpTime;
+    if (preparationTime != null) map['preparationTime'] = preparationTime;
+
     return map;
   }
 
@@ -237,6 +276,11 @@ class Service {
     }
 
     translations = serviceModel.translations;
+    startProcessingTime = serviceModel.startProcessingTime;
+    endProcessingTime = serviceModel.endProcessingTime;
+    processingTime = serviceModel.processingTime;
+    cleanUpTime = serviceModel.cleanUpTime;
+    preparationTime = serviceModel.preparationTime;
   }
 }
 

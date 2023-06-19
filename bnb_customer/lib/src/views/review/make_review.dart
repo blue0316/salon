@@ -175,7 +175,7 @@ class _MakeReviewState extends ConsumerState<MakeReview> {
                     Text(
                       AppLocalizations.of(context)?.thankYouForYourReview ?? "Thank you for your review!",
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headline3,
+                      style: Theme.of(context).textTheme.displaySmall,
                     ),
                     SizedBox(
                       height: 16.h,
@@ -192,7 +192,7 @@ class _MakeReviewState extends ConsumerState<MakeReview> {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                       child: Text(
                         AppLocalizations.of(context)?.okey ?? "Okey",
-                        style: Theme.of(context).textTheme.headline3!.copyWith(color: Colors.white, fontSize: 18.sp),
+                        style: Theme.of(context).textTheme.displaySmall!.copyWith(color: Colors.white, fontSize: 18.sp),
                       ),
                     ),
                     SizedBox(
@@ -215,7 +215,7 @@ class _MakeReviewState extends ConsumerState<MakeReview> {
       showToast(AppLocalizations.of(context)?.submittingReview ?? 'submitting review');
       ReviewModel _review = ReviewModel(
         reviewId: '',
-        appointmentId: widget.appointmentModel.appointmentId,
+        appointmentId: widget.appointmentModel.appointmentId!,
         customerId: _auth.currentCustomer!.customerId,
         salonName: widget.appointmentModel.salon.name,
         review: _masterReview.text,
@@ -230,7 +230,7 @@ class _MakeReviewState extends ConsumerState<MakeReview> {
       printIt(_review.toJson());
       DocumentReference docref = await Collection.salons.doc(widget.appointmentModel.salon.id).collection('reviews').add(_review.toJson());
       await AppointmentApi().reviewAppointment(
-        appointmentId: widget.appointmentModel.appointmentId,
+        appointmentId: widget.appointmentModel.appointmentId!,
         masterReviewed: true,
         salonReviewed: true,
       );
@@ -239,7 +239,7 @@ class _MakeReviewState extends ConsumerState<MakeReview> {
       showToast(AppLocalizations.of(context)?.submittingReview ?? 'submitting review');
       ReviewModel _salonReviewModel = ReviewModel(
         reviewId: '',
-        appointmentId: widget.appointmentModel.appointmentId,
+        appointmentId: widget.appointmentModel.appointmentId!,
         customerId: _auth.currentCustomer!.customerId,
         salonName: widget.appointmentModel.salon.name,
         review: _salonReview.text,
@@ -254,7 +254,7 @@ class _MakeReviewState extends ConsumerState<MakeReview> {
       printIt(_salonReviewModel.toJson());
       ReviewModel _masterReviewModel = ReviewModel(
         reviewId: '',
-        appointmentId: widget.appointmentModel.appointmentId,
+        appointmentId: widget.appointmentModel.appointmentId!,
         customerId: _auth.currentCustomer!.customerId,
         salonName: widget.appointmentModel.salon.name,
         review: _masterReview.text,
@@ -271,7 +271,7 @@ class _MakeReviewState extends ConsumerState<MakeReview> {
       DocumentReference docref = await Collection.salons.doc(widget.appointmentModel.salon.id).collection('reviews').add(_salonReviewModel.toJson());
       DocumentReference docref1 = await Collection.masters.doc(widget.appointmentModel.master!.id).collection('reviews').add(_masterReviewModel.toJson());
       await AppointmentApi().reviewAppointment(
-        appointmentId: widget.appointmentModel.appointmentId,
+        appointmentId: widget.appointmentModel.appointmentId!,
         masterReviewed: true,
         salonReviewed: true,
       );
@@ -305,7 +305,7 @@ class _MakeReviewState extends ConsumerState<MakeReview> {
               padding: EdgeInsets.symmetric(vertical: 20.h),
               child: Text(
                 AppLocalizations.of(context)?.rateService ?? "How do you rate the service?",
-                style: Theme.of(context).textTheme.headline3,
+                style: Theme.of(context).textTheme.displaySmall,
               ),
             ),
             RatingBar.builder(
@@ -368,7 +368,12 @@ class _MakeReviewState extends ConsumerState<MakeReview> {
                             padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 4.sp),
                             child: Text(
                               s,
-                              style: choosenTagsMaster.contains(s) ? AppTheme.subTitle1.copyWith(color: Colors.white, fontSize: 13) : AppTheme.subTitle1.copyWith(color: AppTheme.lightGrey, fontSize: 13),
+                              style: choosenTagsMaster.contains(s)
+                                  ? AppTheme.subTitle1.copyWith(color: Colors.white, fontSize: 13)
+                                  : AppTheme.subTitle1.copyWith(
+                                      color: AppTheme.lightGrey,
+                                      fontSize: 13,
+                                    ),
                             )),
                       ),
                     ),
@@ -380,7 +385,7 @@ class _MakeReviewState extends ConsumerState<MakeReview> {
             ),
             Text(
               AppLocalizations.of(context)?.yourWishesOrComments ?? "Your wishes or comments for Master",
-              style: Theme.of(context).textTheme.headline3!.copyWith(color: AppTheme.lightGrey),
+              style: Theme.of(context).textTheme.displaySmall!.copyWith(color: AppTheme.lightGrey),
               textAlign: TextAlign.center,
             ),
             SizedBox(
@@ -409,7 +414,7 @@ class _MakeReviewState extends ConsumerState<MakeReview> {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     AppLocalizations.of(context)?.tellUsAbouSalon ?? "And what about salon ?",
-                    style: Theme.of(context).textTheme.headline3,
+                    style: Theme.of(context).textTheme.displaySmall,
                   ),
                 ),
               ),
@@ -482,7 +487,7 @@ class _MakeReviewState extends ConsumerState<MakeReview> {
               ),
               Text(
                 AppLocalizations.of(context)?.yourWishesOrComments ?? "Your wishes or comments for Master",
-                style: Theme.of(context).textTheme.headline3!.copyWith(color: AppTheme.lightGrey),
+                style: Theme.of(context).textTheme.displaySmall!.copyWith(color: AppTheme.lightGrey),
                 textAlign: TextAlign.center,
               ),
               SizedBox(

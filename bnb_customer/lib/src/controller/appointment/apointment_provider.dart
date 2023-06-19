@@ -195,7 +195,7 @@ class AppointmentProvider with ChangeNotifier {
       await Collection.appointments.doc(appointmentID).set(
         {
           'status': 'cancelled',
-          'subStatus': 'cancelledbyClient',
+          'subStatus': 'cancelledByCustomer',
           'updates': FieldValue.arrayUnion(['cancelledByCustomer'])
         },
         SetOptions(merge: true),

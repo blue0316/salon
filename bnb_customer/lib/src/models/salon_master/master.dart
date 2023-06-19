@@ -64,12 +64,8 @@ class MasterModel {
     salonId = json['salonId'];
     beautyProId = json['beautyProId'];
     yClientsId = json['yClientsId'];
-    personalInfo = json['personalInfo'] != null
-        ? PersonalInfoMaster.fromJson(json['personalInfo'])
-        : null;
-    workingHours = json['workingHours'] != null
-        ? WorkingHoursModel.fromJson(json['workingHours'])
-        : null;
+    personalInfo = json['personalInfo'] != null ? PersonalInfoMaster.fromJson(json['personalInfo']) : null;
+    workingHours = json['workingHours'] != null ? WorkingHoursModel.fromJson(json['workingHours']) : null;
     categoryIds = json['categoryIds']?.cast<String>() ?? [];
     serviceIds = json['serviceIds']?.cast<String>() ?? [];
     reviewIds = json['reviewIds']?.cast<String>() ?? [];
@@ -78,16 +74,11 @@ class MasterModel {
     profilePicUrl = json['profilePicUrl'] ?? '';
     availableOnline = json['availableOnline'] ?? false;
     blockedTime = json['blockedTime'] ?? {};
-    servicesPriceAndDuration = json['servicesPriceAndDuration'] != null
-        ? mapPriceAndDuration(json['servicesPriceAndDuration'])
-        : null;
+    servicesPriceAndDuration = json['servicesPriceAndDuration'] != null ? mapPriceAndDuration(json['servicesPriceAndDuration']) : {};
     if (json['servicesPriceAndDurationMax'] != null) {
-      servicesPriceAndDurationMax =
-          mapPriceAndDuration(json['servicesPriceAndDurationMax']);
+      servicesPriceAndDurationMax = mapPriceAndDuration(json['servicesPriceAndDurationMax']);
     }
-    irregularWorkingHours = json['irregularWorkingHours'] != null
-        ? mapIrregularHours(json['irregularWorkingHours'])
-        : null;
+    irregularWorkingHours = json['irregularWorkingHours'] != null ? mapIrregularHours(json['irregularWorkingHours']) : null;
     colorCode = Utils().assignColorCode();
     if (json['avgRating'] != null) avgRating = json['avgRating'].toDouble();
     if (json['reviewCount'] != null) {
@@ -117,8 +108,7 @@ class MasterModel {
     data['profilePicUrl'] = profilePicUrl;
     data['availableOnline'] = availableOnline;
     data['blockedTime'] = blockedTime;
-    data['servicesPriceAndDuration'] =
-        priceAndDurationToJson(servicesPriceAndDuration);
+    data['servicesPriceAndDuration'] = priceAndDurationToJson(servicesPriceAndDuration);
     data['searchTags'] = searchTags;
     if (avgRating != null) data['avgRating'] = avgRating;
     if (reviewCount != null) data['reviewCount'] = reviewCount;
@@ -127,16 +117,14 @@ class MasterModel {
   }
 
   //generates a map of PriceAndDuration where key is service id
-  Map<String, PriceAndDurationModel> mapPriceAndDuration(
-      Map<String, dynamic>? map) {
+  Map<String, PriceAndDurationModel> mapPriceAndDuration(Map<String, dynamic>? map) {
     Map<String, PriceAndDurationModel> servicesPriceAndDurationMap = {};
 
     try {
       if (map != null) {
         map.forEach((key, value) {
           if (value != null) {
-            servicesPriceAndDurationMap[key] =
-                PriceAndDurationModel.fromJson(value);
+            servicesPriceAndDurationMap[key] = PriceAndDurationModel.fromJson(value);
           }
         });
       }
@@ -168,8 +156,7 @@ class MasterModel {
   }
 
   //generates a map of PriceAndDuration where key is service id
-  Map<String, dynamic> priceAndDurationToJson(
-      Map<String, PriceAndDurationModel>? map) {
+  Map<String, dynamic> priceAndDurationToJson(Map<String, PriceAndDurationModel>? map) {
     Map<String, dynamic> priceAndDurationJson = {};
 
     try {
@@ -194,12 +181,7 @@ class PersonalInfoMaster {
   String? email;
   String? description;
 
-  PersonalInfoMaster(
-      {this.firstName,
-      this.lastName,
-      this.phone,
-      this.email,
-      this.description});
+  PersonalInfoMaster({this.firstName, this.lastName, this.phone, this.email, this.description});
 
   PersonalInfoMaster.fromJson(Map<String, dynamic> json) {
     firstName = json['firstName'];

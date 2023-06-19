@@ -611,6 +611,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_horizontal_date_picker:
+    dependency: "direct main"
+    description:
+      name: flutter_horizontal_date_picker
+      sha256: "84a508650b92f5de73daa4250a8bfe717d210c4838df4a8e4da031e5aee188fc"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:

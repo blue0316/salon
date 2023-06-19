@@ -31,6 +31,19 @@ class ServiceModel {
   late bool isPriceRange;
   late bool isFixedDuration;
   late bool isPriceStartAt;
+  // includes processing time duration during apppointment that is opened for booking after start processing
+  bool hasProcessingTime = false;
+  // start of processing for special services
+  int? startProcessingTime;
+  // processing time used to finish appoitment with user
+  int? endProcessingTime;
+  // clean up time for salon after an appointment
+  int? cleanUpTime;
+  // preparation time before an appointment
+  int? preparationTime;
+  //processing time
+  int? processingTime;
+
   ServiceModel({
     required this.salonId,
     required this.serviceId,
@@ -51,6 +64,12 @@ class ServiceModel {
     this.description,
     this.bookOrderId,
     this.searchTags,
+    this.hasProcessingTime = false,
+    this.startProcessingTime,
+    this.endProcessingTime,
+    this.cleanUpTime,
+    this.preparationTime,
+    this.processingTime,
   });
 
   //creates a copy of the current service instead of passing the ref
@@ -82,6 +101,12 @@ class ServiceModel {
     searchTags = json['searchTags'] != null ? json['searchTags'].cast<String>() : [];
     translations = (json["translations"] != null) ? {...json["translations"]} : {};
     subCatTranslations = json["subCatTranslations"] != null ? {...json["subCatTranslations"]} : {};
+    hasProcessingTime = json["hasProcessingTime"] ?? false;
+    if (json["startProcessingTime"] != null) startProcessingTime = json["startProcessingTime"];
+    if (json["endProcessingTime"] != null) endProcessingTime = json["endProcessingTime"];
+    if (json["processingTime"] != null) processingTime = json["processingTime"];
+    if (json["cleanUpTime"] != null) cleanUpTime = json["cleanUpTime"];
+    if (json["preparationTime"] != null) preparationTime = json["preparationTime"];
   }
 
   Map<String, dynamic> toJson() {
@@ -100,6 +125,13 @@ class ServiceModel {
     map["translations"] = translations;
     map["subCatTranslations"] = subCatTranslations;
     map['searchTags'] = searchTags;
+    map['hasProcessingTime'] = hasProcessingTime;
+    if (startProcessingTime != null) map['startProcessingTime'] = startProcessingTime;
+    if (endProcessingTime != null) map['endProcessingTime'] = endProcessingTime;
+    if (processingTime != null) map['processingTime'] = processingTime;
+    if (cleanUpTime != null) map['cleanUpTime'] = cleanUpTime;
+    if (preparationTime != null) map['preparationTime'] = preparationTime;
+
     return map;
   }
   //don't need to send isSelected parameter to the backend it's for local use only

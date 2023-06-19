@@ -169,7 +169,7 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                                     textColor: borderColor(themeType, theme),
                                                   ),
                                                 const SizedBox(width: 20),
-                                                if (appointment?.subStatus != AppointmentSubStatus.confirmed && shouldShowConfirmButton(appointment!.appointmentStartTime))
+                                                if (appointment?.subStatus != ActiveAppointmentSubStatus.confirmed && shouldShowConfirmButton(appointment!.appointmentStartTime))
                                                   Button(
                                                     text: 'Confirm Appointment',
                                                     buttonColor: confirmButton(themeType, theme),

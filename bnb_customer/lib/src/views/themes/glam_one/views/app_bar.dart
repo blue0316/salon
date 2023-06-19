@@ -15,27 +15,32 @@ import 'profile/widgets/minimal_app_bar.dart';
 
 class ThemeAppBar extends ConsumerWidget {
   final SalonModel salonModel;
+  final bool isSalonMaster;
 
-  const ThemeAppBar({Key? key, required this.salonModel}) : super(key: key);
+  const ThemeAppBar({
+    Key? key,
+    required this.salonModel,
+    this.isSalonMaster = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     ThemeType themeType = _salonProfileProvider.themeType;
 
-    return appBarTheme(themeType, salonModel);
+    return appBarTheme(themeType, salonModel, isSalonMaster);
   }
 }
 
-Widget appBarTheme(ThemeType themeType, SalonModel salon) {
+Widget appBarTheme(ThemeType themeType, SalonModel salon, bool isSalonMaster) {
   switch (themeType) {
     case ThemeType.GlamMinimalDark:
-      return MinimalAppBar(salonModel: salon);
+      return MinimalAppBar(salonModel: salon, isSalonMaster: isSalonMaster);
     case ThemeType.GlamMinimalLight:
-      return MinimalAppBar(salonModel: salon);
+      return MinimalAppBar(salonModel: salon, isSalonMaster: isSalonMaster);
 
     default:
-      return DefaultAppBarTheme(salonModel: salon);
+      return DefaultAppBarTheme(salonModel: salon, isSalonMaster: isSalonMaster);
   }
 }
 

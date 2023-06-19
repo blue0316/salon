@@ -49,6 +49,30 @@ class AppointmentApi {
     });
   }
 
+  /// creates a new appointment
+
+  Future createUpdateAppointment(AppointmentModel appointment) async {
+    try {
+      DocumentReference _docRef;
+      if (appointment.appointmentId != null) {
+        //updates the existing appointment
+
+        _docRef = Collection.appointments.doc(appointment.appointmentId);
+      } else {
+        //creates a new appointment
+        _docRef = Collection.appointments.doc();
+      }
+
+      await _docRef.set(appointment.toJson(), SetOptions(merge: true));
+
+      return _docRef.id;
+    } catch (e) {
+      debugPrint('error in making appointment');
+      debugPrint(e.toString());
+      return null;
+    }
+  }
+
   Future<String?> createAppointment(AppointmentModel appointment) async {
     try {
       DocumentReference _docRef;

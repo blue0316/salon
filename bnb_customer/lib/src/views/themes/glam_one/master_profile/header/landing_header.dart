@@ -26,15 +26,15 @@ class MasterLandingHeader extends ConsumerWidget {
 Widget headerTheme(ThemeType themeType, SalonModel salon, MasterModel masterModel) {
   switch (themeType) {
     case ThemeType.GlamLight:
-      return GlamLightHeader(chosenSalon: salon, masterModel: masterModel);
+      return GlamLightHeader(chosenSalon: salon, masterModel: masterModel, isSalonMaster: true);
 
     case ThemeType.GlamMinimalLight:
-      return MinimalHeader(salonModel: salon, masterModel: masterModel);
+      return MinimalHeader(salonModel: salon, masterModel: masterModel, isSalonMaster: true);
 
     case ThemeType.GlamMinimalDark:
-      return MinimalHeader(salonModel: salon, masterModel: masterModel);
+      return MinimalHeader(salonModel: salon, masterModel: masterModel, isSalonMaster: true);
 
     default:
-      return DefaultLandingHeaderView(chosenSalon: salon, masterModel: masterModel);
+      return DefaultLandingHeaderView(chosenSalon: salon, masterModel: masterModel, isSalonMaster: true);
   }
 }

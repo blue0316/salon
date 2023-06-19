@@ -11,7 +11,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MinimalAppBar extends ConsumerWidget {
   final SalonModel salonModel;
-  const MinimalAppBar({Key? key, required this.salonModel}) : super(key: key);
+  final bool isSalonMaster;
+
+  const MinimalAppBar({
+    Key? key,
+    required this.salonModel,
+    this.isSalonMaster = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -31,6 +37,16 @@ class MinimalAppBar extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            if (isSalonMaster)
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(
+                  Icons.arrow_back,
+                  color: theme.appBarTheme.iconTheme!.color,
+                ),
+              ),
             if (!isTab) SizedBox(width: 10.w),
             if (isTab)
               MouseRegion(

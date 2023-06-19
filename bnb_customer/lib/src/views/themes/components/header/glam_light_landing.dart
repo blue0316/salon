@@ -126,19 +126,14 @@ class GlamLightHeaderBody extends ConsumerWidget {
               ),
               if (isTab) const SpaceHorizontal(),
               if (isTab)
-                HorizontalBookNow(
-                  buttonText: AppLocalizations.of(context)?.bookNow ?? "Book Now",
-                  onTap: () => const BookingDialogWidget222().show(context),
-                ),
+                HorizontalBookNow(buttonText: AppLocalizations.of(context)?.bookNow ?? "Book Now", onTap: () {} // => const BookingDialogWidget222().show(context),
+                    ),
             ],
           ),
         ),
         if (!isTab)
-          RotatedBookNow(
-            buttonText: AppLocalizations.of(context)?.bookNow ?? "Book Now",
-            buttonBorderColor: Colors.black,
-            onTap: () => const BookingDialogWidget222().show(context),
-          ),
+          RotatedBookNow(buttonText: AppLocalizations.of(context)?.bookNow ?? "Book Now", buttonBorderColor: Colors.black, onTap: () {} // => const BookingDialogWidget222().show(context),
+              ),
         SizedBox(
           height: DeviceConstraints.getResponsiveSize(context, 10.h, 10.h, 20.h),
         ),

@@ -13,8 +13,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class MinimalHeader extends ConsumerWidget {
   final SalonModel salonModel;
   final MasterModel masterModel;
+  final bool isSalonMaster;
 
-  const MinimalHeader({Key? key, required this.salonModel, required this.masterModel}) : super(key: key);
+  const MinimalHeader({
+    Key? key,
+    required this.salonModel,
+    required this.masterModel,
+    this.isSalonMaster = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -37,7 +43,7 @@ class MinimalHeader extends ConsumerWidget {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  ThemeAppBar(salonModel: salonModel),
+                  ThemeAppBar(salonModel: salonModel, isSalonMaster: isSalonMaster),
                   SizedBox(height: 70.h),
                   ThemeHeader(salonModel: salonModel, masterModel: masterModel),
                 ],

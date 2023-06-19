@@ -1,6 +1,7 @@
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
+import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
@@ -11,6 +12,7 @@ import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/colors.dart
 import 'package:bbblient/src/views/salon/widgets/service_expension_tile.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
+import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
@@ -350,6 +352,13 @@ class ServiceCard extends ConsumerWidget {
                                             child: GestureDetector(
                                               onTap: () async {
                                                 _createAppointmentProvider.addServiceMaster(service, master, context);
+
+                                                if (_createAppointmentProvider.slotsStatus == Status.failed) {
+                                                  showToast(
+                                                    '${master.personalInfo?.firstName} is not working',
+                                                    duration: const Duration(seconds: 5),
+                                                  );
+                                                }
 
                                                 // printIt(
                                                 //     ' -------- Master selected -------- ');

@@ -24,8 +24,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class GlamLightHeader extends ConsumerWidget {
   final SalonModel chosenSalon;
   final MasterModel masterModel;
+  final bool isSalonMaster;
 
-  const GlamLightHeader({Key? key, required this.chosenSalon, required this.masterModel}) : super(key: key);
+  const GlamLightHeader({
+    Key? key,
+    required this.chosenSalon,
+    required this.masterModel,
+    this.isSalonMaster = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -60,7 +66,7 @@ class GlamLightHeader extends ConsumerWidget {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 5.h),
-                    child: ThemeAppBar(salonModel: chosenSalon),
+                    child: ThemeAppBar(salonModel: chosenSalon, isSalonMaster: isSalonMaster),
                   ),
                   SizedBox(height: 20.h),
                   GlamLightHeaderBody(salonModel: chosenSalon, masterModel: masterModel),
@@ -119,19 +125,14 @@ class GlamLightHeaderBody extends ConsumerWidget {
               ),
               if (isTab) const SpaceHorizontal(),
               if (isTab)
-                HorizontalBookNow(
-                  buttonText: AppLocalizations.of(context)?.bookNow ?? "Book Now",
-                  onTap: () => const BookingDialogWidget222().show(context),
-                ),
+                HorizontalBookNow(buttonText: AppLocalizations.of(context)?.bookNow ?? "Book Now", onTap: () {} // => const BookingDialogWidget222().show(context),
+                    ),
             ],
           ),
         ),
         if (!isTab)
-          RotatedBookNow(
-            buttonText: AppLocalizations.of(context)?.bookNow ?? "Book Now",
-            buttonBorderColor: Colors.black,
-            onTap: () => const BookingDialogWidget222().show(context),
-          ),
+          RotatedBookNow(buttonText: AppLocalizations.of(context)?.bookNow ?? "Book Now", buttonBorderColor: Colors.black, onTap: () {} // => const BookingDialogWidget222().show(context),
+              ),
         SizedBox(
           height: DeviceConstraints.getResponsiveSize(context, 10.h, 10.h, 20.h),
         ),

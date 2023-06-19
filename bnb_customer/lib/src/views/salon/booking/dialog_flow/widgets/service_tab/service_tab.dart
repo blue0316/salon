@@ -354,6 +354,13 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
             alignment: Alignment.bottomCenter,
             child: FloatingButton(
               onTap: () {
+                _createAppointmentProvider.initMastersAndTime();
+
+                DateTime date = DateTime.now();
+                _createAppointmentProvider.initTimeOfDay();
+                _createAppointmentProvider.onDateChange(date);
+
+                // Go to Date and Time
                 widget.tabController.animateTo(1);
               },
             ),

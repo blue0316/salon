@@ -61,98 +61,95 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Expanded(
-                child: SingleChildScrollView(
+                child: ListView(
                   physics: const ClampingScrollPhysics(),
-                  child: SizedBox(
-                    // width: size.width,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        const LandingHeader(),
+                  children: [
+                    const LandingHeader(),
 
-                        // TAGS
-                        if (displaySettings?.showFeatures == true) SizedBox.fromSize(size: Size.zero, key: controller.tags),
-                        if (displaySettings?.showFeatures == true)
-                          if (chosenSalon.additionalFeatures.isNotEmpty)
-                            SalonTags(
-                              salonModel: chosenSalon,
-                              additionalFeatures: chosenSalon.additionalFeatures,
-                            ),
+                    // // TAGS
+                    // if (displaySettings?.showFeatures == true) SizedBox.fromSize(size: Size.zero, key: controller.tags),
+                    // if (displaySettings?.showFeatures == true)
+                    //   if (chosenSalon.additionalFeatures.isNotEmpty)
+                    //     SalonTags(
+                    //       salonModel: chosenSalon,
+                    //       additionalFeatures: chosenSalon.additionalFeatures,
+                    //     ),
 
-                        // PROMOTIONS
-                        if (displaySettings?.showPromotions == true) SizedBox.fromSize(size: Size.zero, key: controller.promotions),
-                        if (displaySettings?.showPromotions == true)
-                          if (_createAppointmentProvider.salonPromotions.isNotEmpty)
-                            SalonPromotions(
-                              salonPromotionsList: _createAppointmentProvider.salonPromotions,
-                            ),
+                    // // PROMOTIONS
+                    // if (displaySettings?.showPromotions == true) SizedBox.fromSize(size: Size.zero, key: controller.promotions),
+                    // if (displaySettings?.showPromotions == true)
+                    //   if (_createAppointmentProvider.salonPromotions.isNotEmpty)
+                    //     SalonPromotions(
+                    //       salonPromotionsList: _createAppointmentProvider.salonPromotions,
+                    //     ),
 
-                        // ABOUT
-                        if (displaySettings?.showAbout == true) SizedBox.fromSize(size: Size.zero, key: controller.about),
-                        if (displaySettings?.showAbout == true) SalonAbout2(salonModel: chosenSalon),
+                    // ABOUT
+                    if (displaySettings?.showAbout == true) SizedBox.fromSize(size: Size.zero, key: controller.about),
+                    if (displaySettings?.showAbout == true) SalonAbout2(salonModel: chosenSalon),
 
-                        // SPONSORS
-                        if (displaySettings?.showBrands == true) SizedBox.fromSize(size: Size.zero, key: controller.sponsor),
-                        if (displaySettings?.showBrands == true) const SalonSponsors(),
+                    // // SPONSORS
+                    // if (displaySettings?.showBrands == true) SizedBox.fromSize(size: Size.zero, key: controller.sponsor),
+                    // if (displaySettings?.showBrands == true) const SalonSponsors(),
 
-                        // WORKS
-                        if (displaySettings?.showPhotosOfWork == true) SizedBox.fromSize(size: Size.zero, key: controller.works),
-                        if (displaySettings?.showPhotosOfWork == true) SalonWorks(salonModel: chosenSalon),
+                    // WORKS
+                    if (displaySettings?.showPhotosOfWork == true) SizedBox.fromSize(size: Size.zero, key: controller.works),
+                    if (displaySettings?.showPhotosOfWork == true) SalonWorks(salonModel: chosenSalon),
 
-                        // PRICE
-                        if (displaySettings?.services.showServices == true) SizedBox.fromSize(size: Size.zero, key: controller.price),
-                        if (displaySettings?.services.showServices == true)
-                          SalonPrice222(
-                            salonModel: chosenSalon,
-                            categories: _salonSearchProvider.categories,
-                            categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
-                          ),
+                    // // PRICE
+                    // if (displaySettings?.services.showServices == true) SizedBox.fromSize(size: Size.zero, key: controller.price),
+                    // if (displaySettings?.services.showServices == true)
+                    //   SalonPrice222(
+                    //     salonModel: chosenSalon,
+                    //     categories: _salonSearchProvider.categories,
+                    //     categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
+                    //   ),
 
-                        // SHOP
-                        if (displaySettings?.product.showProduct == true) SizedBox.fromSize(size: Size.zero, key: controller.shop),
-                        if (displaySettings?.product.showProduct == true) const SalonShop(),
+                    // // SHOP
+                    // if (displaySettings?.product.showProduct == true) SizedBox.fromSize(size: Size.zero, key: controller.shop),
+                    // if (displaySettings?.product.showProduct == true) const SalonShop(),
 
-                        // TEAM
-                        if (displaySettings?.showTeam == true) SizedBox.fromSize(size: Size.zero, key: controller.team),
-                        if (displaySettings?.showTeam == true)
-                          if (_salonProfileProvider.chosenSalon.ownerType != OwnerType.singleMaster)
-                            SalonTeam(
-                              salonModel: chosenSalon,
-                            ),
+                    // // TEAM
+                    // if (displaySettings?.showTeam == true) SizedBox.fromSize(size: Size.zero, key: controller.team),
+                    // if (displaySettings?.showTeam == true)
+                    //   if (_salonProfileProvider.chosenSalon.ownerType != OwnerType.singleMaster)
+                    //     SalonTeam(
+                    //       salonModel: chosenSalon,
+                    //     ),
 
-                        // REVIEWS
-                        if (displaySettings?.reviews.showReviews == true) SizedBox.fromSize(size: Size.zero, key: controller.reviews),
-                        if (displaySettings?.reviews.showReviews == true) SalonReviews(salonModel: chosenSalon),
+                    // // REVIEWS
+                    // if (displaySettings?.reviews.showReviews == true) SizedBox.fromSize(size: Size.zero, key: controller.reviews),
+                    // if (displaySettings?.reviews.showReviews == true) SalonReviews(salonModel: chosenSalon),
 
-                        // WRITE TO US
-                        if (displaySettings?.showRequestForm == true) SizedBox.fromSize(size: Size.zero, key: controller.writeToUs),
-                        if (displaySettings?.showRequestForm == true) WriteToUs(salonModel: chosenSalon),
+                    SizedBox(height: 60.sp),
+                    // WRITE TO US
+                    if (displaySettings?.showRequestForm == true) SizedBox.fromSize(size: Size.zero, key: controller.writeToUs),
+                    if (displaySettings?.showRequestForm == true) WriteToUs(salonModel: chosenSalon),
 
-                        // CONTACT
-                        if (displaySettings?.showContact == true) SizedBox.fromSize(size: Size.zero, key: controller.contacts),
-                        if (displaySettings?.showContact == true) SalonContact(salonModel: chosenSalon),
+                    // // CONTACT
+                    // if (displaySettings?.showContact == true) SizedBox.fromSize(size: Size.zero, key: controller.contacts),
+                    // if (displaySettings?.showContact == true) SalonContact(salonModel: chosenSalon),
 
-                        // BOTTOM ITEM
-                        Padding(
-                          padding: const EdgeInsets.only(top: 19, bottom: 15),
-                          child: RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: "Design By ",
-                                  style: theme.textTheme.bodyLarge!.copyWith(fontSize: 20.sp, color: theme.primaryColorLight),
-                                ),
-                                TextSpan(
-                                  text: "GlamIris",
-                                  style: theme.textTheme.bodyLarge!.copyWith(fontSize: 20.sp, color: theme.primaryColorDark),
-                                ),
-                              ],
-                            ),
+                    // BOTTOM ITEM
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 19, bottom: 15),
+                        child: RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: "Design By ",
+                                style: theme.textTheme.bodyLarge!.copyWith(fontSize: 20.sp, color: theme.primaryColorLight),
+                              ),
+                              TextSpan(
+                                text: "GlamIris",
+                                style: theme.textTheme.bodyLarge!.copyWith(fontSize: 20.sp, color: theme.primaryColorDark),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ),
             ],
