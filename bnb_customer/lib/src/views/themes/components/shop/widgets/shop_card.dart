@@ -20,13 +20,13 @@ class ShopCard extends ConsumerWidget {
     // final int? themeNo = _salonProfileProvider.chosenSalon.selectedTheme;
 
     return Padding(
-      padding: const EdgeInsets.only(right: 20),
+      padding: EdgeInsets.only(right: 20.sp),
       child: SizedBox(
         // color: Colors.orange,
         width: DeviceConstraints.getResponsiveSize(
           context,
-          size / 1.2,
-          size / 2.3,
+          size / 1.2.sp,
+          size / 2.3.sp,
           70.w,
         ),
         child: Column(
@@ -37,14 +37,14 @@ class ShopCard extends ConsumerWidget {
               flex: 1,
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  border: Border.all(color: theme.primaryColorDark, width: 0.3),
+                  color: theme.primaryColorDark, // Colors.transparent,
+                  // border: Border.all(color: theme.primaryColorDark, width: 0.3),
                 ),
                 // height: 300.h,
                 width: DeviceConstraints.getResponsiveSize(
                   context,
-                  size / 1.2,
-                  size / 2.3,
+                  size / 1.2.sp,
+                  size / 2.3.sp,
                   70.w,
                 ),
 
@@ -57,7 +57,7 @@ class ShopCard extends ConsumerWidget {
                         child: Text(
                           'Photo N/A',
                           style: theme.textTheme.bodyLarge?.copyWith(
-                            color: theme.primaryColorDark,
+                            color: Colors.white,
                             fontSize: 20.sp,
                             fontWeight: FontWeight.normal,
                           ),
@@ -65,7 +65,7 @@ class ShopCard extends ConsumerWidget {
                       ),
               ),
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10.sp),
             Expanded(
               flex: 0,
               child: Row(
@@ -91,7 +91,7 @@ class ShopCard extends ConsumerWidget {
                     ),
                   ),
                   // Spacer(),
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10.sp),
                   Text(
                     '\$${product.clientPrice}',
                     style: theme.textTheme.bodyLarge?.copyWith(

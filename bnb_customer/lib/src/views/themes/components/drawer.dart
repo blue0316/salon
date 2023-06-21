@@ -211,7 +211,7 @@ class _DrawerTextState extends ConsumerState<DrawerText> {
           onTap: widget.onTap,
           child: Padding(
             padding: EdgeInsets.symmetric(
-              vertical: DeviceConstraints.getResponsiveSize(context, 15.h, 15.h, 15.h),
+              vertical: DeviceConstraints.getResponsiveSize(context, 20.h, 15.h, 15.h),
             ),
             child: Text(
               widget.drawerText,

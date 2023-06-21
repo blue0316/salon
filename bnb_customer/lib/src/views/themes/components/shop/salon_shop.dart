@@ -90,7 +90,7 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.06, // 60.h,
+                          height: 65.sp, // height: MediaQuery.of(context).size.height * 0.06, // 60.h,
                           child: TabBar(
                             controller: shopTabController,
                             unselectedLabelColor: theme.tabBarTheme.unselectedLabelColor,
@@ -174,6 +174,7 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
                           itemCount: allProducts.length,
+                          physics: const ClampingScrollPhysics(),
                           itemBuilder: (context, index) {
                             final ProductModel product = allProducts[index];
                             return ShopCard(product: product);
@@ -191,6 +192,7 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
                               itemCount: entry.value.length,
+                              physics: const ClampingScrollPhysics(),
                               itemBuilder: (context, index) {
                                 final ProductModel product = entry.value[index];
 

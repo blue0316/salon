@@ -56,6 +56,8 @@ class _SalonSponsorsState extends ConsumerState<SalonSponsors> {
   @override
   void dispose() {
     super.dispose();
+    _timer?.cancel();
+
     _scrollController.dispose();
   }
 
@@ -111,47 +113,56 @@ class _SalonSponsorsState extends ConsumerState<SalonSponsors> {
                   ),
                 )
               : SizedBox(
-                  height: 40,
+                  height: 40.sp,
+                  child: Center(
+                    child: NotificationListener(
+                      onNotification: (notif) {
+                        if (notif is ScrollEndNotification && scroll) {
+                          Timer(const Duration(seconds: 1), () {
+                            _scroll();
+                          });
+                        }
 
-                  child: NotificationListener(
-                    onNotification: (notif) {
-                      if (notif is ScrollEndNotification && scroll) {
-                        Timer(const Duration(seconds: 1), () {
-                          _scroll();
-                        });
-                      }
-
-                      return true;
-                    },
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      controller: _scrollController,
-                      child: Row(
-                        children: _salonProfileProvider.allProductBrands
-                            .map(
-                              (item) => Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                                    child: Text(
-                                      item.translations![AppLocalizations.of(context)?.localeName ?? 'en'],
-                                      style: theme.textTheme.bodyLarge?.copyWith(
-                                        color: theme.dividerColor,
-                                        fontSize: 18.sp,
+                        return true;
+                      },
+                      child: Center(
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          controller: _scrollController,
+                          shrinkWrap: true,
+                          physics: const ClampingScrollPhysics(),
+                          children: [
+                            Center(
+                              child: Row(
+                                children: _salonProfileProvider.allProductBrands
+                                    .map(
+                                      (item) => Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                                            child: Text(
+                                              item.translations![AppLocalizations.of(context)?.localeName ?? 'en'],
+                                              style: theme.textTheme.bodyLarge?.copyWith(
+                                                color: theme.dividerColor,
+                                                fontSize: 18.sp,
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 8.h,
+                                            width: 8.h,
+                                            decoration: tagSeperator(themeType, theme),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 8.h,
-                                    width: 8.h,
-                                    decoration: tagSeperator(themeType, theme),
-                                  ),
-                                ],
+                                    )
+                                    .toList(),
                               ),
-                            )
-                            .toList(),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

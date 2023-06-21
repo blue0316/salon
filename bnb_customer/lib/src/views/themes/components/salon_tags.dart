@@ -135,49 +135,62 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
         child: Column(
           children: [
             Divider(color: theme.dividerColor, thickness: 2),
-            Container(
-              // color: Colors.yellow,
+            SizedBox(
               height: 35.h,
-              child: NotificationListener(
-                onNotification: (notif) {
-                  if (notif is ScrollEndNotification && scroll) {
-                    Timer(const Duration(seconds: 1), () {
-                      _scroll();
-                    });
-                  }
+              child: Center(
+                child: NotificationListener(
+                  onNotification: (notif) {
+                    if (notif is ScrollEndNotification && scroll) {
+                      Timer(const Duration(seconds: 1), () {
+                        _scroll();
+                      });
+                    }
 
-                  return true;
-                },
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  controller: _scrollController,
-                  child: Row(
-                    children: aFeatured
-                        .map((item) => Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                                  child: Text(
-                                    // TODO: HANDLE FOR OTHER LOCALIZATIONS
-                                    (_bnbProvider.locale == const Locale('en'))
-                                        ? getFeature(item)
-                                        : (_bnbProvider.locale == const Locale('uk'))
-                                            ? getFeatureUk(item)
-                                            : item,
-                                    //  convertLowerCamelCase(widget.additionalFeatures[item]),
-                                    style: theme.textTheme.bodyText1?.copyWith(
-                                      color: theme.dividerColor,
-                                      fontSize: 18.sp,
-                                      fontFamily: 'Poppins-Light',
-                                    ),
+                    return true;
+                  },
+                  child: Center(
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      controller: _scrollController,
+                      shrinkWrap: true,
+                      physics: const ClampingScrollPhysics(),
+                      children: [
+                        Center(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: aFeatured
+                                .map(
+                                  (item) => Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                                        child: Text(
+                                          // TODO: HANDLE FOR OTHER LOCALIZATIONS
+                                          (_bnbProvider.locale == const Locale('en'))
+                                              ? getFeature(item)
+                                              : (_bnbProvider.locale == const Locale('uk'))
+                                                  ? getFeatureUk(item)
+                                                  : item,
+                                          //  convertLowerCamelCase(widget.additionalFeatures[item]),
+                                          style: theme.textTheme.bodyLarge?.copyWith(
+                                            color: theme.dividerColor,
+                                            fontSize: 18.sp,
+                                            fontFamily: 'Poppins-Light',
+                                          ),
+                                        ),
+                                      ),
+                                      Container(height: 8.h, width: 8.h, decoration: tagSeperator(themeType, theme)),
+                                    ],
                                   ),
-                                ),
-                                Container(height: 8.h, width: 8.h, decoration: tagSeperator(themeType, theme)),
-                              ],
-                            ))
-                        .toList(),
+                                )
+                                .toList(),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

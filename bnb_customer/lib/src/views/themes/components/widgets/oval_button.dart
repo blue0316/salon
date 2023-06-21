@@ -31,8 +31,8 @@ class OvalButton extends ConsumerWidget {
       child: GestureDetector(
         onTap: onTap,
         child: SizedBox(
-          width: width ?? 145.h,
-          height: height ?? 45.h,
+          width: width ?? 145.sp,
+          height: height ?? 45.sp,
           // color: Colors.blue,
           // decoration: BoxDecoration(
           //   border: Border.all(
@@ -46,7 +46,7 @@ class OvalButton extends ConsumerWidget {
             children: [
               SvgPicture.asset(
                 'assets/themes/glam_one/svg/button_oval.svg',
-                fit: BoxFit.contain,
+                fit: BoxFit.fitWidth,
                 color: theme.primaryColor,
               ),
               Padding(

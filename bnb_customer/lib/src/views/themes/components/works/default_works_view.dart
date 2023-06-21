@@ -71,7 +71,9 @@ class _DefaultWorksViewState extends ConsumerState<DefaultWorksView> {
                 ),
               ],
             ),
-            SizedBox(height: DeviceConstraints.getResponsiveSize(context, 50, 50, 35)),
+            SizedBox(
+              height: DeviceConstraints.getResponsiveSize(context, 50.sp, 50.sp, 35.sp),
+            ),
             (widget.salonModel.photosOfWork.isNotEmpty)
                 ? SizedBox(
                     // height: 260.h,
@@ -99,7 +101,7 @@ class _DefaultWorksViewState extends ConsumerState<DefaultWorksView> {
                                 );
                               },
                               child: Padding(
-                                padding: const EdgeInsets.only(right: 20),
+                                padding: EdgeInsets.only(right: 20.sp),
                                 child: CachedImage(
                                   width: DeviceConstraints.getResponsiveSize(
                                     context,

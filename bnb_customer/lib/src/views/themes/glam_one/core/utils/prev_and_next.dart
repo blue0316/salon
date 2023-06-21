@@ -48,7 +48,7 @@ class PrevAndNextButtons extends ConsumerWidget {
             //         color: Colors.white,
             //       ),
           ),
-          SizedBox(width: DeviceConstraints.getResponsiveSize(context, 15, 30, 40)),
+          SizedBox(width: DeviceConstraints.getResponsiveSize(context, 15.sp, 30.sp, 40.sp)),
           GestureDetector(
             onTap: forwardOnTap,
             child: themeRightIcon(context, themeType: themeType, theme: theme, forwardColor: forwardColor),
@@ -79,11 +79,21 @@ Widget themeLeftIcon(context, {required ThemeType themeType, required ThemeData 
         color: Colors.white,
       );
     case ThemeType.Barbershop:
-      return Icon(
-        Icons.arrow_back,
-        size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
-        color: Colors.white,
+      return Text(
+        String.fromCharCode(Icons.arrow_back.codePoint),
+        style: TextStyle(
+          inherit: false,
+          fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+          color: Colors.white,
+          fontWeight: FontWeight.w100,
+          fontFamily: Icons.arrow_back.fontFamily,
+        ),
       );
+    // return Icon(
+    //   Icons.arrow_back,
+    //   size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+    //   color: Colors.white,
+    // );
     case ThemeType.GlamMinimalLight:
       return Icon(
         Icons.arrow_back,
@@ -115,11 +125,23 @@ Widget themeRightIcon(context, {required ThemeType themeType, required ThemeData
         color: Colors.white,
       );
     case ThemeType.Barbershop:
-      return Icon(
-        Icons.arrow_forward,
-        size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
-        color: theme.primaryColor,
+      return Text(
+        String.fromCharCode(Icons.arrow_forward.codePoint),
+        style: TextStyle(
+          inherit: false,
+          fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+          color: theme.primaryColor,
+          fontWeight: FontWeight.w100,
+          fontFamily: Icons.arrow_forward.fontFamily,
+        ),
       );
+
+    // return Icon(
+    //   Icons.arrow_forward,
+    // size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+    // color: theme.primaryColor,
+
+    // );
     case ThemeType.GlamMinimalDark:
       return Icon(
         Icons.arrow_forward,

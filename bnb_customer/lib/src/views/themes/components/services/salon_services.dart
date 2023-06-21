@@ -82,8 +82,7 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: SizedBox(
-                        // color: Colors.blue,
-                        height: MediaQuery.of(context).size.height * 0.065, // 60.h,
+                        height: 65.sp, // MediaQuery.of(context).size.height * 0.065, // 60.h,
                         child: TabBar(
                           onTap: (index) {
                             setState(() {
@@ -115,7 +114,10 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
                           labelPadding: const EdgeInsets.symmetric(horizontal: 50),
                           tabs: _createAppointmentProvider.categoriesAvailable
                               .map(
-                                (item) => Tab(text: item.categoryName),
+                                (item) => Tab(
+                                  text: item.categoryName,
+                                  // height: 20,
+                                ),
                               )
                               .toList(),
                         ),

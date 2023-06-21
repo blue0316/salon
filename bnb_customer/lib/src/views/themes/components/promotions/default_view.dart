@@ -69,7 +69,7 @@ class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
     final ThemeType themeType = _salonProfileProvider.themeType;
 
     //
-    String promotionDiscount = _createAppointmentProvider.salonPromotions[0].promotionDiscount ?? '0';
+    // String promotionDiscount = _createAppointmentProvider.salonPromotions[0].promotionDiscount ?? '0';
     // String discountUnit = _createAppointmentProvider.salonPromotions[0].discountUnit == "PCT(%)" ? '%' : '₴';
     String promotionDescription = '${_createAppointmentProvider.salonPromotions[0].promotionDescription}';
 
@@ -83,9 +83,9 @@ class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              AppLocalizations.of(context)?.promotions ?? 'Promotions'.toUpperCase(),
+              (AppLocalizations.of(context)?.promotions ?? 'Promotions').toUpperCase(),
               style: theme.textTheme.displayMedium?.copyWith(
-                fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 45.sp, 65.sp),
+                fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 45.sp, 65.sp),
               ),
             ),
             PrevAndNextButtons(
@@ -131,12 +131,14 @@ class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "${AppLocalizations.of(context)?.discounts ?? "Discounts"}  $promotionDiscount%".toUpperCase(),
+                (AppLocalizations.of(context)?.discounts ?? "Discounts").toUpperCase(),
                 style: theme.textTheme.displaySmall?.copyWith(
-                  fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 25.sp, 30.sp),
+                  fontWeight: FontWeight.normal,
+                  fontFamily: 'Gilroy',
+                  fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 25.sp, 30.sp),
                 ),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 12.sp),
               Text(
                 promotionDescription,
                 maxLines: 4,
@@ -146,30 +148,7 @@ class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
                   fontSize: 15.sp,
                 ),
               ),
-              const SizedBox(height: 10),
-              (themeType == ThemeType.GlamBarbershop || themeType == ThemeType.Barbershop)
-                  ? SquareButton(
-                      text: 'GET A DISCOUNT',
-                      height: 50.h,
-                      // width: isLandscape ?  : null,
-                      buttonColor: Colors.transparent,
-                      borderColor: Colors.white,
-                      textColor: Colors.white,
-                      textSize: 15.sp, buttonWidth: 1,
-
-                      onTap: () {},
-                    )
-                  : OvalButton(
-                      text: 'Get a discount',
-                      // width: 200.sp,
-                      // buttonWidth: 1,
-                      width: 180.h,
-                      height: 60.h,
-                      onTap: () {
-                        // _salonProfileProvider.chosenSalon.prom;
-                      },
-                    ),
-              const SizedBox(height: 30),
+              SizedBox(height: 25.sp),
             ],
           ),
         (_createAppointmentProvider.salonPromotions.isNotEmpty)
@@ -188,9 +167,10 @@ class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "${AppLocalizations.of(context)?.discounts ?? "Discounts"}  $promotionDiscount%".toUpperCase(),
+                            (AppLocalizations.of(context)?.discounts ?? "Discounts").toUpperCase(),
                             style: theme.textTheme.displaySmall?.copyWith(
-                              fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 22.sp, 26.sp),
+                              fontFamily: 'Gilroy',
+                              fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 22.sp, 26.sp),
                             ),
                           ),
                           const SizedBox(height: 10),
@@ -263,6 +243,31 @@ class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
                 text: 'No promotions at the moment', // AppLocalizations.of(context)?.noWorks ?? 'No photos of works',
                 color: theme.colorScheme.secondary,
               ),
+        if (isPortrait) SizedBox(height: 20.sp),
+        if (isPortrait)
+          (themeType == ThemeType.GlamBarbershop || themeType == ThemeType.Barbershop)
+              ? SquareButton(
+                  text: 'GET A DISCOUNT',
+                  height: 50.h,
+                  // width: isLandscape ?  : null,
+                  buttonColor: Colors.transparent,
+                  borderColor: Colors.white,
+                  textColor: Colors.white,
+                  textSize: 15.sp, buttonWidth: 1,
+
+                  onTap: () {},
+                )
+              : OvalButton(
+                  text: 'Get a discount',
+                  // width: 200.sp,
+                  // buttonWidth: 1,
+                  width: 180.h,
+                  height: 60.h,
+                  onTap: () {
+                    // _salonProfileProvider.chosenSalon.prom;
+                  },
+                ),
+        const SizedBox(height: 30),
       ],
     );
   }
@@ -327,11 +332,7 @@ class LandscapePageViewElement extends ConsumerWidget {
         //     :
         Text(
           text,
-          style: theme.textTheme.displaySmall?.copyWith(
-            color: (!notInView) ? theme.primaryColor : theme.primaryColor.withOpacity(0.15),
-            fontSize: 20.sp,
-            letterSpacing: 1.1,
-          ),
+          style: theme.textTheme.displaySmall?.copyWith(color: (!notInView) ? theme.primaryColor : theme.primaryColor.withOpacity(0.15), fontSize: 20.sp, fontFamily: 'Gilroy'),
         ),
       ],
     );

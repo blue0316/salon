@@ -1,5 +1,6 @@
 import 'package:bbblient/src/models/promotions/promotion_service.dart';
 import 'package:bbblient/src/views/themes/components/widgets/button.dart';
+import 'package:bbblient/src/views/themes/glam_one/core/utils/prev_and_next.dart';
 import 'package:bbblient/src/views/themes/glam_one/master_profile/unique_master_profile.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
@@ -48,12 +49,22 @@ class _MiniamlPromotionViewState extends ConsumerState<MiniamlPromotionView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Text(
-          (AppLocalizations.of(context)?.promotions ?? 'Promotions').toUpperCase(),
-          style: theme.textTheme.displayMedium?.copyWith(
-            // fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
-            fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 45.sp, 65.sp),
-          ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              (AppLocalizations.of(context)?.promotions ?? 'Promotions').toUpperCase(),
+              style: theme.textTheme.displayMedium?.copyWith(
+                // fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 45.sp, 65.sp),
+              ),
+            ),
+            PrevAndNextButtons(
+              backOnTap: () {},
+              forwardOnTap: () {},
+            ),
+          ],
         ),
         SizedBox(
           height: DeviceConstraints.getResponsiveSize(context, 15.h, 20.h, 30.h),
@@ -62,148 +73,144 @@ class _MiniamlPromotionViewState extends ConsumerState<MiniamlPromotionView> {
             ? (isPortrait)
                 ? SizedBox(
                     height: MediaQuery.of(context).size.height * 0.8, // 700.h,
-                    child: SingleChildScrollView(
+                    child: ListView(
                       physics: const ClampingScrollPhysics(),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            flex: 0,
+                      children: [
+                        Expanded(
+                          flex: 0,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                flex: 0,
+                                child: SizedBox(
+                                  height: 200.h,
+                                  width: double.infinity,
+                                  child: CachedImage(
+                                    url: '${initialPromotion.promotionImage}',
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Text(
+                                "${initialPromotion.promotionTitle}".toUpperCase(),
+                                style: theme.textTheme.displaySmall?.copyWith(
+                                  fontSize: DeviceConstraints.getResponsiveSize(context, 17.sp, 20.sp, 25.sp),
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Text(
+                                '${initialPromotion.promotionDescription}',
+                                maxLines: 4,
+                                overflow: TextOverflow.clip,
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: theme.primaryColor,
+                                  fontSize: 16.sp,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 30),
+                        Expanded(
+                          flex: 0,
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.35, // 300.h,
+                            width: double.infinity,
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Expanded(
-                                  flex: 0,
-                                  child: SizedBox(
-                                    height: 200.h,
-                                    width: double.infinity,
-                                    child: CachedImage(
-                                      url: '${initialPromotion.promotionImage}',
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 10),
-                                Text(
-                                  "${initialPromotion.promotionTitle}".toUpperCase(),
-                                  style: theme.textTheme.displaySmall?.copyWith(
-                                    fontSize: DeviceConstraints.getResponsiveSize(context, 17.sp, 20.sp, 25.sp),
-                                  ),
-                                ),
-                                const SizedBox(height: 10),
-                                Text(
-                                  '${initialPromotion.promotionDescription}',
-                                  maxLines: 4,
-                                  overflow: TextOverflow.clip,
-                                  style: theme.textTheme.bodyMedium?.copyWith(
-                                    color: theme.primaryColor,
-                                    fontSize: 16.sp,
+                                SizedBox(
+                                  height: MediaQuery.of(context).size.height * 0.35, // 300.h,
+                                  // color: Colors.blue,
+                                  child: ListView.separated(
+                                    physics: const ClampingScrollPhysics(),
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    separatorBuilder: (context, index) => const SizedBox(width: 30),
+                                    itemCount: widget.salonPromotionsList.length,
+                                    itemBuilder: ((context, index) {
+                                      final PromotionModel promotion = widget.salonPromotionsList.reversed.toList()[index];
+                                      return MouseRegion(
+                                        cursor: SystemMouseCursors.click,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              initialPromotion = promotion;
+                                            });
+                                          },
+                                          child: SizedBox(
+                                            // height: MediaQuery.of(context).size.height * 0.17, // 150.h,
+                                            width: MediaQuery.of(context).size.width - 40.w,
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              children: [
+                                                SizedBox(
+                                                  height: 200.sp,
+                                                  width: double.infinity,
+                                                  child: CachedImage(
+                                                    url: '${promotion.promotionImage}',
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 20),
+                                                Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                  children: [
+                                                    Text(
+                                                      "${promotion.promotionTitle}".toUpperCase(), //  ${initialPromotion.discountUnit}
+                                                      style: theme.textTheme.displaySmall?.copyWith(
+                                                        fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 22.sp),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(height: 10),
+                                                    Text(
+                                                      '${promotion.promotionDescription}',
+                                                      maxLines: 1,
+                                                      overflow: TextOverflow.clip,
+                                                      style: theme.textTheme.bodyMedium?.copyWith(
+                                                        color: theme.primaryColor,
+                                                        fontSize: 16.sp,
+                                                      ),
+                                                    ),
+                                                    // const SizedBox(height: 10),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          const SizedBox(height: 30),
-                          Expanded(
-                            flex: 0,
-                            child: SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.4, // 300.h,
-                              width: double.infinity,
-                              child: Column(
-                                children: [
-                                  SizedBox(
-                                    height: MediaQuery.of(context).size.height * 0.35, // 300.h,
-                                    // color: Colors.blue,
-                                    child: ListView.separated(
-                                      physics: const ClampingScrollPhysics(),
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.horizontal,
-                                      separatorBuilder: (context, index) => const SizedBox(width: 30),
-                                      itemCount: widget.salonPromotionsList.length,
-                                      itemBuilder: ((context, index) {
-                                        final PromotionModel promotion = widget.salonPromotionsList.reversed.toList()[index];
-                                        return MouseRegion(
-                                          cursor: SystemMouseCursors.click,
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              setState(() {
-                                                initialPromotion = promotion;
-                                              });
-                                            },
-                                            child: SizedBox(
-                                              // height: MediaQuery.of(context).size.height * 0.17, // 150.h,
-                                              width: MediaQuery.of(context).size.width - 40.w,
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                children: [
-                                                  SizedBox(
-                                                    height: 200.sp,
-                                                    width: double.infinity,
-                                                    child: CachedImage(
-                                                      url: '${promotion.promotionImage}',
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  ),
-                                                  const SizedBox(height: 20),
-                                                  Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                    children: [
-                                                      Text(
-                                                        "${promotion.promotionTitle}".toUpperCase(), //  ${initialPromotion.discountUnit}
-                                                        style: theme.textTheme.displaySmall?.copyWith(
-                                                          fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 22.sp),
-                                                        ),
-                                                      ),
-                                                      const SizedBox(height: 10),
-                                                      Text(
-                                                        '${promotion.promotionDescription}',
-                                                        maxLines: 1,
-                                                        overflow: TextOverflow.clip,
-                                                        style: theme.textTheme.bodyMedium?.copyWith(
-                                                          color: theme.primaryColor,
-                                                          fontSize: 16.sp,
-                                                        ),
-                                                      ),
-                                                      // const SizedBox(height: 10),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      }),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              SquareButton(
-                                width: 200.sp,
-                                text: 'GET A DISCOUNT',
-                                borderColor: theme.primaryColor, // black
-                                // textColor: (themeType == ThemeType.GlamMinimalLight) ? Colors.black : Colors.white, // black
-                                // buttonColor: (themeType == ThemeType.GlamMinimalLight) ? Colors.white : Colors.black,
-                                buttonColor: theme.cardColor,
-                                textColor: theme.primaryColor,
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SquareButton(
+                              width: 200.sp,
+                              text: 'GET A DISCOUNT',
+                              borderColor: theme.primaryColor, // black
+                              // textColor: (themeType == ThemeType.GlamMinimalLight) ? Colors.black : Colors.white, // black
+                              // buttonColor: (themeType == ThemeType.GlamMinimalLight) ? Colors.white : Colors.black,
+                              buttonColor: theme.cardColor,
+                              textColor: theme.primaryColor,
 
-                                showSuffix: false,
-                                textSize: 16.sp, buttonWidth: 1,
-                                onTap: () {},
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                              showSuffix: false,
+                              textSize: 16.sp, buttonWidth: 1,
+                              onTap: () {},
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   )
                 : SizedBox(
@@ -235,7 +242,7 @@ class _MiniamlPromotionViewState extends ConsumerState<MiniamlPromotionView> {
                                 ),
                                 const SizedBox(height: 20),
                                 Text(
-                                  "${initialPromotion.promotionDiscount}%".toUpperCase(), //  ${initialPromotion.discountUnit}
+                                  ("${AppLocalizations.of(context)?.discounts ?? "Discounts}"} ${initialPromotion.promotionDiscount}%").toUpperCase(), //  ${initialPromotion.discountUnit}
                                   style: theme.textTheme.displaySmall?.copyWith(
                                     fontSize: DeviceConstraints.getResponsiveSize(context, 17.sp, 20.sp, 25.sp),
                                   ),

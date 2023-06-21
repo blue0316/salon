@@ -39,6 +39,7 @@ class ThemeHeader extends ConsumerWidget {
                 style: theme.textTheme.displayLarge?.copyWith(
                   letterSpacing: 0.5,
                   fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 75.sp, 85.sp),
+                  color: titleHeaderColor(theme, themeType),
                 ),
                 textAlign: TextAlign.center,
               )
@@ -47,6 +48,7 @@ class ThemeHeader extends ConsumerWidget {
                 style: theme.textTheme.displayLarge?.copyWith(
                   letterSpacing: 0.5,
                   fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 75.sp, 85.sp),
+                  color: titleHeaderColor(theme, themeType),
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -86,6 +88,22 @@ class ThemeHeader extends ConsumerWidget {
   }
 }
 
+Color titleHeaderColor(ThemeData theme, ThemeType themeType) {
+  switch (themeType) {
+    case ThemeType.GlamMinimalLight:
+      return Colors.white;
+
+    case ThemeType.GlamMinimalDark:
+      return Colors.white;
+
+    case ThemeType.GlamLight:
+      return Colors.black;
+
+    default:
+      return theme.primaryColor;
+  }
+}
+
 Widget getThemeButton(context, ThemeType themeType) {
   Widget squareButton = Row(
     crossAxisAlignment: CrossAxisAlignment.center,
@@ -108,11 +126,11 @@ Widget getThemeButton(context, ThemeType themeType) {
       return squareButton;
 
     case ThemeType.GlamMinimalLight:
-      return SquareButton(width: 180.sp, text: (AppLocalizations.of(context)?.bookNow ?? "Book Now").toUpperCase(), height: 60.h, showSuffix: false, onTap: () {} // => const BookingDialogWidget222().show(context),
+      return SquareButton(borderColor: Colors.transparent, buttonColor: const Color(0XFF000000), width: 180.sp, text: (AppLocalizations.of(context)?.bookNow ?? "Book Now").toUpperCase(), weight: FontWeight.normal, textColor: const Color(0XFFFFFFFF), height: 60.h, showSuffix: false, onTap: () {} // => const BookingDialogWidget222().show(context),
           );
 
     case ThemeType.GlamMinimalDark:
-      return SquareButton(width: 180.sp, text: (AppLocalizations.of(context)?.bookNow ?? "Book Now").toUpperCase(), height: 60.h, showSuffix: false, onTap: () {} // => const BookingDialogWidget222().show(context),
+      return SquareButton(borderColor: Colors.transparent, buttonColor: const Color(0XFFFFFFFF), width: 180.sp, text: (AppLocalizations.of(context)?.bookNow ?? "Book Now").toUpperCase(), weight: FontWeight.normal, textColor: const Color(0XFF000000), height: 60.h, showSuffix: false, onTap: () {} // => const BookingDialogWidget222().show(context),
           );
 
     default:

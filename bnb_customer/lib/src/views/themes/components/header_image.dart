@@ -34,7 +34,7 @@ Widget background(ThemeType themeType, SalonModel salon, SalonProfileProvider sa
     case ThemeType.GlamMinimalDark:
       return const FilteredAssetImage(
         image: ThemeImages.minimalBackground,
-        opacity: 0.55,
+        opacity: 0.5,
       );
 
     case ThemeType.GlamMinimalLight:

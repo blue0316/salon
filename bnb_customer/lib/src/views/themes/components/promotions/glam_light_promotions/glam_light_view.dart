@@ -45,7 +45,7 @@ class _GlamLightPromotionsState extends ConsumerState<GlamLightPromotions> {
               Text(
                 (AppLocalizations.of(context)?.promotions ?? 'Promotions').toUpperCase(),
                 style: theme.textTheme.displayMedium?.copyWith(
-                  fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                  fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 45.sp, 65.sp),
                 ),
               ),
               if (!isTab)

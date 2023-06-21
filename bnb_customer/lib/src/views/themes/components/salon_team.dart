@@ -189,7 +189,7 @@ class TeamMember extends ConsumerWidget {
                 children: [
                   avatar(themeType, image),
 
-                  const SizedBox(height: 15),
+                  SizedBox(height: 15.sp),
                   Text(
                     name ?? '',
                     style: theme.textTheme.bodyLarge?.copyWith(
@@ -209,7 +209,7 @@ class TeamMember extends ConsumerWidget {
               ),
             ),
           ),
-          const SizedBox(height: 5),
+          SizedBox(height: 5.sp),
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -286,8 +286,8 @@ class RectangleTeamAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,
-      width: 100,
+      height: 100.sp,
+      width: 100.sp,
       decoration: const BoxDecoration(
         color: AppTheme.white, // coolGrey,
       ),

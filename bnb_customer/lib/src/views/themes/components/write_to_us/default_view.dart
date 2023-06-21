@@ -48,26 +48,26 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              (AppLocalizations.of(context)?.weWillHelpYou ?? "We will help you").toUpperCase(),
+              'write to us and ${(AppLocalizations.of(context)?.weWillHelpYou ?? "We will help you")} ${AppLocalizations.of(context)?.decideOnTheService ?? "decide on the service"}'.toUpperCase(),
               textAlign: TextAlign.center,
               style: theme.textTheme.displayMedium?.copyWith(
                 color: theme.colorScheme.secondary,
                 fontWeight: FontWeight.w500,
-                fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 45.sp, 65.sp),
+                fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 35.sp, 55.sp),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 0), // 80.w),
-              child: Text(
-                (AppLocalizations.of(context)?.decideOnTheService ?? "decide on the service").toUpperCase(),
-                textAlign: TextAlign.center,
-                style: theme.textTheme.displayMedium?.copyWith(
-                  color: theme.colorScheme.secondary,
-                  fontWeight: FontWeight.w500,
-                  fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 45.sp, 65.sp),
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.only(left: 0), // 80.w),
+            //   child: Text(
+            //     (AppLocalizations.of(context)?.decideOnTheService ?? "decide on the service").toUpperCase(),
+            //     textAlign: TextAlign.center,
+            //     style: theme.textTheme.displayMedium?.copyWith(
+            //       color: theme.colorScheme.secondary,
+            //       fontWeight: FontWeight.w500,
+            //       fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 35.sp, 55.sp),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
 
@@ -87,7 +87,7 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
         //       ),
         //     ),
         //   ),
-        const SizedBox(height: 60),
+        SizedBox(height: 60.sp),
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -116,7 +116,7 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
               ),
             Flexible(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: (!isPortrait && !isLandScape) ? 20.w : 10),
+                padding: EdgeInsets.symmetric(horizontal: (!isPortrait && !isLandScape) ? 20.w : 10.sp),
                 child: Column(
                   children: [
                     SizedBox(
@@ -158,15 +158,21 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
                                 Container(
                                   height: 50.sp,
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.black, width: 1),
-                                    borderRadius: BorderRadius.circular(50.sp),
+                                    border: Border.all(
+                                      color: (themeType == ThemeType.GlamBarbershop || themeType == ThemeType.Barbershop) ? Colors.white : Colors.black,
+                                      width: 1,
+                                    ),
+                                    borderRadius: (themeType == ThemeType.GlamBarbershop || themeType == ThemeType.Barbershop) ? null : BorderRadius.circular(50.sp),
                                   ),
                                   child: Center(
                                     child: TextFormField(
                                       controller: _salonProfileProvider.nameController,
                                       decoration: InputDecoration(
                                         hintText: (AppLocalizations.of(context)?.name ?? "Name").toCapitalized(), // "Name",
-                                        hintStyle: const TextStyle(color: Color(0XFF333333), fontWeight: FontWeight.w400),
+                                        hintStyle: TextStyle(
+                                          color: (themeType == ThemeType.GlamBarbershop || themeType == ThemeType.Barbershop) ? const Color(0XFF787878) : const Color(0XFF333333),
+                                          fontWeight: FontWeight.w400,
+                                        ),
                                         contentPadding: EdgeInsets.only(left: 30.sp, right: 30.sp, bottom: 10.sp),
                                         border: InputBorder.none,
                                         focusedBorder: InputBorder.none,
@@ -211,15 +217,21 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
                                 Container(
                                   height: 50.sp,
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.black, width: 1),
-                                    borderRadius: BorderRadius.circular(50.sp),
+                                    border: Border.all(
+                                      color: (themeType == ThemeType.GlamBarbershop || themeType == ThemeType.Barbershop) ? Colors.white : Colors.black,
+                                      width: 1,
+                                    ),
+                                    borderRadius: (themeType == ThemeType.GlamBarbershop || themeType == ThemeType.Barbershop) ? null : BorderRadius.circular(50.sp),
                                   ),
                                   child: Center(
                                     child: TextFormField(
                                       controller: _salonProfileProvider.phoneController,
                                       decoration: InputDecoration(
                                         hintText: (AppLocalizations.of(context)?.phone ?? "Phone").toCapitalized(), // "Phone",
-                                        hintStyle: const TextStyle(color: Color(0XFF333333), fontWeight: FontWeight.w400),
+                                        hintStyle: TextStyle(
+                                          color: (themeType == ThemeType.GlamBarbershop || themeType == ThemeType.Barbershop) ? const Color(0XFF787878) : const Color(0XFF333333),
+                                          fontWeight: FontWeight.w400,
+                                        ),
                                         contentPadding: EdgeInsets.only(left: 30.sp, right: 30.sp, bottom: 10.sp),
                                         border: InputBorder.none,
                                         focusedBorder: InputBorder.none,
@@ -264,15 +276,21 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
                                 Container(
                                   height: 50.sp,
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.black, width: 1),
-                                    borderRadius: BorderRadius.circular(50.sp),
+                                    border: Border.all(
+                                      color: (themeType == ThemeType.GlamBarbershop || themeType == ThemeType.Barbershop) ? Colors.white : Colors.black,
+                                      width: 1,
+                                    ),
+                                    borderRadius: (themeType == ThemeType.GlamBarbershop || themeType == ThemeType.Barbershop) ? null : BorderRadius.circular(50.sp),
                                   ),
                                   child: Center(
                                     child: TextFormField(
                                       controller: _salonProfileProvider.requestController,
                                       decoration: InputDecoration(
                                         hintText: (AppLocalizations.of(context)?.request ?? "Request").toCapitalized(), // "Email",
-                                        hintStyle: const TextStyle(color: Color(0XFF333333), fontWeight: FontWeight.w400),
+                                        hintStyle: TextStyle(
+                                          color: (themeType == ThemeType.GlamBarbershop || themeType == ThemeType.Barbershop) ? const Color(0XFF787878) : const Color(0XFF333333),
+                                          fontWeight: FontWeight.w400,
+                                        ),
                                         contentPadding: EdgeInsets.only(left: 30.sp, right: 30.sp, bottom: 10.sp),
                                         border: InputBorder.none,
                                         focusedBorder: InputBorder.none,
@@ -314,7 +332,8 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
                                   buttonColor: theme.primaryColorDark,
                                   borderColor: theme.primaryColorDark,
                                   borderRadius: (themeType == ThemeType.GlamBarbershop || themeType == ThemeType.Barbershop) ? 0 : 25,
-                                  textColor: Colors.white, showSuffix: false,
+                                  textColor: (themeType == ThemeType.GlamBarbershop || themeType == ThemeType.Barbershop) ? Colors.black : Colors.white,
+                                  showSuffix: (themeType == ThemeType.GlamBarbershop || themeType == ThemeType.Barbershop) ? true : false,
                                   weight: FontWeight.normal,
                                 ),
                     ),
