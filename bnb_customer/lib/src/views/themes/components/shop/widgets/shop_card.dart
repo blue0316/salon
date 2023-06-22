@@ -25,7 +25,7 @@ class ShopCard extends ConsumerWidget {
         // color: Colors.orange,
         width: DeviceConstraints.getResponsiveSize(
           context,
-          size / 1.2.sp,
+          size / 1.5.sp,
           size / 2.3.sp,
           70.w,
         ),
@@ -43,7 +43,7 @@ class ShopCard extends ConsumerWidget {
                 // height: 300.h,
                 width: DeviceConstraints.getResponsiveSize(
                   context,
-                  size / 1.2.sp,
+                  size / 1.5.sp,
                   size / 2.3.sp,
                   70.w,
                 ),
