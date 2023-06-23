@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
 
+import 'package:intl/intl.dart';
+
 class Payment extends StatefulWidget {
   static const route = "/payment";
   const Payment({Key? key}) : super(key: key);
@@ -17,20 +19,21 @@ class Payment extends StatefulWidget {
 class _PaymentState extends State<Payment> {
   final IFrameElement _iframeElement = IFrameElement();
   DateTime timeNow = DateTime.now();
+  var formatter = DateFormat('dd-MM-yyyy:hh:mm:ss:Ms');
   var hash;
   @override
   void initState() {
     super.initState();
     // TERMINALID:ORDERID:AMOUNT:DATETIME:SECRET
 // bnbUkraine20211!
-    var bytesToHash = utf8
-        .encode("5363001:0001:325.56:23-6-2023:10:43:01:673:bnbUkraine20211!");
+    var bytesToHash = utf8.encode(
+        "5363001:0001:325.56:${formatter.format(timeNow)}:bnbUkraine20211!");
     hash = sha512.convert(bytesToHash);
-    print(hash);
+    // print();
     _iframeElement.style.height = '100%';
     _iframeElement.style.width = '100%';
     _iframeElement.src =
-        'https://testpayments.worldnettps.com/merchant/paymentpage?TERMINALID=5363001&ORDERID=0001&AMOUNT=325.56&DATETIME=23-6-2023:10:43:01:673&HASH=$hash&CURRENCY=USD';
+        'https://testpayments.worldnettps.com/merchant/paymentpage?TERMINALID=5363001&ORDERID=0001&AMOUNT=325.56&DATETIME=${formatter.format(timeNow)}&HASH=$hash&CURRENCY=USD';
     _iframeElement.style.border = 'none';
     _iframeElement.style.border = 'none';
 
