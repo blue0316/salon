@@ -3,6 +3,8 @@
 import 'dart:html';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
+import 'package:crypto/crypto.dart';
+import 'dart:convert';
 
 class Payment extends StatefulWidget {
   static const route = "/payment";
@@ -14,15 +16,21 @@ class Payment extends StatefulWidget {
 
 class _PaymentState extends State<Payment> {
   final IFrameElement _iframeElement = IFrameElement();
+  DateTime timeNow = DateTime.now();
+  var hash;
   @override
   void initState() {
     super.initState();
+    // TERMINALID:ORDERID:AMOUNT:DATETIME:SECRET
+// bnbUkraine20211!
+    var bytesToHash = utf8
+        .encode("5363001:0001:325.56:23-6-2023:10:43:01:673:bnbUkraine20211!");
+    hash = sha512.convert(bytesToHash);
+    print(hash);
     _iframeElement.style.height = '100%';
     _iframeElement.style.width = '100%';
     _iframeElement.src =
-
-        // incase of next time if A' keep on showing beside an embedded link....open the file from your local host on chrome..if the A doesn't show..redownload it from chrome itself ..then open the file on vscode remove all the links to personal computer..then upload this new file to firebase
-        'https://testpayments.worldnettps.com/merchant/paymentpage?TERMINALID=4872001&ORDERID=123467&CURRENCY=USD&AMOUNT=25.00&DATETIME=21-07-2022:20:19:09:981&HASH=df9&SECURECARDMERCHANTREF=151516&INIFRAME=';
+        'https://testpayments.worldnettps.com/merchant/paymentpage?TERMINALID=5363001&ORDERID=0001&AMOUNT=325.56&DATETIME=23-6-2023:10:43:01:673&HASH=$hash&CURRENCY=USD';
     _iframeElement.style.border = 'none';
     _iframeElement.style.border = 'none';
 
