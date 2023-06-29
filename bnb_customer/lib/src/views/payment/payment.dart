@@ -15,7 +15,13 @@ class Payment extends StatefulWidget {
   String? transactionId;
 
   static const route = "/payment";
-  Payment({Key? key, this.amount = "325.56", this.currency = "USD", this.transactionId, this.terminalId = "5363001"}) : super(key: key);
+  Payment(
+      {Key? key,
+      this.amount = "325.56",
+      this.currency = "USD",
+      this.transactionId,
+      this.terminalId = "5363001"})
+      : super(key: key);
 
   @override
   State<Payment> createState() => _PaymentState();
@@ -31,12 +37,14 @@ class _PaymentState extends State<Payment> {
     super.initState();
     // TERMINALID:ORDERID:AMOUNT:DATETIME:SECRET
 // bnbUkraine20211!
-    var bytesToHash = utf8.encode("${widget.terminalId ?? "5363001"}:${widget.transactionId ?? "${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}"}:${widget.amount ?? "325.56"}:${formatter.format(timeNow)}:bnbUkraine20211!");
+    var bytesToHash = utf8.encode(
+        "${widget.terminalId ?? "5363001"}:${widget.transactionId ?? "${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}"}:${widget.amount ?? "325.56"}:${formatter.format(timeNow)}:bnbUkraine20211!");
     hash = sha512.convert(bytesToHash);
     // print();
     _iframeElement.style.height = '100%';
     _iframeElement.style.width = '100%';
-    _iframeElement.src = 'https://testpayments.worldnettps.com/merchant/paymentpage?TERMINALID=5363001&ORDERID=0001&AMOUNT=325.56&DATETIME=${formatter.format(timeNow)}&HASH=$hash&CURRENCY=USD';
+    _iframeElement.src =
+        'https://testpayments.worldnettps.com/merchant/paymentpage?TERMINALID=${widget.terminalId ?? "5363001"}&ORDERID=${widget.transactionId ?? "${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}"}&AMOUNT=${widget.amount ?? "325.56"}&DATETIME=${formatter.format(timeNow)}&HASH=$hash&CURRENCY=${widget.currency ?? "USD"}';
     _iframeElement.style.border = 'none';
     _iframeElement.style.border = 'none';
 
@@ -57,15 +65,7 @@ class _PaymentState extends State<Payment> {
     return SizedBox(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
-      child: Column(
-        children: [
-          GestureDetector(
-            onTap: () => Navigator.pop(context),
-            child: const Icon(Icons.arrow_back_rounded, color: Colors.green),
-          ),
-          _iframeWidget,
-        ],
-      ),
+      child: _iframeWidget,
     );
   }
 }
