@@ -12,15 +12,14 @@ class Payment extends StatefulWidget {
   String? amount;
   String? currency;
   String? terminalId;
-  String? appointmentId;
-  String? redirectionURL;
+  String? transactionId;
+
   static const route = "/payment";
   Payment(
       {Key? key,
       this.amount = "325.56",
       this.currency = "USD",
-      this.redirectionURL = "www.bowandbeautiful.com",
-      this.appointmentId = "0001",
+      this.transactionId,
       this.terminalId = "5363001"})
       : super(key: key);
 
@@ -39,13 +38,13 @@ class _PaymentState extends State<Payment> {
     // TERMINALID:ORDERID:AMOUNT:DATETIME:SECRET
 // bnbUkraine20211!
     var bytesToHash = utf8.encode(
-        "${widget.terminalId}:${widget.appointmentId}:${widget.amount}:${formatter.format(timeNow)}:bnbUkraine20211!");
+        "${widget.terminalId ?? "5363001"}:${widget.transactionId ?? "${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}"}:${widget.amount ?? "325.56"}:${formatter.format(timeNow)}:bnbUkraine20211!");
     hash = sha512.convert(bytesToHash);
     // print();
     _iframeElement.style.height = '100%';
     _iframeElement.style.width = '100%';
     _iframeElement.src =
-        'https://testpayments.worldnettps.com/merchant/paymentpage?TERMINALID=5363001&ORDERID=0001&AMOUNT=325.56&DATETIME=${formatter.format(timeNow)}&HASH=$hash&CURRENCY=USD&RECEIPTPAGEURL=';
+        'https://testpayments.worldnettps.com/merchant/paymentpage?TERMINALID=${widget.terminalId ?? "5363001"}&ORDERID=${widget.transactionId ?? "${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}"}&AMOUNT=${widget.amount ?? "325.56"}&DATETIME=${formatter.format(timeNow)}&HASH=$hash&CURRENCY=${widget.currency ?? "USD"}';
     _iframeElement.style.border = 'none';
     _iframeElement.style.border = 'none';
 

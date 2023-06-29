@@ -104,20 +104,25 @@ final GoRouter router = GoRouter(
       path: Payment.route,
       name: Payment.route,
       pageBuilder: (context, state) {
-        final String amount = state.queryParams['amount'] as String;
-        final String currency = state.queryParams['currency'] as String;
-        final String redirectionURL =
-            state.queryParams['redirectionURL'] as String;
-        final String appointmentId =
-            state.queryParams['appointmentId'] as String;
-        final String terminalId = state.queryParams['terminalId'] as String;
+        final String? amount = state.queryParams['amount'] == null
+            ? "325.56"
+            : state.queryParams['amount'] as String;
+        final String? currency = state.queryParams['currency'] == null
+            ? "USD"
+            : state.queryParams['currency'] as String;
+        DateTime timeNow = DateTime.now();
+        final String? transactionId = state.queryParams['transactionId'] == null
+            ? "${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}"
+            : state.queryParams['transactionId'] as String;
+        final String? terminalId = state.queryParams['terminalId'] == null
+            ? "5363001"
+            : state.queryParams['terminalId'] as String;
         return MaterialPage(
             key: state.pageKey,
             child: Payment(
               amount: amount,
               currency: currency,
-              redirectionURL: redirectionURL,
-              appointmentId: appointmentId,
+              transactionId: transactionId,
               terminalId: terminalId,
             ));
       },
