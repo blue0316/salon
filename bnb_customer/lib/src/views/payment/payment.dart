@@ -9,8 +9,20 @@ import 'dart:convert';
 import 'package:intl/intl.dart';
 
 class Payment extends StatefulWidget {
+  String? amount;
+  String? currency;
+  String? terminalId;
+  String? appointmentId;
+  String? redirectionURL;
   static const route = "/payment";
-  const Payment({Key? key}) : super(key: key);
+  Payment(
+      {Key? key,
+      this.amount = "325.56",
+      this.currency = "USD",
+      this.redirectionURL = "www.bowandbeautiful.com",
+      this.appointmentId = "0001",
+      this.terminalId = "5363001"})
+      : super(key: key);
 
   @override
   State<Payment> createState() => _PaymentState();
@@ -27,13 +39,13 @@ class _PaymentState extends State<Payment> {
     // TERMINALID:ORDERID:AMOUNT:DATETIME:SECRET
 // bnbUkraine20211!
     var bytesToHash = utf8.encode(
-        "5363001:0001:325.56:${formatter.format(timeNow)}:bnbUkraine20211!");
+        "${widget.terminalId}:${widget.appointmentId}:${widget.amount}:${formatter.format(timeNow)}:bnbUkraine20211!");
     hash = sha512.convert(bytesToHash);
     // print();
     _iframeElement.style.height = '100%';
     _iframeElement.style.width = '100%';
     _iframeElement.src =
-        'https://testpayments.worldnettps.com/merchant/paymentpage?TERMINALID=5363001&ORDERID=0001&AMOUNT=325.56&DATETIME=${formatter.format(timeNow)}&HASH=$hash&CURRENCY=USD';
+        'https://testpayments.worldnettps.com/merchant/paymentpage?TERMINALID=5363001&ORDERID=0001&AMOUNT=325.56&DATETIME=${formatter.format(timeNow)}&HASH=$hash&CURRENCY=USD&RECEIPTPAGEURL=';
     _iframeElement.style.border = 'none';
     _iframeElement.style.border = 'none';
 

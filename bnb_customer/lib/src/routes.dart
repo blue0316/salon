@@ -95,13 +95,32 @@ final GoRouter router = GoRouter(
     /// privacy
     GoRoute(
       path: EasyWebDemo.route,
-      pageBuilder: (context, state) => MaterialPage(key: state.pageKey, child: const NewTEst()),
+      pageBuilder: (context, state) =>
+          MaterialPage(key: state.pageKey, child: const NewTEst()),
     ),
 
     /// privacy
     GoRoute(
       path: Payment.route,
-      pageBuilder: (context, state) => MaterialPage(key: state.pageKey, child: const Payment()),
+      name: Payment.route,
+      pageBuilder: (context, state) {
+        final String amount = state.queryParams['amount'] as String;
+        final String currency = state.queryParams['currency'] as String;
+        final String redirectionURL =
+            state.queryParams['redirectionURL'] as String;
+        final String appointmentId =
+            state.queryParams['appointmentId'] as String;
+        final String terminalId = state.queryParams['terminalId'] as String;
+        return MaterialPage(
+            key: state.pageKey,
+            child: Payment(
+              amount: amount,
+              currency: currency,
+              redirectionURL: redirectionURL,
+              appointmentId: appointmentId,
+              terminalId: terminalId,
+            ));
+      },
     ),
 
     /// home/salon for either master or salonOwner
@@ -132,10 +151,12 @@ final GoRouter router = GoRouter(
               final provider = Provider((ref) async {
                 // use ref to obtain other providers
                 final repository = ref.watch(bnbProvider);
-                repository.changeLocale(locale: Locale(state.queryParams['locale']!.toString()));
+                repository.changeLocale(
+                    locale: Locale(state.queryParams['locale']!.toString()));
                 debugPrint("id 2 dey here oo" + id2);
                 if (id2 != "") {
-                  repository.retrieveSalonMasterModel(state.queryParams['id2']!.toString());
+                  repository.retrieveSalonMasterModel(
+                      state.queryParams['id2']!.toString());
                   salonMaster = repository.getCurrenMaster;
                   debugPrint(repository.getCurrenMaster);
                 }
@@ -198,7 +219,9 @@ class ErrorScreen extends StatelessWidget {
   final String? error;
   final Color? backgroundColor, textColor;
 
-  const ErrorScreen({Key? key, this.error, this.backgroundColor, this.textColor}) : super(key: key);
+  const ErrorScreen(
+      {Key? key, this.error, this.backgroundColor, this.textColor})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
