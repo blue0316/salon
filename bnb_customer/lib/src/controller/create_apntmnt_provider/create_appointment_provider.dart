@@ -2853,7 +2853,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   }
 
   /// model for single service
-  AppointmentModel _createAppointmentModel({required CustomerModel customer}) {
+  AppointmentModel _createAppointmentModel({required CustomerModel customer, required String transactionId}) {
     ///creating all the required variables
     const String _type = AppointmentType.reservation;
     //updating the latest update
@@ -2955,6 +2955,7 @@ class CreateAppointmentProvider with ChangeNotifier {
       subStatus: _start.difference(DateTime.now()).inHours < 24 ? ActiveAppointmentSubStatus.confirmed : ActiveAppointmentSubStatus.unConfirmed,
       priceAndDuration: _priceAndDuration,
       paymentInfo: _paymentInfo,
+      transactionId: transactionId,
     );
   }
 
@@ -3030,7 +3031,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   // }
 
   ///model for multiple service block
-  AppointmentModel _createMultipleServiceAppointmentModel({required CustomerModel customer}) {
+  AppointmentModel _createMultipleServiceAppointmentModel({required CustomerModel customer, required String transactionId}) {
     ///creating all the required variables
     const String _type = AppointmentType.reservation;
     //updating the latest update
@@ -3142,6 +3143,7 @@ class CreateAppointmentProvider with ChangeNotifier {
       subStatus: _start.difference(DateTime.now()).inHours < 24 ? ActiveAppointmentSubStatus.confirmed : ActiveAppointmentSubStatus.unConfirmed,
       priceAndDuration: _priceAndDuration,
       paymentInfo: _paymentInfo,
+      transactionId: transactionId,
     );
   }
 
@@ -3242,7 +3244,10 @@ class CreateAppointmentProvider with ChangeNotifier {
 
     ServiceModel selectedService = chosenServices[0];
 
-    final AppointmentModel _appointment = _createAppointmentModel(customer: customer);
+    final AppointmentModel _appointment = _createAppointmentModel(
+      customer: customer,
+      transactionId: transactionId,
+    );
     //   //booking failed
     //  if (_appointment == null) {
     //     bookAppointmentStatus = false;
@@ -3431,6 +3436,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 
     final AppointmentModel _appointment = _createMultipleServiceAppointmentModel(
       customer: customer,
+      transactionId: transactionId,
     );
     // //booking failed
     // if (_appointment == null) {

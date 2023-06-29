@@ -2,6 +2,7 @@ class TransactionModel {
   late DateTime timeInitiated;
   late String amount;
   late String? transactionId; // SAME AS DOC ID
+  late String? responseCode; // SAME AS DOC ID
 
   TransactionModel({
     required this.timeInitiated,
@@ -13,6 +14,7 @@ class TransactionModel {
     timeInitiated = json['timeInitiated'].toDate();
     amount = json['amount'];
     transactionId = json['transactionId'];
+    responseCode = json['RESPONSECODE'];
   }
 
   Map<String, dynamic> toJson() {
@@ -20,6 +22,7 @@ class TransactionModel {
     data['timeInitiated'] = timeInitiated;
     data['amount'] = amount;
     data['transactionId'] = transactionId;
+    data['RESPONSECODE'] = responseCode;
 
     return data;
   }
