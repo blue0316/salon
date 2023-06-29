@@ -2,10 +2,12 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
+import 'package:bbblient/src/firebase/transaction.dart';
 import 'package:bbblient/src/models/cat_sub_service/price_and_duration.dart';
 import 'package:bbblient/src/models/customer/customer.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
+import 'package:bbblient/src/models/transaction.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/time.dart';
 import 'package:bbblient/src/views/payment/payment.dart';
@@ -297,6 +299,14 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                   // }
 
                   // const ConfirmedDialog().show(context);
+
+                  // ---------------------------- +++++++++++++++ ----------------------------
+                  final TransactionModel newTransaction = TransactionModel(
+                    amount: _createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '0',
+                    timeInitiated: DateTime.now(),
+                  );
+
+                  await TransactionApi().createTransaction(newTransaction);
 
                   js.context.callMethod(
                     'open',
