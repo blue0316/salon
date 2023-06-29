@@ -67,7 +67,7 @@ final GoRouter router = GoRouter(
       path: "/thank-you",
       name: "/thank-you",
       pageBuilder: (context, state) {
-        final String query = state.queryParams['responseCode'] as String;
+        final String query = state.queryParams['RESPONSECODE'] as String;
         return MaterialPage(
           child: ThankYou(
             responseCode: query,
