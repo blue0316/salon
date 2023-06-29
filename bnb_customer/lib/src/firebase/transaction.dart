@@ -1,4 +1,5 @@
 import 'package:bbblient/src/firebase/collections.dart';
+import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/transaction.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -29,13 +30,18 @@ class TransactionApi {
   }
 
   Stream<List<TransactionModel>> streamTransaction(String id) {
-    return Collection.transactions.where("transactionId", isEqualTo: id).limit(1).snapshots().map((snapShot) {
+    return Collection.transactions
+        .where("transactionId", isEqualTo: id)
+        .limit(1)
+        .snapshots()
+        .map((snapShot) {
       List<TransactionModel> allTransactions = [];
 
       for (QueryDocumentSnapshot snap in snapShot.docs) {
         late TransactionModel? transactionModel;
         try {
-          transactionModel = TransactionModel.fromJson(snap.data() as Map<String, dynamic>);
+          transactionModel =
+              TransactionModel.fromJson(snap.data() as Map<String, dynamic>);
           transactionModel.transactionId = snap.id;
         } catch (e) {
           debugPrint('Error on streamTransaction() - $e');
@@ -46,5 +52,19 @@ class TransactionApi {
       }
       return allTransactions;
     });
+  }
+
+  Stream<List<AppointmentModel>> getAllAppointmentWithTransaction(
+      String? transactionId) {
+    return Collection.appointments
+        .where('transactionId', isEqualTo: transactionId)
+        .snapshots()
+        .map((snapShot) => snapShot.docs.map<AppointmentModel>((appointment) {
+              Map _temp = appointment.data() as Map<dynamic, dynamic>;
+
+              _temp['appointmentId'] = appointment.id;
+
+              return AppointmentModel.fromJson(_temp as Map<String, dynamic>);
+            }).toList());
   }
 }

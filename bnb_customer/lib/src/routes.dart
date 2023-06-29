@@ -68,9 +68,11 @@ final GoRouter router = GoRouter(
       name: ThankYou.route,
       pageBuilder: (context, state) {
         final String query = state.queryParams['RESPONSECODE'] as String;
+        final String transactionId = state.queryParams['ORDERID'] as String;
         return MaterialPage(
           child: ThankYou(
             responseCode: query,
+            transactionID: transactionId,
           ),
         );
       },
@@ -107,7 +109,7 @@ final GoRouter router = GoRouter(
             : state.queryParams['currency'] as String;
         DateTime timeNow = DateTime.now();
         final String? transactionId = state.queryParams['transactionId'] == null
-            ? "${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}"
+            ? "${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}AT"
             : state.queryParams['transactionId'] as String;
         final String? terminalId = state.queryParams['terminalId'] == null
             ? "5363001"
