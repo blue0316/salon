@@ -224,7 +224,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                 SizedBox(width: 10.sp),
                 GestureDetector(
                   onTap: () {
-                    const ThankYou().show(context);
+                    // const ThankYou().show(context);
                   },
                   child: Text(
                     'Important Information',

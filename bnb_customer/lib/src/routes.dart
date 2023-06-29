@@ -20,6 +20,8 @@ import 'as.dart';
 import 'utils/analytics.dart';
 import 'dart:html' as html;
 
+import 'views/salon/booking/thank_you.dart';
+
 final GoRouter router = GoRouter(
   debugLogDiagnostics: kDebugMode,
   urlPathStrategy: UrlPathStrategy.path,
@@ -47,26 +49,6 @@ final GoRouter router = GoRouter(
   },
   initialLocation: NavigatorPage.route,
   routes: [
-    GoRoute(
-      path: '/test123',
-      name: '/test123',
-      pageBuilder: (context, state) {
-        return const MaterialPage(
-          child: AppointmentViewDetails22(),
-        );
-      },
-    ),
-
-    GoRoute(
-      path: '/test1234',
-      name: '/test1234',
-      pageBuilder: (context, state) {
-        return const MaterialPage(
-          child: AppointmentViewDetails222(),
-        );
-      },
-    ),
-
     // Appointments
     GoRoute(
       path: AppointmentViewDetails.route,
@@ -76,6 +58,19 @@ final GoRouter router = GoRouter(
         return MaterialPage(
           child: AppointmentViewDetails(
             appointmentDocId: query,
+          ),
+        );
+      },
+    ),
+
+    GoRoute(
+      path: "/thank-you",
+      name: "/thank-you",
+      pageBuilder: (context, state) {
+        final String query = state.queryParams['responseCode'] as String;
+        return MaterialPage(
+          child: ThankYou(
+            responseCode: query,
           ),
         );
       },
@@ -95,28 +90,19 @@ final GoRouter router = GoRouter(
     /// privacy
     GoRoute(
       path: EasyWebDemo.route,
-      pageBuilder: (context, state) =>
-          MaterialPage(key: state.pageKey, child: const NewTEst()),
+      pageBuilder: (context, state) => MaterialPage(key: state.pageKey, child: const NewTEst()),
     ),
 
-    /// privacy
+    /// payment
     GoRoute(
       path: Payment.route,
       name: Payment.route,
       pageBuilder: (context, state) {
-        final String? amount = state.queryParams['amount'] == null
-            ? "325.56"
-            : state.queryParams['amount'] as String;
-        final String? currency = state.queryParams['currency'] == null
-            ? "USD"
-            : state.queryParams['currency'] as String;
+        final String? amount = state.queryParams['amount'] == null ? "325.56" : state.queryParams['amount'] as String;
+        final String? currency = state.queryParams['currency'] == null ? "USD" : state.queryParams['currency'] as String;
         DateTime timeNow = DateTime.now();
-        final String? transactionId = state.queryParams['transactionId'] == null
-            ? "${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}"
-            : state.queryParams['transactionId'] as String;
-        final String? terminalId = state.queryParams['terminalId'] == null
-            ? "5363001"
-            : state.queryParams['terminalId'] as String;
+        final String? transactionId = state.queryParams['transactionId'] == null ? "${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}" : state.queryParams['transactionId'] as String;
+        final String? terminalId = state.queryParams['terminalId'] == null ? "5363001" : state.queryParams['terminalId'] as String;
         return MaterialPage(
             key: state.pageKey,
             child: Payment(
@@ -156,12 +142,10 @@ final GoRouter router = GoRouter(
               final provider = Provider((ref) async {
                 // use ref to obtain other providers
                 final repository = ref.watch(bnbProvider);
-                repository.changeLocale(
-                    locale: Locale(state.queryParams['locale']!.toString()));
+                repository.changeLocale(locale: Locale(state.queryParams['locale']!.toString()));
                 debugPrint("id 2 dey here oo" + id2);
                 if (id2 != "") {
-                  repository.retrieveSalonMasterModel(
-                      state.queryParams['id2']!.toString());
+                  repository.retrieveSalonMasterModel(state.queryParams['id2']!.toString());
                   salonMaster = repository.getCurrenMaster;
                   debugPrint(repository.getCurrenMaster);
                 }
@@ -224,9 +208,7 @@ class ErrorScreen extends StatelessWidget {
   final String? error;
   final Color? backgroundColor, textColor;
 
-  const ErrorScreen(
-      {Key? key, this.error, this.backgroundColor, this.textColor})
-      : super(key: key);
+  const ErrorScreen({Key? key, this.error, this.backgroundColor, this.textColor}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

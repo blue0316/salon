@@ -8,7 +8,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ThankYou<T> extends ConsumerStatefulWidget {
-  const ThankYou({Key? key}) : super(key: key);
+  final String responseCode;
+
+  const ThankYou({Key? key, required this.responseCode}) : super(key: key);
 
   Future<void> show(BuildContext context) async {
     await showDialog<T>(
@@ -78,11 +80,11 @@ class _ThankYouState extends ConsumerState<ThankYou> {
                 ),
                 const Spacer(),
                 SizedBox(
-                  width: 210.sp,
+                  width: 220.sp,
                   child: DefaultButton(
-                    height: 62.sp,
+                    height: 60.sp,
                     borderRadius: 60.sp,
-                    color: Colors.transparent,
+                    color: theme.dialogBackgroundColor,
                     borderColor: theme.colorScheme.tertiary.withOpacity(0.6),
                     label: 'View details',
                     fontWeight: FontWeight.w400,
