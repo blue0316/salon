@@ -63,6 +63,7 @@ dependencies:
   google_fonts: ^3.0.1
   dyn_mouse_scroll:
   google_maps_flutter: ^2.1.0
+  flutter_spinkit: ^5.2.0
   # google_maps_flutter_web: ^0.3.2+1
   image_cropper: ^1.4.1
   image_picker: ^0.8.4+3
