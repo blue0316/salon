@@ -1,25 +1,25 @@
 class TransactionModel {
   late DateTime timeInitiated;
   late String amount;
-  late String? docId;
+  late String? transactionId; // SAME AS DOC ID
 
   TransactionModel({
     required this.timeInitiated,
     required this.amount,
-    this.docId,
+    this.transactionId,
   });
 
   TransactionModel.fromJson(Map<String, dynamic> json) {
     timeInitiated = json['timeInitiated'].toDate();
     amount = json['amount'];
-    docId = json['docId'];
+    transactionId = json['transactionId'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     data['timeInitiated'] = timeInitiated;
     data['amount'] = amount;
-    data['docId'] = docId;
+    data['transactionId'] = transactionId;
 
     return data;
   }

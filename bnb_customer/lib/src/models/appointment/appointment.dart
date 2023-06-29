@@ -55,6 +55,9 @@ class AppointmentModel {
   ///for identifing the 3 appointments created (prep ,clean up and all)
   String? appointmentIdentifier;
 
+  // id of appointment transaction
+  String? transactionId;
+
   AppointmentModel({
     required this.appointmentStartTime,
     required this.appointmentEndTime,
@@ -87,6 +90,7 @@ class AppointmentModel {
     this.note,
     this.beautyProId,
     this.yClientsId,
+    this.transactionId,
   });
 
   AppointmentModel.fromJson(Map<String, dynamic> json) {
@@ -141,6 +145,7 @@ class AppointmentModel {
     salonReviewed = json['salonReviewed'] ?? false;
     beautyProId = json['beautyProId'];
     yClientsId = json['yClientsId'];
+    transactionId = json['transactionId'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
@@ -181,6 +186,7 @@ class AppointmentModel {
     data['salonReviewed'] = salonReviewed;
     data['beautyProId'] = beautyProId;
     data['yClientsId'] = yClientsId;
+    data['transactionId'] = transactionId;
 
     return data;
   }

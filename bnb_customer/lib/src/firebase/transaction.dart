@@ -17,7 +17,7 @@ class TransactionApi {
       DocumentReference _docRef;
 
       _docRef = Collection.transactions.doc();
-      transaction.docId = _docRef.id;
+      transaction.transactionId = _docRef.id;
 
       await _docRef.set(transaction.toJson());
 
@@ -28,21 +28,23 @@ class TransactionApi {
     }
   }
 
-  // Stream<List<TransactionModel>> readTicket(String uid) {
-  //   return FirebaseFirestore.instance
-  //       .collection("tickets")
-  //       .where(
-  //         "added_by",
-  //         isEqualTo: uid,
-  //       )
-  //       .limit(1)
-  //       .snapshots()
-  //       .map(
-  //         (querySnapshot) => querySnapshot.docs
-  //             .map(
-  //               (e) => TransactionModel.fromSnapshot(e),
-  //             )
-  //             .toList(),
-  //       );
-  // }
+  Stream<List<TransactionModel>> streamTransaction(String id) {
+    return Collection.transactions.where("transactionId", isEqualTo: id).limit(1).snapshots().map((snapShot) {
+      List<TransactionModel> allTransactions = [];
+
+      for (QueryDocumentSnapshot snap in snapShot.docs) {
+        late TransactionModel? transactionModel;
+        try {
+          transactionModel = TransactionModel.fromJson(snap.data() as Map<String, dynamic>);
+          transactionModel.transactionId = snap.id;
+        } catch (e) {
+          debugPrint('Error on streamTransaction() - $e');
+          rethrow;
+        }
+
+        allTransactions.add(transactionModel);
+      }
+      return allTransactions;
+    });
+  }
 }
