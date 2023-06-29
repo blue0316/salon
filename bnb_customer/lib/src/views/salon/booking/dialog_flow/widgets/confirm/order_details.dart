@@ -13,7 +13,7 @@ import 'package:bbblient/src/utils/time.dart';
 import 'package:bbblient/src/views/payment/payment.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/colors.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/day_and_time/day_and_time.dart';
-import 'package:bbblient/src/views/salon/booking/thank_you.dart';
+import 'package:bbblient/src/views/salon/booking/confirmation_success.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/buttons.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
@@ -22,6 +22,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:js' as js;
+import 'dart:html' as html;
 
 // ORDER LIST
 class OrderDetails extends ConsumerStatefulWidget {
@@ -294,14 +295,6 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                     referralLink: "",
                   );
 
-                  // if (_createAppointmentProvider.chosenServices.length > 1) {
-                  //   //call this single appointment service save function
-                  //   await _createAppointmentProvider.saveNewAppointmentForMultipleServices(customer: customer);
-                  // } else {
-                  //   //call multiple appointment service save option
-                  //   await _createAppointmentProvider.saveAppointment(customer: customer);
-                  // }
-
                   // const ConfirmedDialog().show(context);
 
                   // ---------------------------- +++++++++++++++ ----------------------------
@@ -313,6 +306,40 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                   );
 
                   String? transactionId = await TransactionApi().createTransaction(newTransaction);
+
+                  TransactionApi().streamTransaction(transactionId!).listen((event) async {
+                    for (TransactionModel transaction in event) {
+                      if (transaction.responseCode != null) {
+                        if (transaction.responseCode == 'A' || transaction.responseCode == 'E') {
+                          // Show Success Dialog
+                          html.window.open('https://yogasm.firebaseapp.com/confirmation?RESPONSECODE=${transaction.responseCode}', "_self");
+                          // Build Appointment
+                          if (_createAppointmentProvider.chosenServices.length > 1) {
+                            //call this single appointment service save function
+                            await _createAppointmentProvider.saveNewAppointmentForMultipleServices(
+                              customer: customer,
+                              transactionId: transactionId,
+                            );
+                          } else {
+                            //call multiple appointment service save option
+                            await _createAppointmentProvider.saveAppointment(
+                              customer: customer,
+                              transactionId: transactionId,
+                            );
+                          }
+                        }
+                        if (transaction.responseCode == 'D') {
+                          html.window.open('https://yogasm.firebaseapp.com/confirmationError?RESPONSECODE=${transaction.responseCode}', "_self");
+                        }
+                      }
+                    }
+                  });
+
+                  // A: Approval
+                  // E: Accepted (China Union Pay only)
+                  // D: Declined
+                  // R: Referral
+                  // C: Pick Up
 
                   setState(() => spinner = false);
 

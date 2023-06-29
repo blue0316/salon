@@ -20,7 +20,7 @@ import 'as.dart';
 import 'utils/analytics.dart';
 import 'dart:html' as html;
 
-import 'views/salon/booking/thank_you.dart';
+import 'views/salon/booking/confirmation_success.dart';
 
 final GoRouter router = GoRouter(
   debugLogDiagnostics: kDebugMode,
@@ -64,12 +64,25 @@ final GoRouter router = GoRouter(
     ),
 
     GoRoute(
-      path: ThankYou.route,
-      name: ThankYou.route,
+      path: ConfirmationSuccess.route,
+      name: ConfirmationSuccess.route,
       pageBuilder: (context, state) {
         final String query = state.queryParams['RESPONSECODE'] as String;
         return MaterialPage(
-          child: ThankYou(
+          child: ConfirmationSuccess(
+            responseCode: query,
+          ),
+        );
+      },
+    ),
+
+    GoRoute(
+      path: ConfirmationError.route,
+      name: ConfirmationError.route,
+      pageBuilder: (context, state) {
+        final String query = state.queryParams['RESPONSECODE'] as String;
+        return MaterialPage(
+          child: ConfirmationError(
             responseCode: query,
           ),
         );
