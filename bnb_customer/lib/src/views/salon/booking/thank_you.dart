@@ -8,6 +8,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ThankYou<T> extends ConsumerStatefulWidget {
+  static const route = "/confirmation";
+
   final String responseCode;
 
   const ThankYou({Key? key, required this.responseCode}) : super(key: key);

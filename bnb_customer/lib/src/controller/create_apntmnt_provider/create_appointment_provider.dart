@@ -3236,7 +3236,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   // }
 
   ///to save the appointment for single services selected
-  Future saveAppointment({required CustomerModel customer}) async {
+  Future saveAppointment({required CustomerModel customer, required String transactionId}) async {
     bookAppointmentStatus = Status.loading;
     notifyListeners();
 
@@ -3425,7 +3425,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   }
 
   ///saves appointments when service is more that one
-  Future saveNewAppointmentForMultipleServices({required CustomerModel customer}) async {
+  Future saveNewAppointmentForMultipleServices({required CustomerModel customer, required String transactionId}) async {
     bookAppointmentStatus = Status.loading;
     notifyListeners();
 

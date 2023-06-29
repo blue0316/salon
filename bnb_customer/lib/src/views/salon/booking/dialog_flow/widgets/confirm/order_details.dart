@@ -2,10 +2,12 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
+import 'package:bbblient/src/firebase/transaction.dart';
 import 'package:bbblient/src/models/cat_sub_service/price_and_duration.dart';
 import 'package:bbblient/src/models/customer/customer.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
+import 'package:bbblient/src/models/transaction.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/time.dart';
 import 'package:bbblient/src/views/payment/payment.dart';
@@ -34,6 +36,8 @@ class OrderDetails extends ConsumerStatefulWidget {
 class _OrderListState extends ConsumerState<OrderDetails> {
   bool acceptTerms = false;
 
+  bool spinner = false;
+
   @override
   Widget build(BuildContext context) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
@@ -51,6 +55,8 @@ class _OrderListState extends ConsumerState<OrderDetails> {
     TimeOfDay _endTime = _startTime.addMinutes(
       int.parse(_priceAndDuration.duration),
     );
+
+    String totalAmount = _priceAndDuration.price;
 
     return Column(
       children: [
@@ -103,7 +109,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
               ServiceNameAndPrice(
                 notService: true,
                 serviceName: 'Total:',
-                servicePrice: _createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '0',
+                servicePrice: totalAmount,
               ),
 
               const ServiceNameAndPrice(
@@ -298,9 +304,21 @@ class _OrderListState extends ConsumerState<OrderDetails> {
 
                   // const ConfirmedDialog().show(context);
 
+                  // ---------------------------- +++++++++++++++ ----------------------------
+                  setState(() => spinner = true);
+
+                  final TransactionModel newTransaction = TransactionModel(
+                    amount: totalAmount,
+                    timeInitiated: DateTime.now(),
+                  );
+
+                  String? transactionId = await TransactionApi().createTransaction(newTransaction);
+
+                  setState(() => spinner = false);
+
                   js.context.callMethod(
                     'open',
-                    ['https://yogasm.firebaseapp.com/payment'],
+                    ['https://yogasm.firebaseapp.com/payment?amount=$totalAmount&currency=USD&transactionId=$transactionId&terminalId=5363001'],
                   );
 
                   // https://yogasm.firebaseapp.com/appointments?id=mvEdvmbMxRjgwFrzIjao
@@ -339,8 +357,9 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                 color: dialogButtonColor(themeType, theme),
                 textColor: loaderColor(themeType),
                 height: 60,
-                label: 'Pay ${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '0'}\$ deposit',
-                isLoading: _createAppointmentProvider.bookAppointmentStatus == Status.loading,
+                label: 'Pay $totalAmount\$ deposit',
+                // isLoading: _createAppointmentProvider.bookAppointmentStatus == Status.loading,
+                isLoading: spinner,
                 loaderColor: loaderColor(themeType),
                 fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                 suffixIcon: Icon(
