@@ -30,16 +30,17 @@ class OTPField9 extends ConsumerWidget {
       cursorColor: theme.primaryColor,
       animationType: AnimationType.fade,
       textStyle: TextStyle(
-        fontFamily: "Montserrat",
-        fontSize: 20,
-        fontWeight: FontWeight.w500,
+        fontFamily: "Inter",
+        fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+        fontWeight: FontWeight.normal,
         color: color ?? theme.colorScheme.tertiary, // (defaultTheme ? AppTheme.black : Colors.white), // AppTheme.black,
       ),
       pinTheme: PinTheme(
-        shape: PinCodeFieldShape.box,
-        borderRadius: BorderRadius.circular(4),
-        fieldHeight: 36,
-        fieldWidth: 36,
+        shape: PinCodeFieldShape.underline,
+        // borderRadius: BorderRadius.circular(4),
+        fieldHeight: 36.sp,
+
+        fieldWidth: 36.sp,
         activeFillColor: color ?? theme.colorScheme.tertiary, // (defaultTheme ? Colors.black : Colors.white),
         inactiveColor: color ?? theme.colorScheme.tertiary, // (defaultTheme ? Colors.black : Colors.white),
         selectedColor: color ?? theme.colorScheme.tertiary, // (defaultTheme ? Colors.black : Colors.white),
@@ -59,65 +60,6 @@ class OTPField9 extends ConsumerWidget {
         //but you can show anything you want here, like your pop up saying wrong paste format or etc
         return true;
       },
-    );
-  }
-}
-
-class TermsOfServiceText extends ConsumerWidget {
-  const TermsOfServiceText({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
-
-    final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool defaultTheme = theme == AppTheme.customLightTheme;
-
-    return RichText(
-      text: TextSpan(
-        children: [
-          TextSpan(
-            text: '${AppLocalizations.of(context)?.termsOfService1 ?? 'We have updated our'} ',
-            style: theme.textTheme.bodyLarge!.copyWith(
-              fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
-              fontWeight: FontWeight.w500,
-              color: defaultTheme ? Colors.black : Colors.white,
-            ),
-          ),
-          TextSpan(
-            text: '${AppLocalizations.of(context)?.termsOfService ?? 'Terms of Service'} ',
-            style: theme.textTheme.bodyLarge!.copyWith(
-              fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
-              fontWeight: FontWeight.w600,
-              color: defaultTheme ? Colors.black : Colors.white,
-            ),
-          ),
-          TextSpan(
-            text: '${AppLocalizations.of(context)?.and ?? 'and'} ',
-            style: theme.textTheme.bodyLarge!.copyWith(
-              fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
-              fontWeight: FontWeight.w500,
-              color: defaultTheme ? Colors.black : Colors.white,
-            ),
-          ),
-          TextSpan(
-            text: '${AppLocalizations.of(context)?.policy ?? 'Privacy Policy'}. ',
-            style: theme.textTheme.bodyLarge!.copyWith(
-              fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
-              fontWeight: FontWeight.w600,
-              color: defaultTheme ? Colors.black : Colors.white,
-            ),
-          ),
-          TextSpan(
-            text: AppLocalizations.of(context)?.termsOfService2 ?? 'By continuining to use our service, you accept these terms and policies.',
-            style: theme.textTheme.bodyLarge!.copyWith(
-              fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
-              fontWeight: FontWeight.w500,
-              color: defaultTheme ? Colors.black : Colors.white,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

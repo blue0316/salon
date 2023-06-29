@@ -12,8 +12,10 @@ class DefaultButton extends ConsumerWidget {
   final bool isLoading;
   final Color? color, textColor, borderColor, loaderColor;
   final double height;
-  final double? borderRadius;
-  final Widget? prefixIcon;
+  final double? borderRadius, fontSize;
+  final Widget? prefixIcon, suffixIcon;
+  final FontWeight? fontWeight;
+  final bool noBorder;
 
   const DefaultButton({
     Key? key,
@@ -23,11 +25,16 @@ class DefaultButton extends ConsumerWidget {
     this.color,
     this.height = 60,
     this.borderRadius,
+    this.fontSize,
     this.textColor,
     this.borderColor,
     this.prefixIcon,
+    this.suffixIcon,
     this.loaderColor,
+    this.fontWeight,
+    this.noBorder = false,
   }) : super(key: key);
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
@@ -36,9 +43,7 @@ class DefaultButton extends ConsumerWidget {
     return MaterialButton(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(borderRadius ?? 8),
-        side: BorderSide(
-          color: borderColor ?? color ?? Colors.black,
-        ),
+        side: noBorder ? BorderSide.none : BorderSide(color: borderColor ?? color ?? Colors.black),
       ),
       height: height,
       // size.width - 94,
@@ -48,33 +53,31 @@ class DefaultButton extends ConsumerWidget {
       onPressed: onTap as void Function()?,
       child: isLoading
           ? CircularProgressIndicator(color: loaderColor)
-          : (prefixIcon != null)
-              ? Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    prefixIcon!,
-                    const SizedBox(width: 10),
-                    Text(
-                      label ?? "Sign up",
-                      textAlign: TextAlign.center,
-                      style: theme.textTheme.bodyLarge?.copyWith(
-                        color: textColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.sp,
-                      ),
-                    ),
-                  ],
-                )
-              : Text(
+          : Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (prefixIcon != null)
+                  Padding(
+                    padding: EdgeInsets.only(right: 10.sp),
+                    child: prefixIcon!,
+                  ),
+                Text(
                   label ?? "Sign up",
                   textAlign: TextAlign.center,
                   style: theme.textTheme.bodyLarge?.copyWith(
                     color: textColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.sp,
+                    fontWeight: fontWeight ?? FontWeight.w600,
+                    fontSize: fontSize ?? 20.sp,
                   ),
                 ),
+                if (suffixIcon != null)
+                  Padding(
+                    padding: EdgeInsets.only(left: 5.sp),
+                    child: suffixIcon!,
+                  ),
+              ],
+            ),
     );
   }
 }

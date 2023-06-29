@@ -214,7 +214,12 @@ class AppointmentApi {
   //blocks the master time
   Future blockMastersTime({required MasterModel master, required DateTime date, required String time, required int minutes}) async {
     try {
-      master.blockedTime = _generateBlockedTimeMap(blockedTime: master.blockedTime ?? {}, date: date, time: time, minutes: minutes);
+      master.blockedTime = _generateBlockedTimeMap(
+        blockedTime: master.blockedTime ?? {},
+        date: date,
+        time: time,
+        minutes: minutes,
+      );
       await MastersApi().updateMasterBlockTime(master);
       return 1;
     } catch (e) {
@@ -261,15 +266,12 @@ class AppointmentApi {
       await SalonApi().updateSalonBlockedTime(salon);
       return 1;
     } catch (e) {
-      printIt(e);
+      printIt('$e - blockSalonTime()');
       return null;
     }
   }
 
-  Future cancelSalonTime({
-    required AppointmentModel appointmentModel,
-    required SalonModel salon,
-  }) async {
+  Future cancelSalonTime({required AppointmentModel appointmentModel, required SalonModel salon}) async {
     try {
       SalonModel _salon = _removeBlockedSlotsSalon(appointmentModel, salon);
       await SalonApi().updateSalonBlockedTime(_salon);

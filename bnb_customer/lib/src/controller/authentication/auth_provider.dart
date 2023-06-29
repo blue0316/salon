@@ -654,13 +654,13 @@ class AuthProvider with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  void setCurrentCustomerWithoutOTP({required String firstName, required String email}) {
+  void setCurrentCustomerWithoutOTP({required String firstName, required String lastName, required String email}) {
     currentCustomerWithoutOTP = CustomerModel(
       customerId: phoneNoController.text,
       personalInfo: PersonalInfo(
         phone: phoneNoController.text,
         firstName: firstName,
-        lastName: '',
+        lastName: lastName,
         description: '',
         dob: DateTime.now().subtract(const Duration(days: 365 * 26)),
         email: email,

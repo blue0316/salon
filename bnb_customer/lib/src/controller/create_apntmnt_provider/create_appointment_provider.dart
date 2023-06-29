@@ -136,6 +136,9 @@ class CreateAppointmentProvider with ChangeNotifier {
   String? selectedAppointmentDuration;
   DateTime? appointmentDate;
   List<bool> isWorkingList = [];
+  MasterModel? chooseMasterForBooking; // Master selected on Date & Time view
+
+  Status bookAppointmentStatus = Status.init;
 
   initTimeOfDay() {
     var hour = DateTime.now().hour;
@@ -152,28 +155,32 @@ class CreateAppointmentProvider with ChangeNotifier {
   }
 
   initMastersAndTime() {
+    serviceableMasters.clear();
+    notifyListeners();
+
     serviceableMasters = getMultipleServiceableMasters(salonMasters);
 
     ///load price and duration of masters for multiple services
     loadMultiplePriceAndDuration();
     loadMasterView();
-    // loadDayView();
+    loadDayView();
   }
 
   // gets multiple serviceable master for new design
   getMultipleServiceableMasters(List<MasterModel> masters) {
     List<MasterModel> _tempMasters = [];
     for (MasterModel master in masters) {
-      if (chosenMaster != null) {
-        for (var services in chosenServices) {
-          if (chosenMaster!.serviceIds!.contains(services.serviceId) && _tempMasters.contains(master) == false) {
-            _tempMasters.add(master);
-          }
-        }
-      }
+      // if (chosenMaster != null) {
+      //   for (var services in chosenServices) {
+      //     if (chosenMaster!.serviceIds!.contains(services.serviceId) && _tempMasters.contains(master) == false) {
+      //       _tempMasters.add(master);
+      //     }
+      //   }
+      // }
 
       // Single Master
-      else if (chosenSalon!.ownerType == OwnerType.singleMaster) {
+      // else
+      if (chosenSalon!.ownerType == OwnerType.singleMaster) {
         for (var services in chosenServices) {
           if (master.serviceIds!.contains(services.serviceId)) {
             _tempMasters.add(master);
@@ -190,12 +197,17 @@ class CreateAppointmentProvider with ChangeNotifier {
       }
     }
 
+    // print('___----------******----------______');
+    // print(_tempMasters);
+    // print(_tempMasters.length);
+    // print('___----------******----------______');
+
     return _tempMasters.toList();
   }
 
   /// returns the all slots for master only
   /// different from getAvailablemasterslots
-  List<String>? getMasterSlots(MasterModel master) {
+  List<String>? getMasterSlotsFormer(MasterModel master) {
     Hours? workingHours;
     List<String> allSlotsMaster = [];
 
@@ -225,13 +237,196 @@ class CreateAppointmentProvider with ChangeNotifier {
     return allSlotsMaster;
   }
 
-  /// returns the slots for all masters
-  List<String>? getAllMasterSlots(MasterModel master, DateTime date) {
-    // final String dateKey = _time.getDateInStandardFormat(date);
+  List<String>? getMasterSlots(MasterModel master, DateTime date) {
+    final String dateKey = Time().getDateInStandardFormat(date);
+    if (master.irregularWorkingHours != null && master.irregularWorkingHours!.containsKey(dateKey)) {
+      Hours hours = master.irregularWorkingHours![dateKey]!;
+      if (hours.isWorking) {
+        return getAvailableSlots(
+          master.blockedTime,
+          date,
+          hours: hours,
+          irregularWorkingHours: master.irregularWorkingHours,
+          master: master,
+        );
+      }
+    }
 
-    if (master.irregularWorkingHours != null && master.irregularWorkingHours!.containsKey(date)) {
-      print('entered here 1');
-      Hours hours = master.irregularWorkingHours![DateFormat('yyyy-MM-dd').format(chosenDay).toString()]!;
+    var now = DateTime.now();
+    return date.isBefore(DateTime(now.year, now.month, now.day - 1, 11, 59, 59))
+        ? null
+        : getAvailableSlots(
+            master.blockedTime,
+            date,
+            workingHours: master.workingHours,
+            master: master,
+          );
+  }
+
+  List<String>? getAvailableSlots(Map<String, dynamic>? blockedTime, DateTime date, {WorkingHoursModel? workingHours, Hours? hours, MasterModel? master, Map<String, Hours>? irregularWorkingHours}) {
+    try {
+      DateTime currentTime = DateTime.now();
+      if (!date.isSameDate(currentTime) && date.isBefore(currentTime)) return null;
+
+      //if (date.isBefore(DateTime.now())) return null;
+
+      List<String> _availableSlots = [];
+
+      final String _dateKey = _time.getDateInStandardFormat(date);
+
+      Hours? _hours;
+      //selecting between WorkingHours and hours option
+      final bool _chooseIrregularHours = (irregularWorkingHours != null && irregularWorkingHours.containsKey(_dateKey) && irregularWorkingHours[_dateKey] != null && irregularWorkingHours[_dateKey]!.isWorking);
+      if (_chooseIrregularHours) {
+        final _dateKey = Time().getDateInStandardFormat(date);
+        _hours = irregularWorkingHours[_dateKey];
+        (_dateKey);
+        (_hours!.toJson().toString());
+      } else if (hours == null) {
+        // print('workking hhrs ${workingHours}');
+        _hours = _time.getRegularWorkingHoursFromDate(workingHours, date: date);
+      } else {
+        _hours = hours;
+      }
+      print('hours ${_hours}');
+
+      if (_hours == null || !_hours.isWorking) return null;
+
+      //computing start and end time acc to different parameters
+      TimeOfDay? _startTime;
+      TimeOfDay? _endTime;
+      if (_chooseIrregularHours) {
+        _startTime = _computeStartTime(_hours.startTime, date, master: master, irregular: true);
+      } else {
+        _startTime = _computeStartTime(_hours.startTime, date);
+      }
+
+      if (_chooseIrregularHours) {
+        _endTime = _computeEndTime(_hours.endTime, date, master: master, irregular: true);
+      } else {
+        _endTime = _computeEndTime(_hours.endTime, date);
+      }
+      //  retrieving all the available slots
+
+      Iterable<String> _slots = _time.generateTimeSlots(
+        _startTime,
+        _endTime,
+        timeSlotSizeDuration: chosenSalon!.timeSlotsInterval,
+      );
+
+      if (_slots.isEmpty) return null;
+      _availableSlots.addAll(_slots);
+
+      //removes the break time from the available slots
+      if (_hours.isBreakAvailable != null && _hours.isBreakAvailable == true) {
+        _time
+            .generateTimeSlots(
+          _time.stringToTime(_hours.breakStartTime),
+          _time.stringToTime(_hours.breakEndTime),
+          timeSlotSizeDuration: chosenSalon!.timeSlotsInterval,
+        )
+            .forEach((element) {
+          if (_availableSlots.contains(element)) _availableSlots.remove(element);
+        });
+      }
+
+      //removes all the pre-occupied slots
+
+      if (blockedTime != null && blockedTime.isNotEmpty && blockedTime[_dateKey] != null && blockedTime[_dateKey].isNotEmpty) {
+        blockedTime[_dateKey].forEach((slot) {
+          _availableSlots.remove(slot);
+        });
+      }
+      ('this slots ${_availableSlots.toList()}');
+      return (_availableSlots.isEmpty) ? null : _availableSlots.toList();
+    } catch (e) {
+      ('Error while generating slots');
+      (e);
+      return null;
+    }
+  }
+
+  /// computes the end time
+  /// by comparing following parameters : masterEndTime, salonEndTime
+  TimeOfDay? _computeEndTime(String? masterEndTime, DateTime date, {MasterModel? master, bool irregular = false}) {
+    try {
+      if (chosenSalon!.ownerType == OwnerType.singleMaster) return _time.stringToTime(masterEndTime!);
+
+      //getting salon timings
+      Hours? selectedSalonHours;
+      if (irregular) {
+        selectedSalonHours = _time.getMasterIrregularWorkingHours(
+          master!,
+          date: date,
+        )!;
+        // if it's still null then we reverted to old version
+        if (selectedSalonHours == null) {
+          selectedSalonHours = _time.getIrregularWorkingHours(
+            chosenSalon?.irregularWorkingHours,
+            date: date,
+          );
+        }
+      } else {
+        selectedSalonHours = _time.getRegularWorkingHoursFromDate(
+          chosenSalon?.workingHours,
+          weekDay: date.weekday,
+        )!;
+      }
+
+      if (!selectedSalonHours!.isWorking) return null;
+
+      TimeOfDay _salonEndTime = _time.stringToTime(selectedSalonHours.endTime);
+
+      TimeOfDay _masterEndTime = _time.stringToTime(masterEndTime!);
+
+      // computes the ending time by comparing master and salon starting time [master and salon fused timing]
+      return _time.getMinMaxTime(_salonEndTime, _masterEndTime, returnMaxTime: false);
+    } catch (e) {
+      ('error while generating end time');
+      (e);
+      return _time.stringToTime(masterEndTime!);
+    }
+  }
+
+  // -----%%%%%%%%%%%%%%%%%%@@@@@@@@@@@@@@@@@@@@@@@&&&&&&&&&&&&--------
+
+  // /// returns the slots for all masters
+  // List<String>? getAllMasterSlots(MasterModel master, DateTime date) {
+  //   // final String dateKey = _time.getDateInStandardFormat(date);
+
+  //   if (master.irregularWorkingHours != null && master.irregularWorkingHours!.containsKey(date)) {
+  //     // print('entered here 1');
+  //     Hours hours = master.irregularWorkingHours![DateFormat('yyyy-MM-dd').format(chosenDay).toString()]!;
+  //     if (hours.isWorking) {
+  //       return getAllSlots(
+  //         master.blockedTime,
+  //         date,
+  //         hours: hours,
+  //         irregularWorkingHours: master.irregularWorkingHours,
+  //         master: master,
+  //       );
+  //     }
+  //   }
+  //   var now = DateTime.now();
+
+  //   // print('entered here 2');
+  //   return date.isBefore(DateTime(now.year, now.month, now.day - 1, 11, 59, 59))
+  //       ? []
+  //       : getAllSlots(
+  //           master.blockedTime,
+  //           date,
+  //           workingHours: master.workingHours,
+  //           master: master,
+  //         );
+  // }
+
+  /// returns the all slots for master only
+  /// different from getAvailablemasterslots
+  List<String>? getAllMasterSlots(MasterModel master, DateTime date) {
+    final String dateKey = _time.getDateInStandardFormat(date);
+
+    if (master.irregularWorkingHours != null && master.irregularWorkingHours!.containsKey(dateKey)) {
+      Hours hours = master.irregularWorkingHours![dateKey]!;
       if (hours.isWorking) {
         return getAllSlots(
           master.blockedTime,
@@ -243,10 +438,8 @@ class CreateAppointmentProvider with ChangeNotifier {
       }
     }
     var now = DateTime.now();
-
-    print('entered here 2');
     return date.isBefore(DateTime(now.year, now.month, now.day - 1, 11, 59, 59))
-        ? []
+        ? null
         : getAllSlots(
             master.blockedTime,
             date,
@@ -308,7 +501,11 @@ class CreateAppointmentProvider with ChangeNotifier {
 
       //  retrieving all the available slots
       ('timesss $_startTime $_endTime');
-      Iterable<String> _slots = _time.generateTimeSlots(_startTime!, _endTime);
+      Iterable<String> _slots = _time.generateTimeSlots(
+        _startTime!,
+        _endTime,
+        timeSlotSizeDuration: chosenSalon!.timeSlotsInterval,
+      );
       if (_slots.isEmpty) return null;
       ('slotsss$_slots');
       _availableSlots.addAll(_slots);
@@ -327,27 +524,15 @@ class CreateAppointmentProvider with ChangeNotifier {
 
     for (MasterModel master in serviceableMasters) {
       {
-        List<String>? _masterSlots = getMasterSlots(master);
-
-        // print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-        // print('Chosen day - $chosenDay');
-        // print(_masterSlots);
-        // print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-
+        List<String>? _masterSlots = getMasterSlots(master, chosenDay);
         List<String>? _allSlots = getAllMasterSlots(master, chosenDay) ?? [];
-
-        print('-------*** ALL SLOTS ***---------');
-        // print(allSlots);
-        // print('new slots');
-        print(_allSlots);
-        print('-------******---------');
 
         if (_masterSlots != null) {
           //(_masterSlots);
           int morningIndex = _masterSlots.indexWhere((element) => Time().stringToTime(element).hour >= 12);
           int afterNoonIndex = _masterSlots.indexWhere((element) => Time().stringToTime(element).hour >= 17);
 
-          int morningAllIndex = _allSlots!.indexWhere((element) => Time().stringToTime(element).hour >= 12);
+          int morningAllIndex = _allSlots.indexWhere((element) => Time().stringToTime(element).hour >= 12);
           int afterNoonAllIndex = _allSlots.indexWhere((element) => Time().stringToTime(element).hour >= 17);
 
           List<String>? eveningTimeslots = [];
@@ -455,29 +640,19 @@ class CreateAppointmentProvider with ChangeNotifier {
     return true;
   }
 
+  //called up every time appointment changes
+  bool isBlocked = false;
+
   onAppointmentChange(MasterModel master, String? appointment, {DateTime? date}) {
-    totalTimeSlotsRequired = (int.parse(priceAndDuration[master.masterId]?.duration ?? defaultServiceDuration) / (chosenSalon?.timeSlotsInterval ?? 15)).ceil();
+    print('On Appointment Change Function');
+    isBlocked = false;
 
-    // print('----------- TOTAL TIME SLOTS REQUIRED -----------');
-    // print('Salon interval - ${chosenSalon?.timeSlotsInterval}');
-    // print(totalTimeSlotsRequired);
-    // print('----------- TOTAL TIME SLOTS REQUIRED -----------');
+    totalTimeSlotsRequired = (int.parse(priceAndDuration[master.masterId]?.duration ?? defaultServiceDuration) / (chosenSalon!.timeSlotsInterval ?? 15)).ceil();
 
-    // print('----------- OMO NAWA! -----------');
-
-    // print('Duration - ${priceAndDuration[master.masterId]?.duration}');
-    // print('----------- OMO NAWA! -----------');
-    if (int.parse(priceAndDuration[master.masterId]?.duration ?? defaultServiceDuration) % (chosenSalon?.timeSlotsInterval ?? 15) > 0) {
+    if (int.parse(priceAndDuration[master.masterId]?.duration ?? defaultServiceDuration) % (chosenSalon!.timeSlotsInterval ?? 15) > 0) {
       totalTimeSlotsRequired += 1;
     }
     //(totalTimeSlotsRequired);
-
-    print('----------- @@@ -----------');
-
-    print(availableAppointments[master.masterId]);
-    print(appointment);
-    print('----------- @@@ -----------');
-
     if (totalTimeSlotsRequired > availableAppointments[master.masterId]!.length) {
       showToast('Not enough slots');
     } else {
@@ -495,29 +670,30 @@ class CreateAppointmentProvider with ChangeNotifier {
               )
               .toList();
         } else {
-          chosenSlots = availableAppointments[master.masterId]!.getRange(index, (index + totalTimeSlotsRequired)).toList();
+          chosenSlots = availableAppointments[master.masterId]!
+              .getRange(
+                index,
+                (index + totalTimeSlotsRequired),
+              )
+              .toList();
         }
 
-        bool continues = checkContinuousSlotsNew(
-          master: master,
-          slotspresent: chosenSlots,
-        );
-
+        bool continues = checkContinuousSlots(master: master, slotspresent: chosenSlots);
         if (!continues) {
           // chosenSlots = [];
           // notifyListeners();
-          showToast('Slots overlap');
+          showToast('Slots  Overlap with salon\'s booked Time, choose another slot');
         } else {
           if (date != null) {
             chosenDay = date;
           }
           chosenMaster = master;
-
+          chosenMaster?.masterId = master.masterId;
           appointmentDate = chosenDay;
-          selectedAppointmentSlot = appointment ?? '';
+          selectedAppointmentSlot = appointment;
 
           selectedAppointmentDuration = Time().getAppointmentString(
-            selectedAppointmentSlot!,
+            selectedAppointmentSlot,
             int.parse(
               priceAndDuration[chosenMaster?.masterId]?.duration ?? defaultServiceDuration,
             ),
@@ -526,11 +702,22 @@ class CreateAppointmentProvider with ChangeNotifier {
           // isNextEnabled = true;
         }
       } else {
+        selectedAppointmentSlot = appointment;
+        selectedAppointmentDuration = Time().getAppointmentString(
+          selectedAppointmentSlot,
+          int.parse(
+            priceAndDuration[chosenMaster?.masterId]?.duration ?? defaultServiceDuration,
+          ),
+        );
         // chosenSlots = [];
         // notifyListeners();
-        showToast('Slot not available');
+        chosenMaster = master;
+        // showToast(tr(Keys.slotNotAvailable));
+        isBlocked = true;
       }
     }
+
+    notifyListeners();
   }
 
   // returns true of specified master is selected
@@ -606,6 +793,69 @@ class CreateAppointmentProvider with ChangeNotifier {
     }
     // isWorking = false;
     return false;
+  }
+
+  Status dayViewStatus = Status.loading;
+  Map<String, List<MasterModel>> todayTimeMasterMap = {};
+  Map<String, List<MasterModel>> tomorrowTimeMasterMap = {};
+  Map<String, List<MasterModel>> dayAfterTomorrowTimeMasterMap = {};
+
+  DateTime? today;
+  DateTime? tomorrow;
+  DateTime? dayAfterTomorrow;
+
+  //sets the dates for next three days
+  // if no date provided then sets the current date
+  setDate({DateTime? date}) {
+    //selectedDate = date ?? Time().getDate();
+    today = date ?? Time().getDate();
+    tomorrow = today!.add(const Duration(days: 1));
+    dayAfterTomorrow = today!.add(const Duration(days: 2));
+  }
+
+  loadDayView({DateTime? date}) async {
+    dayViewStatus = Status.loading;
+
+    setDate(date: date);
+    todayTimeMasterMap = await getTimeMasterMap(today);
+    tomorrowTimeMasterMap = await getTimeMasterMap(tomorrow);
+    dayAfterTomorrowTimeMasterMap = await getTimeMasterMap(dayAfterTomorrow);
+    dayViewStatus = Status.success;
+  }
+
+  // returns the master map
+  // where key is time-slot and value will be a list of master available in that time slot
+  Future<Map<String, List<MasterModel>>> getTimeMasterMap(DateTime? date) async {
+    Map<String, List<MasterModel>> tempMap = {};
+
+    for (MasterModel master in serviceableMasters) {
+      {
+        final _masterSlots = getMasterSlots(master, chosenDay);
+        List<String> _freeSlots = [];
+
+        if (_freeSlots.isNotEmpty) {
+          final _availableSlots = Time().checkAvailableSlotsForTheServiceTime(
+            _freeSlots,
+            int.parse(
+              priceAndDuration[master.masterId]?.duration ?? defaultServiceDuration,
+            ),
+          );
+
+          if (_availableSlots != null) {
+            for (String slot in _availableSlots) {
+              tempMap[slot] ??= [];
+              tempMap[slot]!.add(master);
+            }
+          }
+        }
+      }
+    }
+    return tempMap;
+  }
+
+  void selectMasterForBooking(MasterModel master) {
+    chooseMasterForBooking = master;
+    notifyListeners();
   }
 
   /// ----------------------------------------------------------------------------------------------------
@@ -783,6 +1033,7 @@ class CreateAppointmentProvider with ChangeNotifier {
       notifyListeners();
     } else {
       List<MasterModel> _masters = await MastersApi().getAllMaster(salonModel.salonId);
+
       List<ServiceModel> _servicesList = await CategoryServicesApi().getSalonServices(salonId: salonModel.salonId);
 
       salonServices = _servicesList; // _clearProvider not clearing list // TODO: FIX LATER
@@ -1135,11 +1386,11 @@ class CreateAppointmentProvider with ChangeNotifier {
           validSlots.sort((a, b) => ((Time().stringToTime(a).hour * 60) + (Time().stringToTime(a).minute)).compareTo(((Time().stringToTime(b).hour * 60) + (Time().stringToTime(b).minute))));
           // make breakTime only break time in all masters
 
-          print('################################################################################');
-          print('################################################################################');
-          print(validSlotsMaster);
-          print('################################################################################');
-          print('################################################################################');
+          // print('################################################################################');
+          // print('################################################################################');
+          // print(validSlotsMaster);
+          // print('################################################################################');
+          // print('################################################################################');
 
 // [13:15, 13:30, 13:45, 14:00, 14:15, 14:30, 14:45, 15:00, 15:15, 15:30, 15:45, 16:00, 16:15, 16:30, 16:45, 17:00, 17:15, 17:30, 17:45, 18:00, 18:15, 18:30, 18:45, 19:00, 19:15, 19:30, 19:45, 20:00, 20:15, 20:30, 20:45]
 
@@ -1256,24 +1507,24 @@ class CreateAppointmentProvider with ChangeNotifier {
   }
 
   toggleService({required ServiceModel serviceModel, required bool clearChosenMaster, required BuildContext? context}) async {
-    print('----------TOGGLED SERVICE----------');
+    // print('----------TOGGLED SERVICE----------');
     int index = chosenServices.indexWhere((element) => element.serviceId == serviceModel.serviceId);
     if (index == -1) {
       chosenServices.add(serviceModel);
 
-      totalPrice = totalPrice + (!serviceModel.isFixedPrice ? (double.tryParse(serviceModel.priceAndDurationMax!.price) ?? 0) : (double.tryParse(serviceModel.priceAndDuration.price) ?? 0));
-      totalPricewithFixed = totalPricewithFixed + (double.tryParse(serviceModel.priceAndDuration.price) ?? 0);
-      calculateValidSlots();
-      calculateMasterVariations();
-      if (context != null) {
-        setUpSlots(day: chosenDay, context: context, showNotWorkingToast: false);
-      }
+      // totalPrice = totalPrice + (!serviceModel.isFixedPrice ? (double.tryParse(serviceModel.priceAndDurationMax!.price) ?? 0) : (double.tryParse(serviceModel.priceAndDuration.price) ?? 0));
+      // totalPricewithFixed = totalPricewithFixed + (double.tryParse(serviceModel.priceAndDuration.price) ?? 0);
+      // calculateValidSlots();
+      // calculateMasterVariations();
+      // if (context != null) {
+      //   setUpSlots(day: chosenDay, context: context, showNotWorkingToast: false);
+      // }
 
-      Utils().vibratePositively();
-      if (chosenSalon?.ownerType != OwnerType.singleMaster) {
-        serviceAgainstMaster.add(ServiceAndMaster(service: serviceModel, master: getMasterProvidingService(serviceModel)[0], isRandom: true));
-        refreshSlotsSalonOwner(context!);
-      }
+      // Utils().vibratePositively();
+      // if (chosenSalon?.ownerType != OwnerType.singleMaster) {
+      //   serviceAgainstMaster.add(ServiceAndMaster(service: serviceModel, master: getMasterProvidingService(serviceModel)[0], isRandom: true));
+      //   refreshSlotsSalonOwner(context!);
+      // }
 
       notifyListeners();
     } else {
@@ -1282,14 +1533,14 @@ class CreateAppointmentProvider with ChangeNotifier {
       }
       chosenServices.removeAt(index);
 
-      totalPrice = totalPrice - (!serviceModel.isFixedPrice ? (double.tryParse(serviceModel.priceAndDurationMax!.price) ?? 0) : (double.tryParse(serviceModel.priceAndDuration.price) ?? 0));
-      totalPricewithFixed = totalPricewithFixed - (double.tryParse(serviceModel.priceAndDuration.price) ?? 0);
-      calculateValidSlots();
-      calculateMasterVariations();
-      if (context != null) {
-        setUpSlots(day: chosenDay, context: context, showNotWorkingToast: false);
-      }
-      Utils().vibrateNegatively();
+      // totalPrice = totalPrice - (!serviceModel.isFixedPrice ? (double.tryParse(serviceModel.priceAndDurationMax!.price) ?? 0) : (double.tryParse(serviceModel.priceAndDuration.price) ?? 0));
+      // totalPricewithFixed = totalPricewithFixed - (double.tryParse(serviceModel.priceAndDuration.price) ?? 0);
+      // calculateValidSlots();
+      // calculateMasterVariations();
+      // if (context != null) {
+      //   setUpSlots(day: chosenDay, context: context, showNotWorkingToast: false);
+      // }
+      // Utils().vibrateNegatively();
       notifyListeners();
     }
     if (clearChosenMaster) {
@@ -1297,8 +1548,8 @@ class CreateAppointmentProvider with ChangeNotifier {
       notifyListeners();
     }
 
-    print(serviceAgainstMaster);
-    print('----------TOGGLED SERVICE----------');
+    // print(serviceAgainstMaster);
+    // print('----------TOGGLED SERVICE----------');
   }
 
   bool isAdded({required ServiceModel serviceModel}) {
@@ -1394,7 +1645,13 @@ class CreateAppointmentProvider with ChangeNotifier {
           TimeOfDay _startTime = Time().stringToTime(validSlots.first);
           TimeOfDay _endTime = Time().stringToTime(validSlots.last);
           if (chosenDay.day == DateTime.now().day && chosenDay.month == DateTime.now().month) {
-            List<String> _pastSlots = Time().generateTimeSlots(_startTime, TimeOfDay.now()).toList();
+            List<String> _pastSlots = Time()
+                .generateTimeSlots(
+                  _startTime,
+                  TimeOfDay.now(),
+                  timeSlotSizeDuration: chosenSalon!.timeSlotsInterval,
+                )
+                .toList();
             for (String slot in _pastSlots) {
               validSlots.remove(slot);
             }
@@ -1429,7 +1686,14 @@ class CreateAppointmentProvider with ChangeNotifier {
           TimeOfDay _startTime = Time().stringToTime(validSlots.first);
           TimeOfDay _endTime = Time().stringToTime(validSlots.last);
           if (chosenDay.day == DateTime.now().day && chosenDay.month == DateTime.now().month) {
-            List<String> _pastSlots = Time().generateTimeSlots(_startTime, TimeOfDay.now(), step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15)).toList();
+            List<String> _pastSlots = Time()
+                .generateTimeSlots(
+                  _startTime,
+                  TimeOfDay.now(),
+                  step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15),
+                  timeSlotSizeDuration: chosenSalon!.timeSlotsInterval,
+                )
+                .toList();
             for (String slot in _pastSlots) {
               validSlots.remove(slot);
             }
@@ -1626,7 +1890,74 @@ class CreateAppointmentProvider with ChangeNotifier {
 
   final Time _time = Time();
 
-  TimeOfDay? _computeStartTime(String? masterStartTime, DateTime date) {
+  /// computes the start time
+  /// by comparing following parameters :
+  /// 1. masterStartTime
+  /// 2. salonStartTime
+  /// 3. currentTime
+  /// it will take which ever is max
+  /// in case of single master it will not fuse salonStartTime and masterStartTime, since only 1 is present
+  TimeOfDay? _computeStartTime(String? masterStartTime, DateTime date, {MasterModel? master, bool irregular = false}) {
+    try {
+      DateTime _now = DateTime.now();
+
+      late TimeOfDay _masterAndSalonFusedTime;
+      // added this on the fly..but it seems to solve the problem
+      _masterAndSalonFusedTime = _time.stringToTime(masterStartTime!);
+      if (chosenSalon!.ownerType == OwnerType.singleMaster) {
+        _masterAndSalonFusedTime = _time.stringToTime(masterStartTime);
+      } else {
+        //getting salon timings
+        Hours? selectedSalonHours;
+        if (irregular) {
+          selectedSalonHours = _time.getMasterIrregularWorkingHours(
+            master!,
+            date: date,
+          )!;
+          // if it's still null then we reverted to old version
+          if (selectedSalonHours == null) {
+            selectedSalonHours = _time.getIrregularWorkingHours(
+              chosenSalon?.irregularWorkingHours,
+              date: date,
+            );
+          }
+        } else {
+          selectedSalonHours = _time.getRegularWorkingHoursFromDate(
+            chosenSalon?.workingHours,
+            weekDay: date.weekday,
+          )!;
+        }
+        if (!selectedSalonHours!.isWorking) return null;
+
+        TimeOfDay _salonStartTime = _time.stringToTime(selectedSalonHours.startTime);
+
+        TimeOfDay _masterStartTime = _time.stringToTime(masterStartTime);
+
+        // computes the starting time by comparing master and salon starting time
+        TimeOfDay _masterAndSalonFusedTime = _time.getMinMaxTime(_salonStartTime, _masterStartTime, returnMaxTime: true);
+      }
+
+      if (_time.compareDate(date, _now)) {
+        //dates are same, Then it
+        // computes the start time by comparing current time and master working time
+
+        // for the effect of restricted time before appointment
+        if (chosenSalon!.appointmentsLeadTime != null) {
+          _now = _now.add(Duration(minutes: chosenSalon!.appointmentsLeadTime!));
+        }
+        TimeOfDay _currentTime = TimeOfDay(hour: _now.hour, minute: _now.minute);
+        return _time.getMinMaxTime(_currentTime, _masterAndSalonFusedTime, returnMaxTime: true);
+      } else {
+        return _masterAndSalonFusedTime;
+      }
+    } catch (e) {
+      debugPrint('error while generating start time');
+      (e);
+      return _time.stringToTime(masterStartTime!);
+    }
+  }
+
+  TimeOfDay? _computeStartTimeFormer(String? masterStartTime, DateTime date) {
     try {
       DateTime _now = DateTime.now();
 
@@ -1699,62 +2030,64 @@ class CreateAppointmentProvider with ChangeNotifier {
     printIt('total time and slots required $totalMinutes $totalTimeSlotsRequired');
   }
 
-  bool checkContinuousSlots({required List<String> slots}) {
+  bool checkContinuousSlots({required MasterModel master, required List<String> slotspresent}) {
     List<int> indexes = [];
-    for (int i = 0; i <= slots.length - 1; i++) {
-      indexes.add(allSlots.indexWhere((element) => element == slots[i]));
+    // since we noLonger work with 3 days in a row
+    // we only check against the first day
+    for (int i = 0; i <= slotspresent.length - 1; i++) {
+      indexes.add(allAppointments[master.masterId]!.indexWhere((element) => element == slotspresent[i]));
     }
     for (int i = 0; i < indexes.length - 1; i++) {
       if (indexes[i + 1] - indexes[i] != 1) {
         return false;
       }
     }
-    printIt(indexes);
+
     return true;
   }
 
-  Future chooseSlot(String slot, BuildContext context) async {
-    printIt("choosing slots $totalTimeSlotsRequired");
-    if (totalTimeSlotsRequired != 0) {
-      if (totalTimeSlotsRequired > validSlots.length) {
-        showToast(AppLocalizations.of(context)?.notEnoughSlots ?? "Not enough slots");
-      } else {
-        int index = validSlots.indexWhere((element) => element == slot);
-        if (index != -1) {
-          if (index == 0) {
-            chosenSlots = validSlots.getRange(index, totalTimeSlotsRequired).toList();
-            notifyListeners();
-            printIt(chosenSlots);
-          } else if (index > validSlots.length - totalTimeSlotsRequired) {
-            chosenSlots = validSlots.getRange(validSlots.length - (totalTimeSlotsRequired), validSlots.length).toList();
-            notifyListeners();
-            printIt(chosenSlots);
-          } else {
-            chosenSlots = validSlots.getRange(index, (index + totalTimeSlotsRequired)).toList();
-            printIt(chosenSlots);
+  // Future chooseSlot(String slot, BuildContext context) async {
+  //   printIt("choosing slots $totalTimeSlotsRequired");
+  //   if (totalTimeSlotsRequired != 0) {
+  //     if (totalTimeSlotsRequired > validSlots.length) {
+  //       showToast(AppLocalizations.of(context)?.notEnoughSlots ?? "Not enough slots");
+  //     } else {
+  //       int index = validSlots.indexWhere((element) => element == slot);
+  //       if (index != -1) {
+  //         if (index == 0) {
+  //           chosenSlots = validSlots.getRange(index, totalTimeSlotsRequired).toList();
+  //           notifyListeners();
+  //           printIt(chosenSlots);
+  //         } else if (index > validSlots.length - totalTimeSlotsRequired) {
+  //           chosenSlots = validSlots.getRange(validSlots.length - (totalTimeSlotsRequired), validSlots.length).toList();
+  //           notifyListeners();
+  //           printIt(chosenSlots);
+  //         } else {
+  //           chosenSlots = validSlots.getRange(index, (index + totalTimeSlotsRequired)).toList();
+  //           printIt(chosenSlots);
 
-            notifyListeners();
-          }
-          bool continues = checkContinuousSlots(slots: chosenSlots);
-          if (!continues) {
-            chosenSlots = [];
-            notifyListeners();
-            showToast(AppLocalizations.of(context)?.slotsNotAvailable ?? 'Slots not available');
-          } else {
-            printIt(chosenDay);
-            notifyListeners();
-            showToast(AppLocalizations.of(context)?.slotsChoosen ?? 'slots chosen');
-          }
-        } else {
-          chosenSlots = [];
-          notifyListeners();
-          showToast(AppLocalizations.of(context)?.slotsNotAvailable ?? 'Slots not available');
-        }
-      }
-    } else {
-      showToast(AppLocalizations.of(context)?.noServices ?? 'no services');
-    }
-  }
+  //           notifyListeners();
+  //         }
+  //         bool continues = checkContinuousSlots(slots: chosenSlots);
+  //         if (!continues) {
+  //           chosenSlots = [];
+  //           notifyListeners();
+  //           showToast(AppLocalizations.of(context)?.slotsNotAvailable ?? 'Slots not available');
+  //         } else {
+  //           printIt(chosenDay);
+  //           notifyListeners();
+  //           showToast(AppLocalizations.of(context)?.slotsChoosen ?? 'slots chosen');
+  //         }
+  //       } else {
+  //         chosenSlots = [];
+  //         notifyListeners();
+  //         showToast(AppLocalizations.of(context)?.slotsNotAvailable ?? 'Slots not available');
+  //       }
+  //     }
+  //   } else {
+  //     showToast(AppLocalizations.of(context)?.noServices ?? 'no services');
+  //   }
+  // }
 
   bool checkSlotsAndMaster({required BuildContext context}) {
     final bool isMasterNull = (chosenMaster == null && chosenSalon!.ownerType == OwnerType.salon);
@@ -1922,77 +2255,77 @@ class CreateAppointmentProvider with ChangeNotifier {
       ///if selected service is greater than one
       if (_services.length > 1) {
         ///model for multiple service block
-        appointmentModel = _createMultipleServiceAppointmentModel(
-          services: _services,
-          startTime: _startTime,
-          endTime: _endTime,
-          appointmentTime: Time().timeToString(TimeOfDay.fromDateTime(_startTime))!,
-          customerModel: customerModel,
-          priceAndDuration: PriceAndDurationModel(
-            duration: MasterServiceAtPresentTime.service!.isPriceRange
-                ? int.parse(
-                    MasterServiceAtPresentTime.service!.priceAndDurationMax!.duration,
-                  ).toString()
-                : int.parse(MasterServiceAtPresentTime.service!.priceAndDuration.duration).toString(),
-            price: MasterServiceAtPresentTime.service!.isPriceRange
-                ? int.parse(MasterServiceAtPresentTime.service!.priceAndDurationMax!.price).toString()
-                : int.parse(
-                    MasterServiceAtPresentTime.service!.priceAndDuration.price,
-                  ).toString(),
-          ),
-          master: Master(
-            id: serviceAgainstMaster.where((element) => element.service?.serviceId == MasterServiceAtPresentTime!.service!.serviceId).toList().isNotEmpty
-                ? serviceAgainstMaster.where((element) => element.service!.serviceId == MasterServiceAtPresentTime!.service!.serviceId).toList()[0].master!.masterId
-                : getMasterProvidingService(
-                    MasterServiceAtPresentTime.service!,
-                  )[0]
-                    .masterId,
-            name: Utils().getNameMaster(
-              serviceAgainstMaster.where((element) => element.service?.serviceId == MasterServiceAtPresentTime!.service!.serviceId).toList().isNotEmpty
-                  ? serviceAgainstMaster.where((element) => element.service!.serviceId == MasterServiceAtPresentTime!.service!.serviceId).toList()[0].master!.personalInfo
-                  : getMasterProvidingService(
-                      MasterServiceAtPresentTime.service!,
-                    )[0]
-                      .personalInfo,
-            ),
-          ),
-        );
+        // appointmentModel = _createMultipleServiceAppointmentModel(
+        //   services: _services,
+        //   startTime: _startTime,
+        //   endTime: _endTime,
+        //   appointmentTime: Time().timeToString(TimeOfDay.fromDateTime(_startTime))!,
+        //   customerModel: customerModel,
+        //   priceAndDuration: PriceAndDurationModel(
+        //     duration: MasterServiceAtPresentTime.service!.isPriceRange
+        //         ? int.parse(
+        //             MasterServiceAtPresentTime.service!.priceAndDurationMax!.duration,
+        //           ).toString()
+        //         : int.parse(MasterServiceAtPresentTime.service!.priceAndDuration.duration).toString(),
+        //     price: MasterServiceAtPresentTime.service!.isPriceRange
+        //         ? int.parse(MasterServiceAtPresentTime.service!.priceAndDurationMax!.price).toString()
+        //         : int.parse(
+        //             MasterServiceAtPresentTime.service!.priceAndDuration.price,
+        //           ).toString(),
+        //   ),
+        //   master: Master(
+        //     id: serviceAgainstMaster.where((element) => element.service?.serviceId == MasterServiceAtPresentTime!.service!.serviceId).toList().isNotEmpty
+        //         ? serviceAgainstMaster.where((element) => element.service!.serviceId == MasterServiceAtPresentTime!.service!.serviceId).toList()[0].master!.masterId
+        //         : getMasterProvidingService(
+        //             MasterServiceAtPresentTime.service!,
+        //           )[0]
+        //             .masterId,
+        //     name: Utils().getNameMaster(
+        //       serviceAgainstMaster.where((element) => element.service?.serviceId == MasterServiceAtPresentTime!.service!.serviceId).toList().isNotEmpty
+        //           ? serviceAgainstMaster.where((element) => element.service!.serviceId == MasterServiceAtPresentTime!.service!.serviceId).toList()[0].master!.personalInfo
+        //           : getMasterProvidingService(
+        //               MasterServiceAtPresentTime.service!,
+        //             )[0]
+        //               .personalInfo,
+        //     ),
+        //   ),
+        // );
       } else {
-        appointmentModel = _createAppointmentModel(
-          services: _services,
-          startTime: _startTime,
-          endTime: _endTime,
-          appointmentTime: Time().timeToString(TimeOfDay.fromDateTime(_startTime))!,
-          customerModel: customerModel,
-          priceAndDuration: PriceAndDurationModel(
-            duration: MasterServiceAtPresentTime.service!.isPriceRange
-                ? int.parse(
-                    MasterServiceAtPresentTime.service!.priceAndDurationMax!.duration,
-                  ).toString()
-                : int.parse(MasterServiceAtPresentTime.service!.priceAndDuration.duration).toString(),
-            price: MasterServiceAtPresentTime.service!.isPriceRange
-                ? int.parse(MasterServiceAtPresentTime.service!.priceAndDurationMax!.price).toString()
-                : int.parse(
-                    MasterServiceAtPresentTime.service!.priceAndDuration.price,
-                  ).toString(),
-          ),
-          master: Master(
-            id: serviceAgainstMaster.where((element) => element.service?.serviceId == MasterServiceAtPresentTime!.service!.serviceId).toList().isNotEmpty
-                ? serviceAgainstMaster.where((element) => element.service!.serviceId == MasterServiceAtPresentTime!.service!.serviceId).toList()[0].master!.masterId
-                : getMasterProvidingService(
-                    MasterServiceAtPresentTime.service!,
-                  )[0]
-                    .masterId,
-            name: Utils().getNameMaster(
-              serviceAgainstMaster.where((element) => element.service?.serviceId == MasterServiceAtPresentTime!.service!.serviceId).toList().isNotEmpty
-                  ? serviceAgainstMaster.where((element) => element.service!.serviceId == MasterServiceAtPresentTime!.service!.serviceId).toList()[0].master!.personalInfo
-                  : getMasterProvidingService(
-                      MasterServiceAtPresentTime.service!,
-                    )[0]
-                      .personalInfo,
-            ),
-          ),
-        );
+        // appointmentModel = _createAppointmentModel(
+        //   services: _services,
+        //   startTime: _startTime,
+        //   endTime: _endTime,
+        //   appointmentTime: Time().timeToString(TimeOfDay.fromDateTime(_startTime))!,
+        //   customerModel: customerModel,
+        //   priceAndDuration: PriceAndDurationModel(
+        //     duration: MasterServiceAtPresentTime.service!.isPriceRange
+        //         ? int.parse(
+        //             MasterServiceAtPresentTime.service!.priceAndDurationMax!.duration,
+        //           ).toString()
+        //         : int.parse(MasterServiceAtPresentTime.service!.priceAndDuration.duration).toString(),
+        //     price: MasterServiceAtPresentTime.service!.isPriceRange
+        //         ? int.parse(MasterServiceAtPresentTime.service!.priceAndDurationMax!.price).toString()
+        //         : int.parse(
+        //             MasterServiceAtPresentTime.service!.priceAndDuration.price,
+        //           ).toString(),
+        //   ),
+        //   master: Master(
+        //     id: serviceAgainstMaster.where((element) => element.service?.serviceId == MasterServiceAtPresentTime!.service!.serviceId).toList().isNotEmpty
+        //         ? serviceAgainstMaster.where((element) => element.service!.serviceId == MasterServiceAtPresentTime!.service!.serviceId).toList()[0].master!.masterId
+        //         : getMasterProvidingService(
+        //             MasterServiceAtPresentTime.service!,
+        //           )[0]
+        //             .masterId,
+        //     name: Utils().getNameMaster(
+        //       serviceAgainstMaster.where((element) => element.service?.serviceId == MasterServiceAtPresentTime!.service!.serviceId).toList().isNotEmpty
+        //           ? serviceAgainstMaster.where((element) => element.service!.serviceId == MasterServiceAtPresentTime!.service!.serviceId).toList()[0].master!.personalInfo
+        //           : getMasterProvidingService(
+        //               MasterServiceAtPresentTime.service!,
+        //             )[0]
+        //               .personalInfo,
+        //     ),
+        // ),
+        // );
       }
 
       // appointmentModel = AppointmentModel(
@@ -2112,39 +2445,39 @@ class CreateAppointmentProvider with ChangeNotifier {
       ///if selected service is greater than one
       if (_services.length > 1) {
         ///model for multiple service block
-        appointmentModel = _createMultipleServiceAppointmentModel(
-          services: _services,
-          startTime: _startTime,
-          endTime: _endTime,
-          customerModel: customerModel,
-          priceAndDuration: _totalPriceAndDuration,
-          master: chosenSalon!.ownerType == OwnerType.singleMaster
-              ? Master(
-                  id: chosenSalon!.salonId,
-                  name: chosenSalon!.salonName,
-                )
-              : Master(
-                  id: chosenMaster!.masterId,
-                  name: Utils().getNameMaster(chosenMaster!.personalInfo),
-                ),
-        );
+        // appointmentModel = _createMultipleServiceAppointmentModel(
+        //   services: _services,
+        //   startTime: _startTime,
+        //   endTime: _endTime,
+        //   customerModel: customerModel,
+        //   priceAndDuration: _totalPriceAndDuration,
+        //   master: chosenSalon!.ownerType == OwnerType.singleMaster
+        //       ? Master(
+        //           id: chosenSalon!.salonId,
+        //           name: chosenSalon!.salonName,
+        //         )
+        //       : Master(
+        //           id: chosenMaster!.masterId,
+        //           name: Utils().getNameMaster(chosenMaster!.personalInfo),
+        //         ),
+        // );
       } else {
-        appointmentModel = _createAppointmentModel(
-          services: _services,
-          startTime: _startTime,
-          endTime: _endTime,
-          customerModel: customerModel,
-          priceAndDuration: _totalPriceAndDuration,
-          master: chosenSalon!.ownerType == OwnerType.singleMaster
-              ? Master(
-                  id: chosenSalon!.salonId,
-                  name: chosenSalon!.salonName,
-                )
-              : Master(
-                  id: chosenMaster!.masterId,
-                  name: Utils().getNameMaster(chosenMaster!.personalInfo),
-                ),
-        );
+        // appointmentModel = _createAppointmentModel(
+        //   services: _services,
+        //   startTime: _startTime,
+        //   endTime: _endTime,
+        //   customerModel: customerModel,
+        //   priceAndDuration: _totalPriceAndDuration,
+        //   master: chosenSalon!.ownerType == OwnerType.singleMaster
+        //       ? Master(
+        //           id: chosenSalon!.salonId,
+        //           name: chosenSalon!.salonName,
+        //         )
+        //       : Master(
+        //           id: chosenMaster!.masterId,
+        //           name: Utils().getNameMaster(chosenMaster!.personalInfo),
+        //         ),
+        // );
       }
 
       return true;
@@ -2276,20 +2609,20 @@ class CreateAppointmentProvider with ChangeNotifier {
         // Check no of services booked in appointment model
         if (appointmentModel!.services.length > 1) {
           ///saves appointments when service is more that one
-          await saveNewAppointmentForMultipleServices(
-            appointment: appointmentModel!,
-            timeForBlockEndProcessing: chosenSlots.first,
-            isSingleMaster: chosenSalon!.ownerType == OwnerType.singleMaster,
-            customerModel: customerModel,
-          );
+          // await saveNewAppointmentForMultipleServices(
+          //   appointment: appointmentModel!,
+          //   timeForBlockEndProcessing: chosenSlots.first,
+          //   isSingleMaster: chosenSalon!.ownerType == OwnerType.singleMaster,
+          //   customerModel: customerModel,
+          // );
         } else {
           ///to save the appointment for single services selected
-          await saveAppointment(
-            appointment: appointmentModel!,
-            timeForBlockEndProcessing: chosenSlots.first,
-            isSingleMaster: chosenSalon!.ownerType == OwnerType.singleMaster,
-            customerModel: customerModel,
-          );
+          // await saveAppointment(
+          //   appointment: appointmentModel!,
+          //   timeForBlockEndProcessing: chosenSlots.first,
+          //   isSingleMaster: chosenSalon!.ownerType == OwnerType.singleMaster,
+          //   customerModel: customerModel,
+          // );
         }
 
         // AppointmentModel? finalAppointment;
@@ -2382,20 +2715,20 @@ class CreateAppointmentProvider with ChangeNotifier {
         // Check no of services booked in appointment model
         if (app.services.length > 1) {
           ///saves appointments when service is more that one
-          await saveNewAppointmentForMultipleServices(
-            appointment: app,
-            timeForBlockEndProcessing: app.appointmentTime,
-            isSingleMaster: false,
-            customerModel: customerModel,
-          );
+          // await saveNewAppointmentForMultipleServices(
+          //   appointment: app,
+          //   timeForBlockEndProcessing: app.appointmentTime,
+          //   isSingleMaster: false,
+          //   customerModel: customerModel,
+          // );
         } else {
           ///to save the appointment for single services selected
-          await saveAppointment(
-            appointment: app,
-            timeForBlockEndProcessing: app.appointmentTime,
-            isSingleMaster: false,
-            customerModel: customerModel,
-          );
+          // await saveAppointment(
+          //   appointment: app,
+          //   timeForBlockEndProcessing: app.appointmentTime,
+          //   isSingleMaster: false,
+          //   customerModel: customerModel,
+          // );
         }
 
         // DocumentReference doc = await Collection.appointments.add(app.toJson());
@@ -2520,25 +2853,67 @@ class CreateAppointmentProvider with ChangeNotifier {
   }
 
   /// model for single service
-  AppointmentModel _createAppointmentModel({
-    required List<Service> services,
-    required DateTime startTime,
-    required DateTime endTime,
-    String? appointmentTime,
-    required CustomerModel? customerModel,
-    required PriceAndDurationModel priceAndDuration,
-    required Master master,
-  }) {
+  AppointmentModel _createAppointmentModel({required CustomerModel customer}) {
     ///creating all the required variables
-    Service? selectedService = services[0];
-
     const String _type = AppointmentType.reservation;
     //updating the latest update
     final List<String> _updates = [AppointmentUpdates.createdBySalon];
     final List<DateTime> _updatedAt = [DateTime.now()];
+
+    final PriceAndDurationModel _priceAndDuration = priceAndDuration[chosenMaster?.masterId] ?? PriceAndDurationModel();
+    debugPrint("Chosen Slots");
+    debugPrint(selectedAppointmentSlot);
+
+    TimeOfDay _startTime = Time().stringToTime(selectedAppointmentSlot!);
+    //computing appointment end time in string
+
+    debugPrint("_startTime");
+    debugPrint(_startTime.toString());
+    TimeOfDay _endTime = _startTime.addMinutes(
+      int.parse(_priceAndDuration.duration),
+    );
+
+    final DateTime _start = Time().generateDateTimeFromString(chosenDay, selectedAppointmentSlot!);
+
+    debugPrint("_start");
+    debugPrint(_start.toString());
+
+    final DateTime _end = Time().generateDateTimeFromString(
+      chosenDay,
+      Time().timeToString(_endTime)!,
+    );
+
+    final String? _appointmentTime = selectedAppointmentSlot;
+    final String _appointmentDate = Time().getDateInStandardFormat(chosenDay);
+
     final DateTime _createdAt = DateTime.now();
+
+    /////////////////////////////////////////////
+    final Salon _salon = Salon(
+      id: chosenSalon!.salonId,
+      name: chosenSalon!.salonName,
+      phoneNo: chosenSalon!.phoneNumber,
+      address: chosenSalon!.address,
+    );
+
+    final Master _master = Master(
+      id: chosenMaster!.masterId,
+      name: "${chosenMaster?.personalInfo?.firstName ?? ''} ${chosenMaster?.personalInfo?.lastName ?? ''}",
+    );
+
+    final Customer _customer = Customer(
+      id: customer.customerId,
+      name: Utils().getName(customer.personalInfo),
+      pic: customer.profilePic,
+      phoneNumber: customer.personalInfo.phone,
+      email: customer.personalInfo.email ?? '',
+    );
+
+    /////////////////////////////////////////////
+
     const String _status = AppointmentStatus.active;
-    const String _createdBy = CreatedBy.salon;
+
+    ServiceModel selectedService = chosenServices[0];
 
     final Service _service = Service(
       serviceId: selectedService.serviceId,
@@ -2546,315 +2921,537 @@ class CreateAppointmentProvider with ChangeNotifier {
       subCategoryId: selectedService.subCategoryId,
       serviceName: selectedService.serviceName,
       translations: selectedService.translations,
-      priceAndDuration: priceAndDuration,
+      priceAndDuration: _priceAndDuration,
+    );
+
+    PaymentInfo _paymentInfo = PaymentInfo(
+      bonusApplied: false,
+      bonusAmount: 0,
+      actualAmount: int.parse(_priceAndDuration.price),
+      bonusIds: [],
+      paymentDone: false,
+      onlinePayment: false,
+      paymentMethod: 'card',
     );
 
     /// assigning all the variables and creating appointment model ....
+
     return AppointmentModel(
       type: _type,
       createdAt: _createdAt,
-      appointmentStartTime: startTime,
-      appointmentEndTime: endTime,
-      appointmentTime: appointmentTime ?? chosenSlots.first,
-      appointmentDate: Time().getDateInStandardFormat(chosenDay) ?? '',
-      salon: Salon(
-        id: chosenSalon!.salonId,
-        name: chosenSalon!.salonName,
-        address: chosenSalon!.address,
-        phoneNo: chosenSalon!.phoneNumber,
-      ),
-      master: master,
-      customer: Customer(
-        id: customerModel!.customerId,
-        name: Utils().getName(customerModel.personalInfo),
-        phoneNumber: customerModel.personalInfo.phone,
-        pic: customerModel.profilePic,
-        email: customerModel.personalInfo.email ?? '',
-      ),
-      createdBy: _createdBy,
+      appointmentStartTime: _start,
+      appointmentEndTime: _end,
+      appointmentTime: _appointmentTime!,
+      appointmentDate: _appointmentDate,
+      salon: _salon,
+      master: _master,
+      customer: _customer,
+      createdBy: CreatedBy.customer,
       salonOwnerType: OwnerType.salon,
       status: _status,
       updates: _updates,
       updatedAt: _updatedAt,
       services: [_service],
-      subStatus: startTime.difference(DateTime.now()).inHours < 24 ? ActiveAppointmentSubStatus.confirmed : ActiveAppointmentSubStatus.unConfirmed,
-      priceAndDuration: priceAndDuration,
-      paymentInfo: PaymentInfo(
-        bonusApplied: chosenBonus != null,
-        bonusAmount: chosenBonus?.amount ?? 0,
-        actualAmount: double.parse(priceAndDuration.price).toInt(),
-        bonusIds: chosenBonus != null ? [chosenBonus!.bonusId] : [],
-        paymentDone: false,
-        onlinePayment: false,
-        paymentMethod: PaymentMethods.cardSalon,
-      ),
+      subStatus: _start.difference(DateTime.now()).inHours < 24 ? ActiveAppointmentSubStatus.confirmed : ActiveAppointmentSubStatus.unConfirmed,
+      priceAndDuration: _priceAndDuration,
+      paymentInfo: _paymentInfo,
     );
   }
 
+  // AppointmentModel _createAppointmentModel({
+  //   required List<Service> services,
+  //   required DateTime startTime,
+  //   required DateTime endTime,
+  //   String? appointmentTime,
+  //   required CustomerModel? customerModel,
+  //   required PriceAndDurationModel priceAndDuration,
+  //   required Master master,
+  // }) {
+  //   ///creating all the required variables
+  //   Service? selectedService = services[0];
+
+  //   const String _type = AppointmentType.reservation;
+  //   //updating the latest update
+  //   final List<String> _updates = [AppointmentUpdates.createdBySalon];
+  //   final List<DateTime> _updatedAt = [DateTime.now()];
+  //   final DateTime _createdAt = DateTime.now();
+  //   const String _status = AppointmentStatus.active;
+  //   const String _createdBy = CreatedBy.salon;
+
+  //   final Service _service = Service(
+  //     serviceId: selectedService.serviceId,
+  //     categoryId: selectedService.categoryId,
+  //     subCategoryId: selectedService.subCategoryId,
+  //     serviceName: selectedService.serviceName,
+  //     translations: selectedService.translations,
+  //     priceAndDuration: priceAndDuration,
+  //   );
+
+  //   /// assigning all the variables and creating appointment model ....
+  //   return AppointmentModel(
+  //     type: _type,
+  //     createdAt: _createdAt,
+  //     appointmentStartTime: startTime,
+  //     appointmentEndTime: endTime,
+  //     appointmentTime: appointmentTime ?? chosenSlots.first,
+  //     appointmentDate: Time().getDateInStandardFormat(chosenDay) ?? '',
+  //     salon: Salon(
+  //       id: chosenSalon!.salonId,
+  //       name: chosenSalon!.salonName,
+  //       address: chosenSalon!.address,
+  //       phoneNo: chosenSalon!.phoneNumber,
+  //     ),
+  //     master: master,
+  //     customer: Customer(
+  //       id: customerModel!.customerId,
+  //       name: Utils().getName(customerModel.personalInfo),
+  //       phoneNumber: customerModel.personalInfo.phone,
+  //       pic: customerModel.profilePic,
+  //       email: customerModel.personalInfo.email ?? '',
+  //     ),
+  //     createdBy: _createdBy,
+  //     salonOwnerType: OwnerType.salon,
+  //     status: _status,
+  //     updates: _updates,
+  //     updatedAt: _updatedAt,
+  //     services: [_service],
+  //     subStatus: startTime.difference(DateTime.now()).inHours < 24 ? ActiveAppointmentSubStatus.confirmed : ActiveAppointmentSubStatus.unConfirmed,
+  //     priceAndDuration: priceAndDuration,
+  //     paymentInfo: PaymentInfo(
+  //       bonusApplied: chosenBonus != null,
+  //       bonusAmount: chosenBonus?.amount ?? 0,
+  //       actualAmount: double.parse(priceAndDuration.price).toInt(),
+  //       bonusIds: chosenBonus != null ? [chosenBonus!.bonusId] : [],
+  //       paymentDone: false,
+  //       onlinePayment: false,
+  //       paymentMethod: PaymentMethods.cardSalon,
+  //     ),
+  //   );
+  // }
+
   ///model for multiple service block
-  AppointmentModel _createMultipleServiceAppointmentModel({
-    required List<Service> services,
-    required DateTime startTime,
-    required DateTime endTime,
-    String? appointmentTime,
-    required CustomerModel? customerModel,
-    required PriceAndDurationModel priceAndDuration,
-    required Master master,
-  }) {
+  AppointmentModel _createMultipleServiceAppointmentModel({required CustomerModel customer}) {
     ///creating all the required variables
     const String _type = AppointmentType.reservation;
     //updating the latest update
     final List<String> _updates = [AppointmentUpdates.createdBySalon];
     final List<DateTime> _updatedAt = [DateTime.now()];
+
+    //////////////////////////////////////////////
+    //handling appointment TIME & DURATION
+    //////////////////////////////////////////////
+    final PriceAndDurationModel _priceAndDuration = priceAndDuration[chosenMaster?.masterId] ?? PriceAndDurationModel();
+    debugPrint("Chosen Slots");
+    debugPrint(selectedAppointmentSlot);
+
+    TimeOfDay _startTime = Time().stringToTime(selectedAppointmentSlot!);
+    //computing appointment end time in string
+
+    debugPrint("_startTime");
+    debugPrint(_startTime.toString());
+    TimeOfDay _endTime = _startTime.addMinutes(int.parse(_priceAndDuration.duration));
+
+    final DateTime _start = Time().generateDateTimeFromString(chosenDay, selectedAppointmentSlot!);
+
+    debugPrint("_start");
+    debugPrint(_start.toString());
+
+    final DateTime _end = Time().generateDateTimeFromString(chosenDay, Time().timeToString(_endTime)!);
+
+    final String? _appointmentTime = selectedAppointmentSlot;
+    final String _appointmentDate = Time().getDateInStandardFormat(chosenDay);
+
     final DateTime _createdAt = DateTime.now();
 
+    /////////////////////////////////////////////
+    final Salon _salon = Salon(
+      id: chosenSalon!.salonId,
+      name: chosenSalon!.salonName,
+      phoneNo: chosenSalon!.phoneNumber,
+      address: chosenSalon!.address,
+    );
+
+    final Master _master = Master(
+      id: chosenMaster!.masterId,
+      name: "${chosenMaster?.personalInfo?.firstName ?? ''} ${chosenMaster?.personalInfo?.lastName ?? ''}",
+    );
+
+    final Customer _customer = Customer(
+      id: customer.customerId,
+      name: Utils().getName(customer.personalInfo),
+      pic: customer.profilePic,
+      phoneNumber: customer.personalInfo.phone,
+      email: customer.personalInfo.email ?? '',
+    );
+
+    /////////////////////////////////////////////
+
     const String _status = AppointmentStatus.active;
-    const String _createdBy = CreatedBy.salon;
 
     List<Service> selectedAppointmentServices = [];
 
-    for (var selectedAvailableService in services) {
-      selectedAppointmentServices.add(Service(
-        serviceId: selectedAvailableService.serviceId,
-        categoryId: selectedAvailableService.categoryId,
-        subCategoryId: selectedAvailableService.subCategoryId,
-        serviceName: selectedAvailableService.serviceName,
-        translations: selectedAvailableService.translations,
-        priceAndDuration: PriceAndDurationModel(
-          // isFixedPrice: selectedAvailableService.isFixedPrice,
-          // isPriceRange: selectedAvailableService.isPriceRange,
-          // isPriceStartAt: selectedAvailableService.isPriceStartAt,
-          durationinHr: selectedAvailableService.priceAndDuration.durationinHr,
-          durationinMin: selectedAvailableService.priceAndDuration.durationinMin,
-          duration: selectedAvailableService.priceAndDuration.duration,
-          price: selectedAvailableService.priceAndDuration.price,
+    for (var selectedAvailableService in chosenServices) {
+      selectedAppointmentServices.add(
+        Service(
+          serviceId: selectedAvailableService.serviceId,
+          categoryId: selectedAvailableService.categoryId,
+          subCategoryId: selectedAvailableService.subCategoryId,
+          serviceName: selectedAvailableService.serviceName,
+          translations: selectedAvailableService.translations,
+          priceAndDuration: PriceAndDurationModel(
+            isFixedPrice: selectedAvailableService.isFixedPrice,
+            isPriceRange: selectedAvailableService.isPriceRange,
+            isPriceStartAt: selectedAvailableService.isPriceStartAt,
+            durationinHr: selectedAvailableService.priceAndDuration.durationinHr,
+            durationinMin: selectedAvailableService.priceAndDuration.durationinMin,
+            duration: selectedAvailableService.priceAndDuration.duration,
+            price: selectedAvailableService.priceAndDuration.price,
+          ),
         ),
-      ));
+      );
     }
 
+    PaymentInfo _paymentInfo = PaymentInfo(
+      bonusApplied: false,
+      bonusAmount: 0,
+      actualAmount: int.parse(_priceAndDuration.price),
+      bonusIds: [],
+      paymentDone: false,
+      onlinePayment: false,
+      paymentMethod: 'card',
+    );
+
     /// assigning all the variables and creating appointment model ....
+
     return AppointmentModel(
       type: _type,
       createdAt: _createdAt,
-      appointmentStartTime: startTime,
-      appointmentEndTime: endTime,
-      appointmentTime: appointmentTime ?? chosenSlots.first,
-      appointmentDate: Time().getDateInStandardFormat(chosenDay) ?? '',
-      salon: Salon(
-        id: chosenSalon!.salonId,
-        name: chosenSalon!.salonName,
-        address: chosenSalon!.address,
-        phoneNo: chosenSalon!.phoneNumber,
-      ),
-      master: chosenSalon!.ownerType == OwnerType.singleMaster
-          ? Master(
-              id: chosenSalon!.salonId,
-              name: chosenSalon!.salonName,
-            )
-          : Master(
-              id: chosenMaster!.masterId,
-              name: Utils().getNameMaster(chosenMaster!.personalInfo),
-            ),
-      customer: Customer(
-        id: customerModel!.customerId,
-        name: Utils().getName(customerModel.personalInfo),
-        phoneNumber: customerModel.personalInfo.phone,
-        pic: customerModel.profilePic,
-        email: customerModel.personalInfo.email ?? '',
-      ),
-      createdBy: _createdBy,
+      appointmentStartTime: _start,
+      appointmentEndTime: _end,
+      appointmentTime: _appointmentTime!,
+      appointmentDate: _appointmentDate,
+      salon: _salon,
+      master: _master,
+      customer: _customer,
+      createdBy: CreatedBy.customer,
       salonOwnerType: OwnerType.salon,
       status: _status,
       updates: _updates,
       updatedAt: _updatedAt,
       services: selectedAppointmentServices,
-      subStatus: startTime.difference(DateTime.now()).inHours < 24 ? ActiveAppointmentSubStatus.confirmed : ActiveAppointmentSubStatus.unConfirmed,
-      priceAndDuration: priceAndDuration,
-      paymentInfo: PaymentInfo(
-        bonusApplied: chosenBonus != null,
-        bonusAmount: chosenBonus?.amount ?? 0,
-        actualAmount: double.parse(priceAndDuration.price).toInt(),
-        bonusIds: chosenBonus != null ? [chosenBonus!.bonusId] : [],
-        paymentDone: false,
-        onlinePayment: false,
-        paymentMethod: PaymentMethods.cardSalon,
-      ),
+      subStatus: _start.difference(DateTime.now()).inHours < 24 ? ActiveAppointmentSubStatus.confirmed : ActiveAppointmentSubStatus.unConfirmed,
+      priceAndDuration: _priceAndDuration,
+      paymentInfo: _paymentInfo,
     );
   }
 
+  // AppointmentModel _createMultipleServiceAppointmentModel({
+  //   required List<Service> services,
+  //   required DateTime startTime,
+  //   required DateTime endTime,
+  //   String? appointmentTime,
+  //   required CustomerModel? customerModel,
+  //   required PriceAndDurationModel priceAndDuration,
+  //   required Master master,
+  // }) {
+  //   ///creating all the required variables
+  //   const String _type = AppointmentType.reservation;
+  //   //updating the latest update
+  //   final List<String> _updates = [AppointmentUpdates.createdBySalon];
+  //   final List<DateTime> _updatedAt = [DateTime.now()];
+  //   final DateTime _createdAt = DateTime.now();
+
+  //   const String _status = AppointmentStatus.active;
+  //   const String _createdBy = CreatedBy.salon;
+
+  //   List<Service> selectedAppointmentServices = [];
+
+  //   for (var selectedAvailableService in services) {
+  //     selectedAppointmentServices.add(Service(
+  //       serviceId: selectedAvailableService.serviceId,
+  //       categoryId: selectedAvailableService.categoryId,
+  //       subCategoryId: selectedAvailableService.subCategoryId,
+  //       serviceName: selectedAvailableService.serviceName,
+  //       translations: selectedAvailableService.translations,
+  //       priceAndDuration: PriceAndDurationModel(
+  //         // isFixedPrice: selectedAvailableService.isFixedPrice,
+  //         // isPriceRange: selectedAvailableService.isPriceRange,
+  //         // isPriceStartAt: selectedAvailableService.isPriceStartAt,
+  //         durationinHr: selectedAvailableService.priceAndDuration.durationinHr,
+  //         durationinMin: selectedAvailableService.priceAndDuration.durationinMin,
+  //         duration: selectedAvailableService.priceAndDuration.duration,
+  //         price: selectedAvailableService.priceAndDuration.price,
+  //       ),
+  //     ));
+  //   }
+
+  //   /// assigning all the variables and creating appointment model ....
+  //   return AppointmentModel(
+  //     type: _type,
+  //     createdAt: _createdAt,
+  //     appointmentStartTime: startTime,
+  //     appointmentEndTime: endTime,
+  //     appointmentTime: appointmentTime ?? chosenSlots.first,
+  //     appointmentDate: Time().getDateInStandardFormat(chosenDay) ?? '',
+  //     salon: Salon(
+  //       id: chosenSalon!.salonId,
+  //       name: chosenSalon!.salonName,
+  //       address: chosenSalon!.address,
+  //       phoneNo: chosenSalon!.phoneNumber,
+  //     ),
+  //     master: chosenSalon!.ownerType == OwnerType.singleMaster
+  //         ? Master(
+  //             id: chosenSalon!.salonId,
+  //             name: chosenSalon!.salonName,
+  //           )
+  //         : Master(
+  //             id: chosenMaster!.masterId,
+  //             name: Utils().getNameMaster(chosenMaster!.personalInfo),
+  //           ),
+  //     customer: Customer(
+  //       id: customerModel!.customerId,
+  //       name: Utils().getName(customerModel.personalInfo),
+  //       phoneNumber: customerModel.personalInfo.phone,
+  //       pic: customerModel.profilePic,
+  //       email: customerModel.personalInfo.email ?? '',
+  //     ),
+  //     createdBy: _createdBy,
+  //     salonOwnerType: OwnerType.salon,
+  //     status: _status,
+  //     updates: _updates,
+  //     updatedAt: _updatedAt,
+  //     services: selectedAppointmentServices,
+  //     subStatus: startTime.difference(DateTime.now()).inHours < 24 ? ActiveAppointmentSubStatus.confirmed : ActiveAppointmentSubStatus.unConfirmed,
+  //     priceAndDuration: priceAndDuration,
+  //     paymentInfo: PaymentInfo(
+  //       bonusApplied: chosenBonus != null,
+  //       bonusAmount: chosenBonus?.amount ?? 0,
+  //       actualAmount: double.parse(priceAndDuration.price).toInt(),
+  //       bonusIds: chosenBonus != null ? [chosenBonus!.bonusId] : [],
+  //       paymentDone: false,
+  //       onlinePayment: false,
+  //       paymentMethod: PaymentMethods.cardSalon,
+  //     ),
+  //   );
+  // }
+
   ///to save the appointment for single services selected
-  Future saveAppointment({
-    required AppointmentModel appointment,
-    required String timeForBlockEndProcessing,
-    required bool isSingleMaster,
-    required CustomerModel? customerModel,
-  }) async {
-    Service singleService = appointment.services[0];
+  Future saveAppointment({required CustomerModel customer}) async {
+    bookAppointmentStatus = Status.loading;
+    notifyListeners();
+
+    ServiceModel selectedService = chosenServices[0];
+
+    final AppointmentModel _appointment = _createAppointmentModel(customer: customer);
+    //   //booking failed
+    //  if (_appointment == null) {
+    //     bookAppointmentStatus = false;
+    //         notifyListeners();
+    //     return;
+    //   }
 
     ///this identifier is used to locate prepTime or cleaUptime created with this appointment
-    var identifier = chosenSalon!.salonId + DateTime.now().toString() + appointment.master!.id;
-    appointment.appointmentIdentifier = identifier;
-    await AppointmentApi().createUpdateAppointment(appointment).then((value) async {
-      //blocking master's timen
-      MasterModel master = serviceAgainstMaster.where((element) => element.service?.serviceId == appointment.services.first.serviceId).toList().first.master!;
-      debugPrint('is it getting here 1');
+    var identifier = chosenSalon!.salonId + DateTime.now().toString() + _appointment.master!.id;
+    _appointment.appointmentIdentifier = identifier;
+    await AppointmentApi().createUpdateAppointment(_appointment).then((value) async {
+      //blocking master's time
+
+      debugPrint('is it getting here');
 
       // if it has processing time then it is complex
-      if (singleService.hasProcessingTime) {
+
+      if (selectedService.hasProcessingTime) {
         // block start processing
-        if (isSingleMaster) {
-          blockTime();
-        } else {
-          blockTimeSalonOwnerMaster(appointment, master);
+        await AppointmentApi().blockMastersTime(
+          master: chosenMaster!,
+          date: chosenDay,
+          time: selectedAppointmentSlot!,
+          minutes: selectedService.preparationTime ?? 0,
+        );
+
+        /// check if mastes list is 1 (single master), check if original master (phone number == salon phone)
+        /// block time of salon and master,
+        if (salonMasters.length == 1) {
+          if (salonMasters.first.personalInfo?.phone == chosenSalon?.phoneNumber) {
+            await AppointmentApi().blockSalonTime(
+              salon: chosenSalon!,
+              date: chosenDay,
+              time: selectedAppointmentSlot!,
+              minutes: selectedService.preparationTime ?? 0,
+            );
+          }
         }
+
         // block end processing
-        TimeOfDay appointend = Time().stringToTime(timeForBlockEndProcessing).addMinutes(
+        TimeOfDay appointend = Time().stringToTime(selectedAppointmentSlot!).addMinutes(
               int.parse(
-                mastersPriceDurationMap[appointment.master?.id]?.duration ?? defaultServiceDuration,
+                priceAndDuration[chosenMaster?.masterId]?.duration ?? defaultServiceDuration,
               ),
             );
-        int appointTimeInNumberNew = ((appointend.hour * 60) + appointend.minute) - singleService.endProcessingTime!;
+        int appointTimeInNumberNew = ((appointend.hour * 60) + appointend.minute) - selectedService.endProcessingTime!;
         String endProcessingTime = Time().timeToString(
           appointend.replacing(
             hour: appointTimeInNumberNew ~/ 60,
             minute: appointTimeInNumberNew % 60,
           ),
         )!;
+        await AppointmentApi().blockMastersTime(
+          master: chosenMaster!,
+          date: chosenDay,
+          time: endProcessingTime,
+          minutes: selectedService.endProcessingTime ?? 0,
+        );
 
-        if (isSingleMaster) {
-          blockTime(
-            time: endProcessingTime,
-            minutes: singleService.endProcessingTime ?? 0,
-          );
-        } else {
-          blockTimeSalonOwnerMaster(
-            appointment,
-            master,
-            time: endProcessingTime,
-            minutes: singleService.endProcessingTime ?? 0,
-          );
+        if (salonMasters.length == 1) {
+          if (salonMasters.first.personalInfo?.phone == chosenSalon?.phoneNumber) {
+            await AppointmentApi().blockSalonTime(
+              salon: chosenSalon!,
+              date: chosenDay,
+              time: selectedAppointmentSlot!,
+              minutes: selectedService.endProcessingTime ?? 0,
+            );
+          }
         }
       } else {
         // block time normally if
-        if (isSingleMaster) {
-          blockTime(
-            minutes: int.parse(mastersPriceDurationMap[appointment.master?.id]?.duration ?? defaultServiceDuration),
-          );
-        } else {
-          blockTimeSalonOwnerMaster(
-            appointment,
-            master,
-            minutes: int.parse(mastersPriceDurationMap[appointment.master?.id]?.duration ?? defaultServiceDuration),
-          );
+        await AppointmentApi().blockMastersTime(
+          master: chosenMaster!,
+          date: chosenDay,
+          time: selectedAppointmentSlot!,
+          minutes: int.parse(
+            priceAndDuration[chosenMaster?.masterId]?.duration ?? defaultServiceDuration,
+          ),
+        );
+        if (salonMasters.length == 1) {
+          if (salonMasters.first.personalInfo?.phone == chosenSalon?.phoneNumber) {
+            await AppointmentApi().blockSalonTime(
+              salon: chosenSalon!,
+              date: chosenDay,
+              time: selectedAppointmentSlot!,
+              minutes: int.parse(
+                priceAndDuration[chosenMaster?.masterId]?.duration ?? defaultServiceDuration,
+              ),
+            );
+          }
         }
       }
 
       // create appointment and block preparation time
-      if (singleService.preparationTime != null) {
-        TimeOfDay appoint = Time().stringToTime(timeForBlockEndProcessing);
-        int appointTimeInNumberNew = ((appoint.hour * 60) + appoint.minute) - singleService.preparationTime!;
-        String prepTime = Time().timeToString(
-          appoint.replacing(
-            hour: appointTimeInNumberNew ~/ 60,
-            minute: appointTimeInNumberNew % 60,
-          ),
-        )!;
+      if (selectedService.preparationTime != null) {
+        TimeOfDay appoint = Time().stringToTime(selectedAppointmentSlot!);
+        int appointTimeInNumberNew = ((appoint.hour * 60) + appoint.minute) - selectedService.preparationTime!;
+        String prepTime = Time().timeToString(appoint.replacing(hour: appointTimeInNumberNew ~/ 60, minute: appointTimeInNumberNew % 60))!;
         // String prepTime = Time().timeToString(appoint.replacing(
         //     hour: appoint.hour,
         //     minute: appoint.minute - selectedService!.preparationTime!))!;
         final AppointmentModel _appointmentPrep = _createOtherAppointmentTypeModel(
-          appointment: appointment,
-          customerModel: customerModel,
           type: AppointmentType.preparationTime,
-          appointmentSlot: prepTime,
-          duration: singleService.preparationTime,
+          AppointmentSlot: prepTime,
+          duration: selectedService.preparationTime,
+          customer: customer,
         );
         _appointmentPrep.appointmentIdentifier = identifier;
         //create and block prep time
         if (_appointmentPrep != null) {
           await AppointmentApi().createUpdateAppointment(_appointmentPrep).then((value) async {
-            if (isSingleMaster) {
-              blockTime(
-                time: prepTime,
-                minutes: singleService.preparationTime!,
-              );
-            } else {
-              blockTimeSalonOwnerMaster(
-                appointment,
-                master,
-                time: prepTime,
-                minutes: singleService.preparationTime!,
-              );
+            await AppointmentApi().blockMastersTime(
+              master: chosenMaster!,
+              date: chosenDay,
+              time: prepTime,
+              minutes: selectedService.preparationTime!,
+            );
+
+            if (salonMasters.length == 1) {
+              if (salonMasters.first.personalInfo?.phone == chosenSalon?.phoneNumber) {
+                await AppointmentApi().blockSalonTime(
+                  salon: chosenSalon!,
+                  date: chosenDay,
+                  time: selectedAppointmentSlot!,
+                  minutes: selectedService.preparationTime!,
+                );
+              }
             }
           });
         }
       }
 
       //create and block cleanUp time
-      if (singleService.cleanUpTime != null) {
-        TimeOfDay appointend = Time().stringToTime(timeForBlockEndProcessing).addMinutes(
-              int.parse(mastersPriceDurationMap[appointment.master?.id]?.duration ?? defaultServiceDuration),
+      if (selectedService.cleanUpTime != null) {
+        TimeOfDay appointend = Time().stringToTime(selectedAppointmentSlot!).addMinutes(
+              int.parse(
+                priceAndDuration[chosenMaster?.masterId]?.duration ?? defaultServiceDuration,
+              ),
             );
         final AppointmentModel _appointmentCleanUp = _createOtherAppointmentTypeModel(
-          appointment: appointment,
-          customerModel: customerModel,
           type: AppointmentType.cleanUpTime,
-          appointmentSlot: Time().timeToString(appointend)!,
-          duration: singleService.cleanUpTime,
+          AppointmentSlot: Time().timeToString(appointend)!,
+          duration: selectedService.cleanUpTime,
+          customer: customer,
         );
         _appointmentCleanUp.appointmentIdentifier = identifier;
         //create and block cleanUp time
         if (_appointmentCleanUp != null) {
           await AppointmentApi().createUpdateAppointment(_appointmentCleanUp).then((value) async {
-            if (isSingleMaster) {
-              blockTime(
-                time: Time().timeToString(appointend)!,
-                minutes: singleService.cleanUpTime!,
-              );
-            } else {
-              blockTimeSalonOwnerMaster(
-                appointment,
-                master,
-                time: Time().timeToString(appointend)!,
-                minutes: singleService.cleanUpTime!,
-              );
+            await AppointmentApi().blockMastersTime(
+              master: chosenMaster!,
+              date: chosenDay,
+              time: Time().timeToString(appointend)!,
+              minutes: selectedService.cleanUpTime ?? 0,
+            );
+
+            if (salonMasters.length == 1) {
+              if (salonMasters.first.personalInfo?.phone == chosenSalon?.phoneNumber) {
+                await AppointmentApi().blockSalonTime(
+                  salon: chosenSalon!,
+                  date: chosenDay,
+                  time: selectedAppointmentSlot!,
+                  minutes: selectedService.cleanUpTime ?? 0,
+                );
+              }
             }
           });
         }
       }
 
+      bookAppointmentStatus = Status.success;
+      notifyListeners();
+
       // finish booking
       showToast('Successful!!!...');
 
       //assigning appointment id
-      appointmentModel?.appointmentId = value;
+      _appointment.appointmentId = value;
     });
   }
 
   ///saves appointments when service is more that one
-  Future saveNewAppointmentForMultipleServices({
-    required AppointmentModel appointment,
-    required String timeForBlockEndProcessing,
-    required bool isSingleMaster,
-    required CustomerModel? customerModel,
-  }) async {
-    var identifier = chosenSalon!.salonId + DateTime.now().toString() + appointment.master!.id;
-    appointment.appointmentIdentifier = identifier;
+  Future saveNewAppointmentForMultipleServices({required CustomerModel customer}) async {
+    bookAppointmentStatus = Status.loading;
+    notifyListeners();
 
-    List<Service> servicesList = appointment.services;
-    MasterModel master = serviceAgainstMaster.where((element) => element.service?.serviceId == appointment.services.first.serviceId).toList().first.master!;
+    final AppointmentModel _appointment = _createMultipleServiceAppointmentModel(
+      customer: customer,
+    );
+    // //booking failed
+    // if (_appointment == null) {
+    //   bookAppointmentStatus = false;
+    //       notifyListeners();
+    //   return;
+    // }
 
+    var identifier = chosenSalon!.salonId + DateTime.now().toString() + _appointment.master!.id;
+    _appointment.appointmentIdentifier = identifier;
     //this will hold the highest appointment prep time
     int preparationTime = 0;
 
     int endApptProcessingTime = 0;
     //this will hold highest appointment clean up time
     int cleanUpApptTime = 0;
-    debugPrint('at zero before${servicesList[0].preparationTime}');
+    debugPrint('at zero before${chosenServices[0].preparationTime}');
 
     //loop through each service and get highest prep time and cleanup time if there is any
-    for (var selectedAvailableService in servicesList) {
-      debugPrint('at all before${servicesList[servicesList.indexOf(selectedAvailableService)].preparationTime}');
+    for (var selectedAvailableService in chosenServices) {
+      debugPrint('at all before${chosenServices[chosenServices.indexOf(selectedAvailableService)].preparationTime}');
       // If prep-time =null , cleantime is not null, then pre-time service as first service in the list.
       // also if the service prep time is greater than preparationTime variable then assign it to the preparationTime
       if (selectedAvailableService.preparationTime != null && selectedAvailableService.cleanUpTime == null) {
@@ -2862,9 +3459,9 @@ class CreateAppointmentProvider with ChangeNotifier {
         if (selectedAvailableService.preparationTime! > preparationTime) {
           preparationTime = selectedAvailableService.preparationTime!;
           //here we are making inserting the highest service prep time as the first in the list
-          int index = servicesList.indexOf(selectedAvailableService);
-          Service removedService = servicesList.removeAt(index);
-          servicesList.insert(0, removedService);
+          int index = chosenServices.indexOf(selectedAvailableService);
+          ServiceModel removedService = chosenServices.removeAt(index);
+          chosenServices.insert(0, removedService);
         }
       }
       //If pre-time =null, clean time is not null, then make the clean time service as last service in the list.
@@ -2875,9 +3472,9 @@ class CreateAppointmentProvider with ChangeNotifier {
           cleanUpApptTime = selectedAvailableService.cleanUpTime!;
 
           ///insert the highest clean up time as the last item in the list
-          int index = servicesList.indexOf(selectedAvailableService);
-          Service removedService = servicesList.removeAt(index);
-          servicesList.add(removedService);
+          int index = chosenServices.indexOf(selectedAvailableService);
+          ServiceModel removedService = chosenServices.removeAt(index);
+          chosenServices.add(removedService);
         }
       }
 
@@ -2888,9 +3485,9 @@ class CreateAppointmentProvider with ChangeNotifier {
           if (selectedAvailableService.preparationTime! > preparationTime) {
             preparationTime = selectedAvailableService.preparationTime!;
             //insert highest prep time as first service
-            int index = servicesList.indexOf(selectedAvailableService);
-            Service removedService = servicesList.removeAt(index);
-            servicesList.insert(0, removedService);
+            int index = chosenServices.indexOf(selectedAvailableService);
+            ServiceModel removedService = chosenServices.removeAt(index);
+            chosenServices.insert(0, removedService);
           }
         }
         if (selectedAvailableService.cleanUpTime != null) {
@@ -2898,78 +3495,82 @@ class CreateAppointmentProvider with ChangeNotifier {
           if (selectedAvailableService.cleanUpTime! > cleanUpApptTime) {
             cleanUpApptTime = selectedAvailableService.cleanUpTime!;
             //update clean up time as last item in the list
-            int index = servicesList.indexOf(selectedAvailableService);
-            Service removedService = servicesList.removeAt(index);
-            servicesList.add(removedService);
+            int index = chosenServices.indexOf(selectedAvailableService);
+            ServiceModel removedService = chosenServices.removeAt(index);
+            chosenServices.add(removedService);
             cleanUpApptTime = selectedAvailableService.cleanUpTime!;
           }
         }
       }
     }
 
-    debugPrint('at zero after${servicesList[0].preparationTime}');
+    debugPrint('at zero after${chosenServices[0].preparationTime}');
 
     debugPrint(' prep time $preparationTime');
     debugPrint('end processing time$endApptProcessingTime');
-    await AppointmentApi().createUpdateAppointment(appointment).then((value) async {
+    _appointment.appointmentIdentifier = identifier;
+
+    await AppointmentApi().createUpdateAppointment(_appointment).then((value) async {
       //blocking master's time
 
-      debugPrint('is it getting here 2');
+      debugPrint('is it getting here');
       // block time normally if
-      if (isSingleMaster) {
-        blockTime(
-          minutes: int.parse(
-            mastersPriceDurationMap[appointment]?.duration ?? defaultServiceDuration,
-          ),
-        );
-      } else {
-        blockTimeSalonOwnerMaster(
-          appointment,
-          master,
-          minutes: int.parse(
-            mastersPriceDurationMap[appointment]?.duration ?? defaultServiceDuration,
-          ),
-        );
+      await AppointmentApi().blockMastersTime(
+        master: chosenMaster!,
+        date: chosenDay,
+        time: selectedAppointmentSlot!,
+        minutes: int.parse(
+          priceAndDuration[chosenMaster?.masterId]?.duration ?? defaultServiceDuration,
+        ),
+      );
+      if (salonMasters.length == 1) {
+        if (salonMasters.first.personalInfo?.phone == chosenSalon?.phoneNumber) {
+          await AppointmentApi().blockSalonTime(
+            salon: chosenSalon!,
+            date: chosenDay,
+            time: selectedAppointmentSlot!,
+            minutes: int.parse(
+              priceAndDuration[chosenMaster?.masterId]?.duration ?? defaultServiceDuration,
+            ),
+          );
+        }
       }
 
       //if prep time is not 0 then we create appt block for prep time
       if (preparationTime != 0) {
-        TimeOfDay appoint = Time().stringToTime(timeForBlockEndProcessing);
+        TimeOfDay appoint = Time().stringToTime(selectedAppointmentSlot!);
         int appointTimeInNumberNew = ((appoint.hour * 60) + appoint.minute) - preparationTime;
-        String prepTime = Time().timeToString(
-          appoint.replacing(
-            hour: appointTimeInNumberNew ~/ 60,
-            minute: appointTimeInNumberNew % 60,
-          ),
-        )!;
+        String prepTime = Time().timeToString(appoint.replacing(hour: appointTimeInNumberNew ~/ 60, minute: appointTimeInNumberNew % 60))!;
         // String prepTime = Time().timeToString(appoint.replacing(
         //     hour: appoint.hour,
         //     minute: appoint.minute - selectedService!.preparationTime!))!;
         final AppointmentModel _appointmentPrep = _createOtherNewAppointmentTypeModelForMultipleServices(
           type: AppointmentType.preparationTime,
-          appointmentSlot: prepTime,
+          AppointmentSlot: prepTime,
           duration: preparationTime,
-          appointment: appointment,
-          customerModel: customerModel,
+          customer: customer,
         );
-
-        _appointmentPrep.appointmentIdentifier = identifier;
 
         //create and block prep time
         if (_appointmentPrep != null) {
+          _appointment.appointmentIdentifier = identifier;
+
           await AppointmentApi().createUpdateAppointment(_appointmentPrep).then((value) async {
-            if (isSingleMaster) {
-              blockTime(
-                time: prepTime,
-                minutes: preparationTime,
-              );
-            } else {
-              blockTimeSalonOwnerMaster(
-                appointment,
-                master,
-                time: prepTime,
-                minutes: preparationTime,
-              );
+            await AppointmentApi().blockMastersTime(
+              master: chosenMaster!,
+              date: chosenDay,
+              time: prepTime,
+              minutes: preparationTime,
+            );
+            if (salonMasters.length == 1) {
+              if (salonMasters.first.personalInfo?.phone == chosenSalon?.phoneNumber) {
+                await AppointmentApi().blockSalonTime(
+                  salon: chosenSalon!,
+                  date: chosenDay,
+                  time: selectedAppointmentSlot!,
+                  minutes: preparationTime,
+                );
+              }
             }
           });
         }
@@ -2977,56 +3578,241 @@ class CreateAppointmentProvider with ChangeNotifier {
 
       //create and block cleanUp time if clean up time is not 0
       if (cleanUpApptTime != 0) {
-        TimeOfDay appointend = Time().stringToTime(timeForBlockEndProcessing).addMinutes(
+        TimeOfDay appointend = Time().stringToTime(selectedAppointmentSlot!).addMinutes(
               int.parse(
-                mastersPriceDurationMap[appointment]?.duration ?? defaultServiceDuration,
+                priceAndDuration[chosenMaster?.masterId]?.duration ?? defaultServiceDuration,
               ),
             );
         final AppointmentModel _appointmentCleanUp = _createOtherNewAppointmentTypeModelForMultipleServices(
-          appointment: appointment,
-          customerModel: customerModel,
           type: AppointmentType.cleanUpTime,
-          appointmentSlot: Time().timeToString(appointend)!,
+          AppointmentSlot: Time().timeToString(appointend)!,
           duration: cleanUpApptTime,
+          customer: customer,
         );
 
         //create and block cleanUp time
         if (_appointmentCleanUp != null) {
+          _appointment.appointmentIdentifier = identifier;
+
           await AppointmentApi().createUpdateAppointment(_appointmentCleanUp).then((value) async {
-            if (isSingleMaster) {
-              blockTime(
-                time: Time().timeToString(appointend)!,
-                minutes: cleanUpApptTime,
-              );
-            } else {
-              blockTimeSalonOwnerMaster(
-                appointment,
-                master,
-                time: Time().timeToString(appointend)!,
-                minutes: cleanUpApptTime,
-              );
+            await AppointmentApi().blockMastersTime(
+              master: chosenMaster!,
+              date: chosenDay,
+              time: Time().timeToString(appointend)!,
+              minutes: cleanUpApptTime,
+            );
+            if (salonMasters.length == 1) {
+              if (salonMasters.first.personalInfo?.phone == chosenSalon?.phoneNumber) {
+                await AppointmentApi().blockSalonTime(
+                  salon: chosenSalon!,
+                  date: chosenDay,
+                  time: selectedAppointmentSlot!,
+                  minutes: cleanUpApptTime,
+                );
+              }
             }
           });
         }
       }
 
-      // finish booking
+      //finish booking
+      bookAppointmentStatus = Status.success;
+      notifyListeners();
+
       showToast('Successful!!!...');
 
       // assigning appointment id
-      appointment.appointmentId = value;
+      _appointment.appointmentId = value;
     });
   }
 
-  AppointmentModel _createOtherAppointmentTypeModel({
-    required AppointmentModel appointment,
-    String? type,
-    String? appointmentSlot,
-    int? duration,
-    required CustomerModel? customerModel,
-  }) {
-    Service singleService = appointment.services[0];
+  // Future saveNewAppointmentForMultipleServices({
+  //   required AppointmentModel appointment,
+  //   required String timeForBlockEndProcessing,
+  //   required bool isSingleMaster,
+  //   required CustomerModel? customerModel,
+  // }) async {
+  //   var identifier = chosenSalon!.salonId + DateTime.now().toString() + appointment.master!.id;
+  //   appointment.appointmentIdentifier = identifier;
 
+  //   List<Service> servicesList = appointment.services;
+  //   MasterModel master = serviceAgainstMaster.where((element) => element.service?.serviceId == appointment.services.first.serviceId).toList().first.master!;
+
+  //   //this will hold the highest appointment prep time
+  //   int preparationTime = 0;
+
+  //   int endApptProcessingTime = 0;
+  //   //this will hold highest appointment clean up time
+  //   int cleanUpApptTime = 0;
+  //   debugPrint('at zero before${servicesList[0].preparationTime}');
+
+  //   //loop through each service and get highest prep time and cleanup time if there is any
+  //   for (var selectedAvailableService in servicesList) {
+  //     debugPrint('at all before${servicesList[servicesList.indexOf(selectedAvailableService)].preparationTime}');
+  //     // If prep-time =null , cleantime is not null, then pre-time service as first service in the list.
+  //     // also if the service prep time is greater than preparationTime variable then assign it to the preparationTime
+  //     if (selectedAvailableService.preparationTime != null && selectedAvailableService.cleanUpTime == null) {
+  //       //update prepTime to highest service prep time
+  //       if (selectedAvailableService.preparationTime! > preparationTime) {
+  //         preparationTime = selectedAvailableService.preparationTime!;
+  //         //here we are making inserting the highest service prep time as the first in the list
+  //         int index = servicesList.indexOf(selectedAvailableService);
+  //         Service removedService = servicesList.removeAt(index);
+  //         servicesList.insert(0, removedService);
+  //       }
+  //     }
+  //     //If pre-time =null, clean time is not null, then make the clean time service as last service in the list.
+  //     // also if the service clean up time is greater than cleanUpTime variable then assign it to the cleanUpTime
+  //     if (selectedAvailableService.preparationTime == null && selectedAvailableService.cleanUpTime != null) {
+  //       //update cleanUpAppt time to highest service clean up time
+  //       if (selectedAvailableService.cleanUpTime! > cleanUpApptTime) {
+  //         cleanUpApptTime = selectedAvailableService.cleanUpTime!;
+
+  //         ///insert the highest clean up time as the last item in the list
+  //         int index = servicesList.indexOf(selectedAvailableService);
+  //         Service removedService = servicesList.removeAt(index);
+  //         servicesList.add(removedService);
+  //       }
+  //     }
+
+  //     //If prep time is not null, clean time is not null, then make prep time service as first and clean time service as last.
+  //     if (selectedAvailableService.preparationTime != null && selectedAvailableService.cleanUpTime != null) {
+  //       if (selectedAvailableService.preparationTime != null) {
+  //         //update preparationTime to highest service prep time \
+  //         if (selectedAvailableService.preparationTime! > preparationTime) {
+  //           preparationTime = selectedAvailableService.preparationTime!;
+  //           //insert highest prep time as first service
+  //           int index = servicesList.indexOf(selectedAvailableService);
+  //           Service removedService = servicesList.removeAt(index);
+  //           servicesList.insert(0, removedService);
+  //         }
+  //       }
+  //       if (selectedAvailableService.cleanUpTime != null) {
+  //         //update cleanUpApptTime to highest service clean up time
+  //         if (selectedAvailableService.cleanUpTime! > cleanUpApptTime) {
+  //           cleanUpApptTime = selectedAvailableService.cleanUpTime!;
+  //           //update clean up time as last item in the list
+  //           int index = servicesList.indexOf(selectedAvailableService);
+  //           Service removedService = servicesList.removeAt(index);
+  //           servicesList.add(removedService);
+  //           cleanUpApptTime = selectedAvailableService.cleanUpTime!;
+  //         }
+  //       }
+  //     }
+  //   }
+
+  //   debugPrint('at zero after${servicesList[0].preparationTime}');
+
+  //   debugPrint(' prep time $preparationTime');
+  //   debugPrint('end processing time$endApptProcessingTime');
+  //   await AppointmentApi().createUpdateAppointment(appointment).then((value) async {
+  //     //blocking master's time
+
+  //     debugPrint('is it getting here 2');
+  //     // block time normally if
+  //     if (isSingleMaster) {
+  //       blockTime(
+  //         minutes: int.parse(
+  //           mastersPriceDurationMap[appointment]?.duration ?? defaultServiceDuration,
+  //         ),
+  //       );
+  //     } else {
+  //       blockTimeSalonOwnerMaster(
+  //         appointment,
+  //         master,
+  //         minutes: int.parse(
+  //           mastersPriceDurationMap[appointment]?.duration ?? defaultServiceDuration,
+  //         ),
+  //       );
+  //     }
+
+  //     //if prep time is not 0 then we create appt block for prep time
+  //     if (preparationTime != 0) {
+  //       TimeOfDay appoint = Time().stringToTime(timeForBlockEndProcessing);
+  //       int appointTimeInNumberNew = ((appoint.hour * 60) + appoint.minute) - preparationTime;
+  //       String prepTime = Time().timeToString(
+  //         appoint.replacing(
+  //           hour: appointTimeInNumberNew ~/ 60,
+  //           minute: appointTimeInNumberNew % 60,
+  //         ),
+  //       )!;
+  //       // String prepTime = Time().timeToString(appoint.replacing(
+  //       //     hour: appoint.hour,
+  //       //     minute: appoint.minute - selectedService!.preparationTime!))!;
+  //       final AppointmentModel _appointmentPrep = _createOtherNewAppointmentTypeModelForMultipleServices(
+  //         type: AppointmentType.preparationTime,
+  //         appointmentSlot: prepTime,
+  //         duration: preparationTime,
+  //         appointment: appointment,
+  //         customerModel: customerModel,
+  //       );
+
+  //       _appointmentPrep.appointmentIdentifier = identifier;
+
+  //       //create and block prep time
+  //       if (_appointmentPrep != null) {
+  //         await AppointmentApi().createUpdateAppointment(_appointmentPrep).then((value) async {
+  //           if (isSingleMaster) {
+  //             blockTime(
+  //               time: prepTime,
+  //               minutes: preparationTime,
+  //             );
+  //           } else {
+  //             blockTimeSalonOwnerMaster(
+  //               appointment,
+  //               master,
+  //               time: prepTime,
+  //               minutes: preparationTime,
+  //             );
+  //           }
+  //         });
+  //       }
+  //     }
+
+  //     //create and block cleanUp time if clean up time is not 0
+  //     if (cleanUpApptTime != 0) {
+  //       TimeOfDay appointend = Time().stringToTime(timeForBlockEndProcessing).addMinutes(
+  //             int.parse(
+  //               mastersPriceDurationMap[appointment]?.duration ?? defaultServiceDuration,
+  //             ),
+  //           );
+  //       final AppointmentModel _appointmentCleanUp = _createOtherNewAppointmentTypeModelForMultipleServices(
+  //         appointment: appointment,
+  //         customerModel: customerModel,
+  //         type: AppointmentType.cleanUpTime,
+  //         appointmentSlot: Time().timeToString(appointend)!,
+  //         duration: cleanUpApptTime,
+  //       );
+
+  //       //create and block cleanUp time
+  //       if (_appointmentCleanUp != null) {
+  //         await AppointmentApi().createUpdateAppointment(_appointmentCleanUp).then((value) async {
+  //           if (isSingleMaster) {
+  //             blockTime(
+  //               time: Time().timeToString(appointend)!,
+  //               minutes: cleanUpApptTime,
+  //             );
+  //           } else {
+  //             blockTimeSalonOwnerMaster(
+  //               appointment,
+  //               master,
+  //               time: Time().timeToString(appointend)!,
+  //               minutes: cleanUpApptTime,
+  //             );
+  //           }
+  //         });
+  //       }
+  //     }
+
+  //     // finish booking
+  //     showToast('Successful!!!...');
+
+  //     // assigning appointment id
+  //     appointment.appointmentId = value;
+  //   });
+  // }
+
+  AppointmentModel _createOtherAppointmentTypeModel({String? type, String? AppointmentSlot, int? duration, required CustomerModel customer}) {
     ///creating all the required variables
     final String _type = type!;
     //updating the latest update
@@ -3036,59 +3822,70 @@ class CreateAppointmentProvider with ChangeNotifier {
     //////////////////////////////////////////////
     //handling appointment TIME & DURATION
     //////////////////////////////////////////////
-    final PriceAndDurationModel _priceAndDuration = mastersPriceDurationMap[appointment.master?.id] ?? PriceAndDurationModel();
+    final PriceAndDurationModel _priceAndDuration = priceAndDuration[chosenMaster!.masterId] ?? PriceAndDurationModel();
     debugPrint(type + " Chosen Slots");
-    debugPrint(appointmentSlot);
+    debugPrint(AppointmentSlot);
 
-    TimeOfDay _startTime = Time().stringToTime(appointmentSlot!);
+    TimeOfDay _startTime = Time().stringToTime(AppointmentSlot!);
     //computing appointment end time in string
 
     debugPrint("_startTime");
     debugPrint(_startTime.toString());
-    TimeOfDay _endTime = _startTime.addMinutes(duration ?? 0);
+    TimeOfDay _endTime = _startTime.addMinutes(duration);
 
-    final DateTime _start = Time().generateDateTimeFromString(
-      chosenDay,
-      appointmentSlot,
-    );
+    final DateTime _start = Time().generateDateTimeFromString(chosenDay, AppointmentSlot);
 
     debugPrint("_start");
     debugPrint(_start.toString());
 
-    final DateTime _end = Time().generateDateTimeFromString(
-      chosenDay,
-      Time().timeToString(_endTime)!,
-    );
+    final DateTime _end = Time().generateDateTimeFromString(chosenDay, Time().timeToString(_endTime)!);
 
-    final String? _appointmentTime = appointmentSlot;
+    final String? _appointmentTime = AppointmentSlot;
     final String _appointmentDate = Time().getDateInStandardFormat(chosenDay);
 
     final DateTime _createdAt = DateTime.now();
 
-    /////////////////////////////////////////////
+    final Salon _salon = Salon(
+      id: chosenSalon!.salonId,
+      name: chosenSalon!.salonName,
+      phoneNo: chosenSalon!.phoneNumber,
+      address: chosenSalon!.address,
+    );
 
-    final Master _master = chosenSalon!.ownerType == OwnerType.singleMaster
-        ? Master(
-            id: chosenSalon!.salonId,
-            name: chosenSalon!.salonName,
-          )
-        : Master(
-            id: chosenMaster!.masterId,
-            name: Utils().getNameMaster(chosenMaster!.personalInfo),
-          );
-
-    /////////////////////////////////////////////
+    final Master _master = Master(
+      id: chosenMaster!.masterId,
+      name: "${chosenMaster?.personalInfo?.firstName ?? ''} ${chosenMaster?.personalInfo?.lastName ?? ''}",
+    );
 
     const String _status = AppointmentStatus.active;
-    const String _createdBy = CreatedBy.salon;
+
+    ServiceModel selectedService = chosenServices[0];
 
     final Service _service = Service(
-      serviceId: singleService.serviceId,
-      categoryId: singleService.categoryId,
-      subCategoryId: singleService.subCategoryId,
-      serviceName: singleService.serviceName,
-      translations: singleService.translations,
+      serviceId: selectedService.serviceId,
+      categoryId: selectedService.categoryId,
+      subCategoryId: selectedService.subCategoryId,
+      serviceName: selectedService.serviceName,
+      translations: selectedService.translations,
       priceAndDuration: _priceAndDuration,
+    );
+
+    PaymentInfo _paymentInfo = PaymentInfo(
+      bonusApplied: false,
+      bonusAmount: 0,
+      actualAmount: 0,
+      bonusIds: [],
+      paymentDone: false,
+      onlinePayment: false,
+      paymentMethod: 'card',
+    );
+
+    final Customer _customer = Customer(
+      id: customer.customerId,
+      name: Utils().getName(customer.personalInfo),
+      pic: customer.profilePic,
+      phoneNumber: customer.personalInfo.phone,
+      email: customer.personalInfo.email ?? '',
     );
 
     /// assigning all the variables and creating appointment model ....
@@ -3098,23 +3895,12 @@ class CreateAppointmentProvider with ChangeNotifier {
       createdAt: _createdAt,
       appointmentStartTime: _start,
       appointmentEndTime: _end,
-      appointmentTime: _appointmentTime ?? '',
+      appointmentTime: _appointmentTime!,
       appointmentDate: _appointmentDate,
-      salon: Salon(
-        id: chosenSalon!.salonId,
-        name: chosenSalon!.salonName,
-        address: chosenSalon!.address,
-        phoneNo: chosenSalon!.phoneNumber,
-      ),
+      salon: _salon,
       master: _master,
-      customer: Customer(
-        id: customerModel!.customerId,
-        name: Utils().getName(customerModel.personalInfo),
-        phoneNumber: customerModel.personalInfo.phone,
-        pic: customerModel.profilePic,
-        email: customerModel.personalInfo.email ?? '',
-      ),
-      createdBy: _createdBy,
+      customer: _customer,
+      createdBy: CreatedBy.customer,
       salonOwnerType: OwnerType.salon,
       status: _status,
       subStatus: _start.difference(DateTime.now()).inHours < 24 ? ActiveAppointmentSubStatus.confirmed : ActiveAppointmentSubStatus.unConfirmed,
@@ -3122,76 +3908,189 @@ class CreateAppointmentProvider with ChangeNotifier {
       updatedAt: _updatedAt,
       services: [_service],
       priceAndDuration: _priceAndDuration,
-      paymentInfo: PaymentInfo(
-        bonusApplied: false,
-        bonusAmount: 0,
-        actualAmount: 0,
-        bonusIds: [],
-        paymentDone: false,
-        onlinePayment: false,
-        paymentMethod: PaymentMethods.cardSalon,
-      ),
+      paymentInfo: _paymentInfo,
     );
   }
 
+  // AppointmentModel _createOtherAppointmentTypeModel({
+  //   required AppointmentModel appointment,
+  //   String? type,
+  //   String? appointmentSlot,
+  //   int? duration,
+  //   required CustomerModel? customerModel,
+  // }) {
+  //   Service singleService = appointment.services[0];
+
+  //   ///creating all the required variables
+  //   final String _type = type!;
+  //   //updating the latest update
+  //   final List<String> _updates = [AppointmentUpdates.createdBySalon];
+  //   final List<DateTime> _updatedAt = [DateTime.now()];
+
+  //   //////////////////////////////////////////////
+  //   //handling appointment TIME & DURATION
+  //   //////////////////////////////////////////////
+  //   final PriceAndDurationModel _priceAndDuration = mastersPriceDurationMap[appointment.master?.id] ?? PriceAndDurationModel();
+  //   debugPrint(type + " Chosen Slots");
+  //   debugPrint(appointmentSlot);
+
+  //   TimeOfDay _startTime = Time().stringToTime(appointmentSlot!);
+  //   //computing appointment end time in string
+
+  //   debugPrint("_startTime");
+  //   debugPrint(_startTime.toString());
+  //   TimeOfDay _endTime = _startTime.addMinutes(duration ?? 0);
+
+  //   final DateTime _start = Time().generateDateTimeFromString(
+  //     chosenDay,
+  //     appointmentSlot,
+  //   );
+
+  //   debugPrint("_start");
+  //   debugPrint(_start.toString());
+
+  //   final DateTime _end = Time().generateDateTimeFromString(
+  //     chosenDay,
+  //     Time().timeToString(_endTime)!,
+  //   );
+
+  //   final String? _appointmentTime = appointmentSlot;
+  //   final String _appointmentDate = Time().getDateInStandardFormat(chosenDay);
+
+  //   final DateTime _createdAt = DateTime.now();
+
+  //   /////////////////////////////////////////////
+
+  //   final Master _master = chosenSalon!.ownerType == OwnerType.singleMaster
+  //       ? Master(
+  //           id: chosenSalon!.salonId,
+  //           name: chosenSalon!.salonName,
+  //         )
+  //       : Master(
+  //           id: chosenMaster!.masterId,
+  //           name: Utils().getNameMaster(chosenMaster!.personalInfo),
+  //         );
+
+  //   /////////////////////////////////////////////
+
+  //   const String _status = AppointmentStatus.active;
+  //   const String _createdBy = CreatedBy.salon;
+
+  //   final Service _service = Service(
+  //     serviceId: singleService.serviceId,
+  //     categoryId: singleService.categoryId,
+  //     subCategoryId: singleService.subCategoryId,
+  //     serviceName: singleService.serviceName,
+  //     translations: singleService.translations,
+  //     priceAndDuration: _priceAndDuration,
+  //   );
+
+  //   /// assigning all the variables and creating appointment model ....
+
+  //   return AppointmentModel(
+  //     type: _type,
+  //     createdAt: _createdAt,
+  //     appointmentStartTime: _start,
+  //     appointmentEndTime: _end,
+  //     appointmentTime: _appointmentTime ?? '',
+  //     appointmentDate: _appointmentDate,
+  //     salon: Salon(
+  //       id: chosenSalon!.salonId,
+  //       name: chosenSalon!.salonName,
+  //       address: chosenSalon!.address,
+  //       phoneNo: chosenSalon!.phoneNumber,
+  //     ),
+  //     master: _master,
+  //     customer: Customer(
+  //       id: customerModel!.customerId,
+  //       name: Utils().getName(customerModel.personalInfo),
+  //       phoneNumber: customerModel.personalInfo.phone,
+  //       pic: customerModel.profilePic,
+  //       email: customerModel.personalInfo.email ?? '',
+  //     ),
+  //     createdBy: _createdBy,
+  //     salonOwnerType: OwnerType.salon,
+  //     status: _status,
+  //     subStatus: _start.difference(DateTime.now()).inHours < 24 ? ActiveAppointmentSubStatus.confirmed : ActiveAppointmentSubStatus.unConfirmed,
+  //     updates: _updates,
+  //     updatedAt: _updatedAt,
+  //     services: [_service],
+  //     priceAndDuration: _priceAndDuration,
+  //     paymentInfo: PaymentInfo(
+  //       bonusApplied: false,
+  //       bonusAmount: 0,
+  //       actualAmount: 0,
+  //       bonusIds: [],
+  //       paymentDone: false,
+  //       onlinePayment: false,
+  //       paymentMethod: PaymentMethods.cardSalon,
+  //     ),
+  //   );
+  // }
+
   ///appointment model for multiple services type for prep time, clean up time or processing time
-  AppointmentModel _createOtherNewAppointmentTypeModelForMultipleServices({
-    required AppointmentModel appointment,
-    String? type,
-    String? appointmentSlot,
-    int? duration,
-    required CustomerModel? customerModel,
-  }) {
+  AppointmentModel _createOtherNewAppointmentTypeModelForMultipleServices({String? type, String? AppointmentSlot, int? duration, required CustomerModel customer}) {
     ///creating all the required variables
     final String _type = type!;
     //updating the latest update
     final List<String> _updates = [AppointmentUpdates.createdBySalon];
     final List<DateTime> _updatedAt = [DateTime.now()];
 
-    List<Service> servicesList = appointment.services;
-
     //////////////////////////////////////////////
     //handling appointment TIME & DURATION
     //////////////////////////////////////////////
-    final PriceAndDurationModel _priceAndDuration = mastersPriceDurationMap[appointment.master?.id] ?? PriceAndDurationModel();
+    final PriceAndDurationModel _priceAndDuration = priceAndDuration[chosenMaster?.masterId] ?? PriceAndDurationModel();
     debugPrint(type + " Chosen Slots");
-    debugPrint(appointmentSlot);
+    debugPrint(AppointmentSlot);
 
-    TimeOfDay _startTime = Time().stringToTime(appointmentSlot!);
+    TimeOfDay _startTime = Time().stringToTime(AppointmentSlot!);
     //computing appointment end time in string
 
     debugPrint("_startTime");
     debugPrint(_startTime.toString());
-    TimeOfDay _endTime = _startTime.addMinutes(duration ?? 0);
+    TimeOfDay _endTime = _startTime.addMinutes(duration);
 
-    final DateTime _start = Time().generateDateTimeFromString(chosenDay, appointmentSlot);
+    final DateTime _start = Time().generateDateTimeFromString(chosenDay, AppointmentSlot);
 
     debugPrint("_start");
     debugPrint(_start.toString());
 
-    final DateTime _end = Time().generateDateTimeFromString(
-      chosenDay,
-      Time().timeToString(_endTime)!,
-    );
+    final DateTime _end = Time().generateDateTimeFromString(chosenDay, Time().timeToString(_endTime)!);
 
-    final String? _appointmentTime = appointmentSlot;
+    final String? _appointmentTime = AppointmentSlot;
     final String _appointmentDate = Time().getDateInStandardFormat(chosenDay);
 
     final DateTime _createdAt = DateTime.now();
 
     /////////////////////////////////////////////
 
-    final Master _master = Master(id: appointment.master!.id, name: appointment.master!.name);
+    final Salon _salon = Salon(
+      id: chosenSalon!.salonId,
+      name: chosenSalon!.salonName,
+      phoneNo: chosenSalon!.phoneNumber,
+      address: chosenSalon!.address,
+    );
+
+    final Master _master = Master(
+      id: chosenMaster!.masterId,
+      name: "${chosenMaster?.personalInfo?.firstName ?? ''} ${chosenMaster?.personalInfo?.lastName ?? ''}",
+    );
+
+    final Customer _customer = Customer(
+      id: customer.customerId,
+      name: Utils().getName(customer.personalInfo),
+      pic: customer.profilePic,
+      phoneNumber: customer.personalInfo.phone,
+      email: customer.personalInfo.email ?? '',
+    );
 
     /////////////////////////////////////////////
 
     const String _status = AppointmentStatus.active;
 
-    const String _createdBy = CreatedBy.salon;
-
     List<Service> selectedAppointmentServices = [];
 
-    for (var selectedAvailableService in servicesList) {
+    for (var selectedAvailableService in chosenServices) {
       selectedAppointmentServices.add(Service(
         serviceId: selectedAvailableService.serviceId,
         categoryId: selectedAvailableService.categoryId,
@@ -3199,9 +4098,9 @@ class CreateAppointmentProvider with ChangeNotifier {
         serviceName: selectedAvailableService.serviceName,
         translations: selectedAvailableService.translations,
         priceAndDuration: PriceAndDurationModel(
-          // isFixedPrice: selectedAvailableService.isFixedPrice,
-          // isPriceRange: selectedAvailableService.isPriceRange,
-          // isPriceStartAt: selectedAvailableService.isPriceStartAt,
+          isFixedPrice: selectedAvailableService.isFixedPrice,
+          isPriceRange: selectedAvailableService.isPriceRange,
+          isPriceStartAt: selectedAvailableService.isPriceStartAt,
           durationinHr: selectedAvailableService.priceAndDuration.durationinHr,
           durationinMin: selectedAvailableService.priceAndDuration.durationinMin,
           duration: selectedAvailableService.priceAndDuration.duration,
@@ -3210,6 +4109,16 @@ class CreateAppointmentProvider with ChangeNotifier {
       ));
     }
 
+    PaymentInfo _paymentInfo = PaymentInfo(
+      bonusApplied: false,
+      bonusAmount: 0,
+      actualAmount: 0,
+      bonusIds: [],
+      paymentDone: false,
+      onlinePayment: false,
+      paymentMethod: 'card',
+    );
+
     /// assigning all the variables and creating appointment model ....
 
     return AppointmentModel(
@@ -3217,23 +4126,12 @@ class CreateAppointmentProvider with ChangeNotifier {
       createdAt: _createdAt,
       appointmentStartTime: _start,
       appointmentEndTime: _end,
-      appointmentTime: _appointmentTime ?? '',
+      appointmentTime: _appointmentTime!,
       appointmentDate: _appointmentDate,
-      salon: Salon(
-        id: chosenSalon!.salonId,
-        name: chosenSalon!.salonName,
-        address: chosenSalon!.address,
-        phoneNo: chosenSalon!.phoneNumber,
-      ),
+      salon: _salon,
       master: _master,
-      customer: Customer(
-        id: customerModel!.customerId,
-        name: Utils().getName(customerModel.personalInfo),
-        phoneNumber: customerModel.personalInfo.phone,
-        pic: customerModel.profilePic,
-        email: customerModel.personalInfo.email ?? '',
-      ),
-      createdBy: _createdBy,
+      customer: _customer,
+      createdBy: CreatedBy.customer,
       salonOwnerType: OwnerType.salon,
       status: _status,
       subStatus: _start.difference(DateTime.now()).inHours < 24 ? ActiveAppointmentSubStatus.confirmed : ActiveAppointmentSubStatus.unConfirmed,
@@ -3241,17 +4139,127 @@ class CreateAppointmentProvider with ChangeNotifier {
       updatedAt: _updatedAt,
       services: selectedAppointmentServices,
       priceAndDuration: _priceAndDuration,
-      paymentInfo: PaymentInfo(
-        bonusApplied: false,
-        bonusAmount: 0,
-        actualAmount: 0,
-        bonusIds: [],
-        paymentDone: false,
-        onlinePayment: false,
-        paymentMethod: PaymentMethods.cardSalon,
-      ),
+      paymentInfo: _paymentInfo,
     );
   }
+
+  // AppointmentModel _createOtherNewAppointmentTypeModelForMultipleServices({
+  //   required AppointmentModel appointment,
+  //   String? type,
+  //   String? appointmentSlot,
+  //   int? duration,
+  //   required CustomerModel? customerModel,
+  // }) {
+  //   ///creating all the required variables
+  //   final String _type = type!;
+  //   //updating the latest update
+  //   final List<String> _updates = [AppointmentUpdates.createdBySalon];
+  //   final List<DateTime> _updatedAt = [DateTime.now()];
+
+  //   List<Service> servicesList = appointment.services;
+
+  //   //////////////////////////////////////////////
+  //   //handling appointment TIME & DURATION
+  //   //////////////////////////////////////////////
+  //   final PriceAndDurationModel _priceAndDuration = mastersPriceDurationMap[appointment.master?.id] ?? PriceAndDurationModel();
+  //   debugPrint(type + " Chosen Slots");
+  //   debugPrint(appointmentSlot);
+
+  //   TimeOfDay _startTime = Time().stringToTime(appointmentSlot!);
+  //   //computing appointment end time in string
+
+  //   debugPrint("_startTime");
+  //   debugPrint(_startTime.toString());
+  //   TimeOfDay _endTime = _startTime.addMinutes(duration ?? 0);
+
+  //   final DateTime _start = Time().generateDateTimeFromString(chosenDay, appointmentSlot);
+
+  //   debugPrint("_start");
+  //   debugPrint(_start.toString());
+
+  //   final DateTime _end = Time().generateDateTimeFromString(
+  //     chosenDay,
+  //     Time().timeToString(_endTime)!,
+  //   );
+
+  //   final String? _appointmentTime = appointmentSlot;
+  //   final String _appointmentDate = Time().getDateInStandardFormat(chosenDay);
+
+  //   final DateTime _createdAt = DateTime.now();
+
+  //   /////////////////////////////////////////////
+
+  //   final Master _master = Master(id: appointment.master!.id, name: appointment.master!.name);
+
+  //   /////////////////////////////////////////////
+
+  //   const String _status = AppointmentStatus.active;
+
+  //   const String _createdBy = CreatedBy.salon;
+
+  //   List<Service> selectedAppointmentServices = [];
+
+  //   for (var selectedAvailableService in servicesList) {
+  //     selectedAppointmentServices.add(Service(
+  //       serviceId: selectedAvailableService.serviceId,
+  //       categoryId: selectedAvailableService.categoryId,
+  //       subCategoryId: selectedAvailableService.subCategoryId,
+  //       serviceName: selectedAvailableService.serviceName,
+  //       translations: selectedAvailableService.translations,
+  //       priceAndDuration: PriceAndDurationModel(
+  //         // isFixedPrice: selectedAvailableService.isFixedPrice,
+  //         // isPriceRange: selectedAvailableService.isPriceRange,
+  //         // isPriceStartAt: selectedAvailableService.isPriceStartAt,
+  //         durationinHr: selectedAvailableService.priceAndDuration.durationinHr,
+  //         durationinMin: selectedAvailableService.priceAndDuration.durationinMin,
+  //         duration: selectedAvailableService.priceAndDuration.duration,
+  //         price: selectedAvailableService.priceAndDuration.price,
+  //       ),
+  //     ));
+  //   }
+
+  //   /// assigning all the variables and creating appointment model ....
+
+  //   return AppointmentModel(
+  //     type: _type,
+  //     createdAt: _createdAt,
+  //     appointmentStartTime: _start,
+  //     appointmentEndTime: _end,
+  //     appointmentTime: _appointmentTime ?? '',
+  //     appointmentDate: _appointmentDate,
+  //     salon: Salon(
+  //       id: chosenSalon!.salonId,
+  //       name: chosenSalon!.salonName,
+  //       address: chosenSalon!.address,
+  //       phoneNo: chosenSalon!.phoneNumber,
+  //     ),
+  //     master: _master,
+  //     customer: Customer(
+  //       id: customerModel!.customerId,
+  //       name: Utils().getName(customerModel.personalInfo),
+  //       phoneNumber: customerModel.personalInfo.phone,
+  //       pic: customerModel.profilePic,
+  //       email: customerModel.personalInfo.email ?? '',
+  //     ),
+  //     createdBy: _createdBy,
+  //     salonOwnerType: OwnerType.salon,
+  //     status: _status,
+  //     subStatus: _start.difference(DateTime.now()).inHours < 24 ? ActiveAppointmentSubStatus.confirmed : ActiveAppointmentSubStatus.unConfirmed,
+  //     updates: _updates,
+  //     updatedAt: _updatedAt,
+  //     services: selectedAppointmentServices,
+  //     priceAndDuration: _priceAndDuration,
+  //     paymentInfo: PaymentInfo(
+  //       bonusApplied: false,
+  //       bonusAmount: 0,
+  //       actualAmount: 0,
+  //       bonusIds: [],
+  //       paymentDone: false,
+  //       onlinePayment: false,
+  //       paymentMethod: PaymentMethods.cardSalon,
+  //     ),
+  //   );
+  // }
 
   resetFlow() {
     loadingStatus = Status.init;

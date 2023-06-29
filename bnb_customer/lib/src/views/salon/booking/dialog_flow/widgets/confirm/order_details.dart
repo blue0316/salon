@@ -2,18 +2,16 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/models/appointment/serviceAndMaster.dart';
-import 'package:bbblient/src/models/backend_codings/owner_type.dart';
-import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
+import 'package:bbblient/src/models/cat_sub_service/price_and_duration.dart';
+import 'package:bbblient/src/models/customer/customer.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
-import 'package:bbblient/src/utils/extensions/exstension.dart';
-import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/utils/time.dart';
+import 'package:bbblient/src/views/payment/payment.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/colors.dart';
-import 'package:bbblient/src/views/salon/booking/widgets/confirmation_tab.dart/confirmed_dialog.dart';
-import 'package:bbblient/src/views/salon/booking/widgets/confirmation_tab.dart/widgets.dart';
+import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/day_and_time/day_and_time.dart';
+import 'package:bbblient/src/views/salon/booking/thank_you.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/buttons.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
@@ -21,7 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'dart:js' as js;
 
 // ORDER LIST
 class OrderDetails extends ConsumerStatefulWidget {
@@ -46,16 +44,13 @@ class _OrderListState extends ConsumerState<OrderDetails> {
     final ThemeData theme = _salonProfileProvider.salonTheme;
     ThemeType themeType = _salonProfileProvider.themeType;
 
-    final String _date = Time().getLocaleDate(
-      _createAppointmentProvider.appointmentModel!.appointmentStartTime,
-      AppLocalizations.of(context)?.localeName ?? 'en',
+    final PriceAndDurationModel _priceAndDuration = _createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId] ?? PriceAndDurationModel();
+
+    TimeOfDay _startTime = Time().stringToTime(_createAppointmentProvider.selectedAppointmentSlot!);
+
+    TimeOfDay _endTime = _startTime.addMinutes(
+      int.parse(_priceAndDuration.duration),
     );
-
-    final String _time = Time().getAppointmentStartEndTimeWithTimeFormat(_createAppointmentProvider.appointmentModel!, _salonProfileProvider.chosenSalon) ?? '';
-
-    bool isSingleMaster = (_salonProfileProvider.chosenSalon.ownerType == OwnerType.singleMaster);
-    final List<ServiceModel> singleMasterServiceList = _createAppointmentProvider.chosenServices;
-    final List<ServiceAndMaster> notSingleMasterServiceList = _createAppointmentProvider.serviceAgainstMaster;
 
     return Column(
       children: [
@@ -64,358 +59,99 @@ class _OrderListState extends ConsumerState<OrderDetails> {
           child: ListView(
             shrinkWrap: true,
             children: [
-              Text(
-                AppLocalizations.of(context)?.orderList ?? 'Order List'.toString(),
-                style: theme.textTheme.bodyLarge!.copyWith(
-                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
-                  color: theme.colorScheme.tertiary,
-                ),
-              ),
-              SizedBox(height: 10.h),
-              SizedBox(
-                width: double.infinity,
-                height: DeviceConstraints.getResponsiveSize(context, 90.h, 85.h, 85.h),
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: isSingleMaster ? singleMasterServiceList.length : notSingleMasterServiceList.length,
-                  itemBuilder: (context, index) {
-                    final ServiceModel singleMasterService = singleMasterServiceList[index];
-                    final ServiceAndMaster notSingleMasterService = notSingleMasterServiceList[index];
-
-                    return Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5.h),
-                      child: Container(
-                        width: DeviceConstraints.getResponsiveSize(context, 175.w, 160.w, 105.w),
-                        decoration: BoxDecoration(
-                          color: theme.primaryColor, // Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            width: 1.5,
-                            color: theme.primaryColor, // defaultTheme ? Colors.black : theme.primaryColor,
-                          ),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 10,
-                            horizontal: DeviceConstraints.getResponsiveSize(context, 10, 10, 15),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              // -- SERVICE TITLE AND PRICE
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(
-                                    width: DeviceConstraints.getResponsiveSize(context, 85.w, 75.w, 70.w),
-                                    child: Text(
-                                      isSingleMaster
-                                          ? singleMasterService.translations[AppLocalizations.of(
-                                                    context,
-                                                  )?.localeName ??
-                                                  'en']
-                                              .toString()
-                                          : notSingleMasterService
-                                              .service!
-                                              .translations[AppLocalizations.of(
-                                                    context,
-                                                  )?.localeName ??
-                                                  'en']
-                                              .toString(),
-                                      // 'Eyebrow Tinting',
-                                      style: theme.textTheme.bodyLarge!.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 16.sp, 16.sp),
-                                        color: theme.colorScheme.tertiary, // ,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: DeviceConstraints.getResponsiveSize(context, 2, 1, 1).toInt(),
-                                    ),
-                                  ),
-                                  Text(
-                                    // single master
-                                    isSingleMaster
-                                        ? singleMasterService.isFixedPrice
-                                            ? "${salonModel.selectedCurrency}${singleMasterService.priceAndDuration.price}"
-                                            : singleMasterService.isPriceRange
-                                                ? "${salonModel.selectedCurrency}${singleMasterService.priceAndDuration.price} - ${salonModel.selectedCurrency}${singleMasterService.priceAndDurationMax!.price}"
-                                                : "${salonModel.selectedCurrency}${singleMasterService.priceAndDuration.price} - ${salonModel.selectedCurrency}∞"
-                                        // not a single master
-                                        : notSingleMasterService.service!.isFixedPrice
-                                            ? "${salonModel.selectedCurrency}${notSingleMasterService.service!.priceAndDuration.price}"
-                                            : notSingleMasterService.service!.isPriceRange
-                                                ? "${salonModel.selectedCurrency}${notSingleMasterService.service!.priceAndDuration.price} - ${salonModel.selectedCurrency}${notSingleMasterService.service!.priceAndDurationMax!.price}"
-                                                : "${salonModel.selectedCurrency}${notSingleMasterService.service!.priceAndDuration.price} - ${salonModel.selectedCurrency}∞",
-                                    style: theme.textTheme.bodyLarge!.copyWith(
-                                      color: theme.colorScheme.tertiary, // ,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 16.sp, 16.sp),
-                                    ),
-                                    overflow: TextOverflow.visible,
-                                    maxLines: 1,
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 7.h),
-
-                              // SERVICE DURATION
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    height: 20.h,
-                                    width: 20.h,
-                                    child: Center(
-                                      child: SvgPicture.asset(
-                                        AppIcons.clockSVG,
-                                        color: theme.colorScheme.tertiary, //  defaultTheme ? Colors.black : theme.primaryColor,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 5),
-
-                                  Text(
-                                    // single master
-                                    isSingleMaster
-                                        ? singleMasterService.isFixedDuration != null
-                                            ? singleMasterService.isFixedDuration
-                                                ? "${singleMasterService.priceAndDuration.duration} minutes"
-                                                : "${singleMasterService.priceAndDuration.duration} minutes - ${singleMasterService.priceAndDurationMax!.duration} minutes"
-                                            : "${singleMasterService.priceAndDuration.duration} minutes"
-
-                                        // not a single master
-                                        : notSingleMasterService.service?.isFixedDuration != null
-                                            ? notSingleMasterService.service!.isFixedDuration
-                                                ? "${notSingleMasterService.service?.priceAndDuration.duration} minutes"
-                                                : "${notSingleMasterService.service?.priceAndDuration.duration} minutes - ${notSingleMasterService.service?.priceAndDurationMax!.duration} minutes"
-                                            : "${notSingleMasterService.service!.priceAndDuration.duration} minutes",
-                                    style: theme.textTheme.bodyLarge!.copyWith(
-                                      fontSize: 14.sp,
-                                      color: theme.colorScheme.tertiary, // ,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                  ),
-                                  // const Spacer(),
-                                  // (service.description == null || service.description == "")
-                                  //     ? const SizedBox(width: 15)
-                                  //     : GestureDetector(
-                                  //         onTap: () => showDialog<bool>(
-                                  //           context: context,
-                                  //           builder: (BuildContext context) => ShowServiceInfo(service),
-                                  //         ),
-                                  //         child: SizedBox(
-                                  //           height: DeviceConstraints.getResponsiveSize(context, 12, 18, 18),
-                                  //           width: DeviceConstraints.getResponsiveSize(context, 12, 18, 18),
-                                  //           child: Center(
-                                  //             child: SvgPicture.asset(
-                                  //               AppIcons.informationSVG,
-                                  //               height: DeviceConstraints.getResponsiveSize(context, 12, 18, 18),
-                                  //               width: DeviceConstraints.getResponsiveSize(context, 12, 18, 18),
-                                  //             ),
-                                  //           ),
-                                  //         ),
-                                  //       ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              Space(factor: DeviceConstraints.getResponsiveSize(context, 1, 0.3, 0.3).toDouble()),
-              const Divider(
-                color: Color.fromARGB(71, 137, 149, 159),
-                thickness: 1,
-              ),
-              Space(factor: DeviceConstraints.getResponsiveSize(context, 1, 0.3, 0.3).toDouble()),
-              Text(
-                AppLocalizations.of(context)?.youChoosed ?? 'You choosed'.toString(),
-                style: theme.textTheme.bodyLarge!.copyWith(
-                  color: theme.colorScheme.tertiary, // ,
-                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
-
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "${AppLocalizations.of(context)?.service ?? 'Service'} :",
-                        style: theme.textTheme.bodyLarge!.copyWith(
-                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
-                          color: theme.colorScheme.tertiary, // ,
-                        ),
+                children: _createAppointmentProvider.chosenServices
+                    .map(
+                      (service) => ServiceNameAndPrice(
+                        serviceName: service.translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
+                        servicePrice: service.isFixedPrice
+                            ? "${salonModel.selectedCurrency}${service.priceAndDuration.price}"
+                            : service.isPriceRange
+                                ? "${salonModel.selectedCurrency}${service.priceAndDuration.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}"
+                                : "${salonModel.selectedCurrency}${service.priceAndDuration.price} - ${salonModel.selectedCurrency}∞",
                       ),
-                      Text(
-                        '${isSingleMaster ? _createAppointmentProvider.chosenServices.length : _createAppointmentProvider.serviceAgainstMaster.length} ${AppLocalizations.of(
-                              context,
-                            )?.services ?? 'services'}',
-                        style: theme.textTheme.bodyMedium!.copyWith(
-                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
-                          color: theme.colorScheme.tertiary, // ,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 2),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "${AppLocalizations.of(context)?.date ?? 'Date'} :",
-                        style: theme.textTheme.bodyLarge!.copyWith(
-                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
-                          color: theme.colorScheme.tertiary, // ,
-                        ),
-                      ),
-                      Text(
-                        _date,
-                        style: theme.textTheme.bodyMedium!.copyWith(
-                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
-                          color: theme.colorScheme.tertiary, // ,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 2),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "${AppLocalizations.of(context)?.time ?? 'Time'} :",
-                        style: theme.textTheme.bodyLarge!.copyWith(
-                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
-                          color: theme.colorScheme.tertiary, // ,
-                        ),
-                      ),
-                      Text(
-                        _time,
-                        style: theme.textTheme.bodyMedium!.copyWith(
-                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
-                          color: theme.colorScheme.tertiary, // ,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                    )
+                    .toList(),
               ),
-              SizedBox(height: 15.h),
-              Text(
-                "${AppLocalizations.of(context)?.orderSummary ?? 'Order summary'} :",
-                style: theme.textTheme.bodyLarge!.copyWith(
-                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
-                  fontWeight: FontWeight.w600,
-                  color: theme.colorScheme.tertiary, // ,
-                ),
+              SizedBox(height: 10.sp),
+
+              const GradientDivider(),
+
+              // SERVICE PROVIDER DETAILS
+              ServiceNameAndPrice(
+                notService: true,
+                serviceName: 'Service provider:',
+                servicePrice: '${_createAppointmentProvider.chosenMaster?.personalInfo?.lastName} ${_createAppointmentProvider.chosenMaster?.personalInfo?.firstName}',
               ),
-              const SizedBox(height: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "${AppLocalizations.of(context)?.orderAmount ?? 'Order amount'} :",
-                        style: theme.textTheme.bodyLarge!.copyWith(
-                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
-                          color: theme.colorScheme.tertiary, // ,
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        "${salonModel.selectedCurrency}${_createAppointmentProvider.totalPrice}",
-                        style: theme.textTheme.bodyMedium!.copyWith(
-                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
-                          color: theme.colorScheme.tertiary, // ,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 2),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "${AppLocalizations.of(context)?.discounts.toCapitalized() ?? 'Discount'} 15%:",
-                        style: theme.textTheme.bodyLarge!.copyWith(
-                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
-                          color: theme.colorScheme.tertiary, // ,
-                        ),
-                      ),
-                      Text(
-                        "-${salonModel.selectedCurrency}00",
-                        style: theme.textTheme.bodyMedium!.copyWith(
-                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
-                          color: Colors.red,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+
+              ServiceNameAndPrice(
+                notService: true,
+                serviceName: 'Date:',
+                servicePrice: Time().getDateInStandardFormat(_createAppointmentProvider.chosenDay),
               ),
-              Space(factor: DeviceConstraints.getResponsiveSize(context, 1, 0.3, 0.3).toDouble()),
-              const Divider(
-                color: Color.fromARGB(71, 137, 149, 159),
-                thickness: 1,
+
+              ServiceNameAndPrice(
+                notService: true,
+                serviceName: 'Time:',
+                servicePrice: '$_startTime - $_endTime',
               ),
-              Space(factor: DeviceConstraints.getResponsiveSize(context, 1, 0.3, 0.3).toDouble()),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)?.total ?? 'Total',
-                    style: theme.textTheme.bodyLarge!.copyWith(
-                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
-                      fontWeight: FontWeight.w700,
-                      color: theme.colorScheme.tertiary, // defaultTheme ? Colors.black : theme.primaryColor,
+
+              const GradientDivider(),
+
+              ServiceNameAndPrice(
+                notService: true,
+                serviceName: 'Total:',
+                servicePrice: _createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '0',
+              ),
+
+              const ServiceNameAndPrice(
+                notService: true,
+                serviceName: 'Pay at Appointment:',
+                servicePrice: '--',
+              ),
+
+              const ServiceNameAndPrice(
+                notService: true,
+                serviceName: 'Deposit to book:',
+                servicePrice: '---',
+              ),
+
+              Padding(
+                padding: EdgeInsets.only(bottom: 12.sp),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      flex: 1,
+                      child: Text(
+                        'Pay Now:',
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 21.sp, 20.sp),
+                          color: theme.colorScheme.tertiary,
+                        ),
+                      ),
                     ),
-                  ),
-                  Text(
-                    "${salonModel.selectedCurrency}${_createAppointmentProvider.totalPrice}",
-                    style: theme.textTheme.bodyLarge!.copyWith(
-                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
-                      fontWeight: FontWeight.w700,
-                      color: theme.colorScheme.tertiary, // defaultTheme ? Colors.black : theme.primaryColor,
+                    Flexible(
+                      flex: 0,
+                      child: Text(
+                        '\$${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '0'}',
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 21.sp, 20.sp),
+                          color: theme.colorScheme.tertiary,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const Space(factor: 1),
-              Container(
-                // height: 100,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.grey, // defaultTheme ? Colors.grey[100] : const Color(0XFF202020),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 15),
-                  child: TermsOfServiceText(),
+                  ],
                 ),
               ),
-              const SizedBox(height: 10),
+
+              SizedBox(height: 10.sp),
+
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -437,13 +173,33 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                   ),
                   const SizedBox(width: 10),
                   Flexible(
-                    child: Text(
-                      "${AppLocalizations.of(context)?.registration_line11} *",
-                      style: theme.textTheme.bodyLarge!.copyWith(
-                        fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 20.sp),
-                        fontWeight: FontWeight.normal,
-                        color: theme.colorScheme.tertiary, // ,
-                      ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          'I understand and accept the ',
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.normal,
+                            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                            color: theme.colorScheme.tertiary,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            const CancellationPolicyScreen().show(context);
+                          },
+                          child: Text(
+                            'Cancelation Policy',
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              decoration: TextDecoration.underline,
+                              fontWeight: FontWeight.w500,
+                              fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                              color: theme.primaryColor,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -451,7 +207,49 @@ class _OrderListState extends ConsumerState<OrderDetails> {
             ],
           ),
         ),
-        const SizedBox(height: 10),
+        SizedBox(height: 5.sp),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Icon(
+                  Icons.info_rounded,
+                  size: 30.sp,
+                  color: theme.colorScheme.tertiary.withOpacity(0.6),
+                ),
+                SizedBox(width: 10.sp),
+                GestureDetector(
+                  onTap: () {
+                    const ThankYou().show(context);
+                  },
+                  child: Text(
+                    'Important Information',
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w500,
+                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                      color: theme.colorScheme.tertiary,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 20.sp),
+            Text(
+              'To cancel or reschedule please contact LK Nails. You can cancel up to 24 hours before the appointment without any charge. You deposit will be returned to your card within 2 business days',
+              style: theme.textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w400,
+                fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                color: theme.colorScheme.tertiary.withOpacity(0.6),
+              ),
+            ),
+          ],
+        ),
+
+        SizedBox(height: 40.sp),
 
         Expanded(
           flex: 0,
@@ -460,103 +258,243 @@ class _OrderListState extends ConsumerState<OrderDetails> {
               DefaultButton(
                 borderRadius: 60,
                 onTap: () async {
-                  bool enabledOTP = _salonProfileProvider.themeSettings?.displaySettings?.enableOTP ?? true;
-
                   if (!acceptTerms) {
                     // Terms Checkbox is unchecked
 
-                    showToast(AppLocalizations.of(context)?.pleaseAgree ?? "Please agree to the terms and conditions");
+                    showToast('Please accept the cancellation policy');
 
                     return;
                   }
 
-                  bool success = await _createAppointmentProvider.finishBooking(
-                    context: context,
-                    customerModel: enabledOTP ? _auth.currentCustomer! : _auth.currentCustomerWithoutOTP!,
+                  CustomerModel? currentCustomer = _auth.currentCustomer;
+
+                  CustomerModel customer = CustomerModel(
+                    customerId: currentCustomer!.customerId,
+                    personalInfo: currentCustomer.personalInfo,
+                    registeredSalons: [],
+                    createdAt: DateTime.now(),
+                    avgRating: 3.0,
+                    noOfRatings: 6,
+                    profilePicUploaded: false,
+                    profilePic: "",
+                    profileCompleted: false,
+                    quizCompleted: false,
+                    preferredGender: "male",
+                    preferredCategories: [],
+                    locations: [],
+                    fcmToken: "",
+                    locale: "en",
+                    favSalons: [],
+                    referralLink: "",
                   );
 
-                  if (success) {
-                    // Pop current dialog
-                    Navigator.of(context).pop();
-
-                    const ConfirmedDialog().show(context);
-                  } else {
-                    showToast(AppLocalizations.of(context)?.somethingWentWrong ?? "Something went wrong");
-                  }
-
-                  //  for (AppointmentModel? app in _createAppointmentProvider.appointmentModelSalonOwner!) {
-                  //   print(app!.priceAndDuration.price);
-                  // }
-
-                  // CustomerModel customer = CustomerModel(
-                  //   customerId: "00iomPh4TKeE1GFGSNqI",
-                  //   personalInfo: PersonalInfo(phone: "08123317957", firstName: "Timmy", lastName: "Banjo", email: "timmybanjo@gmail.com"),
-                  //   registeredSalons: [],
-                  //   createdAt: DateTime.now(),
-                  //   avgRating: 3.0,
-                  //   noOfRatings: 6,
-                  //   profilePicUploaded: false,
-                  //   profilePic: "",
-                  //   profileCompleted: false,
-                  //   quizCompleted: false,
-                  //   preferredGender: "male",
-                  //   preferredCategories: [],
-                  //   locations: [],
-                  //   fcmToken: "",
-                  //   locale: "en",
-                  //   favSalons: [],
-                  //   referralLink: "",
-                  // );
-                  // if (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.singleMaster) {
-                  //   await _createAppointmentProvider.createAppointment(customerModel: customer, context: context);
-                  //   bool _success = await _createAppointmentProvider.finishBooking(context: context, customerModel: customer);
+                  // if (_createAppointmentProvider.chosenServices.length > 1) {
+                  //   //call this single appointment service save function
+                  //   await _createAppointmentProvider.saveNewAppointmentForMultipleServices(customer: customer);
                   // } else {
-                  //   await _createAppointmentProvider.creatAppointmentSalonOwner(customerModel: customer, context: context);
-                  //   bool _success = await _createAppointmentProvider.finishBooking(context: context, customerModel: customer);
+                  //   //call multiple appointment service save option
+                  //   await _createAppointmentProvider.saveAppointment(customer: customer);
                   // }
-                  // _createAppointmentProvider.creatAppointmentSalonOwner();
-                  // Pop current dialog
-                  // Navigator.of(context).pop();
 
-                  // ConfirmedDialogSalonOwner(
-                  //   appointment:
-                  //       _createAppointmentProvider.appointmentModelSalonOwner!,
-                  // ).show(context);
+                  // const ConfirmedDialog().show(context);
+
+                  js.context.callMethod(
+                    'open',
+                    ['https://yogasm.firebaseapp.com/payment'],
+                  );
+
+                  // https://yogasm.firebaseapp.com/appointments?id=mvEdvmbMxRjgwFrzIjao
+
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => const Payment(),
+                  //   ),
+                  // );
+
+                  // bool enabledOTP = _salonProfileProvider.themeSettings?.displaySettings?.enableOTP ?? true;
+
+                  // if (!acceptTerms) {
+                  //   // Terms Checkbox is unchecked
+
+                  //   showToast(AppLocalizations.of(context)?.pleaseAgree ?? "Please agree to the terms and conditions");
+
+                  //   return;
+                  // }
+
+                  // bool success = await _createAppointmentProvider.finishBooking(
+                  //   context: context,
+                  //   customerModel: enabledOTP ? _auth.currentCustomer! : _auth.currentCustomerWithoutOTP!,
+                  // );
+
+                  // if (success) {
+                  //   // Pop current dialog
+                  //   Navigator.of(context).pop();
+
+                  //   const ConfirmedDialog().show(context);
+                  // } else {
+                  //   showToast(AppLocalizations.of(context)?.somethingWentWrong ?? "Something went wrong");
+                  // }
                 },
-                color: dialogButtonColor(themeType, theme), // theme.dialogBackgroundColor, // defaultTheme ? Colors.black : theme.primaryColor,
-                textColor: loaderColor(themeType), // defaultTheme ? Colors.white : Colors.black,
-
-                // color: defaultTheme ? Colors.black : theme.primaryColor,
-                // textColor: defaultTheme ? Colors.white : Colors.black,
+                color: dialogButtonColor(themeType, theme),
+                textColor: loaderColor(themeType),
                 height: 60,
-                label: AppLocalizations.of(context)?.book ?? 'Book',
-                isLoading: _createAppointmentProvider.loadingStatus == Status.loading,
-                loaderColor: loaderColor(themeType), // defaultTheme ? Colors.white : Colors.black,
-              ),
-              SizedBox(height: 15.h),
-              DefaultButton(
-                borderRadius: 60,
-                onTap: () {
-                  // Back to Day & Time Tab
-                  widget.tabController.animateTo(1);
-
-                  // _createAppointmentProvider.nextPageView(2);
-                },
-                color: dialogBackButtonColor(themeType, theme), // defaultTheme ? Colors.white :
-                borderColor: theme.primaryColor, // defaultTheme ? Colors.black : theme.primaryColor,
-                textColor: theme.colorScheme.tertiary, // defaultTheme ? Colors.black : theme.primaryColor,
-
-                // color: defaultTheme ? Colors.white : Colors.transparent,
-                // borderColor: defaultTheme ? Colors.black : theme.primaryColor,
-                // textColor: defaultTheme ? Colors.black : theme.primaryColor,
-                height: 60,
-                label: AppLocalizations.of(context)?.back ?? 'Back',
+                label: 'Pay ${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '0'}\$ deposit',
+                isLoading: _createAppointmentProvider.bookAppointmentStatus == Status.loading,
+                loaderColor: loaderColor(themeType),
+                fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                suffixIcon: Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  color: loaderColor(themeType),
+                  size: 18.sp,
+                ),
               ),
             ],
           ),
         ),
         // SizedBox(height: 20.h),
       ],
+    );
+  }
+}
+
+class GradientDivider extends StatelessWidget {
+  const GradientDivider({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 20.sp),
+      child: Container(
+        width: double.infinity,
+        height: 1.5.sp,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          gradient: LinearGradient(
+            colors: [Color.fromARGB(43, 74, 74, 74), Color(0XFF4A4A4A), Color.fromARGB(43, 74, 74, 74)],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CancellationPolicyScreen<T> extends ConsumerWidget {
+  const CancellationPolicyScreen({Key? key}) : super(key: key);
+
+  Future<void> show(BuildContext context) async {
+    await showDialog<T>(
+      context: context,
+      builder: (context) => this,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    var mediaQuery = MediaQuery.of(context).size;
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: Dialog(
+        backgroundColor: theme.dialogBackgroundColor,
+        insetPadding: EdgeInsets.symmetric(
+          horizontal: DeviceConstraints.getResponsiveSize(
+            context,
+            0,
+            20, // mediaQuery.width / 5,
+            mediaQuery.width / 6,
+          ),
+          vertical: DeviceConstraints.getResponsiveSize(context, 0, 50.h, 50.h),
+        ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 15.sp, horizontal: 30.sp),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: Icon(
+                        Icons.arrow_back_ios_rounded,
+                        color: theme.colorScheme.tertiary.withOpacity(0.6),
+                        size: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                      ),
+                    ),
+                  ),
+                  const Spacer(flex: 2),
+                  Text(
+                    'cancelation Policy'.toUpperCase(),
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 18.sp, 20.sp),
+                      fontWeight: FontWeight.w500,
+                      fontFamily: 'Inter',
+                      color: theme.colorScheme.onBackground,
+                    ),
+                  ),
+                  const Spacer(flex: 2),
+                ],
+              ),
+              const Space(factor: 2),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: DeviceConstraints.getResponsiveSize(context, 10.sp, 20.sp, 30.sp),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Canceling Appointment ',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                        color: theme.colorScheme.tertiary,
+                      ),
+                    ),
+                    SizedBox(height: 10.sp),
+                    Text(
+                      'To cancel or reschedule please contact LK Nails. You can cancel up to 24 hours before the appointment without any charge. You deposit will be returned to your card within 2 business days',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.normal,
+                        fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                        color: theme.colorScheme.tertiary.withOpacity(0.6),
+                      ),
+                    ),
+                    SizedBox(height: 35.sp),
+                    Text(
+                      'Not showing to the Appointment',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                        color: theme.colorScheme.tertiary,
+                      ),
+                    ),
+                    SizedBox(height: 10.sp),
+                    Text(
+                      'To cancel or reschedule please contact LK Nails. You can cancel up to 24 hours before the appointment without any charge. You deposit will be returned to your card within 2 business days',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.normal,
+                        fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                        color: theme.colorScheme.tertiary.withOpacity(0.6),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Spacer(),
+              const Spacer(),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

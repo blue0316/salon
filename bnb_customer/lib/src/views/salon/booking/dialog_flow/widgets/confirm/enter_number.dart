@@ -51,69 +51,83 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
-          '${AppLocalizations.of(context)?.phoneNumber ?? 'Phone Number'} *',
-          style: theme.textTheme.bodyLarge!.copyWith(
-            fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+          'Confirm number',
+          style: theme.textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.w500,
+            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
             color: theme.colorScheme.tertiary,
           ),
         ),
-        SizedBox(height: 20.h),
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(40),
-            border: Border.all(
-              color: theme.colorScheme.tertiary,
-              width: 0.7,
-            ),
+        SizedBox(height: 10.sp),
+        Text(
+          'Please enter your phone number',
+          style: theme.textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.normal,
+            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+            color: theme.colorScheme.tertiary.withOpacity(0.6),
           ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CountryCodePicker(
-                  onChanged: (val) {
-                    _authProvider.countryCode = val.dialCode ?? '';
-                  },
-                  onInit: (val) {
-                    _authProvider.countryCode = val?.dialCode ?? '';
-                  },
-                  initialSelection: 'UA',
-                  favorite: const ['+1', '+380'],
-                  showCountryOnly: false,
-                  showOnlyCountryWhenClosed: false,
-                  alignLeft: false,
-                  textStyle: TextStyle(color: theme.colorScheme.tertiary), // defaultTheme ? Colors.black : Colors.white),
-                  showFlag: false,
-                ),
-                const SizedBox(width: 15),
-                Expanded(
-                  child: BNBTextField(
-                    controller: _authProvider.phoneNoController,
-                    hint: AppLocalizations.of(context)?.phoneNumber.toCapitalized() ?? "Phone Number",
-                    keyboardType: TextInputType.number,
-                    vPadding: 0, // 20.h,
+        ),
+        SizedBox(height: 40.h),
+        Container(
+          decoration: const BoxDecoration(
+            border: Border(bottom: BorderSide(color: Color(0XFF35373B), width: 0.5)),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CountryCodePicker(
+                onChanged: (val) {
+                  _authProvider.countryCode = val.dialCode ?? '';
+                },
+                onInit: (val) {
+                  _authProvider.countryCode = val?.dialCode ?? '';
+                },
+                initialSelection: 'UA',
+                favorite: const ['+1', '+380'],
+                showCountryOnly: false,
+                showOnlyCountryWhenClosed: false,
+                alignLeft: false,
+                textStyle: TextStyle(color: theme.colorScheme.tertiary), // defaultTheme ? Colors.black : Colors.white),
+                showFlag: false,
+              ),
+              const SizedBox(width: 15),
+              Expanded(
+                child: TextFormField(
+                  controller: _authProvider.phoneNoController,
+                  decoration: InputDecoration(
+                    hintText: AppLocalizations.of(context)?.phoneNumber.toCapitalized() ?? "Phone Number",
                     border: InputBorder.none,
-                    textColor: theme.colorScheme.tertiary, //
-                    onChanged: (val) {
-                      _authProvider.phoneNumber = val;
-                    },
-                    textSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                  ),
+                  keyboardType: TextInputType.number,
+                  onChanged: (val) {
+                    _authProvider.phoneNumber = val;
+                  },
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w500,
+                    fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                    color: theme.colorScheme.tertiary,
                   ),
                 ),
-              ],
-            ),
+              ),
+              // Expanded(
+              //   child: BNBTextField(
+              //     controller: _authProvider.phoneNoController,
+              //     hint: AppLocalizations.of(context)?.phoneNumber.toCapitalized() ?? "Phone Number",
+              //     keyboardType: TextInputType.number,
+              //     vPadding: 0, // 20.h,
+              //     border: InputBorder.none,
+              //     textColor: theme.colorScheme.tertiary, //
+              //     onChanged: (val) {
+              //       _authProvider.phoneNumber = val;
+              //     },
+              //     textSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+              //   ),
+              // ),
+            ],
           ),
         ),
         const Space(factor: 1.5),
-        Text(
-          AppLocalizations.of(context)?.mandatoryFields ?? '*Mandatory fields',
-          style: theme.textTheme.bodyLarge!.copyWith(
-            fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 15.sp),
-            color: theme.colorScheme.tertiary, //defaultTheme ? AppTheme.textBlack : Colors.white,
-          ),
-        ),
         const Spacer(),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 2),
@@ -168,6 +182,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                               color: Colors.black,
                             ),
                           ),
+                          displayDuration: const Duration(seconds: 2),
                         );
                         checkUser2(
                           context,
@@ -241,21 +256,27 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
 
                 borderColor: theme.primaryColor,
 
-                label: AppLocalizations.of(context)?.nextStep ?? 'Next Step',
+                label: 'Send a code',
                 isLoading: _authProvider.otpStatus == Status.loading,
                 loaderColor: loaderColor(themeType), // defaultTheme ? Colors.white : Colors.black,
+                suffixIcon: Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  color: loaderColor(themeType),
+                  size: 18.sp,
+                ),
+                fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
               ),
-              SizedBox(height: 15.h),
-              DefaultButton(
-                borderRadius: 60,
-                onTap: () => widget.tabController.animateTo(1),
+              // SizedBox(height: 15.h),
+              // DefaultButton(
+              //   borderRadius: 60,
+              //   onTap: () => widget.tabController.animateTo(1),
 
-                color: dialogBackButtonColor(themeType, theme), // defaultTheme ? Colors.white :
-                borderColor: theme.primaryColor, // defaultTheme ? Colors.black : theme.primaryColor,
-                textColor: theme.colorScheme.tertiary, // defaultTheme ? Colors.black : theme.primaryColor,
-                height: 60,
-                label: AppLocalizations.of(context)?.back ?? 'Back',
-              ),
+              //   color: dialogBackButtonColor(themeType, theme), // defaultTheme ? Colors.white :
+              //   borderColor: theme.primaryColor, // defaultTheme ? Colors.black : theme.primaryColor,
+              //   textColor: theme.colorScheme.tertiary, // defaultTheme ? Colors.black : theme.primaryColor,
+              //   height: 60,
+              //   label: AppLocalizations.of(context)?.back ?? 'Back',
+              // ),
             ],
           ),
         ),

@@ -430,7 +430,7 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                                           valid: createAppointment.validSlots.contains(slot),
                                           choosen: createAppointment.chosenSlots.contains(slot),
                                           onTap: () async {
-                                            await createAppointment.chooseSlot(slot, context);
+                                            // await createAppointment.chooseSlot(slot, context);
                                           },
                                         ),
                                     ],
@@ -463,7 +463,7 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                                           valid: createAppointment.validSlots.contains(slot),
                                           choosen: createAppointment.chosenSlots.contains(slot),
                                           onTap: () async {
-                                            await createAppointment.chooseSlot(slot, context);
+                                            // await createAppointment.chooseSlot(slot, context);
                                           },
                                         ),
                                     ],
@@ -496,7 +496,7 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                                           valid: createAppointment.validSlots.contains(slot),
                                           choosen: createAppointment.chosenSlots.contains(slot),
                                           onTap: () async {
-                                            await createAppointment.chooseSlot(slot, context);
+                                            // await createAppointment.chooseSlot(slot, context);
                                           },
                                         ),
                                     ],

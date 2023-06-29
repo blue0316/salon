@@ -6,13 +6,13 @@ import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/confirm/confirm.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/service_tab/service_tab.dart';
+import 'package:bbblient/src/views/salon/booking/thank_you.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'widgets/colors.dart';
 import 'widgets/day_and_time/day_and_time.dart';
 
 class BookingDialogWidget222<T> extends ConsumerStatefulWidget {
@@ -95,30 +95,44 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 20.sp),
+                          child: Icon(
+                            Icons.arrow_back_ios_rounded,
+                            color: theme.colorScheme.tertiary.withOpacity(0.6),
+                            size: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                          ),
+                        ),
+                      ),
                       const Spacer(flex: 2),
-                      Text(
-                        (AppLocalizations.of(context)?.onlineBooking ?? 'ONLINE BOOKING').toUpperCase(),
-                        style: AppTheme.bodyText1.copyWith(
-                          fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 25.sp, 40.sp),
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'Poppins',
-                          color: theme.colorScheme.onBackground,
+                      GestureDetector(
+                        onTap: () => const ThankYou().show(context),
+                        child: Text(
+                          (AppLocalizations.of(context)?.onlineBooking ?? 'ONLINE BOOKING').toUpperCase(),
+                          style: theme.textTheme.bodyLarge?.copyWith(
+                            fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 18.sp, 20.sp),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Inter',
+                            color: theme.colorScheme.onBackground,
 
-                          // color: a.black,
+                            // color: a.black,
+                          ),
                         ),
                       ),
                       const Spacer(flex: 2),
                       GestureDetector(
                         onTap: () {
                           Navigator.pop(context);
-                          _createAppointmentProvider.resetFlow(); // TODO: // HMM
+                          _createAppointmentProvider.resetFlow();
                         },
                         child: Padding(
-                          padding: const EdgeInsets.only(right: 15),
+                          padding: EdgeInsets.only(right: 20.sp),
                           child: Icon(
                             Icons.close_rounded,
-                            color: theme.colorScheme.onBackground,
-                            size: DeviceConstraints.getResponsiveSize(context, 20.h, 30.h, 30.h),
+                            color: theme.colorScheme.tertiary.withOpacity(0.6),
+                            size: DeviceConstraints.getResponsiveSize(context, 20.sp, 22.sp, 24.sp),
                           ),
                         ),
                       ),
@@ -129,48 +143,38 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
                   // -- TAB BAR
                   Expanded(
                     flex: 0,
-                    child: Container(
+                    child: SizedBox(
+                      height: 50.sp,
                       width: DeviceConstraints.getResponsiveSize(
                         context,
-                        double.infinity,
+                        mediaQuery.width / 1.1,
                         double.infinity - 15,
                         mediaQuery.width / 2.7,
                       ),
-                      decoration: BoxDecoration(
-                        color: defaultTheme ? Colors.grey[350] : const Color(0XFF202020),
-                        // color: defaultTheme ? Colors.greenAccent : const Color(0XFF202020), //  Color.fromARGB(255, 239, 239, 239)
-
-                        borderRadius: BorderRadius.circular(60),
-                      ),
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+                        padding: EdgeInsets.symmetric(vertical: 6.sp, horizontal: 10.sp),
                         child: Center(
                           child: IgnorePointer(
-                            child: Theme(
-                              data: ThemeData(tabBarTheme: theme.tabBarTheme),
-                              child: TabBar(
-                                controller: bookingTabController,
-                                labelStyle: theme.tabBarTheme.labelStyle!.copyWith(
-                                  fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 20.sp, 18.sp),
-                                ),
-                                // labelStyle: theme.textTheme.labelStyle?.copyWith(
-                                //   color: labelColorTheme(themeType, theme), // theme.tabBarTheme.labelColor,
-                                //   fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 20.sp, 18.sp),
-                                // ),
-                                labelColor: dialogLabelColorTheme(themeType, theme),
-                                unselectedLabelColor: defaultTheme ? Colors.black : Colors.white,
-                                tabs: [
-                                  Tab(
-                                    text: AppLocalizations.of(context)?.services ?? 'Services',
-                                  ),
-                                  const Tab(
-                                    text: 'Day & Time', // TODO - LOCALIZATIONS
-                                  ),
-                                  Tab(
-                                    text: AppLocalizations.of(context)?.registration_line16 ?? 'Confirm',
-                                  ),
-                                ],
+                            child: TabBar(
+                              controller: bookingTabController,
+                              labelStyle: theme.tabBarTheme.labelStyle!.copyWith(
+                                fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                                fontWeight: FontWeight.normal,
+                                letterSpacing: 0.5,
                               ),
+                              indicatorColor: theme.primaryColor,
+                              indicatorSize: TabBarIndicatorSize.label,
+                              tabs: [
+                                Tab(
+                                  text: AppLocalizations.of(context)?.services ?? 'Services',
+                                ),
+                                const Tab(
+                                  text: 'Day & Time',
+                                ),
+                                Tab(
+                                  text: AppLocalizations.of(context)?.registration_line16 ?? 'Confirm',
+                                ),
+                              ],
                             ),
                           ),
                         ),

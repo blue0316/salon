@@ -26,8 +26,24 @@ class RegistrationSuccessful extends ConsumerStatefulWidget {
 }
 
 class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful> {
-  final TextEditingController nameController = TextEditingController();
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
+  final TextEditingController pronounceController = TextEditingController();
+
+  // Initial Selected Value
+  String dropdownvalue = 'He/Him';
+
+  // List of items in our dropdown menu
+  var items = [
+    'He/Him',
+    'She/Her',
+    'They/Them',
+    'Other',
+  ];
+
+  bool isOther = false;
+
   @override
   Widget build(BuildContext context) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
@@ -44,191 +60,321 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
         Text(
           AppLocalizations.of(context)?.verificationSuccessful.toCapitalized() ?? 'Verification was successful!',
           style: theme.textTheme.bodyLarge!.copyWith(
-            fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+            fontWeight: FontWeight.w500,
+            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
             color: theme.colorScheme.tertiary,
           ),
         ),
 
-        const Space(factor: 2),
-
-        // -- Your Name
-        Text(
-          "Your ${AppLocalizations.of(context)?.name.toCapitalized() ?? "Name"}*",
-          style: AppTheme.bodyText1.copyWith(
-            fontSize: 18.sp,
-            color: theme.colorScheme.tertiary, //defaultTheme ? AppTheme.textBlack : Colors.white,
-          ),
-        ),
+        const Space(factor: 1),
 
         const Space(factor: 1.3),
-
-        BNBTextField(
-          controller: nameController,
-          hint: AppLocalizations.of(context)?.pleaseEnterFirstName.toCapitalized() ?? "Enter first name",
-          borderWidth: 0.7,
-          vPadding: 20.h,
-          textColor: theme.colorScheme.tertiary, // defaultTheme ? Colors.black : Colors.white,
-          borderColor: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.lightGrey : Colors.white,
-          onChanged: (String val) {
-            _authProvider.firstName = val;
-          },
-        ),
-
-        Space(factor: DeviceConstraints.getResponsiveSize(context, 2.5, 2, 2)),
-
-        // -- Your Email
-        Text(
-          "Your ${AppLocalizations.of(context)?.email.toCapitalized() ?? "Email"}",
-          style: theme.textTheme.bodyLarge?.copyWith(
-            fontSize: 18.sp,
-            color: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,
+        Container(
+          decoration: const BoxDecoration(
+            border: Border(bottom: BorderSide(color: Color(0XFF35373B), width: 0.5)),
+          ),
+          child: TextFormField(
+            controller: firstNameController,
+            decoration: InputDecoration(
+              label: Text(
+                'First name',
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w400,
+                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                  color: theme.colorScheme.tertiary.withOpacity(0.6),
+                ),
+              ),
+              // hintText: "First name",
+              border: InputBorder.none,
+            ),
+            keyboardType: TextInputType.number,
+            onChanged: (val) {
+              _authProvider.firstName = val;
+            },
+            style: theme.textTheme.bodyMedium?.copyWith(
+              fontWeight: FontWeight.w500,
+              fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+              color: theme.colorScheme.tertiary,
+            ),
           ),
         ),
 
-        const Space(factor: 1.3),
+        SizedBox(height: 15.sp),
 
-        BNBTextField(
-          controller: emailController,
-          hint: AppLocalizations.of(context)?.registration_line4.toCapitalized() ?? "Enter E-mail",
-          borderWidth: 0.7,
-          vPadding: 20.h,
-          textColor: theme.colorScheme.tertiary, //  defaultTheme ? Colors.black : Colors.white,
-          borderColor: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.lightGrey : Colors.white,
-          onChanged: (String val) {
-            // _authProvider.firstName =
-          },
-        ),
-
-        const Space(factor: 1.5),
-
-        Text(
-          "*Mandatory fields",
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,
+        Container(
+          decoration: const BoxDecoration(
+            border: Border(bottom: BorderSide(color: Color(0XFF35373B), width: 0.5)),
+          ),
+          child: TextFormField(
+            controller: lastNameController,
+            decoration: InputDecoration(
+              label: Text(
+                AppLocalizations.of(context)?.lastName.toCapitalized() ?? "Last Name",
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w400,
+                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                  color: theme.colorScheme.tertiary.withOpacity(0.6),
+                ),
+              ),
+              // hintText: AppLocalizations.of(context)?.lastName.toCapitalized() ?? "Last Name",
+              border: InputBorder.none,
+            ),
+            keyboardType: TextInputType.number,
+            onChanged: (val) {
+              _authProvider.lastName = val;
+            },
+            style: theme.textTheme.bodyMedium?.copyWith(
+              fontWeight: FontWeight.w500,
+              fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+              color: theme.colorScheme.tertiary,
+            ),
           ),
         ),
+
+        SizedBox(height: 15.sp),
+
+        Container(
+          decoration: const BoxDecoration(
+            border: Border(bottom: BorderSide(color: Color(0XFF35373B), width: 0.5)),
+          ),
+          child: TextFormField(
+            controller: emailController,
+            decoration: InputDecoration(
+              label: Text(
+                AppLocalizations.of(context)?.email.toCapitalized() ?? "Email",
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w400,
+                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                  color: theme.colorScheme.tertiary.withOpacity(0.6),
+                ),
+              ),
+
+              // hintText: AppLocalizations.of(context)?.email.toCapitalized() ?? "Email",
+              border: InputBorder.none,
+            ),
+            keyboardType: TextInputType.number,
+            onChanged: (val) {
+              // _authProvider.firstName = val;
+            },
+            style: theme.textTheme.bodyMedium?.copyWith(
+              fontWeight: FontWeight.w500,
+              fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+              color: theme.colorScheme.tertiary,
+            ),
+          ),
+        ),
+
+        SizedBox(height: 15.sp),
+
+        Container(
+          decoration: const BoxDecoration(
+            border: Border(bottom: BorderSide(color: Color(0XFF35373B), width: 0.5)),
+          ),
+          child: !isOther
+              ? DropdownButtonHideUnderline(
+                  child: DropdownButton(
+                    dropdownColor: const Color(0XFF1F1F21),
+                    hint: Text(
+                      'Pronounce',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w400,
+                        fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                        color: theme.colorScheme.tertiary.withOpacity(0.6),
+                      ),
+                    ),
+
+                    // Initial Value
+                    value: dropdownvalue,
+
+                    // Down Arrow Icon
+                    icon: const Icon(Icons.keyboard_arrow_down),
+
+                    items: items.map((String items) {
+                      return DropdownMenuItem(
+                        value: items,
+                        child: Text(
+                          items,
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.w500,
+                            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                            color: theme.colorScheme.tertiary,
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      if (newValue == 'Other') {
+                        setState(() {
+                          isOther = true;
+                        });
+
+                        return;
+                      }
+
+                      setState(() {
+                        dropdownvalue = newValue!;
+                        isOther = false;
+                        pronounceController.text = newValue;
+                      });
+                    },
+                  ),
+                )
+              : TextFormField(
+                  controller: pronounceController,
+                  decoration: InputDecoration(
+                    label: Text(
+                      'Pronounce',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w400,
+                        fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                        color: theme.colorScheme.tertiary.withOpacity(0.6),
+                      ),
+                    ),
+                    border: InputBorder.none,
+                  ),
+                  keyboardType: TextInputType.number,
+                  onChanged: (val) {
+                    // _authProvider.firstName = val;
+                  },
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w500,
+                    fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                    color: theme.colorScheme.tertiary,
+                  ),
+                ),
+        ),
+
         const Spacer(),
         DefaultButton(
           borderRadius: 60,
           onTap: () async {
-            bool enabledOTP = _salonProfileProvider.themeSettings?.displaySettings?.enableOTP ?? true;
+            // bool enabledOTP = _salonProfileProvider.themeSettings?.displaySettings?.enableOTP ?? true;
             // Check if fields are filled
-            if (nameController.text.isEmpty || emailController.text.isEmpty) {
+            if (firstNameController.text.isEmpty || emailController.text.isEmpty || lastNameController.text.isEmpty) {
               showToast(AppLocalizations.of(context)?.emptyFields ?? "Field cannot be empty, please fill the required fields");
               return;
             }
 
-            CustomerModel? currentCustomer;
+            CustomerModel? currentCustomer = _authProvider.currentCustomer;
+
             PersonalInfo _personalInfo;
-            bool success;
+            // bool success;
 
-            if (enabledOTP == false) {
-              // Since enableOTP is false, customer did not login
-
-              _authProvider.setCurrentCustomerWithoutOTP(firstName: nameController.text, email: emailController.text);
-
-              currentCustomer = _authProvider.currentCustomerWithoutOTP;
-
-              _personalInfo = PersonalInfo(
-                phone: _authProvider.phoneNoController.text,
-                firstName: nameController.text,
-                lastName: '',
-                email: emailController.text,
-              );
-            } else {
-              currentCustomer = _authProvider.currentCustomer;
-
-              _personalInfo = PersonalInfo(
-                phone: currentCustomer!.personalInfo.phone,
-                firstName: nameController.text,
-                lastName: currentCustomer.personalInfo.lastName,
-                description: currentCustomer.personalInfo.description ?? '',
-                dob: currentCustomer.personalInfo.dob ?? DateTime.now().subtract(const Duration(days: 365 * 26)),
-                email: emailController.text,
-                sex: currentCustomer.personalInfo.sex ?? '',
-              );
-            }
-
-            if (enabledOTP) {
-              // update name and email of customer in customer collection
-              success = await _authProvider.updateCustomerPersonalInfo(
-                customerId: _authProvider.currentCustomer!.customerId,
-                personalInfo: _personalInfo,
-              );
-            } else {
-              success = true;
-            }
-
-            // Create Appointment
-            CustomerModel customer = CustomerModel(
-              customerId: currentCustomer!.customerId,
-              personalInfo: _personalInfo,
-              registeredSalons: [],
-              createdAt: DateTime.now(),
-              avgRating: 3.0,
-              noOfRatings: 6,
-              profilePicUploaded: false,
-              profilePic: "",
-              profileCompleted: false,
-              quizCompleted: false,
-              preferredGender: "male",
-              preferredCategories: [],
-              locations: [],
-              fcmToken: "",
-              locale: "en",
-              favSalons: [],
-              referralLink: "",
+            _personalInfo = PersonalInfo(
+              phone: currentCustomer!.personalInfo.phone,
+              firstName: firstNameController.text,
+              lastName: lastNameController.text,
+              description: currentCustomer.personalInfo.description ?? '',
+              dob: currentCustomer.personalInfo.dob ?? DateTime.now().subtract(const Duration(days: 365 * 26)),
+              email: emailController.text,
+              sex: currentCustomer.personalInfo.sex ?? '',
             );
-            if (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.singleMaster) {
-              await _createAppointmentProvider.createAppointment(
-                customerModel: customer,
-                context: context,
-              );
-            } else {
-              await _createAppointmentProvider.creatAppointmentSalonOwner(
-                customerModel: customer,
-                context: context,
-              );
-            }
+
+            await _authProvider.updateCustomerPersonalInfo(customerId: currentCustomer.customerId, personalInfo: _personalInfo);
+
+            _createAppointmentProvider.nextPageView(3);
+
+            // // Create Appointment
+            // CustomerModel customer = CustomerModel(
+            //   customerId: currentCustomer!.customerId,
+            //   personalInfo: _personalInfo,
+            //   registeredSalons: [],
+            //   createdAt: DateTime.now(),
+            //   avgRating: 3.0,
+            //   noOfRatings: 6,
+            //   profilePicUploaded: false,
+            //   profilePic: "",
+            //   profileCompleted: false,
+            //   quizCompleted: false,
+            //   preferredGender: "male",
+            //   preferredCategories: [],
+            //   locations: [],
+            //   fcmToken: "",
+            //   locale: "en",
+            //   favSalons: [],
+            //   referralLink: "",
+            // );
+
+            // if (enabledOTP == false) {
+            //   // Since enableOTP is false, customer did not login
+
+            //   _authProvider.setCurrentCustomerWithoutOTP(
+            //     firstName: firstNameController.text,
+            //     lastName: lastNameController.text,
+            //     email: emailController.text,
+            //   );
+
+            //   currentCustomer = _authProvider.currentCustomerWithoutOTP;
+
+            //   _personalInfo = PersonalInfo(
+            //     phone: _authProvider.phoneNoController.text,
+            //     firstName: firstNameController.text,
+            //     lastName: lastNameController.text,
+            //     email: emailController.text,
+            //   );
+            // } else {
+            //   currentCustomer = _authProvider.currentCustomer;
+
+            //   _personalInfo = PersonalInfo(
+            //     phone: currentCustomer!.personalInfo.phone,
+            //     firstName: firstNameController.text,
+            //     lastName: lastNameController.text,
+            //     description: currentCustomer.personalInfo.description ?? '',
+            //     dob: currentCustomer.personalInfo.dob ?? DateTime.now().subtract(const Duration(days: 365 * 26)),
+            //     email: emailController.text,
+            //     sex: currentCustomer.personalInfo.sex ?? '',
+            //   );
+            // }
+
+            // if (enabledOTP) {
+            //   // update name and email of customer in customer collection
+            //   success = await _authProvider.updateCustomerPersonalInfo(
+            //     customerId: _authProvider.currentCustomer!.customerId,
+            //     personalInfo: _personalInfo,
+            //   );
+            // } else {
+            //   success = true;
+            // }
 
             // _authProvider.updateCurrentCustomerToFinishBooking(customer);
 
-            if (success) {
-              // Move to next screen
-              _createAppointmentProvider.nextPageView(3);
-            } else {
-              showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? "Something went wrong, please try again");
-              showToast("Something went wrong, please try again");
-            }
+            // if (success) {
+            //   // Move to next screen
+            //   _createAppointmentProvider.nextPageView(3);
+            // } else {
+            //   showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? "Something went wrong, please try again");
+            //   showToast("Something went wrong, please try again");
+            // }
           },
-          color: dialogButtonColor(themeType, theme), // theme.dialogBackgroundColor, // defaultTheme ? Colors.black : theme.primaryColor,
-          textColor: loaderColor(themeType), // defaultTheme ? Colors.white : Colors.black,
-
-          // color: defaultTheme ? Colors.black : theme.primaryColor,
-          // textColor: defaultTheme ? Colors.white : Colors.black,
+          color: dialogButtonColor(themeType, theme),
+          textColor: loaderColor(themeType),
           height: 60,
-          label: AppLocalizations.of(context)?.nextStep ?? 'Next Step',
+          label: 'Confirm my details',
           isLoading: (_authProvider.updateCustomerPersonalInfoStatus == Status.loading),
-          loaderColor: loaderColor(themeType), // defaultTheme ? Colors.white : Colors.black,
-
-          // loaderColor: defaultTheme ? Colors.white : Colors.black,
+          loaderColor: loaderColor(themeType),
+          suffixIcon: Icon(
+            Icons.arrow_forward_ios_rounded,
+            color: loaderColor(themeType),
+            size: 18.sp,
+          ),
+          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
         ),
-        SizedBox(height: 15.h),
-        DefaultButton(
-          borderRadius: 60,
-          onTap: () {
-            _createAppointmentProvider.nextPageView(1);
-          },
-          color: dialogBackButtonColor(themeType, theme), // defaultTheme ? Colors.white :
-          borderColor: theme.primaryColor, // defaultTheme ? Colors.black : theme.primaryColor,
-          textColor: theme.colorScheme.tertiary, // defaultTheme ? Colors.black : theme.primaryColor,
+        // SizedBox(height: 15.h),
+        // DefaultButton(
+        //   borderRadius: 60,
+        //   onTap: () {
+        //     _createAppointmentProvider.nextPageView(1);
+        //   },
+        //   color: dialogBackButtonColor(themeType, theme), // defaultTheme ? Colors.white :
+        //   borderColor: theme.primaryColor, // defaultTheme ? Colors.black : theme.primaryColor,
+        //   textColor: theme.colorScheme.tertiary, // defaultTheme ? Colors.black : theme.primaryColor,
 
-          // color: defaultTheme ? Colors.white : Colors.transparent,
-          // borderColor: defaultTheme ? Colors.black : theme.primaryColor,
-          // textColor: defaultTheme ? Colors.black : theme.primaryColor,
-          height: 60,
-          label: AppLocalizations.of(context)?.back ?? 'Back',
-        ),
+        //   // color: defaultTheme ? Colors.white : Colors.transparent,
+        //   // borderColor: defaultTheme ? Colors.black : theme.primaryColor,
+        //   // textColor: defaultTheme ? Colors.black : theme.primaryColor,
+        //   height: 60,
+        //   label: AppLocalizations.of(context)?.back ?? 'Back',
+        // ),
       ],
     );
   }

@@ -62,7 +62,7 @@ class CustomerApi {
         // });
         return false;
       } else {
-        debugPrint('geData${getData.docs}');
+        // debugPrint('geData${getData.docs}');
         printIt('customer is not emptyyyy');
 
         return true;
