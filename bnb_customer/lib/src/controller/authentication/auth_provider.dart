@@ -199,7 +199,13 @@ class AuthProvider with ChangeNotifier {
       notifyListeners();
       try {
         if (kIsWeb) {
-          webOTPConfirmationResult = await _auth.signInWithPhoneNumber(_phone.trim());
+          webOTPConfirmationResult = await _auth.signInWithPhoneNumber(
+            _phone.trim(),
+          );
+
+          print('******@@@@@@*******');
+          print('web result - $webOTPConfirmationResult ');
+          print('******@@@@@@*******');
 
           final customerExists = await CustomerApi().checkIfCustomerExists(_phone.trim());
           if (!customerExists) {

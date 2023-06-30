@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/enums/status.dart';
@@ -53,6 +55,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
   }
 
   MasterModel? selectedMaster;
+  bool isAnyoneSelected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -137,14 +140,23 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                           scrollDirection: Axis.horizontal,
                           children: [
                             GestureDetector(
-                              onTap: () => setState(() => selectedMaster = null),
+                              onTap: () {
+                                setState(() => isAnyoneSelected = true);
+
+                                // find random master
+
+                                final _random = Random();
+                                MasterModel randomMaster = _createAppointmentProvider.serviceableMasters[_random.nextInt(_createAppointmentProvider.serviceableMasters.length)];
+
+                                setState(() => selectedMaster = randomMaster);
+                              },
                               child: Container(
                                 height: 45.h,
                                 decoration: BoxDecoration(
-                                  color: selectedMaster == null ? theme.primaryColor : Colors.transparent,
+                                  color: isAnyoneSelected == true ? theme.primaryColor : Colors.transparent,
                                   borderRadius: BorderRadius.circular(70),
                                   border: Border.all(
-                                    color: selectedMaster == null ? theme.primaryColor : const Color(0XFF4A4A4A),
+                                    color: isAnyoneSelected == true ? theme.primaryColor : const Color(0XFF4A4A4A),
                                     width: 0.8,
                                   ),
                                 ),
@@ -198,6 +210,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                       child: GestureDetector(
                                         onTap: () async {
                                           setState(() => selectedMaster = master);
+                                          setState(() => isAnyoneSelected = false);
 
                                           _createAppointmentProvider.selectMasterForBooking(master);
 
@@ -212,10 +225,10 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                         },
                                         child: Container(
                                           decoration: BoxDecoration(
-                                            color: (selectedMaster == master) ? theme.primaryColor : Colors.transparent,
+                                            color: (selectedMaster == master && isAnyoneSelected == false) ? theme.primaryColor : Colors.transparent,
                                             borderRadius: BorderRadius.circular(70),
                                             border: Border.all(
-                                              color: (selectedMaster == master) ? theme.primaryColor : const Color(0XFF4A4A4A),
+                                              color: (selectedMaster == master && isAnyoneSelected == false) ? theme.primaryColor : const Color(0XFF4A4A4A),
                                               width: 0.8,
                                             ),
                                           ),
