@@ -3,6 +3,7 @@ import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/firebase/transaction.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/views/salon/booking/widgets/confirmation_tab.dart/confirmed_dialog.dart';
 import 'package:bbblient/src/views/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,9 +16,7 @@ class ConfirmationSuccess<T> extends ConsumerStatefulWidget {
 
   final String responseCode;
   final String transactionID;
-  const ConfirmationSuccess(
-      {Key? key, required this.responseCode, required this.transactionID})
-      : super(key: key);
+  const ConfirmationSuccess({Key? key, required this.responseCode, required this.transactionID}) : super(key: key);
 
   Future<void> show(BuildContext context) async {
     await showDialog<T>(
@@ -27,17 +26,14 @@ class ConfirmationSuccess<T> extends ConsumerStatefulWidget {
   }
 
   @override
-  ConsumerState<ConfirmationSuccess> createState() =>
-      _ConfirmationSuccessState();
+  ConsumerState<ConfirmationSuccess> createState() => _ConfirmationSuccessState();
 }
 
 class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
   @override
   void initState() {
     // TODO: implement initState
-    TransactionApi()
-        .getAllAppointmentWithTransaction(widget.transactionID)
-        .listen((event) {
+    TransactionApi().getAllAppointmentWithTransaction(widget.transactionID).listen((event) {
       if (event.isNotEmpty) {
         appointment = event[0];
         setState(() {
@@ -53,8 +49,7 @@ class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context).size;
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
@@ -81,11 +76,29 @@ class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 15.sp),
+                              child: Icon(
+                                Icons.close_rounded,
+                                color: theme.colorScheme.tertiary.withOpacity(0.6),
+                                size: DeviceConstraints.getResponsiveSize(context, 20.sp, 22.sp, 24.sp),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                       const Spacer(flex: 2),
                       SpinKitPouringHourGlass(
                         color: theme.primaryColor,
-                        size: DeviceConstraints.getResponsiveSize(
-                            context, 120.sp, 80.sp, 100.sp),
+                        size: DeviceConstraints.getResponsiveSize(context, 120.sp, 80.sp, 100.sp),
                         // itemBuilder: (BuildContext context, int index) {
                         //   return DecoratedBox(
                         //     decoration: BoxDecoration(
@@ -105,8 +118,7 @@ class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
                         'Please Wait',
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w500,
-                          fontSize: DeviceConstraints.getResponsiveSize(
-                              context, 30.sp, 30.sp, 35.sp),
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 30.sp, 35.sp),
                           color: theme.colorScheme.tertiary,
                         ),
                       ),
@@ -116,8 +128,7 @@ class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
                         textAlign: TextAlign.center,
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.normal,
-                          fontSize: DeviceConstraints.getResponsiveSize(
-                              context, 16.sp, 20.sp, 18.sp),
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                           color: theme.colorScheme.tertiary,
                         ),
                       ),
@@ -132,8 +143,7 @@ class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
                       const Spacer(flex: 2),
                       FaIcon(
                         FontAwesomeIcons.circleCheck,
-                        size: DeviceConstraints.getResponsiveSize(
-                            context, 120.sp, 80.sp, 100.sp),
+                        size: DeviceConstraints.getResponsiveSize(context, 120.sp, 80.sp, 100.sp),
                         color: theme.primaryColor,
                       ),
                       const Spacer(),
@@ -141,8 +151,7 @@ class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
                         'Thank you',
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w500,
-                          fontSize: DeviceConstraints.getResponsiveSize(
-                              context, 30.sp, 30.sp, 35.sp),
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 30.sp, 35.sp),
                           color: theme.colorScheme.tertiary,
                         ),
                       ),
@@ -152,8 +161,7 @@ class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
                         textAlign: TextAlign.center,
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.normal,
-                          fontSize: DeviceConstraints.getResponsiveSize(
-                              context, 16.sp, 20.sp, 18.sp),
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                           color: theme.colorScheme.tertiary,
                         ),
                       ),
@@ -164,14 +172,16 @@ class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
                           height: 60.sp,
                           borderRadius: 60.sp,
                           color: theme.dialogBackgroundColor,
-                          borderColor:
-                              theme.colorScheme.tertiary.withOpacity(0.6),
+                          borderColor: theme.colorScheme.tertiary.withOpacity(0.6),
                           label: 'View details',
                           fontWeight: FontWeight.w400,
-                          fontSize: DeviceConstraints.getResponsiveSize(
-                              context, 16.sp, 20.sp, 18.sp),
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                           textColor: theme.colorScheme.tertiary,
-                          onTap: () async {},
+                          onTap: () async {
+                            Navigator.pop(context);
+
+                            const ConfirmedDialog().show(context);
+                          },
                         ),
                       ),
                       const Spacer(flex: 2),
@@ -189,8 +199,7 @@ class ConfirmationError<T> extends ConsumerStatefulWidget {
 
   final String responseCode;
 
-  const ConfirmationError({Key? key, required this.responseCode})
-      : super(key: key);
+  const ConfirmationError({Key? key, required this.responseCode}) : super(key: key);
 
   Future<void> show(BuildContext context) async {
     await showDialog<T>(
@@ -207,8 +216,7 @@ class _ConfirmationErrorState extends ConsumerState<ConfirmationError> {
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context).size;
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
@@ -234,11 +242,29 @@ class _ConfirmationErrorState extends ConsumerState<ConfirmationError> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 15.sp),
+                        child: Icon(
+                          Icons.close_rounded,
+                          color: theme.colorScheme.tertiary.withOpacity(0.6),
+                          size: DeviceConstraints.getResponsiveSize(context, 20.sp, 22.sp, 24.sp),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
                 const Spacer(flex: 2),
                 FaIcon(
                   FontAwesomeIcons.x,
-                  size: DeviceConstraints.getResponsiveSize(
-                      context, 120.sp, 80.sp, 100.sp),
+                  size: DeviceConstraints.getResponsiveSize(context, 120.sp, 80.sp, 100.sp),
                   color: theme.primaryColor,
                 ),
                 const Spacer(),
@@ -246,8 +272,7 @@ class _ConfirmationErrorState extends ConsumerState<ConfirmationError> {
                   'Failed!',
                   style: theme.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w500,
-                    fontSize: DeviceConstraints.getResponsiveSize(
-                        context, 30.sp, 30.sp, 35.sp),
+                    fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 30.sp, 35.sp),
                     color: theme.colorScheme.tertiary,
                   ),
                 ),
@@ -257,8 +282,7 @@ class _ConfirmationErrorState extends ConsumerState<ConfirmationError> {
                   textAlign: TextAlign.center,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.normal,
-                    fontSize: DeviceConstraints.getResponsiveSize(
-                        context, 16.sp, 20.sp, 18.sp),
+                    fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                     color: theme.colorScheme.tertiary,
                   ),
                 ),
@@ -270,12 +294,13 @@ class _ConfirmationErrorState extends ConsumerState<ConfirmationError> {
                     borderRadius: 60.sp,
                     color: theme.dialogBackgroundColor,
                     borderColor: theme.colorScheme.tertiary.withOpacity(0.6),
-                    label: 'View details',
+                    label: 'Exit',
                     fontWeight: FontWeight.w400,
-                    fontSize: DeviceConstraints.getResponsiveSize(
-                        context, 16.sp, 20.sp, 18.sp),
+                    fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                     textColor: theme.colorScheme.tertiary,
-                    onTap: () async {},
+                    onTap: () async {
+                      Navigator.pop(context);
+                    },
                   ),
                 ),
                 const Spacer(flex: 2),

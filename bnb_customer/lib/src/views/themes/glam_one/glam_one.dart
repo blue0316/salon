@@ -2,6 +2,7 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/customer_web_settings.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
+import 'package:bbblient/src/views/salon/booking/dialog_flow/booking_dialog_2.dart';
 import 'package:bbblient/src/views/themes/components/drawer.dart';
 import 'package:bbblient/src/views/themes/components/header/landing_header.dart';
 import 'package:bbblient/src/views/themes/components/about/salon_about.dart';
@@ -132,18 +133,21 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.only(top: 19, bottom: 15),
-                        child: RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: "Design By ",
-                                style: theme.textTheme.bodyLarge!.copyWith(fontSize: 20.sp, color: theme.primaryColorLight),
-                              ),
-                              TextSpan(
-                                text: "GlamIris",
-                                style: theme.textTheme.bodyLarge!.copyWith(fontSize: 20.sp, color: theme.primaryColorDark),
-                              ),
-                            ],
+                        child: GestureDetector(
+                          onTap: () => const BookingDialogWidget222().show(context),
+                          child: RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: "Design By ",
+                                  style: theme.textTheme.bodyLarge!.copyWith(fontSize: 20.sp, color: theme.primaryColorLight),
+                                ),
+                                TextSpan(
+                                  text: "GlamIris",
+                                  style: theme.textTheme.bodyLarge!.copyWith(fontSize: 20.sp, color: theme.primaryColorDark),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

@@ -14,6 +14,7 @@ import 'package:bbblient/src/views/payment/payment.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/colors.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/day_and_time/day_and_time.dart';
 import 'package:bbblient/src/views/salon/booking/confirmation_success.dart';
+import 'package:bbblient/src/views/salon/booking/widgets/confirmation_tab.dart/confirmed_dialog.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/buttons.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
@@ -102,7 +103,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
               ServiceNameAndPrice(
                 notService: true,
                 serviceName: 'Time:',
-                servicePrice: '$_startTime - $_endTime',
+                servicePrice: '${Time().timeToString(_startTime)} - ${Time().timeToString(_endTime)}',
               ),
 
               const GradientDivider(),
@@ -211,194 +212,197 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                   ),
                 ],
               ),
-            ],
-          ),
-        ),
-        SizedBox(height: 5.sp),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Icon(
-                  Icons.info_rounded,
-                  size: 30.sp,
-                  color: theme.colorScheme.tertiary.withOpacity(0.6),
-                ),
-                SizedBox(width: 10.sp),
-                GestureDetector(
-                  onTap: () {
-                    // const ThankYou().show(context);
-                  },
-                  child: Text(
-                    'Important Information',
+
+              SizedBox(height: 10.sp),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Icon(
+                        Icons.info_rounded,
+                        size: 30.sp,
+                        color: theme.colorScheme.tertiary.withOpacity(0.6),
+                      ),
+                      SizedBox(width: 10.sp),
+                      GestureDetector(
+                        onTap: () {
+                          // const ThankYou().show(context);
+                        },
+                        child: Text(
+                          'Important Information',
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.w500,
+                            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                            color: theme.colorScheme.tertiary,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20.sp),
+                  Text(
+                    'To cancel or reschedule please contact LK Nails. You can cancel up to 24 hours before the appointment without any charge. You deposit will be returned to your card within 2 business days',
                     style: theme.textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w400,
                       fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                      color: theme.colorScheme.tertiary,
+                      color: theme.colorScheme.tertiary.withOpacity(0.6),
                     ),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: 20.sp),
-            Text(
-              'To cancel or reschedule please contact LK Nails. You can cancel up to 24 hours before the appointment without any charge. You deposit will be returned to your card within 2 business days',
-              style: theme.textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w400,
-                fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                color: theme.colorScheme.tertiary.withOpacity(0.6),
+                ],
               ),
-            ),
-          ],
-        ),
 
-        SizedBox(height: 40.sp),
+              SizedBox(height: 40.sp),
 
-        Expanded(
-          flex: 0,
-          child: Column(
-            children: [
-              DefaultButton(
-                borderRadius: 60,
-                onTap: () async {
-                  if (!acceptTerms) {
-                    // Terms Checkbox is unchecked
+              Expanded(
+                flex: 0,
+                child: Column(
+                  children: [
+                    DefaultButton(
+                      borderRadius: 60,
+                      onTap: () async {
+                        if (!acceptTerms) {
+                          // Terms Checkbox is unchecked
 
-                    showToast('Please accept the cancellation policy');
+                          showToast('Please accept the cancellation policy');
 
-                    return;
-                  }
+                          return;
+                        }
 
-                  CustomerModel? currentCustomer = _auth.currentCustomer;
+                        CustomerModel? currentCustomer = _auth.currentCustomer;
 
-                  CustomerModel customer = CustomerModel(
-                    customerId: currentCustomer!.customerId,
-                    personalInfo: currentCustomer.personalInfo,
-                    registeredSalons: [],
-                    createdAt: DateTime.now(),
-                    avgRating: 3.0,
-                    noOfRatings: 6,
-                    profilePicUploaded: false,
-                    profilePic: "",
-                    profileCompleted: false,
-                    quizCompleted: false,
-                    preferredGender: "male",
-                    preferredCategories: [],
-                    locations: [],
-                    fcmToken: "",
-                    locale: "en",
-                    favSalons: [],
-                    referralLink: "",
-                  );
+                        CustomerModel customer = CustomerModel(
+                          customerId: currentCustomer!.customerId,
+                          personalInfo: currentCustomer.personalInfo,
+                          registeredSalons: [],
+                          createdAt: DateTime.now(),
+                          avgRating: 3.0,
+                          noOfRatings: 6,
+                          profilePicUploaded: false,
+                          profilePic: "",
+                          profileCompleted: false,
+                          quizCompleted: false,
+                          preferredGender: "male",
+                          preferredCategories: [],
+                          locations: [],
+                          fcmToken: "",
+                          locale: "en",
+                          favSalons: [],
+                          referralLink: "",
+                        );
 
-                  // const ConfirmedDialog().show(context);
+                        // const ConfirmedDialog().show(context);
 
-                  // ---------------------------- +++++++++++++++ ----------------------------
-                  setState(() => spinner = true);
+                        // ---------------------------- +++++++++++++++ ----------------------------
+                        setState(() => spinner = true);
 
-                  final TransactionModel newTransaction = TransactionModel(
-                    amount: totalAmount,
-                    timeInitiated: DateTime.now(),
-                  );
+                        final TransactionModel newTransaction = TransactionModel(
+                          amount: totalAmount,
+                          timeInitiated: DateTime.now(),
+                        );
 
-                  String? transactionId = await TransactionApi().createTransaction(newTransaction);
+                        String? transactionId = await TransactionApi().createTransaction(newTransaction);
 
-                  TransactionApi().streamTransaction(transactionId!).listen((event) async {
-                    for (TransactionModel transaction in event) {
-                      if (transaction.responseCode != null) {
-                        if (transaction.responseCode == 'A' || transaction.responseCode == 'E') {
-                          // Show Success Dialog
-                          html.window.open('https://yogasm.firebaseapp.com/confirmation?RESPONSECODE=${transaction.responseCode}', "_self");
-                          // Build Appointment
-                          if (_createAppointmentProvider.chosenServices.length > 1) {
-                            //call this single appointment service save function
-                            await _createAppointmentProvider.saveNewAppointmentForMultipleServices(
-                              customer: customer,
-                              transactionId: transactionId,
-                            );
-                          } else {
-                            //call multiple appointment service save option
-                            await _createAppointmentProvider.saveAppointment(
-                              customer: customer,
-                              transactionId: transactionId,
-                            );
+                        if (transactionId == null) {
+                          // Transaction must not be null (a doc must me created in transactions collection)
+                          showToast('Something went wrong, please try again');
+                          return;
+                        }
+
+                        TransactionApi().streamTransaction(transactionId).listen((event) async {
+                          for (TransactionModel transaction in event) {
+                            if (transaction.responseCode != null) {
+                              if (transaction.responseCode == 'A' || transaction.responseCode == 'E') {
+                                Navigator.pop(context);
+                                // Show Success Dialog
+                                ConfirmationSuccess(
+                                  responseCode: '${transaction.responseCode}',
+                                  transactionID: transactionId,
+                                ).show(context);
+
+                                // html.window.open('https://yogasm.firebaseapp.com/confirmation?RESPONSECODE=${transaction.responseCode}?transactionId=$transactionId', "_self");
+                                // Build Appointment
+                                if (_createAppointmentProvider.chosenServices.length > 1) {
+                                  //call this single appointment service save function
+                                  await _createAppointmentProvider.saveNewAppointmentForMultipleServices(
+                                    customer: customer,
+                                    transactionId: transactionId,
+                                  );
+                                } else {
+                                  //call multiple appointment service save option
+                                  await _createAppointmentProvider.saveAppointment(
+                                    customer: customer,
+                                    transactionId: transactionId,
+                                  );
+                                }
+                              }
+                              if (transaction.responseCode == 'D') {
+                                ConfirmationError(
+                                  responseCode: '${transaction.responseCode}',
+                                ).show(context);
+
+                                // html.window.open('https://yogasm.firebaseapp.com/confirmationError?RESPONSECODE=${transaction.responseCode}', "_self");
+                              }
+                            }
                           }
-                        }
-                        if (transaction.responseCode == 'D') {
-                          html.window.open('https://yogasm.firebaseapp.com/confirmationError?RESPONSECODE=${transaction.responseCode}', "_self");
-                        }
-                      }
-                    }
-                  });
+                        });
 
-                  // A: Approval
-                  // E: Accepted (China Union Pay only)
-                  // D: Declined
-                  // R: Referral
-                  // C: Pick Up
+                        setState(() => spinner = false);
 
-                  setState(() => spinner = false);
+                        js.context.callMethod(
+                          'open',
+                          ['https://yogasm.firebaseapp.com/payment?amount=$totalAmount&currency=USD&transactionId=$transactionId&terminalId=5363001'],
+                        );
+                        // ---------------------------- +++++++++++++++ ----------------------------
 
-                  js.context.callMethod(
-                    'open',
-                    ['https://yogasm.firebaseapp.com/payment?amount=$totalAmount&currency=USD&transactionId=$transactionId&terminalId=5363001'],
-                  );
+                        // bool enabledOTP = _salonProfileProvider.themeSettings?.displaySettings?.enableOTP ?? true;
 
-                  // https://yogasm.firebaseapp.com/appointments?id=mvEdvmbMxRjgwFrzIjao
+                        // if (!acceptTerms) {
+                        //   // Terms Checkbox is unchecked
 
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const Payment(),
-                  //   ),
-                  // );
+                        //   showToast(AppLocalizations.of(context)?.pleaseAgree ?? "Please agree to the terms and conditions");
 
-                  // bool enabledOTP = _salonProfileProvider.themeSettings?.displaySettings?.enableOTP ?? true;
+                        //   return;
+                        // }
 
-                  // if (!acceptTerms) {
-                  //   // Terms Checkbox is unchecked
+                        // bool success = await _createAppointmentProvider.finishBooking(
+                        //   context: context,
+                        //   customerModel: enabledOTP ? _auth.currentCustomer! : _auth.currentCustomerWithoutOTP!,
+                        // );
 
-                  //   showToast(AppLocalizations.of(context)?.pleaseAgree ?? "Please agree to the terms and conditions");
+                        // if (success) {
+                        //   // Pop current dialog
+                        //   Navigator.of(context).pop();
 
-                  //   return;
-                  // }
-
-                  // bool success = await _createAppointmentProvider.finishBooking(
-                  //   context: context,
-                  //   customerModel: enabledOTP ? _auth.currentCustomer! : _auth.currentCustomerWithoutOTP!,
-                  // );
-
-                  // if (success) {
-                  //   // Pop current dialog
-                  //   Navigator.of(context).pop();
-
-                  //   const ConfirmedDialog().show(context);
-                  // } else {
-                  //   showToast(AppLocalizations.of(context)?.somethingWentWrong ?? "Something went wrong");
-                  // }
-                },
-                color: dialogButtonColor(themeType, theme),
-                textColor: loaderColor(themeType),
-                height: 60,
-                label: 'Pay $totalAmount\$ deposit',
-                // isLoading: _createAppointmentProvider.bookAppointmentStatus == Status.loading,
-                isLoading: spinner,
-                loaderColor: loaderColor(themeType),
-                fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                suffixIcon: Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  color: loaderColor(themeType),
-                  size: 18.sp,
+                        //   const ConfirmedDialog().show(context);
+                        // } else {
+                        //   showToast(AppLocalizations.of(context)?.somethingWentWrong ?? "Something went wrong");
+                        // }
+                      },
+                      color: dialogButtonColor(themeType, theme),
+                      textColor: loaderColor(themeType),
+                      height: 60,
+                      label: 'Pay $totalAmount\$ deposit',
+                      // isLoading: _createAppointmentProvider.bookAppointmentStatus == Status.loading,
+                      isLoading: spinner,
+                      loaderColor: loaderColor(themeType),
+                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                      suffixIcon: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: loaderColor(themeType),
+                        size: 18.sp,
+                      ),
+                    ),
+                  ],
                 ),
               ),
+              // SizedBox(height: 20.h),
             ],
           ),
         ),
-        // SizedBox(height: 20.h),
       ],
     );
   }
