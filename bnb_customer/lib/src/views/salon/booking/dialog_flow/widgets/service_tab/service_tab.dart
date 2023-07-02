@@ -72,159 +72,173 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // SizedBox(height: 20.h),
-                (widget.master == false)
-                    ? Padding(
-                        padding: EdgeInsets.zero,
-                        child: SizedBox(
-                          height: 45.sp, // DeviceConstraints.getResponsiveSize(context, 35.h, 35.h, 35.h),
-                          child: ListView.builder(
-                            itemCount: _createAppointmentProvider.categoriesAvailable.length + 1,
-                            scrollDirection: Axis.horizontal,
-                            shrinkWrap: true,
-                            controller: _scrollController,
-                            physics: const ClampingScrollPhysics(),
-                            itemBuilder: (_, index) {
-                              List<CategoryModel> catList = [
-                                CategoryModel(
-                                  categoryName: 'All',
-                                  categoryId: 'all',
-                                  translations: {'en': 'All'},
+                Padding(
+                  padding: EdgeInsets.zero,
+                  child: SizedBox(
+                    height: 45.sp, // DeviceConstraints.getResponsiveSize(context, 35.h, 35.h, 35.h),
+                    child: ListView.builder(
+                      itemCount: _createAppointmentProvider.categoriesAvailable.length + 1,
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      controller: _scrollController,
+                      physics: const ClampingScrollPhysics(),
+                      itemBuilder: (_, index) {
+                        List<CategoryModel> catList = [
+                          CategoryModel(
+                            categoryName: 'All',
+                            categoryId: 'all',
+                            translations: {'en': 'All'},
+                          ),
+                          ..._createAppointmentProvider.categoriesAvailable,
+                        ];
+
+                        bool isServiceAddedBelogingToCategory = _createAppointmentProvider.isCategoryServiceAdded(
+                          categoryModel: catList[index],
+                        );
+
+                        Color selectedColor = theme.primaryColor; // defaultTheme ? (Colors.grey[400]!) : theme.colorScheme.tertiary;
+                        return Padding(
+                          padding: EdgeInsets.only(
+                            right: DeviceConstraints.getResponsiveSize(context, 15.w, 10.w, 7.w),
+                          ),
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _pageController.jumpToPage(index);
+                                _activeTab = index;
+                              });
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                // color: isServiceAddedBelogingToCategory ? selectedColor : Colors.transparent,
+                                border: Border.all(
+                                  color: _activeTab == index ? theme.primaryColor : const Color(0XFF4A4A4A),
+                                  width: 1,
                                 ),
-                                ..._createAppointmentProvider.categoriesAvailable,
-                              ];
 
-                              bool isServiceAddedBelogingToCategory = _createAppointmentProvider.isCategoryServiceAdded(
-                                categoryModel: catList[index],
-                              );
+                                // isServiceAddedBelogingToCategory
+                                //     ? null
+                                //     : Border.all(
+                                //         color: theme.colorScheme.tertiary, //defaultTheme ? Colors.black : Colors.white,
+                                //         width: DeviceConstraints.getResponsiveSize(context, 1, 1, 1.4),
+                                //       ),
 
-                              Color selectedColor = theme.primaryColor; // defaultTheme ? (Colors.grey[400]!) : theme.colorScheme.tertiary;
-                              return Padding(
-                                padding: EdgeInsets.only(
-                                  right: DeviceConstraints.getResponsiveSize(context, 15.w, 10.w, 7.w),
-                                ),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      _pageController.jumpToPage(index);
-                                      _activeTab = index;
-                                    });
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      // color: isServiceAddedBelogingToCategory ? selectedColor : Colors.transparent,
-                                      border: Border.all(
-                                        color: _activeTab == index ? theme.primaryColor : const Color(0XFF4A4A4A),
-                                        width: 1,
-                                      ),
-
-                                      // isServiceAddedBelogingToCategory
-                                      //     ? null
-                                      //     : Border.all(
-                                      //         color: theme.colorScheme.tertiary, //defaultTheme ? Colors.black : Colors.white,
-                                      //         width: DeviceConstraints.getResponsiveSize(context, 1, 1, 1.4),
-                                      //       ),
-
-                                      color: _activeTab == index ? theme.primaryColor : theme.dialogBackgroundColor,
-                                      borderRadius: BorderRadius.circular(50),
-                                    ),
-                                    child: Center(
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: DeviceConstraints.getResponsiveSize(context, 25.w, 15.w, 10.w),
-                                        ),
-                                        child: Text(
-                                          catList[index].translations[AppLocalizations.of(context)?.localeName ?? 'en'],
-                                          style: theme.textTheme.bodyLarge!.copyWith(
-                                            color: theme.colorScheme.tertiary, //  isServiceAddedBelogingToCategory ? serviceTabCategoryColor(themeType) : theme.colorScheme.tertiary, //defaultTheme ? Colors.black : Colors.white,
-                                            // color: Colors.white, // _activeTab == index ? AppTheme.textBlack : AppTheme.lightGrey,
-                                            fontWeight: FontWeight.w400, // _activeTab == index ? FontWeight.w500 : FontWeight.w400,
-                                          ),
-                                        ),
-                                      ),
+                                color: _activeTab == index ? theme.primaryColor : theme.dialogBackgroundColor,
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              child: Center(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: DeviceConstraints.getResponsiveSize(context, 25.w, 15.w, 10.w),
+                                  ),
+                                  child: Text(
+                                    catList[index].translations[AppLocalizations.of(context)?.localeName ?? 'en'],
+                                    style: theme.textTheme.bodyLarge!.copyWith(
+                                      color: theme.colorScheme.tertiary, //  isServiceAddedBelogingToCategory ? serviceTabCategoryColor(themeType) : theme.colorScheme.tertiary, //defaultTheme ? Colors.black : Colors.white,
+                                      // color: Colors.white, // _activeTab == index ? AppTheme.textBlack : AppTheme.lightGrey,
+                                      fontWeight: FontWeight.w400, // _activeTab == index ? FontWeight.w500 : FontWeight.w400,
                                     ),
                                   ),
                                 ),
-                              );
-                            },
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                SizedBox(height: DeviceConstraints.getResponsiveSize(context, 30.h, 30.h, 30.h)),
+                // SERVICES FOR SALON
+
+                _createAppointmentProvider.selectedItems.isNotEmpty
+                    ? Expanded(
+                        child: Container(
+                          height: 60.sp,
+                          color: Colors.yellow,
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: _createAppointmentProvider.selectedItems.length,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    ServiceModel service = _createAppointmentProvider.selectedItems[index];
+                                    bool isAdded = _createAppointmentProvider.isAdded(serviceModel: service);
+                                    List<ServiceModel> subItems = _createAppointmentProvider.selectedItems;
+                                    return Column(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            _createAppointmentProvider.toggleCookings(
+                                              serviceModel: service,
+                                              subItems: subItems,
+                                              selected: () {
+                                                _createAppointmentProvider.selectedItems.clear();
+                                                _createAppointmentProvider.selectedSubItems.clear();
+                                                _createAppointmentProvider.totalSelectedSubItems.clear();
+
+                                                // _createAppointmentProvider!.selectedItems.add(mainItem);
+                                                _createAppointmentProvider.getServiceMasters();
+                                              },
+                                              unselected: () {
+                                                _createAppointmentProvider.selectedSubItems.remove(service);
+                                                _createAppointmentProvider.totalSelectedSubItems.clear();
+                                                _createAppointmentProvider.selectedItems.remove(service);
+                                                _createAppointmentProvider.selectedItems.removeWhere((item) => subItems.contains(item));
+                                              },
+                                            );
+                                          },
+                                          child: ServiceCard(
+                                            isAdded: isAdded,
+                                            service: service,
+                                          ),
+                                        ),
+                                        if (isAdded)
+                                          ListView.builder(
+                                            shrinkWrap: true,
+                                            physics: const NeverScrollableScrollPhysics(),
+                                            itemCount: _createAppointmentProvider.selectedSubItems.length,
+                                            itemBuilder: (context, index) {
+                                              ServiceModel subItem = _createAppointmentProvider.selectedSubItems[index];
+                                              bool isSubItemSelected = _createAppointmentProvider.totalSelectedSubItems.contains(subItem);
+
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  _createAppointmentProvider.toggleCookings(
+                                                    serviceModel: service,
+                                                    subItems: subItems,
+                                                    selected: () {
+                                                      if (_createAppointmentProvider.selectedItems.isEmpty) {
+                                                        _createAppointmentProvider.selectedItems.add(subItem);
+                                                      }
+                                                      _createAppointmentProvider.totalSelectedSubItems.add(subItem);
+                                                    },
+                                                    unselected: () {
+                                                      _createAppointmentProvider.selectedItems.remove(subItem);
+                                                      //_createAppointmentProvider!.selectedSubItems.remove(subItem);
+                                                      _createAppointmentProvider.totalSelectedSubItems.remove(subItem);
+                                                    },
+                                                  );
+                                                },
+                                                child: ServiceCard(
+                                                  isAdded: isAdded,
+                                                  service: service,
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                      ],
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       )
-                    : Padding(
-                        //
-                        padding: EdgeInsets.zero,
-                        child: SizedBox(
-                          height: DeviceConstraints.getResponsiveSize(context, 45.h, 50.h, 50.h),
-                          child: ListView.builder(
-                            itemCount: _createAppointmentProvider.masterCategoryAndServices.length + 1,
-                            scrollDirection: Axis.horizontal,
-                            shrinkWrap: true,
-                            controller: _scrollController,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (_, index) {
-                              List<CategoryModel> catList = [
-                                CategoryModel(
-                                  categoryName: 'All',
-                                  categoryId: 'all',
-                                  translations: {'en': 'All'},
-                                ),
-                                ..._createAppointmentProvider.masterCategoryAndServices.keys.toList(),
-                              ];
-
-                              bool isServiceAddedBelogingToCategory = _createAppointmentProvider.isCategoryServiceAdded(
-                                categoryModel: catList[index],
-                              );
-
-                              Color selectedColor = defaultTheme ? (Colors.grey[400]!) : theme.colorScheme.tertiary;
-                              return Padding(
-                                padding: EdgeInsets.only(
-                                  right: DeviceConstraints.getResponsiveSize(context, 15.w, 10.w, 7.w),
-                                ),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      _pageController.jumpToPage(index);
-                                      _activeTab = index;
-                                    });
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: isServiceAddedBelogingToCategory ? selectedColor : Colors.transparent,
-                                      border: isServiceAddedBelogingToCategory
-                                          ? null
-                                          : Border.all(
-                                              color: theme.colorScheme.tertiary, //defaultTheme ? Colors.black : Colors.white,
-                                              width: DeviceConstraints.getResponsiveSize(context, 1, 1, 1.4),
-                                            ),
-
-                                      // color: _activeTab == index ? const Color.fromARGB(255, 239, 239, 239) : Theme.of(context).scaffoldBackgroundColor,
-                                      borderRadius: BorderRadius.circular(50),
-                                    ),
-                                    child: Center(
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: DeviceConstraints.getResponsiveSize(context, 25.w, 15.w, 10.w),
-                                        ),
-                                        child: Text(
-                                          catList[index].translations[AppLocalizations.of(context)?.localeName ?? 'en'],
-                                          style: theme.textTheme.bodyLarge!.copyWith(
-                                            color: isServiceAddedBelogingToCategory ? serviceTabCategoryColor(themeType) : theme.colorScheme.tertiary, //defaultTheme ? Colors.black : Colors.white,
-                                            // color: Colors.white, // _activeTab == index ? AppTheme.textBlack : AppTheme.lightGrey,
-                                            fontWeight: FontWeight.w400, // _activeTab == index ? FontWeight.w500 : FontWeight.w400,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                SizedBox(height: DeviceConstraints.getResponsiveSize(context, 30.h, 30.h, 30.h)),
-                // SERVICES FOR SALON
-                (widget.master == false)
-                    ? Expanded(
+                    : Expanded(
                         child: PageView(
                           controller: _pageController,
                           onPageChanged: (i) {
@@ -273,9 +287,40 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                                                 color: theme.colorScheme.tertiary, //defaultTheme ? AppTheme.textBlack : Colors.white,
                                               ),
                                             ),
-                                            children: [
-                                              ServiceList(services: services),
-                                            ],
+                                            children: services.map(
+                                              (ServiceModel service) {
+                                                List<ServiceModel> subItems = services;
+                                                bool isAdded = _createAppointmentProvider.isAdded(serviceModel: service);
+                                                return GestureDetector(
+                                                  onTap: () {
+                                                    _createAppointmentProvider.toggleCookings(
+                                                      serviceModel: service,
+                                                      subItems: services,
+                                                      selected: () {
+                                                        print('selected clicked');
+
+                                                        _createAppointmentProvider.selectedItems.clear();
+                                                        _createAppointmentProvider.selectedSubItems.clear();
+                                                        _createAppointmentProvider.selectedItems.add(service);
+                                                        _createAppointmentProvider.getServiceMasters();
+                                                        _createAppointmentProvider.totalSelectedSubItems.add(service);
+                                                      },
+                                                      unselected: () {
+                                                        print('unSelected clicked');
+                                                        _createAppointmentProvider.selectedSubItems.remove(service);
+                                                        _createAppointmentProvider.selectedItems.remove(service);
+                                                        _createAppointmentProvider.totalSelectedSubItems.remove(service);
+                                                        _createAppointmentProvider.selectedItems.removeWhere((item) => subItems.contains(item));
+                                                      },
+                                                    );
+                                                  },
+                                                  child: ServiceCard(
+                                                    isAdded: isAdded,
+                                                    service: service,
+                                                  ),
+                                                );
+                                              },
+                                            ).toList(),
                                           ),
                                         ),
                                         // if (isExpanded == false) SizedBox(height: 4.sp),
@@ -287,32 +332,6 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                                       ],
                                     ),
                                   );
-                                  // return Column(
-                                  //   crossAxisAlignment: CrossAxisAlignment.start,
-                                  //   mainAxisAlignment: MainAxisAlignment.start,
-                                  //   children: [
-                                  //     // SizedBox(height: DeviceConstraints.getResponsiveSize(context, 15.h, 15.h, 15.h)),
-                                  //     // Divider(
-                                  //     //   color: theme.colorScheme.tertiary, //defaultTheme ? Colors.black : Colors.white,
-                                  //     //   thickness: 1,
-                                  //     // ),
-                                  //     SizedBox(height: DeviceConstraints.getResponsiveSize(context, 15.h, 15.h, 20.h)),
-                                  //     Text(
-                                  //       categoryModel.categoryName,
-                                  //       style: theme.textTheme.bodyLarge!.copyWith(
-                                  //         fontWeight: FontWeight.normal,
-                                  //         // fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
-                                  //         fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-
-                                  //         color: theme.colorScheme.tertiary, //defaultTheme ? AppTheme.textBlack : Colors.white,
-                                  //       ),
-                                  //     ),
-                                  //     SizedBox(
-                                  //       height: DeviceConstraints.getResponsiveSize(context, 5.h, 7.h, 7.h),
-                                  //     ),
-                                  //     ServiceList(services: services),
-                                  //   ],
-                                  // );
                                 } else {
                                   return const SizedBox();
                                 }
@@ -320,97 +339,90 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                             ),
 
                             // Other Page views
-                            ..._createAppointmentProvider.servicesAvailable
-                                .map(
-                                  (services) => ServiceList(services: services),
-                                )
-                                .toList(),
-                          ],
-                        ),
-                      )
-                    : Expanded(
-                        child: PageView(
-                          controller: _masterPageController,
-                          onPageChanged: (i) {
-                            setState(() {
-                              _activeTab = i;
-                            });
-                          },
-                          children: [
-                            // All Section
-                            ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: _createAppointmentProvider.masterCategoryAndServices.length,
-                              itemBuilder: (context, index) {
-                                final CategoryModel categoryModel = _createAppointmentProvider.masterCategoryAndServices.keys.elementAt(index);
-                                final List<ServiceModel> services = _createAppointmentProvider.masterCategoryAndServices[categoryModel] ?? [];
+                            ..._createAppointmentProvider.servicesAvailable.map(
+                              (services) {
+                                List<ServiceModel> subItems = services;
 
                                 return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    SizedBox(height: DeviceConstraints.getResponsiveSize(context, 15.h, 15.h, 15.h)),
-                                    Divider(
-                                      color: theme.colorScheme.tertiary, //defaultTheme ? Colors.black : Colors.white,
-                                      thickness: 1,
-                                    ),
-                                    SizedBox(height: DeviceConstraints.getResponsiveSize(context, 15.h, 15.h, 20.h)),
-                                    Text(
-                                      categoryModel.categoryName,
-                                      style: theme.textTheme.bodyLarge!.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
-                                        color: theme.colorScheme.tertiary, //defaultTheme ? AppTheme.textBlack : Colors.white,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: DeviceConstraints.getResponsiveSize(context, 10.h, 10.h, 10.h),
-                                    ),
-                                    ServiceList(services: services),
-                                  ],
+                                  children: services
+                                      .map(
+                                        (service) => GestureDetector(
+                                          onTap: () {
+                                            _createAppointmentProvider.toggleCookings(
+                                              serviceModel: service,
+                                              subItems: services,
+                                              selected: () {
+                                                _createAppointmentProvider.selectedItems.clear();
+                                                _createAppointmentProvider.selectedSubItems.clear();
+                                                _createAppointmentProvider.selectedItems.add(service);
+                                                _createAppointmentProvider.getServiceMasters();
+                                                _createAppointmentProvider.totalSelectedSubItems.add(service);
+                                              },
+                                              unselected: () {
+                                                _createAppointmentProvider.selectedSubItems.remove(service);
+                                                _createAppointmentProvider.selectedItems.remove(service);
+                                                _createAppointmentProvider.totalSelectedSubItems.remove(service);
+                                                _createAppointmentProvider.selectedItems.removeWhere((item) => subItems.contains(item));
+                                              },
+                                            );
+                                          },
+                                          child: ServiceCard(
+                                            isAdded: _createAppointmentProvider.isAdded(serviceModel: service),
+                                            service: service,
+                                          ),
+                                        ),
+                                      )
+                                      .toList(),
                                 );
                               },
-                            ),
-
-                            // Other Page views
-                            ..._createAppointmentProvider.masterServicesAvailable
-                                .map(
-                                  (services) => ServiceList(services: services),
-                                )
-                                .toList(),
+                            ).toList(),
+                            // ..._createAppointmentProvider.servicesAvailable
+                            //     .map(
+                            //       (services) => ServiceList(services: services),
+                            //     )
+                            //     .toList(),
                           ],
                         ),
                       ),
 
-                DefaultButton(
-                  borderRadius: 60,
-                  onTap: () {
-                    if (_createAppointmentProvider.chosenServices.isEmpty) {
-                      showToast('Please select at least one service');
-                      return;
-                    }
-                    _createAppointmentProvider.initMastersAndTime();
-
-                    // _createAppointmentProvider.initTimeOfDay();
-                    // _createAppointmentProvider.onDateChange(date);
-
-                    // Go to Date and Time
-                    widget.tabController.animateTo(1);
-                  },
-                  color: _createAppointmentProvider.chosenServices.isEmpty ? theme.primaryColor.withOpacity(0.4) : theme.primaryColor, // defaultTheme ? Colors.black : theme.primaryColor,
-                  borderColor: _createAppointmentProvider.chosenServices.isEmpty ? theme.primaryColor.withOpacity(0.4) : theme.primaryColor,
-                  textColor: loaderColor(themeType),
-                  height: 60.sp,
-                  label: _createAppointmentProvider.chosenServices.isEmpty ? AppLocalizations.of(context)?.book ?? "Book" : '${AppLocalizations.of(context)?.book ?? "Book"} ${_createAppointmentProvider.chosenServices.length} ${AppLocalizations.of(context)?.services ?? "services"}',
-                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-
-                  suffixIcon: Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    color: loaderColor(themeType),
-                    size: 18.sp,
+                if (_createAppointmentProvider.selectedItems.isNotEmpty)
+                  Text(
+                    'Unavailable  Services',
+                    style: theme.textTheme.bodyLarge?.copyWith(
+                      fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                      color: theme.colorScheme.tertiary,
+                    ),
                   ),
-                  noBorder: true,
-                ),
+
+                // DefaultButton(
+                //   borderRadius: 60,
+                //   onTap: () {
+                //     if (_createAppointmentProvider.chosenServices.isEmpty) {
+                //       showToast('Please select at least one service');
+                //       return;
+                //     }
+                //     _createAppointmentProvider.initMastersAndTime();
+
+                //     // _createAppointmentProvider.initTimeOfDay();
+                //     // _createAppointmentProvider.onDateChange(date);
+
+                //     // Go to Date and Time
+                //     widget.tabController.animateTo(1);
+                //   },
+                //   color: _createAppointmentProvider.chosenServices.isEmpty ? theme.primaryColor.withOpacity(0.4) : theme.primaryColor, // defaultTheme ? Colors.black : theme.primaryColor,
+                //   borderColor: _createAppointmentProvider.chosenServices.isEmpty ? theme.primaryColor.withOpacity(0.4) : theme.primaryColor,
+                //   textColor: loaderColor(themeType),
+                //   height: 60.sp,
+                //   label: _createAppointmentProvider.chosenServices.isEmpty ? AppLocalizations.of(context)?.book ?? "Book" : '${AppLocalizations.of(context)?.book ?? "Book"} ${_createAppointmentProvider.chosenServices.length} ${AppLocalizations.of(context)?.services ?? "services"}',
+                //   fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+
+                //   suffixIcon: Icon(
+                //     Icons.arrow_forward_ios_rounded,
+                //     color: loaderColor(themeType),
+                //     size: 18.sp,
+                //   ),
+                //   noBorder: true,
+                // ),
               ],
             )
           : Center(

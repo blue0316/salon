@@ -44,6 +44,8 @@ class ServiceModel {
   //processing time
   int? processingTime;
 
+  Map<String?, PriceAndDurationModel?>? masterPriceAndDurationMap = {};
+
   ServiceModel({
     required this.salonId,
     required this.serviceId,
@@ -70,6 +72,7 @@ class ServiceModel {
     this.cleanUpTime,
     this.preparationTime,
     this.processingTime,
+    this.masterPriceAndDurationMap,
   });
 
   //creates a copy of the current service instead of passing the ref
@@ -94,7 +97,7 @@ class ServiceModel {
     isPriceRange = json["isPriceRange"] ?? false;
     isPriceStartAt = json["isPriceStartAt"] ?? false;
     isAvailableOnline = json["isAvailableOnline"] ?? true;
-    priceAndDuration = json['priceAndDuration'] != null ? PriceAndDurationModel.fromJson(json['priceAndDuration']) : PriceAndDurationModel(duration: "0", price: "0");
+    if (json['priceAndDuration'] != null) priceAndDuration = PriceAndDurationModel.fromJson(json['priceAndDuration']);
     if (json['priceAndDurationMax'] != null) {
       priceAndDurationMax = PriceAndDurationModel.fromJson(json['priceAndDurationMax']);
     }
@@ -107,6 +110,14 @@ class ServiceModel {
     if (json["processingTime"] != null) processingTime = json["processingTime"];
     if (json["cleanUpTime"] != null) cleanUpTime = json["cleanUpTime"];
     if (json["preparationTime"] != null) preparationTime = json["preparationTime"];
+
+    if (json["masterPriceAndDurationMap"] != null) {
+      masterPriceAndDurationMap = json['masterPriceAndDurationMap'] != null
+          ? mapPriceAndDuration(
+              json['masterPriceAndDurationMap'],
+            )
+          : null;
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -131,6 +142,7 @@ class ServiceModel {
     if (processingTime != null) map['processingTime'] = processingTime;
     if (cleanUpTime != null) map['cleanUpTime'] = cleanUpTime;
     if (preparationTime != null) map['preparationTime'] = preparationTime;
+    map["masterPriceAndDurationMap"] = priceAndDurationToJson(masterPriceAndDurationMap);
 
     return map;
   }
@@ -146,6 +158,42 @@ class ServiceModel {
     map["serviceName"] = serviceName;
     map['priceAndDuration'] = priceAndDuration.toJson();
     return map;
+  }
+}
+
+//generates a map of PriceAndDuration where key is master id
+Map<String?, PriceAndDurationModel> mapPriceAndDuration(Map<String, dynamic>? map) {
+  Map<String?, PriceAndDurationModel> mastersPriceAndDurationMap = {};
+
+  try {
+    if (map != null) {
+      map.forEach((key, value) {
+        if (value != null) mastersPriceAndDurationMap[key] = PriceAndDurationModel.fromJson(value);
+      });
+    }
+
+    return mastersPriceAndDurationMap;
+  } catch (e) {
+    //(e);
+    return {};
+  }
+}
+
+//generates a map of PriceAndDuration where key is master id
+Map<String?, dynamic> priceAndDurationToJson(Map<String?, PriceAndDurationModel?>? map) {
+  Map<String?, dynamic> priceAndDurationJson = {};
+
+  try {
+    if (map != null) {
+      map.forEach((key, value) {
+        if (value != null) priceAndDurationJson[key] = value.toJson();
+      });
+    }
+
+    return priceAndDurationJson;
+  } catch (e) {
+    //(e);
+    return {};
   }
 }
 

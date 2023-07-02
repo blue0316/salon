@@ -45,12 +45,6 @@ class ServiceList extends ConsumerWidget {
 
         return GestureDetector(
           onTap: () {
-            // if (_createAppointmentProvider.selectedServicesList.contains(service) == false) {
-            //   _createAppointmentProvider.selectedServicesList.add(service);
-            // } else {
-            //   _createAppointmentProvider.selectedServicesList.remove(service);
-            // }
-
             _createAppointmentProvider.toggleService(
               serviceModel: service,
               clearChosenMaster: false,

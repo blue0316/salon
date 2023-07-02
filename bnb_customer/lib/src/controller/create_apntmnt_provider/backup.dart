@@ -32,7 +32,7 @@ import 'package:intl/intl.dart';
 import 'package:collection/collection.dart';
 import "dart:math";
 
-class CreateAppointmentProvider with ChangeNotifier {
+class BackupCreateAppointmentProvider with ChangeNotifier {
   Status loadingStatus = Status.loading;
   SalonModel? chosenSalon;
   MasterModel? chosenMaster;
@@ -151,40 +151,6 @@ class CreateAppointmentProvider with ChangeNotifier {
   ///list holds all selected available services for booking appointments
   List<ServiceModel> totalSelectedSubItems = [];
   List<ServiceModel> unavailableSelectedItems = [];
-  List<ServiceModel>? searchablefilteredServicesList = [];
-  List<ServiceModel>? filteredServicesList = [];
-
-  getServiceMasters() {
-    unavailableSelectedItems.clear();
-    String? serviceId = selectedItems[0].serviceId;
-
-    ///get all services in salon
-    for (ServiceModel service in filteredServicesList!) {
-      //get the service id of the first selected service
-      if (service.serviceId == serviceId) {
-        //loop through all masters in salon
-        for (MasterModel master in salonMasters) {
-          //if master is offering that service
-          if (service.masterPriceAndDurationMap!.containsKey(master.masterId)) {
-            //loop through all services
-            for (ServiceModel service1 in filteredServicesList!) {
-              //check if master is offering any service we are looping throughd
-              if (service1.masterPriceAndDurationMap!.containsKey(master.masterId)) {
-                //if the selected list  and subservice list doesn't contain the first selected item
-                if (selectedItems.contains(service1) == false && selectedSubItems.contains(service1) == false) {
-                  //add to the selected sub items list
-                  selectedSubItems.add(service1);
-                }
-              } else {
-                ///add services that master is not offering to unavailble list
-                unavailableSelectedItems.add(service1);
-              }
-            }
-          }
-        }
-      }
-    }
-  }
 
   initTimeOfDay() {
     var hour = DateTime.now().hour;
@@ -644,8 +610,8 @@ class CreateAppointmentProvider with ChangeNotifier {
     for (var master in serviceableMasters) {
       totalDuration = 0;
       totalPriceForMultiple = 0;
-      for (ServiceModel eachSelectedService in chosenServices) {
-        if (eachSelectedService.serviceId != null && eachSelectedService.serviceId.isNotEmpty && master.servicesPriceAndDuration != null) {
+      for (var eachSelectedService in chosenServices) {
+        if (eachSelectedService.serviceId.isNotEmpty && master.servicesPriceAndDuration != null) {
           totalDuration += int.parse(eachSelectedService.priceAndDuration.duration);
           totalPriceForMultiple += (int.parse(eachSelectedService.priceAndDuration.price));
           master.servicesPriceAndDuration![eachSelectedService.serviceId]?.price = totalPriceForMultiple.toString();
@@ -1054,7 +1020,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 
 //       // dividing services into categories
 //       for (ServiceModel _service in _servicesValidList) {
-//         if (_service.isAvailableOnline!) {
+//         if (_service.isAvailableOnline) {
 //           if (categoryPromotionServicesMap[_service.categoryId] == null) {
 //             categoryPromotionServicesMap[_service.categoryId] = [];
 //           }
@@ -1118,7 +1084,6 @@ class CreateAppointmentProvider with ChangeNotifier {
 
         salonMasters = _masters;
         calculateMasterVariationsAll(services: _servicesList);
-
         loadingStatus = Status.success;
         notifyListeners();
       } else {
@@ -1515,8 +1480,8 @@ class CreateAppointmentProvider with ChangeNotifier {
         for (ServiceModel serviceModel in chosenServices) {
           ServiceModel _service = serviceModel.getCopy();
           if (masterModel.serviceIds?.contains(serviceModel.serviceId) ?? false) {
-            _service.priceAndDuration?.duration = masterModel.servicesPriceAndDuration?[serviceModel.serviceId]?.duration ?? '0';
-            _service.priceAndDuration?.price = masterModel.servicesPriceAndDuration?[serviceModel.serviceId]?.price ?? "0";
+            _service.priceAndDuration.duration = masterModel.servicesPriceAndDuration?[serviceModel.serviceId]?.duration ?? '0';
+            _service.priceAndDuration.price = masterModel.servicesPriceAndDuration?[serviceModel.serviceId]?.price ?? "0";
             _totalDuration = _totalDuration + (int.tryParse(masterModel.servicesPriceAndDuration?[serviceModel.serviceId]?.duration ?? '0') ?? 0);
 
             _totalPrice = _totalPrice + (int.tryParse(masterModel.servicesPriceAndDuration?[serviceModel.serviceId]?.price ?? "0") ?? 0);
@@ -1559,8 +1524,8 @@ class CreateAppointmentProvider with ChangeNotifier {
           ServiceModel _service = salonService.getCopy();
 
           if (masterModel.serviceIds?.contains(_service.serviceId) ?? false) {
-            _service.priceAndDuration?.duration = masterModel.servicesPriceAndDuration?[_service.serviceId]?.duration ?? '0';
-            _service.priceAndDuration?.price = masterModel.servicesPriceAndDuration?[_service.serviceId]?.price ?? '0';
+            _service.priceAndDuration.duration = masterModel.servicesPriceAndDuration?[_service.serviceId]?.duration ?? '0';
+            _service.priceAndDuration.price = masterModel.servicesPriceAndDuration?[_service.serviceId]?.price ?? '0';
             _services.add(_service);
           }
         }
@@ -1572,43 +1537,25 @@ class CreateAppointmentProvider with ChangeNotifier {
     }
   }
 
-  toggleCookings({
-    required ServiceModel serviceModel,
-    required Function() unselected,
-    required Function() selected,
-    required List<ServiceModel> subItems,
-  }) {
-    int index = chosenServices.indexWhere((element) => element.serviceId == serviceModel.serviceId);
-    if (index == -1) {
-      chosenServices.add(serviceModel);
-
-      // print('-1 -1 -1 -1 ');
-      // selectedItems.clear();
-      // selectedSubItems.clear();
-      // selectedItems.add(serviceModel);
-
-      selected();
-      getServiceMasters();
-      totalSelectedSubItems.add(serviceModel);
-      notifyListeners();
-    } else {
-      chosenServices.removeAt(index);
-
-      unselected();
-
-      // selectedSubItems.remove(serviceModel);
-      // selectedItems.remove(serviceModel);
-      // totalSelectedSubItems.remove(serviceModel);
-      // selectedItems.removeWhere((item) => subItems.contains(item));
-      notifyListeners();
-    }
-  }
-
   toggleService({required ServiceModel serviceModel, required bool clearChosenMaster, required BuildContext? context}) async {
     // print('----------TOGGLED SERVICE----------');
     int index = chosenServices.indexWhere((element) => element.serviceId == serviceModel.serviceId);
     if (index == -1) {
       chosenServices.add(serviceModel);
+
+      // totalPrice = totalPrice + (!serviceModel.isFixedPrice ? (double.tryParse(serviceModel.priceAndDurationMax!.price) ?? 0) : (double.tryParse(serviceModel.priceAndDuration.price) ?? 0));
+      // totalPricewithFixed = totalPricewithFixed + (double.tryParse(serviceModel.priceAndDuration.price) ?? 0);
+      // calculateValidSlots();
+      // calculateMasterVariations();
+      // if (context != null) {
+      //   setUpSlots(day: chosenDay, context: context, showNotWorkingToast: false);
+      // }
+
+      // Utils().vibratePositively();
+      // if (chosenSalon?.ownerType != OwnerType.singleMaster) {
+      //   serviceAgainstMaster.add(ServiceAndMaster(service: serviceModel, master: getMasterProvidingService(serviceModel)[0], isRandom: true));
+      //   refreshSlotsSalonOwner(context!);
+      // }
 
       notifyListeners();
     } else {
@@ -1617,6 +1564,14 @@ class CreateAppointmentProvider with ChangeNotifier {
       }
       chosenServices.removeAt(index);
 
+      // totalPrice = totalPrice - (!serviceModel.isFixedPrice ? (double.tryParse(serviceModel.priceAndDurationMax!.price) ?? 0) : (double.tryParse(serviceModel.priceAndDuration.price) ?? 0));
+      // totalPricewithFixed = totalPricewithFixed - (double.tryParse(serviceModel.priceAndDuration.price) ?? 0);
+      // calculateValidSlots();
+      // calculateMasterVariations();
+      // if (context != null) {
+      //   setUpSlots(day: chosenDay, context: context, showNotWorkingToast: false);
+      // }
+      // Utils().vibrateNegatively();
       notifyListeners();
     }
     if (clearChosenMaster) {

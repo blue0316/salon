@@ -16,7 +16,7 @@ class Translation {
   static String getServiceName({required ServiceModel service, required String langCode}) {
     final String? _tr = translate(map: service.translations, langCode: langCode);
     if (_tr != null) return _tr;
-    if (service.serviceName != null) return service.serviceName;
+    if (service.serviceName != null) return service.serviceName!;
     return '';
   }
 
