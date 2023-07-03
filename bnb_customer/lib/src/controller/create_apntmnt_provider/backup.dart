@@ -611,9 +611,9 @@ class BackupCreateAppointmentProvider with ChangeNotifier {
       totalDuration = 0;
       totalPriceForMultiple = 0;
       for (var eachSelectedService in chosenServices) {
-        if (eachSelectedService.serviceId.isNotEmpty && master.servicesPriceAndDuration != null) {
-          totalDuration += int.parse(eachSelectedService.priceAndDuration.duration);
-          totalPriceForMultiple += (int.parse(eachSelectedService.priceAndDuration.price));
+        if (eachSelectedService.serviceId!.isNotEmpty && master.servicesPriceAndDuration != null) {
+          totalDuration += int.parse(eachSelectedService.priceAndDuration!.duration!);
+          totalPriceForMultiple += (int.parse(eachSelectedService.priceAndDuration!.price!));
           master.servicesPriceAndDuration![eachSelectedService.serviceId]?.price = totalPriceForMultiple.toString();
           master.servicesPriceAndDuration![eachSelectedService.serviceId]?.duration = totalDuration.toString();
 
@@ -626,7 +626,7 @@ class BackupCreateAppointmentProvider with ChangeNotifier {
   // returns the service charge from service and master data
   PriceAndDurationModel getPriceAndDuration(ServiceModel? service, MasterModel master) {
     try {
-      if (service != null && service.serviceId.isNotEmpty && master.servicesPriceAndDuration != null) {
+      if (service != null && service.serviceId!.isNotEmpty && master.servicesPriceAndDuration != null) {
         // print('master price${master.servicesPriceAndDuration![service.serviceId]!.price}');
         return master.servicesPriceAndDuration![service.serviceId] ?? PriceAndDurationModel();
       }
@@ -947,7 +947,7 @@ class BackupCreateAppointmentProvider with ChangeNotifier {
           List<ServiceModel> availableServices = [];
           // find service where isAvailableOnline = false and remove it
           for (var service in services) {
-            if (service.isAvailableOnline) {
+            if (service.isAvailableOnline!) {
               availableServices.add(service);
             }
           }
@@ -1078,7 +1078,7 @@ class BackupCreateAppointmentProvider with ChangeNotifier {
           if (_mastersServices.contains(_service.serviceId)) {
             _servicesValidList.add(_service);
           } else {
-            printIt("no master found for ${_service.serviceName}");
+            // printIt("no master found for ${_service.serviceName}");
           }
         }
 
@@ -1094,9 +1094,9 @@ class BackupCreateAppointmentProvider with ChangeNotifier {
 
     // dividing services into categories
     for (ServiceModel _service in _servicesValidList) {
-      if (_service.isAvailableOnline) {
+      if (_service.isAvailableOnline!) {
         if (categoryServicesMap[_service.categoryId] == null) {
-          categoryServicesMap[_service.categoryId] = [];
+          categoryServicesMap[_service.categoryId!] = [];
         }
         categoryServicesMap[_service.categoryId]!.add(_service);
         if (categoryServicesMap != {}) {
@@ -1321,7 +1321,7 @@ class BackupCreateAppointmentProvider with ChangeNotifier {
       if (_services.isNotEmpty) {
         // find service where isAvailableOnline = false and remove it
         for (var service in _services) {
-          if (service.isAvailableOnline) {
+          if (service.isAvailableOnline!) {
             availableServices.add(service);
           }
         }
@@ -1386,7 +1386,7 @@ class BackupCreateAppointmentProvider with ChangeNotifier {
         if (workingHours.isWorking) {
           if (chosenDay.day == DateTime.now().day && chosenDay.month == DateTime.now().month) {
             TimeOfDay? _mystartTime = _computeStartTime(workingHours.startTime, chosenDay);
-            printIt(_startTime);
+            // printIt(_startTime);
 
             validSlotsMaster = Time().getTimeSlots(_mystartTime, _endTime, step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15)).toList();
           } else {
@@ -1394,12 +1394,12 @@ class BackupCreateAppointmentProvider with ChangeNotifier {
           }
           bool isBreakAvailable = Time().getWorkingHoursFromWeekDay(chosenDay.weekday, serviceMaster.master!.workingHours)?.isBreakAvailable ?? false;
           if (isBreakAvailable) {
-            printIt('master is taking break on choosen day');
+            // printIt('master is taking break on choosen day');
             breakSlotsMaster = Time().getTimeSlots(_breakStartTime, _breakEndTime, step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15)).toList() + masterBlocked;
           } else {
-            printIt('master is not taking break on choosen day');
+            // printIt('master is not taking break on choosen day');
             breakSlotsMaster = masterBlocked;
-            printIt(breakSlotsMaster);
+            // printIt(breakSlotsMaster);
           }
           for (String slot in breakSlotsMaster) {
             validSlotsMaster.removeWhere((element) => element == slot);
@@ -1480,8 +1480,8 @@ class BackupCreateAppointmentProvider with ChangeNotifier {
         for (ServiceModel serviceModel in chosenServices) {
           ServiceModel _service = serviceModel.getCopy();
           if (masterModel.serviceIds?.contains(serviceModel.serviceId) ?? false) {
-            _service.priceAndDuration.duration = masterModel.servicesPriceAndDuration?[serviceModel.serviceId]?.duration ?? '0';
-            _service.priceAndDuration.price = masterModel.servicesPriceAndDuration?[serviceModel.serviceId]?.price ?? "0";
+            _service.priceAndDuration!.duration = masterModel.servicesPriceAndDuration?[serviceModel.serviceId]?.duration ?? '0';
+            _service.priceAndDuration!.price = masterModel.servicesPriceAndDuration?[serviceModel.serviceId]?.price ?? "0";
             _totalDuration = _totalDuration + (int.tryParse(masterModel.servicesPriceAndDuration?[serviceModel.serviceId]?.duration ?? '0') ?? 0);
 
             _totalPrice = _totalPrice + (int.tryParse(masterModel.servicesPriceAndDuration?[serviceModel.serviceId]?.price ?? "0") ?? 0);
@@ -1491,11 +1491,11 @@ class BackupCreateAppointmentProvider with ChangeNotifier {
             _totalDurationMax = _totalDurationMax +
                 ((serviceModel.isFixedDuration != null)
                     ? !serviceModel.isFixedDuration
-                        ? int.parse(serviceModel.priceAndDurationMax!.duration)
+                        ? int.parse(serviceModel.priceAndDurationMax!.duration!)
                         : (int.tryParse(masterModel.servicesPriceAndDuration?[serviceModel.serviceId]?.duration ?? '0') ?? 0)
-                    : int.parse(serviceModel.priceAndDurationMax!.duration));
+                    : int.parse(serviceModel.priceAndDurationMax!.duration!));
 
-            _totalPriceMax = _totalPriceMax + (!serviceModel.isFixedPrice ? int.parse(serviceModel.priceAndDurationMax!.price) : (int.tryParse(masterModel.servicesPriceAndDuration?[serviceModel.serviceId]?.price ?? "0") ?? 0));
+            _totalPriceMax = _totalPriceMax + (!serviceModel.isFixedPrice ? int.parse(serviceModel.priceAndDurationMax!.price!) : (int.tryParse(masterModel.servicesPriceAndDuration?[serviceModel.serviceId]?.price ?? "0") ?? 0));
             _services.add(_service);
           }
         }
@@ -1524,8 +1524,8 @@ class BackupCreateAppointmentProvider with ChangeNotifier {
           ServiceModel _service = salonService.getCopy();
 
           if (masterModel.serviceIds?.contains(_service.serviceId) ?? false) {
-            _service.priceAndDuration.duration = masterModel.servicesPriceAndDuration?[_service.serviceId]?.duration ?? '0';
-            _service.priceAndDuration.price = masterModel.servicesPriceAndDuration?[_service.serviceId]?.price ?? '0';
+            _service.priceAndDuration!.duration = masterModel.servicesPriceAndDuration?[_service.serviceId]?.duration ?? '0';
+            _service.priceAndDuration!.price = masterModel.servicesPriceAndDuration?[_service.serviceId]?.price ?? '0';
             _services.add(_service);
           }
         }
@@ -1635,7 +1635,7 @@ class BackupCreateAppointmentProvider with ChangeNotifier {
           }
         }
       }
-      printIt("available masters ${availableMasters.length}");
+      // printIt("available masters ${availableMasters.length}");
       notifyListeners();
     }
   }
@@ -1788,7 +1788,7 @@ class BackupCreateAppointmentProvider with ChangeNotifier {
               //       .toList();
               // } else {
               TimeOfDay? _mystartTime = _computeStartTime(workingHours.startTime, chosenDay);
-              printIt(_mystartTime);
+              // printIt(_mystartTime);
               validSlots = Time().getTimeSlots(_mystartTime, _endTime, step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15)).toList();
               // }
             } else {
@@ -1796,17 +1796,17 @@ class BackupCreateAppointmentProvider with ChangeNotifier {
             }
             bool isBreakAvailable = Time().getWorkingHoursFromWeekDay(chosenDay.weekday, (chosenSalon?.ownerType == OwnerType.salon) ? chosenMaster?.workingHours : chosenSalon!.workingHours)?.isBreakAvailable ?? false;
             if (isBreakAvailable) {
-              printIt('master is taking break on choosen day');
+              // printIt('master is taking break on choosen day');
               breakSlots = Time().getTimeSlots(_breakStartTime, _breakEndTime, step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15)).toList() + _blokedSlots;
             } else {
-              printIt('master is not taking break on choosen day');
+              // printIt('master is not taking break on choosen day');
               breakSlots = _blokedSlots;
             }
             for (String slot in breakSlots) {
               validSlots.removeWhere((element) => element == slot);
             }
-            printIt('lets see all slots');
-            printIt(allSlots.toString());
+            // printIt('lets see all slots');
+            // printIt(allSlots.toString());
 
             slotsStatus = Status.success;
             notifyListeners();
@@ -1854,7 +1854,7 @@ class BackupCreateAppointmentProvider with ChangeNotifier {
           if (workingHours.isWorking) {
             if (chosenDay.day == DateTime.now().day && chosenDay.month == DateTime.now().month) {
               TimeOfDay? _mystartTime = _computeStartTime(workingHours.startTime, chosenDay);
-              printIt(_startTime);
+              // printIt(_startTime);
 
               validSlots = Time().getTimeSlots(_mystartTime, _endTime, step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15)).toList();
             } else {
@@ -1862,10 +1862,10 @@ class BackupCreateAppointmentProvider with ChangeNotifier {
             }
             bool isBreakAvailable = Time().getWorkingHoursFromWeekDay(chosenDay.weekday, (chosenSalon?.ownerType == OwnerType.salon) ? chosenMaster?.workingHours : chosenSalon!.workingHours)?.isBreakAvailable ?? false;
             if (isBreakAvailable) {
-              printIt('master is taking break on choosen day');
+              // printIt('master is taking break on choosen day');
               breakSlots = Time().getTimeSlots(_breakStartTime, _breakEndTime, step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15)).toList() + masterBlocked;
             } else {
-              printIt('master is not taking break on choosen day');
+              // printIt('master is not taking break on choosen day');
               breakSlots = masterBlocked;
             }
             for (String slot in breakSlots) {
@@ -1883,8 +1883,8 @@ class BackupCreateAppointmentProvider with ChangeNotifier {
             notifyListeners();
             notifyListeners();
           }
-          printIt("valid Slots $validSlots");
-          printIt("valid Slots $allSlots");
+          // printIt("valid Slots $validSlots");
+          // printIt("valid Slots $allSlots");
           divideSlotsForDay();
         } else {
           slotsStatus = Status.failed;
@@ -2041,15 +2041,15 @@ class BackupCreateAppointmentProvider with ChangeNotifier {
     totalMinutes = 0;
     totalMinutesWithFixed = 0;
     for (ServiceModel serviceModel in chosenServices) {
-      printIt(serviceModel.toJson());
+      // printIt(serviceModel.toJson());
       totalMinutes = totalMinutes +
           (serviceModel.isFixedDuration != null
               ? !serviceModel.isFixedDuration
-                  ? int.parse(serviceModel.priceAndDurationMax!.duration)
-                  : int.parse(serviceModel.priceAndDuration.duration)
-              : int.parse(serviceModel.priceAndDuration.duration));
-      totalMinutesWithFixed = totalMinutesWithFixed + int.parse(serviceModel.priceAndDuration.duration);
-      printIt(totalMinutes);
+                  ? int.parse(serviceModel.priceAndDurationMax!.duration!)
+                  : int.parse(serviceModel.priceAndDuration!.duration!)
+              : int.parse(serviceModel.priceAndDuration!.duration!));
+      totalMinutesWithFixed = totalMinutesWithFixed + int.parse(serviceModel.priceAndDuration!.duration!);
+      // printIt(totalMinutes);
       notifyListeners();
     }
     totalTimeSlotsRequired = (totalMinutes / (chosenSalon!.timeSlotsInterval != null ? chosenSalon!.timeSlotsInterval! : 15)).ceil();
@@ -2058,7 +2058,7 @@ class BackupCreateAppointmentProvider with ChangeNotifier {
       totalTimeSlotsRequired = 1;
     }
     notifyListeners();
-    printIt('total time and slots required $totalMinutes $totalTimeSlotsRequired');
+    // printIt('total time and slots required $totalMinutes $totalTimeSlotsRequired');
   }
 
   bool checkContinuousSlots({required MasterModel master, required List<String> slotspresent}) {
@@ -2273,9 +2273,9 @@ class BackupCreateAppointmentProvider with ChangeNotifier {
         Duration(
           minutes: MasterServiceAtPresentTime.service!.isFixedDuration != null
               ? !MasterServiceAtPresentTime.service!.isFixedDuration
-                  ? int.parse(MasterServiceAtPresentTime.service!.priceAndDurationMax!.duration)
-                  : int.parse(MasterServiceAtPresentTime.service!.priceAndDuration.duration)
-              : int.parse(MasterServiceAtPresentTime.service!.priceAndDuration.duration),
+                  ? int.parse(MasterServiceAtPresentTime.service!.priceAndDurationMax!.duration!)
+                  : int.parse(MasterServiceAtPresentTime.service!.priceAndDuration!.duration!)
+              : int.parse(MasterServiceAtPresentTime.service!.priceAndDuration!.duration!),
         ),
       );
       nextStart = _endTime;
@@ -2457,7 +2457,7 @@ class BackupCreateAppointmentProvider with ChangeNotifier {
       );
 
       DateTime _endTime = _startTime.add(
-        Duration(minutes: int.parse(_totalPriceAndDuration.duration)),
+        Duration(minutes: int.parse(_totalPriceAndDuration.duration!)),
       );
 
       final List<Service> _services = chosenSalon!.ownerType == OwnerType.singleMaster
@@ -2539,7 +2539,7 @@ class BackupCreateAppointmentProvider with ChangeNotifier {
       printIt(chosenSlots);
       DateTime _startTime = DateTime(chosenDay.year, chosenDay.month, chosenDay.day, int.parse(chosenSlots.first.split(':')[0]), int.parse(chosenSlots.first.split(':')[1]));
 
-      DateTime _endTime = _startTime.add(Duration(minutes: int.parse(_totalPriceAndDuration.duration)));
+      DateTime _endTime = _startTime.add(Duration(minutes: int.parse(_totalPriceAndDuration.duration!)));
 
       final List<Service> _services = chosenSalon!.ownerType == OwnerType.singleMaster ? chosenServices.map((element) => Service.fromService(serviceModel: element)).toList() : mastersServicesMap[chosenMaster!.masterId]!.map((element) => Service.fromService(serviceModel: element, masterPriceAndDuration: chosenMaster!.servicesPriceAndDuration![element.serviceId])).toList();
 
@@ -2724,7 +2724,7 @@ class BackupCreateAppointmentProvider with ChangeNotifier {
         PaymentInfo _paymentInfo = PaymentInfo(
           bonusApplied: chosenBonus != null,
           bonusAmount: chosenBonus?.amount ?? 0,
-          actualAmount: double.parse(app.priceAndDuration.price).toInt(),
+          actualAmount: double.parse(app.priceAndDuration.price!).toInt(),
           bonusIds: chosenBonus != null ? [chosenBonus!.bonusId] : [],
           paymentDone: false,
           onlinePayment: false,
@@ -2733,7 +2733,7 @@ class BackupCreateAppointmentProvider with ChangeNotifier {
 
         ///passes discounted amount in priceAndDuration model
         if (chosenBonus != null) {
-          final discountedAmount = (double.parse(app.priceAndDuration.price).toInt() - chosenBonus!.amount);
+          final discountedAmount = (double.parse(app.priceAndDuration.price!).toInt() - chosenBonus!.amount);
           if (discountedAmount < 0) {
             app.priceAndDuration.price = '0';
           } else {
@@ -2825,14 +2825,14 @@ class BackupCreateAppointmentProvider with ChangeNotifier {
         salon: chosenSalon!,
         date: chosenDay,
         time: time ?? chosenSlots.first,
-        minutes: minutes ?? int.parse(appointmentModel!.priceAndDuration.duration),
+        minutes: minutes ?? int.parse(appointmentModel!.priceAndDuration.duration!),
       );
     } else {
       await AppointmentApi().blockMastersTime(
         master: chosenMaster!,
         date: chosenDay,
         time: time ?? chosenSlots.first,
-        minutes: minutes ?? int.parse(appointmentModel!.priceAndDuration.duration),
+        minutes: minutes ?? int.parse(appointmentModel!.priceAndDuration.duration!),
       );
     }
   }
@@ -2842,7 +2842,7 @@ class BackupCreateAppointmentProvider with ChangeNotifier {
       master: master,
       date: chosenDay,
       time: time ?? app.appointmentTime,
-      minutes: minutes ?? int.parse(app.priceAndDuration.duration),
+      minutes: minutes ?? int.parse(app.priceAndDuration.duration!),
     );
   }
 
@@ -2901,7 +2901,7 @@ class BackupCreateAppointmentProvider with ChangeNotifier {
     debugPrint("_startTime");
     debugPrint(_startTime.toString());
     TimeOfDay _endTime = _startTime.addMinutes(
-      int.parse(_priceAndDuration.duration),
+      int.parse(_priceAndDuration.duration!!),
     );
 
     final DateTime _start = Time().generateDateTimeFromString(chosenDay, selectedAppointmentSlot!);
@@ -2958,7 +2958,7 @@ class BackupCreateAppointmentProvider with ChangeNotifier {
     PaymentInfo _paymentInfo = PaymentInfo(
       bonusApplied: false,
       bonusAmount: 0,
-      actualAmount: int.parse(_priceAndDuration.price),
+      actualAmount: int.parse(_priceAndDuration.price!),
       bonusIds: [],
       paymentDone: false,
       onlinePayment: false,
@@ -3081,7 +3081,7 @@ class BackupCreateAppointmentProvider with ChangeNotifier {
 
     debugPrint("_startTime");
     debugPrint(_startTime.toString());
-    TimeOfDay _endTime = _startTime.addMinutes(int.parse(_priceAndDuration.duration));
+    TimeOfDay _endTime = _startTime.addMinutes(int.parse(_priceAndDuration.duration!));
 
     final DateTime _start = Time().generateDateTimeFromString(chosenDay, selectedAppointmentSlot!);
 
@@ -3134,10 +3134,10 @@ class BackupCreateAppointmentProvider with ChangeNotifier {
             isFixedPrice: selectedAvailableService.isFixedPrice,
             isPriceRange: selectedAvailableService.isPriceRange,
             isPriceStartAt: selectedAvailableService.isPriceStartAt,
-            durationinHr: selectedAvailableService.priceAndDuration.durationinHr,
-            durationinMin: selectedAvailableService.priceAndDuration.durationinMin,
-            duration: selectedAvailableService.priceAndDuration.duration,
-            price: selectedAvailableService.priceAndDuration.price,
+            durationinHr: selectedAvailableService.priceAndDuration!.durationinHr,
+            durationinMin: selectedAvailableService.priceAndDuration!.durationinMin,
+            duration: selectedAvailableService.priceAndDuration!.duration,
+            price: selectedAvailableService.priceAndDuration!.price,
           ),
         ),
       );
@@ -3146,7 +3146,7 @@ class BackupCreateAppointmentProvider with ChangeNotifier {
     PaymentInfo _paymentInfo = PaymentInfo(
       bonusApplied: false,
       bonusAmount: 0,
-      actualAmount: int.parse(_priceAndDuration.price),
+      actualAmount: int.parse(_priceAndDuration.price!),
       bonusIds: [],
       paymentDone: false,
       onlinePayment: false,
@@ -4138,10 +4138,10 @@ class BackupCreateAppointmentProvider with ChangeNotifier {
           isFixedPrice: selectedAvailableService.isFixedPrice,
           isPriceRange: selectedAvailableService.isPriceRange,
           isPriceStartAt: selectedAvailableService.isPriceStartAt,
-          durationinHr: selectedAvailableService.priceAndDuration.durationinHr,
-          durationinMin: selectedAvailableService.priceAndDuration.durationinMin,
-          duration: selectedAvailableService.priceAndDuration.duration,
-          price: selectedAvailableService.priceAndDuration.price,
+          durationinHr: selectedAvailableService.priceAndDuration!.durationinHr,
+          durationinMin: selectedAvailableService.priceAndDuration!.durationinMin,
+          duration: selectedAvailableService.priceAndDuration!.duration,
+          price: selectedAvailableService.priceAndDuration!.price,
         ),
       ));
     }

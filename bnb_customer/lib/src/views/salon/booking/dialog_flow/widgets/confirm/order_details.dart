@@ -55,10 +55,10 @@ class _OrderListState extends ConsumerState<OrderDetails> {
     TimeOfDay _startTime = Time().stringToTime(_createAppointmentProvider.selectedAppointmentSlot!);
 
     TimeOfDay _endTime = _startTime.addMinutes(
-      int.parse(_priceAndDuration.duration),
+      int.parse(_priceAndDuration.duration!),
     );
 
-    String totalAmount = _priceAndDuration.price;
+    String totalAmount = _priceAndDuration.price!;
 
     return Column(
       children: [
@@ -73,12 +73,12 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                 children: _createAppointmentProvider.chosenServices
                     .map(
                       (service) => ServiceNameAndPrice(
-                        serviceName: service.translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
+                        serviceName: service.translations![AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
                         servicePrice: service.isFixedPrice
-                            ? "${salonModel.selectedCurrency}${service.priceAndDuration.price}"
+                            ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price}"
                             : service.isPriceRange
-                                ? "${salonModel.selectedCurrency}${service.priceAndDuration.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}"
-                                : "${salonModel.selectedCurrency}${service.priceAndDuration.price} - ${salonModel.selectedCurrency}∞",
+                                ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}"
+                                : "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}∞",
                       ),
                     )
                     .toList(),
@@ -213,7 +213,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                 ],
               ),
 
-              SizedBox(height: 10.sp),
+              SizedBox(height: 20.sp),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -243,7 +243,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20.sp),
+                  SizedBox(height: 10.sp),
                   Text(
                     'To cancel or reschedule please contact LK Nails. You can cancel up to 24 hours before the appointment without any charge. You deposit will be returned to your card within 2 business days',
                     style: theme.textTheme.bodyMedium?.copyWith(
@@ -458,90 +458,96 @@ class CancellationPolicyScreen<T> extends ConsumerWidget {
           ),
           vertical: DeviceConstraints.getResponsiveSize(context, 0, 50.h, 50.h),
         ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 15.sp, horizontal: 30.sp),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Row(
+        child: SizedBox(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10), // , horizontal: 5),
+
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  GestureDetector(
-                    onTap: () => Navigator.pop(context),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: Icon(
-                        Icons.arrow_back_ios_rounded,
-                        color: theme.colorScheme.tertiary.withOpacity(0.6),
-                        size: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 20.sp),
+                          child: Icon(
+                            Icons.arrow_back_ios_rounded,
+                            color: theme.colorScheme.tertiary.withOpacity(0.6),
+                            size: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                          ),
+                        ),
                       ),
+                      const Spacer(flex: 2),
+                      Text(
+                        'cancelation Policy'.toUpperCase(),
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 18.sp, 20.sp),
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Inter',
+                          color: theme.colorScheme.onBackground,
+                        ),
+                      ),
+                      const Spacer(flex: 2),
+                    ],
+                  ),
+                  const Space(factor: 2),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: DeviceConstraints.getResponsiveSize(context, 10.sp, 20.sp, 30.sp),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Canceling Appointment ',
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                            color: theme.colorScheme.tertiary,
+                          ),
+                        ),
+                        SizedBox(height: 10.sp),
+                        Text(
+                          'To cancel or reschedule please contact LK Nails. You can cancel up to 24 hours before the appointment without any charge. You deposit will be returned to your card within 2 business days',
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.normal,
+                            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                            color: theme.colorScheme.tertiary.withOpacity(0.6),
+                          ),
+                        ),
+                        SizedBox(height: 35.sp),
+                        Text(
+                          'Not showing to the Appointment',
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                            color: theme.colorScheme.tertiary,
+                          ),
+                        ),
+                        SizedBox(height: 10.sp),
+                        Text(
+                          'To cancel or reschedule please contact LK Nails. You can cancel up to 24 hours before the appointment without any charge. You deposit will be returned to your card within 2 business days',
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.normal,
+                            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                            color: theme.colorScheme.tertiary.withOpacity(0.6),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  const Spacer(flex: 2),
-                  Text(
-                    'cancelation Policy'.toUpperCase(),
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 18.sp, 20.sp),
-                      fontWeight: FontWeight.w500,
-                      fontFamily: 'Inter',
-                      color: theme.colorScheme.onBackground,
-                    ),
-                  ),
-                  const Spacer(flex: 2),
+                  const Spacer(),
+                  const Spacer(),
                 ],
               ),
-              const Space(factor: 2),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: DeviceConstraints.getResponsiveSize(context, 10.sp, 20.sp, 30.sp),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Canceling Appointment ',
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                        color: theme.colorScheme.tertiary,
-                      ),
-                    ),
-                    SizedBox(height: 10.sp),
-                    Text(
-                      'To cancel or reschedule please contact LK Nails. You can cancel up to 24 hours before the appointment without any charge. You deposit will be returned to your card within 2 business days',
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.normal,
-                        fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                        color: theme.colorScheme.tertiary.withOpacity(0.6),
-                      ),
-                    ),
-                    SizedBox(height: 35.sp),
-                    Text(
-                      'Not showing to the Appointment',
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                        color: theme.colorScheme.tertiary,
-                      ),
-                    ),
-                    SizedBox(height: 10.sp),
-                    Text(
-                      'To cancel or reschedule please contact LK Nails. You can cancel up to 24 hours before the appointment without any charge. You deposit will be returned to your card within 2 business days',
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.normal,
-                        fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                        color: theme.colorScheme.tertiary.withOpacity(0.6),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const Spacer(),
-              const Spacer(),
-            ],
+            ),
           ),
         ),
       ),

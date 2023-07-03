@@ -98,7 +98,7 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
       );
 
       // get all categories in create appointment provider class
-      _createAppointmentProvider.setAllCategories(_salonSearchProvider.categories);
+      // _createAppointmentProvider.setAllCategories(_salonSearchProvider.categories);
 
       await _salonProfileProvider.getSalonReviews(salonId: widget.salonId);
       await _salonProfileProvider.getProductsData(context, salonId: widget.salonId);

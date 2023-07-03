@@ -51,7 +51,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
     final PriceAndDurationModel _priceAndDuration = _createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId] ?? PriceAndDurationModel();
     TimeOfDay _startTime = Time().stringToTime(_createAppointmentProvider.selectedAppointmentSlot!);
     TimeOfDay _endTime = _startTime.addMinutes(
-      int.parse(_priceAndDuration.duration),
+      int.parse(_priceAndDuration.duration!),
     );
 
     return MouseRegion(

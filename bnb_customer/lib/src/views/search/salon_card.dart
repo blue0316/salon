@@ -179,7 +179,7 @@ class _SalonSearchCardState extends State<SalonSearchCard> {
                                 children: [
                                   const SpaceHorizontal(),
                                   Text(
-                                    "${Keys.dollars}${service.priceAndDuration.price}",
+                                    "${Keys.dollars}${service.priceAndDuration!.price}",
                                     style: AppTheme.bodyText1.copyWith(fontSize: 14),
                                   ),
                                   const SpaceHorizontal(),

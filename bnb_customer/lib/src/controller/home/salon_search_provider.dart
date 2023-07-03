@@ -143,7 +143,7 @@ class SalonSearchProvider with ChangeNotifier {
     notifyListeners();
     salons.clear();
     salonsUnfiltered = await SalonApi().getSalons(position: tempCenter, radius: searchRadius);
-    printIt('got saloons');
+    // printIt('got saloons');
     _refreshList();
 
     computeDistanceFromCenterAll(salonsUnfiltered);
@@ -229,13 +229,13 @@ class SalonSearchProvider with ChangeNotifier {
   }
 
   Future loadMasters({required String text}) async {
-    printIt('pre ${masters.length}}');
+    // printIt('pre ${masters.length}}');
     masters.clear();
     List<MasterModel>? _masters = await MastersApi().getMasterFromName(text: text);
     if (_masters != null) {
       if (_masters.isNotEmpty) {
         masters.addAll(_masters);
-        printIt(_masters.length);
+        // printIt(_masters.length);
         notifyListeners();
       }
     }
@@ -248,7 +248,7 @@ class SalonSearchProvider with ChangeNotifier {
     categories = await CategoryServicesApi().getCategories();
     notifyListeners();
 
-    printIt("categories length = ${categories.length}");
+    // printIt("categories length = ${categories.length}");
   }
 
   //load all sub categories
@@ -259,7 +259,7 @@ class SalonSearchProvider with ChangeNotifier {
 
     notifyListeners();
 
-    printIt("SUbCategoy length = ${subCategories.length}");
+    // printIt("SUbCategoy length = ${subCategories.length}");
   }
 
   String getSubCategoryNameFromId(String id) {
@@ -407,7 +407,7 @@ class SalonSearchProvider with ChangeNotifier {
     }
     if (hasRadiusChanged) {
       salonsUnfiltered = await SalonApi().getSalons(position: tempCenter, radius: searchRadius);
-      printIt("unfiltered salons ${salonsUnfiltered.length}");
+      // printIt("unfiltered salons ${salonsUnfiltered.length}");
     }
     hasRadiusChanged = false;
     filterSalonCategoryWiseAlone();
@@ -418,12 +418,12 @@ class SalonSearchProvider with ChangeNotifier {
   }
 
   filterSalonCategoryWiseAlone() {
-    printIt('salons Unfiltered length = ${salonsUnfiltered.length}');
+    // printIt('salons Unfiltered length = ${salonsUnfiltered.length}');
     filteredSalons = salonsUnfiltered;
-    printIt('salons filtered length = ${filteredSalons.length}');
+    // printIt('salons filtered length = ${filteredSalons.length}');
     if (selectedCategoryId != null) {
       filteredSalons = filteredSalons.where((element) => element.categoryId.contains(selectedCategoryId)).toList();
-      printIt('salons filtered length = ${filteredSalons.length}');
+      // printIt('salons filtered length = ${filteredSalons.length}');
       notifyListeners();
     }
   }

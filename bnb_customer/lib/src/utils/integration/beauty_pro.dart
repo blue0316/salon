@@ -87,7 +87,7 @@ class BeautyProEngine {
       if (!(config?.syncActive ?? false)) return app;
 
       //will fetch all the available slots
-      final String? id = await _api.bookAppointment(app.appointmentStartTime, beautyProMasterId, int.parse(app.priceAndDuration.duration), config, comment: generateComment(app.services));
+      final String? id = await _api.bookAppointment(app.appointmentStartTime, beautyProMasterId, int.parse(app.priceAndDuration.duration!), config, comment: generateComment(app.services));
 
       if (id == null) return null;
       app.beautyProId = id;

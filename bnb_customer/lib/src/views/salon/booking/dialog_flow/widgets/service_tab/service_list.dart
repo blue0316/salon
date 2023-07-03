@@ -70,6 +70,7 @@ class ServiceCard extends ConsumerWidget {
   final VoidCallback? pickMasterOnTap;
   final List<MasterModel>? masters;
   final bool selected;
+  final bool disabled;
 
   const ServiceCard({
     Key? key,
@@ -79,6 +80,7 @@ class ServiceCard extends ConsumerWidget {
     this.pickMasterOnTap,
     this.masters,
     this.selected = false,
+    this.disabled = false,
   }) : super(key: key);
 
   @override
@@ -92,7 +94,7 @@ class ServiceCard extends ConsumerWidget {
     List<MasterModel> theMasters = _createAppointmentProvider.getMasterProvidingService(service);
     ThemeType themeType = _salonProfileProvider.themeType;
 
-    Color selectedColor = defaultTheme ? (Colors.grey[400]!) : const Color(0XFF1F1F21); //  selectedServiceCardOnDayAndTime(themeType, theme); // Color(0XFF202020);
+    Color selectedColor = defaultTheme ? theme.primaryColor : const Color(0XFF1F1F21); //  selectedServiceCardOnDayAndTime(themeType, theme); // Color(0XFF202020);
     // Color selectedColor = defaultTheme ? const Color.fromARGB(255, 239, 239, 239) : selectedServiceCardOnDayAndTime(themeType, theme); // Color(0XFF202020);
     BoxBorder? border = defaultTheme
         ? Border.all(
@@ -108,13 +110,17 @@ class ServiceCard extends ConsumerWidget {
       padding: EdgeInsets.symmetric(vertical: 7.h),
       child: Container(
         decoration: BoxDecoration(
-            color: isAdded ? selectedColor : Colors.transparent,
+            color: disabled
+                ? (Colors.grey[400]!)
+                : isAdded
+                    ? selectedColor
+                    : Colors.transparent,
             borderRadius: BorderRadius.circular(10),
             border:
                 // isAdded ? null : border,
                 Border.all(
               width: 1.5,
-              color: defaultTheme ? (Colors.grey[400]!) : const Color(0XFF1F1F21),
+              color: defaultTheme ? theme.primaryColor : const Color(0XFF1F1F21),
             )),
         child: Padding(
           padding: EdgeInsets.symmetric(
@@ -133,7 +139,7 @@ class ServiceCard extends ConsumerWidget {
                   Flexible(
                     flex: 3,
                     child: Text(
-                      service.translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString(), // 'Eyebrow Tinting',
+                      service.translations![AppLocalizations.of(context)?.localeName ?? 'en'].toString(), // 'Eyebrow Tinting',
                       style: theme.textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w500,
                         fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -152,10 +158,10 @@ class ServiceCard extends ConsumerWidget {
                   //   children: [
                   //     Text(
                   //       service.isFixedPrice
-                  //           ? "${salonModel.selectedCurrency}${service.priceAndDuration.price}"
+                  //           ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price}"
                   //           : service.isPriceRange
-                  //               ? "${salonModel.selectedCurrency}${service.priceAndDuration.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}"
-                  //               : "${salonModel.selectedCurrency}${service.priceAndDuration.price} - ${salonModel.selectedCurrency}∞",
+                  //               ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}"
+                  //               : "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}∞",
                   //       style: theme.textTheme.bodyText1!.copyWith(
                   //             fontWeight: FontWeight.w500,
                   //             fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 25.sp, 30.sp),
@@ -167,10 +173,10 @@ class ServiceCard extends ConsumerWidget {
                   //     const SizedBox(height: 5),
                   //     Text(
                   //       service.isFixedPrice
-                  //           ? "${salonModel.selectedCurrency}${service.priceAndDuration.price}"
+                  //           ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price}"
                   //           : service.isPriceRange
-                  //               ? "${salonModel.selectedCurrency}${service.priceAndDuration.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}"
-                  //               : "${salonModel.selectedCurrency}${service.priceAndDuration.price} - ${salonModel.selectedCurrency}∞",
+                  //               ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}"
+                  //               : "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}∞",
                   //       style: theme.textTheme.bodyText1!.copyWith(
                   //             fontWeight: FontWeight.w500,
                   //             fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 20.sp, 25.sp),
@@ -184,10 +190,10 @@ class ServiceCard extends ConsumerWidget {
                   // ),
                   Text(
                     service.isFixedPrice
-                        ? "${salonModel.selectedCurrency}${service.priceAndDuration.price}"
+                        ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price}"
                         : service.isPriceRange
-                            ? "${salonModel.selectedCurrency}${service.priceAndDuration.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}"
-                            : "${salonModel.selectedCurrency}${service.priceAndDuration.price} - ${salonModel.selectedCurrency}∞",
+                            ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}"
+                            : "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}∞",
                     style: theme.textTheme.bodyLarge!.copyWith(
                       fontWeight: FontWeight.w500,
                       fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -221,7 +227,7 @@ class ServiceCard extends ConsumerWidget {
                   (service.isFixedDuration != null)
                       ? service.isFixedDuration
                           ? Text(
-                              "${service.priceAndDuration.duration} minutes",
+                              "${service.priceAndDuration!.duration} minutes",
                               style: theme.textTheme.bodyLarge!.copyWith(
                                 fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                                 color: isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
@@ -230,7 +236,7 @@ class ServiceCard extends ConsumerWidget {
                               maxLines: 1,
                             )
                           : Text(
-                              "${service.priceAndDuration.duration} minutes - ${service.priceAndDurationMax!.duration} minutes",
+                              "${service.priceAndDuration!.duration} minutes - ${service.priceAndDurationMax!.duration} minutes",
                               style: theme.textTheme.bodyLarge!.copyWith(
                                 fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                                 color: isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
@@ -239,7 +245,7 @@ class ServiceCard extends ConsumerWidget {
                               maxLines: 1,
                             )
                       : Text(
-                          "${service.priceAndDuration.duration} minutes",
+                          "${service.priceAndDuration!.duration} minutes",
                           style: theme.textTheme.bodyLarge!.copyWith(
                             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                             color: isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,

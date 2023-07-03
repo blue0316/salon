@@ -75,10 +75,7 @@ class SalonSearchCard extends StatelessWidget {
                                     ),
                                     Text(
                                       '24',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline4!
-                                          .copyWith(fontWeight: FontWeight.w400, fontSize: 16.sp),
+                                      style: Theme.of(context).textTheme.headline4!.copyWith(fontWeight: FontWeight.w400, fontSize: 16.sp),
                                     )
                                   ],
                                 ),
@@ -124,11 +121,11 @@ class SalonSearchCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      serviceModel.serviceName,
+                      serviceModel.serviceName ?? '',
                       style: AppTheme.bodyText1.copyWith(fontSize: 14),
                     ),
                     Text(
-                      "${Keys.dollars}${serviceModel.priceAndDuration.price}",
+                      "${Keys.dollars}${serviceModel.priceAndDuration!.price}",
                       style: AppTheme.bodyText1.copyWith(fontSize: 14),
                     ),
                   ],
@@ -212,10 +209,7 @@ class SalonOnlySearchCard extends StatelessWidget {
                                     ),
                                     Text(
                                       '24',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline4!
-                                          .copyWith(fontWeight: FontWeight.w400, fontSize: 16.sp),
+                                      style: Theme.of(context).textTheme.headline4!.copyWith(fontWeight: FontWeight.w400, fontSize: 16.sp),
                                     )
                                   ],
                                 ),

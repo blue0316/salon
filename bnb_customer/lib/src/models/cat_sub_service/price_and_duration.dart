@@ -2,32 +2,23 @@ class PriceAndDurationModel {
   bool? isFixedPrice;
   bool? isPriceRange;
   bool? isPriceStartAt;
-  String price = '0';
-  String priceMax = '0';
-  String duration = '0';
-  String durationinHr = '0';
-  String durationinMin = '0';
+  String? price = '0';
+  String? priceMax = '0';
+  String? duration = '0';
+  String? durationinHr = '0';
+  String? durationinMin = '0';
 
-  PriceAndDurationModel({
-    this.price = "0",
-    this.priceMax = "0",
-    this.duration = "0",
-    this.isFixedPrice,
-    this.isPriceRange,
-    this.isPriceStartAt,
-    this.durationinMin = '0',
-    this.durationinHr = '0',
-  });
+  PriceAndDurationModel({this.price = "0", this.priceMax, this.duration = "0", this.isFixedPrice, this.isPriceRange, this.isPriceStartAt, this.durationinMin = '0', this.durationinHr = '0'});
 
   PriceAndDurationModel.fromJson(Map<String, dynamic> json) {
-    price = json['price'] ?? '0';
-    priceMax = json['priceMax'] ?? '0';
+    price = json['price'];
+    priceMax = json['priceMax'];
     duration = json['duration'] ?? '0';
-    isFixedPrice = json["isFixedPrice"] ?? false;
-    isPriceRange = json["isPriceRange"] ?? false;
-    isPriceStartAt = json["isPriceStartAt"] ?? false;
-    durationinHr = json['durationInHr'] ?? '0';
-    durationinMin = json['durationInMin'] ?? '0';
+    isFixedPrice = json["isFixedPrice"];
+    isPriceRange = json["isPriceRange"];
+    isPriceStartAt = json["isPriceStartAt"];
+    if (json['durationInHr'] != null) durationinHr = json['durationInHr'];
+    if (json['durationInMin'] != null) durationinMin = json['durationInMin'];
   }
 
   Map<String, dynamic> toJson() {

@@ -123,7 +123,7 @@ class _ServiceDetailsState extends ConsumerState<ServiceDetails> {
                 });
               },
               title: Text(
-                widget.service.translations[AppLocalizations.of(context)?.localeName ?? 'en'],
+                widget.service.translations![AppLocalizations.of(context)?.localeName ?? 'en'],
                 style: theme.textTheme.bodyLarge!.copyWith(
                   fontWeight: FontWeight.w600,
                   fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 15.sp, 20.sp),
@@ -135,12 +135,12 @@ class _ServiceDetailsState extends ConsumerState<ServiceDetails> {
                 const SizedBox(height: 2),
                 RowInfo(
                   title: 'Price:',
-                  value: '${widget.salon.selectedCurrency}${widget.service.priceAndDuration.price}',
+                  value: '${widget.salon.selectedCurrency}${widget.service.priceAndDuration!.price}',
                 ),
                 const SizedBox(height: 2),
                 RowInfo(
                   title: 'Duration:',
-                  value: '${widget.service.priceAndDuration.duration} minutes',
+                  value: '${widget.service.priceAndDuration!.duration} minutes',
                 ),
                 const SizedBox(height: 2),
                 RowInfo(

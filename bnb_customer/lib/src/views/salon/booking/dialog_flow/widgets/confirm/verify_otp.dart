@@ -136,11 +136,11 @@ class _VerifyOtpState extends ConsumerState<VerifyOtp> {
                         if (value == Status.success) {
                           CustomerModel? currentCustomer = _auth.currentCustomer;
 
-                          print('___++++____@@@@_____');
-                          print(currentCustomer?.personalInfo.firstName);
-                          print(currentCustomer?.personalInfo.lastName);
-                          print(currentCustomer?.personalInfo.email);
-                          print('___++++____@@@@_____');
+                          // print('___++++____@@@@_____');
+                          // print(currentCustomer?.personalInfo.firstName);
+                          // print(currentCustomer?.personalInfo.lastName);
+                          // print(currentCustomer?.personalInfo.email);
+                          // print('___++++____@@@@_____');
 
                           if (currentCustomer != null) {
                             if (currentCustomer.personalInfo.firstName == '' || currentCustomer.personalInfo.email == null) {

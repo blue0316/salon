@@ -107,12 +107,12 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                         children: _createAppointmentProvider.chosenServices
                             .map(
                               (service) => ServiceNameAndPrice(
-                                serviceName: service.translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
+                                serviceName: service.translations![AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
                                 servicePrice: service.isFixedPrice
-                                    ? "${salonModel.selectedCurrency}${service.priceAndDuration.price}"
+                                    ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price}"
                                     : service.isPriceRange
-                                        ? "${salonModel.selectedCurrency}${service.priceAndDuration.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}"
-                                        : "${salonModel.selectedCurrency}${service.priceAndDuration.price} - ${salonModel.selectedCurrency}∞",
+                                        ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}"
+                                        : "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}∞",
                               ),
                             )
                             .toList(),

@@ -195,26 +195,13 @@ class AppointmentModel {
 ///holds the service details
 
 class Service {
-  //id of the service
-  late String serviceId;
-  late String categoryId;
-  late String subCategoryId;
-  late String serviceName;
-  late PriceAndDurationModel priceAndDuration;
-  late PriceAndDurationModel? priceAndDurationMax;
-  late Map translations;
-  // includes processing time duration during apppointment that is opened for booking after start processing
-  bool hasProcessingTime = false;
-  // start of processing for special services
-  int? startProcessingTime;
-  // processing time used to finish appoitment with user
-  int? endProcessingTime;
-  // clean up time for salon after an appointment
-  int? cleanUpTime;
-  // preparation time before an appointment
-  int? preparationTime;
-  //processing time
-  int? processingTime;
+  String? serviceId = '';
+  String? categoryId = '';
+  String? subCategoryId = '';
+  String? serviceName = '';
+  PriceAndDurationModel? priceAndDuration = PriceAndDurationModel(price: "0", duration: "0");
+  //contains all the translations of supported lang
+  Map? translations = {};
 
   Service({
     required this.serviceId,
@@ -222,14 +209,7 @@ class Service {
     required this.subCategoryId,
     required this.serviceName,
     required this.priceAndDuration,
-    this.priceAndDurationMax,
     required this.translations,
-    this.hasProcessingTime = false,
-    this.startProcessingTime,
-    this.endProcessingTime,
-    this.cleanUpTime,
-    this.preparationTime,
-    this.processingTime,
   });
 
   Service.fromJson(dynamic json) {
@@ -240,17 +220,8 @@ class Service {
     if (json['priceAndDuration'] != null) {
       priceAndDuration = PriceAndDurationModel.fromJson(json['priceAndDuration']);
     }
-    if (json['priceAndDurationMax'] != null) {
-      priceAndDurationMax = PriceAndDurationModel.fromJson(json['priceAndDurationMax']);
-    }
-    if (json["translations"] != null) translations = {...json["translations"]};
 
-    hasProcessingTime = json["hasProcessingTime"] ?? false;
-    if (json["startProcessingTime"] != null) startProcessingTime = json["startProcessingTime"];
-    if (json["endProcessingTime"] != null) endProcessingTime = json["endProcessingTime"];
-    if (json["processingTime"] != null) processingTime = json["processingTime"];
-    if (json["cleanUpTime"] != null) cleanUpTime = json["cleanUpTime"];
-    if (json["preparationTime"] != null) preparationTime = json["preparationTime"];
+    if (json["translations"] != null) translations = {...json["translations"]};
   }
 
   Map<String, dynamic> toJson() {
@@ -259,14 +230,8 @@ class Service {
     map["categoryId"] = categoryId;
     map["subCategoryId"] = subCategoryId;
     map["serviceName"] = serviceName;
-    map['priceAndDuration'] = priceAndDuration.toJson();
+    map['priceAndDuration'] = priceAndDuration?.toJson();
     map["translations"] = translations;
-    map['hasProcessingTime'] = hasProcessingTime;
-    if (startProcessingTime != null) map['startProcessingTime'] = startProcessingTime;
-    if (endProcessingTime != null) map['endProcessingTime'] = endProcessingTime;
-    if (processingTime != null) map['processingTime'] = processingTime;
-    if (cleanUpTime != null) map['cleanUpTime'] = cleanUpTime;
-    if (preparationTime != null) map['preparationTime'] = preparationTime;
 
     return map;
   }
@@ -277,16 +242,6 @@ class Service {
     subCategoryId = serviceModel.subCategoryId;
     serviceName = serviceModel.serviceName;
     priceAndDuration = masterPriceAndDuration ?? serviceModel.priceAndDuration;
-    if (serviceModel.priceAndDurationMax != null) {
-      priceAndDurationMax = serviceModel.priceAndDurationMax;
-    }
-
-    translations = serviceModel.translations;
-    startProcessingTime = serviceModel.startProcessingTime;
-    endProcessingTime = serviceModel.endProcessingTime;
-    processingTime = serviceModel.processingTime;
-    cleanUpTime = serviceModel.cleanUpTime;
-    preparationTime = serviceModel.preparationTime;
   }
 }
 
