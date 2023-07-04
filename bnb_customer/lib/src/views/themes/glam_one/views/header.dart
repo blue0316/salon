@@ -110,11 +110,11 @@ Widget getThemeButton(context, ThemeType themeType) {
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       SquareButton(
-          text: (AppLocalizations.of(context)?.bookNow ?? "Book Now").toUpperCase(),
-          height: 60.h,
-          // width: DeviceConstraints.getResponsiveSize(context, 200.h, 220.h, 220.h),
-          onTap: () {} // => const BookingDialogWidget222().show(context),
-          ),
+        text: (AppLocalizations.of(context)?.bookNow ?? "Book Now").toUpperCase(),
+        height: 60.h,
+        // width: DeviceConstraints.getResponsiveSize(context, 200.h, 220.h, 220.h),
+        onTap: () => const BookingDialogWidget222().show(context),
+      ),
     ],
   );
 
@@ -126,16 +126,36 @@ Widget getThemeButton(context, ThemeType themeType) {
       return squareButton;
 
     case ThemeType.GlamMinimalLight:
-      return SquareButton(borderColor: Colors.transparent, buttonColor: const Color(0XFF000000), width: 180.sp, text: (AppLocalizations.of(context)?.bookNow ?? "Book Now").toUpperCase(), weight: FontWeight.normal, textColor: const Color(0XFFFFFFFF), height: 60.h, showSuffix: false, onTap: () {} // => const BookingDialogWidget222().show(context),
-          );
+      return SquareButton(
+        borderColor: Colors.transparent,
+        buttonColor: const Color(0XFF000000),
+        width: 180.sp,
+        text: (AppLocalizations.of(context)?.bookNow ?? "Book Now").toUpperCase(),
+        weight: FontWeight.normal,
+        textColor: const Color(0XFFFFFFFF),
+        height: 60.h,
+        showSuffix: false,
+        onTap: () => const BookingDialogWidget222().show(context),
+      );
 
     case ThemeType.GlamMinimalDark:
-      return SquareButton(borderColor: Colors.transparent, buttonColor: const Color(0XFFFFFFFF), width: 180.sp, text: (AppLocalizations.of(context)?.bookNow ?? "Book Now").toUpperCase(), weight: FontWeight.normal, textColor: const Color(0XFF000000), height: 60.h, showSuffix: false, onTap: () {} // => const BookingDialogWidget222().show(context),
-          );
+      return SquareButton(
+        borderColor: Colors.transparent,
+        buttonColor: const Color(0XFFFFFFFF),
+        width: 180.sp,
+        text: (AppLocalizations.of(context)?.bookNow ?? "Book Now").toUpperCase(),
+        weight: FontWeight.normal,
+        textColor: const Color(0XFF000000),
+        height: 60.h,
+        showSuffix: false,
+        onTap: () => const BookingDialogWidget222().show(context),
+      );
 
     default:
-      return RotatedBookNow(buttonText: AppLocalizations.of(context)?.bookNow ?? "Book Now", onTap: () {} // => const BookingDialogWidget222().show(context),
-          );
+      return RotatedBookNow(
+        buttonText: AppLocalizations.of(context)?.bookNow ?? "Book Now",
+        onTap: () => const BookingDialogWidget222().show(context),
+      );
   }
 }
 

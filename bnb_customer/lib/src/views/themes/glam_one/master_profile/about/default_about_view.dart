@@ -106,12 +106,16 @@ class _DefaultAboutViewMasterState extends ConsumerState<DefaultAboutViewMaster>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    SquareButton(text: AppLocalizations.of(context)?.bookNow ?? "Book Now", onTap: () {} // => const BookingDialogWidget222().show(context),
-                                        ),
+                                    SquareButton(
+                                      text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
+                                      onTap: () => const BookingDialogWidget222().show(context),
+                                    ),
                                   ],
                                 )
-                              : OvalButton(text: AppLocalizations.of(context)?.bookNow ?? "Book Now", onTap: () {} // => const BookingDialogWidget222().show(context),
-                                  ),
+                              : OvalButton(
+                                  text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
+                                  onTap: () => const BookingDialogWidget222().show(context),
+                                ),
                         ],
                       ),
                     ),
@@ -144,10 +148,17 @@ class _DefaultAboutViewMasterState extends ConsumerState<DefaultAboutViewMaster>
                   ),
                   const SizedBox(height: 30),
                   (themeType == ThemeType.GlamBarbershop)
-                      ? SquareButton(text: AppLocalizations.of(context)?.bookNow ?? "Book Now", onTap: () {} // => const BookingDialogWidget222().show(context),
-                          )
-                      : OvalButton(width: 180.h, height: 60.h, textSize: 18.sp, text: AppLocalizations.of(context)?.bookNow ?? "Book Now", onTap: () {} // => const BookingDialogWidget222().show(context),
-                          ),
+                      ? SquareButton(
+                          text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
+                          onTap: () => const BookingDialogWidget222().show(context),
+                        )
+                      : OvalButton(
+                          width: 180.h,
+                          height: 60.h,
+                          textSize: 18.sp,
+                          text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
+                          onTap: () => const BookingDialogWidget222().show(context),
+                        ),
                   const SizedBox(height: 35),
                   SizedBox(
                     height: 300.h,

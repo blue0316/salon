@@ -126,7 +126,7 @@ class _DefaultAboutViewState extends ConsumerState<DefaultAboutView> {
                                   children: [
                                     SquareButton(
                                       text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
-                                      onTap: () {}, // => const BookingDialogWidget222().show(context),
+                                      onTap: () => const BookingDialogWidget222().show(context),
                                     ),
                                   ],
                                 )
@@ -134,7 +134,7 @@ class _DefaultAboutViewState extends ConsumerState<DefaultAboutView> {
                                   text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
                                   width: 180.h,
                                   height: 60.h,
-                                  onTap: () {}, // => const BookingDialogWidget222().show(context),
+                                  onTap: () => const BookingDialogWidget222().show(context),
                                 ),
                         ],
                       ),
