@@ -264,14 +264,14 @@ class CreateAppointmentProvider with ChangeNotifier {
   getMultipleServiceableMasters(List<MasterModel> masters) {
     List<MasterModel> _tempMasters = [];
 
-    print('@@@@@@@@@@@@@@@@');
-    print(masters);
+    // print('@@@@@@@@@@@@@@@@');
+    // print(masters);
 
-    print('@@@@@@@@@@@@@@@@');
+    // print('@@@@@@@@@@@@@@@@');
     for (MasterModel master in masters) {
-      print('@@@@@@@@@@@@@@@@');
-      print(master.masterId);
-      print('@@@@@@@@@@@@@@@@');
+      // print('@@@@@@@@@@@@@@@@');
+      // print(master.masterId);
+      // print('@@@@@@@@@@@@@@@@');
 
       // if (chosenMaster != null) {
       //   for (var services in chosenServices) {
@@ -1170,12 +1170,12 @@ class CreateAppointmentProvider with ChangeNotifier {
           // if (_mastersServices.contains(_service.serviceId) && _service.priceAndDuration!.price != '0') {
           if (_mastersServices.contains(_service.serviceId)) {
             _servicesValidList.add(_service);
+
+            if (_service.allowClientsBookOnline == true) {
+              allAvailableServices.add(_service);
+            }
           } else {
             // printIt("no master found for ${_service.serviceName}");
-          }
-
-          if (_service.allowClientsBookOnline == true) {
-            allAvailableServices.add(_service);
           }
         }
 
@@ -1193,6 +1193,10 @@ class CreateAppointmentProvider with ChangeNotifier {
     // dividing services into categories
     for (ServiceModel _service in _servicesValidList) {
       if (_service.allowClientsBookOnline!) {
+        print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+        print(_service.serviceName);
+        print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+
         if (categoryServicesMap[_service.categoryId] == null) {
           categoryServicesMap[_service.categoryId!] = [];
         }
