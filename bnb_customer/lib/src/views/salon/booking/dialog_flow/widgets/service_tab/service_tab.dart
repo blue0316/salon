@@ -683,7 +683,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                             style: theme.textTheme.bodyLarge!.copyWith(
                               fontWeight: FontWeight.w600,
                               fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                              color: theme.colorScheme.tertiary,
+                              color: theme.colorScheme.tertiary.withOpacity(0.6),
                             ),
                           ),
                         ),

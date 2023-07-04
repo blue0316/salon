@@ -192,6 +192,9 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                             _createAppointmentProvider.nextPageView(1);
                           },
                         ); // , appointmentModel: appointment);
+                      } else {
+                        showToast(AppLocalizations.of(context)?.invalid_phone_number ?? 'Invalid phone No');
+                        return;
                       }
                     } else {
                       printIt('*********************');

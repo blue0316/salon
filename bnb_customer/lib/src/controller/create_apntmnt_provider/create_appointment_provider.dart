@@ -2991,7 +2991,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   }
 
   /// model for single service
-  AppointmentModel _createAppointmentModel({required CustomerModel customer, required String transactionId}) {
+  AppointmentModel _createAppointmentModel({required CustomerModel customer, required String? transactionId}) {
     ///creating all the required variables
     const String _type = AppointmentType.reservation;
     //updating the latest update
@@ -3169,7 +3169,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   // }
 
   ///model for multiple service block
-  AppointmentModel _createMultipleServiceAppointmentModel({required CustomerModel customer, required String transactionId}) {
+  AppointmentModel _createMultipleServiceAppointmentModel({required CustomerModel customer, required String? transactionId}) {
     ///creating all the required variables
     const String _type = AppointmentType.reservation;
     //updating the latest update
@@ -3375,8 +3375,10 @@ class CreateAppointmentProvider with ChangeNotifier {
   //   );
   // }
 
+  AppointmentModel? appointmentConfirmation; // so we can show details on the confirmed dialog screen
+
   ///to save the appointment for single services selected
-  Future saveAppointment({required CustomerModel customer, required String transactionId}) async {
+  Future saveAppointment({required CustomerModel customer, required String? transactionId}) async {
     bookAppointmentStatus = Status.loading;
     notifyListeners();
 
@@ -3386,6 +3388,8 @@ class CreateAppointmentProvider with ChangeNotifier {
       customer: customer,
       transactionId: transactionId,
     );
+
+    appointmentConfirmation = _appointment;
     //   //booking failed
     //  if (_appointment == null) {
     //     bookAppointmentStatus = false;
@@ -3564,11 +3568,12 @@ class CreateAppointmentProvider with ChangeNotifier {
 
       //assigning appointment id
       _appointment.appointmentId = value;
+      appointmentConfirmation!.appointmentId = value;
     });
   }
 
   ///saves appointments when service is more that one
-  Future saveNewAppointmentForMultipleServices({required CustomerModel customer, required String transactionId}) async {
+  Future saveNewAppointmentForMultipleServices({required CustomerModel customer, required String? transactionId}) async {
     bookAppointmentStatus = Status.loading;
     notifyListeners();
 
@@ -3576,6 +3581,9 @@ class CreateAppointmentProvider with ChangeNotifier {
       customer: customer,
       transactionId: transactionId,
     );
+
+    appointmentConfirmation = _appointment;
+
     // //booking failed
     // if (_appointment == null) {
     //   bookAppointmentStatus = false;
@@ -3767,6 +3775,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 
       // assigning appointment id
       _appointment.appointmentId = value;
+      appointmentConfirmation!.appointmentId = value;
     });
   }
 

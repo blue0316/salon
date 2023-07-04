@@ -193,7 +193,10 @@ class AuthProvider with ChangeNotifier {
 
     if (phoneNumber.length < 8 || phoneNumber.length > 10) {
       showToast(AppLocalizations.of(context)?.invalid_phone_number ?? 'Invalid phone No');
-      //return;
+      otpStatus = Status.failed;
+      notifyListeners();
+
+      return;
     } else {
       otpStatus = Status.loading;
       notifyListeners();
@@ -236,6 +239,9 @@ class AuthProvider with ChangeNotifier {
                 errorMessage = exception.code;
                 showToast(AppLocalizations.of(context)?.invalid_phone_number ?? 'Invalid phone no !');
                 printIt('The provided phone number is not valid.');
+
+                otpStatus == Status.failed;
+                notifyListeners();
               } else {
                 errorMessage = exception.code;
                 showToast(ErrorCodes.getFirebaseErrorMessage(exception));
@@ -378,13 +384,13 @@ class AuthProvider with ChangeNotifier {
       if (kIsWeb) {
         // printIt("It's webbb");
         _userResult = await webOTPConfirmationResult?.confirm(otp);
-        // print('#################################');
-        // print(_userResult);
+        print('#################################');
+        print(_userResult);
         // print('-------');
         // print(_userResult?.user);
         // print('-------');
         // print(_userResult?.additionalUserInfo);
-        // print('#################################');
+        print('#################################');
         phoneNoController.clear();
       } else {
         final AuthCredential _authCredential = PhoneAuthProvider.credential(

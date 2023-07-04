@@ -1,11 +1,7 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
-import 'package:bbblient/src/controller/authentication/auth_provider.dart';
-import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
-import 'package:bbblient/src/models/cat_sub_service/price_and_duration.dart';
 import 'package:bbblient/src/models/enums/status.dart';
-import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/google_calendar.dart';
 import 'package:bbblient/src/utils/icons.dart';
@@ -13,18 +9,20 @@ import 'package:bbblient/src/utils/time.dart';
 import 'package:bbblient/src/views/appointment/widgets/theme_colors.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/confirm/order_details.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/day_and_time/day_and_time.dart';
+import 'package:bbblient/src/views/salon/booking/widgets/confirmation_tab.dart/confirmed_dialog.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // CONFIRMATION DIALOG
-class ConfirmedDialog<T> extends ConsumerStatefulWidget {
-  const ConfirmedDialog({Key? key}) : super(key: key);
+class ViewAppointmentDetails<T> extends ConsumerStatefulWidget {
+  final AppointmentModel appointment;
+
+  const ViewAppointmentDetails({Key? key, required this.appointment}) : super(key: key);
 
   Future<void> show(BuildContext context) async {
     await showDialog<T>(
@@ -34,34 +32,31 @@ class ConfirmedDialog<T> extends ConsumerStatefulWidget {
   }
 
   @override
-  ConsumerState<ConfirmedDialog<T>> createState() => _ConfirmedDialogState<T>();
+  ConsumerState<ViewAppointmentDetails<T>> createState() => _ViewAppointmentDetailsState<T>();
 }
 
-class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
+class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetails<T>> {
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context).size;
-    final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
+    // final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
-    final AuthProvider _auth = ref.watch(authProvider);
+    // final AuthProvider _auth = ref.watch(authProvider);
     final _appointmentProvider = ref.watch(appointmentProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool defaultTheme = theme == AppTheme.customLightTheme;
+    // bool defaultTheme = theme == AppTheme.customLightTheme;
+    // ThemeType themeType = _appointmentProvider.themeType ?? ThemeType.DefaultLight;
+
+    // final PriceAndDurationModel _priceAndDuration = _createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId] ?? PriceAndDurationModel();
+    // TimeOfDay _startTime = Time().stringToTime(_createAppointmentProvider.selectedAppointmentSlot!);
+    // TimeOfDay _endTime = _startTime.addMinutes(
+    //   int.parse(_priceAndDuration.duration!),
+    // );
+
     ThemeType themeType = _appointmentProvider.themeType ?? ThemeType.DefaultLight;
 
-    final PriceAndDurationModel _priceAndDuration = _createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId] ?? PriceAndDurationModel();
-    TimeOfDay _startTime = Time().stringToTime(_createAppointmentProvider.selectedAppointmentSlot!);
-    TimeOfDay _endTime = _startTime.addMinutes(
-      int.parse(_priceAndDuration.duration!),
-    );
-
-    String totalAmount = _createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '0'; // _priceAndDuration.price!;
-
-    String deposit = _createAppointmentProvider.chosenServices[0].deposit ?? '0';
-    int payAtAppointment = int.parse(totalAmount) - int.parse(deposit);
-
-    AppointmentModel? appointment = _createAppointmentProvider.appointmentConfirmation;
+    AppointmentModel appointment = widget.appointment;
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
@@ -93,7 +88,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Spacer(flex: 2),
+                      // const Spacer(flex: 2),
                       Text(
                         'appointment details'.toUpperCase(),
                         style: theme.textTheme.bodyLarge!.copyWith(
@@ -103,22 +98,21 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                           color: theme.colorScheme.onBackground,
                         ),
                       ),
-                      const Spacer(flex: 2),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                          _createAppointmentProvider.resetFlow();
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.only(right: 15.sp),
-                          child: Icon(
-                            Icons.close_rounded,
-                            color: theme.colorScheme.tertiary.withOpacity(0.6),
-                            size: DeviceConstraints.getResponsiveSize(context, 20.sp, 22.sp, 24.sp),
-                          ),
-                        ),
-                      ),
+                      // const Spacer(flex: 2),
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     Navigator.pop(context);
+                      //     // _createAppointmentProvider.resetFlow();
+                      //   },
+                      //   child: Padding(
+                      //     padding: EdgeInsets.only(right: 15.sp),
+                      //     child: Icon(
+                      //       Icons.close_rounded,
+                      //       color: theme.colorScheme.tertiary.withOpacity(0.6),
+                      //       size: DeviceConstraints.getResponsiveSize(context, 20.sp, 22.sp, 24.sp),
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
 
@@ -127,23 +121,19 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                   // CUSTOMER DETAILS
                   ServiceNameAndPrice(
                     notService: true,
-                    serviceName: 'First Name:',
-                    servicePrice: '${_auth.currentCustomer?.personalInfo.firstName}',
+                    serviceName: ' Name:',
+                    servicePrice: '${appointment.customer?.name}',
                   ),
-                  ServiceNameAndPrice(
-                    notService: true,
-                    serviceName: 'Last Name:',
-                    servicePrice: '${_auth.currentCustomer?.personalInfo.lastName}',
-                  ),
+
                   ServiceNameAndPrice(
                     notService: true,
                     serviceName: 'Phone number:',
-                    servicePrice: '${_auth.currentCustomer?.personalInfo.phone}',
+                    servicePrice: '${appointment.customer?.phoneNumber}',
                   ),
                   ServiceNameAndPrice(
                     notService: true,
                     serviceName: 'Email:',
-                    servicePrice: '${_auth.currentCustomer?.personalInfo.email}',
+                    servicePrice: '${appointment.customer?.email}',
                   ),
 
                   const GradientDivider(),
@@ -152,7 +142,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                   ServiceNameAndPrice(
                     notService: true,
                     serviceName: 'Service provider:',
-                    servicePrice: '${_createAppointmentProvider.chosenMaster?.personalInfo?.lastName} ${_createAppointmentProvider.chosenMaster?.personalInfo?.firstName}',
+                    servicePrice: '${appointment.master?.name}',
                   ),
 
                   Padding(
@@ -179,7 +169,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             mainAxisAlignment: MainAxisAlignment.start,
-                            children: _createAppointmentProvider.chosenServices
+                            children: appointment.services
                                 .map(
                                   (service) => Text(
                                     service.translations![AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
@@ -200,13 +190,17 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                   ServiceNameAndPrice(
                     notService: true,
                     serviceName: 'Date:',
-                    servicePrice: Time().getDateInStandardFormat(_createAppointmentProvider.chosenDay),
+                    servicePrice: appointment.appointmentDate,
                   ),
 
                   ServiceNameAndPrice(
                     notService: true,
                     serviceName: 'Time:',
-                    servicePrice: '${Time().timeToString(_startTime)} - ${Time().timeToString(_endTime)}',
+                    servicePrice: '${Time().timeToString(
+                      TimeOfDay.fromDateTime(appointment.appointmentStartTime),
+                    )} - ${Time().timeToString(
+                      TimeOfDay.fromDateTime(appointment.appointmentEndTime),
+                    )}',
                   ),
 
                   const GradientDivider(),
@@ -215,13 +209,13 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                   ServiceNameAndPrice(
                     notService: true,
                     serviceName: 'Pay at Appointment:',
-                    servicePrice: '$payAtAppointment',
+                    servicePrice: '\$${appointment.priceAndDuration.price}',
                   ),
 
                   ServiceNameAndPrice(
                     notService: true,
                     serviceName: 'Deposit paid:',
-                    servicePrice: '\$$deposit',
+                    servicePrice: '\$${appointment.priceAndDuration.price}',
                   ),
 
                   Padding(
@@ -244,9 +238,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                         Flexible(
                           flex: 0,
                           child: Text(
-                            totalAmount,
-
-                            // '\$${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '0'}',
+                            '\$${appointment.priceAndDuration.price}',
                             style: theme.textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w600,
                               fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 21.sp, 20.sp),
@@ -258,7 +250,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                     ),
                   ),
 
-                  SizedBox(height: 50.sp),
+                  SizedBox(height: 20.sp),
 
                   Padding(
                     padding: EdgeInsets.only(bottom: 10.h, left: 2, right: 2),
@@ -269,7 +261,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                           text: 'Add to Apple Calendar',
                           onTap: () async {
                             // Date
-                            DateTime tempDate = DateTime.parse(appointment!.appointmentDate);
+                            DateTime tempDate = DateTime.parse(appointment.appointmentDate);
 
                             // Generate full Date + Time
                             DateTime start = Time().generateDateTimeFromString(tempDate, appointment.appointmentTime);
@@ -295,7 +287,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                           text: 'Add to Google Calendar',
                           onTap: () async {
                             // Date
-                            DateTime tempDate = DateTime.parse(appointment!.appointmentDate);
+                            DateTime tempDate = DateTime.parse(appointment.appointmentDate);
 
                             // Generate full Date + Time
                             DateTime start = Time().generateDateTimeFromString(tempDate, appointment.appointmentTime);
@@ -337,86 +329,6 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                 ],
               ),
             ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class AddToCalendarButton extends ConsumerWidget {
-  final String text, icon;
-  final VoidCallback onTap;
-  final bool isLoading;
-  final Color? loaderColor;
-
-  const AddToCalendarButton({
-    Key? key,
-    required this.text,
-    required this.icon,
-    required this.onTap,
-    this.isLoading = false,
-    this.loaderColor,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
-    final _appointmentProvider = ref.watch(appointmentProvider);
-
-    final ThemeData theme = _salonProfileProvider.salonTheme;
-    ThemeType themeType = _appointmentProvider.themeType ?? ThemeType.DefaultLight;
-
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: theme.colorScheme.tertiary.withOpacity(0.6), // borderColor(themeType, theme),
-              width: 0.7,
-            ),
-            borderRadius: BorderRadius.circular(50),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-            child: isLoading
-                ? Center(
-                    child: SizedBox(
-                      height: 25,
-                      width: 25,
-                      child: CircularProgressIndicator(color: loaderColor ?? Colors.white),
-                    ),
-                  )
-                : Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      (icon == AppIcons.coloredGoogleLogoPNG)
-                          ? Image.asset(
-                              AppIcons.coloredGoogleLogoPNG,
-                              height: 20.sp,
-                            )
-                          : SvgPicture.asset(
-                              icon,
-                              fit: BoxFit.cover,
-                              height: 20.sp,
-                              color: theme.colorScheme.tertiary,
-                            ),
-                      SizedBox(width: 8.sp),
-                      Text(
-                        text,
-                        textAlign: TextAlign.center,
-                        style: theme.textTheme.bodyLarge?.copyWith(
-                          color: theme.colorScheme.tertiary,
-                          fontWeight: FontWeight.w500,
-                          fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 15.sp, 16.sp),
-                        ),
-                      ),
-                    ],
-                  ),
           ),
         ),
       ),

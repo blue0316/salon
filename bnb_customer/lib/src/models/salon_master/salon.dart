@@ -49,6 +49,7 @@ class SalonModel {
   bool? isAutomaticBookingConfirmation;
   late TimeFormat timeFormat;
   late List<String> customerWebLanguages = [];
+  CancellationAndNoShow cancellationAndNoShowPolicy = CancellationAndNoShow.fromJson({});
 
   SalonModel({
     required this.salonId,
@@ -91,6 +92,7 @@ class SalonModel {
     this.isAutomaticBookingConfirmation = false,
     this.timeFormat = TimeFormat.amPM,
     required this.customerWebLanguages,
+    required this.cancellationAndNoShowPolicy,
   });
 
   SalonModel.fromJson(Map<String, dynamic> json) {
@@ -151,6 +153,11 @@ class SalonModel {
     isAutomaticBookingConfirmation = json['isAutomaticBookingConfirmation'] ?? false;
     timeFormat = (json['timeFormat'] == '24H') ? timeFormat = TimeFormat.twentyFourHr : timeFormat = TimeFormat.amPM;
     customerWebLanguages = json['customerWebLanguages'] ?? ['en'];
+    cancellationAndNoShowPolicy = json['cancellationAndNoShowPolicy'] != null
+        ? CancellationAndNoShow.fromJson(json['cancellationAndNoShowPolicy'])
+        : CancellationAndNoShow.fromJson(
+            {},
+          );
   }
 
   Map<String, dynamic> toJson() {
@@ -315,6 +322,45 @@ class Links {
     data['yelp'] = yelp;
     data['tiktok'] = tiktok;
     data['website'] = website;
+    return data;
+  }
+}
+
+class CancellationAndNoShow {
+  String requireCardToBookOnline;
+  bool allowOnlineCancellation;
+  String cancellationWindow;
+  bool setCancellationAndNoShowPolicy;
+  String chargeWhenNoShow;
+  String chargeWhenNoShowPercent;
+
+  CancellationAndNoShow({
+    required this.requireCardToBookOnline,
+    required this.allowOnlineCancellation,
+    required this.cancellationWindow,
+    required this.setCancellationAndNoShowPolicy,
+    required this.chargeWhenNoShow,
+    required this.chargeWhenNoShowPercent,
+  });
+
+  factory CancellationAndNoShow.fromJson(Map<String, dynamic> json) => CancellationAndNoShow(
+        requireCardToBookOnline: json['requireCardToBookOnline'] ?? 'OFF',
+        allowOnlineCancellation: json['allowOnlineCancellation'] ?? false,
+        cancellationWindow: json['cancellationWindow'] ?? '',
+        setCancellationAndNoShowPolicy: json['setCancellationAndNoShowPolicy'] ?? false,
+        chargeWhenNoShow: json['chargeWhenNoShow'] ?? '',
+        chargeWhenNoShowPercent: json['chargeWhenNoShowPercent'] ?? '',
+      );
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['requireCardToBookOnline'] = requireCardToBookOnline;
+    data['allowOnlineCancellation'] = allowOnlineCancellation;
+    data['cancellationWindow'] = cancellationWindow;
+    data['setCancellationAndNoShowPolicy'] = setCancellationAndNoShowPolicy;
+    data['chargeWhenNoShow'] = chargeWhenNoShow;
+    data['chargeWhenNoShowPercent'] = chargeWhenNoShowPercent;
+
     return data;
   }
 }

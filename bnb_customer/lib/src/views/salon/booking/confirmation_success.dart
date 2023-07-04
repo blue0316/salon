@@ -4,19 +4,27 @@ import 'package:bbblient/src/firebase/transaction.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/salon/booking/widgets/confirmation_tab.dart/confirmed_dialog.dart';
+import 'package:bbblient/src/views/salon/booking/widgets/confirmation_tab.dart/view_appointment_details.dart';
 import 'package:bbblient/src/views/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'dart:html' as html;
 
 class ConfirmationSuccess<T> extends ConsumerStatefulWidget {
   static const route = "/confirmation";
-
+  final bool isLocal; // This is true when we're booking straight without using the payroc implementation
   final String responseCode;
   final String transactionID;
-  const ConfirmationSuccess({Key? key, required this.responseCode, required this.transactionID}) : super(key: key);
+
+  const ConfirmationSuccess({
+    Key? key,
+    required this.responseCode,
+    required this.transactionID,
+    this.isLocal = false, // This is true when we're booking straight without using the payroc implementation
+  }) : super(key: key);
 
   Future<void> show(BuildContext context) async {
     await showDialog<T>(
@@ -32,20 +40,29 @@ class ConfirmationSuccess<T> extends ConsumerStatefulWidget {
 class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
   @override
   void initState() {
-    // TODO: implement initState
-    TransactionApi().getAllAppointmentWithTransaction(widget.transactionID).listen((event) {
-      if (event.isNotEmpty) {
-        appointment = event[0];
-        setState(() {
-          isCreated = true;
-        });
-      }
-    });
+    if (widget.isLocal == false) {
+      print('@@@@@@@@');
+      print('INSIDE HERE 1');
+      print('@@@@@@@@');
+      TransactionApi().getAllAppointmentWithTransaction(widget.transactionID).listen((event) {
+        if (event.isNotEmpty) {
+          appointment = event[0];
+          print('@@@@@@@@');
+          print('INSIDE HERE 2');
+          print(appointment);
+          print('@@@@@@@@');
+          setState(() {
+            isCreated = true;
+          });
+        }
+      });
+    }
     super.initState();
   }
 
   AppointmentModel? appointment;
   bool isCreated = false;
+
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context).size;
@@ -70,7 +87,7 @@ class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
           width: double.infinity,
           child: Padding(
             padding: EdgeInsets.all(15.sp),
-            child: !isCreated
+            child: (!isCreated && widget.isLocal == false)
                 ? Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -95,7 +112,7 @@ class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
                           ),
                         ],
                       ),
-                      const Spacer(flex: 2),
+                      const Spacer(flex: 1),
                       SpinKitPouringHourGlass(
                         color: theme.primaryColor,
                         size: DeviceConstraints.getResponsiveSize(context, 120.sp, 80.sp, 100.sp),
@@ -166,24 +183,47 @@ class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
                         ),
                       ),
                       const Spacer(),
-                      SizedBox(
-                        width: 220.sp,
-                        child: DefaultButton(
-                          height: 60.sp,
-                          borderRadius: 60.sp,
-                          color: theme.dialogBackgroundColor,
-                          borderColor: theme.colorScheme.tertiary.withOpacity(0.6),
-                          label: 'View details',
-                          fontWeight: FontWeight.w400,
-                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                          textColor: theme.colorScheme.tertiary,
-                          onTap: () async {
-                            Navigator.pop(context);
+                      if (appointment != null)
+                        SizedBox(
+                          width: 220.sp,
+                          child: DefaultButton(
+                            height: 60.sp,
+                            borderRadius: 60.sp,
+                            color: theme.dialogBackgroundColor,
+                            borderColor: theme.colorScheme.tertiary.withOpacity(0.6),
+                            label: 'View details99',
+                            fontWeight: FontWeight.w400,
+                            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                            textColor: theme.colorScheme.tertiary,
+                            onTap: () async {
+                              // html.window.open("https://yogasm.firebaseapp.com/appointments?id=${appointment?.appointmentId}", "_self");
 
-                            const ConfirmedDialog().show(context);
-                          },
+                              // print('@@@@@@@@');
+                              // print('INSIDE HERE 3');
+                              // print('@@@@@@@@');
+
+                              if (widget.isLocal) {
+                                Navigator.pop(context);
+                              }
+                              ;
+
+                              if (widget.isLocal) {
+                                const ConfirmedDialog().show(context);
+                              } else {
+                                print('@@@@@@@@');
+                                print('INSIDE HERE 4');
+                                print('@@@@@@@@');
+
+                                print('Ered');
+                                // html.window.open("https://yogasm.firebaseapp.com/appointments?id=${appointment?.appointmentId}", "_self");
+
+                                ViewAppointmentDetails(
+                                  appointment: appointment!,
+                                ).show(context);
+                              }
+                            },
+                          ),
                         ),
-                      ),
                       const Spacer(flex: 2),
                     ],
                   ),

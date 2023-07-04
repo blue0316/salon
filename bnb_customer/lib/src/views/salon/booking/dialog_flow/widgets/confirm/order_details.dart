@@ -10,11 +10,9 @@ import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/models/transaction.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/time.dart';
-import 'package:bbblient/src/views/payment/payment.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/colors.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/day_and_time/day_and_time.dart';
 import 'package:bbblient/src/views/salon/booking/confirmation_success.dart';
-import 'package:bbblient/src/views/salon/booking/widgets/confirmation_tab.dart/confirmed_dialog.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/buttons.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
@@ -58,14 +56,17 @@ class _OrderListState extends ConsumerState<OrderDetails> {
       int.parse(_priceAndDuration.duration!),
     );
 
-    String totalAmount = _priceAndDuration.price!;
+    String totalAmount = _createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '0'; // _priceAndDuration.price!;
 
-    return Column(
-      children: [
-        Expanded(
-          flex: 1,
-          child: ListView(
-            shrinkWrap: true,
+    String deposit = _createAppointmentProvider.chosenServices[0].deposit ?? '0';
+    int payAtAppointment = int.parse(totalAmount) - int.parse(deposit);
+
+    return CustomScrollView(
+      slivers: [
+        SliverFillRemaining(
+          hasScrollBody: false,
+          child: Column(
+            // shrinkWrap: true,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,19 +112,19 @@ class _OrderListState extends ConsumerState<OrderDetails> {
               ServiceNameAndPrice(
                 notService: true,
                 serviceName: 'Total:',
-                servicePrice: totalAmount,
+                servicePrice: '\$$totalAmount',
               ),
 
-              const ServiceNameAndPrice(
+              ServiceNameAndPrice(
                 notService: true,
                 serviceName: 'Pay at Appointment:',
-                servicePrice: '--',
+                servicePrice: '\$$payAtAppointment',
               ),
 
-              const ServiceNameAndPrice(
+              ServiceNameAndPrice(
                 notService: true,
                 serviceName: 'Deposit to book:',
-                servicePrice: '---',
+                servicePrice: '\$$deposit',
               ),
 
               Padding(
@@ -146,7 +147,8 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                     Flexible(
                       flex: 0,
                       child: Text(
-                        '\$${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '0'}',
+                        '\$$totalAmount',
+                        // '\$${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '0'}',
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w600,
                           fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 21.sp, 20.sp),
@@ -158,60 +160,62 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                 ),
               ),
 
-              SizedBox(height: 10.sp),
-
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Theme(
-                    data: Theme.of(context).copyWith(
-                      unselectedWidgetColor: theme.colorScheme.tertiary, // ,
-                    ),
-                    child: Checkbox(
-                      checkColor: Colors.white,
-                      fillColor: MaterialStateProperty.all(theme.primaryColor),
-                      value: acceptTerms,
-                      onChanged: (value) {
-                        setState(() {
-                          acceptTerms = !acceptTerms;
-                        });
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Flexible(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          'I understand and accept the ',
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            fontWeight: FontWeight.normal,
-                            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                            color: theme.colorScheme.tertiary,
-                          ),
+              if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy)
+                Padding(
+                  padding: EdgeInsets.only(top: 10.sp),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Theme(
+                        data: Theme.of(context).copyWith(
+                          unselectedWidgetColor: theme.colorScheme.tertiary, // ,
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            const CancellationPolicyScreen().show(context);
+                        child: Checkbox(
+                          checkColor: Colors.white,
+                          fillColor: MaterialStateProperty.all(theme.primaryColor),
+                          value: acceptTerms,
+                          onChanged: (value) {
+                            setState(() {
+                              acceptTerms = !acceptTerms;
+                            });
                           },
-                          child: Text(
-                            'Cancelation Policy',
-                            style: theme.textTheme.bodyMedium?.copyWith(
-                              decoration: TextDecoration.underline,
-                              fontWeight: FontWeight.w500,
-                              fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                              color: theme.primaryColor,
-                            ),
-                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(width: 10),
+                      Flexible(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              'I understand and accept the ',
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                fontWeight: FontWeight.normal,
+                                fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                                color: theme.colorScheme.tertiary,
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                const CancellationPolicyScreen().show(context);
+                              },
+                              child: Text(
+                                'Cancelation Policy',
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  decoration: TextDecoration.underline,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                                  color: theme.primaryColor,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
 
               SizedBox(height: 20.sp),
               Column(
@@ -245,7 +249,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                   ),
                   SizedBox(height: 10.sp),
                   Text(
-                    'To cancel or reschedule please contact LK Nails. You can cancel up to 24 hours before the appointment without any charge. You deposit will be returned to your card within 2 business days',
+                    salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy ? 'You can cancel up to ${salonModel.cancellationAndNoShowPolicy.chargeWhenNoShow} before the appointment without any charge. Your deposit will be returned to your card within 2 business days' : 'To cancel or reschedule please contact ${salonModel.salonName}. You can cancel up to 24 hours before the appointment without any charge. You deposit will be returned to your card within 2 business days',
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w400,
                       fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -255,12 +259,62 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                 ],
               ),
 
-              SizedBox(height: 40.sp),
+              // SizedBox(height: 40.sp),
 
-              Expanded(
-                flex: 0,
-                child: Column(
-                  children: [
+              const Spacer(),
+
+              Column(
+                children: [
+                  // No policy, no deposit
+                  if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy == false)
+                    DefaultButton(
+                      borderRadius: 60,
+                      onTap: () async {
+                        CustomerModel? currentCustomer = _auth.currentCustomer;
+
+                        CustomerModel customer = CustomerModel(customerId: currentCustomer!.customerId, personalInfo: currentCustomer.personalInfo, registeredSalons: [], createdAt: DateTime.now(), avgRating: 3.0, noOfRatings: 6, profilePicUploaded: false, profilePic: "", profileCompleted: false, quizCompleted: false, preferredGender: "male", preferredCategories: [], locations: [], fcmToken: "", locale: "en", favSalons: [], referralLink: "");
+
+                        // Build Appointment
+                        if (_createAppointmentProvider.chosenServices.length > 1) {
+                          //call this single appointment service save function
+                          await _createAppointmentProvider.saveNewAppointmentForMultipleServices(
+                            customer: customer,
+                            transactionId: null,
+                          );
+                        } else {
+                          //call multiple appointment service save option
+                          await _createAppointmentProvider.saveAppointment(
+                            customer: customer,
+                            transactionId: null,
+                          );
+                        }
+
+                        if (_createAppointmentProvider.bookAppointmentStatus == Status.success) {
+                          const ConfirmationSuccess(
+                            responseCode: 'A',
+                            transactionID: '',
+                            isLocal: true,
+                          ).show(context);
+                        } else {
+                          showToast('Something went wrong, please try again');
+                        }
+                      },
+                      color: dialogButtonColor(themeType, theme),
+                      textColor: loaderColor(themeType),
+                      height: 60,
+                      label: 'Book',
+                      isLoading: _createAppointmentProvider.bookAppointmentStatus == Status.loading,
+                      loaderColor: loaderColor(themeType),
+                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                      suffixIcon: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: loaderColor(themeType),
+                        size: 18.sp,
+                      ),
+                    ),
+
+                  // If there's a cancellation policy
+                  if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy == true)
                     DefaultButton(
                       borderRadius: 60,
                       onTap: () async {
@@ -300,7 +354,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                         setState(() => spinner = true);
 
                         final TransactionModel newTransaction = TransactionModel(
-                          amount: totalAmount,
+                          amount: (deposit != '0') ? deposit : totalAmount,
                           timeInitiated: DateTime.now(),
                         );
 
@@ -317,11 +371,6 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                             if (transaction.responseCode != null) {
                               if (transaction.responseCode == 'A' || transaction.responseCode == 'E') {
                                 Navigator.pop(context);
-                                // Show Success Dialog
-                                ConfirmationSuccess(
-                                  responseCode: '${transaction.responseCode}',
-                                  transactionID: transactionId,
-                                ).show(context);
 
                                 // html.window.open('https://yogasm.firebaseapp.com/confirmation?RESPONSECODE=${transaction.responseCode}?transactionId=$transactionId', "_self");
                                 // Build Appointment
@@ -338,6 +387,12 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                     transactionId: transactionId,
                                   );
                                 }
+
+                                // Show Success Dialog
+                                ConfirmationSuccess(
+                                  responseCode: '${transaction.responseCode}',
+                                  transactionID: transactionId,
+                                ).show(context);
                               }
                               if (transaction.responseCode == 'D') {
                                 ConfirmationError(
@@ -385,7 +440,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                       color: dialogButtonColor(themeType, theme),
                       textColor: loaderColor(themeType),
                       height: 60,
-                      label: 'Pay $totalAmount\$ deposit',
+                      label: 'Pay ${(deposit != '0') ? deposit : totalAmount}\$ deposit',
                       // isLoading: _createAppointmentProvider.bookAppointmentStatus == Status.loading,
                       isLoading: spinner,
                       loaderColor: loaderColor(themeType),
@@ -396,8 +451,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                         size: 18.sp,
                       ),
                     ),
-                  ],
-                ),
+                ],
               ),
               // SizedBox(height: 20.h),
             ],
@@ -444,6 +498,7 @@ class CancellationPolicyScreen<T> extends ConsumerWidget {
     var mediaQuery = MediaQuery.of(context).size;
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    SalonModel salonModel = _salonProfileProvider.chosenSalon;
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
@@ -515,7 +570,7 @@ class CancellationPolicyScreen<T> extends ConsumerWidget {
                         ),
                         SizedBox(height: 10.sp),
                         Text(
-                          'To cancel or reschedule please contact LK Nails. You can cancel up to 24 hours before the appointment without any charge. You deposit will be returned to your card within 2 business days',
+                          'To cancel or reschedule please contact ${salonModel.salonName}. You can cancel up to ${salonModel.cancellationAndNoShowPolicy.cancellationWindow} before the appointment without any charge. You deposit will be returned to your card within 2 business days',
                           style: theme.textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.normal,
                             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -533,7 +588,7 @@ class CancellationPolicyScreen<T> extends ConsumerWidget {
                         ),
                         SizedBox(height: 10.sp),
                         Text(
-                          'To cancel or reschedule please contact LK Nails. You can cancel up to 24 hours before the appointment without any charge. You deposit will be returned to your card within 2 business days',
+                          'To cancel or reschedule please contact ${salonModel.salonName}. You can cancel up to ${salonModel.cancellationAndNoShowPolicy.chargeWhenNoShow} before the appointment without any charge. You deposit will be returned to your card within 2 business days',
                           style: theme.textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.normal,
                             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),

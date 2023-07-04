@@ -55,8 +55,8 @@ class AddToCalendars extends ConsumerWidget {
                   Time().getAppointmentEndTime(appointment) ?? '',
                 );
 
-                print(start);
-                print(end);
+                // print(start);
+                // print(end);
 
                 _appointmentProvider.addToAppleCalendar(
                   context,
