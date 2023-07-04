@@ -263,7 +263,16 @@ class CreateAppointmentProvider with ChangeNotifier {
   // gets multiple serviceable master for new design
   getMultipleServiceableMasters(List<MasterModel> masters) {
     List<MasterModel> _tempMasters = [];
+
+    print('@@@@@@@@@@@@@@@@');
+    print(masters);
+
+    print('@@@@@@@@@@@@@@@@');
     for (MasterModel master in masters) {
+      print('@@@@@@@@@@@@@@@@');
+      print(master.masterId);
+      print('@@@@@@@@@@@@@@@@');
+
       // if (chosenMaster != null) {
       //   for (var services in chosenServices) {
       //     if (chosenMaster!.serviceIds!.contains(services.serviceId) && _tempMasters.contains(master) == false) {

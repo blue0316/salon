@@ -44,13 +44,23 @@ class MastersApi {
     try {
       List<MasterModel> masters = [];
       QuerySnapshot _response = await Collection.masters.where('salonId', isEqualTo: salonId).get();
+      print('&&&&&&&&&@@@@@@');
+      print(_response.docs);
+      print('&&&&&&&&&@@@@@@');
       for (DocumentSnapshot doc in _response.docs) {
         Map _temp = doc.data() as Map<dynamic, dynamic>;
         _temp['masterId'] = doc.id;
         var master = MasterModel.fromJson(_temp as Map<String, dynamic>);
+
+        print('a1');
+        print(master);
+        print('--------+++++++--------+++++----------++++--------+++++++--------+++++----------');
         if (master.availableOnline) {
           masters.add(master);
         }
+        print('a2');
+        print(masters);
+        print('--------+++++++--------+++++----------++++--------+++++++--------+++++----------');
       }
       return masters;
     } catch (e) {

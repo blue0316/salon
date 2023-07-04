@@ -73,27 +73,31 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
             ),
             child: (_createAppointmentProvider.salonMasters.isEmpty || _createAppointmentProvider.serviceableMasters.isEmpty)
                 ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Space(),
+                      const Space(factor: 2),
                       Text(
                         "No master is available for your selected services",
                         style: theme.textTheme.bodyLarge!.copyWith(
-                          fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                           color: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,
                         ),
                       ),
-                      const SizedBox(height: 10),
+                      // const SizedBox(height: 10),
+                      const Spacer(),
                       DefaultButton(
                         borderRadius: 60,
                         onTap: () {
                           // Go to previous page
                           widget.tabController.animateTo(0);
                         },
-                        color: dialogBackButtonColor(themeType, theme),
+                        color: dialogButtonColor(themeType, theme),
                         borderColor: theme.primaryColor,
-                        textColor: theme.colorScheme.tertiary,
+                        textColor: loaderColor(themeType),
                         height: 60,
                         label: AppLocalizations.of(context)?.back ?? "Back",
+                        fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                       ),
                     ],
                   )
@@ -138,51 +142,54 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
                           children: [
-                            GestureDetector(
-                              onTap: () {
-                                setState(() => isAnyoneSelected = true);
+                            if (_createAppointmentProvider.salonMasters.isNotEmpty)
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() => isAnyoneSelected = true);
 
-                                // find random master
+                                  // find random master
 
-                                final _random = Random();
-                                MasterModel randomMaster = _createAppointmentProvider.serviceableMasters[_random.nextInt(_createAppointmentProvider.serviceableMasters.length)];
+                                  final _random = Random();
+                                  MasterModel randomMaster = _createAppointmentProvider.serviceableMasters[_random.nextInt(_createAppointmentProvider.serviceableMasters.length)];
 
-                                setState(() => selectedMaster = randomMaster);
-                              },
-                              child: Container(
-                                height: 45.h,
-                                decoration: BoxDecoration(
-                                  color: isAnyoneSelected == true ? theme.primaryColor : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(70),
-                                  border: Border.all(
-                                    color: isAnyoneSelected == true ? theme.primaryColor : const Color(0XFF4A4A4A),
-                                    width: 0.8,
+                                  setState(() => selectedMaster = randomMaster);
+                                },
+                                child: Container(
+                                  height: 45.h,
+                                  decoration: BoxDecoration(
+                                    color: isAnyoneSelected == true ? theme.primaryColor : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(70),
+                                    border: Border.all(
+                                      color: isAnyoneSelected == true ? theme.primaryColor : const Color(0XFF4A4A4A),
+                                      width: 0.8,
+                                    ),
                                   ),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                                  child: Center(
-                                    child: Text(
-                                      'Anyone',
-                                      style: theme.textTheme.bodyLarge!.copyWith(
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.normal,
-                                        // color: defaultTheme ? Colors.black : Colors.white,
-                                        color: theme.colorScheme.tertiary,
-                                        // color: (_createAppointmentProvider.serviceAgainstMaster
-                                        //         .where(
-                                        //           (element) => element.service!.serviceId == service.serviceId && element.isRandom!,
-                                        //         )
-                                        //         .toList()
-                                        //         .isNotEmpty)
-                                        //     ? selectMasterColor(themeType)
-                                        //     : unSelectedMasterColor(themeType),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                                    child: Center(
+                                      child: Text(
+                                        'Anyone',
+                                        style: theme.textTheme.bodyLarge!.copyWith(
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.normal,
+
+                                          // color: (selectedMaster == master && isAnyoneSelected == false) ? selectSlots(themeType, theme) : theme.colorScheme.tertiary,
+                                          color: (isAnyoneSelected) ? selectSlots(themeType, theme) : theme.colorScheme.tertiary,
+
+                                          // color: (_createAppointmentProvider.serviceAgainstMaster
+                                          //         .where(
+                                          //           (element) => element.service!.serviceId == service.serviceId && element.isRandom!,
+                                          //         )
+                                          //         .toList()
+                                          //         .isNotEmpty)
+                                          //     ? selectMasterColor(themeType)
+                                          //     : unSelectedMasterColor(themeType),
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
                             const SizedBox(width: 10),
                             SizedBox(
                               // color: Colors.lightBlueAccent,
@@ -257,7 +264,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                   style: theme.textTheme.bodyLarge!.copyWith(
                                                     fontSize: 14.sp,
                                                     fontWeight: FontWeight.normal,
-                                                    color: theme.colorScheme.tertiary,
+                                                    color: (selectedMaster == master && isAnyoneSelected == false) ? selectSlots(themeType, theme) : theme.colorScheme.tertiary,
                                                   ),
                                                 ),
                                               ],
@@ -376,10 +383,10 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                         height: 40.sp,
                                         width: 36.sp,
                                         decoration: BoxDecoration(
-                                          color: _createAppointmentProvider.checkIfMasterIsWorking(itemValue) ? null : const Color(0xff232529),
+                                          color: _createAppointmentProvider.checkIfMasterIsWorking(itemValue) ? null : const Color.fromARGB(255, 53, 53, 54),
                                           borderRadius: BorderRadius.circular(6),
                                           border: Border.all(
-                                            color: _createAppointmentProvider.checkIfMasterIsWorking(itemValue) ? theme.primaryColor : Colors.black,
+                                            color: _createAppointmentProvider.checkIfMasterIsWorking(itemValue) ? theme.primaryColor : Colors.transparent, //  Colors.black,
                                           ),
                                         ),
                                         child: Center(
@@ -429,7 +436,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                         style: theme.textTheme.bodyMedium?.copyWith(
                                           fontWeight: FontWeight.normal,
                                           fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                                          color: theme.colorScheme.tertiary,
+                                          color: _createAppointmentProvider.timeOfDayIndexForSlots == 0 ? Colors.white : theme.colorScheme.tertiary,
                                         ),
                                       ),
                                     ),
@@ -457,7 +464,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                         style: theme.textTheme.bodyMedium?.copyWith(
                                           fontWeight: FontWeight.normal,
                                           fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                                          color: theme.colorScheme.tertiary,
+                                          color: _createAppointmentProvider.timeOfDayIndexForSlots == 1 ? Colors.white : theme.colorScheme.tertiary,
                                         ),
                                       ),
                                     ),
@@ -486,7 +493,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                         style: theme.textTheme.bodyMedium?.copyWith(
                                           fontWeight: FontWeight.normal,
                                           fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                                          color: theme.colorScheme.tertiary,
+                                          color: _createAppointmentProvider.timeOfDayIndexForSlots == 2 ? Colors.white : theme.colorScheme.tertiary,
                                         ),
                                       ),
                                     ),
@@ -512,7 +519,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                           style: theme.textTheme.bodyMedium?.copyWith(
                                             fontWeight: FontWeight.normal,
                                             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                                            color: Colors.green, // theme.colorScheme.tertiary,
+                                            color: theme.primaryColor,
                                           ),
                                         ),
                                       ),
@@ -574,7 +581,9 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                   child: Center(
                                                     child: Text(
                                                       _createAppointmentProvider.availableAppointments[selectedMaster?.masterId]![index],
-                                                      style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.tertiary),
+                                                      style: theme.textTheme.bodyLarge?.copyWith(
+                                                        color: selectSlots(themeType, theme), // theme.colorScheme.tertiary,
+                                                      ),
                                                     ),
                                                   ),
                                                 )
@@ -587,7 +596,9 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                       child: Center(
                                                         child: Text(
                                                           _createAppointmentProvider.availableAppointments[selectedMaster?.masterId]![index],
-                                                          style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.tertiary),
+                                                          style: theme.textTheme.bodyLarge?.copyWith(
+                                                            color: theme.colorScheme.tertiary,
+                                                          ),
                                                         ),
                                                       ),
                                                     )
@@ -602,7 +613,9 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                       child: Center(
                                                         child: Text(
                                                           _createAppointmentProvider.availableAppointments[selectedMaster?.masterId]![index],
-                                                          style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.tertiary),
+                                                          style: theme.textTheme.bodyLarge?.copyWith(
+                                                            color: theme.colorScheme.tertiary,
+                                                          ),
                                                         ),
                                                       ),
                                                     ),

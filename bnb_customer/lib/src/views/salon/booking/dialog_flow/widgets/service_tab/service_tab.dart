@@ -76,6 +76,8 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                     SliverFillRemaining(
                       hasScrollBody: false,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Padding(
                             padding: EdgeInsets.zero,
@@ -139,7 +141,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                                             child: Text(
                                               catList[index].translations[AppLocalizations.of(context)?.localeName ?? 'en'],
                                               style: theme.textTheme.bodyLarge!.copyWith(
-                                                color: theme.colorScheme.tertiary, //  isServiceAddedBelogingToCategory ? serviceTabCategoryColor(themeType) : theme.colorScheme.tertiary, //defaultTheme ? Colors.black : Colors.white,
+                                                color: _activeTab == index ? serviceTabCategoryColor(themeType) : theme.colorScheme.tertiary, //  isServiceAddedBelogingToCategory ? serviceTabCategoryColor(themeType) : theme.colorScheme.tertiary, //defaultTheme ? Colors.black : Colors.white,
                                                 // color: Colors.white, // _activeTab == index ? AppTheme.textBlack : AppTheme.lightGrey,
                                                 fontWeight: FontWeight.w400, // _activeTab == index ? FontWeight.w500 : FontWeight.w400,
                                               ),
@@ -397,7 +399,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                                       child: Text(
                                         catList[index].translations[AppLocalizations.of(context)?.localeName ?? 'en'],
                                         style: theme.textTheme.bodyLarge!.copyWith(
-                                          color: theme.colorScheme.tertiary, //  isServiceAddedBelogingToCategory ? serviceTabCategoryColor(themeType) : theme.colorScheme.tertiary, //defaultTheme ? Colors.black : Colors.white,
+                                          color: _activeTab == index ? serviceTabCategoryColor(themeType) : theme.colorScheme.tertiary, //  isServiceAddedBelogingToCategory ? serviceTabCategoryColor(themeType) : theme.colorScheme.tertiary, //defaultTheme ? Colors.black : Colors.white,
                                           // color: Colors.white, // _activeTab == index ? AppTheme.textBlack : AppTheme.lightGrey,
                                           fontWeight: FontWeight.w400, // _activeTab == index ? FontWeight.w500 : FontWeight.w400,
                                         ),
@@ -679,7 +681,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                         groupSeparatorBuilder: (String value) => Padding(
                           padding: EdgeInsets.symmetric(vertical: 10.sp),
                           child: Text(
-                            _createAppointmentProvider.getCategoryFromId(value) != null ? _createAppointmentProvider.getCategoryFromId(value)!.categoryName.toUpperCase() : 'tr(Keys.other)'.toUpperCase(),
+                            _createAppointmentProvider.getCategoryFromId(value) != null ? _createAppointmentProvider.getCategoryFromId(value)!.categoryName.toUpperCase() : 'OTHERS'.toUpperCase(),
                             style: theme.textTheme.bodyLarge!.copyWith(
                               fontWeight: FontWeight.w600,
                               fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
