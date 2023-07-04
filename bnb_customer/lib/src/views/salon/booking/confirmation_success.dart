@@ -191,7 +191,7 @@ class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
                             borderRadius: 60.sp,
                             color: theme.dialogBackgroundColor,
                             borderColor: theme.colorScheme.tertiary.withOpacity(0.6),
-                            label: 'View details99',
+                            label: 'View details',
                             fontWeight: FontWeight.w400,
                             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                             textColor: theme.colorScheme.tertiary,
@@ -205,7 +205,6 @@ class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
                               if (widget.isLocal) {
                                 Navigator.pop(context);
                               }
-                              ;
 
                               if (widget.isLocal) {
                                 const ConfirmedDialog().show(context);
