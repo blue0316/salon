@@ -25,11 +25,10 @@ class _FloatingBarState extends ConsumerState<FloatingBar> {
     // int noOfServices = _createAppointmentProvider.chosenServices.length;
 
     return GestureDetector(
-      onTap: () {},
-      // => BookingDialogWidget222(
-      //   master: widget.master,
-      //   masterModel: widget.masterModel,
-      // ).show(context),
+      onTap: () => BookingDialogWidget222(
+        master: widget.master,
+        masterModel: widget.masterModel,
+      ).show(context),
       child: Padding(
         padding: EdgeInsets.only(bottom: 100.h),
         child: AnimatedSwitcher(

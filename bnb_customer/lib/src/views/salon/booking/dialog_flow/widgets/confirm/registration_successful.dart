@@ -2,16 +2,13 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/customer/customer.dart';
 import 'package:bbblient/src/models/enums/status.dart';
-import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/colors.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/buttons.dart';
-import 'package:bbblient/src/views/widgets/text_fields.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -87,7 +84,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
               // hintText: "First name",
               border: InputBorder.none,
             ),
-            keyboardType: TextInputType.number,
+            keyboardType: TextInputType.text,
             onChanged: (val) {
               _authProvider.firstName = val;
             },
@@ -119,7 +116,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
               // hintText: AppLocalizations.of(context)?.lastName.toCapitalized() ?? "Last Name",
               border: InputBorder.none,
             ),
-            keyboardType: TextInputType.number,
+            keyboardType: TextInputType.text,
             onChanged: (val) {
               _authProvider.lastName = val;
             },
@@ -152,7 +149,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
               // hintText: AppLocalizations.of(context)?.email.toCapitalized() ?? "Email",
               border: InputBorder.none,
             ),
-            keyboardType: TextInputType.number,
+            keyboardType: TextInputType.text,
             onChanged: (val) {
               // _authProvider.firstName = val;
             },
@@ -270,7 +267,10 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
               sex: currentCustomer.personalInfo.sex ?? '',
             );
 
-            await _authProvider.updateCustomerPersonalInfo(customerId: currentCustomer.customerId, personalInfo: _personalInfo);
+            await _authProvider.updateCustomerPersonalInfo(
+              customerId: currentCustomer.customerId,
+              personalInfo: _personalInfo,
+            );
 
             _createAppointmentProvider.nextPageView(3);
 

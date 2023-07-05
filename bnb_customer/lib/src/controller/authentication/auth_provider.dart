@@ -143,6 +143,11 @@ class AuthProvider with ChangeNotifier {
     );
   }
 
+  void changeOTP(String val) {
+    otp = val;
+    notifyListeners();
+  }
+
   handleError(error, context) {
     try {
       printIt('error: ' + error.toString());

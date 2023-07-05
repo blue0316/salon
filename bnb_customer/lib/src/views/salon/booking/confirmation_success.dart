@@ -183,46 +183,40 @@ class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
                         ),
                       ),
                       const Spacer(),
-                      if (appointment != null)
-                        SizedBox(
-                          width: 220.sp,
-                          child: DefaultButton(
-                            height: 60.sp,
-                            borderRadius: 60.sp,
-                            color: theme.dialogBackgroundColor,
-                            borderColor: theme.colorScheme.tertiary.withOpacity(0.6),
-                            label: 'View details',
-                            fontWeight: FontWeight.w400,
-                            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                            textColor: theme.colorScheme.tertiary,
-                            onTap: () async {
+                      SizedBox(
+                        width: 220.sp,
+                        child: DefaultButton(
+                          height: 60.sp,
+                          borderRadius: 60.sp,
+                          color: theme.dialogBackgroundColor,
+                          borderColor: theme.colorScheme.tertiary.withOpacity(0.6),
+                          label: 'View details',
+                          fontWeight: FontWeight.w400,
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                          textColor: theme.colorScheme.tertiary,
+                          onTap: () async {
+                            // html.window.open("https://yogasm.firebaseapp.com/appointments?id=${appointment?.appointmentId}", "_self");
+
+                            // print('@@@@@@@@');
+                            // print('INSIDE HERE 3');
+                            // print('@@@@@@@@');
+
+                            if (widget.isLocal) {
+                              Navigator.pop(context);
+                            }
+
+                            if (widget.isLocal) {
+                              const ConfirmedDialog().show(context);
+                            } else {
                               // html.window.open("https://yogasm.firebaseapp.com/appointments?id=${appointment?.appointmentId}", "_self");
 
-                              // print('@@@@@@@@');
-                              // print('INSIDE HERE 3');
-                              // print('@@@@@@@@');
-
-                              if (widget.isLocal) {
-                                Navigator.pop(context);
-                              }
-
-                              if (widget.isLocal) {
-                                const ConfirmedDialog().show(context);
-                              } else {
-                                print('@@@@@@@@');
-                                print('INSIDE HERE 4');
-                                print('@@@@@@@@');
-
-                                print('Ered');
-                                // html.window.open("https://yogasm.firebaseapp.com/appointments?id=${appointment?.appointmentId}", "_self");
-
-                                ViewAppointmentDetails(
-                                  appointment: appointment!,
-                                ).show(context);
-                              }
-                            },
-                          ),
+                              ViewAppointmentDetails(
+                                appointment: appointment!,
+                              ).show(context);
+                            }
+                          },
                         ),
+                      ),
                       const Spacer(flex: 2),
                     ],
                   ),
