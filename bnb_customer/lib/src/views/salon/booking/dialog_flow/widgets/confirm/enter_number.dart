@@ -78,9 +78,11 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
               CountryCodePicker(
                 onChanged: (val) {
                   _authProvider.countryCode = val.dialCode ?? '';
+                  _authProvider.updateAuthCountryCode(val.dialCode ?? '');
                 },
                 onInit: (val) {
                   _authProvider.countryCode = val?.dialCode ?? '';
+                  _authProvider.updateAuthCountryCode(val?.dialCode ?? '');
                 },
                 initialSelection: 'UA',
                 favorite: const ['+1', '+380'],

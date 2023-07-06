@@ -679,6 +679,11 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void updateAuthCountryCode(String val) {
+    countryCode = val;
+    notifyListeners();
+  }
+
   void setCurrentCustomerWithoutOTP({required String firstName, required String lastName, required String email}) {
     currentCustomerWithoutOTP = CustomerModel(
       customerId: phoneNoController.text,
