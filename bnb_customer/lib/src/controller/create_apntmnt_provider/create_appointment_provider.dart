@@ -249,6 +249,8 @@ class CreateAppointmentProvider with ChangeNotifier {
   }
 
   initMastersAndTime() {
+    availableAppointments.clear();
+    allAppointments.clear();
     serviceableMasters.clear();
     notifyListeners();
 

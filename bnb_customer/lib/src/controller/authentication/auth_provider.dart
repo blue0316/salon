@@ -197,6 +197,7 @@ class AuthProvider with ChangeNotifier {
     printIt(_phone);
 
     if (phoneNumber.length < 8 || phoneNumber.length > 10) {
+      print('the error is coming from here!');
       showToast(AppLocalizations.of(context)?.invalid_phone_number ?? 'Invalid phone No');
       otpStatus = Status.failed;
       notifyListeners();
@@ -242,6 +243,7 @@ class AuthProvider with ChangeNotifier {
             verificationFailed: (FirebaseAuthException exception) {
               if (exception.code == 'invalid-phone-number') {
                 errorMessage = exception.code;
+                print('the error is coming from here 22222');
                 showToast(AppLocalizations.of(context)?.invalid_phone_number ?? 'Invalid phone no !');
                 printIt('The provided phone number is not valid.');
 
@@ -294,6 +296,7 @@ class AuthProvider with ChangeNotifier {
     // debugPrint('#####################################');
 
     if (phoneNumber.length < 8 || phoneNumber.length > 10) {
+      print('the error is coming from here 333333');
       showToast(AppLocalizations.of(context)?.invalid_phone_number ?? 'Invalid phone No');
       return;
     }
@@ -670,6 +673,11 @@ class AuthProvider with ChangeNotifier {
   //   customerFromSuccessfulRegistration = customerUpdate;
   //   notifyListeners();
   // }
+
+  void updateAuthPhoneNumber(String val) {
+    phoneNumber = val;
+    notifyListeners();
+  }
 
   void setCurrentCustomerWithoutOTP({required String firstName, required String lastName, required String email}) {
     currentCustomerWithoutOTP = CustomerModel(

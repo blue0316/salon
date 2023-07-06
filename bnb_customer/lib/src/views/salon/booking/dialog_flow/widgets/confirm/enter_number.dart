@@ -101,6 +101,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                   keyboardType: TextInputType.number,
                   onChanged: (val) {
                     _authProvider.phoneNumber = val;
+                    _authProvider.updateAuthPhoneNumber(val);
                   },
                   style: theme.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w500,
@@ -192,6 +193,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                           },
                         ); // , appointmentModel: appointment);
                       } else {
+                        print('the error is coming from here 44444');
                         showToast(AppLocalizations.of(context)?.invalid_phone_number ?? 'Invalid phone No');
                         return;
                       }

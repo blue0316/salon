@@ -580,7 +580,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                   ),
                                                   child: Center(
                                                     child: Text(
-                                                      _createAppointmentProvider.availableAppointments[selectedMaster?.masterId]![index],
+                                                      _createAppointmentProvider.allAppointments[selectedMaster?.masterId]![index],
                                                       style: theme.textTheme.bodyLarge?.copyWith(
                                                         color: selectSlots(themeType, theme), // theme.colorScheme.tertiary,
                                                       ),
@@ -595,7 +595,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                       ),
                                                       child: Center(
                                                         child: Text(
-                                                          _createAppointmentProvider.availableAppointments[selectedMaster?.masterId]![index],
+                                                          _createAppointmentProvider.allAppointments[selectedMaster?.masterId]![index],
                                                           style: theme.textTheme.bodyLarge?.copyWith(
                                                             color: theme.colorScheme.tertiary,
                                                           ),
@@ -612,7 +612,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                       ),
                                                       child: Center(
                                                         child: Text(
-                                                          _createAppointmentProvider.availableAppointments[selectedMaster?.masterId]![index],
+                                                          _createAppointmentProvider.allAppointments[selectedMaster?.masterId]![index],
                                                           style: theme.textTheme.bodyLarge?.copyWith(
                                                             color: theme.colorScheme.tertiary,
                                                           ),
