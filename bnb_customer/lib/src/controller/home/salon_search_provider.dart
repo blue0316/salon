@@ -229,13 +229,13 @@ class SalonSearchProvider with ChangeNotifier {
   }
 
   Future loadMasters({required String text}) async {
-    // printIt('pre ${masters.length}}');
+    printIt('pre ${masters.length}}');
     masters.clear();
     List<MasterModel>? _masters = await MastersApi().getMasterFromName(text: text);
     if (_masters != null) {
       if (_masters.isNotEmpty) {
         masters.addAll(_masters);
-        // printIt(_masters.length);
+        printIt(_masters.length);
         notifyListeners();
       }
     }

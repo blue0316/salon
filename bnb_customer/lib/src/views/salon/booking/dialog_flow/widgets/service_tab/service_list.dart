@@ -469,7 +469,7 @@ class ServiceCard extends ConsumerWidget {
                 ),
 
               // IF THERE ARE NO AVAILABLE MASTERS
-              if (pickMasters && masters!.isEmpty && (_salonProfileProvider.chosenSalon.ownerType != OwnerType.singleMaster))
+              if (pickMasters && masters!.isEmpty && (_salonProfileProvider.isSingleMaster == false))
                 SizedBox(
                   height: 35.h,
                   width: 1.sw,

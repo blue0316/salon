@@ -234,7 +234,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                             favSalons: [],
                             referralLink: "",
                           );
-                          if (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.singleMaster) {
+                          if (_salonProfileProvider.isSingleMaster) {
                             await _createAppointmentProvider.createAppointment(
                               customerModel: customer,
                               context: context,

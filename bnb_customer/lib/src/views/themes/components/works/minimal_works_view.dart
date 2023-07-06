@@ -1,6 +1,5 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/glam_one/master_profile/unique_master_profile.dart';
@@ -29,7 +28,7 @@ class _MinimalWorksViewState extends ConsumerState<MinimalWorksView> {
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     // Check if Salon is a single master
-    final bool isSingleMaster = (widget.salonModel.ownerType == OwnerType.singleMaster);
+    final bool isSingleMaster = _salonProfileProvider.isSingleMaster;
 
     return Padding(
       padding: EdgeInsets.only(

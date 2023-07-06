@@ -112,7 +112,7 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                     // TEAM
                     if (displaySettings?.showTeam == true) SizedBox.fromSize(size: Size.zero, key: controller.team),
                     if (displaySettings?.showTeam == true)
-                      if (_salonProfileProvider.chosenSalon.ownerType != OwnerType.singleMaster)
+                      if (!_salonProfileProvider.isSingleMaster)
                         SalonTeam(
                           salonModel: chosenSalon,
                         ),

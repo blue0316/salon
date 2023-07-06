@@ -1,6 +1,5 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/icons.dart';
@@ -17,9 +16,10 @@ class SalonSocials extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bool isSingleMaster = (salonModel.ownerType == OwnerType.singleMaster);
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+
+    final bool isSingleMaster = _salonProfileProvider.isSingleMaster;
 
     return Container(
       width: double.infinity,
@@ -36,7 +36,7 @@ class SalonSocials extends ConsumerWidget {
                 child: Text(
                   '${isSingleMaster ? "my" : "our"} social network'.toUpperCase(),
                   textAlign: TextAlign.center,
-                  style: theme.textTheme.headline2?.copyWith(
+                  style: theme.textTheme.displayMedium?.copyWith(
                     color: theme.colorScheme.secondary,
                     fontWeight: FontWeight.w600,
                     fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),

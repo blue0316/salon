@@ -65,6 +65,10 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
     ThemeType themeType = _salonProfileProvider.themeType;
     SalonModel salonModel = _salonProfileProvider.chosenSalon;
 
+    if (_salonProfileProvider.isSingleMaster) {
+      selectedMaster = _salonProfileProvider.allMastersInSalon[0];
+    }
+
     return loading
         ? const CircularProgressIndicator(color: Colors.green)
         : Padding(
@@ -135,14 +139,14 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                       SizedBox(height: 20.sp),
 
                       // SELECT MASTER
-                      SizedBox(
-                        // color: Colors.blue,
-                        height: 45.h,
-                        child: ListView(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          children: [
-                            if (_createAppointmentProvider.salonMasters.isNotEmpty)
+                      if (!_salonProfileProvider.isSingleMaster)
+                        SizedBox(
+                          // color: Colors.blue,
+                          height: 45.h,
+                          child: ListView(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            children: [
                               GestureDetector(
                                 onTap: () {
                                   setState(() => isAnyoneSelected = true);
@@ -190,96 +194,96 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                   ),
                                 ),
                               ),
-                            const SizedBox(width: 10),
-                            SizedBox(
-                              // color: Colors.lightBlueAccent,
-                              height: 45.h,
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: _createAppointmentProvider.serviceableMasters.length,
-                                physics: const NeverScrollableScrollPhysics(),
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, index) {
-                                  MasterModel master = _createAppointmentProvider.serviceableMasters[index];
+                              const SizedBox(width: 10),
+                              SizedBox(
+                                // color: Colors.lightBlueAccent,
+                                height: 45.h,
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: _createAppointmentProvider.serviceableMasters.length,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) {
+                                    MasterModel master = _createAppointmentProvider.serviceableMasters[index];
 
-                                  String? price = _createAppointmentProvider.priceAndDuration[master.masterId]?.price ?? '0';
-                                  String? duration = _createAppointmentProvider.priceAndDuration[master.masterId]?.duration ?? '0';
+                                    String? price = _createAppointmentProvider.priceAndDuration[master.masterId]?.price ?? '0';
+                                    String? duration = _createAppointmentProvider.priceAndDuration[master.masterId]?.duration ?? '0';
 
-                                  // if price and duration for a master is 0 return a white space
-                                  // we dont want to create appointments with 0 values as price and duration
-                                  if (price == '\$0' || duration == '0') return const SizedBox.shrink();
+                                    // if price and duration for a master is 0 return a white space
+                                    // we dont want to create appointments with 0 values as price and duration
+                                    if (price == '\$0' || duration == '0') return const SizedBox.shrink();
 
-                                  return Padding(
-                                    padding: const EdgeInsets.only(right: 10),
-                                    child: MouseRegion(
-                                      cursor: SystemMouseCursors.click,
-                                      child: GestureDetector(
-                                        onTap: () async {
-                                          setState(() => selectedMaster = master);
-                                          setState(() => isAnyoneSelected = false);
+                                    return Padding(
+                                      padding: const EdgeInsets.only(right: 10),
+                                      child: MouseRegion(
+                                        cursor: SystemMouseCursors.click,
+                                        child: GestureDetector(
+                                          onTap: () async {
+                                            setState(() => selectedMaster = master);
+                                            setState(() => isAnyoneSelected = false);
 
-                                          _createAppointmentProvider.selectMasterForBooking(master);
+                                            _createAppointmentProvider.selectMasterForBooking(master);
 
-                                          // _createAppointmentProvider.addServiceMaster(service, master, context);
+                                            // _createAppointmentProvider.addServiceMaster(service, master, context);
 
-                                          // if (_createAppointmentProvider.slotsStatus == Status.failed) {
-                                          //   showToast(
-                                          //     '${master.personalInfo?.firstName} is not working',
-                                          //     duration: const Duration(seconds: 5),
-                                          //   );
-                                          // }
-                                        },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: (selectedMaster == master && isAnyoneSelected == false) ? theme.primaryColor : Colors.transparent,
-                                            borderRadius: BorderRadius.circular(70),
-                                            border: Border.all(
-                                              color: (selectedMaster == master && isAnyoneSelected == false) ? theme.primaryColor : const Color(0XFF4A4A4A),
-                                              width: 0.8,
+                                            // if (_createAppointmentProvider.slotsStatus == Status.failed) {
+                                            //   showToast(
+                                            //     '${master.personalInfo?.firstName} is not working',
+                                            //     duration: const Duration(seconds: 5),
+                                            //   );
+                                            // }
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: (selectedMaster == master && isAnyoneSelected == false) ? theme.primaryColor : Colors.transparent,
+                                              borderRadius: BorderRadius.circular(70),
+                                              border: Border.all(
+                                                color: (selectedMaster == master && isAnyoneSelected == false) ? theme.primaryColor : const Color(0XFF4A4A4A),
+                                                width: 0.8,
+                                              ),
                                             ),
-                                          ),
-                                          child: Padding(
-                                            padding: EdgeInsets.only(top: 3, bottom: 3, right: 15.sp, left: 5.sp),
-                                            child: Row(
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Container(
-                                                  height: 30.h,
-                                                  width: 30.h,
-                                                  decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.white),
-                                                  child: ClipRRect(
-                                                    borderRadius: BorderRadius.circular(100),
-                                                    child: (master.profilePicUrl != null && master.profilePicUrl != '')
-                                                        ? CachedImage(url: master.profilePicUrl!, fit: BoxFit.cover)
-                                                        : Image.asset(
-                                                            AppIcons.masterDefaultAvtar,
-                                                            fit: BoxFit.cover,
-                                                          ),
+                                            child: Padding(
+                                              padding: EdgeInsets.only(top: 3, bottom: 3, right: 15.sp, left: 5.sp),
+                                              child: Row(
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    height: 30.h,
+                                                    width: 30.h,
+                                                    decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+                                                    child: ClipRRect(
+                                                      borderRadius: BorderRadius.circular(100),
+                                                      child: (master.profilePicUrl != null && master.profilePicUrl != '')
+                                                          ? CachedImage(url: master.profilePicUrl!, fit: BoxFit.cover)
+                                                          : Image.asset(
+                                                              AppIcons.masterDefaultAvtar,
+                                                              fit: BoxFit.cover,
+                                                            ),
+                                                    ),
                                                   ),
-                                                ),
-                                                const SizedBox(width: 10),
-                                                Text(
-                                                  Utils().getNameMaster(master.personalInfo),
-                                                  style: theme.textTheme.bodyLarge!.copyWith(
-                                                    fontSize: 14.sp,
-                                                    fontWeight: FontWeight.normal,
-                                                    color: (selectedMaster == master && isAnyoneSelected == false) ? selectSlots(themeType, theme) : theme.colorScheme.tertiary,
+                                                  const SizedBox(width: 10),
+                                                  Text(
+                                                    Utils().getNameMaster(master.personalInfo),
+                                                    style: theme.textTheme.bodyLarge!.copyWith(
+                                                      fontSize: 14.sp,
+                                                      fontWeight: FontWeight.normal,
+                                                      color: (selectedMaster == master && isAnyoneSelected == false) ? selectSlots(themeType, theme) : theme.colorScheme.tertiary,
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  );
-                                },
+                                    );
+                                  },
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
 
                       SizedBox(height: 50.sp),
 

@@ -10,6 +10,7 @@ import 'package:bbblient/src/models/enums/appointment_status.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/products.dart';
 import 'package:bbblient/src/models/review.dart';
+import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/utils.dart';
@@ -29,6 +30,7 @@ class SalonProfileProvider with ChangeNotifier {
 
   late SalonModel chosenSalon;
 
+  List<MasterModel> allMastersInSalon = []; // To check if the salon is single master or not
   List<ReviewModel> salonReviews = [];
   List<ReviewModel> masterReviews = [];
 
@@ -44,6 +46,7 @@ class SalonProfileProvider with ChangeNotifier {
 
   CustomerWebSettings? themeSettings;
   ThemeData salonTheme = AppTheme.initial;
+  bool isSingleMaster = false;
   // String? theme;
 
   ThemeType themeType = ThemeType.DefaultLight;
@@ -65,6 +68,7 @@ class SalonProfileProvider with ChangeNotifier {
 
       await getSalonReviews(salonId: salonId);
       await getProductsData(context, salonId: salonId);
+      await getAllSalonMasters(salonId);
       // await getSalonServices(salonId: salonId);
       loadingStatus = Status.success;
     } catch (e) {
@@ -153,6 +157,15 @@ class SalonProfileProvider with ChangeNotifier {
   getSalonReviews({required String salonId}) async {
     salonReviews.clear();
     salonReviews = await SalonApi().getSalonReviews(salonId: salonId);
+  }
+
+  getAllSalonMasters(salonId) async {
+    allMastersInSalon.clear();
+    allMastersInSalon = await MastersApi().getAllSalonMasters(salonId);
+
+    if (allMastersInSalon.length < 2) {
+      isSingleMaster = true;
+    }
   }
 
   // getSalonServices({required String salonId}) async {
@@ -257,67 +270,6 @@ class SalonProfileProvider with ChangeNotifier {
 
     notifyListeners();
   }
-
-  // Future _initSalon({required SalonModel salonModel}) async {
-  //   salonMasters.clear();
-  //   categoryServicesMap.clear();
-  //   salonServices.clear();
-  //   salonReviews.clear();
-
-  //   loadingStatus = Status.loading;
-  //   notifyListeners();
-  //   List<MasterModel> _masters = await MastersApi().getAllMaster(salonModel.salonId);
-  //   List<ServiceModel> _servicesList = await CategoryServicesApi().getSalonServices(salonId: salonModel.salonId);
-  //   printIt(_servicesList.length);
-  //   List<ServiceModel> _servicesValidList = [];
-  //   List<String> _mastersServices = [];
-
-  //   if (_servicesList.isNotEmpty && _masters.isNotEmpty) {
-  //     for (MasterModel master in _masters) {
-  //       _mastersServices.addAll(master.serviceIds ?? []);
-  //     }
-  //     printIt(_mastersServices);
-  //     printIt(salonModel.ownerType);
-
-  //     if (salonModel.ownerType == OwnerType.singleMaster) {
-  //       salonServices = _servicesList;
-  //       _servicesValidList = _servicesList;
-  //     } else {
-  //       for (ServiceModel _service in _servicesList) {
-  //         if (_mastersServices.contains(_service.serviceId)) {
-  //           printIt('service valid');
-  //           printIt(_service.serviceId);
-  //           _servicesValidList.add(_service);
-  //         } else {
-  //           printIt(" removed ${_service.serviceId}");
-  //         }
-  //       }
-  //     }
-  //     printIt(_servicesList.length);
-  //     printIt(_servicesValidList.length);
-  //     printIt(salonServices.length);
-  //     salonMasters = _masters;
-  //     loadingStatus = Status.success;
-  //     notifyListeners();
-  //   } else {
-  //     loadingStatus = Status.failed;
-  //     notifyListeners();
-  //   }
-
-  //   for (ServiceModel _service in _servicesValidList) {
-  //     if (categoryServicesMap[_service.categoryId] == null) {
-  //       categoryServicesMap[_service.categoryId] = [];
-  //     }
-  //     categoryServicesMap[_service.categoryId]!.add(_service);
-  //     if (categoryServicesMap != {}) {
-  //       loadingStatus = Status.success;
-  //       notifyListeners();
-  //     } else {
-  //       loadingStatus = Status.failed;
-  //       notifyListeners();
-  //     }
-  //   }
-  // }
 }
 
 Set availableThemes = {

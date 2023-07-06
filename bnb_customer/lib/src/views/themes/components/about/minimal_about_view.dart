@@ -1,6 +1,5 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/customer_web_settings.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
@@ -22,11 +21,11 @@ class MinimalAboutView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bool isTab = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab);
-    final bool isSingleMaster = (salonModel.ownerType == OwnerType.singleMaster);
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
     CustomerWebSettings? themeSettings = _salonProfileProvider.themeSettings;
+    final bool isSingleMaster = _salonProfileProvider.isSingleMaster;
 
     return Padding(
       padding: const EdgeInsets.only(
@@ -121,11 +120,11 @@ class PortraitView extends ConsumerWidget {
   const PortraitView({Key? key, required this.salonModel}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bool isSingleMaster = (salonModel.ownerType == OwnerType.singleMaster);
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     CustomerWebSettings? themeSettings = _salonProfileProvider.themeSettings;
+    final bool isSingleMaster = _salonProfileProvider.isSingleMaster;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
