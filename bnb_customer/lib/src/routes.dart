@@ -10,7 +10,6 @@ import 'package:bbblient/src/views/appointment/view_appointment.dart';
 import 'package:bbblient/src/views/payment/payment.dart';
 import 'package:bbblient/src/views/policy/policy.dart';
 import 'package:bbblient/src/views/policy/testes.dart';
-import 'package:bbblient/src/views/salon/booking/confirm_bookingCOF.dart';
 import 'package:bbblient/src/views/salon/salon_home/salon_profile_copy.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/foundation.dart';
@@ -68,24 +67,11 @@ final GoRouter router = GoRouter(
       path: ConfirmationSuccess.route,
       name: ConfirmationSuccess.route,
       pageBuilder: (context, state) {
+        print(state.queryParams);
         final String query = state.queryParams['RESPONSECODE'] as String;
         final String transactionId = state.queryParams['ORDERID'] as String;
         return MaterialPage(
           child: ConfirmationSuccess(
-            responseCode: query,
-            transactionID: transactionId,
-          ),
-        );
-      },
-    ),
-    GoRoute(
-      path: confirmCOF.route,
-      name: confirmCOF.route,
-      pageBuilder: (context, state) {
-        final String query = state.queryParams['RESPONSECODE'] as String;
-        final String transactionId = state.queryParams['merchantRef'] as String;
-        return MaterialPage(
-          child: confirmCOF(
             responseCode: query,
             transactionID: transactionId,
           ),
@@ -153,7 +139,7 @@ final GoRouter router = GoRouter(
               currency: currency,
               transactionId: transactionId,
               terminalId: terminalId,
-              isDeposit: isDeposit!,
+              // isDeposit: isDeposit!,
             ));
       },
     ),
