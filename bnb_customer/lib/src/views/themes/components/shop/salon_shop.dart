@@ -94,14 +94,14 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
                           child: TabBar(
                             controller: shopTabController,
                             unselectedLabelColor: theme.tabBarTheme.unselectedLabelColor,
-                            labelColor: theme.primaryColorDark,
+                            labelColor: labelColor(themeType, theme),
                             unselectedLabelStyle: theme.textTheme.bodyLarge?.copyWith(
                               color: theme.tabBarTheme.unselectedLabelColor,
                               fontWeight: FontWeight.w400,
                               fontSize: 16.sp,
                             ),
                             labelStyle: theme.textTheme.bodyLarge?.copyWith(
-                              color: theme.primaryColorDark,
+                              color: labelColor(themeType, theme),
                               fontWeight: FontWeight.w500,
                               fontSize: 16.sp,
                             ),
@@ -226,5 +226,14 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
         ),
       ),
     );
+  }
+}
+
+Color labelColor(ThemeType themeType, ThemeData theme) {
+  switch (themeType) {
+    case ThemeType.Barbershop:
+      return Colors.white;
+    default:
+      return theme.primaryColorDark;
   }
 }

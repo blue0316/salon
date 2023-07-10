@@ -1195,9 +1195,9 @@ class CreateAppointmentProvider with ChangeNotifier {
     // dividing services into categories
     for (ServiceModel _service in _servicesValidList) {
       if (_service.allowClientsBookOnline!) {
-        print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-        print(_service.serviceName);
-        print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+        // print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+        // print(_service.serviceName);
+        // print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
 
         if (categoryServicesMap[_service.categoryId] == null) {
           categoryServicesMap[_service.categoryId!] = [];

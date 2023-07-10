@@ -43,11 +43,10 @@ class _FloatingBarState extends ConsumerState<FloatingBar> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               InkWell(
-                onTap: () {},
-                // () => BookingDialogWidget222(
-                //   master: widget.master,
-                //   masterModel: widget.masterModel,
-                // ).show(context),
+                onTap: () => BookingDialogWidget222(
+                  master: widget.master,
+                  masterModel: widget.masterModel,
+                ).show(context),
                 child: Container(
                   // key: ValueKey(noOfServices),
                   height: 45.h,
