@@ -67,4 +67,18 @@ class TransactionApi {
               return AppointmentModel.fromJson(_temp as Map<String, dynamic>);
             }).toList());
   }
+
+  Stream<List<AppointmentModel>> getAllAppointmentWithTransactionCardOnFile(
+      String? transactionId) {
+    return Collection.appointments
+        .where('merchantRef', isEqualTo: transactionId)
+        .snapshots()
+        .map((snapShot) => snapShot.docs.map<AppointmentModel>((appointment) {
+              Map _temp = appointment.data() as Map<dynamic, dynamic>;
+
+              _temp['appointmentId'] = appointment.id;
+
+              return AppointmentModel.fromJson(_temp as Map<String, dynamic>);
+            }).toList());
+  }
 }
