@@ -143,6 +143,9 @@ final GoRouter router = GoRouter(
         final String? terminalId = state.queryParams['terminalId'] == null
             ? "5363001"
             : state.queryParams['terminalId'] as String;
+        final bool? isDeposit = state.queryParams['isDeposit'] == null
+            ? true
+            : state.queryParams['isDeposit'] as bool;
         return MaterialPage(
             key: state.pageKey,
             child: Payment(
@@ -150,6 +153,7 @@ final GoRouter router = GoRouter(
               currency: currency,
               transactionId: transactionId,
               terminalId: terminalId,
+              isDeposit: isDeposit!,
             ));
       },
     ),
