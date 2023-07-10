@@ -147,53 +147,54 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
                             children: [
-                              GestureDetector(
-                                onTap: () {
-                                  setState(() => isAnyoneSelected = true);
+                              if (!(_createAppointmentProvider.serviceableMasters.length <= 1))
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() => isAnyoneSelected = true);
 
-                                  // find random master
+                                    // find random master
 
-                                  final _random = Random();
-                                  MasterModel randomMaster = _createAppointmentProvider.serviceableMasters[_random.nextInt(_createAppointmentProvider.serviceableMasters.length)];
+                                    final _random = Random();
+                                    MasterModel randomMaster = _createAppointmentProvider.serviceableMasters[_random.nextInt(_createAppointmentProvider.serviceableMasters.length)];
 
-                                  setState(() => selectedMaster = randomMaster);
-                                },
-                                child: Container(
-                                  height: 45.h,
-                                  decoration: BoxDecoration(
-                                    color: isAnyoneSelected == true ? theme.primaryColor : Colors.transparent,
-                                    borderRadius: BorderRadius.circular(70),
-                                    border: Border.all(
-                                      color: isAnyoneSelected == true ? theme.primaryColor : const Color(0XFF4A4A4A),
-                                      width: 0.8,
+                                    setState(() => selectedMaster = randomMaster);
+                                  },
+                                  child: Container(
+                                    height: 45.h,
+                                    decoration: BoxDecoration(
+                                      color: isAnyoneSelected == true ? theme.primaryColor : Colors.transparent,
+                                      borderRadius: BorderRadius.circular(70),
+                                      border: Border.all(
+                                        color: isAnyoneSelected == true ? theme.primaryColor : const Color(0XFF4A4A4A),
+                                        width: 0.8,
+                                      ),
                                     ),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 25),
-                                    child: Center(
-                                      child: Text(
-                                        'Anyone',
-                                        style: theme.textTheme.bodyLarge!.copyWith(
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.normal,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 25),
+                                      child: Center(
+                                        child: Text(
+                                          'Anyone',
+                                          style: theme.textTheme.bodyLarge!.copyWith(
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.normal,
 
-                                          // color: (selectedMaster == master && isAnyoneSelected == false) ? selectSlots(themeType, theme) : theme.colorScheme.tertiary,
-                                          color: (isAnyoneSelected) ? selectSlots(themeType, theme) : theme.colorScheme.tertiary,
+                                            // color: (selectedMaster == master && isAnyoneSelected == false) ? selectSlots(themeType, theme) : theme.colorScheme.tertiary,
+                                            color: (isAnyoneSelected) ? selectSlots(themeType, theme) : theme.colorScheme.tertiary,
 
-                                          // color: (_createAppointmentProvider.serviceAgainstMaster
-                                          //         .where(
-                                          //           (element) => element.service!.serviceId == service.serviceId && element.isRandom!,
-                                          //         )
-                                          //         .toList()
-                                          //         .isNotEmpty)
-                                          //     ? selectMasterColor(themeType)
-                                          //     : unSelectedMasterColor(themeType),
+                                            // color: (_createAppointmentProvider.serviceAgainstMaster
+                                            //         .where(
+                                            //           (element) => element.service!.serviceId == service.serviceId && element.isRandom!,
+                                            //         )
+                                            //         .toList()
+                                            //         .isNotEmpty)
+                                            //     ? selectMasterColor(themeType)
+                                            //     : unSelectedMasterColor(themeType),
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
                               const SizedBox(width: 10),
                               SizedBox(
                                 // color: Colors.lightBlueAccent,
