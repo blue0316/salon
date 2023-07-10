@@ -48,9 +48,31 @@ class MastersApi {
         Map _temp = doc.data() as Map<dynamic, dynamic>;
         _temp['masterId'] = doc.id;
         var master = MasterModel.fromJson(_temp as Map<String, dynamic>);
+
         if (master.availableOnline) {
           masters.add(master);
         }
+      }
+      return masters;
+    } catch (e) {
+      debugPrint(e.toString());
+      return [];
+    }
+  }
+
+  Future<List<MasterModel>> getAllSalonMasters(String salonId) async {
+    try {
+      List<MasterModel> masters = [];
+
+      QuerySnapshot _response = await Collection.masters.where('salonId', isEqualTo: salonId).get();
+
+      for (DocumentSnapshot doc in _response.docs) {
+        Map _temp = doc.data() as Map<dynamic, dynamic>;
+        _temp['masterId'] = doc.id;
+
+        var master = MasterModel.fromJson(_temp as Map<String, dynamic>);
+
+        masters.add(master);
       }
       return masters;
     } catch (e) {

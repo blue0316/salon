@@ -7,7 +7,6 @@ import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
-import 'package:bbblient/src/utils/keys.dart';
 import 'package:bbblient/src/utils/translation.dart';
 import 'package:translator/translator.dart' as trans;
 import 'package:bbblient/src/views/widgets/widgets.dart';
@@ -178,7 +177,7 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
               padding: const EdgeInsets.all(0),
               itemBuilder: (context, index) {
                 final ServiceModel service = widget.services[index];
-                return ((service.priceAndDuration.price) != "0")
+                return ((service.priceAndDuration!.price) != "0")
                     ? InkWell(
                         key: const ValueKey("tap-service"),
                         onTap: () {
@@ -225,7 +224,7 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                                           Expanded(
                                                             flex: DeviceConstraints.getResponsiveSize(context, 1, 0, 0).toInt(),
                                                             child: Text(
-                                                              widget.services[index].translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
+                                                              widget.services[index].translations![AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
                                                               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                                                     fontWeight: FontWeight.w500,
                                                                     fontSize: 16.sp,
@@ -279,7 +278,7 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                                     service.isFixedDuration != null
                                                         ? service.isFixedDuration
                                                             ? Text(
-                                                                "${service.priceAndDuration.duration} minutes",
+                                                                "${service.priceAndDuration!.duration} minutes",
                                                                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                                                       fontSize: 15.sp,
                                                                     ),
@@ -287,7 +286,7 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                                                 maxLines: 1,
                                                               )
                                                             : Text(
-                                                                "${service.priceAndDuration.duration} minutes - ${service.priceAndDurationMax!.duration} minutes",
+                                                                "${service.priceAndDuration!.duration} minutes - ${service.priceAndDurationMax!.duration} minutes",
                                                                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                                                       fontSize: 16.sp,
                                                                     ),
@@ -295,7 +294,7 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                                                 maxLines: 1,
                                                               )
                                                         : Text(
-                                                            "${service.priceAndDuration.duration} minutes",
+                                                            "${service.priceAndDuration!.duration} minutes",
                                                             style: Theme.of(context).textTheme.bodyText1!.copyWith(
                                                                   fontSize: 15.sp,
                                                                 ),
@@ -317,13 +316,13 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
                                               // PREVIOUS PRICE
-                                              if (service.priceAndDuration.price == '200') // TODO: REMOVE THIS
+                                              if (service.priceAndDuration!.price == '200') // TODO: REMOVE THIS
                                                 Text(
                                                   service.isFixedPrice
-                                                      ? "${salonModel.selectedCurrency}${service.priceAndDuration.price}"
+                                                      ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price}"
                                                       : service.isPriceStartAt
-                                                          ? "${salonModel.selectedCurrency}${service.priceAndDuration.price} - ${salonModel.selectedCurrency}∞"
-                                                          : "${salonModel.selectedCurrency}${service.priceAndDuration.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}",
+                                                          ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}∞"
+                                                          : "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}",
                                                   style: Theme.of(context).textTheme.bodyText1!.copyWith(
                                                         fontWeight: FontWeight.w400,
                                                         fontSize: 12.5.sp,
@@ -338,10 +337,10 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                                 // TODO: NOTE - Service PRICE
 
                                                 service.isFixedPrice
-                                                    ? "${salonModel.selectedCurrency}${service.priceAndDuration.price}"
+                                                    ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price}"
                                                     : service.isPriceStartAt
-                                                        ? "${salonModel.selectedCurrency}${service.priceAndDuration.price} - ${salonModel.selectedCurrency}∞"
-                                                        : "${salonModel.selectedCurrency}${service.priceAndDuration.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}",
+                                                        ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}∞"
+                                                        : "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}",
 
                                                 style: Theme.of(context).textTheme.bodyText1!.copyWith(
                                                       fontWeight: FontWeight.w600,

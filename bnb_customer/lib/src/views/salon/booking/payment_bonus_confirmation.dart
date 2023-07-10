@@ -43,7 +43,7 @@ class _PaymentBonusConfirmationState extends ConsumerState<PaymentBonusConfirmat
         backgroundColor: AppTheme.milkeyGrey,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [Text(AppLocalizations.of(context)?.payment ?? "Payment", style: Theme.of(context).textTheme.headline4), Text(Time().getLocaleDate(_createAppointment.chosenDay, AppLocalizations.of(context)?.localeName ?? 'en').toString())],
+          children: [Text(AppLocalizations.of(context)?.payment ?? "Payment", style: Theme.of(context).textTheme.headlineMedium), Text(Time().getLocaleDate(_createAppointment.chosenDay, AppLocalizations.of(context)?.localeName ?? 'en').toString())],
         ),
         centerTitle: true,
         elevation: 0,
@@ -77,7 +77,7 @@ class _PaymentBonusConfirmationState extends ConsumerState<PaymentBonusConfirmat
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             if (_createAppointment.chosenBonus == null) ...[
-                              Text(AppLocalizations.of(context)?.useYourBonus ?? "Use your Bonus", style: Theme.of(context).textTheme.subtitle1),
+                              Text(AppLocalizations.of(context)?.useYourBonus ?? "Use your Bonus", style: Theme.of(context).textTheme.titleMedium),
                             ],
                             if (_createAppointment.chosenBonus != null) ...[
                               SizedBox(
@@ -91,7 +91,7 @@ class _PaymentBonusConfirmationState extends ConsumerState<PaymentBonusConfirmat
                               SizedBox(width: 10.w),
                               Text(
                                 "${AppLocalizations.of(context)?.youAreUsingOneCoupon} (${_createAppointment.chosenBonus?.amount} ₴)",
-                                style: Theme.of(context).textTheme.subtitle1,
+                                style: Theme.of(context).textTheme.titleMedium,
                               ),
                               SizedBox(width: 10.w),
                               GestureDetector(
@@ -117,7 +117,7 @@ class _PaymentBonusConfirmationState extends ConsumerState<PaymentBonusConfirmat
                     if (double.parse(_createAppointment.appointmentModel?.priceAndDuration.price ?? "0").toInt() <= 299) ...[
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 24.w),
-                        child: Text("${AppLocalizations.of(context)?.bonusValidAbove} ${Keys.dollars}300", style: Theme.of(context).textTheme.subtitle1),
+                        child: Text("${AppLocalizations.of(context)?.bonusValidAbove} ${Keys.dollars}300", style: Theme.of(context).textTheme.titleMedium),
                       ),
                     ],
                   ],
@@ -131,7 +131,7 @@ class _PaymentBonusConfirmationState extends ConsumerState<PaymentBonusConfirmat
                   ),
                   Text(
                     AppLocalizations.of(context)?.total ?? "Total",
-                    style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           color: AppTheme.textBlack,
                           fontSize: 30.sp,
                         ),
@@ -151,14 +151,14 @@ class _PaymentBonusConfirmationState extends ConsumerState<PaymentBonusConfirmat
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(AppLocalizations.of(context)?.youHaveToPay ?? "You have to pay:", style: Theme.of(context).textTheme.subtitle1!.copyWith(color: AppTheme.creamBrown, fontSize: 14.sp)),
+                              Text(AppLocalizations.of(context)?.youHaveToPay ?? "You have to pay:", style: Theme.of(context).textTheme.titleMedium!.copyWith(color: AppTheme.creamBrown, fontSize: 14.sp)),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   if (_createAppointment.chosenBonus != null) ...[
                                     Text(
                                       "${Keys.dollars}${_createAppointment.appointmentModel?.priceAndDuration.price}",
-                                      style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
                                             color: AppTheme.lightGrey,
                                             fontSize: 18.sp,
                                             decoration: TextDecoration.lineThrough,
@@ -168,7 +168,7 @@ class _PaymentBonusConfirmationState extends ConsumerState<PaymentBonusConfirmat
                                   if (_createAppointment.chosenBonus != null) ...[
                                     Text(
                                       "${Keys.dollars}${double.parse(_createAppointment.appointmentModel?.priceAndDuration.price ?? "0") - _createAppointment.chosenBonus!.amount}",
-                                      style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
                                             color: AppTheme.textBlack,
                                             fontSize: 32.sp,
                                           ),
@@ -177,7 +177,7 @@ class _PaymentBonusConfirmationState extends ConsumerState<PaymentBonusConfirmat
                                   if (_createAppointment.chosenBonus == null) ...[
                                     Text(
                                       "${Keys.dollars}${_createAppointment.appointmentModel?.priceAndDuration.price}",
-                                      style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
                                             color: AppTheme.textBlack,
                                             fontSize: 32.sp,
                                           ),
@@ -201,7 +201,7 @@ class _PaymentBonusConfirmationState extends ConsumerState<PaymentBonusConfirmat
                               //   children: [
                               //     Text(
                               //       "Payment Method:",
-                              //       style: Theme.of(context).textTheme.subtitle1!.copyWith(fontWeight: FontWeight.normal),
+                              //       style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.normal),
                               //     ),
                               //     const Text("offline"),
                               //   ],
@@ -211,7 +211,7 @@ class _PaymentBonusConfirmationState extends ConsumerState<PaymentBonusConfirmat
                               ),
                               Text(
                                 "${AppLocalizations.of(context)?.services ?? "services:"} :",
-                                style: Theme.of(context).textTheme.subtitle1!.copyWith(fontWeight: FontWeight.normal),
+                                style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.normal),
                               ),
                               Column(
                                 children: [
@@ -229,7 +229,7 @@ class _PaymentBonusConfirmationState extends ConsumerState<PaymentBonusConfirmat
                                                     height: 20.h,
                                                     width: 20.w,
                                                     child: SvgPicture.asset(
-                                                      AppIcons.getIconFromCategoryId(id: service.categoryId),
+                                                      AppIcons.getIconFromCategoryId(id: service.categoryId!),
                                                       color: AppTheme.creamBrown,
                                                     ),
                                                   ),
@@ -239,7 +239,7 @@ class _PaymentBonusConfirmationState extends ConsumerState<PaymentBonusConfirmat
                                                   SizedBox(
                                                     width: 0.4.sw,
                                                     child: Text(
-                                                      service.translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
+                                                      service.translations![AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
                                                       style: AppTheme.bodyText1,
                                                       maxLines: 2,
                                                       overflow: TextOverflow.ellipsis,
@@ -248,10 +248,10 @@ class _PaymentBonusConfirmationState extends ConsumerState<PaymentBonusConfirmat
                                                 ],
                                               ),
                                             ),
-                                            Text(
-                                              int.parse(service.priceAndDurationMax!.price) > 0 ? "${Keys.dollars}${service.priceAndDurationMax!.price}" : "${Keys.dollars}${service.priceAndDuration.price}",
-                                              style: AppTheme.bodyText1,
-                                            ),
+                                            // Text(
+                                            //   int.parse(service.priceAndDurationMax!.price) > 0 ? "${Keys.dollars}${service.priceAndDurationMax!.price}" : "${Keys.dollars}${service.priceAndDuration!.price}",
+                                            //   style: AppTheme.bodyText1,
+                                            // ),
                                           ],
                                         ),
                                       ),
@@ -263,7 +263,7 @@ class _PaymentBonusConfirmationState extends ConsumerState<PaymentBonusConfirmat
                                         if (_createAppointment.chosenBonus != null) ...[
                                           Text(
                                             "${AppLocalizations.of(context)?.bonusUsed ?? "Bonus used"} :  ",
-                                            style: Theme.of(context).textTheme.subtitle1!.copyWith(fontWeight: FontWeight.normal),
+                                            style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.normal),
                                           ),
                                         ] else ...[
                                           const SizedBox(),

@@ -88,14 +88,14 @@ class _BookingBottomSheetState extends ConsumerState<BookingBottomSheet> {
                             Expanded(
                               flex: 3,
                               child: Text(
-                                _createAppointmentProvider.chosenServices[index].translations[AppLocalizations.of(context)?.localeName ?? 'en'],
+                                _createAppointmentProvider.chosenServices[index].translations![AppLocalizations.of(context)?.localeName ?? 'en'],
                                 style: AppTheme.bodyText1,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
                             Text(
-                              "${Keys.dollars}${_createAppointmentProvider.chosenServices[index].priceAndDuration.price}",
+                              "${Keys.dollars}${_createAppointmentProvider.chosenServices[index].priceAndDuration!.price}",
                               style: AppTheme.bodyText1,
                             ),
                             IconButton(
@@ -249,14 +249,14 @@ class _BookingBottomSheetFinalState extends ConsumerState<BookingBottomSheetFina
                             Expanded(
                               flex: 3,
                               child: Text(
-                                _createAppointmentProvider.chosenServices[index].translations[AppLocalizations.of(context)?.localeName ?? "en"],
+                                _createAppointmentProvider.chosenServices[index].translations![AppLocalizations.of(context)?.localeName ?? "en"],
                                 style: AppTheme.bodyText1.copyWith(color: valid ? Colors.black : Colors.grey),
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
                             Text(
-                              "${Keys.dollars}${_createAppointmentProvider.chosenServices[index].priceAndDuration.price}",
+                              "${Keys.dollars}${_createAppointmentProvider.chosenServices[index].priceAndDuration!.price}",
                               style: AppTheme.bodyText1.copyWith(color: valid ? Colors.black : Colors.grey),
                             ),
                             IconButton(

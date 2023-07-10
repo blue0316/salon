@@ -179,3 +179,21 @@ Color selectMasterContainerColor(ThemeType themeType, ThemeData theme) {
       return theme.dialogBackgroundColor;
   }
 }
+
+Color? selectSlots(ThemeType themeType, ThemeData theme) {
+  switch (themeType) {
+    case ThemeType.GlamMinimalLight:
+      return Colors.white;
+    case ThemeType.GlamMinimalDark:
+      return Colors.black;
+    case ThemeType.GlamLight:
+      return Colors.white;
+    // case ThemeType.Barbershop:
+    //   return theme.primaryColor;
+    case ThemeType.DefaultLight:
+      return theme.primaryColor;
+
+    default:
+      return theme.colorScheme.tertiary;
+  }
+}

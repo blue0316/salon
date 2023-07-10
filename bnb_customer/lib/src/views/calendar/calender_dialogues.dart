@@ -176,7 +176,7 @@ showAppointmentDetails(
                                 backgroundColor: AppTheme.creamBrownLight,
                                 child: Padding(
                                   padding: EdgeInsets.all(16.r),
-                                  child: SvgPicture.asset(AppIcons.getIconFromCategoryId(id: appointment.services.first.categoryId)),
+                                  child: SvgPicture.asset(AppIcons.getIconFromCategoryId(id: appointment.services.first.categoryId!)),
                                 ),
                               ),
                               Expanded(
@@ -187,7 +187,7 @@ showAppointmentDetails(
                                     children: [
                                       for (Service s in appointment.services)
                                         Text(
-                                          s.translations[AppLocalizations.of(context)?.localeName.toString().toLowerCase()],
+                                          s.translations![AppLocalizations.of(context)?.localeName.toString().toLowerCase()],
                                           style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: AppTheme.textBlack),
                                           maxLines: 1,
                                         ),

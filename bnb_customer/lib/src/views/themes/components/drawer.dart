@@ -15,10 +15,9 @@ class ThemeDrawer extends ConsumerWidget {
 
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    final _createAppointmentProvider = ref.watch(createAppointmentProvider);
 
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
-    final bool isSingleMaster = _createAppointmentProvider.salonMasters.length <= 1;
+    final bool isSingleMaster = _salonProfileProvider.isSingleMaster;
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,

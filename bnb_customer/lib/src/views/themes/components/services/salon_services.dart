@@ -1,6 +1,5 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
@@ -52,7 +51,7 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     // Check if Salon is a single master
-    final bool isSingleMaster = (widget.salonModel.ownerType == OwnerType.singleMaster);
+    final bool isSingleMaster = _salonProfileProvider.isSingleMaster;
 
     ThemeType themeType = _salonProfileProvider.themeType;
 

@@ -41,7 +41,7 @@ class ServiceTile extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        (service.translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString()).toUpperCase(),
+                        (service.translations![AppLocalizations.of(context)?.localeName ?? 'en'].toString()).toUpperCase(),
                         style: theme.textTheme.bodyLarge?.copyWith(
                           color: serviceNameColor(themeType, theme),
                           fontSize: 20.sp,
@@ -64,8 +64,8 @@ class ServiceTile extends ConsumerWidget {
                   ),
                 ),
                 Text(
-                  service.isFixedPrice ? "${salonModel.selectedCurrency}${service.priceAndDuration.price}" : "${salonModel.selectedCurrency}${service.priceAndDuration.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}",
-                  // service.isFixedPrice ? "${service.priceAndDuration.price}${Keys.uah}" : "${service.priceAndDuration.price}${Keys.uah} - ${service.priceAndDurationMax!.price}${Keys.uah}",
+                  service.isFixedPrice ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price}" : "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}",
+                  // service.isFixedPrice ? "${service.priceAndDuration!.price}${Keys.uah}" : "${service.priceAndDuration!.price}${Keys.uah} - ${service.priceAndDurationMax!.price}${Keys.uah}",
                   style: theme.textTheme.bodyLarge?.copyWith(
                     color: priceColor(themeType, theme), // (themeType == ThemeType.GlamLight) ? Colors.black : Colors.white,
                     fontSize: 20.sp,

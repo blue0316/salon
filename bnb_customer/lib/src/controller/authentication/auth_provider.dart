@@ -143,6 +143,11 @@ class AuthProvider with ChangeNotifier {
     );
   }
 
+  void changeOTP(String val) {
+    otp = val;
+    notifyListeners();
+  }
+
   handleError(error, context) {
     try {
       printIt('error: ' + error.toString());
@@ -192,14 +197,24 @@ class AuthProvider with ChangeNotifier {
     printIt(_phone);
 
     if (phoneNumber.length < 8 || phoneNumber.length > 10) {
+      print('the error is coming from here!');
       showToast(AppLocalizations.of(context)?.invalid_phone_number ?? 'Invalid phone No');
-      //return;
+      otpStatus = Status.failed;
+      notifyListeners();
+
+      return;
     } else {
       otpStatus = Status.loading;
       notifyListeners();
       try {
         if (kIsWeb) {
-          webOTPConfirmationResult = await _auth.signInWithPhoneNumber(_phone.trim());
+          webOTPConfirmationResult = await _auth.signInWithPhoneNumber(
+            _phone.trim(),
+          );
+
+          print('******@@@@@@*******');
+          print('web result - $webOTPConfirmationResult ');
+          print('******@@@@@@*******');
 
           final customerExists = await CustomerApi().checkIfCustomerExists(_phone.trim());
           if (!customerExists) {
@@ -228,8 +243,12 @@ class AuthProvider with ChangeNotifier {
             verificationFailed: (FirebaseAuthException exception) {
               if (exception.code == 'invalid-phone-number') {
                 errorMessage = exception.code;
+                print('the error is coming from here 22222');
                 showToast(AppLocalizations.of(context)?.invalid_phone_number ?? 'Invalid phone no !');
                 printIt('The provided phone number is not valid.');
+
+                otpStatus == Status.failed;
+                notifyListeners();
               } else {
                 errorMessage = exception.code;
                 showToast(ErrorCodes.getFirebaseErrorMessage(exception));
@@ -277,6 +296,7 @@ class AuthProvider with ChangeNotifier {
     // debugPrint('#####################################');
 
     if (phoneNumber.length < 8 || phoneNumber.length > 10) {
+      print('the error is coming from here 333333');
       showToast(AppLocalizations.of(context)?.invalid_phone_number ?? 'Invalid phone No');
       return;
     }
@@ -372,13 +392,13 @@ class AuthProvider with ChangeNotifier {
       if (kIsWeb) {
         // printIt("It's webbb");
         _userResult = await webOTPConfirmationResult?.confirm(otp);
-        // print('#################################');
-        // print(_userResult);
+        print('#################################');
+        print(_userResult);
         // print('-------');
         // print(_userResult?.user);
         // print('-------');
         // print(_userResult?.additionalUserInfo);
-        // print('#################################');
+        print('#################################');
         phoneNoController.clear();
       } else {
         final AuthCredential _authCredential = PhoneAuthProvider.credential(
@@ -653,6 +673,16 @@ class AuthProvider with ChangeNotifier {
   //   customerFromSuccessfulRegistration = customerUpdate;
   //   notifyListeners();
   // }
+
+  void updateAuthPhoneNumber(String val) {
+    phoneNumber = val;
+    notifyListeners();
+  }
+
+  void updateAuthCountryCode(String val) {
+    countryCode = val;
+    notifyListeners();
+  }
 
   void setCurrentCustomerWithoutOTP({required String firstName, required String lastName, required String email}) {
     currentCustomerWithoutOTP = CustomerModel(

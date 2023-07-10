@@ -1,13 +1,11 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OTPField9 extends ConsumerWidget {
   final Color? color;
@@ -51,9 +49,11 @@ class OTPField9 extends ConsumerWidget {
       enableActiveFill: false,
       onCompleted: (val) {
         _auth.otp = val;
+        _auth.changeOTP(val);
       },
       onChanged: (val) {
         _auth.otp = val;
+        _auth.changeOTP(val);
       },
       beforeTextPaste: (text) {
         //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.

@@ -129,78 +129,80 @@ class _VerifyOtpState extends ConsumerState<VerifyOtp> {
                 borderRadius: 60,
                 // isLoading: (_auth.loginStatus == Status.loading),
                 // loaderColor: Colors.black,
-                onTap: () async {
-                  if (_auth.loginStatus != Status.loading) {
-                    await _auth.signIn(context: context, ref: ref, callBack: refreshAccount).then(
-                      (value) async {
-                        if (value == Status.success) {
-                          CustomerModel? currentCustomer = _auth.currentCustomer;
+                onTap: _auth.otp.length < 6
+                    ? () {}
+                    : () async {
+                        if (_auth.loginStatus != Status.loading) {
+                          await _auth.signIn(context: context, ref: ref, callBack: refreshAccount).then(
+                            (value) async {
+                              if (value == Status.success) {
+                                CustomerModel? currentCustomer = _auth.currentCustomer;
 
-                          print('___++++____@@@@_____');
-                          print(currentCustomer?.personalInfo.firstName);
-                          print(currentCustomer?.personalInfo.lastName);
-                          print(currentCustomer?.personalInfo.email);
-                          print('___++++____@@@@_____');
+                                // print('___++++____@@@@_____');
+                                // print(currentCustomer?.personalInfo.firstName);
+                                // print(currentCustomer?.personalInfo.lastName);
+                                // print(currentCustomer?.personalInfo.email);
+                                // print('___++++____@@@@_____');
 
-                          if (currentCustomer != null) {
-                            if (currentCustomer.personalInfo.firstName == '' || currentCustomer.personalInfo.email == null) {
-                              // Customer Personal Info is missing name and email
+                                if (currentCustomer != null) {
+                                  if (currentCustomer.personalInfo.firstName == '' || currentCustomer.personalInfo.email == null) {
+                                    // Customer Personal Info is missing name and email
 
-                              // Go to pageview that has fields to update personal info
-                              _createAppointmentProvider.nextPageView(2); // PageView screen that contains name and email fields
-                            } else {
-                              // Go to PageView Order List Screen
-                              _createAppointmentProvider.nextPageView(3);
+                                    // Go to pageview that has fields to update personal info
+                                    _createAppointmentProvider.nextPageView(2); // PageView screen that contains name and email fields
+                                  } else {
+                                    // Go to PageView Order List Screen
+                                    _createAppointmentProvider.nextPageView(3);
 
-                              // // Customer Personal Info has name and email
+                                    // // Customer Personal Info has name and email
 
-                              // // Create Appointment
-                              // CustomerModel customer = CustomerModel(
-                              //   customerId: currentCustomer.customerId,
-                              //   personalInfo: currentCustomer.personalInfo,
-                              //   registeredSalons: [],
-                              //   createdAt: DateTime.now(),
-                              //   avgRating: 3.0,
-                              //   noOfRatings: 6,
-                              //   profilePicUploaded: false,
-                              //   profilePic: "",
-                              //   profileCompleted: false,
-                              //   quizCompleted: false,
-                              //   preferredGender: "male",
-                              //   preferredCategories: [],
-                              //   locations: [],
-                              //   fcmToken: "",
-                              //   locale: "en",
-                              //   favSalons: [],
-                              //   referralLink: "",
-                              // );
+                                    // // Create Appointment
+                                    // CustomerModel customer = CustomerModel(
+                                    //   customerId: currentCustomer.customerId,
+                                    //   personalInfo: currentCustomer.personalInfo,
+                                    //   registeredSalons: [],
+                                    //   createdAt: DateTime.now(),
+                                    //   avgRating: 3.0,
+                                    //   noOfRatings: 6,
+                                    //   profilePicUploaded: false,
+                                    //   profilePic: "",
+                                    //   profileCompleted: false,
+                                    //   quizCompleted: false,
+                                    //   preferredGender: "male",
+                                    //   preferredCategories: [],
+                                    //   locations: [],
+                                    //   fcmToken: "",
+                                    //   locale: "en",
+                                    //   favSalons: [],
+                                    //   referralLink: "",
+                                    // );
 
-                              // if (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.singleMaster) {
-                              //   await _createAppointmentProvider.createAppointment(customerModel: customer, context: context);
-                              // } else {
+                                    // if (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.singleMaster) {
+                                    //   await _createAppointmentProvider.createAppointment(customerModel: customer, context: context);
+                                    // } else {
 
-                              //   await _createAppointmentProvider.creatAppointmentSalonOwner(customerModel: customer, context: context);
-                              // }
+                                    //   await _createAppointmentProvider.creatAppointmentSalonOwner(customerModel: customer, context: context);
+                                    // }
 
-                              // if mastes list is 1, block time of salon and master, phone number
-                            }
-                          }
-                        } else if (value == Status.failed) {
-                          showToast(AppLocalizations.of(context)?.somethingWentWrong ?? "Something went wrong");
+                                    // if mastes list is 1, block time of salon and master, phone number
+                                  }
+                                }
+                              } else if (value == Status.failed) {
+                                showToast(AppLocalizations.of(context)?.somethingWentWrong ?? "Something went wrong");
+                              } else {
+                                printIt('wahala dey here');
+                              }
+                            },
+                          );
                         } else {
-                          printIt('wahala dey here');
+                          showToast(AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
                         }
                       },
-                    );
-                  } else {
-                    showToast(AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
-                  }
-                },
                 // color: defaultTheme ? Colors.black : theme.primaryColor,
                 // textColor: defaultTheme ? Colors.white : Colors.black,
-                color: dialogButtonColor(themeType, theme), // theme.dialogBackgroundColor, // defaultTheme ? Colors.black : theme.primaryColor,
-                textColor: loaderColor(themeType), // defaultTheme ? Colors.white : Colors.black,
-                borderColor: theme.primaryColor,
+                color: _auth.otp.length < 6 ? dialogButtonColor(themeType, theme)?.withOpacity(0.4) : dialogButtonColor(themeType, theme),
+                textColor: loaderColor(themeType),
+                borderColor: _auth.otp.length < 6 ? dialogButtonColor(themeType, theme)?.withOpacity(0.4) : dialogButtonColor(themeType, theme),
 
                 height: 60,
                 label: 'Confirm number',

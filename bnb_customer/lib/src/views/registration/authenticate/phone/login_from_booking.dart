@@ -211,7 +211,7 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
                         for (Service s in appointment.services)
                           Expanded(
                             child: Text(
-                              s.translations[AppLocalizations.of(context)?.localeName ?? 'en'],
+                              s.translations![AppLocalizations.of(context)?.localeName ?? 'en'],
                               style: AppTheme.appointmentSubtitle,
                               maxLines: 1,
                             ),

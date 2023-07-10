@@ -268,7 +268,7 @@ class _BookingDateTimeState extends ConsumerState<BookingDateTime> {
                         SizedBox(
                           height: 16.h,
                         ),
-                        if (createAppointment.chosenSalon?.ownerType != OwnerType.singleMaster) ...[
+                        if (!_salonProfileProvider.isSingleMaster) ...[
                           ExpansionTile(
                             initiallyExpanded: true,
                             title: Text(

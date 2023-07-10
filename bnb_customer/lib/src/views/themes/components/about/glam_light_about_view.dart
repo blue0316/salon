@@ -1,6 +1,5 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/customer_web_settings.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
@@ -22,11 +21,11 @@ class GlamLightAboutUs extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bool isTab = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab);
-    final bool isSingleMaster = (salonModel.ownerType == OwnerType.singleMaster);
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
     CustomerWebSettings? themeSettings = _salonProfileProvider.themeSettings;
+    final bool isSingleMaster = _salonProfileProvider.isSingleMaster;
 
     return Padding(
         padding: EdgeInsets.only(
@@ -87,8 +86,12 @@ class GlamLightAboutUs extends ConsumerWidget {
                           maxLines: 10,
                         ),
                         SizedBox(height: 25.h),
-                        OvalButton(text: AppLocalizations.of(context)?.bookNow ?? "Book Now", textSize: 20.sp, width: 160.h, onTap: () {} // => const BookingDialogWidget222().show(context),
-                            ),
+                        OvalButton(
+                          text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
+                          textSize: 20.sp,
+                          width: 160.h,
+                          onTap: () => const BookingDialogWidget222().show(context),
+                        ),
                       ],
                     ),
                   ),
@@ -103,10 +106,10 @@ class PortraitView extends ConsumerWidget {
   const PortraitView({Key? key, required this.salonModel}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bool isSingleMaster = (salonModel.ownerType == OwnerType.singleMaster);
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     CustomerWebSettings? themeSettings = _salonProfileProvider.themeSettings;
+    final bool isSingleMaster = _salonProfileProvider.isSingleMaster;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,8 +140,11 @@ class PortraitView extends ConsumerWidget {
                 maxLines: DeviceConstraints.getResponsiveSize(context, 20, 7, 7).toInt(),
               ),
               const SizedBox(height: 25),
-              OvalButton(text: AppLocalizations.of(context)?.bookNow ?? "Book Now", textSize: 15.sp, onTap: () {} // => const BookingDialogWidget222().show(context),
-                  ),
+              OvalButton(
+                text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
+                textSize: 15.sp,
+                onTap: () => const BookingDialogWidget222().show(context),
+              ),
             ],
           ),
         ),

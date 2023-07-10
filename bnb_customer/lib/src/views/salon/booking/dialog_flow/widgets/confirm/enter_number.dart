@@ -13,7 +13,6 @@ import 'package:bbblient/src/views/registration/authenticate/login.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/colors.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/buttons.dart';
-import 'package:bbblient/src/views/widgets/text_fields.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -79,9 +78,11 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
               CountryCodePicker(
                 onChanged: (val) {
                   _authProvider.countryCode = val.dialCode ?? '';
+                  _authProvider.updateAuthCountryCode(val.dialCode ?? '');
                 },
                 onInit: (val) {
                   _authProvider.countryCode = val?.dialCode ?? '';
+                  _authProvider.updateAuthCountryCode(val?.dialCode ?? '');
                 },
                 initialSelection: 'UA',
                 favorite: const ['+1', '+380'],
@@ -102,6 +103,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                   keyboardType: TextInputType.number,
                   onChanged: (val) {
                     _authProvider.phoneNumber = val;
+                    _authProvider.updateAuthPhoneNumber(val);
                   },
                   style: theme.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w500,
@@ -192,6 +194,10 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                             _createAppointmentProvider.nextPageView(1);
                           },
                         ); // , appointmentModel: appointment);
+                      } else {
+                        print('the error is coming from here 44444');
+                        showToast(AppLocalizations.of(context)?.invalid_phone_number ?? 'Invalid phone No');
+                        return;
                       }
                     } else {
                       printIt('*********************');
@@ -228,7 +234,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                             favSalons: [],
                             referralLink: "",
                           );
-                          if (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.singleMaster) {
+                          if (_salonProfileProvider.isSingleMaster) {
                             await _createAppointmentProvider.createAppointment(
                               customerModel: customer,
                               context: context,

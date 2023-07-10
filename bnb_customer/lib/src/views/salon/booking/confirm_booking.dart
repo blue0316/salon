@@ -156,7 +156,7 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                               padding: EdgeInsets.all(16.r),
                                               child: SvgPicture.asset(
                                                 AppIcons.getIconFromCategoryId(
-                                                  id: appointment.services.first.categoryId,
+                                                  id: appointment.services.first.categoryId!,
                                                 ),
                                                 color: Colors.white,
                                               ),
@@ -170,7 +170,7 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                                 children: [
                                                   for (Service s in appointment.services)
                                                     Text(
-                                                      s.translations[AppLocalizations.of(context)?.localeName ?? 'en'],
+                                                      s.translations![AppLocalizations.of(context)?.localeName ?? 'en'],
                                                       style: Theme.of(context).textTheme.headline4!.copyWith(color: AppTheme.textBlack),
                                                       maxLines: 1,
                                                     ),

@@ -146,7 +146,7 @@ class YClientsApi {
 
       final header = {"Authorization": bearer, "Accept": accept, "Content-Type": "application/json"};
 
-      final int seconds = int.parse(appointment.priceAndDuration.duration) * 60;
+      final int seconds = int.parse(appointment.priceAndDuration.duration!) * 60;
       final _body = {
         "staff_id": int.parse(masterId),
         "services": [],

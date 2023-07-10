@@ -8,13 +8,14 @@ class TransactionModel {
     required this.timeInitiated,
     required this.amount,
     this.transactionId,
+    this.responseCode,
   });
 
   TransactionModel.fromJson(Map<String, dynamic> json) {
     timeInitiated = json['timeInitiated'].toDate();
     amount = json['amount'];
     transactionId = json['transactionId'];
-    responseCode = json['RESPONSECODE'];
+    responseCode = json['RESPONSECODE'] ?? '';
   }
 
   Map<String, dynamic> toJson() {

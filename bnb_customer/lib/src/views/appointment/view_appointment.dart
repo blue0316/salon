@@ -45,9 +45,6 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
           appointmentID: widget.appointmentDocId,
         );
 
-    // // Get Salon
-    // salon = await SalonApi().getSalonFromId(appointment?.salon.id);
-
     // Get Salon Theme
     // ref.read(appointmentProvider.notifier).getSalonTheme(salon?.salonId);
   }
@@ -147,6 +144,24 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                               appointment: appointment,
                                               listViewController: serviceController,
                                             ),
+                                            Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.info_outline_rounded,
+                                                  size: 30.sp,
+                                                  color: theme.colorScheme.tertiary.withOpacity(0.6),
+                                                ),
+                                                Text(
+                                                  'Please note that to cancel you have to contact ${_appointmentProvider.salon?.salonName}. Online cancelation is not available at the moment. ',
+                                                  style: theme.textTheme.bodyMedium?.copyWith(
+                                                    fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 18.sp, 20.sp),
+                                                    fontWeight: FontWeight.w400,
+                                                    fontFamily: 'Inter',
+                                                    color: theme.colorScheme.onBackground,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                             Wrap(
                                               direction: Axis.horizontal,
                                               crossAxisAlignment: WrapCrossAlignment.center,
@@ -157,15 +172,17 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                                 if (appointment?.status != AppointmentStatus.cancelled)
                                                   Button(
                                                     text: 'Cancel Appointment',
-                                                    onTap: () => _appointmentProvider.cancelAppointment(
-                                                      appointmentID: widget.appointmentDocId,
-                                                      callback: () {
-                                                        fetchDetails();
-                                                      },
-                                                    ),
+                                                    onTap: (_appointmentProvider.salon?.cancellationAndNoShowPolicy.allowOnlineCancellation == false)
+                                                        ? () {}
+                                                        : () => _appointmentProvider.cancelAppointment(
+                                                              appointmentID: widget.appointmentDocId,
+                                                              callback: () {
+                                                                fetchDetails();
+                                                              },
+                                                            ),
                                                     isLoading: _appointmentProvider.cancelAppointmentStatus == Status.loading,
                                                     loaderColor: transparentLoaderColor(themeType, theme),
-                                                    borderColor: theme.primaryColor,
+                                                    borderColor: theme.primaryColor.withOpacity(0.6),
                                                     textColor: borderColor(themeType, theme),
                                                   ),
                                                 const SizedBox(width: 20),

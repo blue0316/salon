@@ -38,6 +38,8 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
 
     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
 
+    bool isSingleMaster = _salonProfileProvider.isSingleMaster;
+
     return Scaffold(
       body: MouseRegion(
         cursor: SystemMouseCursors.click,
@@ -180,7 +182,7 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
                                   SalonAbout(
                                     salonModel: _salonProfileProvider.chosenSalon,
                                   ),
-                                  if (_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon)
+                                  if (!isSingleMaster)
                                     SalonMasters(
                                       salonModel: _salonProfileProvider.chosenSalon,
                                     ),

@@ -87,9 +87,7 @@ class BeautyProEngine {
       if (!(config?.syncActive ?? false)) return app;
 
       //will fetch all the available slots
-      final String? id = await _api.bookAppointment(
-          app.appointmentStartTime, beautyProMasterId, int.parse(app.priceAndDuration.duration), config,
-          comment: generateComment(app.services));
+      final String? id = await _api.bookAppointment(app.appointmentStartTime, beautyProMasterId, int.parse(app.priceAndDuration.duration!), config, comment: generateComment(app.services));
 
       if (id == null) return null;
       app.beautyProId = id;
@@ -123,12 +121,10 @@ class BeautyProEngine {
     if (services.length == 1) {
       //(bnb) (Service Name: Hair color) (price:350)
       final Service e = services.first;
-      comment =
-          "(bnb) (Service Name: ${Translation.translate(map: e.translations, langCode: 'uk')}) (price: ${e.priceAndDuration.price}₴})";
+      comment = "(bnb) (Service Name: ${Translation.translate(map: e.translations, langCode: 'uk')}) (price: ${e.priceAndDuration!.price}₴})";
     } else {
       //(bnb) [(Service Name: Harcut / price: 250), (Service Name: Harcut / price: 250) ]
-      comment =
-          "(bnb) ${services.map((e) => "(Service Name: ${Translation.translate(map: e.translations, langCode: 'uk')} / price: ${e.priceAndDuration.price}₴})${e == services.last ? "" : ","} ").toList()} ";
+      comment = "(bnb) ${services.map((e) => "(Service Name: ${Translation.translate(map: e.translations, langCode: 'uk')} / price: ${e.priceAndDuration!.price}₴})${e == services.last ? "" : ","} ").toList()} ";
     }
     return comment;
   }

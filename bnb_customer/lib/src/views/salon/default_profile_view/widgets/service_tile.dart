@@ -8,7 +8,6 @@ import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/icons.dart';
-import 'package:bbblient/src/utils/keys.dart';
 import 'package:bbblient/src/utils/translation.dart';
 import 'package:bbblient/src/views/widgets/buttons.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
@@ -177,7 +176,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                   padding: const EdgeInsets.all(0),
                   itemBuilder: (context, index) {
                     final ServiceModel service = widget.services[index];
-                    return ((service.priceAndDuration.price) != "0")
+                    return ((service.priceAndDuration!.price) != "0")
                         ? InkWell(
                             key: const ValueKey("tap-service"),
                             onTap: () {
@@ -224,7 +223,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                               mainAxisAlignment: MainAxisAlignment.start,
                                                               children: [
                                                                 Text(
-                                                                  widget.services[index].translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
+                                                                  widget.services[index].translations![AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
                                                                   style: theme.textTheme.displayMedium!.copyWith(
                                                                     fontWeight: FontWeight.bold,
                                                                     fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
@@ -282,7 +281,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                     service.isFixedDuration != null
                                                         ? service.isFixedDuration
                                                             ? Text(
-                                                                "${service.priceAndDuration.duration} minutes",
+                                                                "${service.priceAndDuration!.duration} minutes",
                                                                 style: theme.textTheme.displayMedium!.copyWith(
                                                                   fontSize: 15.sp,
                                                                   fontWeight: FontWeight.w500,
@@ -292,7 +291,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                                 maxLines: 1,
                                                               )
                                                             : Text(
-                                                                "${service.priceAndDuration.duration} minutes - ${service.priceAndDurationMax!.duration} minutes",
+                                                                "${service.priceAndDuration!.duration} minutes - ${service.priceAndDurationMax!.duration} minutes",
                                                                 style: theme.textTheme.displayMedium!.copyWith(
                                                                   fontSize: 16.sp,
                                                                   fontWeight: FontWeight.w500,
@@ -302,7 +301,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                                 maxLines: 1,
                                                               )
                                                         : Text(
-                                                            "${service.priceAndDuration.duration} minutes",
+                                                            "${service.priceAndDuration!.duration} minutes",
                                                             style: theme.textTheme.displayMedium!.copyWith(
                                                               fontSize: 15.sp,
                                                               fontWeight: FontWeight.w500,
@@ -329,10 +328,10 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
 
                                               Text(
                                                 service.isFixedPrice
-                                                    ? "${salonModel.selectedCurrency}${service.priceAndDuration.price}"
+                                                    ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price}"
                                                     : service.isPriceStartAt
-                                                        ? "${salonModel.selectedCurrency}${service.priceAndDuration.price} - ${salonModel.selectedCurrency}∞"
-                                                        : "${salonModel.selectedCurrency}${service.priceAndDuration.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}",
+                                                        ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}∞"
+                                                        : "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}",
                                                 style: theme.textTheme.displayMedium!.copyWith(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 16.sp,
@@ -342,16 +341,16 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                 overflow: TextOverflow.visible,
                                                 maxLines: 1,
                                               ),
-                                              // if (service.priceAndDuration.price == '200') const SizedBox(height: 7),
+                                              // if (service.priceAndDuration!.price == '200') const SizedBox(height: 7),
 
                                               // // PREVIOUS PRICE
-                                              // if (service.priceAndDuration.price == '200') // TODO: REMOVE THIS (DUMMY IMPLEMENTATION FOR UI)
+                                              // if (service.priceAndDuration!.price == '200') // TODO: REMOVE THIS (DUMMY IMPLEMENTATION FOR UI)
                                               //   Text(
                                               //     service.isFixedPrice
-                                              //         ? "${Keys.dollars}${service.priceAndDuration.price}"
+                                              //         ? "${Keys.dollars}${service.priceAndDuration!.price}"
                                               //         : service.isPriceStartAt
-                                              //             ? "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}∞"
-                                              //             : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}",
+                                              //             ? "${Keys.dollars}${service.priceAndDuration!.price} - ${Keys.dollars}∞"
+                                              //             : "${Keys.dollars}${service.priceAndDuration!.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}",
                                               //     style: theme.textTheme.titleSmall!.copyWith(
                                               //       fontWeight: FontWeight.bold,
                                               //       fontSize: 14.sp,

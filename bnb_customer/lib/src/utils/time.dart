@@ -474,7 +474,7 @@ class Time {
   String? getAppointmentEndTime(AppointmentModel appointment) {
     if (appointment.appointmentTime != '' && appointment.priceAndDuration.duration != '0' && appointment.priceAndDuration.duration != '0') {
       TimeOfDay time1 = stringToTime(appointment.appointmentTime);
-      TimeOfDay time2 = time1.addMinutes(int.parse(appointment.priceAndDuration.duration));
+      TimeOfDay time2 = time1.addMinutes(int.parse(appointment.priceAndDuration.duration!));
       return timeToString(time2);
     } else {
       return appointment.appointmentTime;
@@ -484,7 +484,7 @@ class Time {
   String? getAppointmentStartEndTime(AppointmentModel appointment) {
     if (appointment.appointmentTime != '' && appointment.priceAndDuration.duration != '0' && appointment.priceAndDuration.duration != '0') {
       TimeOfDay time1 = stringToTime(appointment.appointmentTime);
-      TimeOfDay time2 = time1.addMinutes(int.parse(appointment.priceAndDuration.duration));
+      TimeOfDay time2 = time1.addMinutes(int.parse(appointment.priceAndDuration.duration!));
       String? _time2 = timeToString(time2);
       String? _time1 = timeToString(time1);
       return "$_time1-$_time2";
@@ -496,7 +496,7 @@ class Time {
   String? getAppointmentStartEndTimeWithTimeFormat(AppointmentModel appointment, SalonModel salonModel) {
     if (appointment.appointmentTime != '' && appointment.priceAndDuration.duration != '0' && appointment.priceAndDuration.duration != '0') {
       TimeOfDay time1 = stringToTime(appointment.appointmentTime);
-      TimeOfDay time2 = time1.addMinutes(int.parse(appointment.priceAndDuration.duration));
+      TimeOfDay time2 = time1.addMinutes(int.parse(appointment.priceAndDuration.duration!));
       String? _time2 = timeToString(time2);
       String? _time1 = timeToString(time1);
 

@@ -6,7 +6,6 @@ import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/confirm/confirm.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/service_tab/service_tab.dart';
-import 'package:bbblient/src/views/salon/booking/confirmation_success.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -161,7 +160,9 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
                                 fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                                 fontWeight: FontWeight.normal,
                                 letterSpacing: 0.5,
+                                color: theme.primaryColor,
                               ),
+                              labelColor: theme.primaryColor,
                               indicatorColor: theme.primaryColor,
                               indicatorSize: TabBarIndicatorSize.label,
                               tabs: [
