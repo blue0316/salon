@@ -11,6 +11,7 @@ import 'package:intl/intl.dart';
 class Payment extends StatefulWidget {
   String? amount;
   String? currency;
+  bool isDeposit;
   String? terminalId;
   String? transactionId;
 
@@ -20,6 +21,7 @@ class Payment extends StatefulWidget {
       this.amount = "325.56",
       this.currency = "USD",
       this.transactionId,
+      this.isDeposit = true,
       this.terminalId = "5363001"})
       : super(key: key);
 
@@ -37,14 +39,21 @@ class _PaymentState extends State<Payment> {
     super.initState();
     // TERMINALID:ORDERID:AMOUNT:DATETIME:SECRET
 // bnbUkraine20211!
-    var bytesToHash = utf8.encode(
-        "${widget.terminalId ?? "5363001"}:${widget.transactionId ?? "${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}"}:${widget.amount ?? "325.56"}:${formatter.format(timeNow)}:bnbUkraine20211!");
+    var bytesToHash;
+    if (widget.isDeposit) {
+      bytesToHash = utf8.encode(
+          "${widget.terminalId ?? "5363001"}:${widget.transactionId ?? "${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}"}:${widget.amount ?? "325.56"}:${formatter.format(timeNow)}:bnbUkraine20211!");
+    } else {
+      bytesToHash = utf8.encode(
+          "${widget.terminalId ?? "5363001"}:${widget.transactionId ?? 'ed595eef4f295dfd64c41e95e287fa90${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}'}:${formatter.format(timeNow)}:register:bnbUkraine20211!");
+    }
     hash = sha512.convert(bytesToHash);
     // print();
     _iframeElement.style.height = '100%';
     _iframeElement.style.width = '100%';
-    _iframeElement.src =
-        'https://testpayments.worldnettps.com/merchant/paymentpage?TERMINALID=${widget.terminalId ?? "5363001"}&ORDERID=${widget.transactionId ?? "${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}"}&AMOUNT=${widget.amount ?? "325.56"}&DATETIME=${formatter.format(timeNow)}&HASH=$hash&CURRENCY=${widget.currency ?? "USD"}';
+    _iframeElement.src = !widget.isDeposit
+        ? 'https://testpayments.worldnettps.com/merchant/securecardpage?TERMINALID=${widget.terminalId ?? "5363001"}&DATETIME=${formatter.format(timeNow)}&HASH=$hash&MERCHANTREF=${widget.transactionId ?? 'ed595eef4f295dfd64c41e95e287fa90${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}'}&STOREDCREDENTIALUSE=UNSCHEDULED&ACTION=register'
+        : 'https://testpayments.worldnettps.com/merchant/paymentpage?TERMINALID=${widget.terminalId ?? "5363001"}&ORDERID=${widget.transactionId ?? "${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}"}&AMOUNT=${widget.amount ?? "325.56"}&DATETIME=${formatter.format(timeNow)}&HASH=$hash&CURRENCY=${widget.currency ?? "USD"}';
     _iframeElement.style.border = 'none';
     _iframeElement.style.border = 'none';
 

@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:html' as html;
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/firebase/transaction.dart';
@@ -38,10 +40,11 @@ class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
     TransactionApi()
         .getAllAppointmentWithTransaction(widget.transactionID)
         .listen((event) {
-      if (event.isNotEmpty) {
-        appointment = event[0];
+      if (event.isEmpty) {
+        // appointment = event[0];
         setState(() {
           isCreated = true;
+          startTimer();
         });
       }
     });
@@ -50,6 +53,34 @@ class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
 
   AppointmentModel? appointment;
   bool isCreated = false;
+  late Timer _timer;
+  int _start = 4;
+
+  void startTimer() {
+    const oneSec = const Duration(seconds: 1);
+    _timer = Timer.periodic(
+      oneSec,
+      (Timer timer) {
+        if (_start == 0) {
+          html.window.parent!.close();
+          var customWindow = html.window
+              .open('https://bowandbeautiful.com/error', '_self', '');
+          customWindow.close();
+          // html.window.open("", "_self");
+          // html.window.close();
+          setState(() {
+            timer.cancel();
+          });
+          // html.window.open("", "_self");
+        } else {
+          setState(() {
+            _start--;
+          });
+        }
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context).size;
@@ -154,6 +185,16 @@ class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
                           fontWeight: FontWeight.normal,
                           fontSize: DeviceConstraints.getResponsiveSize(
                               context, 16.sp, 20.sp, 18.sp),
+                          color: theme.colorScheme.tertiary,
+                        ),
+                      ),
+                      SizedBox(height: 15.sp),
+                      Text(
+                        _start.toString(),
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w500,
+                          fontSize: DeviceConstraints.getResponsiveSize(
+                              context, 30.sp, 30.sp, 35.sp),
                           color: theme.colorScheme.tertiary,
                         ),
                       ),
