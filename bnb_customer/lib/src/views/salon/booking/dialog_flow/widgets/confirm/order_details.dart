@@ -376,7 +376,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                 // IF REFERENCE EXISTS
 
                                 if (transaction.cardReference != null) {
-                                  CustomerApi().createCard(
+                                  await CustomerApi().createCard(
                                     customerId: customer.customerId,
                                     card: CreditCard(
                                       cardNumber: transaction.cardNumber ?? '',
