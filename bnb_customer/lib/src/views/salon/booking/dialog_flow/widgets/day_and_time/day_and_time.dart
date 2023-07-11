@@ -649,6 +649,8 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                     return;
                                   }
 
+                                  _createAppointmentProvider.getTotalDeposit();
+
                                   // Next Page
                                   widget.tabController.animateTo(2);
                                 },

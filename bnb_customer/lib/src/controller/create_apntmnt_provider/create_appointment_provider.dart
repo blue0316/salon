@@ -154,6 +154,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   List<ServiceModel> unavailableSelectedItems = [];
   // List<ServiceModel> filteredServicesList = [];
   Map<String, List<ServiceModel>> groupUnavailableSelectedItems = {};
+  double totalDeposit = 0;
 
   getServiceMasters() {
     unavailableSelectedItems.clear();
@@ -974,6 +975,16 @@ class CreateAppointmentProvider with ChangeNotifier {
       if (cat.categoryId == id) return cat;
     }
     return null;
+  }
+
+  getTotalDeposit() {
+    totalDeposit = 0;
+
+    for (ServiceModel service in chosenServices) {
+      totalDeposit += double.parse(service.deposit ?? '0');
+    }
+
+    notifyListeners();
   }
 
   /// --------------------------- stop cooking -------------------------------------------------------------------------
@@ -2988,15 +2999,15 @@ class CreateAppointmentProvider with ChangeNotifier {
   }
 
   addServiceMaster(ServiceModel service, MasterModel master, BuildContext context) {
-    print('------------SERVICE MASTER ADDED------------');
+    // print('------------SERVICE MASTER ADDED------------');
     serviceAgainstMaster.removeWhere((element) => element.service!.serviceId == service.serviceId);
     serviceAgainstMaster.add(ServiceAndMaster(service: service, master: master));
     getSlotsForSalonOwnerTye(day: chosenDay, context: context, showNotWorkingToast: false, masterAndservice: serviceAgainstMaster);
     divideSlotsForDay();
     notifyListeners();
-    print('valid slots added here ??');
-    print(serviceAgainstMaster.where((element) => element.master == master).first.validSlots);
-    print('------------SERVICE MASTER ADDED------------');
+    // print('valid slots added here ??');
+    // print(serviceAgainstMaster.where((element) => element.master == master).first.validSlots);
+    // print('------------SERVICE MASTER ADDED------------');
   }
 
   // to help recalculate the available slots
@@ -3010,7 +3021,7 @@ class CreateAppointmentProvider with ChangeNotifier {
     ///creating all the required variables
     const String _type = AppointmentType.reservation;
     //updating the latest update
-    final List<String> _updates = [AppointmentUpdates.createdBySalon];
+    final List<String> _updates = [AppointmentUpdates.createdByCustomer];
     final List<DateTime> _updatedAt = [DateTime.now()];
 
     final PriceAndDurationModel _priceAndDuration = priceAndDuration[chosenMaster?.masterId] ?? PriceAndDurationModel();
@@ -3126,7 +3137,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 
   //   const String _type = AppointmentType.reservation;
   //   //updating the latest update
-  //   final List<String> _updates = [AppointmentUpdates.createdBySalon];
+  //   final List<String> _updates = [AppointmentUpdates.createdByCustomer];
   //   final List<DateTime> _updatedAt = [DateTime.now()];
   //   final DateTime _createdAt = DateTime.now();
   //   const String _status = AppointmentStatus.active;
@@ -3188,7 +3199,7 @@ class CreateAppointmentProvider with ChangeNotifier {
     ///creating all the required variables
     const String _type = AppointmentType.reservation;
     //updating the latest update
-    final List<String> _updates = [AppointmentUpdates.createdBySalon];
+    final List<String> _updates = [AppointmentUpdates.createdByCustomer];
     final List<DateTime> _updatedAt = [DateTime.now()];
 
     //////////////////////////////////////////////
@@ -3312,7 +3323,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   //   ///creating all the required variables
   //   const String _type = AppointmentType.reservation;
   //   //updating the latest update
-  //   final List<String> _updates = [AppointmentUpdates.createdBySalon];
+  //   final List<String> _updates = [AppointmentUpdates.createdByCustomer];
   //   final List<DateTime> _updatedAt = [DateTime.now()];
   //   final DateTime _createdAt = DateTime.now();
 
@@ -3984,7 +3995,7 @@ class CreateAppointmentProvider with ChangeNotifier {
     ///creating all the required variables
     final String _type = type!;
     //updating the latest update
-    final List<String> _updates = [AppointmentUpdates.createdBySalon];
+    final List<String> _updates = [AppointmentUpdates.createdByCustomer];
     final List<DateTime> _updatedAt = [DateTime.now()];
 
     //////////////////////////////////////////////
@@ -4092,7 +4103,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   //   ///creating all the required variables
   //   final String _type = type!;
   //   //updating the latest update
-  //   final List<String> _updates = [AppointmentUpdates.createdBySalon];
+  //   final List<String> _updates = [AppointmentUpdates.createdByCustomer];
   //   final List<DateTime> _updatedAt = [DateTime.now()];
 
   //   //////////////////////////////////////////////
@@ -4201,7 +4212,7 @@ class CreateAppointmentProvider with ChangeNotifier {
     ///creating all the required variables
     final String _type = type!;
     //updating the latest update
-    final List<String> _updates = [AppointmentUpdates.createdBySalon];
+    final List<String> _updates = [AppointmentUpdates.createdByCustomer];
     final List<DateTime> _updatedAt = [DateTime.now()];
 
     //////////////////////////////////////////////
@@ -4321,7 +4332,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   //   ///creating all the required variables
   //   final String _type = type!;
   //   //updating the latest update
-  //   final List<String> _updates = [AppointmentUpdates.createdBySalon];
+  //   final List<String> _updates = [AppointmentUpdates.createdByCustomer];
   //   final List<DateTime> _updatedAt = [DateTime.now()];
 
   //   List<Service> servicesList = appointment.services;

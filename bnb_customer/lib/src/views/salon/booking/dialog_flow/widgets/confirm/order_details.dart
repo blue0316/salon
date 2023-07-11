@@ -2,8 +2,10 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
+import 'package:bbblient/src/firebase/customer.dart';
 import 'package:bbblient/src/firebase/transaction.dart';
 import 'package:bbblient/src/models/cat_sub_service/price_and_duration.dart';
+import 'package:bbblient/src/models/customer/credit_card.dart';
 import 'package:bbblient/src/models/customer/customer.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
@@ -58,8 +60,8 @@ class _OrderListState extends ConsumerState<OrderDetails> {
 
     String totalAmount = _createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '0'; // _priceAndDuration.price!;
 
-    String deposit = _createAppointmentProvider.chosenServices[0].deposit ?? '0';
-    int payAtAppointment = int.parse(totalAmount) - int.parse(deposit);
+    double deposit = _createAppointmentProvider.totalDeposit;
+    // double payAtAppointment = double.parse(totalAmount) - deposit;
 
     return CustomScrollView(
       slivers: [
@@ -118,7 +120,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
               ServiceNameAndPrice(
                 notService: true,
                 serviceName: 'Pay at Appointment:',
-                servicePrice: '\$$payAtAppointment',
+                servicePrice: '\$${double.parse(totalAmount) - deposit}',
               ),
 
               ServiceNameAndPrice(
@@ -259,7 +261,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                 ],
               ),
 
-              // SizedBox(height: 40.sp),
+              SizedBox(height: 10.sp),
 
               const Spacer(),
 
@@ -354,7 +356,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                         setState(() => spinner = true);
 
                         final TransactionModel newTransaction = TransactionModel(
-                          amount: (deposit != '0') ? deposit : totalAmount,
+                          amount: (deposit != 0) ? '$deposit' : totalAmount,
                           timeInitiated: DateTime.now(),
                         );
 
@@ -370,6 +372,23 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                           for (TransactionModel transaction in event) {
                             if (transaction.responseCode != null) {
                               if (transaction.responseCode == 'A' || transaction.responseCode == 'E') {
+                                // ADD CARD TO CARDS SUB-COLLECTION IN CUSTOMER DOCUMENT
+                                // IF REFERENCE EXISTS
+
+                                if (transaction.cardReference != null) {
+                                  CustomerApi().createCard(
+                                    customerId: customer.customerId,
+                                    card: CreditCard(
+                                      cardNumber: transaction.cardNumber ?? '',
+                                      cardExpiry: transaction.cardExpiry ?? '',
+                                      cardReference: transaction.cardReference ?? '',
+                                      cardType: transaction.cardType ?? '',
+                                      merchantRef: transaction.merchantRef ?? '',
+                                      storedCredentialUse: transaction.storedCredentialUse ?? '',
+                                    ),
+                                  );
+                                }
+
                                 Navigator.pop(context);
 
                                 // html.window.open('https://yogasm.firebaseapp.com/confirmation?RESPONSECODE=${transaction.responseCode}?transactionId=$transactionId', "_self");
@@ -440,7 +459,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                       color: dialogButtonColor(themeType, theme),
                       textColor: loaderColor(themeType),
                       height: 60,
-                      label: 'Pay ${(deposit != '0') ? deposit : totalAmount}\$ deposit',
+                      label: 'Pay ${(deposit != 0) ? deposit : totalAmount}\$ deposit',
                       // isLoading: _createAppointmentProvider.bookAppointmentStatus == Status.loading,
                       isLoading: spinner,
                       loaderColor: loaderColor(themeType),
