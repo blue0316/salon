@@ -375,6 +375,9 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                 // ADD CARD TO CARDS SUB-COLLECTION IN CUSTOMER DOCUMENT
                                 // IF REFERENCE EXISTS
 
+                                print('------here------');
+                                print(transaction.cardReference);
+
                                 if (transaction.cardReference != null) {
                                   await CustomerApi().createCard(
                                     customerId: customer.customerId,
