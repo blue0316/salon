@@ -3625,11 +3625,11 @@ class CreateAppointmentProvider with ChangeNotifier {
     int endApptProcessingTime = 0;
     //this will hold highest appointment clean up time
     int cleanUpApptTime = 0;
-    debugPrint('at zero before${chosenServices[0].preparationTime}');
+    // debugPrint('at zero before${chosenServices[0].preparationTime}');
 
     //loop through each service and get highest prep time and cleanup time if there is any
     for (var selectedAvailableService in chosenServices) {
-      debugPrint('at all before${chosenServices[chosenServices.indexOf(selectedAvailableService)].preparationTime}');
+      // debugPrint('at all before${chosenServices[chosenServices.indexOf(selectedAvailableService)].preparationTime}');
       // If prep-time =null , cleantime is not null, then pre-time service as first service in the list.
       // also if the service prep time is greater than preparationTime variable then assign it to the preparationTime
       if (selectedAvailableService.preparationTime != null && selectedAvailableService.cleanUpTime == null) {
@@ -3682,16 +3682,16 @@ class CreateAppointmentProvider with ChangeNotifier {
       }
     }
 
-    debugPrint('at zero after${chosenServices[0].preparationTime}');
+    // debugPrint('at zero after${chosenServices[0].preparationTime}');
 
-    debugPrint(' prep time $preparationTime');
-    debugPrint('end processing time$endApptProcessingTime');
+    // debugPrint(' prep time $preparationTime');
+    // debugPrint('end processing time$endApptProcessingTime');
     _appointment.appointmentIdentifier = identifier;
 
     await AppointmentApi().createUpdateAppointment(_appointment).then((value) async {
       //blocking master's time
 
-      debugPrint('is it getting here');
+      // debugPrint('is it getting here');
       // block time normally if
       await AppointmentApi().blockMastersTime(
         master: chosenMaster!,

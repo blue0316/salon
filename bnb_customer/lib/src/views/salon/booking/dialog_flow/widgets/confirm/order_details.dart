@@ -25,6 +25,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:js' as js;
 import 'dart:html' as html;
 
+import 'pay_dialog.dart';
+
 // ORDER LIST
 class OrderDetails extends ConsumerStatefulWidget {
   final TabController tabController;
@@ -375,9 +377,6 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                 // ADD CARD TO CARDS SUB-COLLECTION IN CUSTOMER DOCUMENT
                                 // IF REFERENCE EXISTS
 
-                                print('------here------');
-                                print(transaction.cardReference);
-
                                 if (transaction.cardReference != null) {
                                   await CustomerApi().createCard(
                                     customerId: customer.customerId,
@@ -392,7 +391,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                   );
                                 }
 
-                                Navigator.pop(context);
+                                Navigator.pop(context); // closes payroc dialog
 
                                 // html.window.open('https://yogasm.firebaseapp.com/confirmation?RESPONSECODE=${transaction.responseCode}?transactionId=$transactionId', "_self");
                                 // Build Appointment
@@ -410,6 +409,8 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                   );
                                 }
 
+                                setState(() => spinner = false);
+
                                 // Show Success Dialog
                                 ConfirmationSuccess(
                                   responseCode: '${transaction.responseCode}',
@@ -417,6 +418,8 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                 ).show(context);
                               }
                               if (transaction.responseCode == 'D') {
+                                setState(() => spinner = false);
+
                                 ConfirmationError(
                                   responseCode: '${transaction.responseCode}',
                                 ).show(context);
@@ -427,12 +430,15 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                           }
                         });
 
-                        setState(() => spinner = false);
+                        PayDialog(
+                          amount: totalAmount,
+                          transactionId: transactionId,
+                        ).show(context);
 
-                        js.context.callMethod(
-                          'open',
-                          ['https://yogasm.firebaseapp.com/payment?amount=$totalAmount&currency=USD&transactionId=$transactionId&terminalId=5363001'],
-                        );
+                        // js.context.callMethod(
+                        //   'open',
+                        //   ['https://yogasm.firebaseapp.com/payment?amount=$totalAmount&currency=USD&transactionId=$transactionId&terminalId=5363001'],
+                        // );
                         // ---------------------------- +++++++++++++++ ----------------------------
 
                         // bool enabledOTP = _salonProfileProvider.themeSettings?.displaySettings?.enableOTP ?? true;
