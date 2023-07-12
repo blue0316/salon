@@ -173,7 +173,7 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                               spacing: 10,
                                               runSpacing: 10,
                                               children: [
-                                                if (_appointmentProvider.salon?.cancellationAndNoShowPolicy.allowOnlineCancellation == false)
+                                                if (_appointmentProvider.salon?.cancellationAndNoShowPolicy.allowOnlineCancellation == true)
                                                   if (appointment?.status != AppointmentStatus.cancelled)
                                                     Button(
                                                       text: 'Cancel Appointment',
