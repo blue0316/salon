@@ -98,9 +98,9 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                   children: [
                                     const SizedBox(height: 30),
                                     Text(
-                                      'Appointment confirmation',
+                                      'Appointment Confirmation',
                                       style: theme.textTheme.bodyLarge!.copyWith(
-                                        fontWeight: FontWeight.w400,
+                                        fontWeight: FontWeight.w500,
                                         fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 30.sp, 40.sp),
                                         color: confirmationTextColor(themeType, theme),
                                       ),
@@ -145,6 +145,8 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                               listViewController: serviceController,
                                             ),
                                             Row(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
                                                 Icon(
                                                   Icons.info_outline_rounded,
@@ -156,9 +158,10 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                                   style: theme.textTheme.bodyMedium?.copyWith(
                                                     fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 18.sp, 20.sp),
                                                     fontWeight: FontWeight.w400,
-                                                    fontFamily: 'Inter',
+                                                    fontFamily: 'Poppins',
                                                     color: theme.colorScheme.onBackground,
                                                   ),
+                                                  textAlign: TextAlign.center,
                                                 ),
                                               ],
                                             ),
