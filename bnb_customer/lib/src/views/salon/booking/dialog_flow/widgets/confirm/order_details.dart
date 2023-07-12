@@ -151,7 +151,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                     Flexible(
                       flex: 0,
                       child: Text(
-                        '\$$totalAmount',
+                        '\$$deposit', // totalAmount',
                         // '\$${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '0'}',
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w600,
@@ -270,7 +270,9 @@ class _OrderListState extends ConsumerState<OrderDetails> {
               Column(
                 children: [
                   // No policy, no deposit
-                  if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy == false)
+
+                  if (deposit == 0)
+                    // if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy == false)
                     DefaultButton(
                       borderRadius: 60,
                       onTap: () async {
@@ -318,7 +320,8 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                     ),
 
                   // If there's a cancellation policy
-                  if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy == true)
+                  if (deposit != 0)
+                    // if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy == true)
                     DefaultButton(
                       borderRadius: 60,
                       onTap: () async {
