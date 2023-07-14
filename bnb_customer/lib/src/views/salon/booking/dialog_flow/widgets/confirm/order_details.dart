@@ -325,12 +325,14 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                     DefaultButton(
                       borderRadius: 60,
                       onTap: () async {
-                        if (!acceptTerms) {
-                          // Terms Checkbox is unchecked
+                        if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy) {
+                          if (!acceptTerms) {
+                            // Terms Checkbox is unchecked
 
-                          showToast('Please accept the cancellation policy');
+                            showToast('Please accept the cancellation policy');
 
-                          return;
+                            return;
+                          }
                         }
 
                         CustomerModel? currentCustomer = _auth.currentCustomer;

@@ -95,7 +95,35 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       GestureDetector(
-                        onTap: () => Navigator.pop(context),
+                        onTap: () {
+                          if (_createAppointmentProvider.confirmationPageIndex != null) {
+                            // START OF CONFIRMATION PAGE VIEW
+                            if (_createAppointmentProvider.confirmationPageIndex == 0) {
+                              bookingTabController?.animateTo(_createAppointmentProvider.bookingFlowPageIndex - 1);
+                              _createAppointmentProvider.changeBookingFlowIndex(decrease: true);
+
+                              return;
+                            }
+
+                            /// VERIFY OTP PAGE
+                            if (_createAppointmentProvider.confirmationPageIndex! > 0) {
+                              _createAppointmentProvider.nextPageView(0);
+
+                              return;
+                            }
+
+                            _createAppointmentProvider.nextPageView(_createAppointmentProvider.confirmationPageIndex! - 1);
+
+                            return;
+                          }
+
+                          if (_createAppointmentProvider.bookingFlowPageIndex == 0) {
+                            Navigator.pop(context);
+                            return;
+                          }
+                          bookingTabController?.animateTo(_createAppointmentProvider.bookingFlowPageIndex - 1);
+                          _createAppointmentProvider.changeBookingFlowIndex(decrease: true);
+                        },
                         child: Padding(
                           padding: EdgeInsets.only(left: 20.sp),
                           child: Icon(

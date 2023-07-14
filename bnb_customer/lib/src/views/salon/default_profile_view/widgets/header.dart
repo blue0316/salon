@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -53,7 +54,7 @@ class Header extends ConsumerWidget {
                           ? CachedImage(url: salonModel.salonLogo)
                           : Center(
                               child: Text(
-                                salonModel.salonName[0].toUpperCase(),
+                                (salonModel.salonName.isNotEmpty) ? salonModel.salonName[0].toUpperCase() : '',
                                 style: theme.textTheme.displayLarge!.copyWith(
                                   fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 30.sp, 30.sp),
                                   color: Colors.white,
@@ -85,11 +86,16 @@ class Header extends ConsumerWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                SvgPicture.asset(
-                                  AppIcons.mapPin2WhiteSVG,
-                                  height: 15.sp,
+                                FaIcon(
+                                  FontAwesomeIcons.locationDot,
+                                  size: 15.sp,
                                   color: isLightTheme ? Colors.black : Colors.white,
                                 ),
+                                // SvgPicture.asset(
+                                //   AppIcons.mapPin2WhiteSVG,
+                                //   height: 15.sp,
+                                //   color: isLightTheme ? Colors.black : Colors.white,
+                                // ),
                                 const SizedBox(width: 10),
                                 Flexible(
                                   child: Text(

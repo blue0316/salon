@@ -168,19 +168,10 @@ class SalonProfileProvider with ChangeNotifier {
     }
   }
 
-  // getSalonServices({required String salonId}) async {
-  //   print('get services here');
-  //   salonServices.clear();
-  //   salonServices = await SalonApi().getSalonServices(salonId: salonId);
-  //   print('*****');
-  //   print(salonServices);
-  //   print('*****');
-  // }
-
   getMasterReviews({required String masterId}) async {
     masterReviews.clear();
     masterReviews = await MastersApi().getMasterReviews(masterId: masterId);
-    printIt('got ${masterReviews.length} master reviews');
+    // printIt('got ${masterReviews.length} master reviews');
     notifyListeners();
   }
 
@@ -217,7 +208,7 @@ class SalonProfileProvider with ChangeNotifier {
       enquiryStatus = Status.failed;
       Future.delayed(const Duration(milliseconds: 100), () => notifyListeners());
 
-      printIt('Error on sendEnquiryToSalon() - ${e.toString()}');
+      // printIt('Error on sendEnquiryToSalon() - ${e.toString()}');
       showToast(AppLocalizations.of(context)?.errorOccurred ?? "Something went wrong, please try again");
       return null;
     }
@@ -236,15 +227,6 @@ class SalonProfileProvider with ChangeNotifier {
 
     // Get Salon Products
     allProducts = await ProductsApi().getSalonProducts(salonId: salonId);
-
-    // print('____++++++____');
-    // print(allProducts);
-    // print('All products length - ${allProducts.length}');
-    // print('____++++++____');
-    // print('____++++++____');
-    // print('____++++++____');
-    // print('____++++++____');
-    // print('____++++++____');
 
     // Split into categories
     for (ProductModel product in allProducts) {

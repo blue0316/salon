@@ -125,12 +125,15 @@ class BnbProvider with ChangeNotifier {
   //
   retrieveSalonMasterModel(String id) async {
     salonMaster = await MastersApi().getMasterFromId(id);
-    debugPrint('salonMaster Id ' + salonMaster!.masterId.toString());
+    // debugPrint('salonMaster Id ' + salonMaster!.masterId.toString());
     notifyListeners();
   }
 
   void changeLocale({required Locale locale}) async {
     this.locale = locale;
+    print('------------------------------------------------------------------------------------');
+    print(locale);
+    print('------------------------------------------------------------------------------------');
     notifyListeners();
     if (customer == null) return;
     await CustomerApi().updateLocale(customerId: customer!.customerId, locale: locale.toLanguageTag());

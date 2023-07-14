@@ -57,7 +57,7 @@ class Header extends ConsumerWidget {
                           ? CachedImage(url: salonLogo!)
                           : Center(
                               child: Text(
-                                salonName[0].toUpperCase(),
+                                (salonName.isNotEmpty) ? salonName[0].toUpperCase() : '',
                                 style: theme.textTheme.displayLarge!.copyWith(
                                   fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 30.sp, 30.sp),
                                   color: Colors.white,

@@ -1,5 +1,4 @@
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
-import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
@@ -17,7 +16,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -90,37 +88,39 @@ class ServiceCard extends ConsumerWidget {
     SalonModel salonModel = _salonProfileProvider.chosenSalon;
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool defaultTheme = (theme == AppTheme.customLightTheme);
+    // bool defaultTheme = (theme == AppTheme.customLightTheme);
     List<MasterModel> theMasters = _createAppointmentProvider.getMasterProvidingService(service);
     ThemeType themeType = _salonProfileProvider.themeType;
 
-    Color selectedColor = defaultTheme ? theme.primaryColor : const Color(0XFF1F1F21); //  selectedServiceCardOnDayAndTime(themeType, theme); // Color(0XFF202020);
+    // Color selectedColor = defaultTheme ? theme.primaryColor : const Color(0XFF1F1F21); //  selectedServiceCardOnDayAndTime(themeType, theme); // Color(0XFF202020);
     // Color selectedColor = defaultTheme ? const Color.fromARGB(255, 239, 239, 239) : selectedServiceCardOnDayAndTime(themeType, theme); // Color(0XFF202020);
-    BoxBorder? border = defaultTheme
-        ? Border.all(
-            width: 1.5,
-            color: (Colors.grey[400]!), // const Color.fromARGB(255, 239, 239, 239),
-          )
-        : Border.all(
-            width: 1.5,
-            color: const Color(0XFF202020), //theme.highlightColor,
-          );
+    BoxBorder? border = Border.all(width: 1.2, color: theme.primaryColor);
+
+    // BoxBorder? border = defaultTheme
+    //     ? Border.all(
+    //         width: 1.2,
+    //         color: (Colors.grey[400]!), // const Color.fromARGB(255, 239, 239, 239),
+    //       )
+    //     : Border.all(
+    //         width: 1.2,
+    //         color: const Color(0XFF202020), //theme.highlightColor,
+    //       );
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 7.h),
       child: Container(
         decoration: BoxDecoration(
           color: disabled
-              ? (Colors.grey[400]!)
+              ? const Color(0XFF4A4A4A)
               : isAdded
                   ? theme.primaryColor // selectedColor
                   : Colors.transparent,
           borderRadius: BorderRadius.circular(10),
-          border:
-              // isAdded ? null : border,
-              Border.all(
-            width: 1.5, color: disabled ? (Colors.grey[900]!) : theme.primaryColor, //  defaultTheme ? theme.primaryColor : const Color(0XFF1F1F21),
-          ),
+          border: isAdded
+              ? border
+              : Border.all(
+                  width: 1.2, color: disabled ? const Color(0XFF4A4A4A) : const Color(0XFF4A4A4A), //  defaultTheme ? theme.primaryColor : const Color(0XFF1F1F21),
+                ),
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(

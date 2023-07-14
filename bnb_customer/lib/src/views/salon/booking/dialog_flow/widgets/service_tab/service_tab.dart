@@ -35,7 +35,7 @@ class ServiceTab extends ConsumerStatefulWidget {
 
 class _ServiceTabState extends ConsumerState<ServiceTab> {
   final PageController _pageController = PageController();
-  final PageController _masterPageController = PageController();
+  // final PageController _masterPageController = PageController();
   int _activeTab = 0;
   final ScrollController _scrollController = ScrollController();
 
@@ -48,7 +48,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
     final _salonSearchProvider = ref.watch(salonSearchProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool defaultTheme = (theme == AppTheme.customLightTheme);
+    // bool defaultTheme = (theme == AppTheme.customLightTheme);
 
     // // Combine all services available into one to show in 'All' tab
     // List<ServiceModel> allServices = [];
@@ -309,6 +309,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                               // _createAppointmentProvider.onDateChange(date);
 
                               // Go to Date and Time
+                              _createAppointmentProvider.changeBookingFlowIndex();
                               widget.tabController.animateTo(1);
                             },
                             color: _createAppointmentProvider.chosenServices.isEmpty ? theme.primaryColor.withOpacity(0.4) : theme.primaryColor, // defaultTheme ? Colors.black : theme.primaryColor,
@@ -764,6 +765,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                         // _createAppointmentProvider.onDateChange(date);
 
                         // Go to Date and Time
+                        _createAppointmentProvider.changeBookingFlowIndex();
                         widget.tabController.animateTo(1);
                       },
                       color: _createAppointmentProvider.chosenServices.isEmpty ? theme.primaryColor.withOpacity(0.4) : theme.primaryColor, // defaultTheme ? Colors.black : theme.primaryColor,

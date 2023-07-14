@@ -155,6 +155,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   // List<ServiceModel> filteredServicesList = [];
   Map<String, List<ServiceModel>> groupUnavailableSelectedItems = {};
   double totalDeposit = 0;
+  int bookingFlowPageIndex = 0;
 
   getServiceMasters() {
     unavailableSelectedItems.clear();
@@ -249,16 +250,29 @@ class CreateAppointmentProvider with ChangeNotifier {
     return;
   }
 
+  List<MasterModel> mastersAbleToPerformService = [];
+
   initMastersAndTime() {
     availableAppointments.clear();
     allAppointments.clear();
     serviceableMasters.clear();
+    mastersAbleToPerformService.clear();
     notifyListeners();
 
-    serviceableMasters = getMultipleServiceableMasters(salonMasters);
+    mastersAbleToPerformService = getMultipleServiceableMasters(salonMasters);
 
     ///load price and duration of masters for multiple services
     loadMultiplePriceAndDuration();
+
+    for (MasterModel master in mastersAbleToPerformService) {
+      String? price = priceAndDuration[master.masterId]?.price ?? '0';
+      String? duration = priceAndDuration[master.masterId]?.duration ?? '0';
+
+      if (price != '0' && duration != '0') {
+        serviceableMasters.add(master);
+      }
+    }
+    notifyListeners();
     loadMasterView();
     loadDayView();
   }
@@ -302,11 +316,6 @@ class CreateAppointmentProvider with ChangeNotifier {
         }
       }
     }
-
-    // print('___----------******----------______');
-    // print(_tempMasters);
-    // print(_tempMasters.length);
-    // print('___----------******----------______');
 
     return _tempMasters.toList();
   }
@@ -701,7 +710,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   ///load multiple price and duration for multiple masters in the salon
   loadMultiplePriceAndDuration() {
     priceAndDuration.clear();
-    for (var master in serviceableMasters) {
+    for (var master in mastersAbleToPerformService) {
       totalDuration = 0;
       totalPriceForMultiple = 0;
       for (ServiceModel eachSelectedService in chosenServices) {
@@ -751,6 +760,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 
   onAppointmentChange(MasterModel master, String? appointment, {DateTime? date}) {
     debugPrint('On Appointment Change Function');
+    // print(master.personalInfo?.firstName);
     isBlocked = false;
 
     totalTimeSlotsRequired = (int.parse(priceAndDuration[master.masterId]?.duration ?? defaultServiceDuration) / (chosenSalon!.timeSlotsInterval ?? 15)).ceil();
@@ -987,9 +997,26 @@ class CreateAppointmentProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  int? confirmationPageIndex;
+
+  changeBookingFlowIndex({bool decrease = false, bool enteringConfirmationView = false}) {
+    if (!decrease) {
+      bookingFlowPageIndex += 1;
+    } else {
+      bookingFlowPageIndex -= 1;
+    }
+
+    if (enteringConfirmationView) {
+      confirmationPageIndex = 0;
+    }
+    notifyListeners();
+  }
+
   /// --------------------------- stop cooking -------------------------------------------------------------------------
 
   void nextPageView(int index) {
+    confirmationPageIndex = index;
+    notifyListeners();
     confirmationPageController.animateToPage(
       index,
       duration: const Duration(milliseconds: 100),
@@ -4472,7 +4499,8 @@ class CreateAppointmentProvider with ChangeNotifier {
     selectedSubItems = [];
     unavailableSelectedItems = [];
     groupUnavailableSelectedItems = {};
-
+    bookingFlowPageIndex = 0;
+    confirmationPageIndex = null;
     notifyListeners();
   }
 
@@ -4514,6 +4542,8 @@ class CreateAppointmentProvider with ChangeNotifier {
     selectedSubItems = [];
     unavailableSelectedItems = [];
     groupUnavailableSelectedItems = {};
+    bookingFlowPageIndex = 0;
+    confirmationPageIndex = null;
     notifyListeners();
   }
 

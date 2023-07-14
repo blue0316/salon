@@ -306,7 +306,7 @@ class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetai
 
                             // Create Event Template
                             final String url = AddToCalendar().getGoogleCalendarUrl(
-                              title: 'Appointment Confirmation',
+                              title: 'Appointment at ${appointment.salon.name}',
                               description: 'Appointment with ${appointment.master?.name} at ${appointment.salon.name}',
                               startTime: formattedStartDateTime,
                               endTime: formattedEndDateTime,

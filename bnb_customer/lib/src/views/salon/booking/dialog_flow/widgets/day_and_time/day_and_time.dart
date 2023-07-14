@@ -48,13 +48,23 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
 
     await _createAppointmentProvider.initTimeOfDay();
     await _createAppointmentProvider.onDateChange(date);
+
+    final _random = Random();
+    if (_createAppointmentProvider.serviceableMasters.isNotEmpty) {
+      MasterModel randomMaster = _createAppointmentProvider.serviceableMasters[_random.nextInt(_createAppointmentProvider.serviceableMasters.length)];
+
+      setState(() {
+        selectedMaster = randomMaster;
+      });
+    }
+
     setState(() {
       loading = false;
     });
   }
 
   MasterModel? selectedMaster;
-  bool isAnyoneSelected = false;
+  bool isAnyoneSelected = true;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +80,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
     }
 
     return loading
-        ? const CircularProgressIndicator(color: Colors.green)
+        ? CircularProgressIndicator(color: theme.primaryColor)
         : Padding(
             padding: EdgeInsets.symmetric(
               horizontal: DeviceConstraints.getResponsiveSize(context, 17.w, 20.w, 20.w),
@@ -94,6 +104,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                         borderRadius: 60,
                         onTap: () {
                           // Go to previous page
+                          _createAppointmentProvider.changeBookingFlowIndex(enteringConfirmationView: true);
                           widget.tabController.animateTo(0);
                         },
                         color: dialogButtonColor(themeType, theme),
@@ -153,7 +164,6 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                     setState(() => isAnyoneSelected = true);
 
                                     // find random master
-
                                     final _random = Random();
                                     MasterModel randomMaster = _createAppointmentProvider.serviceableMasters[_random.nextInt(_createAppointmentProvider.serviceableMasters.length)];
 
@@ -652,6 +662,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                   _createAppointmentProvider.getTotalDeposit();
 
                                   // Next Page
+                                  _createAppointmentProvider.changeBookingFlowIndex(enteringConfirmationView: true);
                                   widget.tabController.animateTo(2);
                                 },
                                 color: dialogButtonColor(themeType, theme),

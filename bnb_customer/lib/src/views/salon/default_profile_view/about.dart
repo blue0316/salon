@@ -8,6 +8,7 @@ import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LandscapeAboutHeader extends ConsumerWidget {
   final SalonModel salonModel;
@@ -35,7 +36,7 @@ class LandscapeAboutHeader extends ConsumerWidget {
                 ? CachedImage(url: salonModel.profilePics[0])
                 : Center(
                     child: Text(
-                      salonModel.salonName[0].toUpperCase(),
+                      (salonModel.salonName.isNotEmpty) ? salonModel.salonName[0].toUpperCase() : '',
                       style: theme.textTheme.displayLarge!.copyWith(
                         fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 80.sp, 100.sp),
                         color: Colors.white,
@@ -72,11 +73,16 @@ class LandscapeAboutHeader extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Image.asset(
-                        AppIcons.mapPinPNG,
-                        height: DeviceConstraints.getResponsiveSize(context, 18.h, 18.h, 15.h),
+                      FaIcon(
+                        FontAwesomeIcons.locationDot,
+                        size: DeviceConstraints.getResponsiveSize(context, 18.h, 18.h, 15.h),
                         color: isLightTheme ? Colors.black : Colors.white,
                       ),
+                      // Image.asset(
+                      //   AppIcons.mapPinPNG,
+                      //   height: DeviceConstraints.getResponsiveSize(context, 18.h, 18.h, 15.h),
+                      //   color: isLightTheme ? Colors.black : Colors.white,
+                      // ),
                       const SizedBox(width: 6),
                       Text(
                         salonModel.address,
@@ -138,7 +144,7 @@ class PortraitAboutHeader extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Container(
-          height: 180.h,
+          height: 180.sp,
           width: double.infinity,
           decoration: BoxDecoration(
             border: !isLightTheme ? Border.all(color: Colors.white, width: 1.2) : null,
@@ -148,7 +154,7 @@ class PortraitAboutHeader extends ConsumerWidget {
               ? CachedImage(url: salonModel.profilePics[0])
               : Center(
                   child: Text(
-                    salonModel.salonName[0].toUpperCase(),
+                    (salonModel.salonName.isNotEmpty) ? salonModel.salonName[0].toUpperCase() : '',
                     style: theme.textTheme.displayLarge!.copyWith(
                       fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 80.sp, 100.sp),
                       color: Colors.white,
@@ -156,8 +162,7 @@ class PortraitAboutHeader extends ConsumerWidget {
                   ),
                 ),
         ),
-        // const Space(factor: 1.5),
-        const SizedBox(height: 20),
+        SizedBox(height: 20.sp),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -182,11 +187,16 @@ class PortraitAboutHeader extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Image.asset(
-                      AppIcons.mapPinPNG,
-                      height: DeviceConstraints.getResponsiveSize(context, 18.h, 18.h, 15.h),
+                    FaIcon(
+                      FontAwesomeIcons.locationDot,
+                      size: DeviceConstraints.getResponsiveSize(context, 18.h, 18.h, 15.h),
                       color: isLightTheme ? Colors.black : Colors.white,
                     ),
+                    // Image.asset(
+                    //   AppIcons.mapPinPNG,
+                    // height: DeviceConstraints.getResponsiveSize(context, 18.h, 18.h, 15.h),
+                    // color: isLightTheme ? Colors.black : Colors.white,
+                    // ),
                     const SizedBox(width: 6),
                     Text(
                       salonModel.address,
@@ -220,7 +230,7 @@ class PortraitAboutHeader extends ConsumerWidget {
                   fontSize: 14.sp,
                   color: isLightTheme ? Colors.black : Colors.white,
                 ),
-                maxLines: 8,
+                // maxLines: 8,
                 overflow: TextOverflow.ellipsis,
               ),
           ],

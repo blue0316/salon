@@ -38,6 +38,13 @@ class BarbershopAboutUs extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
+            AppLocalizations.of(context)?.localeName == 'uk' ? 'omo nawa o' : 'wetin dey occur',
+            style: theme.textTheme.displayMedium?.copyWith(
+              fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 30.sp, 50.sp),
+            ),
+          ),
+          SizedBox(height: 50.h),
+          Text(
             isSingleMaster ? (AppLocalizations.of(context)?.aboutMe ?? 'About Me') : (AppLocalizations.of(context)?.aboutUs ?? 'About Us').toUpperCase(),
             style: theme.textTheme.displayMedium?.copyWith(
               fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 30.sp, 50.sp),

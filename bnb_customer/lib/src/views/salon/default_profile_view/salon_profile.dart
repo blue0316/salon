@@ -36,7 +36,7 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool isLightTheme = (theme == AppTheme.customLightTheme);
 
-    final _createAppointmentProvider = ref.watch(createAppointmentProvider);
+    // final _createAppointmentProvider = ref.watch(createAppointmentProvider);
 
     bool isSingleMaster = _salonProfileProvider.isSingleMaster;
 
@@ -72,14 +72,7 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        InkWell(
-                          onTap: () {
-                            // print('here');
-                            // print(_createAppointmentProvider.categoriesAvailable);
-                            // print(theme.canvasColor);
-                          },
-                          child: Header(salonModel: _salonProfileProvider.chosenSalon),
-                        ),
+                        Header(salonModel: _salonProfileProvider.chosenSalon),
                         Space(
                           factor: DeviceConstraints.getResponsiveSize(context, 2, 3, 5),
                         ),
@@ -110,7 +103,7 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
                                       width: double.infinity,
                                       child: Center(
                                         child: ListView.separated(
-                                          itemCount: (_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon) ? saloonDetailsTitles.length : masterDetailsTitles.length,
+                                          itemCount: (!isSingleMaster) ? saloonDetailsTitles.length : masterDetailsTitles.length,
                                           scrollDirection: Axis.horizontal,
                                           shrinkWrap: true,
                                           controller: _scrollController,
@@ -140,7 +133,7 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
                                                     });
                                                   },
                                                   child: Text(
-                                                    ((_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon)
+                                                    ((!isSingleMaster)
                                                             ? (AppLocalizations.of(context)?.localeName == 'uk')
                                                                 ? saloonDetailsTitlesUK[index]
                                                                 : saloonDetailsTitles[index]
@@ -220,83 +213,3 @@ Color unselectedTabColor(ThemeData theme, bool isLightTheme) {
       return theme.primaryColor;
   }
 }
-
-
-
-    // List curr = ((_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon)
-    //     ? (AppLocalizations.of(context)?.localeName == 'uk')
-    //         ? saloonDetailsTitlesUK
-    //         : saloonDetailsTitles
-    //     : (AppLocalizations.of(context)?.localeName == 'uk')
-    //         ? masterDetailsTitlesUk
-    //         : masterDetailsTitles);
-
-
-//
-    // child: Padding(
-    //                                     padding: EdgeInsets.symmetric(horizontal: 5.w),
-    //                                     child: Expanded(
-    //                                       child: Row(
-    //                                         crossAxisAlignment: CrossAxisAlignment.center,
-    //                                         mainAxisAlignment: MainAxisAlignment.center,
-    //                                         children: ((_salonProfileProvider.chosenSalon.ownerType == OwnerType.salon)
-    //                                                 ? (AppLocalizations.of(context)?.localeName == 'uk')
-    //                                                     ? saloonDetailsTitlesUK
-    //                                                     : saloonDetailsTitles
-    //                                                 : (AppLocalizations.of(context)?.localeName == 'uk')
-    //                                                     ? masterDetailsTitlesUk
-    //                                                     : masterDetailsTitles)
-    //                                             .asMap()
-    //                                             .map((i, item) => MapEntry(
-    //                                                   i,
-    //                                                   Expanded(
-    //                                                     flex: 2,
-    //                                                     child: Row(
-    //                                                       crossAxisAlignment: CrossAxisAlignment.center,
-    //                                                       mainAxisAlignment: MainAxisAlignment.center,
-    //                                                       children: [
-    //                                                         Expanded(
-    //                                                           flex: 0,
-    //                                                           child: GestureDetector(
-    //                                                             onTap: () {},
-    //                                                             child: Text(
-    //                                                               item.toUpperCase(),
-    //                                                               style: theme.textTheme.displayLarge!.copyWith(
-    //                                                                 fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 18.sp, 20.sp),
-    //                                                                 color: theme.primaryColor,
-    //                                                                 fontWeight: FontWeight.w500,
-    //                                                                 // decoration: !isLightTheme
-    //                                                                 //     ? null
-    //                                                                 //     : _activeTab == index
-    //                                                                 //         ? TextDecoration.underline
-    //                                                                 //         : null,
-    //                                                                 letterSpacing: 0,
-    //                                                                 fontFamily: "Inter",
-    //                                                               ),
-    //                                                             ),
-    //                                                           ),
-    //                                                         ),
-    //                                                         if (i != curr.length - 1)
-    //                                                           Expanded(
-    //                                                             flex: 0,
-    //                                                             child: Padding(
-    //                                                               padding: EdgeInsets.symmetric(horizontal: DeviceConstraints.getResponsiveSize(context, 5.w, 5.w, 10.w)),
-    //                                                               child: Container(
-    //                                                                 width: 1.5,
-    //                                                                 height: 25.h,
-    //                                                                 decoration: BoxDecoration(
-    //                                                                   color: Colors.grey[400], // isLightTheme ? Colors.white : Colors.grey,
-    //                                                                   borderRadius: BorderRadius.circular(50),
-    //                                                                 ),
-    //                                                               ),
-    //                                                             ),
-    //                                                           ),
-    //                                                       ],
-    //                                                     ),
-    //                                                   ),
-    //                                                 ))
-    //                                             .values
-    //                                             .toList(),
-    //                                       ),
-    //                                     ),
-    //                                   ),

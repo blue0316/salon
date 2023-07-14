@@ -108,14 +108,10 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                           ? PortraitAboutHeader(
                               salonModel: widget.salonModel,
                             )
-                          : LandscapeAboutHeader(
-                              salonModel: widget.salonModel,
-                            ),
+                          : LandscapeAboutHeader(salonModel: widget.salonModel),
                     ),
                   ),
-                  SizedBox(
-                    height: DeviceConstraints.getResponsiveSize(context, 10, 10, 30),
-                  ),
+                  SizedBox(height: DeviceConstraints.getResponsiveSize(context, 10, 10, 30)),
                   if (widget.salonModel.additionalFeatures.isNotEmpty)
                     Expanded(
                       flex: 0,

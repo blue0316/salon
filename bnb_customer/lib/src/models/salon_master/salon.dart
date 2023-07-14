@@ -116,7 +116,7 @@ class SalonModel {
     salonWebSite = json['salonWebSite'] ?? '';
     phoneNumber = json['phoneNumber'] ?? '';
     email = json['email'] ?? '';
-    locale = json['locale'] ?? 'UK';
+    locale = json['locale'] ?? 'en';
     description = json['description'] ?? '';
     if (json['profilePics'] != null) {
       profilePics = json['profilePics'].cast<String>();
