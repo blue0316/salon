@@ -264,6 +264,7 @@ class _MasterProfileState extends ConsumerState<MasterProfile> {
                                   MasterAllWorks(master: widget.masterModel),
                                 ],
                               ),
+                              const Space(factor: 3),
                             ],
                           ),
                         ),

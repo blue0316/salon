@@ -57,18 +57,27 @@ class _MasterServicesState extends ConsumerState<MasterServices> {
                   ),
                   const Space(factor: 2.5),
                   ListView.builder(
-                      itemCount: _salonSearchProvider.categories.length + 1,
+                      itemCount: _salonSearchProvider.categories.length,
                       shrinkWrap: true,
                       primary: false,
                       controller: _listViewController,
                       padding: const EdgeInsets.all(0),
                       itemBuilder: (context, index) {
-                        List<ServiceModel> services = _createAppointmentProvider.mastersServicesMapAll[widget.master.masterId]?.where((element) => element.categoryId == (index).toString()).toList() ?? [];
+                        List<ServiceModel> services = _createAppointmentProvider.mastersServicesMapAll[widget.master.masterId]
+                                ?.where(
+                                  (element) => element.categoryId == (_salonSearchProvider.categories[index].categoryId).toString(),
+                                )
+                                .toList() ??
+                            [];
 
                         if (services.isNotEmpty) {
                           return NewServiceTile(
                             services: services,
-                            categoryModel: _salonSearchProvider.categories.where((element) => element.categoryId == (index).toString()).first,
+                            categoryModel: _salonSearchProvider.categories
+                                .where(
+                                  (element) => element.categoryId == (_salonSearchProvider.categories[index].categoryId).toString(),
+                                )
+                                .first,
                             listViewController: _listViewController,
                             initiallyExpanded: false,
                           );

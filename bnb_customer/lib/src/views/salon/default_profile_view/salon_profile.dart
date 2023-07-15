@@ -1,4 +1,6 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
+import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/enums/profile_datails_tabs.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
@@ -35,7 +37,8 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool isLightTheme = (theme == AppTheme.customLightTheme);
 
-    // final _createAppointmentProvider = ref.watch(createAppointmentProvider);
+    final _createAppointmentProvider = ref.watch(createAppointmentProvider);
+    final _salonSearchProvider = ref.watch(salonSearchProvider);
 
     bool isSingleMaster = _salonProfileProvider.isSingleMaster;
 
@@ -152,6 +155,26 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
                                       },
                                     ),
                                   ),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  for (CategoryModel cat in _salonSearchProvider.categories) {
+                                    print(cat.categoryId);
+                                    print(cat.categoryName);
+                                    print('end end end');
+                                  }
+
+                                  print('--------++++--------');
+
+                                  for (ServiceModel service in _createAppointmentProvider.mastersServicesMapAll['Bu4Ms8kMSapkLXhdZWbv']!) {
+                                    print(service.categoryId);
+                                  }
+                                },
+                                child: Container(
+                                  height: 100,
+                                  width: 800,
+                                  color: Colors.purple,
                                 ),
                               ),
                               ExpandablePageView(

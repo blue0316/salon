@@ -74,6 +74,7 @@ class MasterAbout extends ConsumerWidget {
                         avgRating: master.avgRating ?? 0,
                       ),
                     ),
+                    const Space(factor: 1),
                   ],
                 ),
               ),
