@@ -2,20 +2,28 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
-import 'package:bbblient/src/utils/icons.dart';
+import 'package:bbblient/src/views/themes/components/about/default_about_view.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class LandscapeAboutHeader extends ConsumerWidget {
+class LandscapeAboutHeader extends ConsumerStatefulWidget {
   final SalonModel salonModel;
   const LandscapeAboutHeader({Key? key, required this.salonModel}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<LandscapeAboutHeader> createState() => _LandscapeAboutHeaderState();
+}
+
+class _LandscapeAboutHeaderState extends ConsumerState<LandscapeAboutHeader> {
+  final CarouselController _controller = CarouselController();
+
+  @override
+  Widget build(BuildContext context) {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
@@ -30,13 +38,63 @@ class LandscapeAboutHeader extends ConsumerWidget {
           child: Container(
             decoration: BoxDecoration(
               border: !isLightTheme ? Border.all(color: Colors.white, width: 1.2) : null,
-              color: salonModel.profilePics.isNotEmpty ? null : theme.primaryColor,
+              color: widget.salonModel.profilePics.isNotEmpty ? null : theme.primaryColor,
             ),
-            child: (salonModel.profilePics.isNotEmpty)
-                ? CachedImage(url: salonModel.profilePics[0])
+            child: (widget.salonModel.profilePics.isNotEmpty)
+                // ? CachedImage(url: salonModel.profilePics[0])
+                ? SizedBox(
+                    height: 360.sp,
+                    width: double.infinity,
+                    child: Stack(
+                      children: [
+                        SizedBox(
+                          height: 360.sp,
+                          width: double.infinity,
+                          child: CarouselSlider(
+                            carouselController: _controller,
+                            options: CarouselOptions(
+                              scrollPhysics: const NeverScrollableScrollPhysics(),
+                              autoPlay: false,
+                              pauseAutoPlayOnTouch: true,
+
+                              viewportFraction: 1,
+
+                              // height: 360.sp, //  DeviceConstraints.getResponsiveSize(context, 280.h, 320, 350.h),
+                            ),
+                            items: widget.salonModel.profilePics
+                                .map(
+                                  (item) => CachedImage(
+                                    url: item,
+                                    fit: BoxFit.cover,
+                                    height: 300.h,
+                                    width: MediaQuery.of(context).size.width,
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                        ),
+                        LeftCarouselButton(
+                          controller: _controller,
+                          theme: theme,
+                          containerSize: DeviceConstraints.getResponsiveSize(context, 26.h, 26.h, 35.h),
+                          size: DeviceConstraints.getResponsiveSize(context, 14.sp, 14.sp, 18.sp),
+                          containerColor: const Color.fromARGB(131, 255, 255, 255),
+                          iconColor: const Color(0XFF000000),
+                        ),
+                        RightCarouselButton(
+                          controller: _controller,
+                          theme: theme,
+                          containerSize: DeviceConstraints.getResponsiveSize(context, 26.h, 26.h, 35.h),
+                          size: DeviceConstraints.getResponsiveSize(context, 14.sp, 14.sp, 18.sp),
+                          containerColor: const Color.fromARGB(131, 255, 255, 255),
+                          iconColor: const Color(0XFF000000),
+                        ),
+                      ],
+                    ),
+                  )
                 : Center(
                     child: Text(
-                      (salonModel.salonName.isNotEmpty) ? salonModel.salonName[0].toUpperCase() : '',
+                      (widget.salonModel.salonName.isNotEmpty) ? widget.salonModel.salonName[0].toUpperCase() : '',
                       style: theme.textTheme.displayLarge!.copyWith(
                         fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 80.sp, 100.sp),
                         color: Colors.white,
@@ -48,16 +106,16 @@ class LandscapeAboutHeader extends ConsumerWidget {
         const SizedBox(width: 35),
         Expanded(
           flex: 2,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          child: ListView(
+            // crossAxisAlignment: CrossAxisAlignment.start,
+            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    salonModel.salonName,
+                    widget.salonModel.salonName,
                     style: theme.textTheme.bodyLarge!.copyWith(
                       fontWeight: FontWeight.bold,
                       fontSize: 20.sp,
@@ -85,7 +143,7 @@ class LandscapeAboutHeader extends ConsumerWidget {
                       // ),
                       const SizedBox(width: 6),
                       Text(
-                        salonModel.address,
+                        widget.salonModel.address,
                         style: theme.textTheme.displayMedium!.copyWith(
                           fontSize: 13.sp,
                           fontWeight: FontWeight.w500,
@@ -101,23 +159,23 @@ class LandscapeAboutHeader extends ConsumerWidget {
               // const Space(factor: 0.5),
               const SizedBox(height: 10),
               BnbRatings(
-                rating: salonModel.rating,
+                rating: widget.salonModel.rating,
                 editable: false,
                 starSize: 12,
               ),
               // const Space(factor: 0.5),
               const SizedBox(height: 20),
 
-              if (salonModel.description != '')
+              if (widget.salonModel.description != '')
                 Text(
-                  salonModel.description,
+                  widget.salonModel.description,
                   style: theme.textTheme.displayMedium!.copyWith(
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.normal,
                     fontSize: 13.sp,
                     color: isLightTheme ? Colors.black : Colors.white,
                   ),
-                  maxLines: 6,
-                  overflow: TextOverflow.ellipsis,
+                  // maxLines: 6,
+                  // overflow: TextOverflow.ellipsis,
                 ),
             ],
           ),
@@ -127,13 +185,20 @@ class LandscapeAboutHeader extends ConsumerWidget {
   }
 }
 
-class PortraitAboutHeader extends ConsumerWidget {
+class PortraitAboutHeader extends ConsumerStatefulWidget {
   final SalonModel salonModel;
 
   const PortraitAboutHeader({Key? key, required this.salonModel}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<PortraitAboutHeader> createState() => _PortraitAboutHeaderState();
+}
+
+class _PortraitAboutHeaderState extends ConsumerState<PortraitAboutHeader> {
+  final CarouselController _controller = CarouselController();
+
+  @override
+  Widget build(BuildContext context) {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
@@ -148,13 +213,59 @@ class PortraitAboutHeader extends ConsumerWidget {
           width: double.infinity,
           decoration: BoxDecoration(
             border: !isLightTheme ? Border.all(color: Colors.white, width: 1.2) : null,
-            color: salonModel.profilePics.isNotEmpty ? null : theme.primaryColor,
+            color: widget.salonModel.profilePics.isNotEmpty ? null : theme.primaryColor,
           ),
-          child: (salonModel.profilePics.isNotEmpty)
-              ? CachedImage(url: salonModel.profilePics[0])
+          child: (widget.salonModel.profilePics.isNotEmpty)
+              // ? CachedImage(url: salonModel.profilePics[0])
+              ? Stack(
+                  children: [
+                    SizedBox(
+                      height: 360.sp,
+                      width: double.infinity,
+                      child: CarouselSlider(
+                        carouselController: _controller,
+                        options: CarouselOptions(
+                          scrollPhysics: const NeverScrollableScrollPhysics(),
+                          autoPlay: false,
+                          pauseAutoPlayOnTouch: true,
+
+                          viewportFraction: 1,
+
+                          // height: 360.sp, //  DeviceConstraints.getResponsiveSize(context, 280.h, 320, 350.h),
+                        ),
+                        items: widget.salonModel.profilePics
+                            .map(
+                              (item) => CachedImage(
+                                url: item,
+                                fit: BoxFit.cover,
+                                height: 300.h,
+                                width: MediaQuery.of(context).size.width,
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ),
+                    LeftCarouselButton(
+                      controller: _controller,
+                      theme: theme,
+                      containerSize: DeviceConstraints.getResponsiveSize(context, 26.h, 26.h, 35.h),
+                      size: DeviceConstraints.getResponsiveSize(context, 14.sp, 14.sp, 18.sp),
+                      containerColor: const Color.fromARGB(131, 255, 255, 255),
+                      iconColor: const Color(0XFF000000),
+                    ),
+                    RightCarouselButton(
+                      controller: _controller,
+                      theme: theme,
+                      containerSize: DeviceConstraints.getResponsiveSize(context, 26.h, 26.h, 35.h),
+                      size: DeviceConstraints.getResponsiveSize(context, 14.sp, 14.sp, 18.sp),
+                      containerColor: const Color.fromARGB(131, 255, 255, 255),
+                      iconColor: const Color(0XFF000000),
+                    ),
+                  ],
+                )
               : Center(
                   child: Text(
-                    (salonModel.salonName.isNotEmpty) ? salonModel.salonName[0].toUpperCase() : '',
+                    (widget.salonModel.salonName.isNotEmpty) ? widget.salonModel.salonName[0].toUpperCase() : '',
                     style: theme.textTheme.displayLarge!.copyWith(
                       fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 80.sp, 100.sp),
                       color: Colors.white,
@@ -172,7 +283,7 @@ class PortraitAboutHeader extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  salonModel.salonName,
+                  widget.salonModel.salonName,
                   style: theme.textTheme.bodyLarge!.copyWith(
                     fontWeight: FontWeight.bold,
                     fontSize: 20.sp,
@@ -199,7 +310,7 @@ class PortraitAboutHeader extends ConsumerWidget {
                     // ),
                     const SizedBox(width: 6),
                     Text(
-                      salonModel.address,
+                      widget.salonModel.address,
                       style: theme.textTheme.displayMedium!.copyWith(
                         fontSize: 13.sp,
                         fontWeight: FontWeight.w500,
@@ -215,23 +326,23 @@ class PortraitAboutHeader extends ConsumerWidget {
             // const Space(factor: 0.5),
             const SizedBox(height: 15),
             BnbRatings(
-              rating: salonModel.rating,
+              rating: widget.salonModel.rating,
               editable: false,
               starSize: 12,
               color: isLightTheme ? const Color(0XFFF49071) : const Color(0XFFFFA755),
             ),
             // const Space(factor: 1),
             const SizedBox(height: 20),
-            if (salonModel.description != '')
+            if (widget.salonModel.description != '')
               Text(
-                salonModel.description,
+                widget.salonModel.description,
                 style: theme.textTheme.displayMedium!.copyWith(
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.normal,
                   fontSize: 14.sp,
                   color: isLightTheme ? Colors.black : Colors.white,
                 ),
                 // maxLines: 8,
-                overflow: TextOverflow.ellipsis,
+                // overflow: TextOverflow.ellipsis,
               ),
           ],
         ),

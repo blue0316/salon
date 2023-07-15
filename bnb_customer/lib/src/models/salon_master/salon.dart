@@ -276,8 +276,8 @@ class PhotosOfWorks {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     data['createdAt'] = createdAt!.toIso8601String();
-    data['image'] = image;
-    data['description'] = description;
+    data['image'] = image ?? '';
+    data['description'] = description ?? '';
 
     return data;
   }

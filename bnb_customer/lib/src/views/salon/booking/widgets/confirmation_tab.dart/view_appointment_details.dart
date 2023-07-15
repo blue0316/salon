@@ -275,7 +275,7 @@ class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetai
                             _appointmentProvider.addToAppleCalendar(
                               context,
                               appointment: appointment,
-                              appointmentId: appointment.appointmentIdentifier!,
+                              appointmentId: appointment.appointmentId!,
                               startTime: start.toIso8601String(),
                               endTime: end.toIso8601String(),
                             );

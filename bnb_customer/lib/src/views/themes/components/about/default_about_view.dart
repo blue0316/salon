@@ -231,11 +231,18 @@ class RightCarouselButton extends StatelessWidget {
     Key? key,
     required CarouselController controller,
     required this.theme,
+    this.size,
+    this.containerSize,
+    this.containerColor,
+    this.iconColor,
   })  : _controller = controller,
         super(key: key);
 
   final CarouselController _controller;
   final ThemeData theme;
+  final double? size;
+  final double? containerSize;
+  final Color? containerColor, iconColor;
 
   @override
   Widget build(BuildContext context) {
@@ -246,14 +253,14 @@ class RightCarouselButton extends StatelessWidget {
         child: InkWell(
           onTap: () => _controller.nextPage(),
           child: Container(
-            height: DeviceConstraints.getResponsiveSize(context, 30.h, 30.h, 40.h),
-            width: DeviceConstraints.getResponsiveSize(context, 30.h, 30.h, 40.h),
-            decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.black87),
+            height: containerSize ?? DeviceConstraints.getResponsiveSize(context, 30.h, 30.h, 40.h),
+            width: containerSize ?? DeviceConstraints.getResponsiveSize(context, 30.h, 30.h, 40.h),
+            decoration: BoxDecoration(shape: BoxShape.circle, color: containerColor ?? Colors.black87),
             child: Center(
               child: Icon(
                 Icons.arrow_forward_ios_rounded,
-                color: theme.primaryColorDark,
-                size: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 20.sp),
+                color: iconColor ?? theme.primaryColorDark,
+                size: size ?? DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 20.sp),
               ),
             ),
           ),
@@ -268,11 +275,18 @@ class LeftCarouselButton extends StatelessWidget {
     Key? key,
     required CarouselController controller,
     required this.theme,
+    this.size,
+    this.containerSize,
+    this.containerColor,
+    this.iconColor,
   })  : _controller = controller,
         super(key: key);
 
   final CarouselController _controller;
   final ThemeData theme;
+  final double? size;
+  final double? containerSize;
+  final Color? containerColor, iconColor;
 
   @override
   Widget build(BuildContext context) {
@@ -283,14 +297,14 @@ class LeftCarouselButton extends StatelessWidget {
         child: InkWell(
           onTap: () => _controller.previousPage(),
           child: Container(
-            height: DeviceConstraints.getResponsiveSize(context, 30.h, 30.h, 40.h),
-            width: DeviceConstraints.getResponsiveSize(context, 30.h, 30.h, 40.h),
-            decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.black87),
+            height: containerSize ?? DeviceConstraints.getResponsiveSize(context, 30.h, 30.h, 40.h),
+            width: containerSize ?? DeviceConstraints.getResponsiveSize(context, 30.h, 30.h, 40.h),
+            decoration: BoxDecoration(shape: BoxShape.circle, color: containerColor ?? Colors.black87),
             child: Center(
               child: Icon(
                 Icons.arrow_back_ios_new_rounded,
-                color: theme.primaryColorDark,
-                size: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 20.sp),
+                color: iconColor ?? theme.primaryColorDark,
+                size: size ?? DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 20.sp),
               ),
             ),
           ),
