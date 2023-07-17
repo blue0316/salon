@@ -103,7 +103,7 @@ class ShowSingleSalon extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(AppTheme.margin),
-            child: Text(_distance, style: Theme.of(context).textTheme.headline3!.copyWith(color: AppTheme.lightGrey)),
+            child: Text(_distance, style: Theme.of(context).textTheme.displaySmall!.copyWith(color: AppTheme.lightGrey)),
           ),
         ],
       ),

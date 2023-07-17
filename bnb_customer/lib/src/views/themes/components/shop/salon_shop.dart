@@ -77,7 +77,7 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
                   Text(
                     (AppLocalizations.of(context)?.shop ?? 'Shop').toUpperCase(),
                     style: theme.textTheme.displayMedium?.copyWith(
-                      fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 45.sp, 65.sp),
+                      fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 60.sp),
                     ),
                   ),
                   // PrevAndNext(salonProfileProvider: _salonProfileProvider),
@@ -115,7 +115,7 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
                             isScrollable: true,
                             tabs: [
                               // ALL PRODUCTS
-                              const Tab(text: 'All'),
+                              Tab(text: AppLocalizations.of(context)?.all ?? 'All'),
 
                               // FILTERED PRODUCTS
                               ..._salonProfileProvider.tabs.entries

@@ -45,7 +45,7 @@ class _GlamLightPromotionsState extends ConsumerState<GlamLightPromotions> {
               Text(
                 (AppLocalizations.of(context)?.promotions ?? 'Promotions').toUpperCase(),
                 style: theme.textTheme.displayMedium?.copyWith(
-                  fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 45.sp, 65.sp),
+                  fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 60.sp),
                 ),
               ),
               if (!isTab)
@@ -124,7 +124,7 @@ class _GlamLightPromotionsState extends ConsumerState<GlamLightPromotions> {
                       ),
               ) // NO PROMOTIONS
             : NoSectionYet(
-                text: 'No promotions at the moment', // AppLocalizations.of(context)?.noWorks ?? 'No photos of works',
+                text: AppLocalizations.of(context)?.noPromotions ?? 'No promotions at the moment',
                 color: theme.colorScheme.secondary,
               ),
         SizedBox(height: DeviceConstraints.getResponsiveSize(context, 40.h, 40.h, 80.h)),

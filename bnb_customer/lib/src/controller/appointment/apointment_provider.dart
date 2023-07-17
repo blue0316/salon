@@ -96,8 +96,8 @@ class AppointmentProvider with ChangeNotifier {
   void _createEvents() {
     appointmentMap.clear();
     for (AppointmentModel appointment in appointments) {
-      // printIt(appointment.appointmentId);
-      // printIt(appointment.appointmentDate);
+      // // printIt(appointment.appointmentId);
+      // // printIt(appointment.appointmentDate);
       if (appointmentMap[appointment.appointmentDate] == null) {
         DateTime? _dateTime = Time().getDateFromStr(appointment.appointmentDate);
         if (_dateTime != null) {
@@ -112,14 +112,14 @@ class AppointmentProvider with ChangeNotifier {
         }
       }
     }
-    // printIt(appointmentMap);
+    // // printIt(appointmentMap);
   }
 
   List<AppointmentModel> getEventsForDay(DateTime _date) {
     DateTime date = Time().getDate(date: _date);
-    // printIt(appointmentMap[date]);
+    // // printIt(appointmentMap[date]);
     if (appointmentMap.containsKey(date) && appointmentMap[date] != null && appointmentMap[date]!.isNotEmpty) {
-      // printIt(appointmentMap[date]);
+      // // printIt(appointmentMap[date]);
       return appointmentMap[date] ?? [];
     } else {
       return [];
@@ -152,7 +152,7 @@ class AppointmentProvider with ChangeNotifier {
 
       return appointment;
     } catch (e) {
-      printIt('Error on fetchAppointment() - ${e.toString()}');
+      // printIt('Error on fetchAppointment() - ${e.toString()}');
       appointmentStatus = Status.failed;
       notifyListeners();
     }
@@ -182,7 +182,7 @@ class AppointmentProvider with ChangeNotifier {
       updateSubStatus = Status.success;
       notifyListeners();
     } catch (e) {
-      printIt('Error on updateAppointmentSubStatus() - ${e.toString()}');
+      // printIt('Error on updateAppointmentSubStatus() - ${e.toString()}');
       updateSubStatus = Status.failed;
       notifyListeners();
     }
@@ -210,7 +210,7 @@ class AppointmentProvider with ChangeNotifier {
       cancelAppointmentStatus = Status.success;
       notifyListeners();
     } catch (e) {
-      printIt('Error on cancelAppointment() - ${e.toString()}');
+      // printIt('Error on cancelAppointment() - ${e.toString()}');
       cancelAppointmentStatus = Status.failed;
       notifyListeners();
     }
@@ -292,6 +292,7 @@ class AppointmentProvider with ChangeNotifier {
       notifyListeners();
       return themeType;
     }
+    return null;
   }
 
   void addToAppleCalendar(context, {required AppointmentModel appointment, required String appointmentId, required String startTime, required String endTime}) async {
@@ -309,11 +310,11 @@ class AppointmentProvider with ChangeNotifier {
       "locale": "en",
     };
 
-    print(body);
+    // print(body);
 
     var response = await http.post(url, body: body);
 
-    print(response);
+    // print(response);
 
     debugPrint('Response status: ${response.statusCode}');
     debugPrint('Response body: ${response.body}');

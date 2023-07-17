@@ -89,15 +89,16 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
 
     _createAppointmentProvider.cle();
 
-    repository.changeLocale(locale: Locale(widget.locale));
+    // repository.changeLocale(locale: Locale(widget.locale));
 
     // Change Language based on salon
     String salonLocale = _salonProfileProvider.chosenSalon.locale;
+
     // print('@@@@#####_______+++++++++@@@@@@@******');
     // print(widget.locale);
     // print(salonLocale);
     // print('@@@@#####_______+++++++++@@@@@@@******');
-    // repository.changeLocale(locale: Locale(salonLocale));
+    repository.changeLocale(locale: Locale(salonLocale));
 
     if (widget.switchSalon) {
       _createAppointmentProvider.setSalon(

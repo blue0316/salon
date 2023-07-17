@@ -30,7 +30,7 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
   Widget build(BuildContext context) {
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
     final bool isLandScape = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.landScape);
-    final bool isTab = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab);
+    // final bool isTab = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab);
 
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
@@ -48,7 +48,9 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'write to us and ${(AppLocalizations.of(context)?.weWillHelpYou ?? "We will help you")} ${AppLocalizations.of(context)?.decideOnTheService ?? "decide on the service"}'.toUpperCase(),
+              (AppLocalizations.of(context)?.writeToUsAndWeWillHelpYouDecideOnTheService ?? "Write to us and we will help you decide on the service").toUpperCase(),
+
+              // '${AppLocalizations.of(context)?.writeToUs9 ?? "write to us and"} ${(AppLocalizations.of(context)?.weWillHelpYou ?? "We will help you")} ${AppLocalizations.of(context)?.decideOnTheService ?? "decide on the service"}'.toUpperCase(),
               textAlign: TextAlign.center,
               style: theme.textTheme.displayMedium?.copyWith(
                 color: theme.colorScheme.secondary,
@@ -83,7 +85,7 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
         //       style: theme.textTheme.displayMedium?.copyWith(
         //         color: theme.colorScheme.secondary,
         //         fontWeight: FontWeight.w500,
-        //     fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 45.sp, 65.sp),
+        //     fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 60.sp),
         //       ),
         //     ),
         //   ),

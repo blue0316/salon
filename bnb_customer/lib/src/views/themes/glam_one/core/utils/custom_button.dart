@@ -1,9 +1,12 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/color_constant.dart';
 
 // ignore: must_be_immutable
 class CustomButton extends StatelessWidget {
   CustomButton({
+    Key? key,
     this.padding,
     this.shape,
     this.variant,
@@ -16,7 +19,7 @@ class CustomButton extends StatelessWidget {
     this.text,
     this.prefixWidget,
     this.suffixWidget,
-  });
+  }) : super(key: key);
 
   ButtonPadding? padding;
 

@@ -131,9 +131,6 @@ class BnbProvider with ChangeNotifier {
 
   void changeLocale({required Locale locale}) async {
     this.locale = locale;
-    print('------------------------------------------------------------------------------------');
-    print(locale);
-    print('------------------------------------------------------------------------------------');
     notifyListeners();
     if (customer == null) return;
     await CustomerApi().updateLocale(customerId: customer!.customerId, locale: locale.toLanguageTag());

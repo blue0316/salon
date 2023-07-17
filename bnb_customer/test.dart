@@ -1,6 +1,6 @@
 void main() {
-double a=5;
-print(a.toString());
+// double a=5;
+// print(a.toString());
 }
 
 output(String message, k) {
@@ -20,9 +20,6 @@ output(String message, k) {
     } else {
       result = result + " " + word;
     }
-
-
-
   }
 
   return result;

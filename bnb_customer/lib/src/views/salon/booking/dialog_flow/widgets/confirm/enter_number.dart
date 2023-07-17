@@ -2,7 +2,6 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/customer/customer.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
@@ -50,7 +49,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
-          'Confirm number',
+          AppLocalizations.of(context)?.confirmNumber ?? 'Confirm number',
           style: theme.textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.w500,
             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -59,7 +58,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
         ),
         SizedBox(height: 10.sp),
         Text(
-          'Please enter your phone number',
+          AppLocalizations.of(context)?.pleaseEnterPhoneNumber ?? 'Please enter your phone number',
           style: theme.textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.normal,
             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -139,7 +138,9 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                 borderRadius: 60,
                 onTap: () async {
                   if (_authProvider.phoneNoController.text.isEmpty) {
-                    showToast('Please input your phone number');
+                    showToast(
+                      AppLocalizations.of(context)?.pleaseEnterPhoneNumber ?? 'Please enter your phone number',
+                    );
                     return;
                   }
                   // if (_authProvider.phoneNoController.text.contains(RegExp('[a-zA-Z !@#\$%^&*()-_+={}[]|:;"<>,.?/]'))) {
@@ -147,7 +148,9 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                   //   return;
                   // }
 
-                  showToast(AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
+                  showToast(
+                    AppLocalizations.of(context)?.pleaseWait ?? "Please wait",
+                  );
 
                   // print('inside here 1 --- enableOTP = ${_salonProfileProvider.themeSettings?.displaySettings?.enableOTP}');
 
@@ -261,7 +264,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
 
                 borderColor: theme.primaryColor,
 
-                label: 'Send a code',
+                label: AppLocalizations.of(context)?.sendACode ?? 'Send a code',
                 isLoading: _authProvider.otpStatus == Status.loading,
                 loaderColor: loaderColor(themeType), // defaultTheme ? Colors.white : Colors.black,
                 suffixIcon: Icon(

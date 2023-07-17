@@ -5,7 +5,6 @@ import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/salon/salon_home/salon_profile_copy.dart';
-import 'package:bbblient/src/views/salon/salon_home/salon_profile.dart';
 import 'package:bbblient/src/views/widgets/salon_widgets.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';

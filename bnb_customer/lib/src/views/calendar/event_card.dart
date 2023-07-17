@@ -43,7 +43,7 @@ class EventCard extends ConsumerWidget {
           Flexible(
             child: Text(
               _time ?? "",
-              style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: 16.sp),
+              style: Theme.of(context).textTheme.displaySmall!.copyWith(fontSize: 16.sp),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
@@ -66,7 +66,7 @@ class EventCard extends ConsumerWidget {
                         Expanded(
                           child: Text(
                             "${_serviceName ?? ""}... (${appointment.services.length}) ",
-                            style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: DeviceConstraints.getResponsiveSize(context, 16, 17, 18), color: Colors.white),
+                            style: Theme.of(context).textTheme.displaySmall!.copyWith(fontSize: DeviceConstraints.getResponsiveSize(context, 16, 17, 18), color: Colors.white),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -92,7 +92,7 @@ class EventCard extends ConsumerWidget {
                       children: [
                         Text(
                           _salonName,
-                          style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: DeviceConstraints.getResponsiveSize(context, 14, 15, 16)),
+                          style: Theme.of(context).textTheme.displaySmall!.copyWith(fontSize: DeviceConstraints.getResponsiveSize(context, 14, 15, 16)),
                         ),
                         // Text(_salonAddress, style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 14)),
                         const SizedBox(

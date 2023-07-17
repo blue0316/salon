@@ -227,7 +227,7 @@ class ServiceCard extends ConsumerWidget {
                   (service.isFixedDuration != null)
                       ? service.isFixedDuration
                           ? Text(
-                              "${service.priceAndDuration!.duration} minutes",
+                              "${service.priceAndDuration!.duration} ${AppLocalizations.of(context)?.minutes ?? "minutes"}",
                               style: theme.textTheme.bodyLarge!.copyWith(
                                 fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                                 color: isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
@@ -236,7 +236,7 @@ class ServiceCard extends ConsumerWidget {
                               maxLines: 1,
                             )
                           : Text(
-                              "${service.priceAndDuration!.duration} minutes - ${service.priceAndDurationMax!.duration} minutes",
+                              "${service.priceAndDuration!.duration} ${AppLocalizations.of(context)?.minutes ?? "minutes"} - ${service.priceAndDurationMax!.duration} ${AppLocalizations.of(context)?.minutes ?? "minutes"}",
                               style: theme.textTheme.bodyLarge!.copyWith(
                                 fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                                 color: isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
@@ -245,7 +245,7 @@ class ServiceCard extends ConsumerWidget {
                               maxLines: 1,
                             )
                       : Text(
-                          "${service.priceAndDuration!.duration} minutes",
+                          "${service.priceAndDuration!.duration} ${AppLocalizations.of(context)?.minutes ?? "minutes"}",
                           style: theme.textTheme.bodyLarge!.copyWith(
                             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                             color: isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,

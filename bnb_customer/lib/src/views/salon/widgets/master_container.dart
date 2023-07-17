@@ -59,7 +59,7 @@ class MasterContainer extends StatelessWidget {
                           child: Text(
                             name,
                             overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: 16),
+                            style: Theme.of(context).textTheme.displaySmall!.copyWith(fontSize: 16),
                           ),
                         ),
                         GestureDetector(

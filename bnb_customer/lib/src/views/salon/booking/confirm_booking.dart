@@ -128,11 +128,11 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                       children: [
                                         Text(
                                           _date,
-                                          style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: 16, color: Colors.white),
+                                          style: Theme.of(context).textTheme.displaySmall!.copyWith(fontSize: 16, color: Colors.white),
                                         ),
                                         Text(
                                           _time,
-                                          style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: 16, color: Colors.white, fontWeight: FontWeight.normal),
+                                          style: Theme.of(context).textTheme.displaySmall!.copyWith(fontSize: 16, color: Colors.white, fontWeight: FontWeight.normal),
                                         ),
                                       ],
                                     ),

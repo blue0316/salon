@@ -53,7 +53,7 @@ class _SearchCategoryWiseState extends ConsumerState<SearchCategoryWise> {
             children: [
               Text(
                 _salonSearchProvider.getCategoryNameFromId(_salonSearchProvider.selectedCategoryId ?? ''),
-                style: Theme.of(context).textTheme.headline3,
+                style: Theme.of(context).textTheme.displaySmall,
               ),
             ],
           ),
@@ -100,7 +100,7 @@ class _SearchCategoryWiseState extends ConsumerState<SearchCategoryWise> {
                             },
                             child: Text(
                               AppLocalizations.of(context)?.viewOnMap ?? "View on map",
-                              style: Theme.of(context).textTheme.headline3,
+                              style: Theme.of(context).textTheme.displaySmall,
                             ),
                           ),
                         ],

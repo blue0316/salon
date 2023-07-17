@@ -3,7 +3,6 @@ import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
-import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/colors.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/service_tab/service_list.dart';
@@ -91,16 +90,23 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                                     CategoryModel(
                                       categoryName: 'All',
                                       categoryId: 'all',
-                                      translations: {'en': 'All'},
+                                      translations: {
+                                        'en': 'All',
+                                        'es': 'Toda',
+                                        'pt': 'Todos',
+                                        'ro': 'Toate',
+                                        'uk': 'все',
+                                      },
                                     ),
                                     ..._createAppointmentProvider.categoriesAvailable,
                                   ];
 
-                                  bool isServiceAddedBelogingToCategory = _createAppointmentProvider.isCategoryServiceAdded(
-                                    categoryModel: catList[index],
-                                  );
+                                  // bool isServiceAddedBelogingToCategory = _createAppointmentProvider.isCategoryServiceAdded(
+                                  //   categoryModel: catList[index],
+                                  // );
 
-                                  Color selectedColor = theme.primaryColor; // defaultTheme ? (Colors.grey[400]!) : theme.colorScheme.tertiary;
+                                  // Color selectedColor = theme.primaryColor; // defaultTheme ? (Colors.grey[400]!) : theme.colorScheme.tertiary;
+
                                   return Padding(
                                     padding: EdgeInsets.only(
                                       right: DeviceConstraints.getResponsiveSize(context, 15.w, 10.w, 7.w),
@@ -136,7 +142,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                                               horizontal: DeviceConstraints.getResponsiveSize(context, 25.w, 15.w, 10.w),
                                             ),
                                             child: Text(
-                                              catList[index].translations[AppLocalizations.of(context)?.localeName ?? 'en'],
+                                              catList[index].translations[AppLocalizations.of(context)?.localeName ?? 'en'] ?? catList[index].translations['en'],
                                               style: theme.textTheme.bodyLarge!.copyWith(
                                                 color: _activeTab == index ? serviceTabCategoryColor(themeType) : theme.colorScheme.tertiary, //  isServiceAddedBelogingToCategory ? serviceTabCategoryColor(themeType) : theme.colorScheme.tertiary, //defaultTheme ? Colors.black : Colors.white,
                                                 // color: Colors.white, // _activeTab == index ? AppTheme.textBlack : AppTheme.lightGrey,
@@ -300,7 +306,9 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                             borderRadius: 60,
                             onTap: () {
                               if (_createAppointmentProvider.chosenServices.isEmpty) {
-                                showToast('Please select at least one service');
+                                showToast(
+                                  AppLocalizations.of(context)?.pleaseSelectOneService ?? "Please select at least one service",
+                                );
                                 return;
                               }
                               _createAppointmentProvider.initMastersAndTime();
@@ -350,16 +358,22 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                               CategoryModel(
                                 categoryName: 'All',
                                 categoryId: 'all',
-                                translations: {'en': 'All'},
+                                translations: {
+                                  'en': 'All',
+                                  'es': 'Toda',
+                                  'pt': 'Todos',
+                                  'ro': 'Toate',
+                                  'uk': 'все',
+                                },
                               ),
                               ..._createAppointmentProvider.categoriesAvailable,
                             ];
 
-                            bool isServiceAddedBelogingToCategory = _createAppointmentProvider.isCategoryServiceAdded(
-                              categoryModel: catList[index],
-                            );
+                            // bool isServiceAddedBelogingToCategory = _createAppointmentProvider.isCategoryServiceAdded(
+                            //   categoryModel: catList[index],
+                            // );
 
-                            Color selectedColor = theme.primaryColor; // defaultTheme ? (Colors.grey[400]!) : theme.colorScheme.tertiary;
+                            // Color selectedColor = theme.primaryColor; // defaultTheme ? (Colors.grey[400]!) : theme.colorScheme.tertiary;
                             return Padding(
                               padding: EdgeInsets.only(
                                 right: DeviceConstraints.getResponsiveSize(context, 15.w, 10.w, 7.w),
@@ -395,7 +409,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                                         horizontal: DeviceConstraints.getResponsiveSize(context, 25.w, 15.w, 10.w),
                                       ),
                                       child: Text(
-                                        catList[index].translations[AppLocalizations.of(context)?.localeName ?? 'en'],
+                                        catList[index].translations[AppLocalizations.of(context)?.localeName ?? 'en'] ?? catList[index].translations['en'],
                                         style: theme.textTheme.bodyLarge!.copyWith(
                                           color: _activeTab == index ? serviceTabCategoryColor(themeType) : theme.colorScheme.tertiary, //  isServiceAddedBelogingToCategory ? serviceTabCategoryColor(themeType) : theme.colorScheme.tertiary, //defaultTheme ? Colors.black : Colors.white,
                                           // color: Colors.white, // _activeTab == index ? AppTheme.textBlack : AppTheme.lightGrey,
@@ -413,20 +427,6 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                     ),
                     SizedBox(height: DeviceConstraints.getResponsiveSize(context, 30.h, 30.h, 30.h)),
 
-                    // SERVICES FOR SALON
-                    // InkWell(
-                    //   onTap: () {
-                    //     for (ServiceModel a in _createAppointmentProvider.chosenServices) {
-                    //       debugPrint(a.serviceName);
-                    //     }
-                    //     debugPrint('-----++++++-----');
-                    //   },
-                    //   child: Container(
-                    //     height: 40,
-                    //     width: 400,
-                    //     color: Colors.green,
-                    //   ),
-                    // ),
                     if (_createAppointmentProvider.selectedItems.isNotEmpty)
                       Column(
                         children: [
@@ -661,7 +661,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                         child: Padding(
                           padding: EdgeInsets.symmetric(vertical: 12.sp),
                           child: Text(
-                            'Unavailable  Services',
+                            AppLocalizations.of(context)?.unavailableServices ?? "Unavailable  Services",
                             style: theme.textTheme.bodyLarge?.copyWith(
                               fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                               color: theme.colorScheme.tertiary.withOpacity(0.6),
@@ -679,7 +679,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                         groupSeparatorBuilder: (String value) => Padding(
                           padding: EdgeInsets.symmetric(vertical: 10.sp),
                           child: Text(
-                            _createAppointmentProvider.getCategoryFromId(value) != null ? _createAppointmentProvider.getCategoryFromId(value)!.categoryName.toUpperCase() : 'OTHERS'.toUpperCase(),
+                            _createAppointmentProvider.getCategoryFromId(value) != null ? _createAppointmentProvider.getCategoryFromId(value)!.categoryName.toUpperCase() : AppLocalizations.of(context)?.others ?? "OTHERS",
                             style: theme.textTheme.bodyLarge!.copyWith(
                               fontWeight: FontWeight.w600,
                               fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -756,7 +756,9 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                       borderRadius: 60,
                       onTap: () {
                         if (_createAppointmentProvider.chosenServices.isEmpty) {
-                          showToast('Please select at least one service');
+                          showToast(
+                            AppLocalizations.of(context)?.pleaseSelectOneService ?? "Please select at least one service",
+                          );
                           return;
                         }
                         _createAppointmentProvider.initMastersAndTime();

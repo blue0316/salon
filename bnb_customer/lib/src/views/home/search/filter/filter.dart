@@ -36,7 +36,7 @@ class _FilterSearchState extends ConsumerState<FilterSearch> {
         leading: const SizedBox(),
         title: Text(
           AppLocalizations.of(context)?.distanceArea ?? "Filters",
-          style: Theme.of(context).textTheme.headline3,
+          style: Theme.of(context).textTheme.displaySmall,
         ),
         centerTitle: true,
         actions: [
@@ -111,7 +111,7 @@ class BottomButton extends ConsumerWidget {
                   child: Center(
                     child: Text(
                       AppLocalizations.of(context)?.reset ?? "Reset",
-                      style: Theme.of(context).textTheme.headline3,
+                      style: Theme.of(context).textTheme.displaySmall,
                     ),
                   )),
               MaterialButton(

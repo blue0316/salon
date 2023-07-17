@@ -22,9 +22,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'dart:js' as js;
-import 'dart:html' as html;
-
+// import 'dart:js' as js;
+// import 'dart:html' as html;
 import 'pay_dialog.dart';
 
 // ORDER LIST
@@ -78,7 +77,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                 children: _createAppointmentProvider.chosenServices
                     .map(
                       (service) => ServiceNameAndPrice(
-                        serviceName: service.translations![AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
+                        serviceName: service.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? service.translations?['en'],
                         servicePrice: service.isFixedPrice
                             ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price}"
                             : service.isPriceRange
@@ -95,19 +94,19 @@ class _OrderListState extends ConsumerState<OrderDetails> {
               // SERVICE PROVIDER DETAILS
               ServiceNameAndPrice(
                 notService: true,
-                serviceName: 'Service provider:',
+                serviceName: AppLocalizations.of(context)?.serviceProvider ?? "Service provider:",
                 servicePrice: '${_createAppointmentProvider.chosenMaster?.personalInfo?.lastName} ${_createAppointmentProvider.chosenMaster?.personalInfo?.firstName}',
               ),
 
               ServiceNameAndPrice(
                 notService: true,
-                serviceName: 'Date:',
+                serviceName: '${AppLocalizations.of(context)?.date ?? "Date"}:',
                 servicePrice: Time().getDateInStandardFormat(_createAppointmentProvider.chosenDay),
               ),
 
               ServiceNameAndPrice(
                 notService: true,
-                serviceName: 'Time:',
+                serviceName: '${AppLocalizations.of(context)?.time ?? "Time"}:',
                 servicePrice: '${Time().timeToString(_startTime)} - ${Time().timeToString(_endTime)}',
               ),
 
@@ -115,19 +114,19 @@ class _OrderListState extends ConsumerState<OrderDetails> {
 
               ServiceNameAndPrice(
                 notService: true,
-                serviceName: 'Total:',
+                serviceName: AppLocalizations.of(context)?.total ?? "Total:",
                 servicePrice: '\$$totalAmount',
               ),
 
               ServiceNameAndPrice(
                 notService: true,
-                serviceName: 'Pay at Appointment:',
+                serviceName: AppLocalizations.of(context)?.payAtAppointment ?? "Pay at Appointment:",
                 servicePrice: '\$${double.parse(totalAmount) - deposit}',
               ),
 
               ServiceNameAndPrice(
                 notService: true,
-                serviceName: 'Deposit to book:',
+                serviceName: AppLocalizations.of(context)?.depositToBook ?? "Deposit to book:",
                 servicePrice: '\$$deposit',
               ),
 
@@ -140,7 +139,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                     Flexible(
                       flex: 1,
                       child: Text(
-                        'Pay Now:',
+                        AppLocalizations.of(context)?.payNow ?? "Pay Now:",
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w600,
                           fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 21.sp, 20.sp),
@@ -193,7 +192,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              'I understand and accept the ',
+                              AppLocalizations.of(context)?.understandAndAccept ?? "I understand and accept the ",
                               style: theme.textTheme.bodyMedium?.copyWith(
                                 fontWeight: FontWeight.normal,
                                 fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -205,7 +204,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                 const CancellationPolicyScreen().show(context);
                               },
                               child: Text(
-                                'Cancelation Policy',
+                                AppLocalizations.of(context)?.cancellationPolicy ?? "Cancelation Policy",
                                 style: theme.textTheme.bodyMedium?.copyWith(
                                   decoration: TextDecoration.underline,
                                   fontWeight: FontWeight.w500,
@@ -241,7 +240,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                           // const ThankYou().show(context);
                         },
                         child: Text(
-                          'Important Information',
+                          AppLocalizations.of(context)?.importantInformation ?? "Important Information",
                           style: theme.textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.w500,
                             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -302,13 +301,13 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                             isLocal: true,
                           ).show(context);
                         } else {
-                          showToast('Something went wrong, please try again');
+                          showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? 'Something went wrong, please try again');
                         }
                       },
                       color: dialogButtonColor(themeType, theme),
                       textColor: loaderColor(themeType),
                       height: 60,
-                      label: 'Book',
+                      label: AppLocalizations.of(context)?.book ?? 'Book',
                       isLoading: _createAppointmentProvider.bookAppointmentStatus == Status.loading,
                       loaderColor: loaderColor(themeType),
                       fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -329,7 +328,9 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                           if (!acceptTerms) {
                             // Terms Checkbox is unchecked
 
-                            showToast('Please accept the cancellation policy');
+                            showToast(
+                              AppLocalizations.of(context)?.pleaseAcceptCancellationPolicy ?? "Please accept the cancellation policy",
+                            );
 
                             return;
                           }
@@ -371,7 +372,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
 
                         if (transactionId == null) {
                           // Transaction must not be null (a doc must me created in transactions collection)
-                          showToast('Something went wrong, please try again');
+                          showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? 'Something went wrong, please try again');
                           return;
                         }
 
@@ -573,7 +574,7 @@ class CancellationPolicyScreen<T> extends ConsumerWidget {
                       ),
                       const Spacer(flex: 2),
                       Text(
-                        'cancelation Policy'.toUpperCase(),
+                        (AppLocalizations.of(context)?.cancellationPolicy ?? "cancelation Policy").toUpperCase(),
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 18.sp, 20.sp),
                           fontWeight: FontWeight.w500,
@@ -594,7 +595,7 @@ class CancellationPolicyScreen<T> extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          'Canceling Appointment ',
+                          AppLocalizations.of(context)?.cancelingAppointment ?? "Canceling Appointment",
                           style: theme.textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.w600,
                             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),

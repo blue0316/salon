@@ -1,3 +1,4 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/products.dart';
@@ -55,7 +56,7 @@ class ShopCard extends ConsumerWidget {
                       )
                     : Center(
                         child: Text(
-                          'Photo N/A',
+                          AppLocalizations.of(context)?.photoNA ?? 'Photo N/A',
                           style: theme.textTheme.bodyLarge?.copyWith(
                             color: Colors.white,
                             fontSize: 20.sp,

@@ -103,7 +103,7 @@ class _DefaultAboutViewState extends ConsumerState<DefaultAboutView> {
                           Text(
                             isSingleMaster ? (AppLocalizations.of(context)?.aboutMe ?? 'About Me') : (AppLocalizations.of(context)?.aboutUs ?? 'About Us').toUpperCase(),
                             style: theme.textTheme.displayMedium?.copyWith(
-                              fontSize: DeviceConstraints.getResponsiveSize(context, 35.sp, 40.sp, 60.sp),
+                              fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 60.sp),
                             ),
                           ),
                           const SizedBox(height: 10),
