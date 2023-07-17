@@ -221,7 +221,8 @@ class _MasterProfileState extends ConsumerState<MasterProfile> {
                                                             });
                                                           },
                                                           child: Text(
-                                                            ((AppLocalizations.of(context)?.localeName == 'uk') ? masterDetailsTitlesUk[index] : masterDetailsTitles[index]).toUpperCase(),
+                                                            // ((AppLocalizations.of(context)?.localeName == 'uk') ? masterDetailsTitlesUk[index] : masterDetailsTitles[index]).toUpperCase(),
+                                                            masterTitles(AppLocalizations.of(context)?.localeName ?? 'en')[index],
                                                             style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                                                   fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 15.sp),
                                                                   color: _activeTab == index ? theme.primaryColor : unselectedTabColor(theme, isLightTheme),

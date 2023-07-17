@@ -188,15 +188,17 @@ class AuthProvider with ChangeNotifier {
   ConfirmationResult? webOTPConfirmationResult;
   ConfirmationResult? phoneVerificationResult;
 
-  Future<void> verifyPhoneNumber({required BuildContext context}) async {
+  Future<void> verifyPhoneNumber({required BuildContext context, required String phone, required String code}) async {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+
     printIt("verifying phone number");
     printIt(phoneNumber);
     printIt(countryCode);
-    String _phone = "$countryCode$phoneNumber";
+    String _phone = "$code$phone";
     printIt("Sending phone number");
     printIt(_phone);
 
-    if (phoneNumber.length < 8 || phoneNumber.length > 10) {
+    if (phone.length < 8 || phone.length > 10) {
       showToast(AppLocalizations.of(context)?.invalid_phone_number ?? 'Invalid phone No');
       otpStatus = Status.failed;
       notifyListeners();

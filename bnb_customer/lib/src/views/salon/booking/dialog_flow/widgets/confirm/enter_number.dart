@@ -32,6 +32,7 @@ class EnterNumber extends ConsumerStatefulWidget {
 }
 
 class _EnterNumberState extends ConsumerState<EnterNumber> {
+  String countryCode = '';
   @override
   Widget build(BuildContext context) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
@@ -78,10 +79,13 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                 onChanged: (val) {
                   _authProvider.countryCode = val.dialCode ?? '';
                   _authProvider.updateAuthCountryCode(val.dialCode ?? '');
+
+                  setState(() => countryCode = val.dialCode ?? '');
                 },
                 onInit: (val) {
                   _authProvider.countryCode = val?.dialCode ?? '';
                   _authProvider.updateAuthCountryCode(val?.dialCode ?? '');
+                  setState(() => countryCode = val?.dialCode ?? '');
                 },
                 initialSelection: 'UA',
                 favorite: const ['+1', '+380'],
@@ -174,7 +178,11 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                   if (_salonProfileProvider.themeSettings?.displaySettings?.enableOTP == true) {
                     // send otp
                     if (!_auth.userLoggedIn) {
-                      await _auth.verifyPhoneNumber(context: context);
+                      await _auth.verifyPhoneNumber(
+                        context: context,
+                        code: countryCode,
+                        phone: _authProvider.phoneNoController.text,
+                      );
 
                       if (_auth.otpStatus != Status.failed) {
                         showTopSnackBar(

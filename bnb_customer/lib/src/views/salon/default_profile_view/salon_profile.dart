@@ -1,6 +1,4 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
-import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
-import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/enums/profile_datails_tabs.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
@@ -36,9 +34,6 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool isLightTheme = (theme == AppTheme.customLightTheme);
-
-    final _createAppointmentProvider = ref.watch(createAppointmentProvider);
-    final _salonSearchProvider = ref.watch(salonSearchProvider);
 
     bool isSingleMaster = _salonProfileProvider.isSingleMaster;
 
@@ -106,6 +101,7 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
                                       scrollDirection: Axis.horizontal,
                                       shrinkWrap: true,
                                       controller: _scrollController,
+                                      physics: const NeverScrollableScrollPhysics(),
                                       separatorBuilder: (_, index) => Padding(
                                         padding: EdgeInsets.symmetric(
                                           vertical: 5,
@@ -133,12 +129,18 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
                                               },
                                               child: Text(
                                                 ((!isSingleMaster)
-                                                        ? (AppLocalizations.of(context)?.localeName == 'uk')
-                                                            ? saloonDetailsTitlesUK[index]
-                                                            : saloonDetailsTitles[index]
-                                                        : (AppLocalizations.of(context)?.localeName == 'uk')
-                                                            ? masterDetailsTitlesUk[index]
-                                                            : masterDetailsTitles[index])
+                                                        ? salonTitles(
+                                                            AppLocalizations.of(context)?.localeName ?? 'en',
+                                                          )[index]
+                                                        : masterTitles(
+                                                            AppLocalizations.of(context)?.localeName ?? 'en',
+                                                          )[index])
+                                                    // (AppLocalizations.of(context)?.localeName == 'uk')
+                                                    //     ? saloonDetailsTitlesUK[index]
+                                                    //     : saloonDetailsTitles[index]
+                                                    // : (AppLocalizations.of(context)?.localeName == 'uk')
+                                                    //     ? masterDetailsTitlesUk[index]
+                                                    //     : masterDetailsTitles[index])
                                                     .toUpperCase(),
                                                 style: theme.textTheme.displayLarge!.copyWith(
                                                   fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 16.sp, 18.sp),
@@ -155,26 +157,6 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
                                       },
                                     ),
                                   ),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  for (CategoryModel cat in _salonSearchProvider.categories) {
-                                    print(cat.categoryId);
-                                    print(cat.categoryName);
-                                    print('end end end');
-                                  }
-
-                                  print('--------++++--------');
-
-                                  for (ServiceModel service in _createAppointmentProvider.mastersServicesMapAll['Bu4Ms8kMSapkLXhdZWbv']!) {
-                                    print(service.categoryId);
-                                  }
-                                },
-                                child: Container(
-                                  height: 100,
-                                  width: 800,
-                                  color: Colors.purple,
                                 ),
                               ),
                               ExpandablePageView(
@@ -228,5 +210,37 @@ Color unselectedTabColor(ThemeData theme, bool isLightTheme) {
 
     default:
       return theme.primaryColor;
+  }
+}
+
+List<String> salonTitles(String locale) {
+  switch (locale) {
+    case 'es':
+      return saloonDetailsTitlesES;
+    case 'pt':
+      return saloonDetailsTitlesPT;
+    case 'ro':
+      return saloonDetailsTitlesRO;
+    case 'uk':
+      return saloonDetailsTitlesUK;
+
+    default:
+      return saloonDetailsTitles;
+  }
+}
+
+List<String> masterTitles(String locale) {
+  switch (locale) {
+    case 'es':
+      return masterDetailsTitlesES;
+    case 'pt':
+      return masterDetailsTitlesPT;
+    case 'ro':
+      return masterDetailsTitlesRO;
+    case 'uk':
+      return masterDetailsTitlesUK;
+
+    default:
+      return masterDetailsTitles;
   }
 }
