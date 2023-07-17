@@ -1,3 +1,4 @@
+import 'package:bbblient/src/views/salon/default_profile_view/salon_profile.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/app_bar.dart';
 import 'package:extended_wrap/extended_wrap.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
-import 'package:bbblient/src/models/enums/profile_datails_tabs.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
@@ -88,7 +88,7 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SectionSpacer(
-            title: (AppLocalizations.of(context)?.localeName == 'uk') ? saloonDetailsTitlesUK[1] : saloonDetailsTitles[1],
+            title: salonTitles(AppLocalizations.of(context)?.localeName ?? 'en')[1],
           ),
           Container(
             // height: 1000.h,

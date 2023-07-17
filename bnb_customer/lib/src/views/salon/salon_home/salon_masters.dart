@@ -92,7 +92,7 @@ class _SaloonMastersState extends ConsumerState<SaloonMasters> {
                                 width: DeviceConstraints.getResponsiveSize(context, 15, 30, 30),
                               ),
                               Text(
-                                _salonSearchProvider.categories[index].translations[AppLocalizations.of(context)?.localeName],
+                                _salonSearchProvider.categories[index].translations[AppLocalizations.of(context)?.localeName] ?? _salonSearchProvider.categories[index].translations['en'],
                                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 18.sp, //  DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),

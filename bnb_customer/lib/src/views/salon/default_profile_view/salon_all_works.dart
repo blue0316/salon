@@ -1,7 +1,7 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
-import 'package:bbblient/src/models/enums/profile_datails_tabs.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
+import 'package:bbblient/src/views/salon/default_profile_view/salon_profile.dart';
 import 'package:bbblient/src/views/themes/components/widgets/image_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,7 +35,7 @@ class _SalonAllWorksState extends ConsumerState<SalonAllWorks> {
       child: Column(
         children: [
           SectionSpacer(
-            title: (AppLocalizations.of(context)?.localeName == 'uk') ? saloonDetailsTitlesUK[3] : saloonDetailsTitles[3],
+            title: salonTitles(AppLocalizations.of(context)?.localeName ?? 'en')[3],
           ),
           Container(
             height: 1000.h,

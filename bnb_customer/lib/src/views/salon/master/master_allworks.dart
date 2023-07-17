@@ -5,6 +5,7 @@ import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/chat/image_preview.dart';
+import 'package:bbblient/src/views/salon/default_profile_view/salon_profile.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +55,7 @@ class _MasterAllWorksState extends ConsumerState<MasterAllWorks> {
                   children: [
                     const Space(factor: 1.5),
                     Text(
-                      ((AppLocalizations.of(context)?.localeName == 'uk') ? masterDetailsTitles[2] : masterDetailsTitles[2]).toUpperCase(),
+                      (masterTitles(AppLocalizations.of(context)?.localeName ?? 'en')[2]).toUpperCase(),
                       style: theme.textTheme.displayLarge!.copyWith(
                         fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 30.sp, 35.sp),
                         color: isLightTheme ? Colors.black : Colors.white,

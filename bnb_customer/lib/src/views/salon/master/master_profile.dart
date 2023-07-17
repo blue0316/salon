@@ -155,7 +155,7 @@ class _MasterProfileState extends ConsumerState<MasterProfile> {
                                                 ),
                                                 SizedBox(width: 5),
                                                 Text(
-                                                  'BACK'.toUpperCase(),
+                                                  (AppLocalizations.of(context)?.back ?? "BACK").toUpperCase(),
                                                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                                         fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 15.sp),
                                                         color: isLightTheme ? AppTheme.textBlack : Colors.white,

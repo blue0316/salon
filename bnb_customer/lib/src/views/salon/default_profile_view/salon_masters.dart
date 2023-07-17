@@ -1,12 +1,12 @@
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
 import 'package:bbblient/src/utils/icons.dart';
+import 'package:bbblient/src/views/salon/default_profile_view/salon_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
-import 'package:bbblient/src/models/enums/profile_datails_tabs.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
@@ -39,7 +39,7 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
       child: Column(
         children: [
           SectionSpacer(
-            title: (AppLocalizations.of(context)?.localeName == 'uk') ? saloonDetailsTitlesUK[2] : saloonDetailsTitles[2],
+            title: salonTitles(AppLocalizations.of(context)?.localeName ?? 'en')[2],
           ),
           Container(
             // height: 1000.h,
@@ -86,7 +86,7 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
                                       Text(
-                                        '${_salonSearchProvider.categories[index].translations[AppLocalizations.of(context)?.localeName]}'.toUpperCase(),
+                                        '${_salonSearchProvider.categories[index].translations[AppLocalizations.of(context)?.localeName] ?? _salonSearchProvider.categories[index].translations['en']}'.toUpperCase(),
                                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 18.sp, //  DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),

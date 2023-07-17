@@ -16,6 +16,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class NewServiceTile extends ConsumerStatefulWidget {
   final List<ServiceModel> services;
@@ -73,7 +74,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        ('${widget.categoryModel.translations[AppLocalizations.of(context)?.localeName ?? 'en']}').toUpperCase(),
+                        ('${widget.categoryModel.translations[AppLocalizations.of(context)?.localeName ?? 'en'] ?? widget.categoryModel.translations['en']}').toUpperCase(),
                         style: theme.textTheme.displayLarge!.copyWith(
                           fontWeight: FontWeight.w600,
                           fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
@@ -223,7 +224,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                               mainAxisAlignment: MainAxisAlignment.start,
                                                               children: [
                                                                 Text(
-                                                                  widget.services[index].translations![AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
+                                                                  widget.services[index].translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? widget.services[index].translations?['en'],
                                                                   style: theme.textTheme.displayMedium!.copyWith(
                                                                     fontWeight: FontWeight.bold,
                                                                     fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
@@ -271,10 +272,14 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                       height: 12.h,
                                                       width: 12.h,
                                                       child: Center(
-                                                        child: SvgPicture.asset(
-                                                          AppIcons.clockSVG,
+                                                        child: FaIcon(
+                                                          FontAwesomeIcons.clock,
                                                           color: isLightTheme ? Colors.black : Colors.white,
                                                         ),
+                                                        // child: SvgPicture.asset(
+                                                        //   AppIcons.clockSVG,
+                                                        //   color: isLightTheme ? Colors.black : Colors.white,
+                                                        // ),
                                                       ),
                                                     ),
                                                     const SizedBox(width: 7),

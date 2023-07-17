@@ -170,13 +170,13 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                                 children: [
                                                   for (Service s in appointment.services)
                                                     Text(
-                                                      s.translations![AppLocalizations.of(context)?.localeName ?? 'en'],
-                                                      style: Theme.of(context).textTheme.headline4!.copyWith(color: AppTheme.textBlack),
+                                                      s.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? s.translations?['en'],
+                                                      style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: AppTheme.textBlack),
                                                       maxLines: 1,
                                                     ),
                                                   Text(
                                                     "${AppLocalizations.of(context)?.services ?? "services"} (${appointment.services.length})",
-                                                    style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 14),
+                                                    style: Theme.of(context).textTheme.headlineMedium!.copyWith(fontSize: 14),
                                                   )
                                                 ],
                                               ),

@@ -8,6 +8,7 @@ import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/translation.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:translator/translator.dart' as trans;
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -105,7 +106,7 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    widget.categoryModel.translations[AppLocalizations.of(context)?.localeName ?? 'en'],
+                    widget.categoryModel.translations[AppLocalizations.of(context)?.localeName ?? 'en'] ?? widget.categoryModel.translations['en'],
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           fontWeight: FontWeight.w500,
                           fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
@@ -224,7 +225,7 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                                           Expanded(
                                                             flex: DeviceConstraints.getResponsiveSize(context, 1, 0, 0).toInt(),
                                                             child: Text(
-                                                              widget.services[index].translations![AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
+                                                              widget.services[index].translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? widget.services[index].translations?['en'],
                                                               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                                                     fontWeight: FontWeight.w500,
                                                                     fontSize: 16.sp,
@@ -267,18 +268,15 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                                     SizedBox(
                                                       height: 20.h,
                                                       width: 20.h,
-                                                      child: Center(
-                                                        child: SvgPicture.asset(
-                                                          AppIcons.clockSVG,
-                                                          color: AppTheme.black,
-                                                        ),
+                                                      child: const Center(
+                                                        child: FaIcon(FontAwesomeIcons.clock, color: AppTheme.black),
                                                       ),
                                                     ),
                                                     const SizedBox(width: 10),
                                                     service.isFixedDuration != null
                                                         ? service.isFixedDuration
                                                             ? Text(
-                                                                "${service.priceAndDuration!.duration} minutes",
+                                                                "${service.priceAndDuration!.duration} ${AppLocalizations.of(context)?.minutes ?? "minutes"}",
                                                                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                                                       fontSize: 15.sp,
                                                                     ),
@@ -286,7 +284,7 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                                                 maxLines: 1,
                                                               )
                                                             : Text(
-                                                                "${service.priceAndDuration!.duration} minutes - ${service.priceAndDurationMax!.duration} minutes",
+                                                                "${service.priceAndDuration!.duration} ${AppLocalizations.of(context)?.minutes ?? "minutes"} - ${service.priceAndDurationMax!.duration} ${AppLocalizations.of(context)?.minutes ?? "minutes"}",
                                                                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                                                       fontSize: 16.sp,
                                                                     ),
@@ -294,8 +292,8 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                                                 maxLines: 1,
                                                               )
                                                         : Text(
-                                                            "${service.priceAndDuration!.duration} minutes",
-                                                            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                                            "${service.priceAndDuration!.duration} ${AppLocalizations.of(context)?.minutes ?? "minutes"}",
+                                                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                                                   fontSize: 15.sp,
                                                                 ),
                                                             overflow: TextOverflow.ellipsis,

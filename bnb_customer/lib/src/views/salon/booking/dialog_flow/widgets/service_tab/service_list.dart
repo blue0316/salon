@@ -19,6 +19,7 @@ import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ServiceList extends ConsumerWidget {
   final List<ServiceModel> services;
@@ -217,10 +218,14 @@ class ServiceCard extends ConsumerWidget {
                     height: 20.h,
                     width: 20.h,
                     child: Center(
-                      child: SvgPicture.asset(
-                        AppIcons.clockSVG,
-                        color: isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
+                      child: FaIcon(
+                        FontAwesomeIcons.clock,
+                        color: isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary,
                       ),
+                      // child: SvgPicture.asset(
+                      //   AppIcons.clockSVG,
+                      //   color: isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
+                      // ),
                     ),
                   ),
                   const SizedBox(width: 10),

@@ -41,7 +41,7 @@ class ServiceTile extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        (service.translations![AppLocalizations.of(context)?.localeName ?? 'en'].toString()).toUpperCase(),
+                        (service.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? service.translations?['en']).toUpperCase(),
                         style: theme.textTheme.bodyLarge?.copyWith(
                           color: serviceNameColor(themeType, theme),
                           fontSize: 20.sp,
