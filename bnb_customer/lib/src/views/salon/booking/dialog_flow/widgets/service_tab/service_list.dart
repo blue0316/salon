@@ -221,6 +221,7 @@ class ServiceCard extends ConsumerWidget {
                       child: FaIcon(
                         FontAwesomeIcons.clock,
                         color: isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary,
+                        size: 10.h,
                       ),
                       // child: SvgPicture.asset(
                       //   AppIcons.clockSVG,

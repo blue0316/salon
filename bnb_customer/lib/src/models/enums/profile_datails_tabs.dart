@@ -1,28 +1,28 @@
 const saloonDetailsTitles = [
   "services",
   "about",
-  "masters",
+  "team",
   "all works",
 ];
 
 const saloonDetailsTitlesES = [
   "servicios",
   "acerca de",
-  "maestros",
+  "equipo",
   "todas las obras",
 ];
 
 const saloonDetailsTitlesPT = [
   "Serviços",
   "sobre",
-  "mestres",
+  "equipe",
   "todas as obras",
 ];
 
 const saloonDetailsTitlesRO = [
   "Servicii",
   "despre",
-  "masterat",
+  "echipă",
   "toate lucrările",
 ];
 
