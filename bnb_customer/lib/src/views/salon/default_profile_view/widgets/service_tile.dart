@@ -275,6 +275,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                         child: FaIcon(
                                                           FontAwesomeIcons.clock,
                                                           color: isLightTheme ? Colors.black : Colors.white,
+                                                          size: 12.h,
                                                         ),
                                                         // child: SvgPicture.asset(
                                                         //   AppIcons.clockSVG,

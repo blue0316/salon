@@ -32,7 +32,7 @@ class EnterNumber extends ConsumerStatefulWidget {
 }
 
 class _EnterNumberState extends ConsumerState<EnterNumber> {
-  String countryCode = '';
+  String countryCode = '+380';
   @override
   Widget build(BuildContext context) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
@@ -85,7 +85,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                 onInit: (val) {
                   _authProvider.countryCode = val?.dialCode ?? '';
                   _authProvider.updateAuthCountryCode(val?.dialCode ?? '');
-                  setState(() => countryCode = val?.dialCode ?? '');
+                  // setState(() => countryCode = val?.dialCode ?? '');
                 },
                 initialSelection: 'UA',
                 favorite: const ['+1', '+380'],
