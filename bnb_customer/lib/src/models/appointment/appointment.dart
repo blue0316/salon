@@ -56,7 +56,7 @@ class AppointmentModel {
   String? appointmentIdentifier;
 
   // id of appointment transaction
-  String? transactionId;
+  List<String>? transactionId = [];
 
   AppointmentModel({
     required this.appointmentStartTime,
@@ -145,7 +145,11 @@ class AppointmentModel {
     salonReviewed = json['salonReviewed'] ?? false;
     beautyProId = json['beautyProId'];
     yClientsId = json['yClientsId'];
-    transactionId = json['transactionId'] ?? '';
+    transactionId = json['transactionId'] == null
+        ? []
+        : json['transactionId'].runtimeType.toString() == 'String'
+            ? [json['transactionId']]
+            : List<String>.from(json['transactionId']);
   }
 
   Map<String, dynamic> toJson() {

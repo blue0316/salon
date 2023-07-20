@@ -3146,7 +3146,7 @@ class CreateAppointmentProvider with ChangeNotifier {
       subStatus: _start.difference(DateTime.now()).inHours < 24 ? ActiveAppointmentSubStatus.confirmed : ActiveAppointmentSubStatus.unConfirmed,
       priceAndDuration: _priceAndDuration,
       paymentInfo: _paymentInfo,
-      transactionId: transactionId,
+      transactionId: [transactionId!],
     );
   }
 
@@ -3334,7 +3334,7 @@ class CreateAppointmentProvider with ChangeNotifier {
       subStatus: _start.difference(DateTime.now()).inHours < 24 ? ActiveAppointmentSubStatus.confirmed : ActiveAppointmentSubStatus.unConfirmed,
       priceAndDuration: _priceAndDuration,
       paymentInfo: _paymentInfo,
-      transactionId: transactionId,
+      transactionId: [transactionId!],
     );
   }
 
