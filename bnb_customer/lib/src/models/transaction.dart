@@ -9,6 +9,7 @@ class TransactionModel {
   late String? cardType;
   late String? merchantRef;
   late String? storedCredentialUse;
+  late String? salonId;
 
   TransactionModel({
     required this.timeInitiated,
@@ -21,6 +22,7 @@ class TransactionModel {
     this.merchantRef,
     this.cardType,
     this.storedCredentialUse,
+    this.salonId,
   });
 
   TransactionModel.fromJson(Map<String, dynamic> json) {
@@ -35,6 +37,7 @@ class TransactionModel {
     cardType = json['CARDTYPE'];
     storedCredentialUse = json['STOREDCREDENTIALUSE'];
     merchantRef = json['MERCHANTREF'];
+    salonId = json['salonId'];
   }
 
   Map<String, dynamic> toJson() {
@@ -43,6 +46,7 @@ class TransactionModel {
     data['amount'] = amount;
     data['transactionId'] = transactionId;
     data['RESPONSECODE'] = responseCode;
+    data['salonId'] = salonId;
 
     return data;
   }

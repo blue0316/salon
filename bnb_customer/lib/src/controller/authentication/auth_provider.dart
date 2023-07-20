@@ -209,6 +209,10 @@ class AuthProvider with ChangeNotifier {
       notifyListeners();
       try {
         if (kIsWeb) {
+          // print('******@@@@@@*******');
+          // print(_phone);
+          // print('******@@@@@@*******');
+
           webOTPConfirmationResult = await _auth.signInWithPhoneNumber(
             _phone.trim(),
           );

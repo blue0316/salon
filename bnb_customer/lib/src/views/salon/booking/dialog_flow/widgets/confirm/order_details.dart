@@ -366,6 +366,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                         final TransactionModel newTransaction = TransactionModel(
                           amount: (deposit != 0) ? '$deposit' : totalAmount,
                           timeInitiated: DateTime.now(),
+                          salonId: salonModel.salonId,
                         );
 
                         String? transactionId = await TransactionApi().createTransaction(newTransaction);
