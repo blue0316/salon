@@ -188,16 +188,17 @@ class AuthProvider with ChangeNotifier {
   ConfirmationResult? webOTPConfirmationResult;
   ConfirmationResult? phoneVerificationResult;
 
-  Future<void> verifyPhoneNumber({required BuildContext context}) async {
+  Future<void> verifyPhoneNumber({required BuildContext context, required String phone, required String code}) async {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+
     printIt("verifying phone number");
     printIt(phoneNumber);
     printIt(countryCode);
-    String _phone = "$countryCode$phoneNumber";
+    String _phone = "$code$phone";
     printIt("Sending phone number");
     printIt(_phone);
 
-    if (phoneNumber.length < 8 || phoneNumber.length > 10) {
-      print('the error is coming from here!');
+    if (phone.length < 8 || phone.length > 10) {
       showToast(AppLocalizations.of(context)?.invalid_phone_number ?? 'Invalid phone No');
       otpStatus = Status.failed;
       notifyListeners();
@@ -208,13 +209,17 @@ class AuthProvider with ChangeNotifier {
       notifyListeners();
       try {
         if (kIsWeb) {
+          // print('******@@@@@@*******');
+          // print(_phone);
+          // print('******@@@@@@*******');
+
           webOTPConfirmationResult = await _auth.signInWithPhoneNumber(
             _phone.trim(),
           );
 
-          print('******@@@@@@*******');
-          print('web result - $webOTPConfirmationResult ');
-          print('******@@@@@@*******');
+          // print('******@@@@@@*******');
+          // print('web result - $webOTPConfirmationResult ');
+          // print('******@@@@@@*******');
 
           final customerExists = await CustomerApi().checkIfCustomerExists(_phone.trim());
           if (!customerExists) {
@@ -225,7 +230,7 @@ class AuthProvider with ChangeNotifier {
 
           _showOTPScreen();
         } else {
-          print('kIsWeb is NOT TRUE!!!!');
+          printIt('kIsWeb is NOT TRUE!!!!');
           await _auth.verifyPhoneNumber(
             phoneNumber: _phone.trim(),
             codeAutoRetrievalTimeout: (String verId) {
@@ -287,7 +292,7 @@ class AuthProvider with ChangeNotifier {
     required String countryCode,
   }) async {
     String _phone = "$countryCode$phoneNumber";
-    print(_phone);
+    // print(_phone);
     // debugPrint('#####################################');
 
     // debugPrint(countryCode);
@@ -296,7 +301,6 @@ class AuthProvider with ChangeNotifier {
     // debugPrint('#####################################');
 
     if (phoneNumber.length < 8 || phoneNumber.length > 10) {
-      print('the error is coming from here 333333');
       showToast(AppLocalizations.of(context)?.invalid_phone_number ?? 'Invalid phone No');
       return;
     }
@@ -307,7 +311,7 @@ class AuthProvider with ChangeNotifier {
       if (kIsWeb) {
         webOTPConfirmationResult = await _auth.signInWithPhoneNumber(_phone.trim());
         notifyListeners();
-        print('${webOTPConfirmationResult}web result');
+        // print('${webOTPConfirmationResult}web result');
         final customerExists = await CustomerApi().checkIfCustomerExists(_phone.trim());
         if (!customerExists) {
           isNewUser = true;
@@ -392,13 +396,13 @@ class AuthProvider with ChangeNotifier {
       if (kIsWeb) {
         // printIt("It's webbb");
         _userResult = await webOTPConfirmationResult?.confirm(otp);
-        print('#################################');
-        print(_userResult);
-        // print('-------');
-        // print(_userResult?.user);
-        // print('-------');
-        // print(_userResult?.additionalUserInfo);
-        print('#################################');
+        // print('#################################');
+        // print(_userResult);
+        // // print('-------');
+        // // print(_userResult?.user);
+        // // print('-------');
+        // // print(_userResult?.additionalUserInfo);
+        // print('#################################');
         phoneNoController.clear();
       } else {
         final AuthCredential _authCredential = PhoneAuthProvider.credential(

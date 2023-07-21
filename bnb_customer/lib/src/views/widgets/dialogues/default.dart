@@ -60,7 +60,7 @@ class DefaultDialogue extends StatelessWidget {
                 child: Text(
                   skipText,
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headline3!.copyWith(color: Theme.of(context).primaryColor),
+                  style: Theme.of(context).textTheme.displaySmall!.copyWith(color: Theme.of(context).primaryColor),
                 ),
               ),
           ],

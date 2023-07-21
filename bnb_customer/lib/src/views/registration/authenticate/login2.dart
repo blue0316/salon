@@ -159,11 +159,11 @@ class _Login2State extends ConsumerState<Login2> {
                 Gap(80.h),
                 ElevatedButton(
                   onPressed: () async {
-                    if (_auth.otpStatus != Status.loading) {
-                      await _auth.verifyPhoneNumber(context: context);
-                    } else {
-                      showToast(AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
-                    }
+                    // if (_auth.otpStatus != Status.loading) {
+                    //   await _auth.verifyPhoneNumber(context: context);
+                    // } else {
+                    //   showToast(AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
+                    // }
                   },
                   child: (_auth.otpStatus != Status.loading)
                       ? Text(
@@ -241,8 +241,8 @@ class _Login2State extends ConsumerState<Login2> {
                 Gap(85.h),
                 GestureDetector(
                   onTap: () async {
-                    _auth.verifyPhoneNumber(context: context).then((value) => showToast2(context));
-                    _auth.otp = '';
+                    // _auth.verifyPhoneNumber(context: context).then((value) => showToast2(context));
+                    // _auth.otp = '';
                   },
                   child: RichText(
                     text: TextSpan(

@@ -1,3 +1,5 @@
+import 'package:bbblient/src/utils/extensions/exstension.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/booking_dialog_2.dart';
 import 'package:bbblient/src/views/themes/components/widgets/button.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
@@ -52,7 +54,7 @@ Widget bookNowButtonTheme(context, {required ThemeType themeType, required Theme
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SquareButton(
-            text: '  BOOK NOW  ',
+            text: '  ${AppLocalizations.of(context)?.price ?? "BOOK NOW"}  ',
             height: 60.h,
             // buttonColor: Colors.white,
             // borderColor: Colors.black,
@@ -71,7 +73,7 @@ Widget bookNowButtonTheme(context, {required ThemeType themeType, required Theme
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SquareButton(
-            text: '  BOOK NOW  ',
+            text: '  ${AppLocalizations.of(context)?.price ?? "BOOK NOW"}  ',
             height: 60.h,
             // buttonColor: Colors.black,
             // borderColor: Colors.white,
@@ -90,7 +92,7 @@ Widget bookNowButtonTheme(context, {required ThemeType themeType, required Theme
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SquareButton(
-            text: 'BOOK NOW',
+            text: AppLocalizations.of(context)?.price ?? "BOOK NOW",
             height: 60.h,
             buttonColor: theme.primaryColor,
             borderColor: Colors.transparent,
@@ -105,7 +107,7 @@ Widget bookNowButtonTheme(context, {required ThemeType themeType, required Theme
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SquareButton(
-            text: 'BOOK NOW',
+            text: AppLocalizations.of(context)?.price ?? "BOOK NOW",
             height: 60.h,
             buttonColor: theme.primaryColor,
             borderColor: Colors.transparent,
@@ -120,7 +122,7 @@ Widget bookNowButtonTheme(context, {required ThemeType themeType, required Theme
         width: 180.h,
         height: 60.h,
         textSize: 18.sp,
-        text: 'Book Now',
+        text: (AppLocalizations.of(context)?.price ?? "BOOK NOW").toCapitalized(),
         onTap: () => const BookingDialogWidget222().show(context),
       );
   }

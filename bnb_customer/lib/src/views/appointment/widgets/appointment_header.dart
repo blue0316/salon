@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -58,7 +57,7 @@ class Header extends ConsumerWidget {
                           ? CachedImage(url: salonLogo!)
                           : Center(
                               child: Text(
-                                salonName[0].toUpperCase(),
+                                (salonName.isNotEmpty) ? salonName[0].toUpperCase() : '',
                                 style: theme.textTheme.displayLarge!.copyWith(
                                   fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 30.sp, 30.sp),
                                   color: Colors.white,
@@ -103,6 +102,7 @@ class Header extends ConsumerWidget {
                                       fontSize: 13.sp,
                                       fontWeight: FontWeight.w400,
                                       color: isLightTheme ? Colors.black : Colors.white,
+                                      fontFamily: 'Poppins',
                                     ),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,

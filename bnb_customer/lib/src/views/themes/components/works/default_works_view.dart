@@ -59,7 +59,7 @@ class _DefaultWorksViewState extends ConsumerState<DefaultWorksView> {
                   (isSingleMaster ? (AppLocalizations.of(context)?.myWorks ?? 'My Works') : (AppLocalizations.of(context)?.ourWorks ?? 'Our Works')).toUpperCase(),
                   style: theme.textTheme.displayMedium?.copyWith(
                     color: theme.colorScheme.secondary,
-                    fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 45.sp, 65.sp),
+                    fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 60.sp),
                   ),
                 ),
                 const Spacer(),
@@ -119,7 +119,7 @@ class _DefaultWorksViewState extends ConsumerState<DefaultWorksView> {
                     ),
                   )
                 : NoSectionYet(
-                    text: 'No photos of works', // AppLocalizations.of(context)?.noWorks ?? 'No photos of works',
+                    text: AppLocalizations.of(context)?.noWorks ?? 'No photos of works',
                     color: theme.colorScheme.secondary,
                   ),
           ],

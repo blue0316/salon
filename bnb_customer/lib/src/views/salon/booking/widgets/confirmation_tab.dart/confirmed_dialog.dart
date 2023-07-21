@@ -182,7 +182,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                             children: _createAppointmentProvider.chosenServices
                                 .map(
                                   (service) => Text(
-                                    service.translations![AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
+                                    service.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? service.translations?['en'],
                                     style: theme.textTheme.bodyMedium?.copyWith(
                                       fontWeight: FontWeight.w600,
                                       fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),

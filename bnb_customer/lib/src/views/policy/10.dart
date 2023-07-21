@@ -66,20 +66,20 @@ class Content10 extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "A. Identifiers",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Contact details, such as real name, alias, postal address, telephone or mobile contact number, unique personal identifier, online identifier, Internet Protocol address, email address, and account name",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
                 Center(
                   child: Text(
                     "YES",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
               ]),
@@ -88,20 +88,20 @@ class Content10 extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "B. Personal information categories listed in the California Customer Records statute",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Name, contact information, education, employment, employment history, and financial information",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
                 Center(
                   child: Text(
                     "YES",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
               ]),
@@ -110,20 +110,20 @@ class Content10 extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "C. Protected classification characteristics under California or federal law",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Gender and date of birth",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
                 Center(
                   child: Text(
                     "YES",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
               ]),
@@ -132,20 +132,20 @@ class Content10 extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "D. Commercial information",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Transaction information, purchase history, financial details, and payment information",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
                 Center(
                   child: Text(
                     "NO",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
               ]),
@@ -154,20 +154,20 @@ class Content10 extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "E. Biometric information",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Fingerprints and voiceprints",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
                 Center(
                   child: Text(
                     "NO",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
               ]),
@@ -176,20 +176,20 @@ class Content10 extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "F. Internet or other similar network activity",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Browsing history, search history, online behavior, interest data, and interactions with our and other websites, applications, systems, and advertisements",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
                 Center(
                   child: Text(
                     "NO",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
               ]),
@@ -198,20 +198,20 @@ class Content10 extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "G. Geolocation data",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Device location",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
                 Center(
                   child: Text(
                     "YES",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
               ]),
@@ -220,20 +220,20 @@ class Content10 extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "H. Audio, electronic, visual, thermal, olfactory, or similar information",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Images and audio, video or call recordings created in connection with our business activities",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
                 Center(
                   child: Text(
                     "NO",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
               ]),
@@ -242,20 +242,20 @@ class Content10 extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "I. Professional or employment-related information",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Business contact details in order to provide you our Services at a business level or job title, work history, and professional qualifications if you apply for a job with us",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
                 Center(
                   child: Text(
                     "NO",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
               ]),
@@ -264,20 +264,20 @@ class Content10 extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "J. Education Information",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Student records and directory information",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
                 Center(
                   child: Text(
                     "NO",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
               ]),
@@ -286,20 +286,20 @@ class Content10 extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "K. Inferences drawn from other personal information",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Inferences drawn from any of the collected personal information listed above to create a profile or summary about, for example, an individual’s preferences and characteristics",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
                 Center(
                   child: Text(
                     "NO",
-                    style: Theme.of(context).textTheme.headline3!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(decoration: TextDecoration.underline, fontSize: 14, color: const Color.fromARGB(255, 76, 75, 75), fontWeight: FontWeight.bold),
                   ),
                 ),
               ]),

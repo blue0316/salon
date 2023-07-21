@@ -154,6 +154,8 @@ class CreateAppointmentProvider with ChangeNotifier {
   List<ServiceModel> unavailableSelectedItems = [];
   // List<ServiceModel> filteredServicesList = [];
   Map<String, List<ServiceModel>> groupUnavailableSelectedItems = {};
+  double totalDeposit = 0;
+  int bookingFlowPageIndex = 0;
 
   getServiceMasters() {
     unavailableSelectedItems.clear();
@@ -248,16 +250,29 @@ class CreateAppointmentProvider with ChangeNotifier {
     return;
   }
 
+  List<MasterModel> mastersAbleToPerformService = [];
+
   initMastersAndTime() {
     availableAppointments.clear();
     allAppointments.clear();
     serviceableMasters.clear();
+    mastersAbleToPerformService.clear();
     notifyListeners();
 
-    serviceableMasters = getMultipleServiceableMasters(salonMasters);
+    mastersAbleToPerformService = getMultipleServiceableMasters(salonMasters);
 
     ///load price and duration of masters for multiple services
     loadMultiplePriceAndDuration();
+
+    for (MasterModel master in mastersAbleToPerformService) {
+      String? price = priceAndDuration[master.masterId]?.price ?? '0';
+      String? duration = priceAndDuration[master.masterId]?.duration ?? '0';
+
+      if (price != '0' && duration != '0') {
+        serviceableMasters.add(master);
+      }
+    }
+    notifyListeners();
     loadMasterView();
     loadDayView();
   }
@@ -301,11 +316,6 @@ class CreateAppointmentProvider with ChangeNotifier {
         }
       }
     }
-
-    // print('___----------******----------______');
-    // print(_tempMasters);
-    // print(_tempMasters.length);
-    // print('___----------******----------______');
 
     return _tempMasters.toList();
   }
@@ -700,7 +710,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   ///load multiple price and duration for multiple masters in the salon
   loadMultiplePriceAndDuration() {
     priceAndDuration.clear();
-    for (var master in serviceableMasters) {
+    for (var master in mastersAbleToPerformService) {
       totalDuration = 0;
       totalPriceForMultiple = 0;
       for (ServiceModel eachSelectedService in chosenServices) {
@@ -750,6 +760,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 
   onAppointmentChange(MasterModel master, String? appointment, {DateTime? date}) {
     debugPrint('On Appointment Change Function');
+    // print(master.personalInfo?.firstName);
     isBlocked = false;
 
     totalTimeSlotsRequired = (int.parse(priceAndDuration[master.masterId]?.duration ?? defaultServiceDuration) / (chosenSalon!.timeSlotsInterval ?? 15)).ceil();
@@ -976,9 +987,36 @@ class CreateAppointmentProvider with ChangeNotifier {
     return null;
   }
 
+  getTotalDeposit() {
+    totalDeposit = 0;
+
+    for (ServiceModel service in chosenServices) {
+      totalDeposit += double.parse(service.deposit ?? '0');
+    }
+
+    notifyListeners();
+  }
+
+  int? confirmationPageIndex;
+
+  changeBookingFlowIndex({bool decrease = false, bool enteringConfirmationView = false}) {
+    if (!decrease) {
+      bookingFlowPageIndex += 1;
+    } else {
+      bookingFlowPageIndex -= 1;
+    }
+
+    if (enteringConfirmationView) {
+      confirmationPageIndex = 0;
+    }
+    notifyListeners();
+  }
+
   /// --------------------------- stop cooking -------------------------------------------------------------------------
 
   void nextPageView(int index) {
+    confirmationPageIndex = index;
+    notifyListeners();
     confirmationPageController.animateToPage(
       index,
       duration: const Duration(milliseconds: 100),
@@ -2988,15 +3026,15 @@ class CreateAppointmentProvider with ChangeNotifier {
   }
 
   addServiceMaster(ServiceModel service, MasterModel master, BuildContext context) {
-    print('------------SERVICE MASTER ADDED------------');
+    // print('------------SERVICE MASTER ADDED------------');
     serviceAgainstMaster.removeWhere((element) => element.service!.serviceId == service.serviceId);
     serviceAgainstMaster.add(ServiceAndMaster(service: service, master: master));
     getSlotsForSalonOwnerTye(day: chosenDay, context: context, showNotWorkingToast: false, masterAndservice: serviceAgainstMaster);
     divideSlotsForDay();
     notifyListeners();
-    print('valid slots added here ??');
-    print(serviceAgainstMaster.where((element) => element.master == master).first.validSlots);
-    print('------------SERVICE MASTER ADDED------------');
+    // print('valid slots added here ??');
+    // print(serviceAgainstMaster.where((element) => element.master == master).first.validSlots);
+    // print('------------SERVICE MASTER ADDED------------');
   }
 
   // to help recalculate the available slots
@@ -3010,7 +3048,7 @@ class CreateAppointmentProvider with ChangeNotifier {
     ///creating all the required variables
     const String _type = AppointmentType.reservation;
     //updating the latest update
-    final List<String> _updates = [AppointmentUpdates.createdBySalon];
+    final List<String> _updates = [AppointmentUpdates.createdByCustomer];
     final List<DateTime> _updatedAt = [DateTime.now()];
 
     final PriceAndDurationModel _priceAndDuration = priceAndDuration[chosenMaster?.masterId] ?? PriceAndDurationModel();
@@ -3108,7 +3146,7 @@ class CreateAppointmentProvider with ChangeNotifier {
       subStatus: _start.difference(DateTime.now()).inHours < 24 ? ActiveAppointmentSubStatus.confirmed : ActiveAppointmentSubStatus.unConfirmed,
       priceAndDuration: _priceAndDuration,
       paymentInfo: _paymentInfo,
-      transactionId: transactionId,
+      transactionId: [transactionId!],
     );
   }
 
@@ -3126,7 +3164,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 
   //   const String _type = AppointmentType.reservation;
   //   //updating the latest update
-  //   final List<String> _updates = [AppointmentUpdates.createdBySalon];
+  //   final List<String> _updates = [AppointmentUpdates.createdByCustomer];
   //   final List<DateTime> _updatedAt = [DateTime.now()];
   //   final DateTime _createdAt = DateTime.now();
   //   const String _status = AppointmentStatus.active;
@@ -3188,7 +3226,7 @@ class CreateAppointmentProvider with ChangeNotifier {
     ///creating all the required variables
     const String _type = AppointmentType.reservation;
     //updating the latest update
-    final List<String> _updates = [AppointmentUpdates.createdBySalon];
+    final List<String> _updates = [AppointmentUpdates.createdByCustomer];
     final List<DateTime> _updatedAt = [DateTime.now()];
 
     //////////////////////////////////////////////
@@ -3296,7 +3334,7 @@ class CreateAppointmentProvider with ChangeNotifier {
       subStatus: _start.difference(DateTime.now()).inHours < 24 ? ActiveAppointmentSubStatus.confirmed : ActiveAppointmentSubStatus.unConfirmed,
       priceAndDuration: _priceAndDuration,
       paymentInfo: _paymentInfo,
-      transactionId: transactionId,
+      transactionId: [transactionId!],
     );
   }
 
@@ -3312,7 +3350,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   //   ///creating all the required variables
   //   const String _type = AppointmentType.reservation;
   //   //updating the latest update
-  //   final List<String> _updates = [AppointmentUpdates.createdBySalon];
+  //   final List<String> _updates = [AppointmentUpdates.createdByCustomer];
   //   final List<DateTime> _updatedAt = [DateTime.now()];
   //   final DateTime _createdAt = DateTime.now();
 
@@ -3614,11 +3652,11 @@ class CreateAppointmentProvider with ChangeNotifier {
     int endApptProcessingTime = 0;
     //this will hold highest appointment clean up time
     int cleanUpApptTime = 0;
-    debugPrint('at zero before${chosenServices[0].preparationTime}');
+    // debugPrint('at zero before${chosenServices[0].preparationTime}');
 
     //loop through each service and get highest prep time and cleanup time if there is any
     for (var selectedAvailableService in chosenServices) {
-      debugPrint('at all before${chosenServices[chosenServices.indexOf(selectedAvailableService)].preparationTime}');
+      // debugPrint('at all before${chosenServices[chosenServices.indexOf(selectedAvailableService)].preparationTime}');
       // If prep-time =null , cleantime is not null, then pre-time service as first service in the list.
       // also if the service prep time is greater than preparationTime variable then assign it to the preparationTime
       if (selectedAvailableService.preparationTime != null && selectedAvailableService.cleanUpTime == null) {
@@ -3671,16 +3709,16 @@ class CreateAppointmentProvider with ChangeNotifier {
       }
     }
 
-    debugPrint('at zero after${chosenServices[0].preparationTime}');
+    // debugPrint('at zero after${chosenServices[0].preparationTime}');
 
-    debugPrint(' prep time $preparationTime');
-    debugPrint('end processing time$endApptProcessingTime');
+    // debugPrint(' prep time $preparationTime');
+    // debugPrint('end processing time$endApptProcessingTime');
     _appointment.appointmentIdentifier = identifier;
 
     await AppointmentApi().createUpdateAppointment(_appointment).then((value) async {
       //blocking master's time
 
-      debugPrint('is it getting here');
+      // debugPrint('is it getting here');
       // block time normally if
       await AppointmentApi().blockMastersTime(
         master: chosenMaster!,
@@ -3984,7 +4022,7 @@ class CreateAppointmentProvider with ChangeNotifier {
     ///creating all the required variables
     final String _type = type!;
     //updating the latest update
-    final List<String> _updates = [AppointmentUpdates.createdBySalon];
+    final List<String> _updates = [AppointmentUpdates.createdByCustomer];
     final List<DateTime> _updatedAt = [DateTime.now()];
 
     //////////////////////////////////////////////
@@ -4092,7 +4130,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   //   ///creating all the required variables
   //   final String _type = type!;
   //   //updating the latest update
-  //   final List<String> _updates = [AppointmentUpdates.createdBySalon];
+  //   final List<String> _updates = [AppointmentUpdates.createdByCustomer];
   //   final List<DateTime> _updatedAt = [DateTime.now()];
 
   //   //////////////////////////////////////////////
@@ -4201,7 +4239,7 @@ class CreateAppointmentProvider with ChangeNotifier {
     ///creating all the required variables
     final String _type = type!;
     //updating the latest update
-    final List<String> _updates = [AppointmentUpdates.createdBySalon];
+    final List<String> _updates = [AppointmentUpdates.createdByCustomer];
     final List<DateTime> _updatedAt = [DateTime.now()];
 
     //////////////////////////////////////////////
@@ -4321,7 +4359,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   //   ///creating all the required variables
   //   final String _type = type!;
   //   //updating the latest update
-  //   final List<String> _updates = [AppointmentUpdates.createdBySalon];
+  //   final List<String> _updates = [AppointmentUpdates.createdByCustomer];
   //   final List<DateTime> _updatedAt = [DateTime.now()];
 
   //   List<Service> servicesList = appointment.services;
@@ -4461,7 +4499,8 @@ class CreateAppointmentProvider with ChangeNotifier {
     selectedSubItems = [];
     unavailableSelectedItems = [];
     groupUnavailableSelectedItems = {};
-
+    bookingFlowPageIndex = 0;
+    confirmationPageIndex = null;
     notifyListeners();
   }
 
@@ -4503,6 +4542,8 @@ class CreateAppointmentProvider with ChangeNotifier {
     selectedSubItems = [];
     unavailableSelectedItems = [];
     groupUnavailableSelectedItems = {};
+    bookingFlowPageIndex = 0;
+    confirmationPageIndex = null;
     notifyListeners();
   }
 

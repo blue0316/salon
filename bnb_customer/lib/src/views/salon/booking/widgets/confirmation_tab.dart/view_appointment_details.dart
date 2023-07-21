@@ -39,7 +39,7 @@ class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetai
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context).size;
-    // final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
+    final _createAppointmentProvider = ref.watch(createAppointmentProvider);
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     // final AuthProvider _auth = ref.watch(authProvider);
     final _appointmentProvider = ref.watch(appointmentProvider);
@@ -98,21 +98,23 @@ class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetai
                           color: theme.colorScheme.onBackground,
                         ),
                       ),
-                      // const Spacer(flex: 2),
-                      // GestureDetector(
-                      //   onTap: () {
-                      //     Navigator.pop(context);
-                      //     // _createAppointmentProvider.resetFlow();
-                      //   },
-                      //   child: Padding(
-                      //     padding: EdgeInsets.only(right: 15.sp),
-                      //     child: Icon(
-                      //       Icons.close_rounded,
-                      //       color: theme.colorScheme.tertiary.withOpacity(0.6),
-                      //       size: DeviceConstraints.getResponsiveSize(context, 20.sp, 22.sp, 24.sp),
-                      //     ),
-                      //   ),
-                      // ),
+                      const Spacer(flex: 2),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                          _createAppointmentProvider.resetFlow();
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 15.sp),
+                          child: Icon(
+                            Icons.close_rounded,
+                            color: theme.colorScheme.tertiary.withOpacity(0.6),
+                            size: DeviceConstraints.getResponsiveSize(context, 20.sp, 22.sp, 24.sp),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
 
@@ -172,7 +174,7 @@ class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetai
                             children: appointment.services
                                 .map(
                                   (service) => Text(
-                                    service.translations![AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
+                                    service.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? service.translations?['en'],
                                     style: theme.textTheme.bodyMedium?.copyWith(
                                       fontWeight: FontWeight.w600,
                                       fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -273,7 +275,7 @@ class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetai
                             _appointmentProvider.addToAppleCalendar(
                               context,
                               appointment: appointment,
-                              appointmentId: appointment.appointmentIdentifier!,
+                              appointmentId: appointment.appointmentId!,
                               startTime: start.toIso8601String(),
                               endTime: end.toIso8601String(),
                             );
@@ -304,7 +306,7 @@ class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetai
 
                             // Create Event Template
                             final String url = AddToCalendar().getGoogleCalendarUrl(
-                              title: 'Appointment Confirmation',
+                              title: 'Appointment at ${appointment.salon.name}',
                               description: 'Appointment with ${appointment.master?.name} at ${appointment.salon.name}',
                               startTime: formattedStartDateTime,
                               endTime: formattedEndDateTime,

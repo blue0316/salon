@@ -77,7 +77,7 @@ class ThemeHeader extends ConsumerWidget {
               children: _createAppointmentProvider.categoriesAvailable
                   .map(
                     (item) => GlamOneWrap(
-                      text: item.translations[AppLocalizations.of(context)?.localeName ?? 'en'],
+                      text: item.translations[AppLocalizations.of(context)?.localeName ?? 'en'] ?? item.translations['en'],
                     ),
                   )
                   .toList(),

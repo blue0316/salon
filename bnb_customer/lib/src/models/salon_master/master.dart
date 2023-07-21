@@ -30,6 +30,7 @@ class MasterModel {
   Map<String, PriceAndDurationModel>? servicesPriceAndDuration;
 
   Map<String, PriceAndDurationModel>? servicesPriceAndDurationMax;
+  String? title;
 
   double? avgRating;
   double? reviewCount;
@@ -57,6 +58,7 @@ class MasterModel {
     this.reviewCount,
     this.avgRating,
     this.searchTags,
+    this.title,
   });
 
   MasterModel.fromJson(Map<String, dynamic> json) {
@@ -87,6 +89,7 @@ class MasterModel {
     if (json['searchTags'] != null) {
       searchTags = json['searchTags'].cast<String>();
     }
+    title = json['title'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
@@ -112,6 +115,7 @@ class MasterModel {
     data['searchTags'] = searchTags;
     if (avgRating != null) data['avgRating'] = avgRating;
     if (reviewCount != null) data['reviewCount'] = reviewCount;
+    data['title'] = title;
 
     return data;
   }

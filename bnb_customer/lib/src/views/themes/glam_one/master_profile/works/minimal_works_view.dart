@@ -77,7 +77,7 @@ class _MinimalWorksViewState extends ConsumerState<MinimalWorksView> {
                   ),
                 )
               : NoSectionYet(
-                  text: 'No photos of works', // AppLocalizations.of(context)?.noWorks ?? 'No photos of works',
+                  text: AppLocalizations.of(context)?.noWorks ?? 'No photos of works',
                   color: theme.colorScheme.secondary,
                 ),
         ],

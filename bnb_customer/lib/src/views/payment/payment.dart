@@ -5,7 +5,6 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
-
 import 'package:intl/intl.dart';
 
 class Payment extends StatefulWidget {
@@ -15,13 +14,7 @@ class Payment extends StatefulWidget {
   String? transactionId;
 
   static const route = "/payment";
-  Payment(
-      {Key? key,
-      this.amount = "325.56",
-      this.currency = "USD",
-      this.transactionId,
-      this.terminalId = "5363001"})
-      : super(key: key);
+  Payment({Key? key, this.amount = "325.56", this.currency = "USD", this.transactionId, this.terminalId = "5363001"}) : super(key: key);
 
   @override
   State<Payment> createState() => _PaymentState();
@@ -37,8 +30,7 @@ class _PaymentState extends State<Payment> {
     super.initState();
     // TERMINALID:ORDERID:AMOUNT:DATETIME:SECRET
 // bnbUkraine20211!
-    var bytesToHash = utf8.encode(
-        "${widget.terminalId ?? "5363001"}:${widget.transactionId ?? "${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}"}:${widget.amount ?? "325.56"}:${formatter.format(timeNow)}:https://us-central1-bowandbeautiful-3372d.cloudfunctions.net/payrocreceipt-payrocReceipt:bnbUkraine20211!");
+    var bytesToHash = utf8.encode("${widget.terminalId ?? "5363001"}:${widget.transactionId ?? "${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}"}:${widget.amount ?? "325.56"}:${formatter.format(timeNow)}:https://us-central1-bowandbeautiful-3372d.cloudfunctions.net/payrocreceipt-payrocReceipt:bnbUkraine20211!");
     hash = sha512.convert(bytesToHash);
     // print();
     _iframeElement.style.height = '100%';

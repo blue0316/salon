@@ -48,13 +48,23 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
 
     await _createAppointmentProvider.initTimeOfDay();
     await _createAppointmentProvider.onDateChange(date);
+
+    final _random = Random();
+    if (_createAppointmentProvider.serviceableMasters.isNotEmpty) {
+      MasterModel randomMaster = _createAppointmentProvider.serviceableMasters[_random.nextInt(_createAppointmentProvider.serviceableMasters.length)];
+
+      setState(() {
+        selectedMaster = randomMaster;
+      });
+    }
+
     setState(() {
       loading = false;
     });
   }
 
   MasterModel? selectedMaster;
-  bool isAnyoneSelected = false;
+  bool isAnyoneSelected = true;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +80,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
     }
 
     return loading
-        ? const CircularProgressIndicator(color: Colors.green)
+        ? CircularProgressIndicator(color: theme.primaryColor)
         : Padding(
             padding: EdgeInsets.symmetric(
               horizontal: DeviceConstraints.getResponsiveSize(context, 17.w, 20.w, 20.w),
@@ -82,7 +92,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                     children: [
                       const Space(factor: 2),
                       Text(
-                        "No master is available for your selected services",
+                        AppLocalizations.of(context)?.noMasterIsAvailableForSelectedServices ?? "No master is available for your selected services",
                         style: theme.textTheme.bodyLarge!.copyWith(
                           fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                           color: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,
@@ -94,6 +104,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                         borderRadius: 60,
                         onTap: () {
                           // Go to previous page
+                          _createAppointmentProvider.changeBookingFlowIndex(enteringConfirmationView: true);
                           widget.tabController.animateTo(0);
                         },
                         color: dialogButtonColor(themeType, theme),
@@ -114,7 +125,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                         children: _createAppointmentProvider.chosenServices
                             .map(
                               (service) => ServiceNameAndPrice(
-                                serviceName: service.translations![AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
+                                serviceName: service.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? service.translations?['en'].toString(),
                                 servicePrice: service.isFixedPrice
                                     ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price}"
                                     : service.isPriceRange
@@ -153,7 +164,6 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                     setState(() => isAnyoneSelected = true);
 
                                     // find random master
-
                                     final _random = Random();
                                     MasterModel randomMaster = _createAppointmentProvider.serviceableMasters[_random.nextInt(_createAppointmentProvider.serviceableMasters.length)];
 
@@ -173,7 +183,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                       padding: const EdgeInsets.symmetric(horizontal: 25),
                                       child: Center(
                                         child: Text(
-                                          'Anyone',
+                                          AppLocalizations.of(context)?.anyone ?? "Anyone",
                                           style: theme.textTheme.bodyLarge!.copyWith(
                                             fontSize: 14.sp,
                                             fontWeight: FontWeight.normal,
@@ -436,7 +446,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                     padding: EdgeInsets.symmetric(horizontal: 20.sp),
                                     child: Center(
                                       child: Text(
-                                        'morning'.toCapitalized(),
+                                        (AppLocalizations.of(context)?.morning ?? "morning").toCapitalized(),
                                         maxLines: 2,
                                         style: theme.textTheme.bodyMedium?.copyWith(
                                           fontWeight: FontWeight.normal,
@@ -464,7 +474,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                     padding: EdgeInsets.symmetric(horizontal: 20.sp),
                                     child: Center(
                                       child: Text(
-                                        'afternoon'.toCapitalized(),
+                                        (AppLocalizations.of(context)?.afternoon ?? "afternoon").toCapitalized(),
                                         maxLines: 2,
                                         style: theme.textTheme.bodyMedium?.copyWith(
                                           fontWeight: FontWeight.normal,
@@ -493,7 +503,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                     padding: EdgeInsets.symmetric(horizontal: 20.sp),
                                     child: Center(
                                       child: Text(
-                                        'evening'.toCapitalized(),
+                                        (AppLocalizations.of(context)?.evening ?? "evening").toCapitalized(),
                                         maxLines: 2,
                                         style: theme.textTheme.bodyMedium?.copyWith(
                                           fontWeight: FontWeight.normal,
@@ -520,7 +530,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                       padding: EdgeInsets.symmetric(vertical: 30.sp),
                                       child: Center(
                                         child: Text(
-                                          'Day off',
+                                          (AppLocalizations.of(context)?.day_off ?? "Day off").toCapitalized(),
                                           style: theme.textTheme.bodyMedium?.copyWith(
                                             fontWeight: FontWeight.normal,
                                             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -563,7 +573,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                               padding: EdgeInsets.symmetric(vertical: 30.sp),
                                               child: Center(
                                                 child: Text(
-                                                  'Day off',
+                                                  (AppLocalizations.of(context)?.day_off ?? "Day off").toCapitalized(),
                                                   style: theme.textTheme.bodyMedium?.copyWith(
                                                     fontWeight: FontWeight.normal,
                                                     fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -640,7 +650,8 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                 borderRadius: 60,
                                 onTap: () {
                                   if (selectedMaster == null) {
-                                    showToast('Please select a master before proceeding');
+                                    showToast('Please select a master before proceeding'); //  (AppLocalizations.of(context)?.selectAMasterBeforeProceeding ?? "Please select a master before proceeding"),
+
                                     return;
                                   }
 
@@ -649,14 +660,17 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                     return;
                                   }
 
+                                  _createAppointmentProvider.getTotalDeposit();
+
                                   // Next Page
+                                  _createAppointmentProvider.changeBookingFlowIndex(enteringConfirmationView: true);
                                   widget.tabController.animateTo(2);
                                 },
                                 color: dialogButtonColor(themeType, theme),
                                 borderColor: theme.primaryColor,
                                 textColor: loaderColor(themeType),
                                 height: 60,
-                                label: 'Select & Confirm',
+                                label: (AppLocalizations.of(context)?.selectAndConfirm ?? "Select & Confirm"),
                                 suffixIcon: Icon(
                                   Icons.arrow_forward_ios_rounded,
                                   color: loaderColor(themeType),
@@ -731,282 +745,282 @@ class ServiceNameAndPrice extends ConsumerWidget {
   }
 }
 
-class MasterWithTime extends ConsumerStatefulWidget {
-  final MasterModel master;
-  final String? name, title, price, duration;
-  final List<String>? appointments;
+// class MasterWithTime extends ConsumerStatefulWidget {
+//   final MasterModel master;
+//   final String? name, title, price, duration;
+//   final List<String>? appointments;
 
-  const MasterWithTime({
-    Key? key,
-    required this.master,
-    this.name,
-    this.title,
-    this.price,
-    this.duration,
-    this.appointments,
-  }) : super(key: key);
+//   const MasterWithTime({
+//     Key? key,
+//     required this.master,
+//     this.name,
+//     this.title,
+//     this.price,
+//     this.duration,
+//     this.appointments,
+//   }) : super(key: key);
 
-  @override
-  ConsumerState<MasterWithTime> createState() => _MasterWithTimeState();
-}
+//   @override
+//   ConsumerState<MasterWithTime> createState() => _MasterWithTimeState();
+// }
 
-class _MasterWithTimeState extends ConsumerState<MasterWithTime> {
-  final int maxCount = 10;
-  late bool slotsGreaterThanMaxCount;
+// class _MasterWithTimeState extends ConsumerState<MasterWithTime> {
+//   final int maxCount = 10;
+//   late bool slotsGreaterThanMaxCount;
 
-  @override
-  Widget build(BuildContext context) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
-    final _createAppointmentProvider = ref.watch(createAppointmentProvider);
+//   @override
+//   Widget build(BuildContext context) {
+//     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+//     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
 
-    final ThemeData theme = _salonProfileProvider.salonTheme;
+//     final ThemeData theme = _salonProfileProvider.salonTheme;
 
-    // if price and duration for a master is 0 return a white space
-    //we dont want to create appointments with 0 values as price and duration
-    if (widget.price == '\$0' || widget.duration == '0') return const SizedBox();
+//     // if price and duration for a master is 0 return a white space
+//     //we dont want to create appointments with 0 values as price and duration
+//     if (widget.price == '\$0' || widget.duration == '0') return const SizedBox();
 
-    //  in-case there is no appointments available then don't show salon in the first case as well
-    if (widget.appointments == null || widget.appointments!.isEmpty) {
-      return Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 9, top: 5, right: 9),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "${widget.master.personalInfo!.firstName} ${widget.master.personalInfo!.lastName}",
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14.sp, color: Colors.white),
-                    ),
-                    SizedBox(height: 5.h),
-                    Text(
-                      widget.title!,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12.sp, color: Colors.white),
-                    ),
-                  ],
-                ),
-                SizedBox(width: 5.sp),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "${widget.price}",
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14.sp, color: Colors.white),
-                    ),
-                    Text(
-                      widget.duration!,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12.sp, color: Colors.white),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 35.h),
-          const Center(
-            child: Text(
-              'Day off',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        ],
-      );
-    }
+//     //  in-case there is no appointments available then don't show salon in the first case as well
+//     if (widget.appointments == null || widget.appointments!.isEmpty) {
+//       return Column(
+//         children: [
+//           Padding(
+//             padding: const EdgeInsets.only(left: 9, top: 5, right: 9),
+//             child: Row(
+//               mainAxisAlignment: MainAxisAlignment.start,
+//               children: [
+//                 Column(
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   children: [
+//                     Text(
+//                       "${widget.master.personalInfo!.firstName} ${widget.master.personalInfo!.lastName}",
+//                       overflow: TextOverflow.ellipsis,
+//                       textAlign: TextAlign.left,
+//                       style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14.sp, color: Colors.white),
+//                     ),
+//                     SizedBox(height: 5.h),
+//                     Text(
+//                       widget.title!,
+//                       overflow: TextOverflow.ellipsis,
+//                       textAlign: TextAlign.left,
+//                       style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12.sp, color: Colors.white),
+//                     ),
+//                   ],
+//                 ),
+//                 SizedBox(width: 5.sp),
+//                 Column(
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   children: [
+//                     Text(
+//                       "${widget.price}",
+//                       overflow: TextOverflow.ellipsis,
+//                       textAlign: TextAlign.left,
+//                       style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14.sp, color: Colors.white),
+//                     ),
+//                     Text(
+//                       widget.duration!,
+//                       overflow: TextOverflow.ellipsis,
+//                       textAlign: TextAlign.left,
+//                       style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12.sp, color: Colors.white),
+//                     ),
+//                   ],
+//                 ),
+//               ],
+//             ),
+//           ),
+//           SizedBox(height: 35.h),
+//           Center(
+//             child: Text(
+//               (AppLocalizations.of(context)?.day_off ?? "Day off").toCapitalized(),
+//               style: const TextStyle(color: Colors.white),
+//             ),
+//           ),
+//         ],
+//       );
+//     }
 
-    // slotsGreaterThanMaxCount = (widget.appointments ?? []).length > maxCount;
+//     // slotsGreaterThanMaxCount = (widget.appointments ?? []).length > maxCount;
 
-    int slotCount = widget.appointments?.length ?? 0;
+//     int slotCount = widget.appointments?.length ?? 0;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 9, top: 15, right: 9),
-          child: Container(
-            color: Colors.green,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "${widget.master.personalInfo!.firstName} ${widget.master.personalInfo!.lastName}",
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.left,
-                      style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.tertiary),
-                    ),
-                    SizedBox(height: 10.sp),
-                    Text(
-                      widget.title!,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.left,
-                      style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.tertiary),
-                    ),
-                  ],
-                ),
-                const Spacer(),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "PRICE: ${widget.price}",
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.left,
-                      style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.tertiary),
-                    ),
-                    Text(
-                      'DURATION: ${widget.duration!}',
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.left,
-                      style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.tertiary),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-        GridView.builder(
-          shrinkWrap: true,
-          itemCount: slotCount,
-          physics: const NeverScrollableScrollPhysics(),
-          padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 25),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: DeviceConstraints.getCrossAxisCount(context, small: 5, medium: 8, large: 10),
-            childAspectRatio: 2,
-            mainAxisSpacing: 12,
-            crossAxisSpacing: 12,
-          ),
-          itemBuilder: (context, index) {
-            List<String> appointmentString = widget.appointments ?? [];
-            final String _appointment = appointmentString[index];
-            final bool _isSelected = _createAppointmentProvider.isMasterSelected(
-              widget.master.masterId,
-              _createAppointmentProvider.chosenDay,
-              _appointment,
-            );
-            final bool _isAvailable = _createAppointmentProvider.availableAppointments[widget.master.masterId]!.contains(_appointment);
+//     return Column(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       children: [
+//         Padding(
+//           padding: const EdgeInsets.only(left: 9, top: 15, right: 9),
+//           child: Container(
+//             color: Colors.green,
+//             child: Row(
+//               mainAxisAlignment: MainAxisAlignment.start,
+//               children: [
+//                 Column(
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   children: [
+//                     Text(
+//                       "${widget.master.personalInfo!.firstName} ${widget.master.personalInfo!.lastName}",
+//                       overflow: TextOverflow.ellipsis,
+//                       textAlign: TextAlign.left,
+//                       style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.tertiary),
+//                     ),
+//                     SizedBox(height: 10.sp),
+//                     Text(
+//                       widget.title!,
+//                       overflow: TextOverflow.ellipsis,
+//                       textAlign: TextAlign.left,
+//                       style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.tertiary),
+//                     ),
+//                   ],
+//                 ),
+//                 const Spacer(),
+//                 Column(
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   children: [
+//                     Text(
+//                       "PRICE: ${widget.price}",
+//                       overflow: TextOverflow.ellipsis,
+//                       textAlign: TextAlign.left,
+//                       style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.tertiary),
+//                     ),
+//                     Text(
+//                       'DURATION: ${widget.duration!}',
+//                       overflow: TextOverflow.ellipsis,
+//                       textAlign: TextAlign.left,
+//                       style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.tertiary),
+//                     ),
+//                   ],
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ),
+//         GridView.builder(
+//           shrinkWrap: true,
+//           itemCount: slotCount,
+//           physics: const NeverScrollableScrollPhysics(),
+//           padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 25),
+//           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//             crossAxisCount: DeviceConstraints.getCrossAxisCount(context, small: 5, medium: 8, large: 10),
+//             childAspectRatio: 2,
+//             mainAxisSpacing: 12,
+//             crossAxisSpacing: 12,
+//           ),
+//           itemBuilder: (context, index) {
+//             List<String> appointmentString = widget.appointments ?? [];
+//             final String _appointment = appointmentString[index];
+//             final bool _isSelected = _createAppointmentProvider.isMasterSelected(
+//               widget.master.masterId,
+//               _createAppointmentProvider.chosenDay,
+//               _appointment,
+//             );
+//             final bool _isAvailable = _createAppointmentProvider.availableAppointments[widget.master.masterId]!.contains(_appointment);
 
-            //  in-case there is no appointments available then don't show salon in the first case as well
-            if (widget.appointments == null || widget.appointments!.isEmpty) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 9, top: 5, right: 9),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "${widget.master.personalInfo!.firstName} ${widget.master.personalInfo!.lastName}",
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.left,
-                              style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14.sp, color: Colors.white),
-                            ),
-                            SizedBox(height: 5.h),
-                            Text(
-                              widget.title!,
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.left,
-                              style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12.sp, color: Colors.white),
-                            ),
-                          ],
-                        ),
-                        SizedBox(width: 5.sp),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "${widget.price}",
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.left,
-                              style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14.sp, color: Colors.white),
-                            ),
-                            Text(
-                              widget.duration!,
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.left,
-                              style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12.sp, color: Colors.white),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 35.h),
-                  const Center(
-                    child: Text(
-                      'Day off',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ],
-              );
-            }
+//             //  in-case there is no appointments available then don't show salon in the first case as well
+//             if (widget.appointments == null || widget.appointments!.isEmpty) {
+//               return Column(
+//                 crossAxisAlignment: CrossAxisAlignment.center,
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: [
+//                   Padding(
+//                     padding: const EdgeInsets.only(left: 9, top: 5, right: 9),
+//                     child: Row(
+//                       mainAxisAlignment: MainAxisAlignment.start,
+//                       children: [
+//                         Column(
+//                           crossAxisAlignment: CrossAxisAlignment.start,
+//                           children: [
+//                             Text(
+//                               "${widget.master.personalInfo!.firstName} ${widget.master.personalInfo!.lastName}",
+//                               overflow: TextOverflow.ellipsis,
+//                               textAlign: TextAlign.left,
+//                               style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14.sp, color: Colors.white),
+//                             ),
+//                             SizedBox(height: 5.h),
+//                             Text(
+//                               widget.title!,
+//                               overflow: TextOverflow.ellipsis,
+//                               textAlign: TextAlign.left,
+//                               style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12.sp, color: Colors.white),
+//                             ),
+//                           ],
+//                         ),
+//                         SizedBox(width: 5.sp),
+//                         Column(
+//                           crossAxisAlignment: CrossAxisAlignment.start,
+//                           children: [
+//                             Text(
+//                               "${widget.price}",
+//                               overflow: TextOverflow.ellipsis,
+//                               textAlign: TextAlign.left,
+//                               style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14.sp, color: Colors.white),
+//                             ),
+//                             Text(
+//                               widget.duration!,
+//                               overflow: TextOverflow.ellipsis,
+//                               textAlign: TextAlign.left,
+//                               style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12.sp, color: Colors.white),
+//                             ),
+//                           ],
+//                         ),
+//                       ],
+//                     ),
+//                   ),
+//                   SizedBox(height: 35.h),
+//                   const Center(
+//                     child: Text(
+//                       'Day off',
+//                       style: TextStyle(color: Colors.white),
+//                     ),
+//                   ),
+//                 ],
+//               );
+//             }
 
-            return InkWell(
-              onTap: () => _createAppointmentProvider.onAppointmentChange(widget.master, _appointment),
-              child: _isSelected && _isAvailable
-                  ? Ink(
-                      decoration: const BoxDecoration(
-                        color: Color(0xffFF5419),
-                        borderRadius: BorderRadius.all(Radius.circular(2)),
-                      ),
-                      child: Center(
-                        child: Text(
-                          widget.appointments![index],
-                          style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.tertiary),
-                        ),
-                      ),
-                    )
-                  : !_isAvailable
-                      ? Ink(
-                          decoration: const BoxDecoration(
-                            color: Color(0xff232529),
-                            borderRadius: BorderRadius.all(Radius.circular(2)),
-                          ),
-                          child: Center(
-                            child: Text(
-                              widget.appointments![index],
-                              style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.tertiary),
-                            ),
-                          ),
-                        )
-                      : Ink(
-                          decoration: BoxDecoration(
-                            color: Colors.yellow,
-                            borderRadius: const BorderRadius.all(Radius.circular(2)),
-                            border: Border.all(
-                              color: Colors.grey,
-                            ),
-                          ),
-                          child: Center(
-                            child: Text(
-                              widget.appointments![index],
-                              style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.tertiary),
-                            ),
-                          ),
-                        ),
-            );
-          },
-        ),
-      ],
-    );
-  }
-}
+//             return InkWell(
+//               onTap: () => _createAppointmentProvider.onAppointmentChange(widget.master, _appointment),
+//               child: _isSelected && _isAvailable
+//                   ? Ink(
+//                       decoration: const BoxDecoration(
+//                         color: Color(0xffFF5419),
+//                         borderRadius: BorderRadius.all(Radius.circular(2)),
+//                       ),
+//                       child: Center(
+//                         child: Text(
+//                           widget.appointments![index],
+//                           style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.tertiary),
+//                         ),
+//                       ),
+//                     )
+//                   : !_isAvailable
+//                       ? Ink(
+//                           decoration: const BoxDecoration(
+//                             color: Color(0xff232529),
+//                             borderRadius: BorderRadius.all(Radius.circular(2)),
+//                           ),
+//                           child: Center(
+//                             child: Text(
+//                               widget.appointments![index],
+//                               style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.tertiary),
+//                             ),
+//                           ),
+//                         )
+//                       : Ink(
+//                           decoration: BoxDecoration(
+//                             color: Colors.yellow,
+//                             borderRadius: const BorderRadius.all(Radius.circular(2)),
+//                             border: Border.all(
+//                               color: Colors.grey,
+//                             ),
+//                           ),
+//                           child: Center(
+//                             child: Text(
+//                               widget.appointments![index],
+//                               style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.tertiary),
+//                             ),
+//                           ),
+//                         ),
+//             );
+//           },
+//         ),
+//       ],
+//     );
+//   }
+// }

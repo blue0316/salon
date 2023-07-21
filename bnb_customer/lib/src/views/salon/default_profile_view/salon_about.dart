@@ -1,3 +1,4 @@
+import 'package:bbblient/src/views/salon/default_profile_view/salon_profile.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/app_bar.dart';
 import 'package:extended_wrap/extended_wrap.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
-import 'package:bbblient/src/models/enums/profile_datails_tabs.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
@@ -88,7 +88,7 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SectionSpacer(
-            title: (AppLocalizations.of(context)?.localeName == 'uk') ? saloonDetailsTitlesUK[1] : saloonDetailsTitles[1],
+            title: salonTitles(AppLocalizations.of(context)?.localeName ?? 'en')[1],
           ),
           Container(
             // height: 1000.h,
@@ -100,22 +100,15 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Expanded(
-                    flex: 0,
-                    child: SizedBox(
-                      height: isPortrait ? null : 250.h,
-                      child: isPortrait
-                          ? PortraitAboutHeader(
-                              salonModel: widget.salonModel,
-                            )
-                          : LandscapeAboutHeader(
-                              salonModel: widget.salonModel,
-                            ),
-                    ),
-                  ),
                   SizedBox(
-                    height: DeviceConstraints.getResponsiveSize(context, 10, 10, 30),
+                    height: isPortrait ? null : 250.h,
+                    child: isPortrait
+                        ? PortraitAboutHeader(
+                            salonModel: widget.salonModel,
+                          )
+                        : LandscapeAboutHeader(salonModel: widget.salonModel),
                   ),
+                  SizedBox(height: DeviceConstraints.getResponsiveSize(context, 10, 10, 30)),
                   if (widget.salonModel.additionalFeatures.isNotEmpty)
                     Expanded(
                       flex: 0,
@@ -221,8 +214,8 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        GestureDetector(
-                          onTap: () => print(widget.salonModel.timeFormat),
+                        Align(
+                          alignment: Alignment.centerLeft,
                           child: Text(
                             (AppLocalizations.of(context)?.socialMedia ?? "Social media").toUpperCase(),
                             style: theme.textTheme.bodyLarge!.copyWith(
@@ -233,33 +226,52 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
+                        Wrap(
+                          alignment: WrapAlignment.start,
+                          // crossAxisAlignment: CrossAxisAlignment.center,
+                          // mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            if (widget.salonModel.links?.website != '')
+                            if (widget.salonModel.links?.website != '' && widget.salonModel.links?.website != null)
                               SocialLink(
                                 icon: isLightTheme ? AppIcons.linkGlobe : AppIcons.linkGlobeDark,
                                 type: 'website',
                                 socialUrl: widget.salonModel.links?.website,
                               ),
-                            if (widget.salonModel.links?.instagram != '')
+                            if (widget.salonModel.links?.instagram != '' && widget.salonModel.links?.instagram != null)
                               SocialLink(
                                 icon: isLightTheme ? AppIcons.linkInsta : AppIcons.linkInstaDark2,
                                 type: 'insta',
                                 socialUrl: widget.salonModel.links?.instagram,
                               ),
-                            if (widget.salonModel.links?.tiktok != '')
+                            if (widget.salonModel.links?.tiktok != '' && widget.salonModel.links?.tiktok != null)
                               SocialLink(
                                 icon: isLightTheme ? AppIcons.linkTikTok : AppIcons.linkTikTokDark,
                                 type: 'tiktok',
                                 socialUrl: widget.salonModel.links?.tiktok,
                               ),
-                            if (widget.salonModel.links?.facebook != '')
+                            if (widget.salonModel.links?.facebook != '' && widget.salonModel.links?.facebook != null)
                               SocialLink(
                                 icon: isLightTheme ? AppIcons.linkFacebook : AppIcons.linkFacebookDark,
                                 type: 'facebook',
                                 socialUrl: widget.salonModel.links?.facebook,
+                              ),
+                            if (widget.salonModel.links?.twitter != '' && widget.salonModel.links?.twitter != null)
+                              SocialIcon2(
+                                icon: FontAwesomeIcons.twitter,
+                                type: 'twitter',
+                                socialUrl: widget.salonModel.links?.twitter,
+                              ),
+                            if (widget.salonModel.links?.pinterest != '' && widget.salonModel.links?.pinterest != null)
+                              SocialIcon2(
+                                icon: FontAwesomeIcons.pinterest,
+                                type: 'pinterest',
+                                socialUrl: widget.salonModel.links?.pinterest,
+                              ),
+                            if (widget.salonModel.links?.yelp != '' && widget.salonModel.links?.yelp != null)
+                              SocialIcon2(
+                                icon: FontAwesomeIcons.yelp,
+                                type: 'yelp',
+                                socialUrl: widget.salonModel.links?.yelp,
                               ),
                           ],
                         ),
@@ -276,6 +288,55 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class SocialIcon2 extends ConsumerWidget {
+  final IconData icon;
+  final String type;
+  final String? socialUrl;
+
+  const SocialIcon2({
+    Key? key,
+    required this.icon,
+    required this.type,
+    this.socialUrl,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
+    return Expanded(
+      flex: 0,
+      child: GestureDetector(
+        onTap: () async {
+          Uri uri = Uri.parse(socialLinks(type, socialUrl ?? ''));
+
+          if (await canLaunchUrl(uri)) {
+            await launchUrl(uri);
+          } else {
+            showToast("Social Link is not available");
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.only(right: 15),
+          child: Container(
+            height: 50.h,
+            width: 50.h,
+            color: theme.canvasColor,
+            child: Center(
+              child: FaIcon(
+                icon,
+                size: 30.h,
+                color: theme.primaryColor,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

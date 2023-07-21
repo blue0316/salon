@@ -404,15 +404,15 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
               Gap(24.h),
               GestureDetector(
                 onTap: () async {
-                  await _auth.verifyPhoneNumber(context: context);
-                  showTopSnackBar(
-                    context,
-                    const CustomSnackBar.success(
-                      message: "New code has been sent",
-                      backgroundColor: AppTheme.creamBrown,
-                    ),
-                  );
-                  _auth.otp = '';
+                  // await _auth.verifyPhoneNumber(context: context);
+                  // showTopSnackBar(
+                  //   context,
+                  //   const CustomSnackBar.success(
+                  //     message: "New code has been sent",
+                  //     backgroundColor: AppTheme.creamBrown,
+                  //   ),
+                  // );
+                  // _auth.otp = '';
                 },
                 child: RichText(
                   text: TextSpan(

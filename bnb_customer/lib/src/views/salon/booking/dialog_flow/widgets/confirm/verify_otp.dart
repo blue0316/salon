@@ -2,7 +2,6 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/customer/customer.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
@@ -53,7 +52,7 @@ class _VerifyOtpState extends ConsumerState<VerifyOtp> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
-          'Confirm number',
+          AppLocalizations.of(context)?.confirmNumber ?? 'Confirm number',
           style: theme.textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.w500,
             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -62,7 +61,7 @@ class _VerifyOtpState extends ConsumerState<VerifyOtp> {
         ),
         SizedBox(height: 10.sp),
         Text(
-          'Please enter verification code that we just sent you',
+          AppLocalizations.of(context)?.pleaseEnterVerificationCode ?? 'Please enter verification code that we just sent you',
           style: theme.textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.normal,
             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -94,7 +93,7 @@ class _VerifyOtpState extends ConsumerState<VerifyOtp> {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: 'Didn’t receive a code?',
+                          text: AppLocalizations.of(context)?.didNotReceiveCode ?? 'Didn’t receive a code?',
                           style: theme.textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.normal,
                             fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 18.sp, 16.sp),
@@ -205,7 +204,7 @@ class _VerifyOtpState extends ConsumerState<VerifyOtp> {
                 borderColor: _auth.otp.length < 6 ? dialogButtonColor(themeType, theme)?.withOpacity(0.4) : dialogButtonColor(themeType, theme),
 
                 height: 60,
-                label: 'Confirm number',
+                label: AppLocalizations.of(context)?.confirmNumber ?? 'Confirm number',
                 isLoading: _auth.loginStatus == Status.loading,
                 loaderColor: loaderColor(themeType),
                 suffixIcon: Icon(

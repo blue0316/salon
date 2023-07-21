@@ -116,7 +116,7 @@ class SalonModel {
     salonWebSite = json['salonWebSite'] ?? '';
     phoneNumber = json['phoneNumber'] ?? '';
     email = json['email'] ?? '';
-    locale = json['locale'] ?? 'UK';
+    locale = json['locale'] ?? 'en';
     description = json['description'] ?? '';
     if (json['profilePics'] != null) {
       profilePics = json['profilePics'].cast<String>();
@@ -276,8 +276,8 @@ class PhotosOfWorks {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     data['createdAt'] = createdAt!.toIso8601String();
-    data['image'] = image;
-    data['description'] = description;
+    data['image'] = image ?? '';
+    data['description'] = description ?? '';
 
     return data;
   }

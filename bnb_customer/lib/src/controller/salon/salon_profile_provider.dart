@@ -13,7 +13,6 @@ import 'package:bbblient/src/models/review.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
-import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_profile.dart';
 import 'package:bbblient/src/views/themes/glam_one/glam_one.dart';
 import 'package:bbblient/src/views/themes/utils/theme_color.dart';
@@ -168,19 +167,10 @@ class SalonProfileProvider with ChangeNotifier {
     }
   }
 
-  // getSalonServices({required String salonId}) async {
-  //   print('get services here');
-  //   salonServices.clear();
-  //   salonServices = await SalonApi().getSalonServices(salonId: salonId);
-  //   print('*****');
-  //   print(salonServices);
-  //   print('*****');
-  // }
-
   getMasterReviews({required String masterId}) async {
     masterReviews.clear();
     masterReviews = await MastersApi().getMasterReviews(masterId: masterId);
-    printIt('got ${masterReviews.length} master reviews');
+    // printIt('got ${masterReviews.length} master reviews');
     notifyListeners();
   }
 
@@ -217,7 +207,7 @@ class SalonProfileProvider with ChangeNotifier {
       enquiryStatus = Status.failed;
       Future.delayed(const Duration(milliseconds: 100), () => notifyListeners());
 
-      printIt('Error on sendEnquiryToSalon() - ${e.toString()}');
+      // printIt('Error on sendEnquiryToSalon() - ${e.toString()}');
       showToast(AppLocalizations.of(context)?.errorOccurred ?? "Something went wrong, please try again");
       return null;
     }
@@ -236,15 +226,6 @@ class SalonProfileProvider with ChangeNotifier {
 
     // Get Salon Products
     allProducts = await ProductsApi().getSalonProducts(salonId: salonId);
-
-    // print('____++++++____');
-    // print(allProducts);
-    // print('All products length - ${allProducts.length}');
-    // print('____++++++____');
-    // print('____++++++____');
-    // print('____++++++____');
-    // print('____++++++____');
-    // print('____++++++____');
 
     // Split into categories
     for (ProductModel product in allProducts) {

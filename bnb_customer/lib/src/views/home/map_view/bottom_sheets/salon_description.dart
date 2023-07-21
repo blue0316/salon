@@ -76,7 +76,7 @@ class SalonDescription extends ConsumerWidget {
                 child: Center(
                   child: Text(
                     _salonName,
-                    style: Theme.of(context).textTheme.headline3,
+                    style: Theme.of(context).textTheme.displaySmall,
                   ),
                 ),
               ),

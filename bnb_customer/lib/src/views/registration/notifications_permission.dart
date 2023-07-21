@@ -29,14 +29,13 @@ class _NotificationPermissionState extends State<NotificationPermission> {
             padding: const EdgeInsets.only(top: 24.0),
             child: Text(
               AppLocalizations.of(context)?.getNotified ?? "Get notified",
-              style: Theme.of(context).textTheme.headline3,
+              style: Theme.of(context).textTheme.displaySmall,
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 72.0, vertical: 24),
             child: Text(
-              AppLocalizations.of(context)?.turnOnNotifs ??
-                  "turn on notifications to receive notifications about your bookings and activity",
+              AppLocalizations.of(context)?.turnOnNotifs ?? "turn on notifications to receive notifications about your bookings and activity",
               style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 14),
               textAlign: TextAlign.center,
             ),

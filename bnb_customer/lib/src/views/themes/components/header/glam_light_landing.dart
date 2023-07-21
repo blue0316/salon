@@ -157,7 +157,7 @@ class GlamLightHeaderBody extends ConsumerWidget {
                             (item) => Padding(
                               padding: const EdgeInsets.only(right: 10),
                               child: GlamLightWrap(
-                                text: item.translations[AppLocalizations.of(context)?.localeName ?? 'en'],
+                                text: item.translations[AppLocalizations.of(context)?.localeName ?? 'en'] ?? item.translations['en'],
                               ),
                             ),
                           )
@@ -176,7 +176,7 @@ class GlamLightHeaderBody extends ConsumerWidget {
                     children: _createAppointmentProvider.categoriesAvailable
                         .map(
                           (item) => GlamLightWrap(
-                            text: item.translations[AppLocalizations.of(context)?.localeName ?? 'en'],
+                            text: item.translations[AppLocalizations.of(context)?.localeName ?? 'en'] ?? item.translations['en'],
                           ),
                         )
                         .toList(),

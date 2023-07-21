@@ -98,9 +98,9 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                   children: [
                                     const SizedBox(height: 30),
                                     Text(
-                                      'Appointment confirmation',
+                                      'Appointment Confirmation',
                                       style: theme.textTheme.bodyLarge!.copyWith(
-                                        fontWeight: FontWeight.w400,
+                                        fontWeight: FontWeight.w500,
                                         fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 30.sp, 40.sp),
                                         color: confirmationTextColor(themeType, theme),
                                       ),
@@ -144,24 +144,28 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                               appointment: appointment,
                                               listViewController: serviceController,
                                             ),
-                                            Row(
-                                              children: [
-                                                Icon(
-                                                  Icons.info_outline_rounded,
-                                                  size: 30.sp,
-                                                  color: theme.colorScheme.tertiary.withOpacity(0.6),
-                                                ),
-                                                Text(
-                                                  'Please note that to cancel you have to contact ${_appointmentProvider.salon?.salonName}. Online cancelation is not available at the moment. ',
-                                                  style: theme.textTheme.bodyMedium?.copyWith(
-                                                    fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 18.sp, 20.sp),
-                                                    fontWeight: FontWeight.w400,
-                                                    fontFamily: 'Inter',
-                                                    color: theme.colorScheme.onBackground,
+                                            if (_appointmentProvider.salon?.cancellationAndNoShowPolicy.allowOnlineCancellation == false)
+                                              Row(
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Icon(
+                                                    Icons.info_outline_rounded,
+                                                    size: 30.sp,
+                                                    color: theme.colorScheme.tertiary.withOpacity(0.6),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
+                                                  Text(
+                                                    'Please note that to cancel you have to contact ${_appointmentProvider.salon?.salonName}. Online cancelation is not available at the moment. ',
+                                                    style: theme.textTheme.bodyMedium?.copyWith(
+                                                      fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 18.sp, 20.sp),
+                                                      fontWeight: FontWeight.w400,
+                                                      fontFamily: 'Poppins',
+                                                      color: theme.colorScheme.onBackground,
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ],
+                                              ),
                                             Wrap(
                                               direction: Axis.horizontal,
                                               crossAxisAlignment: WrapCrossAlignment.center,
@@ -169,22 +173,23 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                               spacing: 10,
                                               runSpacing: 10,
                                               children: [
-                                                if (appointment?.status != AppointmentStatus.cancelled)
-                                                  Button(
-                                                    text: 'Cancel Appointment',
-                                                    onTap: (_appointmentProvider.salon?.cancellationAndNoShowPolicy.allowOnlineCancellation == false)
-                                                        ? () {}
-                                                        : () => _appointmentProvider.cancelAppointment(
-                                                              appointmentID: widget.appointmentDocId,
-                                                              callback: () {
-                                                                fetchDetails();
-                                                              },
-                                                            ),
-                                                    isLoading: _appointmentProvider.cancelAppointmentStatus == Status.loading,
-                                                    loaderColor: transparentLoaderColor(themeType, theme),
-                                                    borderColor: theme.primaryColor.withOpacity(0.6),
-                                                    textColor: borderColor(themeType, theme),
-                                                  ),
+                                                if (_appointmentProvider.salon?.cancellationAndNoShowPolicy.allowOnlineCancellation == true)
+                                                  if (appointment?.status != AppointmentStatus.cancelled)
+                                                    Button(
+                                                      text: 'Cancel Appointment',
+                                                      onTap: (_appointmentProvider.salon?.cancellationAndNoShowPolicy.allowOnlineCancellation == false)
+                                                          ? () {}
+                                                          : () => _appointmentProvider.cancelAppointment(
+                                                                appointmentID: widget.appointmentDocId,
+                                                                callback: () {
+                                                                  fetchDetails();
+                                                                },
+                                                              ),
+                                                      isLoading: _appointmentProvider.cancelAppointmentStatus == Status.loading,
+                                                      loaderColor: transparentLoaderColor(themeType, theme),
+                                                      borderColor: theme.primaryColor.withOpacity(0.6),
+                                                      textColor: borderColor(themeType, theme),
+                                                    ),
                                                 const SizedBox(width: 20),
                                                 if (appointment?.subStatus != ActiveAppointmentSubStatus.confirmed && shouldShowConfirmButton(appointment!.appointmentStartTime))
                                                   Button(

@@ -2,11 +2,9 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
-import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/confirm/confirm.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/service_tab/service_tab.dart';
-import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -64,9 +62,6 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
     final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    ThemeType themeType = _salonProfileProvider.themeType;
-
-    bool defaultTheme = (theme == AppTheme.customLightTheme);
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
@@ -95,7 +90,35 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       GestureDetector(
-                        onTap: () => Navigator.pop(context),
+                        onTap: () {
+                          if (_createAppointmentProvider.confirmationPageIndex != null) {
+                            // START OF CONFIRMATION PAGE VIEW
+                            if (_createAppointmentProvider.confirmationPageIndex == 0) {
+                              bookingTabController?.animateTo(_createAppointmentProvider.bookingFlowPageIndex - 1);
+                              _createAppointmentProvider.changeBookingFlowIndex(decrease: true);
+
+                              return;
+                            }
+
+                            /// VERIFY OTP PAGE
+                            if (_createAppointmentProvider.confirmationPageIndex! > 0) {
+                              _createAppointmentProvider.nextPageView(0);
+
+                              return;
+                            }
+
+                            _createAppointmentProvider.nextPageView(_createAppointmentProvider.confirmationPageIndex! - 1);
+
+                            return;
+                          }
+
+                          if (_createAppointmentProvider.bookingFlowPageIndex == 0) {
+                            Navigator.pop(context);
+                            return;
+                          }
+                          bookingTabController?.animateTo(_createAppointmentProvider.bookingFlowPageIndex - 1);
+                          _createAppointmentProvider.changeBookingFlowIndex(decrease: true);
+                        },
                         child: Padding(
                           padding: EdgeInsets.only(left: 20.sp),
                           child: Icon(
@@ -169,8 +192,8 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
                                 Tab(
                                   text: AppLocalizations.of(context)?.services ?? 'Services',
                                 ),
-                                const Tab(
-                                  text: 'Day & Time',
+                                Tab(
+                                  text: AppLocalizations.of(context)?.dayAndTime ?? 'Day & Time',
                                 ),
                                 Tab(
                                   text: AppLocalizations.of(context)?.registration_line16 ?? 'Confirm',

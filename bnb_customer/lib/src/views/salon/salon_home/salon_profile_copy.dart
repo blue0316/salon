@@ -85,10 +85,21 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
     final _createAppointmentProvider = ref.read(createAppointmentProvider);
     final repository = ref.watch(bnbProvider);
     final _salonSearchProvider = ref.read(salonSearchProvider);
+    final _salonProfileProvider = ref.read(salonProfileProvider);
 
     _createAppointmentProvider.cle();
 
-    repository.changeLocale(locale: Locale(widget.locale));
+    // repository.changeLocale(locale: Locale(widget.locale));
+
+    // Change Language based on salon
+    String salonLocale = _salonProfileProvider.chosenSalon.locale;
+
+    // print('@@@@#####_______+++++++++@@@@@@@******');
+    // print(widget.locale);
+    // print(salonLocale);
+    // print('@@@@#####_______+++++++++@@@@@@@******');
+    repository.changeLocale(locale: Locale(salonLocale));
+
     if (widget.switchSalon) {
       _createAppointmentProvider.setSalon(
         salonModel: salon,

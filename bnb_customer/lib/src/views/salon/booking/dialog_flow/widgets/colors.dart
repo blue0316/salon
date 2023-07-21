@@ -27,7 +27,7 @@ Color? isAddedSelectedColor(ThemeType themeType) {
     case ThemeType.Barbershop:
       return Colors.black;
     case ThemeType.DefaultLight:
-      return Colors.black;
+      return Colors.white;
 
     default:
       return Colors.white;
@@ -41,6 +41,8 @@ Color? serviceTabCategoryColor(ThemeType themeType) {
     case ThemeType.GlamMinimalDark:
       return Colors.black;
     case ThemeType.GlamLight:
+      return Colors.white;
+    case ThemeType.DefaultLight:
       return Colors.white;
 
     default:
@@ -191,7 +193,7 @@ Color? selectSlots(ThemeType themeType, ThemeData theme) {
     // case ThemeType.Barbershop:
     //   return theme.primaryColor;
     case ThemeType.DefaultLight:
-      return theme.primaryColor;
+      return Colors.white;
 
     default:
       return theme.colorScheme.tertiary;

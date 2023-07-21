@@ -1,7 +1,8 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
-import 'package:bbblient/src/models/enums/profile_datails_tabs.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
+import 'package:bbblient/src/views/salon/default_profile_view/salon_profile.dart';
+import 'package:bbblient/src/views/themes/components/widgets/image_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -34,7 +35,7 @@ class _SalonAllWorksState extends ConsumerState<SalonAllWorks> {
       child: Column(
         children: [
           SectionSpacer(
-            title: (AppLocalizations.of(context)?.localeName == 'uk') ? saloonDetailsTitlesUK[3] : saloonDetailsTitles[3],
+            title: salonTitles(AppLocalizations.of(context)?.localeName ?? 'en')[3],
           ),
           Container(
             height: 1000.h,
@@ -52,47 +53,51 @@ class _SalonAllWorksState extends ConsumerState<SalonAllWorks> {
                             spacing: 20,
                             runSpacing: 40,
                             direction: Axis.horizontal,
-                            children: widget.salonModel.photosOfWorks!
-                                .map(
-                                  (work) => GestureDetector(
-                                    onTap: () {
-                                      //  Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //     builder: (context) => ImagePreview(
-                                      //       imageUrls: images,
-                                      //       index: index,
-                                      //     ),
-                                      //   ),
-                                      // );
-                                    },
-                                    child: Column(
-                                      children: [
-                                        SizedBox(
-                                          height: 180.h,
-                                          width: 290.h,
-                                          child: CachedImage(url: '${work.image}', fit: BoxFit.cover),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        SizedBox(
-                                          height: 50.h,
-                                          width: 290.h,
-                                          child: Text(
-                                            (work.description != null && work.description != '') ? '${work.description}' : '',
-                                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                                  fontWeight: FontWeight.normal,
-                                                  fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 15.sp),
-                                                  color: isLightTheme ? Colors.black : Colors.white,
-                                                ),
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ),
-                                      ],
+                            children: widget.salonModel.photosOfWorks!.map((work) {
+                              List<String> images = [];
+
+                              for (PhotosOfWorks item in widget.salonModel.photosOfWorks!) {
+                                images.add(item.image!);
+                              }
+
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ImagePreview(
+                                        imageUrls: images,
+                                        index: widget.salonModel.photosOfWorks!.indexOf(work),
+                                      ),
                                     ),
-                                  ),
-                                )
-                                .toList(),
+                                  );
+                                },
+                                child: Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 180.h,
+                                      width: 290.h,
+                                      child: CachedImage(url: '${work.image}', fit: BoxFit.cover),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    SizedBox(
+                                      height: 50.h,
+                                      width: 290.h,
+                                      child: Text(
+                                        (work.description != null && work.description != '') ? '${work.description}' : '',
+                                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 15.sp),
+                                              color: isLightTheme ? Colors.black : Colors.white,
+                                            ),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
                           )
                         // (widget.salonModel.photosOfWorks != null && widget.salonModel.photosOfWorks!.isNotEmpty)
                         //     ? GridView.builder(

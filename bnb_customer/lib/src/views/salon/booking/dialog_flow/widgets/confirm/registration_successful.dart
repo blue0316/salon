@@ -74,7 +74,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
             controller: firstNameController,
             decoration: InputDecoration(
               label: Text(
-                'First name',
+                AppLocalizations.of(context)?.firstName ?? 'First name',
                 style: theme.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w400,
                   fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -172,7 +172,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
                   child: DropdownButton(
                     dropdownColor: const Color(0XFF1F1F21),
                     hint: Text(
-                      'Pronounce',
+                      AppLocalizations.of(context)?.pronounce ?? 'Pronounce',
                       style: theme.textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w400,
                         fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -220,7 +220,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
                   controller: pronounceController,
                   decoration: InputDecoration(
                     label: Text(
-                      'Pronounce',
+                      AppLocalizations.of(context)?.pronounce ?? 'Pronounce',
                       style: theme.textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w400,
                         fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -349,7 +349,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
           color: dialogButtonColor(themeType, theme),
           textColor: loaderColor(themeType),
           height: 60,
-          label: 'Confirm my details',
+          label: AppLocalizations.of(context)?.confirmMyDetails ?? "Confirm my details",
           isLoading: (_authProvider.updateCustomerPersonalInfoStatus == Status.loading),
           loaderColor: loaderColor(themeType),
           suffixIcon: Icon(

@@ -6,6 +6,7 @@ import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/utils/utils.dart';
+import 'package:bbblient/src/views/salon/default_profile_view/salon_profile.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/widgets/service_tile.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +49,7 @@ class _MasterServicesState extends ConsumerState<MasterServices> {
                 children: [
                   const Space(factor: 1.5),
                   Text(
-                    ((AppLocalizations.of(context)?.localeName == 'uk') ? masterDetailsTitles[0] : masterDetailsTitles[0]).toUpperCase(),
+                    (masterTitles(AppLocalizations.of(context)?.localeName ?? 'en')[0]).toUpperCase(),
                     style: theme.textTheme.displayLarge!.copyWith(
                       fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 30.sp, 35.sp),
                       color: isLightTheme ? Colors.black : Colors.white,
@@ -57,18 +58,27 @@ class _MasterServicesState extends ConsumerState<MasterServices> {
                   ),
                   const Space(factor: 2.5),
                   ListView.builder(
-                      itemCount: _salonSearchProvider.categories.length + 1,
+                      itemCount: _salonSearchProvider.categories.length,
                       shrinkWrap: true,
                       primary: false,
                       controller: _listViewController,
                       padding: const EdgeInsets.all(0),
                       itemBuilder: (context, index) {
-                        List<ServiceModel> services = _createAppointmentProvider.mastersServicesMapAll[widget.master.masterId]?.where((element) => element.categoryId == (index).toString()).toList() ?? [];
+                        List<ServiceModel> services = _createAppointmentProvider.mastersServicesMapAll[widget.master.masterId]
+                                ?.where(
+                                  (element) => element.categoryId == (_salonSearchProvider.categories[index].categoryId).toString(),
+                                )
+                                .toList() ??
+                            [];
 
                         if (services.isNotEmpty) {
                           return NewServiceTile(
                             services: services,
-                            categoryModel: _salonSearchProvider.categories.where((element) => element.categoryId == (index).toString()).first,
+                            categoryModel: _salonSearchProvider.categories
+                                .where(
+                                  (element) => element.categoryId == (_salonSearchProvider.categories[index].categoryId).toString(),
+                                )
+                                .first,
                             listViewController: _listViewController,
                             initiallyExpanded: false,
                           );

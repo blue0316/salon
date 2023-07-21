@@ -2,8 +2,10 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
+import 'package:bbblient/src/firebase/customer.dart';
 import 'package:bbblient/src/firebase/transaction.dart';
 import 'package:bbblient/src/models/cat_sub_service/price_and_duration.dart';
+import 'package:bbblient/src/models/customer/credit_card.dart';
 import 'package:bbblient/src/models/customer/customer.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
@@ -20,8 +22,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'dart:js' as js;
-import 'dart:html' as html;
+// import 'dart:js' as js;
+// import 'dart:html' as html;
+import 'pay_dialog.dart';
 
 // ORDER LIST
 class OrderDetails extends ConsumerStatefulWidget {
@@ -58,8 +61,8 @@ class _OrderListState extends ConsumerState<OrderDetails> {
 
     String totalAmount = _createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '0'; // _priceAndDuration.price!;
 
-    String deposit = _createAppointmentProvider.chosenServices[0].deposit ?? '0';
-    int payAtAppointment = int.parse(totalAmount) - int.parse(deposit);
+    double deposit = _createAppointmentProvider.totalDeposit;
+    // double payAtAppointment = double.parse(totalAmount) - deposit;
 
     return CustomScrollView(
       slivers: [
@@ -74,7 +77,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                 children: _createAppointmentProvider.chosenServices
                     .map(
                       (service) => ServiceNameAndPrice(
-                        serviceName: service.translations![AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
+                        serviceName: service.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? service.translations?['en'],
                         servicePrice: service.isFixedPrice
                             ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price}"
                             : service.isPriceRange
@@ -91,19 +94,19 @@ class _OrderListState extends ConsumerState<OrderDetails> {
               // SERVICE PROVIDER DETAILS
               ServiceNameAndPrice(
                 notService: true,
-                serviceName: 'Service provider:',
+                serviceName: AppLocalizations.of(context)?.serviceProvider ?? "Service provider:",
                 servicePrice: '${_createAppointmentProvider.chosenMaster?.personalInfo?.lastName} ${_createAppointmentProvider.chosenMaster?.personalInfo?.firstName}',
               ),
 
               ServiceNameAndPrice(
                 notService: true,
-                serviceName: 'Date:',
+                serviceName: '${AppLocalizations.of(context)?.date ?? "Date"}:',
                 servicePrice: Time().getDateInStandardFormat(_createAppointmentProvider.chosenDay),
               ),
 
               ServiceNameAndPrice(
                 notService: true,
-                serviceName: 'Time:',
+                serviceName: '${AppLocalizations.of(context)?.time ?? "Time"}:',
                 servicePrice: '${Time().timeToString(_startTime)} - ${Time().timeToString(_endTime)}',
               ),
 
@@ -111,19 +114,19 @@ class _OrderListState extends ConsumerState<OrderDetails> {
 
               ServiceNameAndPrice(
                 notService: true,
-                serviceName: 'Total:',
+                serviceName: AppLocalizations.of(context)?.total ?? "Total:",
                 servicePrice: '\$$totalAmount',
               ),
 
               ServiceNameAndPrice(
                 notService: true,
-                serviceName: 'Pay at Appointment:',
-                servicePrice: '\$$payAtAppointment',
+                serviceName: AppLocalizations.of(context)?.payAtAppointment ?? "Pay at Appointment:",
+                servicePrice: '\$${double.parse(totalAmount) - deposit}',
               ),
 
               ServiceNameAndPrice(
                 notService: true,
-                serviceName: 'Deposit to book:',
+                serviceName: AppLocalizations.of(context)?.depositToBook ?? "Deposit to book:",
                 servicePrice: '\$$deposit',
               ),
 
@@ -136,7 +139,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                     Flexible(
                       flex: 1,
                       child: Text(
-                        'Pay Now:',
+                        AppLocalizations.of(context)?.payNow ?? "Pay Now:",
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w600,
                           fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 21.sp, 20.sp),
@@ -147,7 +150,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                     Flexible(
                       flex: 0,
                       child: Text(
-                        '\$$totalAmount',
+                        '\$$deposit', // totalAmount',
                         // '\$${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '0'}',
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w600,
@@ -189,7 +192,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              'I understand and accept the ',
+                              AppLocalizations.of(context)?.understandAndAccept ?? "I understand and accept the ",
                               style: theme.textTheme.bodyMedium?.copyWith(
                                 fontWeight: FontWeight.normal,
                                 fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -201,7 +204,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                 const CancellationPolicyScreen().show(context);
                               },
                               child: Text(
-                                'Cancelation Policy',
+                                AppLocalizations.of(context)?.cancellationPolicy ?? "Cancelation Policy",
                                 style: theme.textTheme.bodyMedium?.copyWith(
                                   decoration: TextDecoration.underline,
                                   fontWeight: FontWeight.w500,
@@ -237,7 +240,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                           // const ThankYou().show(context);
                         },
                         child: Text(
-                          'Important Information',
+                          AppLocalizations.of(context)?.importantInformation ?? "Important Information",
                           style: theme.textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.w500,
                             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -259,14 +262,16 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                 ],
               ),
 
-              // SizedBox(height: 40.sp),
+              SizedBox(height: 10.sp),
 
               const Spacer(),
 
               Column(
                 children: [
                   // No policy, no deposit
-                  if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy == false)
+
+                  if (deposit == 0)
+                    // if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy == false)
                     DefaultButton(
                       borderRadius: 60,
                       onTap: () async {
@@ -296,13 +301,13 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                             isLocal: true,
                           ).show(context);
                         } else {
-                          showToast('Something went wrong, please try again');
+                          showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? 'Something went wrong, please try again');
                         }
                       },
                       color: dialogButtonColor(themeType, theme),
                       textColor: loaderColor(themeType),
                       height: 60,
-                      label: 'Book',
+                      label: AppLocalizations.of(context)?.book ?? 'Book',
                       isLoading: _createAppointmentProvider.bookAppointmentStatus == Status.loading,
                       loaderColor: loaderColor(themeType),
                       fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -314,16 +319,21 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                     ),
 
                   // If there's a cancellation policy
-                  if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy == true)
+                  if (deposit != 0)
+                    // if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy == true)
                     DefaultButton(
                       borderRadius: 60,
                       onTap: () async {
-                        if (!acceptTerms) {
-                          // Terms Checkbox is unchecked
+                        if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy) {
+                          if (!acceptTerms) {
+                            // Terms Checkbox is unchecked
 
-                          showToast('Please accept the cancellation policy');
+                            showToast(
+                              AppLocalizations.of(context)?.pleaseAcceptCancellationPolicy ?? "Please accept the cancellation policy",
+                            );
 
-                          return;
+                            return;
+                          }
                         }
 
                         CustomerModel? currentCustomer = _auth.currentCustomer;
@@ -354,15 +364,16 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                         setState(() => spinner = true);
 
                         final TransactionModel newTransaction = TransactionModel(
-                          amount: (deposit != '0') ? deposit : totalAmount,
+                          amount: (deposit != 0) ? '$deposit' : totalAmount,
                           timeInitiated: DateTime.now(),
+                          salonId: salonModel.salonId,
                         );
 
                         String? transactionId = await TransactionApi().createTransaction(newTransaction);
 
                         if (transactionId == null) {
                           // Transaction must not be null (a doc must me created in transactions collection)
-                          showToast('Something went wrong, please try again');
+                          showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? 'Something went wrong, please try again');
                           return;
                         }
 
@@ -370,7 +381,24 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                           for (TransactionModel transaction in event) {
                             if (transaction.responseCode != null) {
                               if (transaction.responseCode == 'A' || transaction.responseCode == 'E') {
-                                Navigator.pop(context);
+                                // ADD CARD TO CARDS SUB-COLLECTION IN CUSTOMER DOCUMENT
+                                // IF REFERENCE EXISTS
+
+                                if (transaction.cardReference != null) {
+                                  await CustomerApi().createCard(
+                                    customerId: customer.customerId,
+                                    card: CreditCard(
+                                      cardNumber: transaction.cardNumber ?? '',
+                                      cardExpiry: transaction.cardExpiry ?? '',
+                                      cardReference: transaction.cardReference ?? '',
+                                      cardType: transaction.cardType ?? '',
+                                      merchantRef: transaction.merchantRef ?? '',
+                                      storedCredentialUse: transaction.storedCredentialUse ?? '',
+                                    ),
+                                  );
+                                }
+
+                                Navigator.pop(context); // closes payroc dialog
 
                                 // html.window.open('https://yogasm.firebaseapp.com/confirmation?RESPONSECODE=${transaction.responseCode}?transactionId=$transactionId', "_self");
                                 // Build Appointment
@@ -388,6 +416,8 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                   );
                                 }
 
+                                setState(() => spinner = false);
+
                                 // Show Success Dialog
                                 ConfirmationSuccess(
                                   responseCode: '${transaction.responseCode}',
@@ -395,6 +425,8 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                 ).show(context);
                               }
                               if (transaction.responseCode == 'D') {
+                                setState(() => spinner = false);
+
                                 ConfirmationError(
                                   responseCode: '${transaction.responseCode}',
                                 ).show(context);
@@ -405,12 +437,15 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                           }
                         });
 
-                        setState(() => spinner = false);
+                        PayDialog(
+                          amount: totalAmount,
+                          transactionId: transactionId,
+                        ).show(context);
 
-                        js.context.callMethod(
-                          'open',
-                          ['https://yogasm.firebaseapp.com/payment?amount=$totalAmount&currency=USD&transactionId=$transactionId&terminalId=5363001'],
-                        );
+                        // js.context.callMethod(
+                        //   'open',
+                        //   ['https://yogasm.firebaseapp.com/payment?amount=$totalAmount&currency=USD&transactionId=$transactionId&terminalId=5363001'],
+                        // );
                         // ---------------------------- +++++++++++++++ ----------------------------
 
                         // bool enabledOTP = _salonProfileProvider.themeSettings?.displaySettings?.enableOTP ?? true;
@@ -440,7 +475,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                       color: dialogButtonColor(themeType, theme),
                       textColor: loaderColor(themeType),
                       height: 60,
-                      label: 'Pay ${(deposit != '0') ? deposit : totalAmount}\$ deposit',
+                      label: 'Pay ${(deposit != 0) ? deposit : totalAmount}\$ deposit',
                       // isLoading: _createAppointmentProvider.bookAppointmentStatus == Status.loading,
                       isLoading: spinner,
                       loaderColor: loaderColor(themeType),
@@ -540,7 +575,7 @@ class CancellationPolicyScreen<T> extends ConsumerWidget {
                       ),
                       const Spacer(flex: 2),
                       Text(
-                        'cancelation Policy'.toUpperCase(),
+                        (AppLocalizations.of(context)?.cancellationPolicy ?? "cancelation Policy").toUpperCase(),
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 18.sp, 20.sp),
                           fontWeight: FontWeight.w500,
@@ -561,7 +596,7 @@ class CancellationPolicyScreen<T> extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          'Canceling Appointment ',
+                          AppLocalizations.of(context)?.cancelingAppointment ?? "Canceling Appointment",
                           style: theme.textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.w600,
                             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),

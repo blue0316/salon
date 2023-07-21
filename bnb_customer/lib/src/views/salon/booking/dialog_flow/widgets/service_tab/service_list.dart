@@ -1,5 +1,4 @@
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
-import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
@@ -17,10 +16,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ServiceList extends ConsumerWidget {
   final List<ServiceModel> services;
@@ -90,37 +89,39 @@ class ServiceCard extends ConsumerWidget {
     SalonModel salonModel = _salonProfileProvider.chosenSalon;
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool defaultTheme = (theme == AppTheme.customLightTheme);
+    // bool defaultTheme = (theme == AppTheme.customLightTheme);
     List<MasterModel> theMasters = _createAppointmentProvider.getMasterProvidingService(service);
     ThemeType themeType = _salonProfileProvider.themeType;
 
-    Color selectedColor = defaultTheme ? theme.primaryColor : const Color(0XFF1F1F21); //  selectedServiceCardOnDayAndTime(themeType, theme); // Color(0XFF202020);
+    // Color selectedColor = defaultTheme ? theme.primaryColor : const Color(0XFF1F1F21); //  selectedServiceCardOnDayAndTime(themeType, theme); // Color(0XFF202020);
     // Color selectedColor = defaultTheme ? const Color.fromARGB(255, 239, 239, 239) : selectedServiceCardOnDayAndTime(themeType, theme); // Color(0XFF202020);
-    BoxBorder? border = defaultTheme
-        ? Border.all(
-            width: 1.5,
-            color: (Colors.grey[400]!), // const Color.fromARGB(255, 239, 239, 239),
-          )
-        : Border.all(
-            width: 1.5,
-            color: const Color(0XFF202020), //theme.highlightColor,
-          );
+    BoxBorder? border = Border.all(width: 1.2, color: theme.primaryColor);
+
+    // BoxBorder? border = defaultTheme
+    //     ? Border.all(
+    //         width: 1.2,
+    //         color: (Colors.grey[400]!), // const Color.fromARGB(255, 239, 239, 239),
+    //       )
+    //     : Border.all(
+    //         width: 1.2,
+    //         color: const Color(0XFF202020), //theme.highlightColor,
+    //       );
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 7.h),
       child: Container(
         decoration: BoxDecoration(
           color: disabled
-              ? (Colors.grey[400]!)
+              ? const Color(0XFF4A4A4A)
               : isAdded
                   ? theme.primaryColor // selectedColor
                   : Colors.transparent,
           borderRadius: BorderRadius.circular(10),
-          border:
-              // isAdded ? null : border,
-              Border.all(
-            width: 1.5, color: disabled ? (Colors.grey[900]!) : theme.primaryColor, //  defaultTheme ? theme.primaryColor : const Color(0XFF1F1F21),
-          ),
+          border: isAdded
+              ? border
+              : Border.all(
+                  width: 1.2, color: disabled ? const Color(0XFF4A4A4A) : const Color(0XFF4A4A4A), //  defaultTheme ? theme.primaryColor : const Color(0XFF1F1F21),
+                ),
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(
@@ -139,7 +140,7 @@ class ServiceCard extends ConsumerWidget {
                   Flexible(
                     flex: 3,
                     child: Text(
-                      service.translations![AppLocalizations.of(context)?.localeName ?? 'en'].toString(), // 'Eyebrow Tinting',
+                      service.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? service.translations?['en'], // 'Eyebrow Tinting',
                       style: theme.textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w500,
                         fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -217,17 +218,22 @@ class ServiceCard extends ConsumerWidget {
                     height: 20.h,
                     width: 20.h,
                     child: Center(
-                      child: SvgPicture.asset(
-                        AppIcons.clockSVG,
-                        color: isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
+                      child: FaIcon(
+                        FontAwesomeIcons.clock,
+                        color: isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary,
+                        size: 15.h,
                       ),
+                      // child: SvgPicture.asset(
+                      //   AppIcons.clockSVG,
+                      //   color: isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
+                      // ),
                     ),
                   ),
-                  const SizedBox(width: 10),
+                  SizedBox(width: 6.sp),
                   (service.isFixedDuration != null)
                       ? service.isFixedDuration
                           ? Text(
-                              "${service.priceAndDuration!.duration} minutes",
+                              "${service.priceAndDuration!.duration} ${AppLocalizations.of(context)?.minutes ?? "minutes"}",
                               style: theme.textTheme.bodyLarge!.copyWith(
                                 fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                                 color: isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
@@ -236,7 +242,7 @@ class ServiceCard extends ConsumerWidget {
                               maxLines: 1,
                             )
                           : Text(
-                              "${service.priceAndDuration!.duration} minutes - ${service.priceAndDurationMax!.duration} minutes",
+                              "${service.priceAndDuration!.duration} ${AppLocalizations.of(context)?.minutes ?? "minutes"} - ${service.priceAndDurationMax!.duration} ${AppLocalizations.of(context)?.minutes ?? "minutes"}",
                               style: theme.textTheme.bodyLarge!.copyWith(
                                 fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                                 color: isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
@@ -245,7 +251,7 @@ class ServiceCard extends ConsumerWidget {
                               maxLines: 1,
                             )
                       : Text(
-                          "${service.priceAndDuration!.duration} minutes",
+                          "${service.priceAndDuration!.duration} ${AppLocalizations.of(context)?.minutes ?? "minutes"}",
                           style: theme.textTheme.bodyLarge!.copyWith(
                             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                             color: isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,

@@ -47,7 +47,7 @@ class _MinimalWriteToUsViewState extends ConsumerState<MinimalWriteToUsView> {
                 style: theme.textTheme.displayMedium?.copyWith(
                   color: theme.colorScheme.secondary,
                   fontWeight: FontWeight.w600,
-                  fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 45.sp, 65.sp),
+                  fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 60.sp),
                 ),
               ),
             ),
@@ -73,7 +73,7 @@ class _MinimalWriteToUsViewState extends ConsumerState<MinimalWriteToUsView> {
                       style: theme.textTheme.displayMedium?.copyWith(
                         color: theme.colorScheme.secondary,
                         fontWeight: FontWeight.w600,
-                        fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 45.sp, 65.sp),
+                        fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 60.sp),
                       ),
                     ),
                     const SizedBox(height: 40),

@@ -194,9 +194,7 @@ class _PersonalInformationState extends ConsumerState<PersonalInformation> {
                           CircleAvatar(
                             radius: (100 / 2) + 2,
                             backgroundColor: AppTheme.white,
-                            child: ClipRRect(
-                                borderRadius: BorderRadius.circular(1000),
-                                child: SizedBox(height: 100, width: 100, child: Image.file(pickedImage!))),
+                            child: ClipRRect(borderRadius: BorderRadius.circular(1000), child: SizedBox(height: 100, width: 100, child: Image.file(pickedImage!))),
                           )
                         ],
                         if (pickedImage == null) ...[
@@ -318,7 +316,7 @@ class _PersonalInformationState extends ConsumerState<PersonalInformation> {
                     child: Text(
                       AppLocalizations.of(context)?.saveChanges ?? "Save Changes ?",
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headline3,
+                      style: Theme.of(context).textTheme.displaySmall,
                     ),
                   ),
                   Padding(
@@ -337,7 +335,7 @@ class _PersonalInformationState extends ConsumerState<PersonalInformation> {
                           elevation: 0,
                           child: Text(
                             AppLocalizations.of(context)?.cancel ?? "cancel",
-                            style: Theme.of(context).textTheme.headline3!.copyWith(color: AppTheme.textBlack),
+                            style: Theme.of(context).textTheme.displaySmall!.copyWith(color: AppTheme.textBlack),
                           ),
                         ),
                         MaterialButton(
@@ -352,7 +350,7 @@ class _PersonalInformationState extends ConsumerState<PersonalInformation> {
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                           child: Text(
                             AppLocalizations.of(context)?.save ?? "save",
-                            style: Theme.of(context).textTheme.headline3!.copyWith(color: Colors.white),
+                            style: Theme.of(context).textTheme.displaySmall!.copyWith(color: Colors.white),
                           ),
                         ),
                       ],

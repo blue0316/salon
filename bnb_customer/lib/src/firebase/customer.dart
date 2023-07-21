@@ -1,3 +1,4 @@
+import 'package:bbblient/src/models/customer/credit_card.dart';
 import 'package:bbblient/src/models/customer/customer.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/notification/fcm_token.dart';
@@ -194,6 +195,20 @@ class CustomerApi {
         return false;
       }
     } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> createCard({required String customerId, required CreditCard card}) async {
+    try {
+      DocumentReference _docRef = Collection.customers.doc(customerId).collection('cards').doc();
+
+      card.id = _docRef.id;
+      await _docRef.set(card.toJson(), SetOptions(merge: true));
+
+      return true;
+    } catch (e) {
+      printIt('Error on createCard - e');
       return false;
     }
   }

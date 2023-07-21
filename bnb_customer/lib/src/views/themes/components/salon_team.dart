@@ -54,7 +54,7 @@ class SalonTeam extends ConsumerWidget {
                 (AppLocalizations.of(context)?.ourTeam ?? 'Our Team').toUpperCase(),
                 style: theme.textTheme.displayMedium?.copyWith(
                   color: theme.colorScheme.secondary,
-                  fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 45.sp, 65.sp),
+                  fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 60.sp),
                 ),
               ),
             ),

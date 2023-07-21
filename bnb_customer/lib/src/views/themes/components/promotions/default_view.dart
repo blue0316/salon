@@ -85,7 +85,7 @@ class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
             Text(
               (AppLocalizations.of(context)?.promotions ?? 'Promotions').toUpperCase(),
               style: theme.textTheme.displayMedium?.copyWith(
-                fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 45.sp, 65.sp),
+                fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 60.sp),
               ),
             ),
             PrevAndNextButtons(
@@ -240,7 +240,7 @@ class _DefaultPromotionsViewState extends ConsumerState<DefaultPromotionsView> {
                 ),
               )
             : NoSectionYet(
-                text: 'No promotions at the moment', // AppLocalizations.of(context)?.noWorks ?? 'No photos of works',
+                text: AppLocalizations.of(context)?.noPromotions ?? 'No promotions at the moment',
                 color: theme.colorScheme.secondary,
               ),
         if (isPortrait) SizedBox(height: 20.sp),

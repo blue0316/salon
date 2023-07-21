@@ -62,7 +62,7 @@ class MyApp extends ConsumerWidget {
         debugShowCheckedModeBanner: false,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        //useInheritedMediaQuery: true, // !! remove with device preview
+        //useInheritedMediaQuery: true, // !! remove with device previewe
         localeResolutionCallback: (
           Locale? locale,
           Iterable<Locale> supportedLocales,

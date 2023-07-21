@@ -74,17 +74,14 @@ class MasterLandscapeAboutHeader extends ConsumerWidget {
                     color: Colors.black,
                   ),
                   const Space(factor: 0.3),
-                  InkWell(
-                    onTap: () {
-                      print(categories);
-                    },
-                    child: Text(
-                      categories[0].translations[AppLocalizations.of(context)?.localeName], //  'Nail Professional',
-                      style: theme.textTheme.bodyLarge!.copyWith(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16.sp,
-                        color: isLightTheme ? Colors.black : theme.primaryColor,
-                      ),
+                  Text(
+                    '${master.title}',
+
+                    // categories[0].translations[AppLocalizations.of(context)?.localeName], //  'Nail Professional',
+                    style: theme.textTheme.bodyLarge!.copyWith(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16.sp,
+                      color: isLightTheme ? Colors.black : theme.primaryColor,
                     ),
                   ),
                 ],
@@ -199,7 +196,8 @@ class MasterPortraitAboutHeader extends ConsumerWidget {
                 ),
                 const Space(factor: 0.3),
                 Text(
-                  categories[0].translations[AppLocalizations.of(context)?.localeName], //  'Nail Professional',
+                  '${master.title}',
+                  // categories[0].translations[AppLocalizations.of(context)?.localeName], //  'Nail Professional',
                   style: theme.textTheme.bodyLarge!.copyWith(
                     fontWeight: FontWeight.w500,
                     fontSize: 16.sp,
