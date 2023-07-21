@@ -103,9 +103,9 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
                   child: themeType != ThemeType.Barbershop
                       ? ClipRRect(
                           borderRadius: BorderRadius.circular(20),
-                          child: (widget.salonModel.photosOfWork.isNotEmpty && widget.salonModel.photosOfWork[0] != '')
+                          child: (widget.salonModel.profilePics.isNotEmpty && widget.salonModel.profilePics[0] != '')
                               ? CachedImage(
-                                  url: widget.salonModel.photosOfWork[0],
+                                  url: widget.salonModel.profilePics[0],
                                   fit: BoxFit.cover,
                                 )
                               : Image.asset(
@@ -352,9 +352,9 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
                   child: themeType != ThemeType.Barbershop
                       ? ClipRRect(
                           borderRadius: BorderRadius.circular(20),
-                          child: (widget.salonModel.photosOfWork.isNotEmpty && widget.salonModel.photosOfWork.length > 1 && widget.salonModel.photosOfWork[1] != '')
+                          child: (widget.salonModel.profilePics.isNotEmpty && widget.salonModel.profilePics.length > 1 && widget.salonModel.profilePics[1] != '')
                               ? CachedImage(
-                                  url: widget.salonModel.photosOfWork[1],
+                                  url: widget.salonModel.profilePics[1],
                                   fit: BoxFit.cover,
                                 )
                               : Image.asset(

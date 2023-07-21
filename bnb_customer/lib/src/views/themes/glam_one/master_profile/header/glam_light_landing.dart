@@ -195,7 +195,7 @@ class GlamLightHeaderBody extends ConsumerWidget {
           ),
           child: ListView.builder(
             shrinkWrap: true,
-            itemCount: salonModel.photosOfWork.length,
+            itemCount: salonModel.profilePics.length,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
               return Padding(
@@ -207,9 +207,9 @@ class GlamLightHeaderBody extends ConsumerWidget {
                     width: DeviceConstraints.getResponsiveSize(context, 250.w, 250.w, 100.w),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20),
-                      child: (salonModel.photosOfWork.isNotEmpty && salonModel.photosOfWork[0] != '')
+                      child: (salonModel.profilePics.isNotEmpty && salonModel.profilePics[0] != '')
                           ? CachedImage(
-                              url: salonModel.photosOfWork[index],
+                              url: salonModel.profilePics[index],
                               fit: BoxFit.cover,
                             )
                           : Image.asset(

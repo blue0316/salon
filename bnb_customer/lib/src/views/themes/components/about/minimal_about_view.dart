@@ -54,9 +54,9 @@ class MinimalAboutView extends ConsumerWidget {
                               url: themeSettings!.aboutSectionImage!,
                               fit: BoxFit.cover,
                             )
-                          : salonModel.photosOfWork.isNotEmpty
+                          : salonModel.profilePics.isNotEmpty
                               ? CachedImage(
-                                  url: salonModel.photosOfWork[0],
+                                  url: salonModel.profilePics[0],
                                   fit: BoxFit.cover,
                                 )
                               : Image.asset(ThemeImages.makeup, fit: BoxFit.cover),
@@ -140,9 +140,9 @@ class PortraitView extends ConsumerWidget {
                     url: themeSettings!.aboutSectionImage!,
                     fit: BoxFit.cover,
                   )
-                : salonModel.photosOfWork.isNotEmpty
+                : salonModel.profilePics.isNotEmpty
                     ? CachedImage(
-                        url: salonModel.photosOfWork[0],
+                        url: salonModel.profilePics[0],
                         fit: BoxFit.cover,
                       )
                     : Image.asset(ThemeImages.makeup, fit: BoxFit.cover),

@@ -72,8 +72,8 @@ class _DefaultAboutViewState extends ConsumerState<DefaultAboutView> {
 
                                 // height: DeviceConstraints.getResponsiveSize(context, 280.h, 320, 350.h),
                               ),
-                              items: widget.salonModel.photosOfWork.isNotEmpty
-                                  ? widget.salonModel.photosOfWork
+                              items: widget.salonModel.profilePics.isNotEmpty
+                                  ? widget.salonModel.profilePics
                                       .map((item) => CachedImage(
                                             url: item,
                                             fit: BoxFit.cover,
@@ -198,8 +198,8 @@ class _DefaultAboutViewState extends ConsumerState<DefaultAboutView> {
 
                               height: 360.sp, //  DeviceConstraints.getResponsiveSize(context, 280.h, 320, 350.h),
                             ),
-                            items: widget.salonModel.photosOfWork.isNotEmpty
-                                ? widget.salonModel.photosOfWork
+                            items: widget.salonModel.profilePics.isNotEmpty
+                                ? widget.salonModel.profilePics
                                     .map(
                                       (item) => CachedImage(
                                         url: item,

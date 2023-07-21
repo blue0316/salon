@@ -59,9 +59,9 @@ class BarbershopAboutUs extends ConsumerWidget {
                             url: themeSettings!.aboutSectionImage!,
                             fit: BoxFit.cover,
                           )
-                        : salonModel.photosOfWork.isNotEmpty
+                        : salonModel.profilePics.isNotEmpty
                             ? CachedImage(
-                                url: salonModel.photosOfWork[0],
+                                url: salonModel.profilePics[0],
                                 fit: BoxFit.cover,
                               )
                             : Image.asset(
@@ -86,9 +86,9 @@ class BarbershopAboutUs extends ConsumerWidget {
                                 url: themeSettings!.aboutSectionImage!,
                                 fit: BoxFit.cover,
                               )
-                            : salonModel.photosOfWork.isNotEmpty
+                            : salonModel.profilePics.isNotEmpty
                                 ? CachedImage(
-                                    url: salonModel.photosOfWork[0],
+                                    url: salonModel.profilePics[0],
                                     fit: BoxFit.cover,
                                     // width: DeviceConstraints.getResponsiveSize(
                                     //     context, 50, 200.w, 200.w),

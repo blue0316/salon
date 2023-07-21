@@ -47,7 +47,7 @@ class _SaloonAllWorksState extends State<SaloonAllWorks> {
                   ),
             ),
             const Space(factor: 2),
-            (widget.salonModel.photosOfWorks!.isNotEmpty)
+            (widget.salonModel.profilePics.isNotEmpty)
                 ? GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: DeviceConstraints.getResponsiveSize(context, 2, 3, 3).toInt(),
@@ -59,12 +59,12 @@ class _SaloonAllWorksState extends State<SaloonAllWorks> {
                     ),
                     shrinkWrap: true,
                     primary: false,
-                    itemCount: widget.salonModel.photosOfWorks!.length,
+                    itemCount: widget.salonModel.profilePics.length,
                     controller: _gridViewScrollController,
                     // padding: EdgeInsets.all(20.w),
                     itemBuilder: (context, index) {
                       List<String?>? images = [];
-                      images.add(widget.salonModel.photosOfWorks![index].image);
+                      images.add(widget.salonModel.profilePics[index]);
 
                       return GestureDetector(
                         onTap: () {
@@ -89,21 +89,33 @@ class _SaloonAllWorksState extends State<SaloonAllWorks> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(15),
                                 child: CachedImage(
-                                  url: '${widget.salonModel.photosOfWorks![index].image}',
+                                  url: widget.salonModel.profilePics[index],
                                   fit: BoxFit.cover,
                                 ),
                               ),
                             ),
+                            // SizedBox(
+                            //   height: DeviceConstraints.getResponsiveSize(context, 150, 200, 200),
+                            //   width: DeviceConstraints.getResponsiveSize(context, 200, 300, 400),
+                            //   // decoration: const BoxDecoration(color: Colors.green),
+                            //   child: ClipRRect(
+                            //     borderRadius: BorderRadius.circular(15),
+                            //     child: CachedImage(
+                            //       url: '${widget.salonModel.photosOfWorks![index].image}',
+                            //       fit: BoxFit.cover,
+                            //     ),
+                            //   ),
+                            // ),
 
-                            const SizedBox(height: 10),
-                            Text(
-                              '${widget.salonModel.photosOfWorks![index].description}',
-                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                    fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 16.sp),
-                                  ),
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                            // const SizedBox(height: 10),
+                            // Text(
+                            //   '${widget.salonModel.photosOfWorks![index].description}',
+                            //   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            //         fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 16.sp),
+                            //       ),
+                            //   maxLines: 3,
+                            //   overflow: TextOverflow.ellipsis,
+                            // ),
                             // const SizedBox(height: 15),
                           ],
                         ),

@@ -74,7 +74,7 @@ class _DefaultWorksViewState extends ConsumerState<DefaultWorksView> {
             SizedBox(
               height: DeviceConstraints.getResponsiveSize(context, 50.sp, 50.sp, 35.sp),
             ),
-            (widget.salonModel.photosOfWork.isNotEmpty)
+            (widget.salonModel.profilePics.isNotEmpty)
                 ? SizedBox(
                     // height: 260.h,
                     child: CarouselSlider(
@@ -86,7 +86,7 @@ class _DefaultWorksViewState extends ConsumerState<DefaultWorksView> {
                         viewportFraction: DeviceConstraints.getResponsiveSize(context, 1, 0.4, 0.34),
                         height: DeviceConstraints.getResponsiveSize(context, 280.h, 350.h, 350.h),
                       ),
-                      items: widget.salonModel.photosOfWork
+                      items: widget.salonModel.profilePics
                           .map(
                             (item) => GestureDetector(
                               onTap: () {
@@ -94,8 +94,8 @@ class _DefaultWorksViewState extends ConsumerState<DefaultWorksView> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => ImagePreview(
-                                      imageUrls: widget.salonModel.photosOfWork,
-                                      index: widget.salonModel.photosOfWork.indexOf(item),
+                                      imageUrls: widget.salonModel.profilePics,
+                                      index: widget.salonModel.profilePics.indexOf(item),
                                     ),
                                   ),
                                 );

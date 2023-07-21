@@ -98,8 +98,8 @@ class GlamLightHeaderBody extends ConsumerWidget {
 
     if (themeSettings!.glamLightImages != null && themeSettings.glamLightImages!.isNotEmpty) {
       images = themeSettings.glamLightImages!.take(5).toList();
-    } else if (salonModel.photosOfWork.isNotEmpty && salonModel.photosOfWork[0] != '') {
-      images = salonModel.photosOfWork.take(5).toList();
+    } else if (salonModel.profilePics.isNotEmpty && salonModel.profilePics[0] != '') {
+      images = salonModel.profilePics.take(5).toList();
     } else {
       images = [];
     }
