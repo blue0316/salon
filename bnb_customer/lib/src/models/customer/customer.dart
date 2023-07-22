@@ -65,6 +65,7 @@ class CustomerModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     data['createdAt'] = createdAt;
+    data['customerId'] = customerId;
     data['personalInfo'] = personalInfo.toJson();
     data['registeredSalons'] = registeredSalons;
     data['avgRating'] = avgRating;

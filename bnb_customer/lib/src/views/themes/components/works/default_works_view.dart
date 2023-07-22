@@ -74,7 +74,7 @@ class _DefaultWorksViewState extends ConsumerState<DefaultWorksView> {
             SizedBox(
               height: DeviceConstraints.getResponsiveSize(context, 50.sp, 50.sp, 35.sp),
             ),
-            (widget.salonModel.profilePics.isNotEmpty)
+            (widget.salonModel.photosOfWorks!.isNotEmpty)
                 ? SizedBox(
                     // height: 260.h,
                     child: CarouselSlider(
@@ -86,40 +86,43 @@ class _DefaultWorksViewState extends ConsumerState<DefaultWorksView> {
                         viewportFraction: DeviceConstraints.getResponsiveSize(context, 1, 0.4, 0.34),
                         height: DeviceConstraints.getResponsiveSize(context, 280.h, 350.h, 350.h),
                       ),
-                      items: widget.salonModel.profilePics
-                          .map(
-                            (item) => GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ImagePreview(
-                                      imageUrls: widget.salonModel.profilePics,
-                                      index: widget.salonModel.profilePics.indexOf(item),
-                                    ),
+                      items: widget.salonModel.photosOfWorks!.map((item) {
+                        String image = item.image ?? '';
+                        if (image.isNotEmpty) {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ImagePreview(
+                                    imageUrls: [item.image], //  widget.salonModel.photosOfWorks,
+                                    index: widget.salonModel.photosOfWorks!.indexOf(item),
                                   ),
-                                );
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.only(right: 20.sp),
-                                child: CachedImage(
-                                  width: DeviceConstraints.getResponsiveSize(
-                                    context,
-                                    size.width - 20.w,
-                                    ((size.width / 2)), // size.width - 20.w,
-                                    (size.width / 3) - 20, // 200.w,
-                                  ),
-                                  url: item,
-                                  fit: BoxFit.cover,
                                 ),
+                              );
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 20.sp),
+                              child: CachedImage(
+                                width: DeviceConstraints.getResponsiveSize(
+                                  context,
+                                  size.width - 20.w,
+                                  ((size.width / 2)), // size.width - 20.w,
+                                  (size.width / 3) - 20, // 200.w,
+                                ),
+                                url: item.image!,
+                                fit: BoxFit.cover,
                               ),
                             ),
-                          )
-                          .toList(),
+                          );
+                        } else {
+                          return const SizedBox();
+                        }
+                      }).toList(),
                     ),
                   )
                 : NoSectionYet(
-                    text: AppLocalizations.of(context)?.noWorks ?? 'No photos of works',
+                    text: 'No photos of works', // AppLocalizations.of(context)?.noWorks ?? 'No photos of works',
                     color: theme.colorScheme.secondary,
                   ),
           ],

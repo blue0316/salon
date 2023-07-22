@@ -5,7 +5,6 @@ import 'package:bbblient/src/utils/notification/fcm_token.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'collections.dart';
 
 class CustomerApi {
@@ -147,11 +146,13 @@ class CustomerApi {
   updatePersonalInfo({
     required String customerId,
     required PersonalInfo personalInfo,
+    String? gender,
   }) async {
     try {
       await Collection.customers.doc(customerId).update(
         {
           'personalInfo': personalInfo.toJson(),
+          'preferredGender': gender ?? 'male',
         },
       );
     } catch (e) {
@@ -210,6 +211,59 @@ class CustomerApi {
     } catch (e) {
       printIt('Error on createCard - e');
       return false;
+    }
+  }
+
+  Future<CustomerModel?> findCustomer(String number) async {
+    printIt(number);
+    try {
+      Query snap = Collection.customers.where('personalInfo.phone', isEqualTo: number);
+
+      final getData = await snap.get();
+      if (getData.docs.isEmpty) {
+        return null;
+      } else {
+        final CustomerModel customer = CustomerModel.fromJson(getData.docs.first.data() as Map<String, dynamic>);
+
+        return customer;
+      }
+    } catch (e) {
+      printIt('error in getting customer');
+      printIt(e);
+      return null;
+    }
+  }
+
+  Future<CustomerModel?> createNewCustomer({required PersonalInfo personalInfo}) async {
+    try {
+      DocumentReference _docRef = Collection.customers.doc();
+
+      final CustomerModel newCustomer = CustomerModel(
+        customerId: _docRef.id,
+        personalInfo: personalInfo,
+        registeredSalons: [],
+        createdAt: DateTime.now(),
+        avgRating: 3.0,
+        noOfRatings: 6,
+        profilePicUploaded: false,
+        profilePic: "",
+        profileCompleted: false,
+        quizCompleted: false,
+        preferredGender: "male",
+        preferredCategories: [],
+        locations: [],
+        fcmToken: "",
+        locale: "en",
+        favSalons: [],
+        referralLink: "",
+      );
+
+      await _docRef.set(newCustomer.toJson(), SetOptions(merge: true));
+
+      return newCustomer;
+    } catch (e) {
+      printIt('Error on createCard - e');
+      return null;
     }
   }
 }

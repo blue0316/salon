@@ -47,7 +47,7 @@ class _MinimalWorksViewState extends ConsumerState<MinimalWorksView> {
             ),
           ),
           SizedBox(height: DeviceConstraints.getResponsiveSize(context, 50, 50, 80)),
-          (widget.salonModel.profilePics.isNotEmpty)
+          (widget.salonModel.photosOfWorks!.isNotEmpty)
               ? SizedBox(
                   // height: 260.h,
                   child: CarouselSlider(
@@ -63,7 +63,7 @@ class _MinimalWorksViewState extends ConsumerState<MinimalWorksView> {
                       // viewportFraction: DeviceConstraints.getResponsiveSize(context, 1, 0.5, 0.5),
                       height: DeviceConstraints.getResponsiveSize(context, 280.h, 350.h, 350.h),
                     ),
-                    items: widget.salonModel.profilePics
+                    items: widget.salonModel.photosOfWorks!
                         .map(
                           (item) => CachedImage(
                             width: DeviceConstraints.getResponsiveSize(
@@ -78,7 +78,7 @@ class _MinimalWorksViewState extends ConsumerState<MinimalWorksView> {
                             //   size.width - 20.w,
                             //   200.w,
                             // ),
-                            url: item,
+                            url: item.image ?? '',
                             fit: BoxFit.cover,
                           ),
                         )

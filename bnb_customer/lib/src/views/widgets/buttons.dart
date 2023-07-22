@@ -40,44 +40,47 @@ class DefaultButton extends ConsumerWidget {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
-    return MaterialButton(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(borderRadius ?? 8),
-        side: noBorder ? BorderSide.none : BorderSide(color: borderColor ?? color ?? Colors.black),
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: MaterialButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(borderRadius ?? 8),
+          side: noBorder ? BorderSide.none : BorderSide(color: borderColor ?? color ?? Colors.black),
+        ),
+        height: height,
+        // size.width - 94,
+        minWidth: double.infinity,
+        color: color ?? AppTheme.lightBlack,
+        disabledColor: AppTheme.coolGrey,
+        onPressed: onTap as void Function()?,
+        child: isLoading
+            ? CircularProgressIndicator(color: loaderColor)
+            : Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (prefixIcon != null)
+                    Padding(
+                      padding: EdgeInsets.only(right: 10.sp),
+                      child: prefixIcon!,
+                    ),
+                  Text(
+                    label ?? "Sign up",
+                    textAlign: TextAlign.center,
+                    style: theme.textTheme.bodyLarge?.copyWith(
+                      color: textColor,
+                      fontWeight: fontWeight ?? FontWeight.w600,
+                      fontSize: fontSize ?? 20.sp,
+                    ),
+                  ),
+                  if (suffixIcon != null)
+                    Padding(
+                      padding: EdgeInsets.only(left: 5.sp),
+                      child: suffixIcon!,
+                    ),
+                ],
+              ),
       ),
-      height: height,
-      // size.width - 94,
-      minWidth: double.infinity,
-      color: color ?? AppTheme.lightBlack,
-      disabledColor: AppTheme.coolGrey,
-      onPressed: onTap as void Function()?,
-      child: isLoading
-          ? CircularProgressIndicator(color: loaderColor)
-          : Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                if (prefixIcon != null)
-                  Padding(
-                    padding: EdgeInsets.only(right: 10.sp),
-                    child: prefixIcon!,
-                  ),
-                Text(
-                  label ?? "Sign up",
-                  textAlign: TextAlign.center,
-                  style: theme.textTheme.bodyLarge?.copyWith(
-                    color: textColor,
-                    fontWeight: fontWeight ?? FontWeight.w600,
-                    fontSize: fontSize ?? 20.sp,
-                  ),
-                ),
-                if (suffixIcon != null)
-                  Padding(
-                    padding: EdgeInsets.only(left: 5.sp),
-                    child: suffixIcon!,
-                  ),
-              ],
-            ),
     );
   }
 }

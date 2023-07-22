@@ -213,9 +213,7 @@ class AuthProvider with ChangeNotifier {
           // print(_phone);
           // print('******@@@@@@*******');
 
-          webOTPConfirmationResult = await _auth.signInWithPhoneNumber(
-            _phone.trim(),
-          );
+          webOTPConfirmationResult = await _auth.signInWithPhoneNumber(_phone.trim());
 
           // print('******@@@@@@*******');
           // print('web result - $webOTPConfirmationResult ');
@@ -542,7 +540,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> updateCustomerPersonalInfo({required String customerId, required PersonalInfo personalInfo}) async {
+  Future<bool> updateCustomerPersonalInfo({required String customerId, required PersonalInfo personalInfo, String? gender}) async {
     printIt('Updating customer info');
     updateCustomerPersonalInfoStatus = Status.loading;
     notifyListeners();
@@ -551,6 +549,7 @@ class AuthProvider with ChangeNotifier {
       await CustomerApi().updatePersonalInfo(
         customerId: customerId,
         personalInfo: personalInfo,
+        gender: gender,
       );
 
       currentCustomer!.personalInfo = personalInfo;
@@ -685,6 +684,11 @@ class AuthProvider with ChangeNotifier {
 
   void updateAuthCountryCode(String val) {
     countryCode = val;
+    notifyListeners();
+  }
+
+  void setCurrentCustomer(CustomerModel customer) {
+    currentCustomer = customer;
     notifyListeners();
   }
 

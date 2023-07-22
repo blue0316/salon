@@ -2,8 +2,10 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
+import 'package:bbblient/src/firebase/customer.dart';
 import 'package:bbblient/src/models/customer/customer.dart';
 import 'package:bbblient/src/models/enums/status.dart';
+import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
@@ -33,11 +35,14 @@ class EnterNumber extends ConsumerStatefulWidget {
 
 class _EnterNumberState extends ConsumerState<EnterNumber> {
   String countryCode = '+380';
+  bool noVerificationSpinner = false;
+
   @override
   Widget build(BuildContext context) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final AuthProvider _authProvider = ref.watch(authProvider);
     final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
+    SalonModel salonModel = _salonProfileProvider.chosenSalon;
 
     final _auth = ref.watch(authProvider);
 
@@ -147,35 +152,19 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                     );
                     return;
                   }
-                  // if (_authProvider.phoneNoController.text.contains(RegExp('[a-zA-Z !@#\$%^&*()-_+={}[]|:;"<>,.?/]'))) {
-                  //   showToast('Invalid number, Please check number again');
-                  //   return;
-                  // }
 
                   showToast(
                     AppLocalizations.of(context)?.pleaseWait ?? "Please wait",
                   );
 
-                  // print('inside here 1 --- enableOTP = ${_salonProfileProvider.themeSettings?.displaySettings?.enableOTP}');
+                  /// only run phone verfication if country code is US
+                  if (salonModel.countryCode == 'US') {
+                    // If user has logged in with another number and decides to use a new number to book
+                    if (FirebaseAuth.instance.currentUser?.phoneNumber != null && FirebaseAuth.instance.currentUser?.phoneNumber != _authProvider.phoneNoController.text) {
+                      // Log the former account out
+                      await _auth.signOut();
+                    }
 
-                  /// Check if OTP is enabled on Web Settings
-                  // If Disabled:
-                  if (_salonProfileProvider.themeSettings?.displaySettings?.enableOTP == false) {
-                    // Go to pageview that has fields to update personal info
-                    _createAppointmentProvider.nextPageView(2); // PageView screen that contains name and email fields
-
-                    return;
-                  }
-
-                  // If user has logged in with another number and decides to use a new number to book
-
-                  if (FirebaseAuth.instance.currentUser?.phoneNumber != null && FirebaseAuth.instance.currentUser?.phoneNumber != _authProvider.phoneNoController.text) {
-                    // Log the former account out
-                    await _auth.signOut();
-                  }
-
-                  // If Enabled:
-                  if (_salonProfileProvider.themeSettings?.displaySettings?.enableOTP == true) {
                     // send otp
                     if (!_auth.userLoggedIn) {
                       await _auth.verifyPhoneNumber(
@@ -222,58 +211,62 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                           // Go to pageview that has fields to update personal info
                           _createAppointmentProvider.nextPageView(2); // PageView screen that contains name and email fields
                         } else {
-                          // Customer Personal Info has name and email
-
-                          // Create Appointment
-                          CustomerModel customer = CustomerModel(
-                            customerId: currentCustomer.customerId,
-                            personalInfo: currentCustomer.personalInfo,
-                            registeredSalons: [],
-                            createdAt: DateTime.now(),
-                            avgRating: 3.0,
-                            noOfRatings: 6,
-                            profilePicUploaded: false,
-                            profilePic: "",
-                            profileCompleted: false,
-                            quizCompleted: false,
-                            preferredGender: "male",
-                            preferredCategories: [],
-                            locations: [],
-                            fcmToken: "",
-                            locale: "en",
-                            favSalons: [],
-                            referralLink: "",
-                          );
-                          if (_salonProfileProvider.isSingleMaster) {
-                            await _createAppointmentProvider.createAppointment(
-                              customerModel: customer,
-                              context: context,
-                            );
-                          } else {
-                            await _createAppointmentProvider.creatAppointmentSalonOwner(
-                              customerModel: customer,
-                              context: context,
-                            );
-                          }
-
                           // Go to PageView Order List Screen
                           _createAppointmentProvider.nextPageView(3);
                         }
                       }
                     }
+                  } else {
+                    setState(() => noVerificationSpinner = true);
+
+                    // Check if that number exists on our db and grab the info
+                    // If it doesn’t, we show the page to input info
+
+                    // CHECK IF WE HAVE THIS NUMBER IN OUT DB
+                    final CustomerModel? customer = await CustomerApi().findCustomer('$countryCode${_authProvider.phoneNoController.text.trim()}');
+
+                    // IF IT EXISTS - GRAB CUSTOMER INFO
+                    if (customer != null) {
+                      _auth.setCurrentCustomer(customer);
+                      // Go to PageView Order List Screen
+                      _createAppointmentProvider.nextPageView(3);
+                    } else {
+                      // IF IT DOESN'T EXISTS - JUMP TO PAGE TO INPUT INFO
+                      // CREATE NEW CUSTOMER DOCUMENT
+
+                      final CustomerModel? createdCustomer = await CustomerApi().createNewCustomer(
+                        personalInfo: PersonalInfo(
+                          phone: '$countryCode${_authProvider.phoneNoController.text}',
+                          firstName: "",
+                          lastName: "",
+                          description: "",
+                          dob: null,
+                          email: "",
+                          sex: "",
+                        ),
+                      );
+
+                      if (createdCustomer != null) {
+                        _authProvider.setCurrentCustomer(createdCustomer);
+
+                        setState(() => noVerificationSpinner = false);
+
+                        _createAppointmentProvider.nextPageView(2);
+                      } else {
+                        setState(() => noVerificationSpinner = false);
+                        return;
+                      }
+                    }
                   }
                 },
-                color: dialogButtonColor(themeType, theme), // theme.dialogBackgroundColor, // defaultTheme ? Colors.black : theme.primaryColor,
-                textColor: loaderColor(themeType), // defaultTheme ? Colors.white : Colors.black,
-
-                // color: defaultTheme ? Colors.black : theme.primaryColor,
-                // textColor: defaultTheme ? Colors.white : Colors.black,
+                color: dialogButtonColor(themeType, theme),
+                textColor: loaderColor(themeType),
                 height: 60,
 
                 borderColor: theme.primaryColor,
 
                 label: AppLocalizations.of(context)?.sendACode ?? 'Send a code',
-                isLoading: _authProvider.otpStatus == Status.loading,
+                isLoading: (noVerificationSpinner == true) || _authProvider.otpStatus == Status.loading,
                 loaderColor: loaderColor(themeType), // defaultTheme ? Colors.white : Colors.black,
                 suffixIcon: Icon(
                   Icons.arrow_forward_ios_rounded,
@@ -282,17 +275,6 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                 ),
                 fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
               ),
-              // SizedBox(height: 15.h),
-              // DefaultButton(
-              //   borderRadius: 60,
-              //   onTap: () => widget.tabController.animateTo(1),
-
-              //   color: dialogBackButtonColor(themeType, theme), // defaultTheme ? Colors.white :
-              //   borderColor: theme.primaryColor, // defaultTheme ? Colors.black : theme.primaryColor,
-              //   textColor: theme.colorScheme.tertiary, // defaultTheme ? Colors.black : theme.primaryColor,
-              //   height: 60,
-              //   label: AppLocalizations.of(context)?.back ?? 'Back',
-              // ),
             ],
           ),
         ),

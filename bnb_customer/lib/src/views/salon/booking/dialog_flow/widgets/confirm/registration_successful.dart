@@ -62,9 +62,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
             color: theme.colorScheme.tertiary,
           ),
         ),
-
         const Space(factor: 1),
-
         const Space(factor: 1.3),
         Container(
           decoration: const BoxDecoration(
@@ -95,9 +93,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
             ),
           ),
         ),
-
         SizedBox(height: 15.sp),
-
         Container(
           decoration: const BoxDecoration(
             border: Border(bottom: BorderSide(color: Color(0XFF35373B), width: 0.5)),
@@ -127,9 +123,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
             ),
           ),
         ),
-
         SizedBox(height: 15.sp),
-
         Container(
           decoration: const BoxDecoration(
             border: Border(bottom: BorderSide(color: Color(0XFF35373B), width: 0.5)),
@@ -160,9 +154,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
             ),
           ),
         ),
-
         SizedBox(height: 15.sp),
-
         Container(
           decoration: const BoxDecoration(
             border: Border(bottom: BorderSide(color: Color(0XFF35373B), width: 0.5)),
@@ -240,12 +232,10 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
                   ),
                 ),
         ),
-
         const Spacer(),
         DefaultButton(
           borderRadius: 60,
           onTap: () async {
-            // bool enabledOTP = _salonProfileProvider.themeSettings?.displaySettings?.enableOTP ?? true;
             // Check if fields are filled
             if (firstNameController.text.isEmpty || emailController.text.isEmpty || lastNameController.text.isEmpty) {
               showToast(AppLocalizations.of(context)?.emptyFields ?? "Field cannot be empty, please fill the required fields");
@@ -270,81 +260,10 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
             await _authProvider.updateCustomerPersonalInfo(
               customerId: currentCustomer.customerId,
               personalInfo: _personalInfo,
+              gender: dropdownvalue,
             );
 
             _createAppointmentProvider.nextPageView(3);
-
-            // // Create Appointment
-            // CustomerModel customer = CustomerModel(
-            //   customerId: currentCustomer!.customerId,
-            //   personalInfo: _personalInfo,
-            //   registeredSalons: [],
-            //   createdAt: DateTime.now(),
-            //   avgRating: 3.0,
-            //   noOfRatings: 6,
-            //   profilePicUploaded: false,
-            //   profilePic: "",
-            //   profileCompleted: false,
-            //   quizCompleted: false,
-            //   preferredGender: "male",
-            //   preferredCategories: [],
-            //   locations: [],
-            //   fcmToken: "",
-            //   locale: "en",
-            //   favSalons: [],
-            //   referralLink: "",
-            // );
-
-            // if (enabledOTP == false) {
-            //   // Since enableOTP is false, customer did not login
-
-            //   _authProvider.setCurrentCustomerWithoutOTP(
-            //     firstName: firstNameController.text,
-            //     lastName: lastNameController.text,
-            //     email: emailController.text,
-            //   );
-
-            //   currentCustomer = _authProvider.currentCustomerWithoutOTP;
-
-            //   _personalInfo = PersonalInfo(
-            //     phone: _authProvider.phoneNoController.text,
-            //     firstName: firstNameController.text,
-            //     lastName: lastNameController.text,
-            //     email: emailController.text,
-            //   );
-            // } else {
-            //   currentCustomer = _authProvider.currentCustomer;
-
-            //   _personalInfo = PersonalInfo(
-            //     phone: currentCustomer!.personalInfo.phone,
-            //     firstName: firstNameController.text,
-            //     lastName: lastNameController.text,
-            //     description: currentCustomer.personalInfo.description ?? '',
-            //     dob: currentCustomer.personalInfo.dob ?? DateTime.now().subtract(const Duration(days: 365 * 26)),
-            //     email: emailController.text,
-            //     sex: currentCustomer.personalInfo.sex ?? '',
-            //   );
-            // }
-
-            // if (enabledOTP) {
-            //   // update name and email of customer in customer collection
-            //   success = await _authProvider.updateCustomerPersonalInfo(
-            //     customerId: _authProvider.currentCustomer!.customerId,
-            //     personalInfo: _personalInfo,
-            //   );
-            // } else {
-            //   success = true;
-            // }
-
-            // _authProvider.updateCurrentCustomerToFinishBooking(customer);
-
-            // if (success) {
-            //   // Move to next screen
-            //   _createAppointmentProvider.nextPageView(3);
-            // } else {
-            //   showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? "Something went wrong, please try again");
-            //   showToast("Something went wrong, please try again");
-            // }
           },
           color: dialogButtonColor(themeType, theme),
           textColor: loaderColor(themeType),
@@ -359,22 +278,6 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
           ),
           fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
         ),
-        // SizedBox(height: 15.h),
-        // DefaultButton(
-        //   borderRadius: 60,
-        //   onTap: () {
-        //     _createAppointmentProvider.nextPageView(1);
-        //   },
-        //   color: dialogBackButtonColor(themeType, theme), // defaultTheme ? Colors.white :
-        //   borderColor: theme.primaryColor, // defaultTheme ? Colors.black : theme.primaryColor,
-        //   textColor: theme.colorScheme.tertiary, // defaultTheme ? Colors.black : theme.primaryColor,
-
-        //   // color: defaultTheme ? Colors.white : Colors.transparent,
-        //   // borderColor: defaultTheme ? Colors.black : theme.primaryColor,
-        //   // textColor: defaultTheme ? Colors.black : theme.primaryColor,
-        //   height: 60,
-        //   label: AppLocalizations.of(context)?.back ?? 'Back',
-        // ),
       ],
     );
   }
