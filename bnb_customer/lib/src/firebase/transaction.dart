@@ -30,18 +30,13 @@ class TransactionApi {
   }
 
   Stream<List<TransactionModel>> streamTransaction(String id) {
-    return Collection.transactions
-        .where("transactionId", isEqualTo: id)
-        .limit(1)
-        .snapshots()
-        .map((snapShot) {
+    return Collection.transactions.where("transactionId", arrayContains: id).limit(1).snapshots().map((snapShot) {
       List<TransactionModel> allTransactions = [];
 
       for (QueryDocumentSnapshot snap in snapShot.docs) {
         late TransactionModel? transactionModel;
         try {
-          transactionModel =
-              TransactionModel.fromJson(snap.data() as Map<String, dynamic>);
+          transactionModel = TransactionModel.fromJson(snap.data() as Map<String, dynamic>);
           transactionModel.transactionId = snap.id;
         } catch (e) {
           debugPrint('Error on streamTransaction() - $e');
@@ -54,31 +49,23 @@ class TransactionApi {
     });
   }
 
-  Stream<List<AppointmentModel>> getAllAppointmentWithTransaction(
-      String? transactionId) {
-    return Collection.appointments
-        .where('transactionId', isEqualTo: transactionId)
-        .snapshots()
-        .map((snapShot) => snapShot.docs.map<AppointmentModel>((appointment) {
-              Map _temp = appointment.data() as Map<dynamic, dynamic>;
+  Stream<List<AppointmentModel>> getAllAppointmentWithTransaction(String? transactionId) {
+    return Collection.appointments.where('transactionId', isEqualTo: transactionId).snapshots().map((snapShot) => snapShot.docs.map<AppointmentModel>((appointment) {
+          Map _temp = appointment.data() as Map<dynamic, dynamic>;
 
-              _temp['appointmentId'] = appointment.id;
+          _temp['appointmentId'] = appointment.id;
 
-              return AppointmentModel.fromJson(_temp as Map<String, dynamic>);
-            }).toList());
+          return AppointmentModel.fromJson(_temp as Map<String, dynamic>);
+        }).toList());
   }
 
-  Stream<List<AppointmentModel>> getAllAppointmentWithTransactionCardOnFile(
-      String? transactionId) {
-    return Collection.appointments
-        .where('merchantRef', isEqualTo: transactionId)
-        .snapshots()
-        .map((snapShot) => snapShot.docs.map<AppointmentModel>((appointment) {
-              Map _temp = appointment.data() as Map<dynamic, dynamic>;
+  Stream<List<AppointmentModel>> getAllAppointmentWithTransactionCardOnFile(String? transactionId) {
+    return Collection.appointments.where('merchantRef', isEqualTo: transactionId).snapshots().map((snapShot) => snapShot.docs.map<AppointmentModel>((appointment) {
+          Map _temp = appointment.data() as Map<dynamic, dynamic>;
 
-              _temp['appointmentId'] = appointment.id;
+          _temp['appointmentId'] = appointment.id;
 
-              return AppointmentModel.fromJson(_temp as Map<String, dynamic>);
-            }).toList());
+          return AppointmentModel.fromJson(_temp as Map<String, dynamic>);
+        }).toList());
   }
 }
