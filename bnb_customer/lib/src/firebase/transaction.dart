@@ -30,7 +30,7 @@ class TransactionApi {
   }
 
   Stream<List<TransactionModel>> streamTransaction(String id) {
-    return Collection.transactions.where("transactionId", arrayContains: id).limit(1).snapshots().map((snapShot) {
+    return Collection.transactions.where("transactionId", isEqualTo: id).limit(1).snapshots().map((snapShot) {
       List<TransactionModel> allTransactions = [];
 
       for (QueryDocumentSnapshot snap in snapShot.docs) {
