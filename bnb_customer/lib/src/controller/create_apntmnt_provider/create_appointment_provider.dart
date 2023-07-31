@@ -1012,6 +1012,45 @@ class CreateAppointmentProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  bool checkIfSalonPriceAndMasterPriceIsDifferent() {
+    for (ServiceModel service in chosenServices) {
+      for (MasterModel master in serviceableMasters) {
+        String salonServicePrice = service.priceAndDuration?.price ?? '';
+        String masterServicePrice = service.masterPriceAndDurationMap?[master.masterId]?.price ?? '';
+
+        if (salonServicePrice != masterServicePrice) {
+          return true;
+        }
+      }
+    }
+
+    // price of service is not different
+    return false;
+  }
+
+  String getStartTime(showModal) {
+    if (showModal) {
+      TimeOfDay _startTime = Time().stringToTime(selectedAppointmentSlot!);
+
+      return Time().timeToString(_startTime) ?? '';
+    }
+
+    return '';
+  }
+
+  String getEndTime(showModal) {
+    if (showModal) {
+      TimeOfDay _startTime = Time().stringToTime(selectedAppointmentSlot!);
+      final PriceAndDurationModel _priceAndDuration = priceAndDuration[chosenMaster?.masterId] ?? PriceAndDurationModel();
+
+      TimeOfDay _endTime = _startTime.addMinutes(int.parse(_priceAndDuration.duration!));
+
+      return Time().timeToString(_endTime) ?? '';
+    }
+
+    return '';
+  }
+
   /// --------------------------- stop cooking -------------------------------------------------------------------------
 
   void nextPageView(int index) {

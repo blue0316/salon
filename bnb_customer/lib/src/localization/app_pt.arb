@@ -813,5 +813,6 @@
   "cancelingAppointment":"Cancelando agendamento",
   "photoNA": "Foto N/A",
   "writeToUs9": "escreva para nós e ",
-  "minutes": "minutos"
+  "minutes": "minutos",
+  "serviceProvidersChargeDifferentPrices": "Provedores de serviços cobram preços diferentes"
   }

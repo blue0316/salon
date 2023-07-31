@@ -215,7 +215,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                   ServiceNameAndPrice(
                     notService: true,
                     serviceName: 'Pay at Appointment:',
-                    servicePrice: '$payAtAppointment',
+                    servicePrice: '\$$payAtAppointment',
                   ),
 
                   ServiceNameAndPrice(
@@ -244,7 +244,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                         Flexible(
                           flex: 0,
                           child: Text(
-                            totalAmount,
+                            '\$$totalAmount',
 
                             // '\$${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '0'}',
                             style: theme.textTheme.bodyMedium?.copyWith(

@@ -823,5 +823,6 @@
   "cancelingAppointment":"Скасування зустрічі",
   "photoNA" : "фото N/A",
   "writeToUs9": "напишіть нам і ",
-  "minutes": "хвилини"
+  "minutes": "хвилини",
+  "serviceProvidersChargeDifferentPrices": "Постачальники послуг стягують різні ціни"
 }
