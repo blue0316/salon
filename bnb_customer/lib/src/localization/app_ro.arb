@@ -815,6 +815,18 @@
   "photoNA": "Fotografie N/A",
   "writeToUs9": "scrie-ne și ",
   "minutes": "minutes",
-  "serviceProvidersChargeDifferentPrices": "Furnizorii de servicii percep prețuri diferite"
+  "serviceProvidersChargeDifferentPrices": "Furnizorii de servicii percep prețuri diferite",
+  "yourAppointmentIsBeingCreated": "Întregirea dvs. este creată!",
+  "thankYou" : "multumesc",
+  "yourAppointmentHasBeenCreated1": "Întâlnirea dvs. a fost creată.",
+  "yourAppointmentHasBeenCreated2": "Așteptăm cu nerăbdare să te vedem!",
+  "viewDetails": "Vedeți detalii",
+  "failed": "Eșuat",
+  "exit": "Ieșire",
+  "appointmentDetails": "detalii întâlnire",
+  "depositPaid": "Depozit plătit:",
+  "addToAppleCalendar": "Adaugă la Apple Calendar",
+  "addToGoogleCalendar": "Adăugați la Google Calendar",
+  "slotsOverlap" : "Slots se suprapun cu ora rezervată de salon, alege alt slot"
   }
   

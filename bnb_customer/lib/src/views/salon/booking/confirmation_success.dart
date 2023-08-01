@@ -13,6 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ConfirmationSuccess<T> extends ConsumerStatefulWidget {
   static const route = "/confirmation";
@@ -132,7 +133,7 @@ class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
 //                       ),
                       SizedBox(height: 15.sp),
                       Text(
-                        'Please Wait',
+                        AppLocalizations.of(context)?.pleaseWait ?? 'Please Wait',
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w500,
                           fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 30.sp, 35.sp),
@@ -141,7 +142,7 @@ class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
                       ),
                       SizedBox(height: 15.sp),
                       Text(
-                        'Your appointment is being created!',
+                        AppLocalizations.of(context)?.yourAppointmentIsBeingCreated ?? 'Your appointment is being created!',
                         textAlign: TextAlign.center,
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.normal,
@@ -165,7 +166,7 @@ class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
                       ),
                       const Spacer(),
                       Text(
-                        'Thank you',
+                        AppLocalizations.of(context)?.thankYou ?? 'Thank you',
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w500,
                           fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 30.sp, 35.sp),
@@ -174,7 +175,8 @@ class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
                       ),
                       SizedBox(height: 15.sp),
                       Text(
-                        'Your appointment has been created.\nWe are looking forward to seeing you!',
+                        '${AppLocalizations.of(context)?.yourAppointmentHasBeenCreated1 ?? 'Your appointment has been created.'}\n${AppLocalizations.of(context)?.yourAppointmentHasBeenCreated2 ?? 'We are looking forward to seeing you!'}',
+                        // 'Your appointment has been created.\nWe are looking forward to seeing you!',
                         textAlign: TextAlign.center,
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.normal,
@@ -191,7 +193,7 @@ class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
                           borderRadius: 60.sp,
                           color: theme.dialogBackgroundColor,
                           borderColor: theme.colorScheme.tertiary.withOpacity(0.6),
-                          label: 'View details',
+                          label: AppLocalizations.of(context)?.viewDetails ?? 'View details',
                           fontWeight: FontWeight.w400,
                           fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                           textColor: theme.colorScheme.tertiary,
@@ -303,7 +305,7 @@ class _ConfirmationErrorState extends ConsumerState<ConfirmationError> {
                 ),
                 const Spacer(),
                 Text(
-                  'Failed!',
+                  AppLocalizations.of(context)?.failed ?? 'Failed!',
                   style: theme.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w500,
                     fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 30.sp, 35.sp),
@@ -312,7 +314,7 @@ class _ConfirmationErrorState extends ConsumerState<ConfirmationError> {
                 ),
                 SizedBox(height: 15.sp),
                 Text(
-                  'Failed failed failed',
+                  AppLocalizations.of(context)?.somethingWentWrong ?? 'Something went wrong',
                   textAlign: TextAlign.center,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.normal,
@@ -328,7 +330,7 @@ class _ConfirmationErrorState extends ConsumerState<ConfirmationError> {
                     borderRadius: 60.sp,
                     color: theme.dialogBackgroundColor,
                     borderColor: theme.colorScheme.tertiary.withOpacity(0.6),
-                    label: 'Exit',
+                    label: AppLocalizations.of(context)?.exit ?? 'Exit',
                     fontWeight: FontWeight.w400,
                     fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                     textColor: theme.colorScheme.tertiary,

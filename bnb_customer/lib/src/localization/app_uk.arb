@@ -824,5 +824,17 @@
   "photoNA" : "фото N/A",
   "writeToUs9": "напишіть нам і ",
   "minutes": "хвилини",
-  "serviceProvidersChargeDifferentPrices": "Постачальники послуг стягують різні ціни"
+  "serviceProvidersChargeDifferentPrices": "Постачальники послуг стягують різні ціни",
+  "yourAppointmentIsBeingCreated": "Ваша зустріч створюється!",
+  "thankYou" : "дякую",
+  "yourAppointmentHasBeenCreated1": "Вашу зустріч створено.",
+  "yourAppointmentHasBeenCreated2": "Ми з нетерпінням чекаємо на вас!",
+  "viewDetails": "Переглянути деталі",
+  "failed": "Не вдалося",
+  "exit": "Вихід",
+  "appointmentDetails": "подробиці зустрічі",
+  "depositPaid": "Депозит сплачено:",
+  "addToAppleCalendar": "Додати до календаря Apple",
+  "addToGoogleCalendar": "Додати до календаря Google",
+  "slotsOverlap" : "Слоти накладаються на час, заброньований салоном, виберіть інший слот"
 }

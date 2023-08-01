@@ -156,6 +156,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   Map<String, List<ServiceModel>> groupUnavailableSelectedItems = {};
   double totalDeposit = 0;
   int bookingFlowPageIndex = 0;
+  bool showModal = false; // Mini container on date and time screen
 
   getServiceMasters() {
     unavailableSelectedItems.clear();
@@ -259,19 +260,24 @@ class CreateAppointmentProvider with ChangeNotifier {
     mastersAbleToPerformService.clear();
     notifyListeners();
 
-    mastersAbleToPerformService = getMultipleServiceableMasters(salonMasters);
+    serviceableMasters = getMultipleServiceableMasters(salonMasters);
+    // mastersAbleToPerformService = getMultipleServiceableMasters(salonMasters);
+
+    // print('@@@@----@@@@@---@@@@@---@@@');
+    // print(serviceableMasters);
+    // print('@@@@----@@@@@---@@@@@---@@@');
 
     ///load price and duration of masters for multiple services
     loadMultiplePriceAndDuration();
 
-    for (MasterModel master in mastersAbleToPerformService) {
-      String? price = priceAndDuration[master.masterId]?.price ?? '0';
-      String? duration = priceAndDuration[master.masterId]?.duration ?? '0';
+    // for (MasterModel master in mastersAbleToPerformService) {
+    //   String? price = priceAndDuration[master.masterId]?.price ?? '0';
+    //   String? duration = priceAndDuration[master.masterId]?.duration ?? '0';
 
-      if (price != '0' && duration != '0') {
-        serviceableMasters.add(master);
-      }
-    }
+    //   if (price != '0' && duration != '0') {
+    //     serviceableMasters.add(master);
+    //   }
+    // }
     notifyListeners();
     loadMasterView();
     loadDayView();
@@ -710,19 +716,34 @@ class CreateAppointmentProvider with ChangeNotifier {
   ///load multiple price and duration for multiple masters in the salon
   loadMultiplePriceAndDuration() {
     priceAndDuration.clear();
-    for (var master in mastersAbleToPerformService) {
+    for (var master in serviceableMasters) {
+      // mastersAbleToPerformService) {
       totalDuration = 0;
       totalPriceForMultiple = 0;
+      var newPriceAndDuration = PriceAndDurationModel();
       for (ServiceModel eachSelectedService in chosenServices) {
         if (eachSelectedService.serviceId != null && eachSelectedService.serviceId!.isNotEmpty && master.servicesPriceAndDuration != null) {
-          totalDuration += int.parse(eachSelectedService.priceAndDuration!.duration!);
-          totalPriceForMultiple += (int.parse(eachSelectedService.priceAndDuration!.price!));
+          totalDuration += int.parse(eachSelectedService.priceAndDuration!.duration ?? '0');
+          totalPriceForMultiple += (int.parse(master.servicesPriceAndDuration?[eachSelectedService.serviceId]?.price ?? '0'));
+          // totalPriceForMultiple += (int.parse(eachSelectedService.priceAndDuration!.price!));
+
           master.servicesPriceAndDuration![eachSelectedService.serviceId]?.price = totalPriceForMultiple.toString();
           master.servicesPriceAndDuration![eachSelectedService.serviceId]?.duration = totalDuration.toString();
 
-          priceAndDuration[master.masterId] = getPriceAndDuration(eachSelectedService, master);
+          newPriceAndDuration.price = (int.parse(newPriceAndDuration.price ?? '0') + totalPriceForMultiple).toString();
+          newPriceAndDuration.duration = (int.parse(newPriceAndDuration.duration ?? '0') + totalDuration).toString();
+          // priceAndDuration[master.masterId] = getPriceAndDuration(eachSelectedService, master);
+
+          // print('____+++++___+++++___++@@@@@@@@&&&&&&&___------++++');
+          // print(totalDuration);
+          // print(totalPriceForMultiple);
+          // print(priceAndDuration[master.masterId]?.price);
+          // print(priceAndDuration[master.masterId]?.duration);
+          // print('____+++++___+++++___++@@@@@@@@&&&&&&&___------++++');
         }
       }
+
+      priceAndDuration[master.masterId] = newPriceAndDuration;
     }
   }
 
@@ -731,7 +752,15 @@ class CreateAppointmentProvider with ChangeNotifier {
     try {
       if (service != null && service.serviceId!.isNotEmpty && master.servicesPriceAndDuration != null) {
         // print('master price${master.servicesPriceAndDuration![service.serviceId]!.price}');
-        return master.servicesPriceAndDuration![service.serviceId] ?? PriceAndDurationModel();
+
+        // print('____+++++___+++++___++@@@@@@@@&&&&&&&___------++++');
+        // print(service.serviceName);
+        // print(service.serviceId);
+        // print(master.servicesPriceAndDuration?['nVqUIPr07PLneP8QW3wd']?.price);
+        // print(master.servicesPriceAndDuration?['nVqUIPr07PLneP8QW3wd']?.durationinHr);
+        // print(master.title);
+        // print('____+++++___+++++___++@@@@@@@@&&&&&&&___------++++');
+        return master.servicesPriceAndDuration?[service.serviceId] ?? PriceAndDurationModel();
       }
     } catch (e) {
       (e.toString());
@@ -758,7 +787,12 @@ class CreateAppointmentProvider with ChangeNotifier {
   //called up every time appointment changes
   bool isBlocked = false;
 
-  onAppointmentChange(MasterModel master, String? appointment, {DateTime? date}) {
+  controlModal(bool val) {
+    showModal = val;
+    notifyListeners();
+  }
+
+  onAppointmentChange(BuildContext context, MasterModel master, String? appointment, {DateTime? date}) {
     debugPrint('On Appointment Change Function');
     // print(master.personalInfo?.firstName);
     isBlocked = false;
@@ -770,7 +804,8 @@ class CreateAppointmentProvider with ChangeNotifier {
     }
     //(totalTimeSlotsRequired);
     if (totalTimeSlotsRequired > availableAppointments[master.masterId]!.length) {
-      showToast('Not enough slots');
+      showToast(AppLocalizations.of(context)?.notEnoughSlots ?? 'Not enough slots');
+      controlModal(false);
     } else {
       int index = availableAppointments[master.masterId]!.indexWhere((element) => element == appointment);
       //(index);
@@ -798,7 +833,9 @@ class CreateAppointmentProvider with ChangeNotifier {
         if (!continues) {
           // chosenSlots = [];
           // notifyListeners();
-          showToast('Slots  Overlap with salon\'s booked Time, choose another slot');
+          showToast(AppLocalizations.of(context)?.slotsOverlap ?? 'Slots  Overlap with salon\'s booked Time, choose another slot'); // AppLocalizations.of(context)?.slotsOverlap
+          controlModal(false);
+          return;
         } else {
           if (date != null) {
             chosenDay = date;
@@ -815,6 +852,8 @@ class CreateAppointmentProvider with ChangeNotifier {
             ),
           );
 
+          controlModal(true);
+
           // isNextEnabled = true;
         }
       } else {
@@ -825,6 +864,8 @@ class CreateAppointmentProvider with ChangeNotifier {
             priceAndDuration[chosenMaster?.masterId]?.duration ?? defaultServiceDuration,
           ),
         );
+        controlModal(true);
+
         // chosenSlots = [];
         // notifyListeners();
         chosenMaster = master;
@@ -1016,7 +1057,7 @@ class CreateAppointmentProvider with ChangeNotifier {
     for (ServiceModel service in chosenServices) {
       for (MasterModel master in serviceableMasters) {
         String salonServicePrice = service.priceAndDuration?.price ?? '';
-        String masterServicePrice = service.masterPriceAndDurationMap?[master.masterId]?.price ?? '';
+        String masterServicePrice = master.servicesPriceAndDuration?[service.serviceId]?.price ?? '';
 
         if (salonServicePrice != masterServicePrice) {
           return true;
@@ -1028,8 +1069,8 @@ class CreateAppointmentProvider with ChangeNotifier {
     return false;
   }
 
-  String getStartTime(showModal) {
-    if (showModal) {
+  String getStartTime() {
+    if (showModal && selectedAppointmentSlot != null) {
       TimeOfDay _startTime = Time().stringToTime(selectedAppointmentSlot!);
 
       return Time().timeToString(_startTime) ?? '';
@@ -1038,8 +1079,8 @@ class CreateAppointmentProvider with ChangeNotifier {
     return '';
   }
 
-  String getEndTime(showModal) {
-    if (showModal) {
+  String getEndTime() {
+    if (showModal && selectedAppointmentSlot != null) {
       TimeOfDay _startTime = Time().stringToTime(selectedAppointmentSlot!);
       final PriceAndDurationModel _priceAndDuration = priceAndDuration[chosenMaster?.masterId] ?? PriceAndDurationModel();
 

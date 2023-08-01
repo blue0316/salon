@@ -8,7 +8,6 @@ import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/utils/icons.dart';
-import 'package:bbblient/src/utils/time.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/colors.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
@@ -51,16 +50,21 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
     await _createAppointmentProvider.initTimeOfDay();
     await _createAppointmentProvider.onDateChange(date);
 
-    final _random = Random();
-    if (_createAppointmentProvider.serviceableMasters.isNotEmpty) {
-      MasterModel randomMaster = _createAppointmentProvider.serviceableMasters[_random.nextInt(_createAppointmentProvider.serviceableMasters.length)];
+    // final _random = Random();
+    // if (_createAppointmentProvider.serviceableMasters.isNotEmpty) {
+    //   MasterModel randomMaster = _createAppointmentProvider.serviceableMasters[_random.nextInt(_createAppointmentProvider.serviceableMasters.length)];
 
-      setState(() {
-        selectedMaster = randomMaster;
-      });
-    }
+    //   setState(() {
+    //     selectedMaster = randomMaster;
+    //   });
+    // }
+
+    setState(() {
+      selectedMaster = _createAppointmentProvider.serviceableMasters[0];
+    });
 
     masterAndSalonPriceDifferent = _createAppointmentProvider.checkIfSalonPriceAndMasterPriceIsDifferent();
+    _createAppointmentProvider.controlModal(false);
 
     setState(() {
       loading = false;
@@ -68,8 +72,8 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
   }
 
   MasterModel? selectedMaster;
-  bool isAnyoneSelected = true;
-  bool showModal = false;
+  // bool isAnyoneSelected = true;
+  // bool showModal = false;
 
   @override
   Widget build(BuildContext context) {
@@ -127,46 +131,68 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                     child: ListView(
                       shrinkWrap: true,
                       children: [
-                        if (masterAndSalonPriceDifferent == true)
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Icon(
-                                Icons.info_rounded,
-                                size: 30.sp,
-                                color: theme.colorScheme.tertiary.withOpacity(0.6),
-                              ),
-                              SizedBox(width: 10.sp),
-                              Text(
-                                AppLocalizations.of(context)?.serviceProvidersChargeDifferentPrices ?? "Service providers charge different prices",
-                                style: theme.textTheme.bodyMedium?.copyWith(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                                  color: theme.colorScheme.tertiary,
-                                ),
-                              ),
-                            ],
-                          ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: _createAppointmentProvider.chosenServices
-                              .map(
-                                (service) => ServiceNameAndPrice(
-                                  serviceName: service.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? service.translations?['en'].toString(),
-                                  servicePrice: '${salonModel.selectedCurrency}${service.masterPriceAndDurationMap?[selectedMaster?.masterId]?.price}',
+                        // InkWell(
+                        //   onTap: () {
+                        //     print(_createAppointmentProvider.chosenServices[0].serviceId);
+                        //     print(selectedMaster?.masterId);
 
-                                  //  service.isFixedPrice
-                                  //     ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price}"
-                                  //     : service.isPriceRange
-                                  //         ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}"
-                                  //         : "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}∞",
+                        //     // print(_createAppointmentProvider.priceAndDuration);
+                        //     print('-----+++++-----');
+                        //     print('price');
+                        //     // print(selectedMaster?.servicesPriceAndDuration?['nVqUIPr07PLneP8QW3wd']?.price);
+                        //     // print(selectedMaster?.servicesPriceAndDuration?['nVqUIPr07PLneP8QW3wd']?.durationinHr);
+                        //     // print(_createAppointmentProvider.priceAndDuration['IBe7FoipMcfj6J8epMOV']?.price);
+                        //     // print(selectedMaster?.servicesPriceAndDuration?['nVqUIPr07PLneP8QW3wd']?.price);
+                        //   },
+                        //   child: Container(
+                        //     height: 100,
+                        //     width: 400,
+                        //     color: Colors.blue,
+                        //   ),
+                        // ),
+                        if (masterAndSalonPriceDifferent == true)
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 10.sp),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Icon(
+                                  Icons.info_rounded,
+                                  size: 30.sp,
+                                  color: theme.colorScheme.tertiary.withOpacity(0.6),
                                 ),
-                              )
-                              .toList(),
-                        ),
-                        SizedBox(height: 30.sp),
+                                SizedBox(width: 10.sp),
+                                Text(
+                                  AppLocalizations.of(context)?.serviceProvidersChargeDifferentPrices ?? "Service providers charge different prices",
+                                  style: theme.textTheme.bodyMedium?.copyWith(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                                    color: theme.colorScheme.tertiary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        // Column(
+                        //   crossAxisAlignment: CrossAxisAlignment.start,
+                        //   mainAxisAlignment: MainAxisAlignment.start,
+                        //   children: _createAppointmentProvider.chosenServices
+                        //       .map(
+                        //         (service) => ServiceNameAndPrice(
+                        //           serviceName: service.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? service.translations?['en'].toString(),
+                        //           servicePrice: '${salonModel.selectedCurrency}${service.masterPriceAndDurationMap?[selectedMaster?.masterId]?.price}',
+
+                        //           //  service.isFixedPrice
+                        //           //     ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price}"
+                        //           //     : service.isPriceRange
+                        //           //         ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}"
+                        //           //         : "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}∞",
+                        //         ),
+                        //       )
+                        //       .toList(),
+                        // ),
+                        SizedBox(height: 20.sp),
                         Container(
                           width: double.infinity,
                           height: 1.5.sp,
@@ -189,54 +215,54 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
                               children: [
-                                if (!(_createAppointmentProvider.serviceableMasters.length <= 1))
-                                  GestureDetector(
-                                    onTap: () {
-                                      setState(() => isAnyoneSelected = true);
+                                // if (!(_createAppointmentProvider.serviceableMasters.length <= 1))
+                                //   GestureDetector(
+                                //     onTap: () {
+                                //       setState(() => isAnyoneSelected = true);
 
-                                      // find random master
-                                      final _random = Random();
-                                      MasterModel randomMaster = _createAppointmentProvider.serviceableMasters[_random.nextInt(_createAppointmentProvider.serviceableMasters.length)];
+                                //       // find random master
+                                //       final _random = Random();
+                                //       MasterModel randomMaster = _createAppointmentProvider.serviceableMasters[_random.nextInt(_createAppointmentProvider.serviceableMasters.length)];
 
-                                      setState(() => selectedMaster = randomMaster);
-                                    },
-                                    child: Container(
-                                      height: 45.h,
-                                      decoration: BoxDecoration(
-                                        color: isAnyoneSelected == true ? theme.primaryColor : Colors.transparent,
-                                        borderRadius: BorderRadius.circular(70),
-                                        border: Border.all(
-                                          color: isAnyoneSelected == true ? theme.primaryColor : const Color(0XFF4A4A4A),
-                                          width: 0.8,
-                                        ),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 25),
-                                        child: Center(
-                                          child: Text(
-                                            AppLocalizations.of(context)?.anyone ?? "Anyone",
-                                            style: theme.textTheme.bodyLarge!.copyWith(
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.normal,
+                                //       setState(() => selectedMaster = randomMaster);
+                                //     },
+                                //     child: Container(
+                                //       height: 45.h,
+                                //       decoration: BoxDecoration(
+                                //         color: isAnyoneSelected == true ? theme.primaryColor : Colors.transparent,
+                                //         borderRadius: BorderRadius.circular(70),
+                                //         border: Border.all(
+                                //           color: isAnyoneSelected == true ? theme.primaryColor : const Color(0XFF4A4A4A),
+                                //           width: 0.8,
+                                //         ),
+                                //       ),
+                                //       child: Padding(
+                                //         padding: const EdgeInsets.symmetric(horizontal: 25),
+                                //         child: Center(
+                                //           child: Text(
+                                //             AppLocalizations.of(context)?.anyone ?? "Anyone",
+                                //             style: theme.textTheme.bodyLarge!.copyWith(
+                                //               fontSize: 14.sp,
+                                //               fontWeight: FontWeight.normal,
 
-                                              // color: (selectedMaster == master && isAnyoneSelected == false) ? selectSlots(themeType, theme) : theme.colorScheme.tertiary,
-                                              color: (isAnyoneSelected) ? selectSlots(themeType, theme) : theme.colorScheme.tertiary,
+                                //               // color: (selectedMaster == master && isAnyoneSelected == false) ? selectSlots(themeType, theme) : theme.colorScheme.tertiary,
+                                //               color: (isAnyoneSelected) ? selectSlots(themeType, theme) : theme.colorScheme.tertiary,
 
-                                              // color: (_createAppointmentProvider.serviceAgainstMaster
-                                              //         .where(
-                                              //           (element) => element.service!.serviceId == service.serviceId && element.isRandom!,
-                                              //         )
-                                              //         .toList()
-                                              //         .isNotEmpty)
-                                              //     ? selectMasterColor(themeType)
-                                              //     : unSelectedMasterColor(themeType),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                const SizedBox(width: 10),
+                                //               // color: (_createAppointmentProvider.serviceAgainstMaster
+                                //               //         .where(
+                                //               //           (element) => element.service!.serviceId == service.serviceId && element.isRandom!,
+                                //               //         )
+                                //               //         .toList()
+                                //               //         .isNotEmpty)
+                                //               //     ? selectMasterColor(themeType)
+                                //               //     : unSelectedMasterColor(themeType),
+                                //             ),
+                                //           ),
+                                //         ),
+                                //       ),
+                                //     ),
+                                //   ),
+                                // const SizedBox(width: 10),
                                 SizedBox(
                                   // color: Colors.lightBlueAccent,
                                   height: 45.h,
@@ -248,12 +274,12 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                     itemBuilder: (context, index) {
                                       MasterModel master = _createAppointmentProvider.serviceableMasters[index];
 
-                                      String? price = _createAppointmentProvider.priceAndDuration[master.masterId]?.price ?? '0';
-                                      String? duration = _createAppointmentProvider.priceAndDuration[master.masterId]?.duration ?? '0';
+                                      // String? price = _createAppointmentProvider.priceAndDuration[master.masterId]?.price ?? '0';
+                                      // String? duration = _createAppointmentProvider.priceAndDuration[master.masterId]?.duration ?? '0';
 
-                                      // if price and duration for a master is 0 return a white space
-                                      // we dont want to create appointments with 0 values as price and duration
-                                      if (price == '\$0' || duration == '0') return const SizedBox.shrink();
+                                      // // if price and duration for a master is 0 return a white space
+                                      // // we dont want to create appointments with 0 values as price and duration
+                                      // if (price == '\$0' || duration == '0') return const SizedBox.shrink();
 
                                       return Padding(
                                         padding: const EdgeInsets.only(right: 10),
@@ -262,7 +288,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                           child: GestureDetector(
                                             onTap: () async {
                                               setState(() => selectedMaster = master);
-                                              setState(() => isAnyoneSelected = false);
+                                              // setState(() => isAnyoneSelected = false);
 
                                               _createAppointmentProvider.selectMasterForBooking(master);
 
@@ -277,10 +303,12 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                             },
                                             child: Container(
                                               decoration: BoxDecoration(
-                                                color: (selectedMaster == master && isAnyoneSelected == false) ? theme.primaryColor : Colors.transparent,
+                                                // color: (selectedMaster == master && isAnyoneSelected == false) ? theme.primaryColor : Colors.transparent,
+                                                color: (selectedMaster == master) ? theme.primaryColor : Colors.transparent,
                                                 borderRadius: BorderRadius.circular(70),
                                                 border: Border.all(
-                                                  color: (selectedMaster == master && isAnyoneSelected == false) ? theme.primaryColor : const Color(0XFF4A4A4A),
+                                                  // color: (selectedMaster == master && isAnyoneSelected == false) ? theme.primaryColor : const Color(0XFF4A4A4A),
+                                                  color: (selectedMaster == master) ? theme.primaryColor : const Color(0XFF4A4A4A),
                                                   width: 0.8,
                                                 ),
                                               ),
@@ -310,7 +338,8 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                       style: theme.textTheme.bodyLarge!.copyWith(
                                                         fontSize: 14.sp,
                                                         fontWeight: FontWeight.normal,
-                                                        color: (selectedMaster == master && isAnyoneSelected == false) ? selectSlots(themeType, theme) : theme.colorScheme.tertiary,
+                                                        // color: (selectedMaster == master && isAnyoneSelected == false) ? selectSlots(themeType, theme) : theme.colorScheme.tertiary,
+                                                        color: (selectedMaster == master) ? selectSlots(themeType, theme) : theme.colorScheme.tertiary,
                                                       ),
                                                     ),
                                                   ],
@@ -618,8 +647,8 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
 
                                           return InkWell(
                                             onTap: () {
-                                              _createAppointmentProvider.onAppointmentChange(selectedMaster!, _appointment);
-                                              setState(() => showModal = true);
+                                              _createAppointmentProvider.onAppointmentChange(context, selectedMaster!, _appointment);
+                                              setState(() => _createAppointmentProvider.showModal = true);
                                             },
                                             child: _isSelected && _isAvailable
                                                 ? Ink(
@@ -725,7 +754,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: Visibility(
-                        visible: showModal,
+                        visible: _createAppointmentProvider.showModal,
                         child: InkWell(
                           onTap: () {
                             if (_createAppointmentProvider.selectedAppointmentSlot != null) {
@@ -817,7 +846,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
                                           Text(
-                                            '${_createAppointmentProvider.getStartTime(showModal)} - ${_createAppointmentProvider.getEndTime(showModal)}',
+                                            '${_createAppointmentProvider.getStartTime()} - ${_createAppointmentProvider.getEndTime()}',
                                             overflow: TextOverflow.ellipsis,
                                             textAlign: TextAlign.left,
                                             style: theme.textTheme.bodyLarge!.copyWith(
@@ -850,7 +879,9 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                         .map(
                                           (service) => ServiceNameAndPrice(
                                             serviceName: (service.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? service.translations?['en']).toString().toTitleCase(),
-                                            servicePrice: '${salonModel.selectedCurrency}${service.masterPriceAndDurationMap?[selectedMaster?.masterId]?.price}',
+                                            servicePrice: '${salonModel.selectedCurrency}${selectedMaster?.servicesPriceAndDuration?[service.serviceId]?.price}',
+                                            // servicePrice: '${salonModel.selectedCurrency}${service.masterPriceAndDurationMap?[selectedMaster?.masterId]?.price}',
+
                                             // fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 15.sp, 16.sp),
                                             // priceFontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 15.sp, 16.sp),
                                             //  service.isFixedPrice

@@ -78,11 +78,13 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                     .map(
                       (service) => ServiceNameAndPrice(
                         serviceName: service.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? service.translations?['en'],
-                        servicePrice: service.isFixedPrice
-                            ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price}"
-                            : service.isPriceRange
-                                ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}"
-                                : "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}∞",
+                        servicePrice: '${salonModel.selectedCurrency}${_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.price}',
+                        // servicePrice: '${salonModel.selectedCurrency}${service.masterPriceAndDurationMap?[_createAppointmentProvider.chosenMaster?.masterId]?.price}',
+                        // servicePrice: service.isFixedPrice
+                        //     ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price}"
+                        //     : service.isPriceRange
+                        //         ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}"
+                        //         : "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}∞",
                       ),
                     )
                     .toList(),

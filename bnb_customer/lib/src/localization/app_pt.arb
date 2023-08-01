@@ -814,5 +814,17 @@
   "photoNA": "Foto N/A",
   "writeToUs9": "escreva para nós e ",
   "minutes": "minutos",
-  "serviceProvidersChargeDifferentPrices": "Provedores de serviços cobram preços diferentes"
+  "serviceProvidersChargeDifferentPrices": "Provedores de serviços cobram preços diferentes",
+  "yourAppointmentIsBeingCreated": "Seu compromisso está sendo criado!",
+  "thankYou": "Obrigado",
+  "yourAppointmentHasBeenCreated1": "Seu compromisso foi criado.",
+  "yourAppointmentHasBeenCreated2": "Estamos ansiosos para vê-lo!",
+  "viewDetails": "Ver detalhes",
+  "failed": "Falhou",
+  "exit": "Sair",
+  "appointmentDetails": "detalhes do agendamento",
+  "depositPaid": "Depósito pago:",
+  "addToAppleCalendar": "Adicionar ao calendário da Apple",
+  "addToGoogleCalendar": "Adicionar ao Google Agenda",
+  "slotsOverlap": "Slots se sobrepõem ao horário reservado do salão, escolha outro slot"
   }

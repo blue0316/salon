@@ -90,7 +90,7 @@ class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetai
                     children: [
                       // const Spacer(flex: 2),
                       Text(
-                        'appointment details'.toUpperCase(),
+                        (AppLocalizations.of(context)?.appointmentDetails ?? 'appointment details').toUpperCase(),
                         style: theme.textTheme.bodyLarge!.copyWith(
                           fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                           fontWeight: FontWeight.w500,
@@ -123,18 +123,18 @@ class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetai
                   // CUSTOMER DETAILS
                   ServiceNameAndPrice(
                     notService: true,
-                    serviceName: ' Name:',
+                    serviceName: '${AppLocalizations.of(context)?.name ?? 'Name'}:',
                     servicePrice: '${appointment.customer?.name}',
                   ),
 
                   ServiceNameAndPrice(
                     notService: true,
-                    serviceName: 'Phone number:',
+                    serviceName: '${AppLocalizations.of(context)?.phoneNumber ?? 'Phone number'}:',
                     servicePrice: '${appointment.customer?.phoneNumber}',
                   ),
                   ServiceNameAndPrice(
                     notService: true,
-                    serviceName: 'Email:',
+                    serviceName: '${AppLocalizations.of(context)?.email ?? 'Email'}:',
                     servicePrice: '${appointment.customer?.email}',
                   ),
 
@@ -143,7 +143,7 @@ class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetai
                   // SERVICE PROVIDER DETAILS
                   ServiceNameAndPrice(
                     notService: true,
-                    serviceName: 'Service provider:',
+                    serviceName: '${AppLocalizations.of(context)?.serviceProvider ?? 'Service provider'}:',
                     servicePrice: '${appointment.master?.name}',
                   ),
 
@@ -156,7 +156,7 @@ class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetai
                         Flexible(
                           flex: 1,
                           child: Text(
-                            'Services:',
+                            '${AppLocalizations.of(context)?.services ?? 'Services'}:',
                             style: theme.textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.normal,
                               fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -191,13 +191,13 @@ class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetai
 
                   ServiceNameAndPrice(
                     notService: true,
-                    serviceName: 'Date:',
+                    serviceName: '${AppLocalizations.of(context)?.date ?? 'Date'}:',
                     servicePrice: appointment.appointmentDate,
                   ),
 
                   ServiceNameAndPrice(
                     notService: true,
-                    serviceName: 'Time:',
+                    serviceName: '${AppLocalizations.of(context)?.time ?? 'Time'}:',
                     servicePrice: '${Time().timeToString(
                       TimeOfDay.fromDateTime(appointment.appointmentStartTime),
                     )} - ${Time().timeToString(
@@ -210,13 +210,13 @@ class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetai
                   // PAYMENT DETAILS
                   ServiceNameAndPrice(
                     notService: true,
-                    serviceName: 'Pay at Appointment:',
+                    serviceName: '${AppLocalizations.of(context)?.payAtAppointment ?? 'Pay at Appointment'}:',
                     servicePrice: '\$${appointment.priceAndDuration.price}',
                   ),
 
                   ServiceNameAndPrice(
                     notService: true,
-                    serviceName: 'Deposit paid:',
+                    serviceName: '${AppLocalizations.of(context)?.depositPaid ?? 'Deposit paid'}:',
                     servicePrice: '\$${appointment.priceAndDuration.price}',
                   ),
 
@@ -229,7 +229,7 @@ class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetai
                         Flexible(
                           flex: 1,
                           child: Text(
-                            'Total:',
+                            '${AppLocalizations.of(context)?.total ?? 'Total'}:',
                             style: theme.textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w600,
                               fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 21.sp, 20.sp),
@@ -260,7 +260,7 @@ class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetai
                       children: [
                         AddToCalendarButton(
                           icon: AppIcons.appleLogoSvg,
-                          text: 'Add to Apple Calendar',
+                          text: AppLocalizations.of(context)?.addToAppleCalendar ?? 'Add to Apple Calendar',
                           onTap: () async {
                             // Date
                             DateTime tempDate = DateTime.parse(appointment.appointmentDate);
@@ -286,7 +286,7 @@ class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetai
                         SizedBox(height: 10.sp),
                         AddToCalendarButton(
                           icon: AppIcons.coloredGoogleLogoPNG,
-                          text: 'Add to Google Calendar',
+                          text: AppLocalizations.of(context)?.addToGoogleCalendar ?? 'Add to Google Calendar',
                           onTap: () async {
                             // Date
                             DateTime tempDate = DateTime.parse(appointment.appointmentDate);
@@ -320,7 +320,9 @@ class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetai
                             } else {
                               await launchUrl(parsedURL);
                               debugPrint('didn\'t launch');
-                              showToast('Something went wrong, please try again');
+                              showToast(
+                                AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? 'Something went wrong, please try again',
+                              );
                             }
                           },
                         ),

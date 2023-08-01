@@ -47,7 +47,6 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
     final _appointmentProvider = ref.watch(appointmentProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool defaultTheme = theme == AppTheme.customLightTheme;
     ThemeType themeType = _appointmentProvider.themeType ?? ThemeType.DefaultLight;
 
     final PriceAndDurationModel _priceAndDuration = _createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId] ?? PriceAndDurationModel();
@@ -95,6 +94,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                     children: [
                       const Spacer(flex: 2),
                       Text(
+                        //  AppLocalizations.of(context)?.appointmentDetails ?? "Serv",
                         'appointment details'.toUpperCase(),
                         style: theme.textTheme.bodyLarge!.copyWith(
                           fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -127,22 +127,22 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                   // CUSTOMER DETAILS
                   ServiceNameAndPrice(
                     notService: true,
-                    serviceName: 'First Name:',
+                    serviceName: AppLocalizations.of(context)?.firstName ?? 'First Name:',
                     servicePrice: '${_auth.currentCustomer?.personalInfo.firstName}',
                   ),
                   ServiceNameAndPrice(
                     notService: true,
-                    serviceName: 'Last Name:',
+                    serviceName: AppLocalizations.of(context)?.lastName ?? 'Last Name:',
                     servicePrice: '${_auth.currentCustomer?.personalInfo.lastName}',
                   ),
                   ServiceNameAndPrice(
                     notService: true,
-                    serviceName: 'Phone number:',
+                    serviceName: AppLocalizations.of(context)?.phoneNumber ?? 'Phone number:',
                     servicePrice: '${_auth.currentCustomer?.personalInfo.phone}',
                   ),
                   ServiceNameAndPrice(
                     notService: true,
-                    serviceName: 'Email:',
+                    serviceName: AppLocalizations.of(context)?.email ?? 'Email:',
                     servicePrice: '${_auth.currentCustomer?.personalInfo.email}',
                   ),
 
@@ -151,7 +151,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                   // SERVICE PROVIDER DETAILS
                   ServiceNameAndPrice(
                     notService: true,
-                    serviceName: 'Service provider:',
+                    serviceName: AppLocalizations.of(context)?.serviceProvider ?? 'Service provider:',
                     servicePrice: '${_createAppointmentProvider.chosenMaster?.personalInfo?.lastName} ${_createAppointmentProvider.chosenMaster?.personalInfo?.firstName}',
                   ),
 
@@ -164,7 +164,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                         Flexible(
                           flex: 1,
                           child: Text(
-                            'Services:',
+                            '${AppLocalizations.of(context)?.services ?? 'Services'}:',
                             style: theme.textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.normal,
                               fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -199,13 +199,13 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
 
                   ServiceNameAndPrice(
                     notService: true,
-                    serviceName: 'Date:',
+                    serviceName: AppLocalizations.of(context)?.date ?? 'Date:',
                     servicePrice: Time().getDateInStandardFormat(_createAppointmentProvider.chosenDay),
                   ),
 
                   ServiceNameAndPrice(
                     notService: true,
-                    serviceName: 'Time:',
+                    serviceName: AppLocalizations.of(context)?.time ?? 'Time:',
                     servicePrice: '${Time().timeToString(_startTime)} - ${Time().timeToString(_endTime)}',
                   ),
 
@@ -214,13 +214,13 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                   // PAYMENT DETAILS
                   ServiceNameAndPrice(
                     notService: true,
-                    serviceName: 'Pay at Appointment:',
+                    serviceName: AppLocalizations.of(context)?.payAtAppointment ?? 'Pay at Appointment:',
                     servicePrice: '\$$payAtAppointment',
                   ),
 
                   ServiceNameAndPrice(
                     notService: true,
-                    serviceName: 'Deposit paid:',
+                    serviceName: '${AppLocalizations.of(context)?.depositPaid ?? 'Deposit paid'}:',
                     servicePrice: '\$$deposit',
                   ),
 
@@ -233,7 +233,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                         Flexible(
                           flex: 1,
                           child: Text(
-                            'Total:',
+                            '${AppLocalizations.of(context)?.total ?? 'Total'}:',
                             style: theme.textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w600,
                               fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 21.sp, 20.sp),
@@ -266,7 +266,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                       children: [
                         AddToCalendarButton(
                           icon: AppIcons.appleLogoSvg,
-                          text: 'Add to Apple Calendar',
+                          text: AppLocalizations.of(context)?.addToAppleCalendar ?? 'Add to Apple Calendar',
                           onTap: () async {
                             // Date
                             DateTime tempDate = DateTime.parse(appointment!.appointmentDate);
@@ -292,7 +292,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                         SizedBox(height: 10.sp),
                         AddToCalendarButton(
                           icon: AppIcons.coloredGoogleLogoPNG,
-                          text: 'Add to Google Calendar',
+                          text: AppLocalizations.of(context)?.addToGoogleCalendar ?? 'Add to Google Calendar',
                           onTap: () async {
                             // Date
                             DateTime tempDate = DateTime.parse(appointment!.appointmentDate);
@@ -326,7 +326,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                             } else {
                               await launchUrl(parsedURL);
                               debugPrint('didn\'t launch');
-                              showToast('Something went wrong, please try again');
+                              showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? 'Something went wrong, please try again');
                             }
                           },
                         ),

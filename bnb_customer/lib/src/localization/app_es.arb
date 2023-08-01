@@ -815,6 +815,18 @@
  "photoNA" : "Foto N/A",
   "writeToUs9": "escríbenos y ",
   "minutes": "minutos",
-  "serviceProvidersChargeDifferentPrices": "Los proveedores de servicios cobran precios diferentes"
+  "serviceProvidersChargeDifferentPrices": "Los proveedores de servicios cobran precios diferentes",
+  "yourAppointmentIsBeingCreated": "¡Se está creando su cita!",
+  "thankYou" : "Gracias",
+  "yourAppointmentHasBeenCreated1": "Su cita ha sido creada.",
+  "yourAppointmentHasBeenCreated2": "¡Esperamos verte!",
+  "viewDetails": "Ver detalles",
+  "failed": "Error",
+  "exit": "Salir",
+  "appointmentDetails": "detalles de la cita",
+  "depositPaid": "Depósito pagado:",
+  "addToAppleCalendar": "Agregar al Calendario de Apple",
+  "addToGoogleCalendar": "Agregar a Google Calendar",
+  "slotsOverlap": "Las franjas horarias se superponen con el tiempo reservado del salón, elija otra franja horaria"
 }
   

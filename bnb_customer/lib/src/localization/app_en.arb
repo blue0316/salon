@@ -819,5 +819,17 @@
  "photoNA" : "Photo N/A",
  "writeToUs9": "write to us and ",
  "minutes": "minutes",
- "serviceProvidersChargeDifferentPrices": "Service providers charge different prices"
+ "serviceProvidersChargeDifferentPrices": "Service providers charge different prices",
+ "yourAppointmentIsBeingCreated": "Your appointment is being created!",
+ "thankYou": "Thank you",
+ "yourAppointmentHasBeenCreated1": "Your appointment has been created.",
+ "yourAppointmentHasBeenCreated2": "We are looking forward to seeing you!",
+ "viewDetails": "View details",
+ "failed": "Failed",
+ "exit": "Exit",
+ "appointmentDetails": "appointment details",
+ "depositPaid": "Deposit paid:",
+ "addToAppleCalendar": "Add to Apple Calendar",
+ "addToGoogleCalendar": "Add to Google Calendar",
+ "slotsOverlap" : "Slots  Overlap with salon's booked Time, choose another slot"
 }
