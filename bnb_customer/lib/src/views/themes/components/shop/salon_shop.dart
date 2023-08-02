@@ -233,6 +233,10 @@ Color labelColor(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
     case ThemeType.Barbershop:
       return Colors.white;
+    case ThemeType.GlamBarbershop:
+      return Colors.white;
+    case ThemeType.GlamGradient:
+      return Colors.white;
     default:
       return theme.primaryColorDark;
   }

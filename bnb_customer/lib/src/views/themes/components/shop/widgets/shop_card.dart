@@ -1,3 +1,4 @@
+import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
@@ -79,7 +80,7 @@ class ShopCard extends ConsumerWidget {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          '${product.productName}',
+                          '${product.productName}'.toCapitalized(),
                           style: theme.textTheme.bodyLarge?.copyWith(
                             color: theme.primaryColorDark,
                             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 16.sp),

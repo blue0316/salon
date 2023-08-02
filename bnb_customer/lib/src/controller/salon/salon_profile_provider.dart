@@ -235,7 +235,7 @@ class SalonProfileProvider with ChangeNotifier {
         );
 
         if (found != null) {
-          String? translation = found.translations![AppLocalizations.of(context)?.localeName];
+          String? translation = found.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? found.translations?['en'];
 
           if (translation != null) {
             // Doing this because if loaleName (e.g 'en') doesn't exist in translations map, it throws null
