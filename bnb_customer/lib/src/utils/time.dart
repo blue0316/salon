@@ -185,6 +185,32 @@ class Time {
     } while (hour < endTime!.hour || (hour == endTime.hour && minute < endTime.minute));
   }
 
+  Iterable<String> generateTimeSlotsForBlock(TimeOfDay? startTime, TimeOfDay? endTime, {Duration? step, inclusive = false, int? timeSlotSizeDuration}) sync* {
+    timeSlotSize = const Duration(minutes: 1);
+    step ??= timeSlotSize;
+    //if start time greater than end time then break off
+    if (startTime == null || endTime == null || compareTime(endTime, startTime) == 1) return;
+
+    if (inclusive) {
+      startTime = roundOfTime(startTime, toFloor: true);
+      endTime = roundOfTime(endTime, toFloor: false);
+    } else {
+      startTime = roundOfTime(startTime, toFloor: false);
+      endTime = roundOfTime(endTime, toFloor: true);
+    }
+    int hour = startTime!.hour;
+    int minute = startTime.minute;
+
+    do {
+      yield timeToString(TimeOfDay(hour: hour, minute: minute))!;
+      minute += step.inMinutes;
+      while (minute >= 60) {
+        minute -= 60;
+        hour++;
+      }
+    } while (hour < endTime!.hour || (hour == endTime.hour && minute < endTime.minute));
+  }
+
   // Iterable<String> generateTimeSlots(TimeOfDay startTime, TimeOfDay endTime, {Duration step = _timeSlotSize, inclusive = false}) sync* {
   //   //if start time greater than end time then break off
 

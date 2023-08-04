@@ -214,7 +214,7 @@ class AppointmentApi {
   //blocks the master time
   Future blockMastersTime({required MasterModel master, required DateTime date, required String time, required int minutes}) async {
     try {
-      master.blockedTime = _generateBlockedTimeMap(
+      master.blockedTime = _generateBlockedTimeMap2(
         blockedTime: master.blockedTime ?? {},
         date: date,
         time: time,
@@ -262,7 +262,7 @@ class AppointmentApi {
   // in case of single master use this to block bcz single master is stored as salon in firebase
   Future blockSalonTime({required SalonModel salon, required DateTime date, required String time, required int minutes}) async {
     try {
-      salon.blockedTime = _generateBlockedTimeMap(blockedTime: salon.blockedTime, date: date, time: time, minutes: minutes);
+      salon.blockedTime = _generateBlockedTimeMap2(blockedTime: salon.blockedTime, date: date, time: time, minutes: minutes);
       await SalonApi().updateSalonBlockedTime(salon);
       return 1;
     } catch (e) {
@@ -315,6 +315,32 @@ class AppointmentApi {
       TimeOfDay _time2 = _time1.addMinutes(minutes);
       List<String?> blockedSlots = [];
       blockedSlots.addAll(_timeUtils.generateTimeSlots(_time1, _time2, inclusive: true));
+      if (blockedTime.containsKey(_date)) {
+        if (blockedTime[_date] == null) blockedTime[_date] = [];
+        blockedTime[_date].addAll(blockedSlots);
+      } else {
+        blockedTime[_date] = blockedSlots;
+      }
+      printIt(blockedTime);
+      return blockedTime;
+    } catch (e) {
+      printIt(e);
+      return blockedTime;
+    }
+  }
+
+  Map<String, dynamic> _generateBlockedTimeMap2({
+    required Map<String, dynamic> blockedTime,
+    required DateTime date,
+    required String time,
+    required int minutes,
+  }) {
+    try {
+      final String _date = _timeUtils.getDateInStandardFormat(date);
+      TimeOfDay _time1 = _timeUtils.stringToTime(time);
+      TimeOfDay _time2 = _time1.addMinutes(minutes);
+      List<String?> blockedSlots = [];
+      blockedSlots.addAll(_timeUtils.generateTimeSlotsForBlock(_time1, _time2, inclusive: true));
       if (blockedTime.containsKey(_date)) {
         if (blockedTime[_date] == null) blockedTime[_date] = [];
         blockedTime[_date].addAll(blockedSlots);
