@@ -836,5 +836,17 @@
   "depositPaid": "Депозит сплачено:",
   "addToAppleCalendar": "Додати до календаря Apple",
   "addToGoogleCalendar": "Додати до календаря Google",
-  "slotsOverlap" : "Слоти накладаються на час, заброньований салоном, виберіть інший слот"
+  "slotsOverlap" : "Слоти накладаються на час, забронь~ований салоном, виберіть інший слот",
+  "weWillHelpYou" :"Ми допоможемо вам",
+  "decideOnTheService" :"вирішити щодо послуги",
+  "selectAService" :"Виберіть послугу",
+  "serviceAndMaster" :"Сервіс і майстер",
+  "selectDateAndTime" :"Виберіть час і дату",
+  "mandatoryFields" :"*Обов'язкові поля",
+  "pleaseEnterVerificationCode" :"Будь ласка, введіть код підтвердження",
+  "verificationSuccessful" :"Перевірка пройшла успішно!",
+  "somethingWentWrongPleaseTryAgain" : "Щось пішло не так, спробуйте ще раз",
+  "contactUs":"Зв'язатися з нами",
+  "enter": "Введіть",
+  "accessibilityForPersonsWithReducedMobility":"Доступність для осіб з обмеженою мобільністю"
 }
