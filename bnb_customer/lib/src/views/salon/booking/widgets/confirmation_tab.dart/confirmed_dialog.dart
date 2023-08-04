@@ -5,7 +5,6 @@ import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/cat_sub_service/price_and_duration.dart';
 import 'package:bbblient/src/models/enums/status.dart';
-import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/google_calendar.dart';
 import 'package:bbblient/src/utils/icons.dart';
@@ -94,8 +93,8 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                     children: [
                       const Spacer(flex: 2),
                       Text(
-                        //  AppLocalizations.of(context)?.appointmentDetails ?? "Serv",
-                        'appointment details'.toUpperCase(),
+                        (AppLocalizations.of(context)?.appointmentDetails ?? 'appointment details').toUpperCase(),
+                        // 'appointment details'.toUpperCase(),
                         style: theme.textTheme.bodyLarge!.copyWith(
                           fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                           fontWeight: FontWeight.w500,

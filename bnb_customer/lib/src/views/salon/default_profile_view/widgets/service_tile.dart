@@ -138,7 +138,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
                       child: Text(
-                        '${widget.services.length} Services',
+                        '${widget.services.length} ${AppLocalizations.of(context)?.services ?? 'Services'}',
                         style: theme.textTheme.titleSmall!.copyWith(
                           fontSize: DeviceConstraints.getResponsiveSize(context, 13.sp, 13.sp, 15.sp),
                           // fontWeight: FontWeight.w400,
@@ -287,7 +287,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                     service.isFixedDuration != null
                                                         ? service.isFixedDuration
                                                             ? Text(
-                                                                "${service.priceAndDuration!.duration} minutes",
+                                                                "${service.priceAndDuration!.duration} ${AppLocalizations.of(context)?.minutes ?? 'minutes'}",
                                                                 style: theme.textTheme.displayMedium!.copyWith(
                                                                   fontSize: 15.sp,
                                                                   fontWeight: FontWeight.w500,
@@ -297,7 +297,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                                 maxLines: 1,
                                                               )
                                                             : Text(
-                                                                "${service.priceAndDuration!.duration} minutes - ${service.priceAndDurationMax!.duration} minutes",
+                                                                "${service.priceAndDuration!.duration}  ${AppLocalizations.of(context)?.minutes ?? 'minutes'} - ${service.priceAndDurationMax!.duration}  ${AppLocalizations.of(context)?.minutes ?? 'minutes'}",
                                                                 style: theme.textTheme.displayMedium!.copyWith(
                                                                   fontSize: 16.sp,
                                                                   fontWeight: FontWeight.w500,
@@ -307,7 +307,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                                 maxLines: 1,
                                                               )
                                                         : Text(
-                                                            "${service.priceAndDuration!.duration} minutes",
+                                                            "${service.priceAndDuration!.duration}  ${AppLocalizations.of(context)?.minutes ?? 'minutes'}",
                                                             style: theme.textTheme.displayMedium!.copyWith(
                                                               fontSize: 15.sp,
                                                               fontWeight: FontWeight.w500,
