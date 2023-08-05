@@ -8,7 +8,16 @@ class PriceAndDurationModel {
   String? durationinHr = '0';
   String? durationinMin = '0';
 
-  PriceAndDurationModel({this.price = "0", this.priceMax, this.duration = "0", this.isFixedPrice, this.isPriceRange, this.isPriceStartAt, this.durationinMin = '0', this.durationinHr = '0'});
+  PriceAndDurationModel({
+    this.price = "0",
+    this.priceMax,
+    this.duration = "0",
+    this.isFixedPrice,
+    this.isPriceRange,
+    this.isPriceStartAt,
+    this.durationinMin = '0',
+    this.durationinHr = '0',
+  });
 
   PriceAndDurationModel.fromJson(Map<String, dynamic> json) {
     price = json['price'];

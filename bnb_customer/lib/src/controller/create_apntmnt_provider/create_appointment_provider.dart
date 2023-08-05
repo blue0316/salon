@@ -137,6 +137,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   Map<String?, PriceAndDurationModel> priceAndDuration = {};
   int totalDuration = 0;
   int totalPriceForMultiple = 0;
+  int totalPriceMaxForMultiple = 0;
   String? selectedAppointmentSlot;
   String? selectedAppointmentDuration;
   DateTime? appointmentDate;
@@ -165,24 +166,6 @@ class CreateAppointmentProvider with ChangeNotifier {
     groupUnavailableSelectedItems.clear();
 
     String? serviceId = selectedItems[0].serviceId;
-
-    // print('@@####****&&&&&&&&!!!!&&');
-
-    // for (ServiceModel servince in a333) {
-    //   print(servince.serviceName);
-    // }
-
-    // print('@@####****&&&&&&&&!!!!&&');
-
-    // @@####****&&&&&&&&!!!!&&
-    // my day one
-    // native clothing
-    // new one
-    // Hair folicle
-    // name
-    // just testing this just to see
-    // Abass test
-    // @@####****&&&&&&&&!!!!&&
 
     /// MASTERS
     // Tets -=- 5Ph7qd7K7EmibIzfhFEv
@@ -722,11 +705,13 @@ class CreateAppointmentProvider with ChangeNotifier {
       // mastersAbleToPerformService) {
       totalDuration = 0;
       totalPriceForMultiple = 0;
+      totalPriceMaxForMultiple = 0;
       var newPriceAndDuration = PriceAndDurationModel();
       for (ServiceModel eachSelectedService in chosenServices) {
         if (eachSelectedService.serviceId != null && eachSelectedService.serviceId!.isNotEmpty && master.servicesPriceAndDuration != null) {
           totalDuration += int.parse(eachSelectedService.priceAndDuration!.duration ?? '0');
           totalPriceForMultiple += (int.parse(master.servicesPriceAndDuration?[eachSelectedService.serviceId]?.price ?? '0'));
+          totalPriceMaxForMultiple += (int.parse(master.servicesPriceAndDuration?[eachSelectedService.serviceId]?.priceMax ?? '0'));
           // totalPriceForMultiple += (int.parse(eachSelectedService.priceAndDuration!.price!));
 
           master.servicesPriceAndDuration![eachSelectedService.serviceId]?.price = totalPriceForMultiple.toString();
@@ -734,6 +719,16 @@ class CreateAppointmentProvider with ChangeNotifier {
 
           newPriceAndDuration.price = (int.parse(newPriceAndDuration.price ?? '0') + totalPriceForMultiple).toString();
           newPriceAndDuration.duration = (int.parse(newPriceAndDuration.duration ?? '0') + totalDuration).toString();
+          newPriceAndDuration.priceMax = (int.parse(newPriceAndDuration.priceMax ?? '0') + totalPriceMaxForMultiple).toString();
+
+          // not sure
+          newPriceAndDuration.isFixedPrice = master.servicesPriceAndDuration?[eachSelectedService.serviceId]?.isFixedPrice;
+          newPriceAndDuration.isPriceRange = master.servicesPriceAndDuration?[eachSelectedService.serviceId]?.isPriceRange;
+          newPriceAndDuration.isPriceStartAt = master.servicesPriceAndDuration?[eachSelectedService.serviceId]?.isPriceStartAt;
+          newPriceAndDuration.isPriceStartAt = master.servicesPriceAndDuration?[eachSelectedService.serviceId]?.isPriceStartAt;
+
+          // String? durationinHr = '0';
+          // String? durationinMin = '0';
           // priceAndDuration[master.masterId] = getPriceAndDuration(eachSelectedService, master);
 
           // print('____+++++___+++++___++@@@@@@@@&&&&&&&___------++++');

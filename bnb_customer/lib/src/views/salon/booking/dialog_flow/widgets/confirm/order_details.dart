@@ -2,7 +2,6 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/firebase/collections.dart';
 import 'package:bbblient/src/firebase/customer.dart';
 import 'package:bbblient/src/firebase/transaction.dart';
 import 'package:bbblient/src/models/cat_sub_service/price_and_duration.dart';
@@ -79,7 +78,18 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                     .map(
                       (service) => ServiceNameAndPrice(
                         serviceName: service.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? service.translations?['en'],
-                        servicePrice: '${salonModel.selectedCurrency}${_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.price}',
+                        // servicePrice: '${salonModel.selectedCurrency}${_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.price}',
+                        servicePrice: (_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.isPriceRange == true)
+                            ? "${salonModel.selectedCurrency}${_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.price} -  ${salonModel.selectedCurrency}${_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.priceMax}"
+                            : '${salonModel.selectedCurrency}${_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.price}',
+
+                        // servicePrice: (_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.isFixedPrice == true)
+                        //     ? '${salonModel.selectedCurrency}${_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.price}'
+                        //     : (_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.isPriceRange == true)
+                        //         ? "${salonModel.selectedCurrency}${_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.price} - ${salonModel.selectedCurrency}${_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.priceMax}"
+                        //         : "${salonModel.selectedCurrency}${_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.price} - ${salonModel.selectedCurrency}∞",
+
+                        // former implementation
                         // servicePrice: '${salonModel.selectedCurrency}${service.masterPriceAndDurationMap?[_createAppointmentProvider.chosenMaster?.masterId]?.price}',
                         // servicePrice: service.isFixedPrice
                         //     ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price}"

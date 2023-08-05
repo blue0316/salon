@@ -879,7 +879,12 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                         .map(
                                           (service) => ServiceNameAndPrice(
                                             serviceName: (service.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? service.translations?['en']).toString().toTitleCase(),
-                                            servicePrice: '${salonModel.selectedCurrency}${selectedMaster?.servicesPriceAndDuration?[service.serviceId]?.price}',
+                                            servicePrice: (selectedMaster?.servicesPriceAndDuration?[service.serviceId]?.isPriceRange == true) ? "${salonModel.selectedCurrency}${selectedMaster?.servicesPriceAndDuration?[service.serviceId]?.price} -  ${salonModel.selectedCurrency}${selectedMaster?.servicesPriceAndDuration?[service.serviceId]?.priceMax}" : '${salonModel.selectedCurrency}${selectedMaster?.servicesPriceAndDuration?[service.serviceId]?.price}',
+
+                                            // servicePrice: '${salonModel.selectedCurrency}${selectedMaster?.servicesPriceAndDuration?[service.serviceId]?.price}',
+
+                                            // former implementation
+
                                             // servicePrice: '${salonModel.selectedCurrency}${service.masterPriceAndDurationMap?[selectedMaster?.masterId]?.price}',
 
                                             // fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 15.sp, 16.sp),
