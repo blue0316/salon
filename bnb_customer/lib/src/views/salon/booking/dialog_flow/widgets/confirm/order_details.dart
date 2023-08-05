@@ -2,6 +2,7 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
+import 'package:bbblient/src/firebase/collections.dart';
 import 'package:bbblient/src/firebase/customer.dart';
 import 'package:bbblient/src/firebase/transaction.dart';
 import 'package:bbblient/src/models/cat_sub_service/price_and_duration.dart';
@@ -279,7 +280,25 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                       onTap: () async {
                         CustomerModel? currentCustomer = _auth.currentCustomer;
 
-                        CustomerModel customer = CustomerModel(customerId: currentCustomer!.customerId, personalInfo: currentCustomer.personalInfo, registeredSalons: [], createdAt: DateTime.now(), avgRating: 3.0, noOfRatings: 6, profilePicUploaded: false, profilePic: "", profileCompleted: false, quizCompleted: false, preferredGender: "male", preferredCategories: [], locations: [], fcmToken: "", locale: "en", favSalons: [], referralLink: "");
+                        CustomerModel customer = CustomerModel(
+                          customerId: currentCustomer!.customerId,
+                          personalInfo: currentCustomer.personalInfo,
+                          registeredSalons: [],
+                          createdAt: DateTime.now(),
+                          avgRating: 3.0,
+                          noOfRatings: 6,
+                          profilePicUploaded: false,
+                          profilePic: "",
+                          profileCompleted: false,
+                          quizCompleted: false,
+                          preferredGender: "male",
+                          preferredCategories: [],
+                          locations: [],
+                          fcmToken: "",
+                          locale: "en",
+                          favSalons: [],
+                          referralLink: "",
+                        );
 
                         // Build Appointment
                         if (_createAppointmentProvider.chosenServices.length > 1) {
@@ -420,11 +439,15 @@ class _OrderListState extends ConsumerState<OrderDetails> {
 
                                 setState(() => spinner = false);
 
-                                // Show Success Dialog
-                                ConfirmationSuccess(
-                                  responseCode: '${transaction.responseCode}',
-                                  transactionID: transactionId,
-                                ).show(context);
+                                if (_createAppointmentProvider.bookAppointmentStatus == Status.success) {
+                                  // Show Success Dialog
+                                  ConfirmationSuccess(
+                                    responseCode: '${transaction.responseCode}',
+                                    transactionID: transactionId,
+                                  ).show(context);
+                                } else {
+                                  showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? 'Something went wrong, please try again');
+                                }
                               }
                               if (transaction.responseCode == 'D') {
                                 setState(() => spinner = false);

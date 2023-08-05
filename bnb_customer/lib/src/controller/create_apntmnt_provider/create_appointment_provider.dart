@@ -1,5 +1,6 @@
 import 'package:bbblient/src/firebase/appointments.dart';
 import 'package:bbblient/src/firebase/category_services.dart';
+import 'package:bbblient/src/firebase/collections.dart';
 import 'package:bbblient/src/firebase/master.dart';
 import 'package:bbblient/src/firebase/promotion_service.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
@@ -26,6 +27,7 @@ import 'package:bbblient/src/utils/integration/yclients.dart';
 import 'package:bbblient/src/utils/time.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
@@ -3702,6 +3704,11 @@ class CreateAppointmentProvider with ChangeNotifier {
       //assigning appointment id
       _appointment.appointmentId = value;
       appointmentConfirmation!.appointmentId = value;
+
+      // UPDATE REGISTERED SALONS IN CUSTOMER PROFILE
+      Collection.customers.doc(customer.customerId).update({
+        'registeredSalons': FieldValue.arrayUnion([_appointment.salon.id])
+      });
     });
   }
 
@@ -3909,6 +3916,11 @@ class CreateAppointmentProvider with ChangeNotifier {
       // assigning appointment id
       _appointment.appointmentId = value;
       appointmentConfirmation!.appointmentId = value;
+
+      // UPDATE REGISTERED SALONS IN CUSTOMER PROFILE
+      Collection.customers.doc(customer.customerId).update({
+        'registeredSalons': FieldValue.arrayUnion([_appointment.salon.id])
+      });
     });
   }
 
