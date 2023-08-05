@@ -3,7 +3,6 @@ import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
-import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/colors.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/service_tab/service_list.dart';
@@ -48,7 +47,6 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
     final _salonSearchProvider = ref.watch(salonSearchProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool isDefaultLightTheme = (theme == AppTheme.customLightTheme);
 
     // // Combine all services available into one to show in 'All' tab
     // List<ServiceModel> allServices = [];
