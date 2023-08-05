@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_function_literals_in_foreach_calls
+
 import 'package:bbblient/src/firebase/appointments.dart';
 import 'package:bbblient/src/firebase/category_services.dart';
 import 'package:bbblient/src/firebase/collections.dart';
@@ -160,6 +162,8 @@ class CreateAppointmentProvider with ChangeNotifier {
   double totalDeposit = 0;
   int bookingFlowPageIndex = 0;
   bool showModal = false; // Mini container on date and time screen
+  String? servicePrice;
+  String? serviceDuration;
 
   getServiceMasters() {
     unavailableSelectedItems.clear();
@@ -238,7 +242,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 
   List<MasterModel> mastersAbleToPerformService = [];
 
-  initMastersAndTime() {
+  initMastersAndTime({required bool isSingleMaster}) {
     availableAppointments.clear();
     allAppointments.clear();
     serviceableMasters.clear();
@@ -253,7 +257,11 @@ class CreateAppointmentProvider with ChangeNotifier {
     // print('@@@@----@@@@@---@@@@@---@@@');
 
     ///load price and duration of masters for multiple services
-    loadMultiplePriceAndDuration();
+    if (!isSingleMaster) {
+      loadMultiplePriceAndDuration();
+    } else {
+      loadPriceAndDurationForMultipleServicesSingleMaster();
+    }
 
     // for (MasterModel master in mastersAbleToPerformService) {
     //   String? price = priceAndDuration[master.masterId]?.price ?? '0';
@@ -699,71 +707,157 @@ class CreateAppointmentProvider with ChangeNotifier {
   }
 
   ///load multiple price and duration for multiple masters in the salon
+  // loadMultiplePriceAndDuration() {
+  //   priceAndDuration.clear();
+  //   for (var master in serviceableMasters) {
+  //     // mastersAbleToPerformService) {
+  //     totalDuration = 0;
+  //     totalPriceForMultiple = 0;
+  //     totalPriceMaxForMultiple = 0;
+  //     var newPriceAndDuration = PriceAndDurationModel();
+  //     for (ServiceModel eachSelectedService in chosenServices) {
+  //       if (eachSelectedService.serviceId != null && eachSelectedService.serviceId!.isNotEmpty && master.servicesPriceAndDuration != null) {
+  //         totalDuration += int.parse(eachSelectedService.priceAndDuration!.duration ?? '0');
+  //         totalPriceForMultiple += (int.parse(master.servicesPriceAndDuration?[eachSelectedService.serviceId]?.price ?? '0'));
+  //         totalPriceMaxForMultiple += (int.parse(master.servicesPriceAndDuration?[eachSelectedService.serviceId]?.priceMax ?? '0'));
+  //         // totalPriceForMultiple += (int.parse(eachSelectedService.priceAndDuration!.price!));
+
+  //         master.servicesPriceAndDuration![eachSelectedService.serviceId]?.price = totalPriceForMultiple.toString();
+  //         master.servicesPriceAndDuration![eachSelectedService.serviceId]?.duration = totalDuration.toString();
+
+  //         newPriceAndDuration.price = (int.parse(newPriceAndDuration.price ?? '0') + totalPriceForMultiple).toString();
+  //         newPriceAndDuration.duration = (int.parse(newPriceAndDuration.duration ?? '0') + totalDuration).toString();
+  //         newPriceAndDuration.priceMax = (int.parse(newPriceAndDuration.priceMax ?? '0') + totalPriceMaxForMultiple).toString();
+
+  //         // not sure
+  //         newPriceAndDuration.isFixedPrice = master.servicesPriceAndDuration?[eachSelectedService.serviceId]?.isFixedPrice;
+  //         newPriceAndDuration.isPriceRange = master.servicesPriceAndDuration?[eachSelectedService.serviceId]?.isPriceRange;
+  //         newPriceAndDuration.isPriceStartAt = master.servicesPriceAndDuration?[eachSelectedService.serviceId]?.isPriceStartAt;
+  //         newPriceAndDuration.isPriceStartAt = master.servicesPriceAndDuration?[eachSelectedService.serviceId]?.isPriceStartAt;
+
+  //         // String? durationinHr = '0';
+  //         // String? durationinMin = '0';
+  //         // priceAndDuration[master.masterId] = getPriceAndDuration(eachSelectedService, master);
+
+  //         // print('____+++++___+++++___++@@@@@@@@&&&&&&&___------++++');
+  //         // print(totalDuration);
+  //         // print(totalPriceForMultiple);
+  //         // print(priceAndDuration[master.masterId]?.price);
+  //         // print(priceAndDuration[master.masterId]?.duration);
+  //         // print('____+++++___+++++___++@@@@@@@@&&&&&&&___------++++');
+  //       }
+  //     }
+
+  //     priceAndDuration[master.masterId] = newPriceAndDuration;
+  //   }
+  // }
+
   loadMultiplePriceAndDuration() {
     priceAndDuration.clear();
-    for (var master in serviceableMasters) {
-      // mastersAbleToPerformService) {
+    serviceableMasters.forEach((MasterModel master) {
       totalDuration = 0;
-      totalPriceForMultiple = 0;
-      totalPriceMaxForMultiple = 0;
-      var newPriceAndDuration = PriceAndDurationModel();
-      for (ServiceModel eachSelectedService in chosenServices) {
-        if (eachSelectedService.serviceId != null && eachSelectedService.serviceId!.isNotEmpty && master.servicesPriceAndDuration != null) {
-          totalDuration += int.parse(eachSelectedService.priceAndDuration!.duration ?? '0');
-          totalPriceForMultiple += (int.parse(master.servicesPriceAndDuration?[eachSelectedService.serviceId]?.price ?? '0'));
-          totalPriceMaxForMultiple += (int.parse(master.servicesPriceAndDuration?[eachSelectedService.serviceId]?.priceMax ?? '0'));
-          // totalPriceForMultiple += (int.parse(eachSelectedService.priceAndDuration!.price!));
+      totalPrice = 0;
+      for (var eachSelectedService in chosenServices) {
+        if (eachSelectedService != null && master != null && eachSelectedService.serviceId != null && eachSelectedService.masterPriceAndDurationMap![master.masterId]?.price != null && eachSelectedService.masterPriceAndDurationMap![master.masterId]!.price!.isNotEmpty) {
+          totalDuration += int.parse(eachSelectedService.priceAndDuration!.duration!);
+          totalPrice += (int.parse(convertToMinutes(eachSelectedService.masterPriceAndDurationMap![master.masterId]!.price!)));
 
-          master.servicesPriceAndDuration![eachSelectedService.serviceId]?.price = totalPriceForMultiple.toString();
+          master.servicesPriceAndDuration![eachSelectedService.serviceId]?.price = totalPrice.toString();
           master.servicesPriceAndDuration![eachSelectedService.serviceId]?.duration = totalDuration.toString();
 
-          newPriceAndDuration.price = (int.parse(newPriceAndDuration.price ?? '0') + totalPriceForMultiple).toString();
-          newPriceAndDuration.duration = (int.parse(newPriceAndDuration.duration ?? '0') + totalDuration).toString();
-          newPriceAndDuration.priceMax = (int.parse(newPriceAndDuration.priceMax ?? '0') + totalPriceMaxForMultiple).toString();
-
-          // not sure
-          newPriceAndDuration.isFixedPrice = master.servicesPriceAndDuration?[eachSelectedService.serviceId]?.isFixedPrice;
-          newPriceAndDuration.isPriceRange = master.servicesPriceAndDuration?[eachSelectedService.serviceId]?.isPriceRange;
-          newPriceAndDuration.isPriceStartAt = master.servicesPriceAndDuration?[eachSelectedService.serviceId]?.isPriceStartAt;
-          newPriceAndDuration.isPriceStartAt = master.servicesPriceAndDuration?[eachSelectedService.serviceId]?.isPriceStartAt;
-
-          // String? durationinHr = '0';
-          // String? durationinMin = '0';
-          // priceAndDuration[master.masterId] = getPriceAndDuration(eachSelectedService, master);
-
-          // print('____+++++___+++++___++@@@@@@@@&&&&&&&___------++++');
-          // print(totalDuration);
-          // print(totalPriceForMultiple);
-          // print(priceAndDuration[master.masterId]?.price);
-          // print(priceAndDuration[master.masterId]?.duration);
-          // print('____+++++___+++++___++@@@@@@@@&&&&&&&___------++++');
+          priceAndDuration[master.masterId] = getPriceAndDuration(eachSelectedService, master);
         }
       }
+      debugPrint('total price? $totalPrice');
+    });
+  }
 
-      priceAndDuration[master.masterId] = newPriceAndDuration;
+  String convertToMinutes(String timeString) {
+    if (timeString.contains("hrs") || timeString.contains("min")) {
+      List<String> timeParts = timeString.split(' ');
+
+      int hours = int.parse(timeParts[0].replaceAll('hrs', ''));
+      int minutes = int.parse(timeParts[1].replaceAll('min', ''));
+      int totalMinutes = (hours * 60) + minutes;
+      return "$totalMinutes";
     }
+    return timeString;
   }
 
   // returns the service charge from service and master data
   PriceAndDurationModel getPriceAndDuration(ServiceModel? service, MasterModel master) {
     try {
-      if (service != null && service.serviceId!.isNotEmpty && master.servicesPriceAndDuration != null) {
-        // print('master price${master.servicesPriceAndDuration![service.serviceId]!.price}');
-
-        // print('____+++++___+++++___++@@@@@@@@&&&&&&&___------++++');
-        // print(service.serviceName);
-        // print(service.serviceId);
-        // print(master.servicesPriceAndDuration?['nVqUIPr07PLneP8QW3wd']?.price);
-        // print(master.servicesPriceAndDuration?['nVqUIPr07PLneP8QW3wd']?.durationinHr);
-        // print(master.title);
-        // print('____+++++___+++++___++@@@@@@@@&&&&&&&___------++++');
-        return master.servicesPriceAndDuration?[service.serviceId] ?? PriceAndDurationModel();
+      if (service != null && master != null && service.serviceId != null && master.servicesPriceAndDuration != null) {
+        print('master price${master.servicesPriceAndDuration![service.serviceId]!.price}');
+        return master.servicesPriceAndDuration![service.serviceId] ?? PriceAndDurationModel();
       }
     } catch (e) {
       (e.toString());
     }
     return PriceAndDurationModel();
   }
+
+  //extracts price and duration for multiple services
+  loadPriceAndDurationForMultipleServicesSingleMaster() {
+    int totalPrice = 0;
+    int totalDuration = 0;
+    //loop through each selected service list and set time and duration to display
+    for (var eachSelectedService in chosenServices) {
+      //if current selected service has fixed price
+      if (eachSelectedService.isFixedPrice) {
+        // we add normal price to total price
+        totalPrice += int.tryParse(eachSelectedService.priceAndDuration!.price!.toString())!;
+      } else {
+        //where service is not a fixed price we add max price instead
+        totalPrice += int.tryParse(eachSelectedService.priceAndDurationMax!.price!.toString())!;
+      }
+      //if service fixed duration is not null
+      if (eachSelectedService.isFixedDuration != null) {
+        //if service has a fixed duration
+        if (eachSelectedService.isFixedDuration) {
+          //we add it to total duration
+          totalDuration += int.tryParse(eachSelectedService.priceAndDuration!.duration!.toString())!;
+        } else {
+          //else if no fixed duration we add max duration
+          totalDuration += int.tryParse(eachSelectedService.priceAndDurationMax!.duration!.toString())!;
+        }
+      } else {
+        //selected service has fixed price
+        if (eachSelectedService.isFixedPrice) {
+          //add to total duration
+          totalDuration += int.tryParse(eachSelectedService.priceAndDuration!.duration!.toString())!;
+        } else {
+          // else add max duration to total duration
+          totalDuration += int.tryParse(eachSelectedService.priceAndDurationMax!.duration!.toString())!;
+        }
+      }
+      //assign total calculated duration  and price of all looped services;
+      serviceDuration = totalDuration.toString();
+      servicePrice = totalPrice.toString();
+      debugPrint('price $servicePrice durations $serviceDuration');
+    }
+  }
+
+  // // returns the service charge from service and master data
+  // PriceAndDurationModel getPriceAndDuration(ServiceModel? service, MasterModel master) {
+  //   try {
+  //     if (service != null && service.serviceId!.isNotEmpty && master.servicesPriceAndDuration != null) {
+  //       // print('master price${master.servicesPriceAndDuration![service.serviceId]!.price}');
+
+  //       // print('____+++++___+++++___++@@@@@@@@&&&&&&&___------++++');
+  //       // print(service.serviceName);
+  //       // print(service.serviceId);
+  //       // print(master.servicesPriceAndDuration?['nVqUIPr07PLneP8QW3wd']?.price);
+  //       // print(master.servicesPriceAndDuration?['nVqUIPr07PLneP8QW3wd']?.durationinHr);
+  //       // print(master.title);
+  //       // print('____+++++___+++++___++@@@@@@@@&&&&&&&___------++++');
+  //       return master.servicesPriceAndDuration?[service.serviceId] ?? PriceAndDurationModel();
+  //     }
+  //   } catch (e) {
+  //     (e.toString());
+  //   }
+  //   return PriceAndDurationModel();
+  // }
 
   bool checkContinuousSlotsNew({required MasterModel master, required List<String> slotspresent}) {
     List<int> indexes = [];

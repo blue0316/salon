@@ -133,12 +133,14 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                       children: [
                         // InkWell(
                         //   onTap: () {
-                        //     print(_createAppointmentProvider.chosenServices[0].serviceId);
-                        //     print(selectedMaster?.masterId);
-
-                        //     // print(_createAppointmentProvider.priceAndDuration);
                         //     print('-----+++++-----');
-                        //     print('price');
+                        //     print(_salonProfileProvider.isSingleMaster);
+                        //     // print(_createAppointmentProvider.chosenServices[0].serviceId);
+                        //     // print(selectedMaster?.masterId);
+
+                        //     // // print(_createAppointmentProvider.priceAndDuration);
+                        //     print('-----+++++-----');
+                        //     // print('price');
                         //     // print(selectedMaster?.servicesPriceAndDuration?['nVqUIPr07PLneP8QW3wd']?.price);
                         //     // print(selectedMaster?.servicesPriceAndDuration?['nVqUIPr07PLneP8QW3wd']?.durationinHr);
                         //     // print(_createAppointmentProvider.priceAndDuration['IBe7FoipMcfj6J8epMOV']?.price);
@@ -192,17 +194,18 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                         //       )
                         //       .toList(),
                         // ),
-                        SizedBox(height: 20.sp),
-                        Container(
-                          width: double.infinity,
-                          height: 1.5.sp,
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            gradient: LinearGradient(
-                              colors: [Color.fromARGB(43, 74, 74, 74), Color(0XFF4A4A4A), Color.fromARGB(43, 74, 74, 74)],
+                        if (masterAndSalonPriceDifferent == true) SizedBox(height: 20.sp),
+                        if (masterAndSalonPriceDifferent == true)
+                          Container(
+                            width: double.infinity,
+                            height: 1.5.sp,
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              gradient: LinearGradient(
+                                colors: [Color.fromARGB(43, 74, 74, 74), Color(0XFF4A4A4A), Color.fromARGB(43, 74, 74, 74)],
+                              ),
                             ),
                           ),
-                        ),
 
                         SizedBox(height: 20.sp),
 
@@ -808,7 +811,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               Text(
-                                                "${salonModel.selectedCurrency}${_createAppointmentProvider.priceAndDuration[selectedMaster!.masterId]?.price ?? '-'}",
+                                                (!_salonProfileProvider.isSingleMaster) ? "${salonModel.selectedCurrency}${_createAppointmentProvider.priceAndDuration[selectedMaster!.masterId]?.price ?? '-'}" : "${salonModel.selectedCurrency}${_createAppointmentProvider.servicePrice}",
                                                 overflow: TextOverflow.ellipsis,
                                                 textAlign: TextAlign.left,
                                                 style: theme.textTheme.bodyLarge!.copyWith(
@@ -827,7 +830,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                               ),
                                               SizedBox(width: 7.sp),
                                               Text(
-                                                '${_createAppointmentProvider.priceAndDuration[selectedMaster!.masterId]?.duration ?? '-'} ${AppLocalizations.of(context)?.minutes ?? "minutes"}',
+                                                (!_salonProfileProvider.isSingleMaster) ? '${_createAppointmentProvider.priceAndDuration[selectedMaster!.masterId]?.duration ?? '-'} ${AppLocalizations.of(context)?.minutes ?? "minutes"}' : '${_createAppointmentProvider.serviceDuration} ${AppLocalizations.of(context)?.minutes ?? "minutes"}',
                                                 overflow: TextOverflow.ellipsis,
                                                 textAlign: TextAlign.left,
                                                 style: theme.textTheme.bodyLarge!.copyWith(
@@ -879,7 +882,23 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                         .map(
                                           (service) => ServiceNameAndPrice(
                                             serviceName: (service.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? service.translations?['en']).toString().toTitleCase(),
-                                            servicePrice: (selectedMaster?.servicesPriceAndDuration?[service.serviceId]?.isPriceRange == true) ? "${salonModel.selectedCurrency}${selectedMaster?.servicesPriceAndDuration?[service.serviceId]?.price} -  ${salonModel.selectedCurrency}${selectedMaster?.servicesPriceAndDuration?[service.serviceId]?.priceMax}" : '${salonModel.selectedCurrency}${selectedMaster?.servicesPriceAndDuration?[service.serviceId]?.price}',
+                                            servicePrice:
+                                                // NOT SINGLE MASTER
+                                                (!_salonProfileProvider.isSingleMaster)
+                                                    // ? (selectedMaster?.servicesPriceAndDuration?[service.serviceId]?.isPriceRange == true)
+                                                    //     ? "${salonModel.selectedCurrency}${selectedMaster?.servicesPriceAndDuration?[service.serviceId]?.price} -  ${salonModel.selectedCurrency}${selectedMaster?.servicesPriceAndDuration?[service.serviceId]?.priceMax}"
+                                                    //     : '${salonModel.selectedCurrency}${selectedMaster?.servicesPriceAndDuration?[service.serviceId]?.price}'
+
+                                                    ? (service.masterPriceAndDurationMap?[selectedMaster?.masterId]?.isPriceRange == true)
+                                                        ? '${salonModel.selectedCurrency}${service.masterPriceAndDurationMap?[selectedMaster?.masterId]?.price} - ${salonModel.selectedCurrency}${service.masterPriceAndDurationMap?[selectedMaster?.masterId]?.priceMax}'
+                                                        : '${salonModel.selectedCurrency}${service.masterPriceAndDurationMap?[selectedMaster?.masterId]?.price}'
+
+                                                    // SINGLE MASTER
+                                                    : (service.isFixedPrice == true)
+                                                        ? '${salonModel.selectedCurrency}${service.priceAndDuration?.price}'
+                                                        : (service.isPriceRange == true)
+                                                            ? '${salonModel.selectedCurrency}${service.priceAndDuration?.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax?.price}'
+                                                            : '${salonModel.selectedCurrency}${service.priceAndDuration?.price} - ${salonModel.selectedCurrency}∞',
 
                                             // servicePrice: '${salonModel.selectedCurrency}${selectedMaster?.servicesPriceAndDuration?[service.serviceId]?.price}',
 
@@ -894,6 +913,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                             //     : service.isPriceRange
                                             //         ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}"
                                             //         : "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}∞",
+                                            color: selectSlots(themeType, theme),
                                           ),
                                         )
                                         .toList(),
@@ -959,6 +979,7 @@ class ServiceNameAndPrice extends ConsumerWidget {
   final bool notService;
   final double? fontSize, priceFontSize;
   final FontWeight? weight;
+  final Color? color;
 
   const ServiceNameAndPrice({
     Key? key,
@@ -968,6 +989,7 @@ class ServiceNameAndPrice extends ConsumerWidget {
     this.fontSize,
     this.priceFontSize,
     this.weight,
+    this.color,
   }) : super(key: key);
 
   @override
@@ -988,7 +1010,11 @@ class ServiceNameAndPrice extends ConsumerWidget {
               style: theme.textTheme.bodyMedium?.copyWith(
                 fontWeight: weight ?? FontWeight.normal,
                 fontSize: fontSize ?? DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                color: !notService ? theme.colorScheme.tertiary : theme.colorScheme.tertiary.withOpacity(0.6),
+                color: (color != null)
+                    ? color
+                    : !notService
+                        ? theme.colorScheme.tertiary
+                        : theme.colorScheme.tertiary.withOpacity(0.6),
               ),
               overflow: TextOverflow.ellipsis,
               maxLines: 2,
@@ -1001,7 +1027,7 @@ class ServiceNameAndPrice extends ConsumerWidget {
               style: theme.textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w600,
                 fontSize: priceFontSize ?? DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                color: theme.colorScheme.tertiary,
+                color: color ?? theme.colorScheme.tertiary,
               ),
             ),
           ),

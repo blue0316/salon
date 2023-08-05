@@ -79,10 +79,28 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                       (service) => ServiceNameAndPrice(
                         serviceName: service.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? service.translations?['en'],
                         // servicePrice: '${salonModel.selectedCurrency}${_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.price}',
-                        servicePrice: (_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.isPriceRange == true)
-                            ? "${salonModel.selectedCurrency}${_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.price} -  ${salonModel.selectedCurrency}${_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.priceMax}"
-                            : '${salonModel.selectedCurrency}${_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.price}',
+                        servicePrice:
+                            // NOT SINGLE MASTER
+                            (!_salonProfileProvider.isSingleMaster)
+                                // ? (_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.isPriceRange == true)
+                                //     ? "${salonModel.selectedCurrency}${_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.price} -  ${salonModel.selectedCurrency}${_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.priceMax}"
+                                //     : '${salonModel.selectedCurrency}${_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.price}'
 
+                                ? (service.masterPriceAndDurationMap?[_createAppointmentProvider.chosenMaster?.masterId]?.isPriceRange == true)
+                                    ? '${salonModel.selectedCurrency}${service.masterPriceAndDurationMap?[_createAppointmentProvider.chosenMaster?.masterId]?.price} - ${salonModel.selectedCurrency}${service.masterPriceAndDurationMap?[_createAppointmentProvider.chosenMaster?.masterId]?.priceMax}'
+                                    : '${salonModel.selectedCurrency}${service.masterPriceAndDurationMap?[_createAppointmentProvider.chosenMaster?.masterId]?.price}'
+
+                                // SINGLE MASTER
+                                : (service.isFixedPrice == true)
+                                    ? '${salonModel.selectedCurrency}${service.priceAndDuration?.price}'
+                                    : (service.isPriceRange == true)
+                                        ? '${salonModel.selectedCurrency}${service.priceAndDuration?.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax?.price}'
+                                        : '${salonModel.selectedCurrency}${service.priceAndDuration?.price} - ${salonModel.selectedCurrency}∞',
+
+                        // : (service.masterPriceAndDurationMap?[_createAppointmentProvider.chosenMaster?.masterId]?.isPriceRange == true)
+                        //     ? '${salonModel.selectedCurrency}${service.masterPriceAndDurationMap?[_createAppointmentProvider.chosenMaster?.masterId]?.price} - ${salonModel.selectedCurrency}${service.masterPriceAndDurationMap?[_createAppointmentProvider.chosenMaster?.masterId]?.priceMax}'
+                        //     : '${salonModel.selectedCurrency}${service.masterPriceAndDurationMap?[_createAppointmentProvider.chosenMaster?.masterId]?.price}',
+                        // ---------------------------------------------------------------------------------
                         // servicePrice: (_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.isFixedPrice == true)
                         //     ? '${salonModel.selectedCurrency}${_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.price}'
                         //     : (_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.isPriceRange == true)

@@ -310,7 +310,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                                 );
                                 return;
                               }
-                              _createAppointmentProvider.initMastersAndTime();
+                              _createAppointmentProvider.initMastersAndTime(isSingleMaster: _salonProfileProvider.isSingleMaster);
 
                               // _createAppointmentProvider.initTimeOfDay();
                               // _createAppointmentProvider.onDateChange(date);
@@ -760,7 +760,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                           );
                           return;
                         }
-                        _createAppointmentProvider.initMastersAndTime();
+                        _createAppointmentProvider.initMastersAndTime(isSingleMaster: _salonProfileProvider.isSingleMaster);
 
                         // _createAppointmentProvider.initTimeOfDay();
                         // _createAppointmentProvider.onDateChange(date);
