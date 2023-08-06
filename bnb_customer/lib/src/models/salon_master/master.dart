@@ -3,6 +3,8 @@ import 'package:bbblient/src/utils/utils.dart';
 import '../backend_codings/working_hours.dart';
 
 class MasterModel {
+  DateTime? createdAt;
+
   bool availableOnline = false;
   late String masterId;
   late String salonId;
@@ -37,6 +39,7 @@ class MasterModel {
   List<String>? searchTags;
 
   MasterModel({
+    this.createdAt,
     required this.masterId,
     required this.salonId,
     this.beautyProId,
@@ -62,6 +65,8 @@ class MasterModel {
   });
 
   MasterModel.fromJson(Map<String, dynamic> json) {
+    if (json['createdAt'] != null) createdAt = json['createdAt'].toDate();
+
     masterId = json['masterId'];
     salonId = json['salonId'];
     beautyProId = json['beautyProId'];
@@ -94,6 +99,8 @@ class MasterModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
+    if (createdAt != null) data['createdAt'] = createdAt;
+
     data['salonId'] = salonId;
     data['masterId'] = masterId;
     data['beautyProId'] = beautyProId;

@@ -827,6 +827,12 @@
   "depositPaid": "Depozit plătit:",
   "addToAppleCalendar": "Adaugă la Apple Calendar",
   "addToGoogleCalendar": "Adăugați la Google Calendar",
-  "slotsOverlap" : "Slots se suprapun cu ora rezervată de salon, alege alt slot"
-  }
+  "slotsOverlap" : "Slots se suprapun cu ora rezervată de salon, alege alt slot",
+  "cancelAppointment": "Anulați programarea",
+  "confirmApppointment" : "Confirmați programarea",
+  "appointmentDoesNotExist": "Întregirea nu există",
+  "appointmentConfirmation" : "Confirmarea întâlnirii",
+  "cancelNote1" : "Vă rugăm să rețineți că pentru a anula trebuie să contactați?",
+  "cancelNote2" : "Anularea online nu este disponibilă momentan."
+}
   

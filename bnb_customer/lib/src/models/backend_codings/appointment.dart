@@ -26,12 +26,24 @@ class ActiveAppointmentSubStatus {
 
 ///contains all the actions possible on an appointment
 class AppointmentUpdates {
+  //created
   static const createdByCustomer = "createdByCustomer";
   static const createdBySalon = "createdBySalon";
+  static const createdBySalonForMaster = "createdBySalonForMaster";
+  static const createdBySalonMaster = "createdBySalonMaster";
+  //update
   static const changedByCustomer = "changedByCustomer";
   static const changedBySalon = "changedBySalon";
+  static const noShowBySalon = "noShowBySalon";
+  static const changedBySalonMaster = "changedBySalonMaster";
+  //cancelled
   static const cancelledByCustomer = "cancelledByCustomer";
   static const cancelledBySalon = "cancelledBySalon";
+  static const completed = "completed";
+  //request
+  static const approvedBySalon = "approvedBySalon";
+  static const confirmedBySalon = "confirmedBySalon";
+  static const confirmedByCustomer = "confirmedByCustomer";
 }
 
 class AppointmentType {

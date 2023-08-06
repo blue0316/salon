@@ -827,6 +827,12 @@
   "depositPaid": "Depósito pagado:",
   "addToAppleCalendar": "Agregar al Calendario de Apple",
   "addToGoogleCalendar": "Agregar a Google Calendar",
-  "slotsOverlap": "Las franjas horarias se superponen con el tiempo reservado del salón, elija otra franja horaria"
+  "slotsOverlap": "Las franjas horarias se superponen con el tiempo reservado del salón, elija otra franja horaria",
+  "cancelAppointment": "Cancelar Cita",
+  "confirmApppointment" : "Confirmar Cita",
+  "appointmentDoesNotExist": "La cita no existe",
+  "appointmentConfirmation" : "Confirmación de cita",
+  "cancelNote1" : "Tenga en cuenta que para cancelar tiene que ponerse en contacto?",
+  "cancelNote2": "La cancelación en línea no está disponible en este momento."
 }
   

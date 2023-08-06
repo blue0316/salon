@@ -332,12 +332,14 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                         if (_createAppointmentProvider.chosenServices.length > 1) {
                           //call this single appointment service save function
                           await _createAppointmentProvider.saveNewAppointmentForMultipleServices(
+                            isSingleMaster: _salonProfileProvider.isSingleMaster,
                             customer: customer,
                             transactionId: null,
                           );
                         } else {
                           //call multiple appointment service save option
                           await _createAppointmentProvider.saveAppointment(
+                            isSingleMaster: _salonProfileProvider.isSingleMaster,
                             customer: customer,
                             transactionId: null,
                           );
@@ -454,12 +456,14 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                 if (_createAppointmentProvider.chosenServices.length > 1) {
                                   //call this single appointment service save function
                                   await _createAppointmentProvider.saveNewAppointmentForMultipleServices(
+                                    isSingleMaster: _salonProfileProvider.isSingleMaster,
                                     customer: customer,
                                     transactionId: transactionId,
                                   );
                                 } else {
                                   //call multiple appointment service save option
                                   await _createAppointmentProvider.saveAppointment(
+                                    isSingleMaster: _salonProfileProvider.isSingleMaster,
                                     customer: customer,
                                     transactionId: transactionId,
                                   );

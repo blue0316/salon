@@ -1,9 +1,8 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
-import 'package:bbblient/src/firebase/salons.dart';
+import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/backend_codings/appointment.dart';
 import 'package:bbblient/src/models/enums/status.dart';
-import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/routes.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
@@ -18,6 +17,7 @@ import 'widgets/button.dart';
 import 'widgets/calendar_buttons.dart';
 import 'widgets/date_time_price.dart';
 import 'widgets/theme_colors.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AppointmentViewDetails extends ConsumerStatefulWidget {
   static const route = "/appointments";
@@ -60,6 +60,9 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
   @override
   Widget build(BuildContext context) {
     final _appointmentProvider = ref.watch(appointmentProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final _createAppointmentProvider = ref.watch(createAppointmentProvider);
+
     ThemeData theme = _appointmentProvider.salonTheme ?? AppTheme.customLightTheme;
     ThemeType themeType = _appointmentProvider.themeType ?? ThemeType.DefaultLight;
 
@@ -98,7 +101,7 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                   children: [
                                     const SizedBox(height: 30),
                                     Text(
-                                      'Appointment Confirmation',
+                                      AppLocalizations.of(context)?.appointmentConfirmation ?? 'Appointment Confirmation',
                                       style: theme.textTheme.bodyLarge!.copyWith(
                                         fontWeight: FontWeight.w500,
                                         fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 30.sp, 40.sp),
@@ -155,7 +158,8 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                                     color: theme.colorScheme.tertiary.withOpacity(0.6),
                                                   ),
                                                   Text(
-                                                    'Please note that to cancel you have to contact ${_appointmentProvider.salon?.salonName}. Online cancelation is not available at the moment. ',
+                                                    '${AppLocalizations.of(context)?.cancelNote1 ?? 'Please note that to cancel you have to contact?'}  ${_appointmentProvider.salon?.salonName}. ${AppLocalizations.of(context)?.cancelNote2 ?? 'Online cancelation is not available at the moment.'}',
+                                                    // 'Please note that to cancel you have to contact ${_appointmentProvider.salon?.salonName}. Online cancelation is not available at the moment. ',
                                                     style: theme.textTheme.bodyMedium?.copyWith(
                                                       fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 18.sp, 20.sp),
                                                       fontWeight: FontWeight.w400,
@@ -176,11 +180,15 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                                 if (_appointmentProvider.salon?.cancellationAndNoShowPolicy.allowOnlineCancellation == true)
                                                   if (appointment?.status != AppointmentStatus.cancelled)
                                                     Button(
-                                                      text: 'Cancel Appointment',
+                                                      text: AppLocalizations.of(context)?.cancelAppointment ?? 'Cancel Appointment',
                                                       onTap: (_appointmentProvider.salon?.cancellationAndNoShowPolicy.allowOnlineCancellation == false)
                                                           ? () {}
                                                           : () => _appointmentProvider.cancelAppointment(
+                                                                isSingleMaster: _salonProfileProvider.isSingleMaster,
                                                                 appointmentID: widget.appointmentDocId,
+                                                                appointment: appointment!,
+                                                                salon: _appointmentProvider.salon!,
+                                                                salonMasters: _createAppointmentProvider.salonMasters,
                                                                 callback: () {
                                                                   fetchDetails();
                                                                 },
@@ -193,7 +201,7 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                                 const SizedBox(width: 20),
                                                 if (appointment?.subStatus != ActiveAppointmentSubStatus.confirmed && shouldShowConfirmButton(appointment!.appointmentStartTime))
                                                   Button(
-                                                    text: 'Confirm Appointment',
+                                                    text: AppLocalizations.of(context)?.confirmApppointment ?? 'Confirm Appointment',
                                                     buttonColor: confirmButton(themeType, theme),
                                                     textColor: buttonTextColor(themeType),
                                                     onTap: () => _appointmentProvider.updateAppointmentSubStatus(
@@ -221,7 +229,7 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                     )
                   : Center(
                       child: Text(
-                        'Appointment does not exists',
+                        AppLocalizations.of(context)?.appointmentDoesNotExist ?? 'Appointment does not exist',
                         style: TextStyle(
                           color: AppTheme.creamBrown,
                           fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 20.sp, 25.sp),

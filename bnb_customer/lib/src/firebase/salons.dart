@@ -245,4 +245,17 @@ class SalonApi {
       return 0;
     }
   }
+
+  //updates the salon data
+  Future updateSalon(SalonModel? salon) async {
+    try {
+      if (salon != null) {
+        await Collection.salons.doc(salon.salonId).set(salon.toJson(), SetOptions(merge: true));
+        return 1;
+      }
+    } catch (e) {
+      //(e);
+      return 0;
+    }
+  }
 }

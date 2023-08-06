@@ -826,5 +826,11 @@
   "depositPaid": "Depósito pago:",
   "addToAppleCalendar": "Adicionar ao calendário da Apple",
   "addToGoogleCalendar": "Adicionar ao Google Agenda",
-  "slotsOverlap": "Slots se sobrepõem ao horário reservado do salão, escolha outro slot"
+  "slotsOverlap": "Slots se sobrepõem ao horário reservado do salão, escolha outro slot",
+  "cancelAppointment": "Cancelar agendamento",
+  "confirmApppointment": "Confirmar agendamento",
+  "appointmentDoesNotExist": "Agendamento não existe",
+  "appointmentConfirmation": "Confirmação de agendamento",
+  "cancelNote1": "Por favor, note que para cancelar você deve entrar em contato?",
+  "cancelNote2": "O cancelamento online não está disponível no momento."
   }

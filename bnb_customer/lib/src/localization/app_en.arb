@@ -831,5 +831,11 @@
  "depositPaid": "Deposit paid:",
  "addToAppleCalendar": "Add to Apple Calendar",
  "addToGoogleCalendar": "Add to Google Calendar",
- "slotsOverlap" : "Slots  Overlap with salon's booked Time, choose another slot"
+ "slotsOverlap" : "Slots  Overlap with salon's booked Time, choose another slot",
+ "cancelAppointment": "Cancel Appointment",
+ "confirmApppointment" : "Confirm Appointment",
+ "appointmentDoesNotExist" : "Appointment does not exist",
+ "appointmentConfirmation" : "Appointment Confirmation",
+ "cancelNote1" : "Please note that to cancel you have to contact?",
+ "cancelNote2" : "Online cancelation is not available at the moment."
 }

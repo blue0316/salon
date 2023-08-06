@@ -5,8 +5,10 @@ import 'package:bbblient/src/firebase/collections.dart';
 import 'package:bbblient/src/firebase/customer_web_settings.dart';
 import 'package:bbblient/src/firebase/salons.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
+import 'package:bbblient/src/models/backend_codings/appointment.dart';
 import 'package:bbblient/src/models/customer_web_settings.dart';
 import 'package:bbblient/src/models/enums/status.dart';
+import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/time.dart';
@@ -188,7 +190,14 @@ class AppointmentProvider with ChangeNotifier {
     }
   }
 
-  void cancelAppointment({required String appointmentID, Function? callback}) async {
+  void cancelAppointment({
+    required String appointmentID,
+    Function? callback,
+    required bool isSingleMaster,
+    required AppointmentModel appointment,
+    required SalonModel salon,
+    required List<MasterModel> salonMasters,
+  }) async {
     cancelAppointmentStatus = Status.loading;
     notifyListeners();
     try {
@@ -199,6 +208,16 @@ class AppointmentProvider with ChangeNotifier {
           'updates': FieldValue.arrayUnion(['cancelledByCustomer'])
         },
         SetOptions(merge: true),
+      );
+
+      // UNBLOCK TIME SLOTS
+      await AppointmentApi().updateMultipleAppointment(
+        isSingleMaster: isSingleMaster,
+        appointmentModel: appointment,
+        appointmentSubStatus: ActiveAppointmentSubStatus.cancelledBySalon,
+        appointmentStatus: AppointmentStatus.cancelled,
+        salon: salon,
+        salonMasters: salonMasters,
       );
 
       // SHOW TOAST

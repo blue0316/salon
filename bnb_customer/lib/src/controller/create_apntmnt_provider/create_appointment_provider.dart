@@ -3602,7 +3602,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   AppointmentModel? appointmentConfirmation; // so we can show details on the confirmed dialog screen
 
   ///to save the appointment for single services selected
-  Future saveAppointment({required CustomerModel customer, required String? transactionId}) async {
+  Future saveAppointment({required CustomerModel customer, required String? transactionId, required bool isSingleMaster}) async {
     bookAppointmentStatus = Status.loading;
     notifyListeners();
 
@@ -3640,9 +3640,9 @@ class CreateAppointmentProvider with ChangeNotifier {
           minutes: selectedService.preparationTime ?? 0,
         );
 
-        /// check if mastes list is 1 (single master), check if original master (phone number == salon phone)
+        /// single master
         /// block time of salon and master,
-        if (salonMasters.length == 1) {
+        if (isSingleMaster) {
           if (salonMasters.first.personalInfo?.phone == chosenSalon?.phoneNumber) {
             await AppointmentApi().blockSalonTime(
               salon: chosenSalon!,
@@ -3673,7 +3673,7 @@ class CreateAppointmentProvider with ChangeNotifier {
           minutes: selectedService.endProcessingTime ?? 0,
         );
 
-        if (salonMasters.length == 1) {
+        if (isSingleMaster) {
           if (salonMasters.first.personalInfo?.phone == chosenSalon?.phoneNumber) {
             await AppointmentApi().blockSalonTime(
               salon: chosenSalon!,
@@ -3693,7 +3693,7 @@ class CreateAppointmentProvider with ChangeNotifier {
             priceAndDuration[chosenMaster?.masterId]?.duration ?? defaultServiceDuration,
           ),
         );
-        if (salonMasters.length == 1) {
+        if (isSingleMaster) {
           if (salonMasters.first.personalInfo?.phone == chosenSalon?.phoneNumber) {
             await AppointmentApi().blockSalonTime(
               salon: chosenSalon!,
@@ -3732,7 +3732,7 @@ class CreateAppointmentProvider with ChangeNotifier {
               minutes: selectedService.preparationTime!,
             );
 
-            if (salonMasters.length == 1) {
+            if (isSingleMaster) {
               if (salonMasters.first.personalInfo?.phone == chosenSalon?.phoneNumber) {
                 await AppointmentApi().blockSalonTime(
                   salon: chosenSalon!,
@@ -3770,7 +3770,7 @@ class CreateAppointmentProvider with ChangeNotifier {
               minutes: selectedService.cleanUpTime ?? 0,
             );
 
-            if (salonMasters.length == 1) {
+            if (isSingleMaster) {
               if (salonMasters.first.personalInfo?.phone == chosenSalon?.phoneNumber) {
                 await AppointmentApi().blockSalonTime(
                   salon: chosenSalon!,
@@ -3802,7 +3802,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   }
 
   ///saves appointments when service is more that one
-  Future saveNewAppointmentForMultipleServices({required CustomerModel customer, required String? transactionId}) async {
+  Future saveNewAppointmentForMultipleServices({required CustomerModel customer, required String? transactionId, required bool isSingleMaster}) async {
     bookAppointmentStatus = Status.loading;
     notifyListeners();
 
@@ -3904,7 +3904,7 @@ class CreateAppointmentProvider with ChangeNotifier {
           priceAndDuration[chosenMaster?.masterId]?.duration ?? defaultServiceDuration,
         ),
       );
-      if (salonMasters.length == 1) {
+      if (isSingleMaster) {
         if (salonMasters.first.personalInfo?.phone == chosenSalon?.phoneNumber) {
           await AppointmentApi().blockSalonTime(
             salon: chosenSalon!,
@@ -3943,7 +3943,7 @@ class CreateAppointmentProvider with ChangeNotifier {
               time: prepTime,
               minutes: preparationTime,
             );
-            if (salonMasters.length == 1) {
+            if (isSingleMaster) {
               if (salonMasters.first.personalInfo?.phone == chosenSalon?.phoneNumber) {
                 await AppointmentApi().blockSalonTime(
                   salon: chosenSalon!,
@@ -3982,7 +3982,7 @@ class CreateAppointmentProvider with ChangeNotifier {
               time: Time().timeToString(appointend)!,
               minutes: cleanUpApptTime,
             );
-            if (salonMasters.length == 1) {
+            if (isSingleMaster) {
               if (salonMasters.first.personalInfo?.phone == chosenSalon?.phoneNumber) {
                 await AppointmentApi().blockSalonTime(
                   salon: chosenSalon!,
