@@ -197,9 +197,9 @@ class AppointmentApi {
 
   validateBonusOnAppointmentCancel({required AppointmentModel appointmentModel, required BuildContext context}) async {
     if ((appointmentModel.paymentInfo?.bonusApplied ?? false) && (appointmentModel.paymentInfo?.bonusIds != null)) {
-      if (appointmentModel.appointmentStartTime.isBefore(DateTime.now())) {
+      if (appointmentModel.appointmentStartTime!.isBefore(DateTime.now())) {
         return true;
-      } else if (appointmentModel.appointmentStartTime.difference(DateTime.now()).inHours > 24) {
+      } else if (appointmentModel.appointmentStartTime!.difference(DateTime.now()).inHours > 24) {
         bool validated = await BonusReferralApi().validateBonus(bonusId: appointmentModel.paymentInfo?.bonusIds[0] ?? '');
         if (validated) {
           showToast(AppLocalizations.of(context)?.bonusRestored ?? 'Bonus restored');
@@ -242,9 +242,9 @@ class AppointmentApi {
 
   _removeBlockedSlotsMaster(AppointmentModel appointment, MasterModel master) {
     try {
-      final String _date = _timeUtils.getDateInStandardFormat(appointment.appointmentStartTime);
-      TimeOfDay _time1 = TimeOfDay.fromDateTime(appointment.appointmentStartTime);
-      TimeOfDay _time2 = TimeOfDay.fromDateTime(appointment.appointmentEndTime);
+      final String _date = _timeUtils.getDateInStandardFormat(appointment.appointmentStartTime!);
+      TimeOfDay _time1 = TimeOfDay.fromDateTime(appointment.appointmentStartTime!);
+      TimeOfDay _time2 = TimeOfDay.fromDateTime(appointment.appointmentEndTime!);
       List<String?> blockedSlots = _timeUtils.generateTimeSlots(_time1, _time2, inclusive: true).toList();
       if (master.blockedTime != null && master.blockedTime?[_date] != null && master.blockedTime?[_date].isNotEmpty) {
         final tempList = master.blockedTime?[_date];
@@ -284,9 +284,9 @@ class AppointmentApi {
 
   _removeBlockedSlotsSalon(AppointmentModel appointment, SalonModel salon) {
     try {
-      final String _date = _timeUtils.getDateInStandardFormat(appointment.appointmentStartTime);
-      TimeOfDay _time1 = TimeOfDay.fromDateTime(appointment.appointmentStartTime);
-      TimeOfDay _time2 = TimeOfDay.fromDateTime(appointment.appointmentEndTime);
+      final String _date = _timeUtils.getDateInStandardFormat(appointment.appointmentStartTime!);
+      TimeOfDay _time1 = TimeOfDay.fromDateTime(appointment.appointmentStartTime!);
+      TimeOfDay _time2 = TimeOfDay.fromDateTime(appointment.appointmentEndTime!);
       List<String?> blockedSlots = _timeUtils.generateTimeSlots(_time1, _time2, inclusive: true).toList();
       if (salon.blockedTime[_date] != null && salon.blockedTime[_date].isNotEmpty) {
         final tempList = salon.blockedTime[_date];
@@ -378,7 +378,15 @@ class AppointmentApi {
 
     List<MasterModel> masters = salonMasters.where((element) => appointmentModel.master!.id == element.masterId).toList();
 
-    debugPrint('apptidetider ${appointmentModel.appointmentIdentifier}');
+    // debugPrint('apptidetider ${appointmentModel.appointmentIdentifier}');
+    // print('-----------------+++++++--------------');
+    // print(salonMasters);
+    // print('-----------------+++++++--------------');
+    // print(masters);
+    // print('-----------------+++++++--------------');
+    // print(allAppointments);
+    // print(isSingleMaster);
+    // print('-----------------+++++++--------------');
 
     List<AppointmentModel?> allAppointments = await AppointmentApi().getAppointmentFromIdentifier(appointmentModel.appointmentIdentifier);
 
@@ -430,10 +438,10 @@ class AppointmentApi {
   //removes the blocked time from master model and returns master's model
   _removeBlockedSlotsSingleMaster(AppointmentModel appointment, SalonModel salon) {
     try {
-      final String _date = _timeUtils.getDateInStandardFormat(appointment.appointmentStartTime);
+      final String _date = _timeUtils.getDateInStandardFormat(appointment.appointmentStartTime!);
 
-      TimeOfDay _time1 = TimeOfDay.fromDateTime(appointment.appointmentStartTime);
-      TimeOfDay _time2 = TimeOfDay.fromDateTime(appointment.appointmentEndTime);
+      TimeOfDay _time1 = TimeOfDay.fromDateTime(appointment.appointmentStartTime!);
+      TimeOfDay _time2 = TimeOfDay.fromDateTime(appointment.appointmentEndTime!);
 
       List<String> blockedSlots = _timeUtils.generateTimeSlotsBlock(_time1, _time2, inclusive: true).toList();
 
@@ -481,10 +489,10 @@ class AppointmentApi {
   //removes the blocked time from master model and returns master's model
   _removeBlockedSlots(AppointmentModel appointment, MasterModel master) {
     try {
-      final String _date = _timeUtils.getDateInStandardFormat(appointment.appointmentStartTime);
+      final String _date = _timeUtils.getDateInStandardFormat(appointment.appointmentStartTime!);
 
-      TimeOfDay _time1 = TimeOfDay.fromDateTime(appointment.appointmentStartTime);
-      TimeOfDay _time2 = TimeOfDay.fromDateTime(appointment.appointmentEndTime);
+      TimeOfDay _time1 = TimeOfDay.fromDateTime(appointment.appointmentStartTime!);
+      TimeOfDay _time2 = TimeOfDay.fromDateTime(appointment.appointmentEndTime!);
 
       List<String> blockedSlots = _timeUtils.generateTimeSlotsBlock(_time1, _time2, inclusive: true).toList();
 

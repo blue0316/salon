@@ -3,6 +3,7 @@ import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/firebase/appointments.dart';
 import 'package:bbblient/src/firebase/collections.dart';
 import 'package:bbblient/src/firebase/customer_web_settings.dart';
+import 'package:bbblient/src/firebase/master.dart';
 import 'package:bbblient/src/firebase/salons.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/backend_codings/appointment.dart';
@@ -54,11 +55,13 @@ class AppointmentProvider with ChangeNotifier {
   ThemeData? salonTheme;
   ThemeType? themeType;
   SalonModel? salon;
+  List<MasterModel> allMastersInSalon = [];
+  bool isSingleMaster = false;
 
   init() {
     selectedDayAppointments.clear();
     getEventsForDay(selectedDay).forEach((element) => selectedDayAppointments.add(element));
-    selectedDayAppointments.sort((a, b) => a.appointmentStartTime.compareTo(b.appointmentStartTime));
+    selectedDayAppointments.sort((a, b) => a.appointmentStartTime!.compareTo(b.appointmentStartTime!));
     notifyListeners();
   }
 
@@ -89,7 +92,7 @@ class AppointmentProvider with ChangeNotifier {
       selectedDay = _selectedDay;
       selectedDayAppointments.clear();
       getEventsForDay(selectedDay).forEach((element) => selectedDayAppointments.add(element));
-      selectedDayAppointments.sort((a, b) => a.appointmentStartTime.compareTo(b.appointmentStartTime));
+      selectedDayAppointments.sort((a, b) => a.appointmentStartTime!.compareTo(b.appointmentStartTime!));
       notifyListeners();
     }
   }
@@ -145,6 +148,14 @@ class AppointmentProvider with ChangeNotifier {
 
       // Get Salon
       salon = await SalonApi().getSalonFromId(appointment.salon.id);
+
+      // Get Salon Masters
+      allMastersInSalon.clear();
+      allMastersInSalon = await MastersApi().getAllSalonMasters(salon!.salonId);
+      // Check if single master
+      if (allMastersInSalon.length < 2) {
+        isSingleMaster = true;
+      }
 
       // Get Salon Theme
       themeType = await getSalonTheme(salon?.salonId);
@@ -229,7 +240,7 @@ class AppointmentProvider with ChangeNotifier {
       cancelAppointmentStatus = Status.success;
       notifyListeners();
     } catch (e) {
-      // printIt('Error on cancelAppointment() - ${e.toString()}');
+      printIt('Error on cancelAppointment() - ${e.toString()}');
       cancelAppointmentStatus = Status.failed;
       notifyListeners();
     }

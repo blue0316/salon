@@ -60,9 +60,6 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
   @override
   Widget build(BuildContext context) {
     final _appointmentProvider = ref.watch(appointmentProvider);
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
-    final _createAppointmentProvider = ref.watch(createAppointmentProvider);
-
     ThemeData theme = _appointmentProvider.salonTheme ?? AppTheme.customLightTheme;
     ThemeType themeType = _appointmentProvider.themeType ?? ThemeType.DefaultLight;
 
@@ -184,11 +181,11 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                                       onTap: (_appointmentProvider.salon?.cancellationAndNoShowPolicy.allowOnlineCancellation == false)
                                                           ? () {}
                                                           : () => _appointmentProvider.cancelAppointment(
-                                                                isSingleMaster: _salonProfileProvider.isSingleMaster,
+                                                                isSingleMaster: _appointmentProvider.isSingleMaster,
                                                                 appointmentID: widget.appointmentDocId,
                                                                 appointment: appointment!,
                                                                 salon: _appointmentProvider.salon!,
-                                                                salonMasters: _createAppointmentProvider.salonMasters,
+                                                                salonMasters: _appointmentProvider.allMastersInSalon,
                                                                 callback: () {
                                                                   fetchDetails();
                                                                 },
@@ -199,7 +196,7 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                                       textColor: borderColor(themeType, theme),
                                                     ),
                                                 const SizedBox(width: 20),
-                                                if (appointment?.subStatus != ActiveAppointmentSubStatus.confirmed && shouldShowConfirmButton(appointment!.appointmentStartTime))
+                                                if (appointment?.subStatus != ActiveAppointmentSubStatus.confirmed && shouldShowConfirmButton(appointment!.appointmentStartTime!))
                                                   Button(
                                                     text: AppLocalizations.of(context)?.confirmApppointment ?? 'Confirm Appointment',
                                                     buttonColor: confirmButton(themeType, theme),

@@ -199,9 +199,9 @@ class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetai
                     notService: true,
                     serviceName: '${AppLocalizations.of(context)?.time ?? 'Time'}:',
                     servicePrice: '${Time().timeToString(
-                      TimeOfDay.fromDateTime(appointment.appointmentStartTime),
+                      TimeOfDay.fromDateTime(appointment.appointmentStartTime!),
                     )} - ${Time().timeToString(
-                      TimeOfDay.fromDateTime(appointment.appointmentEndTime),
+                      TimeOfDay.fromDateTime(appointment.appointmentEndTime!),
                     )}',
                   ),
 

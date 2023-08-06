@@ -153,6 +153,6 @@ Color loaderColor(ThemeType themeType, ThemeData theme) {
       return Colors.white;
 
     default:
-      return theme.primaryColor;
+      return Colors.black; // theme.primaryColor;
   }
 }

@@ -401,7 +401,7 @@ showAppointmentDetails(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           if (appointment.status == AppointmentStatus.active) ...[
-                            appointment.appointmentStartTime.difference(DateTime.now()).inHours >= 0
+                            appointment.appointmentStartTime!.difference(DateTime.now()).inHours >= 0
                                 ? Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 6.0),
                                     child: TextButton(
@@ -418,7 +418,7 @@ showAppointmentDetails(
                                 : const SizedBox(),
                           ],
                           if (!appointment.masterReviewed! && !appointment.salonReviewed!) ...[
-                            DateTime.now().difference(appointment.appointmentStartTime).inHours >= 0
+                            DateTime.now().difference(appointment.appointmentStartTime!).inHours >= 0
                                 ? Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 6.0),
                                     child: TextButton(
@@ -514,7 +514,7 @@ showCancelDialog(BuildContext context, AppointmentModel appointment) {
                                   EasyDebounce.debounce("cancel Booking", const Duration(milliseconds: 200), () async {
                                     String cancelled = await AppointmentApi().cancelAppointment(appointmentModel: appointment, context: context);
                                     if (cancelled == 'cancelled') {
-                                      Duration? _difference = appointment.appointmentStartTime.difference(DateTime.now());
+                                      Duration? _difference = appointment.appointmentStartTime!.difference(DateTime.now());
                                       int hours = _difference.inHours;
                                       if (hours >= 0 && hours <= 2) {
                                         Navigator.pop(context);
