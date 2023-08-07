@@ -2,24 +2,26 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/models/backend_codings/owner_type.dart';
-import 'package:bbblient/src/models/enums/device_screen_type.dart';
-import 'package:bbblient/src/theme/app_main_theme.dart';
+import 'package:bbblient/src/models/appointment/appointment.dart';
+import 'package:bbblient/src/models/cat_sub_service/price_and_duration.dart';
+import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
-import 'package:bbblient/src/utils/extensions/exstension.dart';
+import 'package:bbblient/src/utils/google_calendar.dart';
 import 'package:bbblient/src/utils/icons.dart';
-import 'package:bbblient/src/utils/keys.dart';
 import 'package:bbblient/src/utils/time.dart';
-import 'package:bbblient/src/utils/utils.dart';
-import 'package:bbblient/src/views/salon/booking/widgets/confirmation_tab.dart/widgets.dart';
-import 'package:bbblient/src/views/widgets/buttons.dart';
+import 'package:bbblient/src/views/appointment/widgets/theme_colors.dart';
+import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/confirm/order_details.dart';
+import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/day_and_time/day_and_time.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+// CONFIRMATION DIALOG
 class ConfirmedDialog<T> extends ConsumerStatefulWidget {
   const ConfirmedDialog({Key? key}) : super(key: key);
 
@@ -38,160 +40,301 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context).size;
-
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final AuthProvider _auth = ref.watch(authProvider);
+    final _appointmentProvider = ref.watch(appointmentProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool defaultTheme = theme == AppTheme.lightTheme;
+    ThemeType themeType = _appointmentProvider.themeType ?? ThemeType.DefaultLight;
 
-    return Dialog(
-      backgroundColor: theme.dialogBackgroundColor,
-      insetPadding: EdgeInsets.symmetric(
-        horizontal: DeviceConstraints.getResponsiveSize(
-          context,
-          0,
-          mediaQuery.width / 6,
-          mediaQuery.width / 6,
+    final PriceAndDurationModel _priceAndDuration = _createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId] ?? PriceAndDurationModel();
+    TimeOfDay _startTime = Time().stringToTime(_createAppointmentProvider.selectedAppointmentSlot!);
+    TimeOfDay _endTime = _startTime.addMinutes(
+      int.parse(_priceAndDuration.duration!),
+    );
+
+    String totalAmount = _createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '0'; // _priceAndDuration.price!;
+
+    String deposit = _createAppointmentProvider.chosenServices[0].deposit ?? '0';
+    int payAtAppointment = int.parse(totalAmount) - int.parse(deposit);
+
+    AppointmentModel? appointment = _createAppointmentProvider.appointmentConfirmation;
+
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: Dialog(
+        backgroundColor: theme.dialogBackgroundColor,
+        insetPadding: EdgeInsets.symmetric(
+          horizontal: DeviceConstraints.getResponsiveSize(
+            context,
+            0,
+            mediaQuery.width / 6,
+            mediaQuery.width / 6,
+          ),
+          vertical: DeviceConstraints.getResponsiveSize(context, 0, 50.h, 50.h),
         ),
-        vertical: DeviceConstraints.getResponsiveSize(context, 0, 50.h, 50.h),
-      ),
-      child: SizedBox(
-        child: Padding(
-          padding:
-              const EdgeInsets.symmetric(vertical: 10), // , horizontal: 5),
+        child: SizedBox(
           child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              // mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Spacer(flex: 2),
-                    Text(
-                      (DeviceConstraints.getDeviceType(
-                                MediaQuery.of(context),
-                              ) !=
-                              DeviceScreenType.portrait)
-                          ? AppLocalizations.of(context)
-                                  ?.onlineBooking
-                                  .toUpperCase() ??
-                              'ONLINE BOOKING'
-                          : AppLocalizations.of(context)
-                                  ?.onlineBooking
-                                  .toCapitalized() ??
-                              'Online Booking',
-                      style: theme.textTheme.bodyText1!.copyWith(
-                        fontSize: DeviceConstraints.getResponsiveSize(
-                            context, 25.sp, 25.sp, 40.sp),
-                        fontWeight: FontWeight.w600,
-                        fontFamily: 'Poppins',
-                        color: defaultTheme ? AppTheme.textBlack : Colors.white,
-                      ),
-                    ),
-                    // Text(
-                    //   'Success',
-                    //   style: AppTheme.bodyText1.copyWith(
-                    //     fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 25.sp, 40.sp),
-                    //     fontWeight: FontWeight.w600,
-                    //     fontFamily: 'Poppins',
-                    //     color: defaultTheme ? AppTheme.textBlack : Colors.white,
-                    //   ),
-                    // ),
-                    // const SizedBox(height: 100),
-                    // Text(
-                    //   'Booking was successful',
-                    //   style: AppTheme.bodyText1.copyWith(
-                    //     fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 30.sp),
-                    //     fontFamily: 'Poppins',
-                    //     color: defaultTheme ? AppTheme.textBlack : Colors.white,
-                    //   ),
-                    // ),
-                    const Spacer(flex: 2),
-                    GestureDetector(
-                      onTap: () => Navigator.pop(context),
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 15),
-                        child: Icon(
-                          Icons.close_rounded,
-                          color: AppTheme.lightGrey,
-                          size: DeviceConstraints.getResponsiveSize(
-                              context, 20.h, 30.h, 30.h),
+            padding: EdgeInsets.symmetric(
+              vertical: 10,
+              horizontal: DeviceConstraints.getResponsiveSize(context, 17.w, 20.w, 20.w),
+              // horizontal: DeviceConstraints.getResponsiveSize(context, 16.sp, 25.sp, 30.sp),
+            ), // , horizontal: 5),
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: ListView(
+                // mainAxisSize: MainAxisSize.min,
+                // crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Spacer(flex: 2),
+                      Text(
+                        (AppLocalizations.of(context)?.appointmentDetails ?? 'appointment details').toUpperCase(),
+                        // 'appointment details'.toUpperCase(),
+                        style: theme.textTheme.bodyLarge!.copyWith(
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Inter',
+                          color: theme.colorScheme.onBackground,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                Space(
-                    factor: DeviceConstraints.getResponsiveSize(
-                            context, 3, 2.5, 2.5)
-                        .toDouble()),
-                const TopDetails(),
-                Space(
-                    factor:
-                        DeviceConstraints.getResponsiveSize(context, 2, 1, 1)
-                            .toDouble()),
-                const BottomDetails(),
-                const SizedBox(height: 20),
-                const Spacer(),
-                Expanded(
-                  flex: 0,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: DeviceConstraints.getResponsiveSize(
-                          context, 0, 20.w, 20.w),
-                    ),
-                    child: Column(
-                      children: [
-                        DefaultButton(
-                          label: 'Done',
-                          borderRadius: 60,
-                          color:
-                              defaultTheme ? Colors.black : theme.primaryColor,
-                          height: 60,
-                          textColor: defaultTheme ? Colors.white : Colors.black,
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
+                      const Spacer(flex: 2),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                          _createAppointmentProvider.resetFlow();
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 15.sp),
+                          child: Icon(
+                            Icons.close_rounded,
+                            color: theme.colorScheme.tertiary.withOpacity(0.6),
+                            size: DeviceConstraints.getResponsiveSize(context, 20.sp, 22.sp, 24.sp),
+                          ),
                         ),
-                        // DefaultButton(
-                        //   label: 'Add to Apple Calendar',
-                        //   borderRadius: 60,
-                        //   color: defaultTheme ? Colors.black : theme.primaryColor,
-                        //   height: 60,
-                        //   textColor: defaultTheme?Colors.white :  Colors.black,
-                        //   prefixIcon: SvgPicture.asset(
-                        //     AppIcons.appleLogoSvg,
-                        //     fit: BoxFit.cover,
-                        //     height: 18.sp,
-                        //     color: defaultTheme ? Colors.white : Colors.black,
-                        //   ),
-                        //   onTap: () {},
-                        // ),
-                        // SizedBox(height: 10.h),
-                        // DefaultButton(
-                        //   label: 'Add to Google Calendar',
-                        //   borderRadius: 60,
-                        //   color: defaultTheme ? Colors.black : theme.primaryColor,
-                        //   height: 60,
-                        //                             textColor: defaultTheme ? Colors.white : Colors.black,
+                      ),
+                    ],
+                  ),
 
-                        //   prefixIcon: SvgPicture.asset(
-                        //     AppIcons.googleLogoSVG,
-                        //     fit: BoxFit.cover,
-                        //     height: 18.sp,
-                        //   ),
-                        //   onTap: () {},
-                        // ),
+                  const Space(factor: 2.2),
+
+                  // CUSTOMER DETAILS
+                  ServiceNameAndPrice(
+                    notService: true,
+                    serviceName: AppLocalizations.of(context)?.firstName ?? 'First Name:',
+                    servicePrice: '${_auth.currentCustomer?.personalInfo.firstName}',
+                  ),
+                  ServiceNameAndPrice(
+                    notService: true,
+                    serviceName: AppLocalizations.of(context)?.lastName ?? 'Last Name:',
+                    servicePrice: '${_auth.currentCustomer?.personalInfo.lastName}',
+                  ),
+                  ServiceNameAndPrice(
+                    notService: true,
+                    serviceName: AppLocalizations.of(context)?.phoneNumber ?? 'Phone number:',
+                    servicePrice: '${_auth.currentCustomer?.personalInfo.phone}',
+                  ),
+                  ServiceNameAndPrice(
+                    notService: true,
+                    serviceName: AppLocalizations.of(context)?.email ?? 'Email:',
+                    servicePrice: '${_auth.currentCustomer?.personalInfo.email}',
+                  ),
+
+                  const GradientDivider(),
+
+                  // SERVICE PROVIDER DETAILS
+                  ServiceNameAndPrice(
+                    notService: true,
+                    serviceName: AppLocalizations.of(context)?.serviceProvider ?? 'Service provider:',
+                    servicePrice: '${_createAppointmentProvider.chosenMaster?.personalInfo?.lastName} ${_createAppointmentProvider.chosenMaster?.personalInfo?.firstName}',
+                  ),
+
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 12.sp),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          flex: 1,
+                          child: Text(
+                            '${AppLocalizations.of(context)?.services ?? 'Services'}:',
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.normal,
+                              fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                              color: theme.colorScheme.tertiary.withOpacity(0.6),
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                          ),
+                        ),
+                        Flexible(
+                          flex: 0,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: _createAppointmentProvider.chosenServices
+                                .map(
+                                  (service) => Text(
+                                    service.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? service.translations?['en'],
+                                    style: theme.textTheme.bodyMedium?.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                                      color: theme.colorScheme.tertiary,
+                                    ),
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                ),
-                SizedBox(height: 15.h),
-              ],
+
+                  ServiceNameAndPrice(
+                    notService: true,
+                    serviceName: AppLocalizations.of(context)?.date ?? 'Date:',
+                    servicePrice: Time().getDateInStandardFormat(_createAppointmentProvider.chosenDay),
+                  ),
+
+                  ServiceNameAndPrice(
+                    notService: true,
+                    serviceName: AppLocalizations.of(context)?.time ?? 'Time:',
+                    servicePrice: '${Time().timeToString(_startTime)} - ${Time().timeToString(_endTime)}',
+                  ),
+
+                  const GradientDivider(),
+
+                  // PAYMENT DETAILS
+                  ServiceNameAndPrice(
+                    notService: true,
+                    serviceName: AppLocalizations.of(context)?.payAtAppointment ?? 'Pay at Appointment:',
+                    servicePrice: '\$$payAtAppointment',
+                  ),
+
+                  ServiceNameAndPrice(
+                    notService: true,
+                    serviceName: '${AppLocalizations.of(context)?.depositPaid ?? 'Deposit paid'}:',
+                    servicePrice: '\$$deposit',
+                  ),
+
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 12.sp),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          flex: 1,
+                          child: Text(
+                            '${AppLocalizations.of(context)?.total ?? 'Total'}:',
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.w600,
+                              fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 21.sp, 20.sp),
+                              color: theme.colorScheme.tertiary,
+                            ),
+                          ),
+                        ),
+                        Flexible(
+                          flex: 0,
+                          child: Text(
+                            '\$$totalAmount',
+
+                            // '\$${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '0'}',
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.w600,
+                              fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 21.sp, 20.sp),
+                              color: theme.colorScheme.tertiary,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  SizedBox(height: 50.sp),
+
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 10.h, left: 2, right: 2),
+                    child: Column(
+                      children: [
+                        AddToCalendarButton(
+                          icon: AppIcons.appleLogoSvg,
+                          text: AppLocalizations.of(context)?.addToAppleCalendar ?? 'Add to Apple Calendar',
+                          onTap: () async {
+                            // Date
+                            DateTime tempDate = DateTime.parse(appointment!.appointmentDate);
+
+                            // Generate full Date + Time
+                            DateTime start = Time().generateDateTimeFromString(tempDate, appointment.appointmentTime);
+                            DateTime end = Time().generateDateTimeFromString(
+                              tempDate,
+                              Time().getAppointmentEndTime(appointment) ?? '',
+                            );
+
+                            _appointmentProvider.addToAppleCalendar(
+                              context,
+                              appointment: appointment,
+                              appointmentId: appointment.appointmentIdentifier!,
+                              startTime: start.toIso8601String(),
+                              endTime: end.toIso8601String(),
+                            );
+                          },
+                          isLoading: _appointmentProvider.appleCalendarStatus == Status.loading,
+                          loaderColor: transparentLoaderColor(themeType, theme),
+                        ),
+                        SizedBox(height: 10.sp),
+                        AddToCalendarButton(
+                          icon: AppIcons.coloredGoogleLogoPNG,
+                          text: AppLocalizations.of(context)?.addToGoogleCalendar ?? 'Add to Google Calendar',
+                          onTap: () async {
+                            // Date
+                            DateTime tempDate = DateTime.parse(appointment!.appointmentDate);
+
+                            // Generate full Date + Time
+                            DateTime start = Time().generateDateTimeFromString(tempDate, appointment.appointmentTime);
+                            DateTime end = Time().generateDateTimeFromString(
+                              tempDate,
+                              Time().getAppointmentEndTime(appointment) ?? '',
+                            );
+
+                            // Convert to YYYYMMDDTHHMMSSZ
+                            final DateTime startFormat = DateTime(start.year, start.month, start.day, start.hour, start.minute, 0, 0, 0);
+                            final DateTime endFormat = DateTime(end.year, end.month, end.day, end.hour, end.minute, 0, 0, 0);
+                            final String formattedStartDateTime = AddToCalendar().formatDateTime(startFormat);
+                            final String formattedEndDateTime = AddToCalendar().formatDateTime(endFormat);
+
+                            // Create Event Template
+                            final String url = AddToCalendar().getGoogleCalendarUrl(
+                              title: 'Appointment Confirmation',
+                              description: 'Appointment with ${appointment.master?.name} at ${appointment.salon.name}',
+                              startTime: formattedStartDateTime,
+                              endTime: formattedEndDateTime,
+                            );
+
+                            debugPrint(url);
+                            // Launch URL
+                            final parsedURL = Uri.parse(url);
+                            if (await canLaunchUrl(parsedURL)) {
+                              await launchUrl(parsedURL);
+                            } else {
+                              await launchUrl(parsedURL);
+                              debugPrint('didn\'t launch');
+                              showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? 'Something went wrong, please try again');
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 15.h),
+                ],
+              ),
             ),
           ),
         ),
@@ -200,341 +343,79 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
   }
 }
 
-class TopDetails extends ConsumerWidget {
-  // final AppointmentModel appointment;
+class AddToCalendarButton extends ConsumerWidget {
+  final String text, icon;
+  final VoidCallback onTap;
+  final bool isLoading;
+  final Color? loaderColor;
 
-  const TopDetails({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final CreateAppointmentProvider _createAppointment =
-        ref.watch(createAppointmentProvider);
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
-    final AuthProvider _auth = ref.watch(authProvider);
-
-    final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool defaultTheme = theme == AppTheme.lightTheme;
-
-    final String _date = Time().getLocaleDate(
-      _createAppointment.appointmentModel!.appointmentStartTime,
-      AppLocalizations.of(context)?.localeName ?? 'en',
-    );
-
-    final String _time = Time().getAppointmentStartEndTime(
-          _createAppointment.appointmentModel!,
-        ) ??
-        '';
-
-    bool isSingleMaster =
-        (_salonProfileProvider.chosenSalon.ownerType == OwnerType.singleMaster);
-
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal:
-            DeviceConstraints.getResponsiveSize(context, 10.w, 20.w, 20.w),
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          border: Border.all(
-            color: defaultTheme ? Colors.black : Colors.white,
-            width: 1.5,
-          ),
-        ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 15.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                AppLocalizations.of(context)?.bookingDetails.toUpperCase() ??
-                    "Booking details",
-                style: theme.textTheme.bodyText1!.copyWith(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 19.sp,
-                  color: defaultTheme ? AppTheme.textBlack : Colors.white,
-                ),
-              ),
-              const Space(factor: 1),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)?.name.toCapitalized() ??
-                        'Name',
-                    style: theme.textTheme.bodyText1!.copyWith(
-                      fontWeight: FontWeight.w500,
-                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
-                    ),
-                  ),
-                  Text(
-                    Utils().getName(_auth.currentCustomer?.personalInfo),
-                    // _createAppointment.nameController.text,
-                    style: theme.textTheme.bodyText2!.copyWith(
-                      fontSize: 15.sp,
-                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 15.h),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)?.phoneNumber.toCapitalized() ??
-                        'Phone Number',
-                    style: theme.textTheme.bodyText1!.copyWith(
-                      fontWeight: FontWeight.w500,
-                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
-                    ),
-                  ),
-                  Text(
-                    '${_auth.currentCustomer?.personalInfo.phone}',
-                    // _createAppointment.phoneController.text,
-                    style: theme.textTheme.bodyText2!.copyWith(
-                      fontSize: 15.sp,
-                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 15.h),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)?.email.toCapitalized() ??
-                        'Email',
-                    style: theme.textTheme.bodyText1!.copyWith(
-                      fontWeight: FontWeight.w500,
-                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
-                    ),
-                  ),
-                  Text(
-                    '${_auth.currentCustomer?.personalInfo.email}',
-                    // _createAppointment.emailController.text,
-                    style: theme.textTheme.bodyText2!.copyWith(
-                      fontSize: 15.sp,
-                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 15.h),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)
-                            ?.appointment_tabbar_line2
-                            .toCapitalized() ??
-                        'Service',
-                    style: theme.textTheme.bodyText1!.copyWith(
-                      fontWeight: FontWeight.w500,
-                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
-                    ),
-                  ),
-                  Text(
-                    '${isSingleMaster ? _createAppointment.chosenServices.length : _createAppointment.serviceAgainstMaster.length} ${AppLocalizations.of(
-                          context,
-                        )?.services ?? 'services'}',
-                    style: theme.textTheme.bodyText2!.copyWith(
-                      fontSize: 15.sp,
-                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 15.h),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)?.date ?? 'Date',
-                    style: theme.textTheme.bodyText1!.copyWith(
-                      fontWeight: FontWeight.w500,
-                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
-                    ),
-                  ),
-                  Text(
-                    _date,
-                    style: theme.textTheme.bodyText2!.copyWith(
-                      fontSize: 15.sp,
-                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 15.h),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)?.time ?? 'Time',
-                    style: theme.textTheme.bodyText1!.copyWith(
-                      fontWeight: FontWeight.w500,
-                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
-                    ),
-                  ),
-                  Text(
-                    _time,
-                    style: theme.textTheme.bodyText2!.copyWith(
-                      fontSize: 15.sp,
-                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 15.h),
-
-              // -- SALON NAME
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)
-                            ?.registration_line33
-                            .toCapitalized() ??
-                        'Salon Name',
-                    style: theme.textTheme.bodyText1!.copyWith(
-                      fontWeight: FontWeight.w500,
-                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
-                    ),
-                  ),
-                  Text(
-                    _createAppointment.appointmentModel!.salon.name
-                        .toCapitalized(),
-                    style: theme.textTheme.bodyText2!.copyWith(
-                      fontSize: 15.sp,
-                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 15.h),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class BottomDetails extends ConsumerWidget {
-  const BottomDetails({Key? key}) : super(key: key);
+  const AddToCalendarButton({
+    Key? key,
+    required this.text,
+    required this.icon,
+    required this.onTap,
+    this.isLoading = false,
+    this.loaderColor,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final CreateAppointmentProvider _createAppointment =
-        ref.watch(createAppointmentProvider);
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final _appointmentProvider = ref.watch(appointmentProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool defaultTheme = theme == AppTheme.lightTheme;
+    ThemeType themeType = _appointmentProvider.themeType ?? ThemeType.DefaultLight;
 
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal:
-            DeviceConstraints.getResponsiveSize(context, 10.w, 20.w, 20.w),
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          border: Border.all(
-            color: defaultTheme ? Colors.black : Colors.white,
-            width: 1.5,
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: theme.colorScheme.tertiary.withOpacity(0.6), // borderColor(themeType, theme),
+              width: 0.7,
+            ),
+            borderRadius: BorderRadius.circular(50),
           ),
-        ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 15.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)?.orderAmount ?? "Order amount",
-                    style: theme.textTheme.bodyText1!.copyWith(
-                      fontWeight: FontWeight.w500,
-                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+            child: isLoading
+                ? Center(
+                    child: SizedBox(
+                      height: 25,
+                      width: 25,
+                      child: CircularProgressIndicator(color: loaderColor ?? Colors.white),
                     ),
+                  )
+                : Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      (icon == AppIcons.coloredGoogleLogoPNG)
+                          ? Image.asset(
+                              AppIcons.coloredGoogleLogoPNG,
+                              height: 20.sp,
+                            )
+                          : SvgPicture.asset(
+                              icon,
+                              fit: BoxFit.cover,
+                              height: 20.sp,
+                              color: theme.colorScheme.tertiary,
+                            ),
+                      SizedBox(width: 8.sp),
+                      Text(
+                        text,
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.bodyLarge?.copyWith(
+                          color: theme.colorScheme.tertiary,
+                          fontWeight: FontWeight.w500,
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 15.sp, 16.sp),
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    "${Keys.dollars}${_createAppointment.totalPrice}",
-                    style: theme.textTheme.bodyText2!.copyWith(
-                      fontSize: 15.sp,
-                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 15.h),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "${AppLocalizations.of(context)?.discounts.toCapitalized() ?? 'Discount'} 15%:",
-                    style: theme.textTheme.bodyText1!.copyWith(
-                      fontSize: 15.sp,
-                      color: defaultTheme ? AppTheme.textBlack : Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    "-\$00",
-                    style: theme.textTheme.bodyText2!.copyWith(
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.red,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20.h),
-              DashedDivider(color: defaultTheme ? Colors.black : Colors.white),
-              SizedBox(height: 20.h),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)?.total ?? "Total",
-                    style: theme.textTheme.bodyText1!.copyWith(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w700,
-                      color: defaultTheme
-                          ? AppTheme.textBlack
-                          : theme.primaryColor,
-                    ),
-                  ),
-                  Text(
-                    "${Keys.dollars}${_createAppointment.totalPrice}",
-                    style: theme.textTheme.bodyText1!.copyWith(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w700,
-                      color: defaultTheme
-                          ? AppTheme.textBlack
-                          : theme.primaryColor,
-                    ),
-                  ),
-                ],
-              ),
-            ],
           ),
         ),
       ),

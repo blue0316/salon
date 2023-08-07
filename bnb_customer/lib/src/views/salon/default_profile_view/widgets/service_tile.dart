@@ -4,11 +4,10 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/extracted/expansion_tile.dart';
 import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
-import 'package:bbblient/src/models/enums/device_screen_type.dart';
+import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/icons.dart';
-import 'package:bbblient/src/utils/keys.dart';
 import 'package:bbblient/src/utils/translation.dart';
 import 'package:bbblient/src/views/widgets/buttons.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
@@ -17,6 +16,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class NewServiceTile extends ConsumerStatefulWidget {
   final List<ServiceModel> services;
@@ -37,32 +37,15 @@ class NewServiceTile extends ConsumerStatefulWidget {
 }
 
 class _NewServiceTileState extends ConsumerState<NewServiceTile> {
-  // Future<String> translate(value) async {
-  //   final translator = trans.GoogleTranslator();
-  //   var text;
-  //   var _bnbProvider;
-  //   try {
-  //     Provider((ref) {
-  //       // use ref to obtain other providers
-  //       _bnbProvider = ref.watch(bnbProvider);
-  //     });
-  //     text = value != "" && value != null
-  //         ? await translator.translate(value, to: _bnbProvider.getLocale.toString()).then((value) {
-  //             return value.text;
-  //           })
-  //         : "";
-  //   } catch (e) {}
-  //   return text;
-  // }
-
   @override
   Widget build(BuildContext context) {
-    final createAppointment = ref.watch(createAppointmentProvider);
-    var mediaQuery = MediaQuery.of(context);
-
     final _salonProfileProvider = ref.watch(salonProfileProvider);
+    final createAppointment = ref.watch(createAppointmentProvider);
+
+    SalonModel salonModel = _salonProfileProvider.chosenSalon;
+
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool isLightTheme = (theme == AppTheme.lightTheme);
+    bool isLightTheme = (theme == AppTheme.customLightTheme);
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
@@ -77,7 +60,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
           trailing: const SizedBox.shrink(),
           backgroundColor: Colors.transparent,
           title: Container(
-            color: theme.colorScheme.background.withOpacity(0.7),
+            color: theme.canvasColor.withOpacity(0.7),
             height: 70,
             width: double.infinity,
             child: Padding(
@@ -91,84 +74,88 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        ('${widget.categoryModel.translations[AppLocalizations.of(context)?.localeName ?? 'en']}').toUpperCase(),
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              fontWeight: FontWeight.bold,
-                              fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
-                              color: theme.primaryColor,
-                            ),
+                        ('${widget.categoryModel.translations[AppLocalizations.of(context)?.localeName ?? 'en'] ?? widget.categoryModel.translations['en']}').toUpperCase(),
+                        style: theme.textTheme.displayLarge!.copyWith(
+                          fontWeight: FontWeight.w600,
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
+                          color: theme.primaryColor,
+                        ),
                       ),
-                      if (DeviceConstraints.getDeviceType(mediaQuery) == DeviceScreenType.portrait)
-                        if (widget.categoryModel.categoryId == '2')
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const SizedBox(height: 10),
-                              Container(
-                                height: 1.3,
-                                width: 35,
-                                color: theme.primaryColor,
-                              ),
-                              const SizedBox(height: 10),
-                              Text(
-                                'Save up to 15%',
-                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14.sp,
-                                      color: const Color(0XFFFF5C5C),
-                                    ),
-                              ),
-                            ],
-                          ),
+                      // if (DeviceConstraints.getDeviceType(mediaQuery) == DeviceScreenType.portrait)
+                      //   if (widget.categoryModel.categoryId == '2')
+                      //     Column(
+                      //       crossAxisAlignment: CrossAxisAlignment.start,
+                      //       mainAxisAlignment: MainAxisAlignment.center,
+                      //       children: [
+                      //         const SizedBox(height: 10),
+                      //         Container(
+                      //           height: 1.5,
+                      //           width: 35,
+                      //           color: theme.primaryColor,
+                      //         ),
+                      //         const SizedBox(height: 10),
+                      //         Text(
+                      //           'Save up to 15%',
+                      //           style: theme.textTheme.displayMedium!.copyWith(
+                      //             fontWeight: FontWeight.w600,
+                      //             fontSize: 14.sp,
+                      //             color: const Color(0XFFFF5C5C),
+                      //           ),
+                      //         ),
+                      //       ],
+                      //     ),
                     ],
                   ),
-                  if (DeviceConstraints.getDeviceType(mediaQuery) != DeviceScreenType.portrait)
-                    if (widget.categoryModel.categoryId == '2')
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const SizedBox(width: 25),
-                          Container(
-                            height: 13,
-                            width: 1.3,
-                            color: theme.primaryColor,
-                          ),
-                          const SizedBox(width: 25),
-                          Text(
-                            'Save up to 15%',
-                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w400,
-                                  color: const Color(0XFFFF5C5C),
-                                ),
-                          ),
-                        ],
-                      ),
+                  // if (DeviceConstraints.getDeviceType(mediaQuery) != DeviceScreenType.portrait)
+                  //   if (widget.categoryModel.categoryId == '2')
+                  //     Row(
+                  //       crossAxisAlignment: CrossAxisAlignment.center,
+                  //       mainAxisAlignment: MainAxisAlignment.start,
+                  //       children: [
+                  //         const SizedBox(width: 25),
+                  //         Container(
+                  //           height: 13,
+                  //           width: 1.5,
+                  //           color: theme.primaryColor,
+                  //         ),
+                  //         const SizedBox(width: 25),
+                  //         Text(
+                  //           'Save up to 15%',
+                  //           style: theme.textTheme.displayMedium!.copyWith(
+                  //             fontWeight: FontWeight.w600,
+                  //             fontSize: 14.sp,
+                  //             color: const Color(0XFFFF5C5C),
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
                   const Spacer(),
                   Container(
                     decoration: BoxDecoration(
-                      color: theme.colorScheme.background,
+                      color: theme.canvasColor,
                       borderRadius: BorderRadius.circular(50),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
                       child: Text(
-                        '${widget.services.length} Services',
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              fontSize: DeviceConstraints.getResponsiveSize(context, 13.sp, 13.sp, 15.sp),
-                              fontWeight: FontWeight.w400,
-                              color: theme.primaryColor,
-                            ),
+                        '${widget.services.length} ${AppLocalizations.of(context)?.services ?? 'Services'}',
+                        style: theme.textTheme.titleSmall!.copyWith(
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 13.sp, 13.sp, 15.sp),
+                          // fontWeight: FontWeight.w400,
+                          color: theme.primaryColor,
+                        ),
                       ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 7),
-                    child: Icon(
-                      Icons.expand_more,
-                      color: isLightTheme ? Colors.black : Colors.white,
+                    child: RotatedBox(
+                      quarterTurns: -1,
+                      child: Icon(
+                        Icons.arrow_back_ios_new_rounded,
+                        color: theme.primaryColor,
+                        size: 20.sp,
+                      ),
                     ),
                   ),
                 ],
@@ -177,7 +164,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
           ),
           children: [
             Container(
-              color: theme.colorScheme.background.withOpacity(0.7),
+              color: theme.canvasColor.withOpacity(0.7),
               child: Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: DeviceConstraints.getResponsiveSize(context, 15, 30, 50),
@@ -190,7 +177,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                   padding: const EdgeInsets.all(0),
                   itemBuilder: (context, index) {
                     final ServiceModel service = widget.services[index];
-                    return ((service.priceAndDuration.price) != "0")
+                    return ((service.priceAndDuration!.price) != "0")
                         ? InkWell(
                             key: const ValueKey("tap-service"),
                             onTap: () {
@@ -237,12 +224,12 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                               mainAxisAlignment: MainAxisAlignment.start,
                                                               children: [
                                                                 Text(
-                                                                  widget.services[index].translations[AppLocalizations.of(context)?.localeName ?? 'en'].toString(),
-                                                                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                                                        fontWeight: FontWeight.bold,
-                                                                        fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
-                                                                        color: theme.primaryColor,
-                                                                      ),
+                                                                  widget.services[index].translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? widget.services[index].translations?['en'],
+                                                                  style: theme.textTheme.displayMedium!.copyWith(
+                                                                    fontWeight: FontWeight.bold,
+                                                                    fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
+                                                                    color: theme.primaryColor,
+                                                                  ),
                                                                   overflow: TextOverflow.ellipsis,
                                                                   maxLines: 2,
                                                                 ),
@@ -285,42 +272,47 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                       height: 12.h,
                                                       width: 12.h,
                                                       child: Center(
-                                                        child: SvgPicture.asset(
-                                                          AppIcons.clockSVG,
+                                                        child: FaIcon(
+                                                          FontAwesomeIcons.clock,
                                                           color: isLightTheme ? Colors.black : Colors.white,
+                                                          size: 12.h,
                                                         ),
+                                                        // child: SvgPicture.asset(
+                                                        //   AppIcons.clockSVG,
+                                                        //   color: isLightTheme ? Colors.black : Colors.white,
+                                                        // ),
                                                       ),
                                                     ),
                                                     const SizedBox(width: 7),
                                                     service.isFixedDuration != null
                                                         ? service.isFixedDuration
                                                             ? Text(
-                                                                "${service.priceAndDuration.duration} minutes",
-                                                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                                                      fontSize: 15.sp,
-                                                                      fontWeight: FontWeight.w500,
-                                                                      color: isLightTheme ? Colors.black : Colors.white,
-                                                                    ),
-                                                                overflow: TextOverflow.ellipsis,
-                                                                maxLines: 1,
-                                                              )
-                                                            : Text(
-                                                                "${service.priceAndDuration.duration} minutes - ${service.priceAndDurationMax!.duration} minutes",
-                                                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                                                      fontSize: 16.sp,
-                                                                      fontWeight: FontWeight.w500,
-                                                                      color: isLightTheme ? Colors.black : Colors.white,
-                                                                    ),
-                                                                overflow: TextOverflow.ellipsis,
-                                                                maxLines: 1,
-                                                              )
-                                                        : Text(
-                                                            "${service.priceAndDuration.duration} minutes",
-                                                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                                                "${service.priceAndDuration!.duration} ${AppLocalizations.of(context)?.minutes ?? 'minutes'}",
+                                                                style: theme.textTheme.displayMedium!.copyWith(
                                                                   fontSize: 15.sp,
                                                                   fontWeight: FontWeight.w500,
                                                                   color: isLightTheme ? Colors.black : Colors.white,
                                                                 ),
+                                                                overflow: TextOverflow.ellipsis,
+                                                                maxLines: 1,
+                                                              )
+                                                            : Text(
+                                                                "${service.priceAndDuration!.duration}  ${AppLocalizations.of(context)?.minutes ?? 'minutes'} - ${service.priceAndDurationMax!.duration}  ${AppLocalizations.of(context)?.minutes ?? 'minutes'}",
+                                                                style: theme.textTheme.displayMedium!.copyWith(
+                                                                  fontSize: 16.sp,
+                                                                  fontWeight: FontWeight.w500,
+                                                                  color: isLightTheme ? Colors.black : Colors.white,
+                                                                ),
+                                                                overflow: TextOverflow.ellipsis,
+                                                                maxLines: 1,
+                                                              )
+                                                        : Text(
+                                                            "${service.priceAndDuration!.duration}  ${AppLocalizations.of(context)?.minutes ?? 'minutes'}",
+                                                            style: theme.textTheme.displayMedium!.copyWith(
+                                                              fontSize: 15.sp,
+                                                              fontWeight: FontWeight.w500,
+                                                              color: isLightTheme ? Colors.black : Colors.white,
+                                                            ),
                                                             overflow: TextOverflow.ellipsis,
                                                             maxLines: 1,
                                                           ),
@@ -339,39 +331,41 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               // CURRENT PRICE
+
                                               Text(
                                                 service.isFixedPrice
-                                                    ? "${Keys.dollars}${service.priceAndDuration.price}"
+                                                    ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price}"
                                                     : service.isPriceStartAt
-                                                        ? "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}∞"
-                                                        : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}",
-                                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                                      fontWeight: FontWeight.bold,
-                                                      fontSize: 16.sp,
-                                                      color: isLightTheme ? Colors.black : Colors.white,
-                                                    ),
+                                                        ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}∞"
+                                                        : "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}",
+                                                style: theme.textTheme.displayMedium!.copyWith(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16.sp,
+                                                  color: isLightTheme ? Colors.black : Colors.white,
+                                                  fontFamily: "Inter-Bold",
+                                                ),
                                                 overflow: TextOverflow.visible,
                                                 maxLines: 1,
                                               ),
-                                              if (service.priceAndDuration.price == '200') const SizedBox(height: 7),
+                                              // if (service.priceAndDuration!.price == '200') const SizedBox(height: 7),
 
-                                              // PREVIOUS PRICE
-                                              if (service.priceAndDuration.price == '200') // TODO: REMOVE THIS (DUMMY IMPLEMENTATION FOR UI)
-                                                Text(
-                                                  service.isFixedPrice
-                                                      ? "${Keys.dollars}${service.priceAndDuration.price}"
-                                                      : service.isPriceStartAt
-                                                          ? "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}∞"
-                                                          : "${Keys.dollars}${service.priceAndDuration.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}",
-                                                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                                        fontWeight: FontWeight.bold,
-                                                        fontSize: 14.sp,
-                                                        color: Colors.red,
-                                                        decoration: TextDecoration.lineThrough,
-                                                      ),
-                                                  overflow: TextOverflow.visible,
-                                                  maxLines: 1,
-                                                ),
+                                              // // PREVIOUS PRICE
+                                              // if (service.priceAndDuration!.price == '200') // TODO: REMOVE THIS (DUMMY IMPLEMENTATION FOR UI)
+                                              //   Text(
+                                              //     service.isFixedPrice
+                                              //         ? "${Keys.dollars}${service.priceAndDuration!.price}"
+                                              //         : service.isPriceStartAt
+                                              //             ? "${Keys.dollars}${service.priceAndDuration!.price} - ${Keys.dollars}∞"
+                                              //             : "${Keys.dollars}${service.priceAndDuration!.price} - ${Keys.dollars}${service.priceAndDurationMax!.price}",
+                                              //     style: theme.textTheme.titleSmall!.copyWith(
+                                              //       fontWeight: FontWeight.bold,
+                                              //       fontSize: 14.sp,
+                                              //       color: Colors.red,
+                                              //       decoration: TextDecoration.lineThrough,
+                                              //     ),
+                                              //     overflow: TextOverflow.visible,
+                                              //     maxLines: 1,
+                                              //   ),
                                             ],
                                           ),
                                         ),
@@ -502,7 +496,7 @@ class ShowAdditionaFeatureInfo extends StatelessWidget {
                       //     service: service,
                       //     langCode:
                       //         AppLocalizations.of(context)?.localeName ?? 'en'),
-                      style: const TextStyle(color: AppTheme.white3),
+                      style: TextStyle(color: AppTheme.white3),
                     ),
                   ),
                   GestureDetector(

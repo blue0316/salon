@@ -1,6 +1,6 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
-import 'package:bbblient/src/models/enums/profile_datails_tabs.dart';
+import 'package:bbblient/src/views/salon/default_profile_view/salon_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -28,7 +28,7 @@ class _SalonServicesState extends ConsumerState<SalonServices> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         SectionSpacer(
-          title: (AppLocalizations.of(context)?.localeName == 'uk') ? saloonDetailsTitlesUK[0] : saloonDetailsTitles[0],
+          title: salonTitles(AppLocalizations.of(context)?.localeName ?? 'en')[0],
         ),
         SizedBox(
           // height: 1000.h,

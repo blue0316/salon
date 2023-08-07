@@ -247,11 +247,11 @@ class _LoginIntroState extends ConsumerState<LoginIntro> {
                               MaterialButton(
                                 key: const ValueKey("phone-but"),
                                 onPressed: () async {
-                                  if (_auth.otpStatus != Status.loading) {
-                                    await _auth.verifyPhoneNumber(context: context);
-                                  } else {
-                                    showToast(AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
-                                  }
+                                  // if (_auth.otpStatus != Status.loading) {
+                                  //   await _auth.verifyPhoneNumber(context: context);
+                                  // } else {
+                                  //   showToast(AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
+                                  // }
                                 },
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                                 color: AppTheme.textBlack,
@@ -309,8 +309,8 @@ class _LoginIntroState extends ConsumerState<LoginIntro> {
                                         if (_auth.otpSent && _auth.start == 0) ...[
                                           GestureDetector(
                                             onTap: () {
-                                              _auth.verifyPhoneNumber(context: context);
-                                              _auth.otp = '';
+                                              // _auth.verifyPhoneNumber(context: context);
+                                              // _auth.otp = '';
                                             },
                                             child: Text(
                                               AppLocalizations.of(context)?.resendOTP ?? " Resend OTP",

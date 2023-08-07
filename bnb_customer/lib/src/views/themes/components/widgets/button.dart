@@ -1,10 +1,7 @@
-import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/views/themes/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-const IconData arrow_outward = IconData(0xf089b, fontFamily: 'MaterialIcons');
 
 class SquareButton extends StatelessWidget {
   final double? height, width;
@@ -15,7 +12,8 @@ class SquareButton extends StatelessWidget {
   final Color? buttonColor, borderColor, textColor;
   final bool showSuffix;
   final double? borderRadius;
-  final double? spaceBetweenButtonAndText;
+  final double? spaceBetweenButtonAndText, buttonWidth;
+  final FontWeight? weight;
 
   const SquareButton({
     Key? key,
@@ -31,6 +29,8 @@ class SquareButton extends StatelessWidget {
     this.showSuffix = true,
     this.borderRadius,
     this.spaceBetweenButtonAndText,
+    this.buttonWidth,
+    this.weight,
   }) : super(key: key);
 
   @override
@@ -44,7 +44,7 @@ class SquareButton extends StatelessWidget {
           height: height ?? 50.h,
           decoration: BoxDecoration(
             color: buttonColor ?? Colors.white,
-            border: Border.all(color: borderColor ?? Colors.white, width: 1.5),
+            border: Border.all(color: borderColor ?? Colors.white, width: buttonWidth ?? 1.5),
             borderRadius: BorderRadius.circular(borderRadius ?? 0),
           ),
           child: Padding(
@@ -55,9 +55,9 @@ class SquareButton extends StatelessWidget {
               children: [
                 Text(
                   text,
-                  style: AppTheme.bodyText1.copyWith(
+                  style: TextStyle(
                     fontSize: textSize ?? 18.sp,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: weight ?? FontWeight.w600,
                     color: textColor,
                     fontFamily: "Poppins",
                   ),

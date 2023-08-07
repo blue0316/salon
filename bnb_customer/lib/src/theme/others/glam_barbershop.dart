@@ -57,7 +57,10 @@ class GlamBarberShopTheme {
       onPrimary: (Colors.green[900])!,
       onSecondary: creamBrownLight,
       onSurface: lightGrey,
-      onBackground: lightGrey,
+      // Dialog Colors
+      onBackground: Colors.white,
+      tertiary: Colors.white, // Text colors on dialog
+
       onError: redishPink,
       brightness: Brightness.light,
       outlineVariant: Colors.white, // Color of divider on appbar

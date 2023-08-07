@@ -7,8 +7,7 @@ import 'collections.dart';
 
 class CategoryServicesApi {
   CategoryServicesApi._privateConstructor();
-  static final CategoryServicesApi _instance =
-      CategoryServicesApi._privateConstructor();
+  static final CategoryServicesApi _instance = CategoryServicesApi._privateConstructor();
   factory CategoryServicesApi() {
     return _instance;
   }
@@ -48,8 +47,7 @@ class CategoryServicesApi {
 
   Future<List<ServiceModel>> getSalonServices({required String salonId}) async {
     try {
-      QuerySnapshot _response =
-          await Collection.services.where('salonId', isEqualTo: salonId).get();
+      QuerySnapshot _response = await Collection.services.where('salonId', isEqualTo: salonId).get();
       List<ServiceModel> allServices = [];
       for (DocumentSnapshot doc in _response.docs) {
         Map _temp = doc.data() as Map<dynamic, dynamic>;
@@ -77,8 +75,7 @@ class CategoryServicesApi {
     return [];
   }
 
-  Future<List<ServiceModel>> getServicesByName(
-      {required String searchText}) async {
+  Future<List<ServiceModel>> getServicesByName({required String searchText}) async {
     try {
       QuerySnapshot _response = await Collection.services
           .where('searchTags', arrayContainsAny: [

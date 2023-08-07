@@ -8,11 +8,16 @@ import 'package:bbblient/src/views/themes/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class DefaultAppBarTheme extends ConsumerWidget {
   final SalonModel salonModel;
-  const DefaultAppBarTheme({Key? key, required this.salonModel}) : super(key: key);
+  final bool isSalonMaster;
+
+  const DefaultAppBarTheme({
+    Key? key,
+    required this.salonModel,
+    this.isSalonMaster = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -35,10 +40,20 @@ class DefaultAppBarTheme extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    if (isSalonMaster)
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: theme.appBarTheme.iconTheme!.color,
+                        ),
+                      ),
                     Flexible(
                       child: Text(
                         salonModel.salonName.toUpperCase(),
-                        style: theme.textTheme.bodyText1!.copyWith(
+                        style: theme.textTheme.bodyLarge!.copyWith(
                           color: Colors.white,
                           fontSize: 22.sp,
                           letterSpacing: 0.9,
@@ -66,6 +81,17 @@ class DefaultAppBarTheme extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    if (isSalonMaster)
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: theme.appBarTheme.iconTheme!.color,
+                        ),
+                      ),
+                    SizedBox(width: 10.sp),
                     if (!isTab) const Spacer(),
                     if (isTab)
                       MouseRegion(
@@ -75,18 +101,21 @@ class DefaultAppBarTheme extends ConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Socials(
+                              type: 'insta',
                               socialIcon: ThemeIcons.insta,
                               socialUrl: salonModel.links?.instagram,
                             ),
-                            const SizedBox(width: 20),
+                            SizedBox(width: 37.sp),
                             Socials(
+                              type: 'tiktok',
                               socialIcon: ThemeIcons.tiktok,
-                              socialUrl: salonModel.links?.facebookMessenger,
+                              socialUrl: salonModel.links?.tiktok,
                             ),
-                            const SizedBox(width: 20),
+                            SizedBox(width: 37.sp),
                             Socials(
+                              type: 'whatsapp',
                               socialIcon: ThemeIcons.whatsapp,
-                              socialUrl: salonModel.links?.whatsapp,
+                              socialUrl: salonModel.phoneNumber,
                             ),
                           ],
                         ),
@@ -104,7 +133,7 @@ class DefaultAppBarTheme extends ConsumerWidget {
                     //     :
                     Text(
                       salonModel.salonName.toUpperCase(),
-                      style: theme.textTheme.bodyText1!.copyWith(
+                      style: theme.textTheme.bodyLarge!.copyWith(
                         color: Colors.white,
                         fontSize: 22.sp,
                         letterSpacing: 0.9,
@@ -121,20 +150,49 @@ class DefaultAppBarTheme extends ConsumerWidget {
                         onTap: () {
                           Scaffold.of(context).openDrawer();
                         },
-                        child: Icon(
-                          Icons.menu,
-                          size: 35.h,
-                          color: theme.appBarTheme.iconTheme!.color,
+                        child: Container(
+                          color: Colors.transparent,
+                          height: 20.sp,
+                          width: 35.sp,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                height: 1.sp,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(2),
+                                  color: theme.appBarTheme.iconTheme!.color,
+                                ),
+                              ),
+                              Container(
+                                height: 1.sp,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(2),
+                                  color: theme.appBarTheme.iconTheme!.color,
+                                ),
+                              ),
+                              Container(
+                                height: 1.sp,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(2),
+                                  color: theme.appBarTheme.iconTheme!.color,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
+
+                        // child: Icon(
+                        //   Icons.menu,
+                        //   size: 35.h,
+                        // color: theme.appBarTheme.iconTheme!.color,
+                        // ),
                       ),
                     ),
-
-                    // SvgPicture.asset(
-                    //   ThemeIcons.menu,
-                    //   height: 20.h,
-                    //   // color: theme.dividerColor,
-                    //   color: theme.appBarTheme.iconTheme!.color,
-                    // ),
                   ],
                 ),
           const SizedBox(height: 10),

@@ -36,7 +36,7 @@ class GlamMinimalLight {
         color: primaryColor1,
       ),
     ),
-    dialogBackgroundColor: Colors.black,
+    dialogBackgroundColor: themeBackgroundColor,
     cardColor: themeBackgroundColor,
     colorScheme: ColorScheme(
       primary: (Colors.pink[900])!,
@@ -49,22 +49,26 @@ class GlamMinimalLight {
       onPrimary: (Colors.green[900])!,
       onSecondary: creamBrownLight,
       onSurface: lightGrey,
-      onBackground: lightGrey,
+
+      // Dialog Colors
+      onBackground: primaryColor1,
+      tertiary: primaryColor1, // Text colors on dialog
+
       onError: redishPink,
       brightness: Brightness.light, outlineVariant: Colors.black, // Color of divider on appbar
     ),
     textTheme: TextTheme(
-      headline1: headLine1.copyWith(color: primaryColor1),
-      headline2: headLine2.copyWith(color: primaryColor1),
-      headline3: headLine3.copyWith(color: primaryColor1),
-      headline4: headLine4.copyWith(color: primaryColor1),
-      headline5: headLine5.copyWith(color: primaryColor1),
+      displayLarge: headLine1.copyWith(color: primaryColor1),
+      displayMedium: headLine2.copyWith(color: primaryColor1),
+      displaySmall: headLine3.copyWith(color: primaryColor1),
+      headlineMedium: headLine4.copyWith(color: primaryColor1),
+      headlineSmall: headLine5.copyWith(color: primaryColor1),
 
-      bodyText1: bodyText1.copyWith(color: primaryColor1),
-      bodyText2: bodyText2.copyWith(color: primaryColor1),
+      bodyLarge: bodyText1.copyWith(color: primaryColor1),
+      bodyMedium: bodyText2.copyWith(color: primaryColor1),
       //text-field style
-      subtitle1: subTitle1.copyWith(color: primaryColor1),
-      subtitle2: subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
+      titleMedium: subTitle1.copyWith(color: primaryColor1),
+      titleSmall: subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
     ),
     dividerColor: Colors.black,
 

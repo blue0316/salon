@@ -52,6 +52,7 @@ class BarbershopTheme {
       onSecondary: creamBrownLight,
       onSurface: lightGrey,
       onBackground: lightGrey,
+      tertiary: Colors.white,
       onError: redishPink,
       brightness: Brightness.light,
       outlineVariant: Colors.transparent, // Color of divider on appbar

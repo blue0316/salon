@@ -1,3 +1,5 @@
+import 'package:bbblient/src/utils/extensions/exstension.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/products.dart';
@@ -20,13 +22,14 @@ class ShopCard extends ConsumerWidget {
     // final int? themeNo = _salonProfileProvider.chosenSalon.selectedTheme;
 
     return Padding(
-      padding: const EdgeInsets.only(right: 20),
+      padding: EdgeInsets.only(right: 20.sp),
       child: SizedBox(
+        // color: Colors.orange,
         width: DeviceConstraints.getResponsiveSize(
           context,
-          size / 1.5,
-          size / 2.5,
-          100.w,
+          size / 1.5.sp,
+          size / 2.3.sp,
+          70.w,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,13 +38,16 @@ class ShopCard extends ConsumerWidget {
             Expanded(
               flex: 1,
               child: Container(
-                color: Colors.white,
+                decoration: BoxDecoration(
+                  color: theme.primaryColorDark, // Colors.transparent,
+                  // border: Border.all(color: theme.primaryColorDark, width: 0.3),
+                ),
                 // height: 300.h,
                 width: DeviceConstraints.getResponsiveSize(
                   context,
-                  size / 1.5,
-                  size / 2.5,
-                  100.w,
+                  size / 1.5.sp,
+                  size / 2.3.sp,
+                  70.w,
                 ),
 
                 child: (product.productImageUrlList!.isNotEmpty)
@@ -51,37 +57,49 @@ class ShopCard extends ConsumerWidget {
                       )
                     : Center(
                         child: Text(
-                          'Photo N/A',
-                          style: theme.textTheme.bodyText1?.copyWith(
-                            color: theme.primaryColorDark,
-                            fontSize: 25.sp,
+                          AppLocalizations.of(context)?.photoNA ?? 'Photo N/A',
+                          style: theme.textTheme.bodyLarge?.copyWith(
+                            color: Colors.white,
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.normal,
                           ),
                         ),
                       ),
               ),
             ),
-            // const SizedBox(height: 15),
+            SizedBox(height: 10.sp),
             Expanded(
               flex: 0,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    '${product.productName}',
-                    style: theme.textTheme.bodyText1?.copyWith(
-                      color: theme.primaryColorDark,
-                      fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                  Expanded(
+                    child: SizedBox(
+                      height: 45.sp,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          '${product.productName}'.toCapitalized(),
+                          style: theme.textTheme.bodyLarge?.copyWith(
+                            color: theme.primaryColorDark,
+                            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 16.sp),
+                            fontWeight: FontWeight.normal,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     ),
                   ),
                   // Spacer(),
-                  SizedBox(height: 10),
+                  SizedBox(height: 10.sp),
                   Text(
                     '\$${product.clientPrice}',
-                    style: theme.textTheme.bodyText1?.copyWith(
+                    style: theme.textTheme.bodyLarge?.copyWith(
                       color: theme.primaryColorLight,
-                      fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
-                      fontWeight: FontWeight.w600,
+                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 16.sp),
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ],

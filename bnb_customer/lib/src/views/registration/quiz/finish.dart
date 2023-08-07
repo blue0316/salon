@@ -31,14 +31,13 @@ class Finish extends ConsumerWidget {
             padding: const EdgeInsets.only(top: 24.0),
             child: Text(
               AppLocalizations.of(context)?.done ?? "Done !",
-              style: Theme.of(context).textTheme.headline3,
+              style: Theme.of(context).textTheme.displaySmall,
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 72.0, vertical: 24),
             child: Text(
-              AppLocalizations.of(context)?.makeAppointmentDontForgetBonus ??
-                  "Now you can make your first bnb appointment. Enjoy it and don't forget to use your bonuses!",
+              AppLocalizations.of(context)?.makeAppointmentDontForgetBonus ?? "Now you can make your first bnb appointment. Enjoy it and don't forget to use your bonuses!",
               style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 14),
               textAlign: TextAlign.center,
             ),
@@ -48,7 +47,7 @@ class Finish extends ConsumerWidget {
             child: MaterialButton(
               onPressed: () async {
                 if (_quizProvider.saveInfoStatus != Status.loading) {
-                  await _quizProvider.saveUserDetails(context: context,ref :ref);
+                  await _quizProvider.saveUserDetails(context: context, ref: ref);
                 } else {
                   showToast(AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
                 }

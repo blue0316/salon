@@ -19,7 +19,7 @@ class RatingGraph extends ConsumerWidget {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
-    bool isLightTheme = (theme == AppTheme.lightTheme);
+    bool isLightTheme = (theme == AppTheme.customLightTheme);
 
     final _ratingStr = avgRating.toString();
 
@@ -33,7 +33,7 @@ class RatingGraph extends ConsumerWidget {
             Center(
               child: Text(
                 _ratingStr.length > 3 ? _ratingStr.substring(0, 3) : _ratingStr,
-                style: theme.textTheme.bodyLarge!.copyWith(
+                style: theme.textTheme.displayMedium!.copyWith(
                   fontSize: 28.sp,
                   fontWeight: FontWeight.bold,
                   color: theme.primaryColor,
@@ -122,7 +122,7 @@ class _DistributedRatingState extends ConsumerState<DistributedRating> {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
-    bool isLightTheme = (theme == AppTheme.lightTheme);
+    bool isLightTheme = (theme == AppTheme.customLightTheme);
 
     return Padding(
       padding: EdgeInsets.only(bottom: 2.sp),
@@ -142,7 +142,7 @@ class _DistributedRatingState extends ConsumerState<DistributedRating> {
               Container(
                 height: 8,
                 width: 100,
-                decoration: const BoxDecoration(color: Colors.white),
+                decoration: BoxDecoration(color: isLightTheme ? Colors.white : Colors.black),
               ),
               Positioned(
                 left: 0,

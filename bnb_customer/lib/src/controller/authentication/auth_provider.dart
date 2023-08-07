@@ -117,7 +117,7 @@ class AuthProvider with ChangeNotifier {
     // phoneNumber = '';
     phoneNoController.clear();
     otpSent = sent;
-    _timer.cancel();
+    // _timer.cancel();
     notifyListeners();
   }
 
@@ -141,6 +141,11 @@ class AuthProvider with ChangeNotifier {
         }
       },
     );
+  }
+
+  void changeOTP(String val) {
+    otp = val;
+    notifyListeners();
   }
 
   handleError(error, context) {
@@ -175,30 +180,44 @@ class AuthProvider with ChangeNotifier {
     otpSent = true;
     start = 60;
     phoneNoController.clear();
-    startTimer();
+    // _timer.cancel();
+    // startTimer();
     notifyListeners();
   }
 
   ConfirmationResult? webOTPConfirmationResult;
   ConfirmationResult? phoneVerificationResult;
 
-  Future<void> verifyPhoneNumber({required BuildContext context}) async {
+  Future<void> verifyPhoneNumber({required BuildContext context, required String phone, required String code}) async {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+
     printIt("verifying phone number");
     printIt(phoneNumber);
     printIt(countryCode);
-    String _phone = "$countryCode$phoneNumber";
+    String _phone = "$code$phone";
     printIt("Sending phone number");
     printIt(_phone);
 
-    if (phoneNumber.length < 8 || phoneNumber.length > 10) {
+    if (phone.length < 8 || phone.length > 10) {
       showToast(AppLocalizations.of(context)?.invalid_phone_number ?? 'Invalid phone No');
-      //return;
+      otpStatus = Status.failed;
+      notifyListeners();
+
+      return;
     } else {
       otpStatus = Status.loading;
       notifyListeners();
       try {
         if (kIsWeb) {
+          // print('******@@@@@@*******');
+          // print(_phone);
+          // print('******@@@@@@*******');
+
           webOTPConfirmationResult = await _auth.signInWithPhoneNumber(_phone.trim());
+
+          // print('******@@@@@@*******');
+          // print('web result - $webOTPConfirmationResult ');
+          // print('******@@@@@@*******');
 
           final customerExists = await CustomerApi().checkIfCustomerExists(_phone.trim());
           if (!customerExists) {
@@ -209,6 +228,7 @@ class AuthProvider with ChangeNotifier {
 
           _showOTPScreen();
         } else {
+          printIt('kIsWeb is NOT TRUE!!!!');
           await _auth.verifyPhoneNumber(
             phoneNumber: _phone.trim(),
             codeAutoRetrievalTimeout: (String verId) {
@@ -226,8 +246,12 @@ class AuthProvider with ChangeNotifier {
             verificationFailed: (FirebaseAuthException exception) {
               if (exception.code == 'invalid-phone-number') {
                 errorMessage = exception.code;
+                print('the error is coming from here 22222');
                 showToast(AppLocalizations.of(context)?.invalid_phone_number ?? 'Invalid phone no !');
                 printIt('The provided phone number is not valid.');
+
+                otpStatus == Status.failed;
+                notifyListeners();
               } else {
                 errorMessage = exception.code;
                 showToast(ErrorCodes.getFirebaseErrorMessage(exception));
@@ -266,7 +290,7 @@ class AuthProvider with ChangeNotifier {
     required String countryCode,
   }) async {
     String _phone = "$countryCode$phoneNumber";
-    print(_phone);
+    // print(_phone);
     // debugPrint('#####################################');
 
     // debugPrint(countryCode);
@@ -285,7 +309,7 @@ class AuthProvider with ChangeNotifier {
       if (kIsWeb) {
         webOTPConfirmationResult = await _auth.signInWithPhoneNumber(_phone.trim());
         notifyListeners();
-        print('${webOTPConfirmationResult}web result');
+        // print('${webOTPConfirmationResult}web result');
         final customerExists = await CustomerApi().checkIfCustomerExists(_phone.trim());
         if (!customerExists) {
           isNewUser = true;
@@ -356,27 +380,27 @@ class AuthProvider with ChangeNotifier {
     // print(otp);
     // print(verificationCode);
     // print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-    printIt(otp);
-    printIt(verificationCode);
+    // printIt(otp);
+    // printIt(verificationCode);
     BnbProvider _bnbProvider = ref.read(bnbProvider);
     var locale = _bnbProvider.getLocale;
-    printIt('locale');
-    printIt(locale);
+    // printIt('locale');
+    // printIt(locale);
     try {
       loginStatus = Status.loading;
       notifyListeners();
 
       UserCredential? _userResult;
       if (kIsWeb) {
-        printIt("It's webbb");
+        // printIt("It's webbb");
         _userResult = await webOTPConfirmationResult?.confirm(otp);
-        print('#################################');
-        print(_userResult);
-        print('-------');
-        print(_userResult?.user);
-        print('-------');
-        print(_userResult?.additionalUserInfo);
-        print('#################################');
+        // print('#################################');
+        // print(_userResult);
+        // // print('-------');
+        // // print(_userResult?.user);
+        // // print('-------');
+        // // print(_userResult?.additionalUserInfo);
+        // print('#################################');
         phoneNoController.clear();
       } else {
         final AuthCredential _authCredential = PhoneAuthProvider.credential(
@@ -387,37 +411,37 @@ class AuthProvider with ChangeNotifier {
       }
 
       if (_userResult != null && _userResult.user != null) {
-        printIt(_userResult.user);
+        // printIt(_userResult.user);
         await callBack();
         userLoggedIn = true;
         loginStatus = Status.success;
-        printIt("New Login Status");
-        printIt(loginStatus);
+        // printIt("New Login Status");
+        // printIt(loginStatus);
       } else {
         loginStatus = Status.failed;
-        printIt("New Login Status");
-        printIt(loginStatus);
+        // printIt("New Login Status");
+        // printIt(loginStatus);
         showToast(AppLocalizations.of(context)?.errorOccurred ?? 'error occurred');
       }
 
-      _timer.cancel();
+      // _timer.cancel();
 
       notifyListeners();
     } on FirebaseAuthException catch (e) {
       var translator = GoogleTranslator();
       loginStatus = Status.failed;
       notifyListeners();
-      printIt("$e");
+      // printIt("$e");
       String? error = ErrorCodes.getFirebaseErrorMessage(e);
       if (error != null) {
         if (error == "invalid-verification-code") {
           showToast(AppLocalizations.of(context)?.invalidOTP ?? 'Invalid OTP');
         } else {
           if (locale != null && locale != 'en') {
-            printIt(locale);
+            // printIt(locale);
             var translatederror = await translator.translate(ErrorCodes.getFirebaseErrorMessage(e)!, from: 'en', to: locale);
-            printIt('Else Error ');
-            printIt(translatederror);
+            // printIt('Else Error ');
+            // printIt(translatederror);
             showToast(translatederror);
           } else {
             printIt('Firebase Error');
@@ -516,7 +540,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> updateCustomerPersonalInfo({required String customerId, required PersonalInfo personalInfo}) async {
+  Future<bool> updateCustomerPersonalInfo({required String customerId, required PersonalInfo personalInfo, String? gender}) async {
     printIt('Updating customer info');
     updateCustomerPersonalInfoStatus = Status.loading;
     notifyListeners();
@@ -525,6 +549,7 @@ class AuthProvider with ChangeNotifier {
       await CustomerApi().updatePersonalInfo(
         customerId: customerId,
         personalInfo: personalInfo,
+        gender: gender,
       );
 
       currentCustomer!.personalInfo = personalInfo;
@@ -652,13 +677,28 @@ class AuthProvider with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  void setCurrentCustomerWithoutOTP({required String firstName, required String email}) {
+  void updateAuthPhoneNumber(String val) {
+    phoneNumber = val;
+    notifyListeners();
+  }
+
+  void updateAuthCountryCode(String val) {
+    countryCode = val;
+    notifyListeners();
+  }
+
+  void setCurrentCustomer(CustomerModel customer) {
+    currentCustomer = customer;
+    notifyListeners();
+  }
+
+  void setCurrentCustomerWithoutOTP({required String firstName, required String lastName, required String email}) {
     currentCustomerWithoutOTP = CustomerModel(
       customerId: phoneNoController.text,
       personalInfo: PersonalInfo(
         phone: phoneNoController.text,
         firstName: firstName,
-        lastName: '',
+        lastName: lastName,
         description: '',
         dob: DateTime.now().subtract(const Duration(days: 365 * 26)),
         email: email,

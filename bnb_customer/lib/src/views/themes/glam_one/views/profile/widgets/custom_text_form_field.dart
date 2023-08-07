@@ -70,8 +70,7 @@ class CustomTextFormField extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider =
-        ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     return alignment != null
@@ -105,10 +104,8 @@ class CustomTextFormField extends ConsumerWidget {
       hintText: hintText ?? "",
       hintStyle: theme.inputDecorationTheme.hintStyle, // _setFontStyle(theme),
       border: theme.inputDecorationTheme.border, //  _setBorderStyle(),
-      enabledBorder:
-          theme.inputDecorationTheme.enabledBorder, // _setBorderStyle(),
-      focusedBorder:
-          theme.inputDecorationTheme.focusedBorder, // _setBorderStyle(),
+      enabledBorder: theme.inputDecorationTheme.enabledBorder, // _setBorderStyle(),
+      focusedBorder: theme.inputDecorationTheme.focusedBorder, // _setBorderStyle(),
       disabledBorder: _setBorderStyle(),
       prefixIcon: prefix,
       prefixIconConstraints: prefixConstraints,
@@ -116,7 +113,7 @@ class CustomTextFormField extends ConsumerWidget {
       suffixIconConstraints: suffixConstraints,
       filled: _setFilled(),
       isDense: true,
-      contentPadding: _setPadding(),
+      contentPadding: EdgeInsets.symmetric(vertical: contentPadding ?? 15, horizontal: contentPadding ?? 15),
     );
   }
 
@@ -162,14 +159,6 @@ class CustomTextFormField extends ConsumerWidget {
         return false;
       default:
         return false;
-    }
-  }
-
-  _setPadding() {
-    switch (padding) {
-      default:
-        return EdgeInsets.symmetric(
-            vertical: contentPadding ?? 15, horizontal: contentPadding ?? 15);
     }
   }
 }

@@ -7,6 +7,7 @@ import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/utils/utils.dart';
+import 'package:bbblient/src/views/themes/glam_one/master_profile/unique_master_profile.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
@@ -51,23 +52,25 @@ class SalonTeam extends ConsumerWidget {
             Center(
               child: Text(
                 (AppLocalizations.of(context)?.ourTeam ?? 'Our Team').toUpperCase(),
-                style: theme.textTheme.headline2?.copyWith(
+                style: theme.textTheme.displayMedium?.copyWith(
                   color: theme.colorScheme.secondary,
-                  fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),
+                  fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 60.sp),
                 ),
               ),
             ),
-            const Space(factor: 4),
+            const Space(factor: 3.5),
             Center(
               child: Container(
-                height: size.height * 0.30, // DeviceConstraints.getResponsiveSize(context, 230.h, 230.h, 210.h),
+                // color: Colors.yellow,
+                height: size.height * 0.4, // DeviceConstraints.getResponsiveSize(context, 230.h, 230.h, 210.h),
                 alignment: Alignment.center,
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
-                  physics: const BouncingScrollPhysics(),
+                  // physics: const BouncingScrollPhysics(),
+                  physics: const ClampingScrollPhysics(),
                   shrinkWrap: true,
                   separatorBuilder: (context, index) {
-                    return const SizedBox(width: 20);
+                    return SizedBox(width: 50.sp);
                   },
                   itemCount: _createAppointmentProvider.salonMasters.length,
                   itemBuilder: (context, index) {
@@ -102,6 +105,8 @@ class SalonTeam extends ConsumerWidget {
                         name: Utils().getNameMaster(_filteredMasters[index].personalInfo),
                         services: masterCategories, // masterService, // "Hairdresser",
                         image: _filteredMasters[index].profilePicUrl,
+                        master: _filteredMasters[index],
+                        salonModel: salonModel,
                       );
                     } else {
                       return const SizedBox();
@@ -132,71 +137,97 @@ class SalonTeam extends ConsumerWidget {
 class TeamMember extends ConsumerWidget {
   final String? name, image;
   final List<CategoryModel> services;
+  final MasterModel master;
+  final SalonModel salonModel;
 
   const TeamMember({
     Key? key,
     required this.name,
     required this.services,
     required this.image,
+    required this.master,
+    required this.salonModel,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final _salonSearchProvider = ref.watch(salonSearchProvider);
+
     final ThemeData theme = _salonProfileProvider.salonTheme;
     ThemeType themeType = _salonProfileProvider.themeType;
+    final _createAppointmentProvider = ref.watch(createAppointmentProvider);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Expanded(
-          flex: 0,
-          child: SizedBox(
-            // height: 140.h,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                avatar(themeType, image),
-
-                const SizedBox(height: 15),
-                Text(
-                  name ?? '',
-                  style: theme.textTheme.bodyText1?.copyWith(
-                    color: theme.colorScheme.secondary,
-                    fontSize: 17.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  maxLines: 1,
-                ),
-                // Text(
-                //   service ?? '',
-                //   style: theme.textTheme.subtitle2?.copyWith(
-                //     fontSize: 15.sp,
-                //   ),
-                // ),
-              ],
+    return GestureDetector(
+      onTap: () {
+        _createAppointmentProvider.setMaster(
+          masterModel: master,
+          categories: _salonSearchProvider.categories,
+        );
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => UniqueMasterProfile(
+              // salonModel: salonModel,
+              masterModel: master,
+              // categories: const [],
             ),
           ),
-        ),
-        const SizedBox(height: 5),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: services
-              .map(
-                (item) => Text(
-                  item.translations[AppLocalizations.of(context)?.localeName] ?? '',
-                  style: theme.textTheme.subtitle2?.copyWith(
-                    color: theme.colorScheme.onSecondaryContainer,
-                    fontSize: 15.sp,
+        );
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Expanded(
+            flex: 0,
+            child: SizedBox(
+              // height: 140.h,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  avatar(themeType, image),
+
+                  SizedBox(height: 15.sp),
+                  Text(
+                    name ?? '',
+                    style: theme.textTheme.bodyLarge?.copyWith(
+                      color: theme.colorScheme.secondary,
+                      fontSize: 17.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    maxLines: 1,
                   ),
-                ),
-              )
-              .toList(),
-        ),
-      ],
+                  // Text(
+                  //   service ?? '',
+                  //   style: theme.textTheme.titleSmall?.copyWith(
+                  //     fontSize: 15.sp,
+                  //   ),
+                  // ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(height: 5.sp),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: services
+                .map(
+                  (item) => Text(
+                    item.translations[AppLocalizations.of(context)?.localeName] ?? '',
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      color: theme.colorScheme.onSecondaryContainer,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                )
+                .toList(),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -227,15 +258,15 @@ class CircularTeamAvatar extends ConsumerWidget {
     ThemeType themeType = _salonProfileProvider.themeType;
 
     return Container(
-      height: 100,
-      width: 100,
+      height: 120.sp,
+      width: 120.sp,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: AppTheme.white, // coolGrey,
         border: (themeType == ThemeType.GlamLight) ? Border.all(color: Colors.black) : null,
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(100),
+        borderRadius: BorderRadius.circular(100.sp),
         child: (image != null && image != '')
             ? CachedImage(url: image!, fit: BoxFit.cover)
             : Image.asset(
@@ -255,8 +286,8 @@ class RectangleTeamAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,
-      width: 100,
+      height: 100.sp,
+      width: 100.sp,
       decoration: const BoxDecoration(
         color: AppTheme.white, // coolGrey,
       ),

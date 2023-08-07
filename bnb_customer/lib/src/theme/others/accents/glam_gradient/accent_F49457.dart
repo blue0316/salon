@@ -36,7 +36,10 @@ final ThemeData accentF49457 = ThemeData(
     onPrimary: (Colors.green[900])!,
     onSecondary: GlamGradientTheme.creamBrownLight,
     onSurface: GlamGradientTheme.lightGrey,
-    onBackground: GlamGradientTheme.lightGrey,
+    // Dialog Colors
+    onBackground: Colors.white,
+    tertiary: Colors.white, // Text colors on dialog
+
     onError: GlamGradientTheme.redishPink,
     brightness: Brightness.light,
     outlineVariant: Colors.white, // Color of divider on appbar

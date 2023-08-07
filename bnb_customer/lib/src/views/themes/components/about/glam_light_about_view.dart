@@ -1,6 +1,6 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/models/backend_codings/owner_type.dart';
+import 'package:bbblient/src/models/customer_web_settings.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
@@ -21,10 +21,11 @@ class GlamLightAboutUs extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bool isTab = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab);
-    final bool isSingleMaster = (salonModel.ownerType == OwnerType.singleMaster);
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    CustomerWebSettings? themeSettings = _salonProfileProvider.themeSettings;
+    final bool isSingleMaster = _salonProfileProvider.isSingleMaster;
 
     return Padding(
         padding: EdgeInsets.only(
@@ -46,12 +47,17 @@ class GlamLightAboutUs extends ConsumerWidget {
                       // width: double.infinity,
                       child: ClipRRect(
                         borderRadius: const BorderRadius.horizontal(right: Radius.elliptical(200, 180)),
-                        child: salonModel.photosOfWork.isNotEmpty
+                        child: (themeSettings?.aboutSectionImage != null && themeSettings?.aboutSectionImage != '')
                             ? CachedImage(
-                                url: salonModel.photosOfWork[0],
+                                url: themeSettings!.aboutSectionImage!,
                                 fit: BoxFit.cover,
                               )
-                            : Image.asset(ThemeImages.makeup, fit: BoxFit.cover),
+                            : salonModel.profilePics.isNotEmpty
+                                ? CachedImage(
+                                    url: salonModel.profilePics[0],
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.asset(ThemeImages.makeup, fit: BoxFit.cover),
                       ),
                     ),
                   ),
@@ -66,14 +72,14 @@ class GlamLightAboutUs extends ConsumerWidget {
                       children: [
                         Text(
                           isSingleMaster ? (AppLocalizations.of(context)?.aboutMe ?? 'About Me') : (AppLocalizations.of(context)?.aboutUs ?? 'About Us').toUpperCase(),
-                          style: theme.textTheme.headline2?.copyWith(
+                          style: theme.textTheme.displayMedium?.copyWith(
                             fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
                           ),
                         ),
                         SizedBox(height: 30.h),
                         Text(
                           (salonModel.description != '') ? salonModel.description : 'No description yet',
-                          style: theme.textTheme.bodyText2?.copyWith(
+                          style: theme.textTheme.bodyMedium?.copyWith(
                             color: Colors.black,
                             fontSize: 20.sp,
                           ),
@@ -100,9 +106,10 @@ class PortraitView extends ConsumerWidget {
   const PortraitView({Key? key, required this.salonModel}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bool isSingleMaster = (salonModel.ownerType == OwnerType.singleMaster);
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    CustomerWebSettings? themeSettings = _salonProfileProvider.themeSettings;
+    final bool isSingleMaster = _salonProfileProvider.isSingleMaster;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,7 +119,7 @@ class PortraitView extends ConsumerWidget {
           padding: EdgeInsets.only(left: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w)),
           child: Text(
             isSingleMaster ? (AppLocalizations.of(context)?.aboutMe ?? 'About Me') : (AppLocalizations.of(context)?.aboutUs ?? 'About Us').toUpperCase(),
-            style: theme.textTheme.headline2?.copyWith(
+            style: theme.textTheme.displayMedium?.copyWith(
               fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
             ),
           ),
@@ -126,7 +133,7 @@ class PortraitView extends ConsumerWidget {
             children: [
               Text(
                 (salonModel.description != '') ? salonModel.description : 'No description yet',
-                style: theme.textTheme.bodyText2?.copyWith(
+                style: theme.textTheme.bodyMedium?.copyWith(
                   color: Colors.black,
                   fontSize: 15.sp,
                 ),
@@ -151,12 +158,17 @@ class PortraitView extends ConsumerWidget {
               width: double.infinity,
               child: ClipRRect(
                 borderRadius: const BorderRadius.horizontal(right: Radius.elliptical(200, 180)),
-                child: salonModel.photosOfWork.isNotEmpty
+                child: (themeSettings?.aboutSectionImage != null && themeSettings?.aboutSectionImage != '')
                     ? CachedImage(
-                        url: salonModel.photosOfWork[0],
+                        url: themeSettings!.aboutSectionImage!,
                         fit: BoxFit.cover,
                       )
-                    : Image.asset(ThemeImages.makeup, fit: BoxFit.cover),
+                    : salonModel.profilePics.isNotEmpty
+                        ? CachedImage(
+                            url: salonModel.profilePics[0],
+                            fit: BoxFit.cover,
+                          )
+                        : Image.asset(ThemeImages.makeup, fit: BoxFit.cover),
               ),
             ),
           ),

@@ -10,9 +10,9 @@ import 'package:bbblient/src/utils/integration/beauty_pro.dart';
 import 'package:bbblient/src/utils/integration/yclients.dart';
 import 'package:bbblient/src/utils/time.dart';
 import 'package:bbblient/src/utils/utils.dart';
-
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../models/appointment/appointment.dart';
 import 'collections.dart';
@@ -47,6 +47,30 @@ class AppointmentApi {
       }
       return allAppointments;
     });
+  }
+
+  /// creates a new appointment
+
+  Future createUpdateAppointment(AppointmentModel appointment) async {
+    try {
+      DocumentReference _docRef;
+      if (appointment.appointmentId != null) {
+        //updates the existing appointment
+
+        _docRef = Collection.appointments.doc(appointment.appointmentId);
+      } else {
+        //creates a new appointment
+        _docRef = Collection.appointments.doc();
+      }
+
+      await _docRef.set(appointment.toJson(), SetOptions(merge: true));
+
+      return _docRef.id;
+    } catch (e) {
+      debugPrint('error in making appointment');
+      debugPrint(e.toString());
+      return null;
+    }
   }
 
   Future<String?> createAppointment(AppointmentModel appointment) async {
@@ -173,9 +197,9 @@ class AppointmentApi {
 
   validateBonusOnAppointmentCancel({required AppointmentModel appointmentModel, required BuildContext context}) async {
     if ((appointmentModel.paymentInfo?.bonusApplied ?? false) && (appointmentModel.paymentInfo?.bonusIds != null)) {
-      if (appointmentModel.appointmentStartTime.isBefore(DateTime.now())) {
+      if (appointmentModel.appointmentStartTime!.isBefore(DateTime.now())) {
         return true;
-      } else if (appointmentModel.appointmentStartTime.difference(DateTime.now()).inHours > 24) {
+      } else if (appointmentModel.appointmentStartTime!.difference(DateTime.now()).inHours > 24) {
         bool validated = await BonusReferralApi().validateBonus(bonusId: appointmentModel.paymentInfo?.bonusIds[0] ?? '');
         if (validated) {
           showToast(AppLocalizations.of(context)?.bonusRestored ?? 'Bonus restored');
@@ -190,7 +214,12 @@ class AppointmentApi {
   //blocks the master time
   Future blockMastersTime({required MasterModel master, required DateTime date, required String time, required int minutes}) async {
     try {
-      master.blockedTime = _generateBlockedTimeMap(blockedTime: master.blockedTime ?? {}, date: date, time: time, minutes: minutes);
+      master.blockedTime = _generateBlockedTimeMap2(
+        blockedTime: master.blockedTime ?? {},
+        date: date,
+        time: time,
+        minutes: minutes,
+      );
       await MastersApi().updateMasterBlockTime(master);
       return 1;
     } catch (e) {
@@ -213,9 +242,9 @@ class AppointmentApi {
 
   _removeBlockedSlotsMaster(AppointmentModel appointment, MasterModel master) {
     try {
-      final String _date = _timeUtils.getDateInStandardFormat(appointment.appointmentStartTime);
-      TimeOfDay _time1 = TimeOfDay.fromDateTime(appointment.appointmentStartTime);
-      TimeOfDay _time2 = TimeOfDay.fromDateTime(appointment.appointmentEndTime);
+      final String _date = _timeUtils.getDateInStandardFormat(appointment.appointmentStartTime!);
+      TimeOfDay _time1 = TimeOfDay.fromDateTime(appointment.appointmentStartTime!);
+      TimeOfDay _time2 = TimeOfDay.fromDateTime(appointment.appointmentEndTime!);
       List<String?> blockedSlots = _timeUtils.generateTimeSlots(_time1, _time2, inclusive: true).toList();
       if (master.blockedTime != null && master.blockedTime?[_date] != null && master.blockedTime?[_date].isNotEmpty) {
         final tempList = master.blockedTime?[_date];
@@ -233,19 +262,16 @@ class AppointmentApi {
   // in case of single master use this to block bcz single master is stored as salon in firebase
   Future blockSalonTime({required SalonModel salon, required DateTime date, required String time, required int minutes}) async {
     try {
-      salon.blockedTime = _generateBlockedTimeMap(blockedTime: salon.blockedTime, date: date, time: time, minutes: minutes);
+      salon.blockedTime = _generateBlockedTimeMap2(blockedTime: salon.blockedTime, date: date, time: time, minutes: minutes);
       await SalonApi().updateSalonBlockedTime(salon);
       return 1;
     } catch (e) {
-      printIt(e);
+      printIt('$e - blockSalonTime()');
       return null;
     }
   }
 
-  Future cancelSalonTime({
-    required AppointmentModel appointmentModel,
-    required SalonModel salon,
-  }) async {
+  Future cancelSalonTime({required AppointmentModel appointmentModel, required SalonModel salon}) async {
     try {
       SalonModel _salon = _removeBlockedSlotsSalon(appointmentModel, salon);
       await SalonApi().updateSalonBlockedTime(_salon);
@@ -258,9 +284,9 @@ class AppointmentApi {
 
   _removeBlockedSlotsSalon(AppointmentModel appointment, SalonModel salon) {
     try {
-      final String _date = _timeUtils.getDateInStandardFormat(appointment.appointmentStartTime);
-      TimeOfDay _time1 = TimeOfDay.fromDateTime(appointment.appointmentStartTime);
-      TimeOfDay _time2 = TimeOfDay.fromDateTime(appointment.appointmentEndTime);
+      final String _date = _timeUtils.getDateInStandardFormat(appointment.appointmentStartTime!);
+      TimeOfDay _time1 = TimeOfDay.fromDateTime(appointment.appointmentStartTime!);
+      TimeOfDay _time2 = TimeOfDay.fromDateTime(appointment.appointmentEndTime!);
       List<String?> blockedSlots = _timeUtils.generateTimeSlots(_time1, _time2, inclusive: true).toList();
       if (salon.blockedTime[_date] != null && salon.blockedTime[_date].isNotEmpty) {
         final tempList = salon.blockedTime[_date];
@@ -301,6 +327,279 @@ class AppointmentApi {
       printIt(e);
       return blockedTime;
     }
+  }
+
+  Map<String, dynamic> _generateBlockedTimeMap2({
+    required Map<String, dynamic> blockedTime,
+    required DateTime date,
+    required String time,
+    required int minutes,
+  }) {
+    try {
+      final String _date = _timeUtils.getDateInStandardFormat(date);
+      TimeOfDay _time1 = _timeUtils.stringToTime(time);
+      TimeOfDay _time2 = _time1.addMinutes(minutes);
+      List<String?> blockedSlots = [];
+      blockedSlots.addAll(_timeUtils.generateTimeSlotsForBlock(_time1, _time2, inclusive: true));
+      if (blockedTime.containsKey(_date)) {
+        if (blockedTime[_date] == null) blockedTime[_date] = [];
+        blockedTime[_date].addAll(blockedSlots);
+      } else {
+        blockedTime[_date] = blockedSlots;
+      }
+      printIt(blockedTime);
+      return blockedTime;
+    } catch (e) {
+      printIt(e);
+      return blockedTime;
+    }
+  }
+
+  updateMultipleAppointment({
+    AppointmentModel? appointmentModel,
+    String? appointmentStatus,
+    String? appointmentSubStatus,
+    required bool isSingleMaster,
+    required SalonModel salon,
+    required List<MasterModel> salonMasters,
+  }) async {
+    if (appointmentStatus != null) {
+      appointmentModel!.status = appointmentStatus;
+    }
+    if (appointmentSubStatus != null) {
+      appointmentModel!.subStatus = appointmentSubStatus;
+    }
+
+    appointmentModel!.updates.add(
+      AppointmentUpdates.cancelledByCustomer,
+    );
+
+    final updateResult = await updateMultipleAppointmentBlocks(appointmentModel, appointmentStatus, appointmentSubStatus);
+
+    List<MasterModel> masters = salonMasters.where((element) => appointmentModel.master!.id == element.masterId).toList();
+
+    // debugPrint('apptidetider ${appointmentModel.appointmentIdentifier}');
+    // print('-----------------+++++++--------------');
+    // print(salonMasters);
+    // print('-----------------+++++++--------------');
+    // print(masters);
+    // print('-----------------+++++++--------------');
+    // print(allAppointments);
+    // print(isSingleMaster);
+    // print('-----------------+++++++--------------');
+
+    List<AppointmentModel?> allAppointments = await AppointmentApi().getAppointmentFromIdentifier(appointmentModel.appointmentIdentifier);
+
+    if (appointmentStatus == AppointmentStatus.cancelled && appointmentSubStatus == ActiveAppointmentSubStatus.cancelledBySalon) {
+      for (var currentAppt in allAppointments) {
+        if (isSingleMaster) {
+          //unblock salon
+          await AppointmentApi().cancelBlockedTimeSingleMaster(currentAppt!, salon);
+        }
+        //unblock master
+        await AppointmentApi().unBlockSlots(currentAppt!, masters[0]);
+      }
+    }
+
+    // await refreshAppointment(appointmentModel.appointmentStartTime);
+
+    if (updateResult != null) {
+      showToast("status updated successfully");
+    }
+  }
+
+  // deletes the appointment model from the DB
+  // and then removes the blocked time from master's calendar
+  cancelBlockedTimeSingleMaster(AppointmentModel app, SalonModel salon) async {
+    try {
+      final Status? status = await removeAppointment(app.appointmentId);
+      if (status == Status.success) {
+        //remove blocked time from master's schedule
+        return unBlockSlotsSingleMaster(app, salon);
+      }
+    } catch (e) {
+      //(e);
+      return Status.failed;
+    }
+  }
+
+  unBlockSlotsSingleMaster(AppointmentModel app, SalonModel salon) async {
+    try {
+      //remove blocked time from master's schedule
+      salon = _removeBlockedSlotsSingleMaster(app, salon);
+      await SalonApi().updateSalon(salon);
+      return Status.success;
+    } catch (e) {
+      //(e);
+      return Status.failed;
+    }
+  }
+
+  //removes the blocked time from master model and returns master's model
+  _removeBlockedSlotsSingleMaster(AppointmentModel appointment, SalonModel salon) {
+    try {
+      final String _date = _timeUtils.getDateInStandardFormat(appointment.appointmentStartTime!);
+
+      TimeOfDay _time1 = TimeOfDay.fromDateTime(appointment.appointmentStartTime!);
+      TimeOfDay _time2 = TimeOfDay.fromDateTime(appointment.appointmentEndTime!);
+
+      List<String> blockedSlots = _timeUtils.generateTimeSlotsBlock(_time1, _time2, inclusive: true).toList();
+
+      if (salon.blockedTime != null && salon.blockedTime[_date] != null && salon.blockedTime[_date].isNotEmpty) {
+        final tempList = salon.blockedTime[_date];
+
+        for (String slots in blockedSlots) {
+          tempList.remove(slots);
+        }
+        salon.blockedTime[_date] = tempList;
+      }
+
+      return salon;
+    } catch (e) {
+      //(e);
+    }
+  }
+
+  //removes the entire appointment module
+  Future<Status?> removeAppointment(String? appointmentId) async {
+    if (appointmentId == null) return Status.failed;
+    try {
+      Status status = Status.success;
+      await Collection.appointments.doc(appointmentId).delete().onError((dynamic error, stackTrace) => status = Status.failed);
+      return status;
+    } catch (e) {
+      debugPrint(e.toString());
+      return null;
+    }
+  }
+
+  //unblocks the master's locked time
+  unBlockSlots(AppointmentModel app, MasterModel master) async {
+    try {
+      //remove blocked time from master's schedule
+      master = _removeBlockedSlots(app, master);
+      await MastersApi().updateMaster(master);
+      return Status.success;
+    } catch (e) {
+      //(e);
+      return Status.failed;
+    }
+  }
+
+  //removes the blocked time from master model and returns master's model
+  _removeBlockedSlots(AppointmentModel appointment, MasterModel master) {
+    try {
+      final String _date = _timeUtils.getDateInStandardFormat(appointment.appointmentStartTime!);
+
+      TimeOfDay _time1 = TimeOfDay.fromDateTime(appointment.appointmentStartTime!);
+      TimeOfDay _time2 = TimeOfDay.fromDateTime(appointment.appointmentEndTime!);
+
+      List<String> blockedSlots = _timeUtils.generateTimeSlotsBlock(_time1, _time2, inclusive: true).toList();
+
+      if (master.blockedTime != null && master.blockedTime![_date] != null && master.blockedTime![_date].isNotEmpty) {
+        final tempList = master.blockedTime![_date];
+
+        //(_date);
+
+        for (String slots in blockedSlots) {
+          tempList.remove(slots);
+        }
+        master.blockedTime![_date] = tempList;
+      }
+
+      return master;
+    } catch (e) {
+      //(e);
+    }
+  }
+
+  ///update multiple appointments blocks
+  Future updateMultipleAppointmentBlocks(AppointmentModel appointment, String? appointmentStatus, String? appointmentSubStatus) async {
+    try {
+      DocumentReference _docRef;
+      if (appointment.appointmentIdentifier != null) {
+        //updates the existing appointment
+        final querySnapshot = await Collection.appointments.where('appointmentIdentifier', isEqualTo: appointment.appointmentIdentifier).get();
+        final batch = FirebaseFirestore.instance.batch();
+        querySnapshot.docs.forEach((doc) {
+          if (appointment.status == AppointmentStatus.cancelled && appointment.subStatus == ActiveAppointmentSubStatus.cancelledBySalon) {
+            batch.update(doc.reference, {
+              "status": appointment.status,
+              "subStatus": appointment.subStatus,
+              "updatedAt": FieldValue.arrayUnion([DateTime.now()]),
+              "updates": FieldValue.arrayUnion([AppointmentUpdates.cancelledBySalon]),
+            });
+          } else if (appointment.status == AppointmentStatus.active && appointment.subStatus == ActiveAppointmentSubStatus.confirmed) {
+            batch.update(doc.reference, {
+              "status": appointment.status,
+              "subStatus": appointment.subStatus,
+              "updatedAt": FieldValue.arrayUnion([DateTime.now()]),
+              "updates": FieldValue.arrayUnion([AppointmentUpdates.approvedBySalon]),
+            });
+          } else if (appointment.status == AppointmentStatus.active && appointment.subStatus == ActiveAppointmentSubStatus.unConfirmed) {
+            batch.update(doc.reference, {
+              "status": appointment.status,
+              "subStatus": appointment.subStatus,
+              "updatedAt": FieldValue.arrayUnion([DateTime.now()]),
+              "updates": FieldValue.arrayUnion([AppointmentUpdates.approvedBySalon]),
+            });
+          } else if (appointment.status == AppointmentStatus.noShow) {
+            batch.update(doc.reference, {
+              "status": appointment.status,
+              "subStatus": appointment.subStatus,
+              "updatedAt": FieldValue.arrayUnion([DateTime.now()]),
+              "updates": FieldValue.arrayUnion([
+                AppointmentUpdates.noShowBySalon,
+              ]),
+            });
+          } else {
+            batch.update(doc.reference, {
+              "status": appointment.status,
+              "subStatus": appointment.subStatus,
+              "updatedAt": FieldValue.arrayUnion([DateTime.now()]),
+              "updates": FieldValue.arrayUnion([AppointmentUpdates.changedBySalon]),
+            });
+          }
+        });
+
+        await batch.commit();
+        return true;
+      } else {
+        //creates a new appointment
+        return null;
+      }
+    } catch (e) {
+      debugPrint('error in making appointment');
+      debugPrint(e.toString());
+      return null;
+    }
+  }
+
+  ///get appointment with same identifier
+  Future<List<AppointmentModel?>> getAppointmentFromIdentifier(String? appointmentIdentifier) async {
+    //try {
+    if (appointmentIdentifier != null && appointmentIdentifier != "") {
+      final QuerySnapshot _response = await Collection.appointments.where("appointmentIdentifier", isEqualTo: appointmentIdentifier).get();
+
+      if (_response.docs.isEmpty) return [];
+      return _response.docs.map((e) {
+        Map<String, dynamic> _temp = e.data() as Map<String, dynamic>;
+        _temp['appointmentId'] = e.id;
+        if (kIsWeb) {
+          _temp['appointmentStartTime'] = {"_seconds": _temp['appointmentStartTime'].seconds, "_nanoseconds": _temp['appointmentStartTime'].nanoseconds};
+          _temp['appointmentEndTime'] = {"_seconds": _temp['appointmentEndTime'].seconds, "_nanoseconds": _temp['appointmentEndTime'].nanoseconds};
+          _temp['createdAt'] = {"_seconds": _temp['createdAt'].seconds, "_nanoseconds": _temp['createdAt'].nanoseconds};
+
+          if (_temp['notes'] != null) {
+            _temp['notes']['createdAt'] = {"_seconds": _temp['notes']['createdAt'].seconds, "_nanoseconds": _temp['notes']['createdAt'].nanoseconds};
+          }
+          return AppointmentModel.fromJson(_temp);
+        }
+
+        return AppointmentModel.fromJson(e.data() as Map<String, dynamic>);
+      }).toList();
+    }
+    return [];
   }
 }
 

@@ -24,8 +24,7 @@ class LogOutDialogue extends StatelessWidget {
     this.skipText,
   }) : super(key: key);
 
-  final TextStyle _style =
-      const TextStyle(fontFamily: "Montserrat", fontSize: 18, fontWeight: FontWeight.w600, color: AppTheme.textBlack);
+  final TextStyle _style = const TextStyle(fontFamily: "Montserrat", fontSize: 18, fontWeight: FontWeight.w600, color: AppTheme.textBlack);
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -54,7 +53,7 @@ class LogOutDialogue extends StatelessWidget {
                   child: Text(
                     skipText ?? "Cancel",
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline3!.copyWith(color: Theme.of(context).primaryColor),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(color: Theme.of(context).primaryColor),
                   ),
                 ),
               ),

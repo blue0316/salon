@@ -1,3 +1,5 @@
+import 'package:bbblient/src/views/salon/default_profile_view/salon_profile.dart';
+import 'package:bbblient/src/views/themes/glam_one/views/app_bar.dart';
 import 'package:extended_wrap/extended_wrap.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -7,7 +9,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
-import 'package:bbblient/src/models/enums/profile_datails_tabs.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
@@ -15,6 +16,8 @@ import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/views/salon/widgets/additional%20featured.dart';
 import 'package:bbblient/src/views/salon/widgets/service_expension_tile.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'about.dart';
 import 'salon_reviews.dart';
 import 'widgets/section_spacer.dart';
@@ -71,11 +74,13 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
   @override
   Widget build(BuildContext context) {
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+    final bool isLandscape = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.landScape);
+    final bool isTab = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab);
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     BnbProvider _bnbProvider = ref.read(bnbProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool isLightTheme = (theme == AppTheme.lightTheme);
+    bool isLightTheme = (theme == AppTheme.customLightTheme);
 
     return SingleChildScrollView(
       child: Column(
@@ -83,34 +88,27 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SectionSpacer(
-            title: (AppLocalizations.of(context)?.localeName == 'uk') ? saloonDetailsTitlesUK[1] : saloonDetailsTitles[1],
+            title: salonTitles(AppLocalizations.of(context)?.localeName ?? 'en')[1],
           ),
           Container(
             // height: 1000.h,
             width: double.infinity,
-            color: theme.colorScheme.background.withOpacity(0.7),
+            color: theme.canvasColor.withOpacity(0.7),
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 20.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Expanded(
-                    flex: 0,
-                    child: SizedBox(
-                      height: isPortrait ? null : 250.h,
-                      child: isPortrait
-                          ? PortraitAboutHeader(
-                              salonModel: widget.salonModel,
-                            )
-                          : LandscapeAboutHeader(
-                              salonModel: widget.salonModel,
-                            ),
-                    ),
-                  ),
                   SizedBox(
-                    height: DeviceConstraints.getResponsiveSize(context, 10, 10, 30),
+                    height: isPortrait ? null : 250.h,
+                    child: isPortrait
+                        ? PortraitAboutHeader(
+                            salonModel: widget.salonModel,
+                          )
+                        : LandscapeAboutHeader(salonModel: widget.salonModel),
                   ),
+                  SizedBox(height: DeviceConstraints.getResponsiveSize(context, 10, 10, 30)),
                   if (widget.salonModel.additionalFeatures.isNotEmpty)
                     Expanded(
                       flex: 0,
@@ -130,11 +128,12 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                                 children: [
                                   for (String s in widget.salonModel.additionalFeatures) ...[
                                     if (AppIcons.getIconFromFacilityString(feature: s) != null) ...[
-                                      if (_bnbProvider.locale == const Locale('en')) ...[
-                                        Container(
-                                          color: theme.colorScheme.background,
-                                          height: DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
-                                          width: DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
+                                      Container(
+                                        color: theme.canvasColor,
+                                        height: DeviceConstraints.getResponsiveSize(context, 100.h, 100.h, 110.h),
+                                        width: DeviceConstraints.getResponsiveSize(context, 100.h, 100.h, 110.h),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(5),
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.center,
                                             mainAxisAlignment: MainAxisAlignment.center,
@@ -152,98 +151,62 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                                                   color: theme.primaryColor,
                                                 ),
                                               ),
-                                              const SizedBox(height: 5),
+                                              const SizedBox(height: 10),
                                               Text(
-                                                getFeature(s) ?? '',
+                                                _bnbProvider.locale == const Locale('en') ? (getFeature(s) ?? '') : (getFeatureUk(s) ?? ''),
                                                 style: TextStyle(
                                                   overflow: TextOverflow.ellipsis,
-                                                  fontSize: 12.sp,
+                                                  fontSize: DeviceConstraints.getResponsiveSize(context, 10.sp, 10.sp, 12.sp),
                                                   height: 0,
                                                   color: isLightTheme ? Colors.black : Colors.white,
                                                 ),
-                                                maxLines: 2,
+                                                maxLines: 3,
                                                 textAlign: TextAlign.center,
                                               ),
                                             ],
                                           ),
                                         ),
-                                      ],
-                                      if (_bnbProvider.locale == const Locale('uk')) ...[
-                                        Container(
-                                          color: theme.colorScheme.background,
-                                          height: DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
-                                          width: DeviceConstraints.getResponsiveSize(context, 80.h, 90.h, 100.h),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              GestureDetector(
-                                                onTap: () => showDialog<bool>(
-                                                  context: context,
-                                                  builder: (BuildContext context) {
-                                                    return ShowAdditionaFeatureInfo(_bnbProvider, s);
-                                                  },
-                                                ),
-                                                child: SvgPicture.asset(
-                                                  AppIcons.getIconFromFacilityString(feature: s)!,
-                                                  height: DeviceConstraints.getResponsiveSize(context, 30.h, 30.h, 30.h),
-                                                  color: theme.primaryColor,
-                                                ),
-                                              ),
-                                              const SizedBox(height: 5),
-                                              Text(
-                                                getFeatureUk(s) ?? '',
-                                                style: TextStyle(
-                                                  overflow: TextOverflow.ellipsis,
-                                                  fontSize: 12.sp,
-                                                  height: 0,
-                                                  color: isLightTheme ? Colors.black : Colors.white,
-                                                ),
-                                                maxLines: 2,
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ]
+                                      ),
                                     ]
                                   ],
                                 ],
                               ),
                             ),
-                            Expanded(
-                              flex: 0,
-                              child: GestureDetector(
-                                onTap: () {
-                                  if (maxLinesForAdditionalFeature != widget.salonModel.additionalFeatures.length) {
-                                    setState(() {
-                                      maxLinesForAdditionalFeature = widget.salonModel.additionalFeatures.length;
-                                    });
-                                  } else {
-                                    setState(() {
-                                      maxLinesForAdditionalFeature = 1;
-                                    });
-                                  }
-                                },
-                                child: Container(
+                            if ((isPortrait && widget.salonModel.additionalFeatures.length > 3) || (isLandscape && widget.salonModel.additionalFeatures.length > 4) || (isTab && widget.salonModel.additionalFeatures.length > 6))
+                              Expanded(
+                                flex: 0,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    if (maxLinesForAdditionalFeature != widget.salonModel.additionalFeatures.length) {
+                                      setState(() {
+                                        maxLinesForAdditionalFeature = widget.salonModel.additionalFeatures.length;
+                                      });
+                                    } else {
+                                      setState(() {
+                                        maxLinesForAdditionalFeature = 1;
+                                      });
+                                    }
+                                  },
+                                  child: Container(
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: theme.colorScheme.background,
+                                      color: theme.canvasColor,
                                     ),
                                     child: Center(
                                       child: Icon(
                                         Icons.keyboard_arrow_down_rounded,
                                         color: theme.primaryColor,
                                       ),
-                                    )),
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
                           ],
                         ),
                       ),
                     ),
                   SizedBox(
-                    height: DeviceConstraints.getResponsiveSize(context, 15, 15, 30),
+                    height: DeviceConstraints.getResponsiveSize(context, 20, 20, 30),
                   ),
                   Expanded(
                     flex: 0,
@@ -251,23 +214,65 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(
-                          (AppLocalizations.of(context)?.socialMedia ?? "Social media").toUpperCase(),
-                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15.sp,
-                                color: isLightTheme ? Colors.black : Colors.white,
-                              ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            (AppLocalizations.of(context)?.socialMedia ?? "Social media").toUpperCase(),
+                            style: theme.textTheme.bodyLarge!.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15.sp,
+                              color: isLightTheme ? Colors.black : Colors.white,
+                            ),
+                          ),
                         ),
                         const SizedBox(height: 10),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: const [
-                            SocialLink(icon: AppIcons.linkGlobe),
-                            SocialLink(icon: AppIcons.linkInsta),
-                            SocialLink(icon: AppIcons.linkTikTok),
-                            SocialLink(icon: AppIcons.linkFacebook),
+                        Wrap(
+                          alignment: WrapAlignment.start,
+                          // crossAxisAlignment: CrossAxisAlignment.center,
+                          // mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            if (widget.salonModel.links?.website != '' && widget.salonModel.links?.website != null)
+                              SocialLink(
+                                icon: isLightTheme ? AppIcons.linkGlobe : AppIcons.linkGlobeDark,
+                                type: 'website',
+                                socialUrl: widget.salonModel.links?.website,
+                              ),
+                            if (widget.salonModel.links?.instagram != '' && widget.salonModel.links?.instagram != null)
+                              SocialLink(
+                                icon: isLightTheme ? AppIcons.linkInsta : AppIcons.linkInstaDark2,
+                                type: 'insta',
+                                socialUrl: widget.salonModel.links?.instagram,
+                              ),
+                            if (widget.salonModel.links?.tiktok != '' && widget.salonModel.links?.tiktok != null)
+                              SocialLink(
+                                icon: isLightTheme ? AppIcons.linkTikTok : AppIcons.linkTikTokDark,
+                                type: 'tiktok',
+                                socialUrl: widget.salonModel.links?.tiktok,
+                              ),
+                            if (widget.salonModel.links?.facebook != '' && widget.salonModel.links?.facebook != null)
+                              SocialLink(
+                                icon: isLightTheme ? AppIcons.linkFacebook : AppIcons.linkFacebookDark,
+                                type: 'facebook',
+                                socialUrl: widget.salonModel.links?.facebook,
+                              ),
+                            if (widget.salonModel.links?.twitter != '' && widget.salonModel.links?.twitter != null)
+                              SocialIcon2(
+                                icon: FontAwesomeIcons.twitter,
+                                type: 'twitter',
+                                socialUrl: widget.salonModel.links?.twitter,
+                              ),
+                            if (widget.salonModel.links?.pinterest != '' && widget.salonModel.links?.pinterest != null)
+                              SocialIcon2(
+                                icon: FontAwesomeIcons.pinterest,
+                                type: 'pinterest',
+                                socialUrl: widget.salonModel.links?.pinterest,
+                              ),
+                            if (widget.salonModel.links?.yelp != '' && widget.salonModel.links?.yelp != null)
+                              SocialIcon2(
+                                icon: FontAwesomeIcons.yelp,
+                                type: 'yelp',
+                                socialUrl: widget.salonModel.links?.yelp,
+                              ),
                           ],
                         ),
                       ],
@@ -288,30 +293,111 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
   }
 }
 
-class SocialLink extends ConsumerWidget {
-  final String icon;
+class SocialIcon2 extends ConsumerWidget {
+  final IconData icon;
+  final String type;
+  final String? socialUrl;
 
-  const SocialLink({Key? key, required this.icon}) : super(key: key);
+  const SocialIcon2({
+    Key? key,
+    required this.icon,
+    required this.type,
+    this.socialUrl,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool isLightTheme = (theme == AppTheme.lightTheme);
 
     return Expanded(
       flex: 0,
-      child: Padding(
-        padding: const EdgeInsets.only(right: 15),
-        child: Container(
-          height: 50.h,
-          width: 50.h,
-          color: theme.colorScheme.background,
-          child: Center(
-            child: SvgPicture.asset(
-              icon,
-              height: 30.h,
-              color: !isLightTheme ? theme.primaryColor : null,
+      child: GestureDetector(
+        onTap: () async {
+          Uri uri = Uri.parse(socialLinks(type, socialUrl ?? ''));
+
+          if (await canLaunchUrl(uri)) {
+            await launchUrl(uri);
+          } else {
+            showToast("Social Link is not available");
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.only(right: 15),
+          child: Container(
+            height: 50.h,
+            width: 50.h,
+            color: theme.canvasColor,
+            child: Center(
+              child: FaIcon(
+                icon,
+                size: 30.h,
+                color: theme.primaryColor,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class SocialLink extends ConsumerWidget {
+  final String icon;
+  final String type;
+  final String? socialUrl;
+
+  const SocialLink({
+    Key? key,
+    required this.icon,
+    required this.type,
+    required this.socialUrl,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+    bool isLightTheme = (theme == AppTheme.customLightTheme);
+
+    return Expanded(
+      flex: 0,
+      child: GestureDetector(
+        onTap: () async {
+          Uri uri = Uri.parse(socialLinks(type, socialUrl ?? ''));
+
+          debugPrint("launching Url: $uri");
+
+          if (await canLaunchUrl(uri)) {
+            await launchUrl(uri);
+          } else {
+            showToast("Social Link is not available");
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.only(right: 15),
+          child: Container(
+            height: 50.h,
+            width: 50.h,
+            color: theme.canvasColor,
+            child: Center(
+              child: (icon == AppIcons.linkGlobeDark)
+                  ? FaIcon(
+                      FontAwesomeIcons.globe,
+                      size: 30.h,
+                      color: theme.primaryColor,
+                    )
+                  : (icon == AppIcons.linkInstaDark2)
+                      ? FaIcon(
+                          FontAwesomeIcons.instagram,
+                          size: 30.h,
+                          color: theme.primaryColor,
+                        )
+                      : SvgPicture.asset(
+                          icon,
+                          height: 30.h,
+                          color: isLightTheme ? null : theme.primaryColor,
+                        ),
             ),
           ),
         ),

@@ -8,7 +8,6 @@ import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/themes/components/widgets/button.dart';
 import 'package:bbblient/src/views/themes/images.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/profile/widgets/custom_text_form_field.dart';
-import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -45,10 +44,10 @@ class _MinimalWriteToUsViewState extends ConsumerState<MinimalWriteToUsView> {
               child: Text(
                 (AppLocalizations.of(context)?.writeToUsAndWeWillHelpYouDecideOnTheService ?? "Write to us and we will help you decide on the service").toUpperCase(),
                 textAlign: TextAlign.center,
-                style: theme.textTheme.headline2?.copyWith(
+                style: theme.textTheme.displayMedium?.copyWith(
                   color: theme.colorScheme.secondary,
                   fontWeight: FontWeight.w600,
-                  fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                  fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 60.sp),
                 ),
               ),
             ),
@@ -71,10 +70,10 @@ class _MinimalWriteToUsViewState extends ConsumerState<MinimalWriteToUsView> {
                     Text(
                       (AppLocalizations.of(context)?.writeToUsAndWeWillHelpYouDecideOnTheService ?? "Write to us and we will help you decide on the service").toUpperCase(),
                       textAlign: TextAlign.center,
-                      style: theme.textTheme.headline2?.copyWith(
+                      style: theme.textTheme.displayMedium?.copyWith(
                         color: theme.colorScheme.secondary,
                         fontWeight: FontWeight.w600,
-                        fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                        fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 60.sp),
                       ),
                     ),
                     const SizedBox(height: 40),
@@ -133,14 +132,14 @@ class FormColumn extends ConsumerWidget {
             children: [
               TextSpan(
                 text: (AppLocalizations.of(context)?.name ?? "Name").toCapitalized(), // "Name",
-                style: theme.textTheme.subtitle2?.copyWith(
+                style: theme.textTheme.titleSmall?.copyWith(
                   color: theme.colorScheme.onSecondaryContainer,
                   fontSize: 17.sp,
                 ),
               ),
               TextSpan(
                 text: " *",
-                style: theme.textTheme.bodyText2?.copyWith(
+                style: theme.textTheme.bodyMedium?.copyWith(
                   color: Colors.red,
                   fontWeight: FontWeight.w800,
                 ),
@@ -155,7 +154,7 @@ class FormColumn extends ConsumerWidget {
             // width:  (isPortrait) ? 350.w : 100.w,
             focusNode: FocusNode(),
             controller: _salonProfileProvider.nameController,
-            hintText: (AppLocalizations.of(context)?.name ?? "Name").toCapitalized(), // "Name",
+            // hintText: (AppLocalizations.of(context)?.name ?? "Name").toCapitalized(), // "Name",
             margin: const EdgeInsets.only(top: 10),
             contentPadding: 20,
           ),
@@ -166,14 +165,14 @@ class FormColumn extends ConsumerWidget {
             children: [
               TextSpan(
                 text: (AppLocalizations.of(context)?.phone ?? "Phone").toCapitalized(), // "Phone",
-                style: theme.textTheme.subtitle2?.copyWith(
+                style: theme.textTheme.titleSmall?.copyWith(
                   color: theme.colorScheme.onSecondaryContainer,
                   fontSize: 17.sp,
                 ),
               ),
               TextSpan(
                 text: " *",
-                style: theme.textTheme.bodyText2!.copyWith(
+                style: theme.textTheme.bodyMedium!.copyWith(
                   color: Colors.red,
                   fontWeight: FontWeight.w800,
                 ),
@@ -188,7 +187,7 @@ class FormColumn extends ConsumerWidget {
             // width: (isPortrait) ? 350.w : 100.w,
             focusNode: FocusNode(),
             controller: _salonProfileProvider.phoneController,
-            hintText: (AppLocalizations.of(context)?.phone ?? "Phone").toCapitalized(), // "Phone",
+            // hintText: (AppLocalizations.of(context)?.phone ?? "Phone").toCapitalized(), // "Phone",
             contentPadding: 20,
             margin: const EdgeInsets.only(top: 10),
           ),
@@ -199,7 +198,7 @@ class FormColumn extends ConsumerWidget {
             children: [
               TextSpan(
                 text: AppLocalizations.of(context)?.email ?? "Email".toCapitalized(), // "Email",
-                style: theme.textTheme.subtitle2?.copyWith(
+                style: theme.textTheme.titleSmall?.copyWith(
                   color: theme.colorScheme.onSecondaryContainer,
                   fontSize: 17.sp,
                 ),
@@ -214,7 +213,7 @@ class FormColumn extends ConsumerWidget {
             // width: (isPortrait) ? 350.w : 100.w,
             focusNode: FocusNode(),
             controller: _salonProfileProvider.requestController,
-            hintText: (AppLocalizations.of(context)?.email ?? "Email").toCapitalized(), // "Email",
+            // hintText: (AppLocalizations.of(context)?.email ?? "Email").toCapitalized(), // "Email",
             contentPadding: 20,
             margin: const EdgeInsets.only(top: 10),
           ),

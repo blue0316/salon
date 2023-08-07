@@ -1,17 +1,11 @@
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/enums/gender.dart';
+import 'package:bbblient/src/utils/currency/currency.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../backend_codings/working_hours.dart';
 
-// { // POSSIBLE THEME FORMAT IN DATABSE ??
-//   '0': 'default',
-//   '1': 'solo-glam',
-//   '2': 'glam-barbershop',
-//   '3': 'glam-gradient',
-//   '4': 'barbershop',
-//   '5': 'glam-light',
-// }
+enum TimeFormat { amPM, twentyFourHr }
 
 class SalonModel {
   late String salonId = '';
@@ -52,6 +46,11 @@ class SalonModel {
   late bool requestSalon;
   late String salonLogo;
   late String selectedCurrency;
+  String? countryCode;
+  bool? isAutomaticBookingConfirmation;
+  late TimeFormat timeFormat;
+  late List<String> customerWebLanguages = [];
+  CancellationAndNoShow cancellationAndNoShowPolicy = CancellationAndNoShow.fromJson({});
 
   SalonModel({
     required this.salonId,
@@ -91,6 +90,11 @@ class SalonModel {
     this.requestSalon = false,
     required this.salonLogo,
     required this.selectedCurrency,
+    this.isAutomaticBookingConfirmation = false,
+    this.timeFormat = TimeFormat.amPM,
+    required this.customerWebLanguages,
+    required this.cancellationAndNoShowPolicy,
+    this.countryCode,
   });
 
   SalonModel.fromJson(Map<String, dynamic> json) {
@@ -114,7 +118,7 @@ class SalonModel {
     salonWebSite = json['salonWebSite'] ?? '';
     phoneNumber = json['phoneNumber'] ?? '';
     email = json['email'] ?? '';
-    locale = json['locale'] ?? 'UK';
+    locale = json['locale'] ?? 'en';
     description = json['description'] ?? '';
     if (json['profilePics'] != null) {
       profilePics = json['profilePics'].cast<String>();
@@ -146,7 +150,16 @@ class SalonModel {
     additionalFeatures = json['additionalFeatures'] != null ? json['additionalFeatures'].cast<String>() : [];
     requestSalon = json['requestSalon'] ?? false;
     salonLogo = json['salonLogo'] ?? '';
-    selectedCurrency = json['selectedCurrency'] ?? '\$';
+    selectedCurrency = (json['selectedCurrency'] != null) ? getCurrency(json['selectedCurrency']) : '\$';
+    countryCode = json['countryCode'] ?? "";
+    isAutomaticBookingConfirmation = json['isAutomaticBookingConfirmation'] ?? false;
+    timeFormat = (json['timeFormat'] == '24H') ? timeFormat = TimeFormat.twentyFourHr : timeFormat = TimeFormat.amPM;
+    customerWebLanguages = json['customerWebLanguages'] ?? ['en'];
+    cancellationAndNoShowPolicy = json['cancellationAndNoShowPolicy'] != null
+        ? CancellationAndNoShow.fromJson(json['cancellationAndNoShowPolicy'])
+        : CancellationAndNoShow.fromJson(
+            {},
+          );
   }
 
   Map<String, dynamic> toJson() {
@@ -189,6 +202,9 @@ class SalonModel {
     data['additionalFeatures'] = additionalFeatures;
     data['requestSalon'] = requestSalon;
     data['selectedCurrency'] = selectedCurrency;
+    data['timeFormat'] = timeFormat;
+    data['customerWebLanguages'] = customerWebLanguages;
+
     // data['selectedTheme'] = selectedTheme;
     return data;
   }
@@ -240,35 +256,6 @@ class Position {
   //main backup => LatLng(50.45445, 30.52088);
   // test salon coordinates=> LatLng( 40.71427, -74.00597);
   // ukraine second test const LatLng( 50.450001, 30.523333);
-
-}
-
-class Links {
-  String? facebookMessenger;
-  String? viber;
-  String? telegram;
-  String? whatsapp;
-  String? instagram;
-
-  Links(Map map, {this.facebookMessenger, this.viber, this.telegram, this.whatsapp, this.instagram});
-
-  Links.fromJson(Map<String, dynamic> json) {
-    facebookMessenger = json['facebookMessenger'];
-    viber = json['viber'];
-    telegram = json['telegram'];
-    whatsapp = json['whatsapp'];
-    instagram = json['instagram'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {};
-    data['facebookMessenger'] = facebookMessenger;
-    data['viber'] = viber;
-    data['telegram'] = telegram;
-    data['whatsapp'] = whatsapp;
-    data['instagram'] = instagram;
-    return data;
-  }
 }
 
 class PhotosOfWorks {
@@ -291,8 +278,90 @@ class PhotosOfWorks {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     data['createdAt'] = createdAt!.toIso8601String();
-    data['image'] = image;
-    data['description'] = description;
+    data['image'] = image ?? '';
+    data['description'] = description ?? '';
+
+    return data;
+  }
+}
+
+class Links {
+  late String facebook;
+  late String instagram;
+  late String twitter;
+  late String pinterest;
+  late String yelp;
+  late String tiktok;
+  late String website;
+
+  Links(
+    Map map, {
+    required this.facebook,
+    required this.instagram,
+    required this.twitter,
+    required this.pinterest,
+    required this.yelp,
+    required this.tiktok,
+    required this.website,
+  });
+
+  Links.fromJson(Map<String, dynamic> json) {
+    facebook = json['facebook'] ?? '';
+    instagram = json['instagram'] ?? '';
+    twitter = json['twitter'] ?? '';
+    pinterest = json['pinterest'] ?? '';
+    yelp = json['yelp'] ?? '';
+    tiktok = json['tiktok'] ?? '';
+    website = json['website'] ?? '';
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = {};
+    data['facebook'] = facebook;
+    data['instagram'] = instagram;
+    data['twitter'] = twitter;
+    data['pinterest'] = pinterest;
+    data['yelp'] = yelp;
+    data['tiktok'] = tiktok;
+    data['website'] = website;
+    return data;
+  }
+}
+
+class CancellationAndNoShow {
+  String requireCardToBookOnline;
+  bool allowOnlineCancellation;
+  String cancellationWindow;
+  bool setCancellationAndNoShowPolicy;
+  String chargeWhenNoShow;
+  String chargeWhenNoShowPercent;
+
+  CancellationAndNoShow({
+    required this.requireCardToBookOnline,
+    required this.allowOnlineCancellation,
+    required this.cancellationWindow,
+    required this.setCancellationAndNoShowPolicy,
+    required this.chargeWhenNoShow,
+    required this.chargeWhenNoShowPercent,
+  });
+
+  factory CancellationAndNoShow.fromJson(Map<String, dynamic> json) => CancellationAndNoShow(
+        requireCardToBookOnline: json['requireCardToBookOnline'] ?? 'OFF',
+        allowOnlineCancellation: json['allowOnlineCancellation'] ?? false,
+        cancellationWindow: json['cancellationWindow'] ?? '',
+        setCancellationAndNoShowPolicy: json['setCancellationAndNoShowPolicy'] ?? false,
+        chargeWhenNoShow: json['chargeWhenNoShow'] ?? '',
+        chargeWhenNoShowPercent: json['chargeWhenNoShowPercent'] ?? '',
+      );
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['requireCardToBookOnline'] = requireCardToBookOnline;
+    data['allowOnlineCancellation'] = allowOnlineCancellation;
+    data['cancellationWindow'] = cancellationWindow;
+    data['setCancellationAndNoShowPolicy'] = setCancellationAndNoShowPolicy;
+    data['chargeWhenNoShow'] = chargeWhenNoShow;
+    data['chargeWhenNoShowPercent'] = chargeWhenNoShowPercent;
 
     return data;
   }

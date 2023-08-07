@@ -35,7 +35,7 @@ class _SupportOptionsState extends State<SupportOptions> {
             title: "Telegram",
             iconUrl: AppIcons.telegramSVG,
             onTapped: () {
-              Utils().launchUrl(url: "https://t.me/bowandbeautiful_bot");
+              Utils().launchUrlUtil(url: "https://t.me/bowandbeautiful_bot");
             },
             size: size,
           ),

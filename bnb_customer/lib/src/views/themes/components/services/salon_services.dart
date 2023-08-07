@@ -1,6 +1,5 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
@@ -52,7 +51,7 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     // Check if Salon is a single master
-    final bool isSingleMaster = (widget.salonModel.ownerType == OwnerType.singleMaster);
+    final bool isSingleMaster = _salonProfileProvider.isSingleMaster;
 
     ThemeType themeType = _salonProfileProvider.themeType;
 
@@ -63,7 +62,7 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
           left: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
           right: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
           top: DeviceConstraints.getResponsiveSize(context, 90.h, 100.h, 120.h),
-          // bottom: DeviceConstraints.getResponsiveSize(context, 20, 20, 10),
+          bottom: DeviceConstraints.getResponsiveSize(context, 20, 20, 10),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -71,8 +70,8 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
           children: [
             Text(
               isSingleMaster ? (AppLocalizations.of(context)?.price ?? 'Price') : (AppLocalizations.of(context)?.ourPrice ?? 'Our Price').toUpperCase(),
-              style: theme.textTheme.headline2?.copyWith(
-                fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),
+              style: theme.textTheme.displayMedium?.copyWith(
+                fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 60.sp),
               ),
             ),
             const SizedBox(height: 50),
@@ -82,7 +81,7 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: SizedBox(
-                        height: 60.h,
+                        height: 65.sp, // MediaQuery.of(context).size.height * 0.065, // 60.h,
                         child: TabBar(
                           onTap: (index) {
                             setState(() {
@@ -93,12 +92,12 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
                           unselectedLabelColor: theme.tabBarTheme.unselectedLabelColor,
 
                           labelColor: labelColorTheme(themeType, theme), // theme.tabBarTheme.labelColor,
-                          labelStyle: theme.textTheme.bodyText1?.copyWith(
+                          labelStyle: theme.textTheme.bodyLarge?.copyWith(
                             color: labelColorTheme(themeType, theme), // theme.tabBarTheme.labelColor,
                             fontWeight: FontWeight.w500,
                             fontSize: 20.sp,
                           ),
-                          unselectedLabelStyle: theme.textTheme.bodyText1?.copyWith(
+                          unselectedLabelStyle: theme.textTheme.bodyLarge?.copyWith(
                             color: theme.tabBarTheme.unselectedLabelColor,
                             fontWeight: FontWeight.w500,
                             fontSize: 20.sp,
@@ -114,7 +113,10 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
                           labelPadding: const EdgeInsets.symmetric(horizontal: 50),
                           tabs: _createAppointmentProvider.categoriesAvailable
                               .map(
-                                (item) => Tab(text: item.categoryName),
+                                (item) => Tab(
+                                  text: item.categoryName,
+                                  // height: 20,
+                                ),
                               )
                               .toList(),
                         ),
@@ -126,7 +128,7 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
                     child: Center(
                       child: Text(
                         (AppLocalizations.of(context)?.noServicesAvailable ?? 'No services available').toUpperCase(),
-                        style: theme.textTheme.bodyText1?.copyWith(
+                        style: theme.textTheme.bodyLarge?.copyWith(
                           fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
                         ),
                       ),
@@ -186,7 +188,7 @@ class ServiceAndPrice extends ConsumerWidget {
             children: [
               Text(
                 (AppLocalizations.of(context)?.service ?? 'Service').trim().toUpperCase(),
-                style: theme.textTheme.bodyText1?.copyWith(
+                style: theme.textTheme.bodyLarge?.copyWith(
                   color: theme.primaryColorDark,
                   fontSize: 20.sp,
                   letterSpacing: 1,
@@ -194,7 +196,7 @@ class ServiceAndPrice extends ConsumerWidget {
               ),
               Text(
                 (AppLocalizations.of(context)?.price ?? 'Price').toUpperCase(),
-                style: theme.textTheme.bodyText1?.copyWith(
+                style: theme.textTheme.bodyLarge?.copyWith(
                   color: theme.primaryColorDark,
                   fontSize: 20.sp,
                   letterSpacing: 1,

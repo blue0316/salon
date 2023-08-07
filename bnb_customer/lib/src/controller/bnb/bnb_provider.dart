@@ -125,7 +125,7 @@ class BnbProvider with ChangeNotifier {
   //
   retrieveSalonMasterModel(String id) async {
     salonMaster = await MastersApi().getMasterFromId(id);
-    debugPrint('salonMaster Id ' + salonMaster!.masterId.toString());
+    // debugPrint('salonMaster Id ' + salonMaster!.masterId.toString());
     notifyListeners();
   }
 

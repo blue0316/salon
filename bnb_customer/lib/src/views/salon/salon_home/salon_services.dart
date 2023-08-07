@@ -26,7 +26,6 @@ class _SaloonServicesState extends ConsumerState<SalonServices> {
   // List<CategoryModel>? categories;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -45,7 +44,7 @@ class _SaloonServicesState extends ConsumerState<SalonServices> {
             SizedBox(height: 20.h),
             Text(
               (AppLocalizations.of(context)?.localeName == 'uk') ? saloonDetailsTitlesUK[0] : saloonDetailsTitles[0].toCapitalized(),
-              style: Theme.of(context).textTheme.bodyText1!.copyWith(
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     fontWeight: FontWeight.w600,
                     fontSize: 30.sp,
                     letterSpacing: -1,

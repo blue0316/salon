@@ -114,3 +114,21 @@ class PrevAndNext extends ConsumerWidget {
     );
   }
 }
+
+String getPromotionType({required String type}) {
+  switch (type) {
+    case PromotionType.service:
+      return "Service(s)";
+    case PromotionType.service_set:
+      return "Service Set";
+    case PromotionType.visit:
+      return "Visit";
+    case PromotionType.last_minute:
+      return "Last Minute";
+    case PromotionType.happy_hour:
+      return "Happy Hour";
+
+    default:
+      return "No Promotion";
+  }
+}

@@ -1,6 +1,5 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
@@ -18,28 +17,33 @@ class ContactDefaultView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
-    final bool isSingleMaster = (salonModel.ownerType == OwnerType.singleMaster);
-
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+
+    final _bnbProvider = ref.watch(bnbProvider);
+    final bool isSingleMaster = _salonProfileProvider.isSingleMaster;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Text(
-          // "${isSingleMaster ? "" : "OUR "} CONTACTS",
-          isSingleMaster
-              ? (AppLocalizations.of(context)?.contacts ?? 'Contacts')
-              : (AppLocalizations.of(
-                        context,
-                      )?.contactUs ??
-                      'Contact Us')
-                  .toUpperCase(),
-          style: theme.textTheme.headline2!.copyWith(
-            fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+        GestureDetector(
+          onTap: () {
+            _bnbProvider.changeLocale(locale: const Locale('uk'));
+          },
+          child: Text(
+            isSingleMaster
+                ? (AppLocalizations.of(context)?.contacts ?? 'Contacts')
+                : (AppLocalizations.of(
+                          context,
+                        )?.contactUs ??
+                        'Contact Us')
+                    .toUpperCase(),
+            style: theme.textTheme.displayMedium!.copyWith(
+              fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 60.sp),
+            ),
+            textAlign: TextAlign.center,
           ),
-          textAlign: TextAlign.center,
         ),
         const SizedBox(height: 50),
         SizedBox(

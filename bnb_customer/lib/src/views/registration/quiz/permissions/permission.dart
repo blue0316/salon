@@ -48,7 +48,7 @@ class _PermissionDialougState extends State<PermissionDialoug> {
             padding: EdgeInsets.only(top: 54.0.h),
             child: Text(
               widget.title,
-              style: Theme.of(context).textTheme.headline3,
+              style: Theme.of(context).textTheme.displaySmall,
             ),
           ),
           Padding(

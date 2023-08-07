@@ -1,5 +1,3 @@
-import 'package:bbblient/src/controller/all_providers/all_providers.dart';
-import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
@@ -149,44 +147,28 @@ class BnbRatings extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var mediaQuery = MediaQuery.of(context);
-
-    final _salonProfileProvider = ref.watch(salonProfileProvider);
-    final ThemeData theme = _salonProfileProvider.salonTheme;
-
-    if (rating == 0) {
-      return Text(
-        AppLocalizations.of(context)?.noRating ?? "no ratings",
-        style: TextStyle(
-          fontSize: DeviceConstraints.getDeviceType(mediaQuery) == DeviceScreenType.tab ? 12 : 12.sp,
-          color: theme.primaryColor,
-        ),
-        textAlign: TextAlign.center,
-      );
-    } else {
-      return RatingBar.builder(
-        unratedColor: unratedColor ?? Colors.white, // Changed to reflect properly on Booking Dialog //TODO - WORK ON THIS ON OTHER SCREENS
-        initialRating: rating,
-        minRating: 0,
-        direction: Axis.horizontal,
-        allowHalfRating: true,
-        itemCount: 5,
-        itemPadding: EdgeInsets.symmetric(horizontal: padding ?? 0.0),
-        itemBuilder: (context, _) {
-          return SvgPicture.asset(
-            'assets/icons/flutterRating.svg',
-            color: color ?? AppTheme.bookingYellow,
-          );
-        },
-        onRatingUpdate: (rating) {
-          onRatingUpdate!();
-        },
-        itemSize: DeviceConstraints.getResponsiveSize(context, starSize, starSize * 1.2, starSize * 1.3),
-        glow: false,
-        updateOnDrag: true,
-        ignoreGestures: !editable,
-      );
-    }
+    return RatingBar.builder(
+      unratedColor: unratedColor ?? Colors.white, // Changed to reflect properly on Booking Dialog
+      initialRating: rating,
+      minRating: 0,
+      direction: Axis.horizontal,
+      allowHalfRating: true,
+      itemCount: 5,
+      itemPadding: EdgeInsets.symmetric(horizontal: padding ?? 0.0),
+      itemBuilder: (context, _) {
+        return SvgPicture.asset(
+          'assets/icons/flutterRating.svg',
+          color: color ?? AppTheme.bookingYellow,
+        );
+      },
+      onRatingUpdate: (rating) {
+        onRatingUpdate!();
+      },
+      itemSize: DeviceConstraints.getResponsiveSize(context, starSize, starSize * 1.2, starSize * 1.3),
+      glow: false,
+      updateOnDrag: true,
+      ignoreGestures: !editable,
+    );
   }
 }
 

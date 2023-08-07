@@ -2,6 +2,7 @@ import 'package:bbblient/src/models/cat_sub_service/price_and_duration.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import '../backend_codings/appointment.dart';
 import '../backend_codings/owner_type.dart';
 
@@ -9,12 +10,12 @@ class AppointmentModel {
   late String type = AppointmentType.reservation;
 
   /// pass for customer app .where(type= [AppointmentType.reservation])
-  late DateTime createdAt;
-  late DateTime appointmentStartTime;
-  late DateTime appointmentEndTime;
+  late DateTime? createdAt;
+  late DateTime? appointmentStartTime;
+  late DateTime? appointmentEndTime;
   late String appointmentTime;
   late String appointmentDate;
-  late String appointmentId;
+  String? appointmentId;
   late Salon salon;
   Master? master;
   Customer? customer;
@@ -25,10 +26,11 @@ class AppointmentModel {
   String? locale;
 
   /// [OwnerType.]
-  bool bookedForSelf = true;
+  bool? bookedForSelf = true;
   String? bookedForName;
   String? bookedForPhoneNo;
   late String status;
+  late String subStatus;
 
   late PaymentInfo? paymentInfo;
 
@@ -41,8 +43,8 @@ class AppointmentModel {
 
   late List<Service> services;
   late PriceAndDurationModel priceAndDuration;
-  late bool masterReviewed = false;
-  late bool salonReviewed = false;
+  late bool? masterReviewed = false;
+  late bool? salonReviewed = false;
 
   ///Client's names to be shown while booking an appointment
   String? firstName;
@@ -50,55 +52,107 @@ class AppointmentModel {
 
   String? beautyProId;
   String? yClientsId;
-  AppointmentModel(
-      {required this.appointmentStartTime,
-      required this.appointmentEndTime,
-      required this.createdAt,
-      required this.appointmentTime,
-      required this.appointmentDate,
-      required this.appointmentId,
-      required this.priceAndDuration,
-      required this.updates,
-      required this.status,
-      required this.services,
-      required this.createdBy,
-      required this.bookedForSelf,
-      required this.masterReviewed,
-      required this.salonReviewed,
-      required this.paymentInfo,
-      this.type = AppointmentType.reservation,
-      this.updatedAt,
-      required this.salon,
-      this.master,
-      this.customer,
-      this.chatId,
-      this.bookedForName,
-      this.locale,
-      this.firstName,
-      this.lastName,
-      this.bookedForPhoneNo,
-      this.salonOwnerType = OwnerType.salon,
-      this.note,
-      this.beautyProId,
-      this.yClientsId});
+
+  ///for identifing the 3 appointments created (prep ,clean up and all)
+  String? appointmentIdentifier;
+
+  // id of appointment transaction
+  List<String>? transactionId = [];
+
+  AppointmentModel({
+    required this.appointmentStartTime,
+    required this.appointmentEndTime,
+    required this.createdAt,
+    required this.appointmentTime,
+    required this.appointmentDate,
+    this.appointmentId,
+    required this.priceAndDuration,
+    required this.updates,
+    required this.status,
+    this.subStatus = ActiveAppointmentSubStatus.unConfirmed,
+    required this.services,
+    required this.createdBy,
+    this.bookedForSelf,
+    this.masterReviewed,
+    this.salonReviewed,
+    required this.paymentInfo,
+    this.type = AppointmentType.reservation,
+    this.updatedAt,
+    required this.salon,
+    this.master,
+    this.customer,
+    this.chatId,
+    this.bookedForName,
+    this.locale,
+    this.firstName,
+    this.lastName,
+    this.bookedForPhoneNo,
+    this.salonOwnerType = OwnerType.salon,
+    this.note,
+    this.beautyProId,
+    this.yClientsId,
+    this.transactionId,
+  });
 
   AppointmentModel.fromJson(Map<String, dynamic> json) {
-    printIt(json['updatedAt']);
+    printIt(json['appointmentStartTime'].runtimeType.toString());
     type = json['type'] ?? AppointmentType.reservation;
-    appointmentStartTime = json['appointmentStartTime'].toDate();
-    createdAt = json['createdAt'].toDate();
-    appointmentEndTime = json['appointmentEndTime'].toDate();
-    if (json['updatedAt'] != null && json['updatedAt'].isNotEmpty) {
-      List<DateTime> _updates = [];
-      for (Timestamp t in json['updatedAt']) {
-        printIt(t.runtimeType);
-        var x = DateTime.parse(t.toDate().toString());
-        _updates.add(x);
-      }
-      updatedAt = _updates;
-    } else {
-      updatedAt = [];
-    }
+    json['appointmentStartTime'] != null
+        ? json['appointmentStartTime'].runtimeType.toString() == 'int'
+            ? appointmentStartTime = DateTime.fromMillisecondsSinceEpoch(json['appointmentStartTime'])
+            : appointmentStartTime = kIsWeb
+                ? json['appointmentStartTime'].runtimeType.toString() == 'DateTime'
+                    ? json['appointmentStartTime']
+                    : json['appointmentStartTime'].runtimeType.toString() == 'IdentityMap<String, dynamic>'
+                        ? Timestamp(json['appointmentStartTime']['_seconds'], json['appointmentStartTime']['_nanoseconds']).toDate()
+                        : json['appointmentStartTime'].toDate()
+                : json['appointmentStartTime'].runtimeType.toString() == 'DateTime'
+                    ? json['appointmentStartTime']
+                    : json['appointmentStartTime'].toDate()
+        : appointmentStartTime = null;
+    appointmentIdentifier = json['appointmentIdentifier'] ?? "";
+
+    json['createdAt'] != null
+        ? json['createdAt'].runtimeType.toString() == 'int'
+            ? createdAt = DateTime.fromMillisecondsSinceEpoch(json['createdAt'])
+            : createdAt = kIsWeb
+                ? json['createdAt'].runtimeType.toString() == 'DateTime'
+                    ? json['createdAt']
+                    : json['createdAt'].runtimeType.toString() == 'IdentityMap<String, dynamic>'
+                        ? Timestamp(json['createdAt']['_seconds'], json['createdAt']['_nanoseconds']).toDate()
+                        : json['createdAt'].toDate()
+                : json['createdAt'].runtimeType.toString() == 'DateTime'
+                    ? json['createdAt']
+                    : json['createdAt'].toDate()
+        : createdAt = null;
+    json['appointmentEndTime'] != null
+        ? json['appointmentEndTime'].runtimeType.toString() == 'int'
+            ? appointmentEndTime = DateTime.fromMillisecondsSinceEpoch(json['appointmentEndTime'])
+            : appointmentEndTime = kIsWeb
+                ? json['appointmentEndTime'].runtimeType.toString() == 'DateTime'
+                    ? json['appointmentEndTime']
+                    : json['appointmentEndTime'].runtimeType.toString() == 'IdentityMap<String, dynamic>'
+                        ? Timestamp(json['appointmentEndTime']['_seconds'], json['appointmentEndTime']['_nanoseconds']).toDate()
+                        : json['appointmentEndTime'].toDate()
+                : json['appointmentEndTime'].runtimeType.toString() == 'DateTime'
+                    ? json['appointmentEndTime']
+                    : json['appointmentEndTime'].toDate()
+        : appointmentEndTime = null;
+    (json['updatedAt'] != null && json['updatedAt'].isNotEmpty)
+        ? updatedAt = List<DateTime>.from(json['updatedAt']
+            .map((e) => e.runtimeType == int
+                ? DateTime.fromMillisecondsSinceEpoch(e)
+                : kIsWeb
+                    ?
+                    //null
+                    e.runtimeType.toString() == 'DateTime'
+                        ? e
+                        : Timestamp(e.seconds, e.nanoseconds).toDate()
+                    : e.runtimeType.toString() == 'DateTime'
+                        ? e
+                        : e.toDate())
+            .toList())
+        : updatedAt = null;
     paymentInfo = json['paymentInfo'] != null ? PaymentInfo.fromJson(json['paymentInfo']) : null;
 
     appointmentTime = json['appointmentTime'];
@@ -126,11 +180,17 @@ class AppointmentModel {
     }
     updates = json['updates'] == null ? [] : json['updates'].cast<String>();
     status = json['status'];
+    subStatus = json['subStatus'] ?? ActiveAppointmentSubStatus.unConfirmed;
     services = json['services'] != null ? json['services'].map<Service>((e) => Service.fromJson(e)).toList() : [];
     masterReviewed = json['masterReviewed'] ?? false;
     salonReviewed = json['salonReviewed'] ?? false;
     beautyProId = json['beautyProId'];
     yClientsId = json['yClientsId'];
+    transactionId = json['transactionId'] == null
+        ? []
+        : json['transactionId'].runtimeType.toString() == 'String'
+            ? [json['transactionId']]
+            : List<String>.from(json['transactionId']);
   }
 
   Map<String, dynamic> toJson() {
@@ -138,6 +198,7 @@ class AppointmentModel {
     data['type'] = type;
     data['appointmentStartTime'] = appointmentStartTime;
     data['createdAt'] = createdAt;
+    data['appointmentIdentifier'] = appointmentIdentifier;
     data['appointmentEndTime'] = appointmentEndTime;
     data['updatedAt'] = updatedAt;
     data['appointmentTime'] = appointmentTime;
@@ -164,11 +225,13 @@ class AppointmentModel {
     data['priceAndDuration'] = priceAndDuration.toJson();
     data['updates'] = updates;
     data['status'] = status;
+    data['subStatus'] = subStatus;
     data['services'] = services.map((e) => e.toJson()).toList();
     data['masterReviewed'] = masterReviewed;
     data['salonReviewed'] = salonReviewed;
     data['beautyProId'] = beautyProId;
     data['yClientsId'] = yClientsId;
+    data['transactionId'] = transactionId;
 
     return data;
   }
@@ -177,14 +240,13 @@ class AppointmentModel {
 ///holds the service details
 
 class Service {
-  //id of the service
-  late String serviceId;
-  late String categoryId;
-  late String subCategoryId;
-  late String serviceName;
-  late PriceAndDurationModel priceAndDuration;
-  late PriceAndDurationModel? priceAndDurationMax;
-  late Map translations;
+  String? serviceId = '';
+  String? categoryId = '';
+  String? subCategoryId = '';
+  String? serviceName = '';
+  PriceAndDurationModel? priceAndDuration = PriceAndDurationModel(price: "0", duration: "0");
+  //contains all the translations of supported lang
+  Map? translations = {};
 
   Service({
     required this.serviceId,
@@ -192,7 +254,6 @@ class Service {
     required this.subCategoryId,
     required this.serviceName,
     required this.priceAndDuration,
-    this.priceAndDurationMax,
     required this.translations,
   });
 
@@ -204,9 +265,7 @@ class Service {
     if (json['priceAndDuration'] != null) {
       priceAndDuration = PriceAndDurationModel.fromJson(json['priceAndDuration']);
     }
-    if (json['priceAndDurationMax'] != null) {
-      priceAndDurationMax = PriceAndDurationModel.fromJson(json['priceAndDurationMax']);
-    }
+
     if (json["translations"] != null) translations = {...json["translations"]};
   }
 
@@ -216,8 +275,9 @@ class Service {
     map["categoryId"] = categoryId;
     map["subCategoryId"] = subCategoryId;
     map["serviceName"] = serviceName;
-    map['priceAndDuration'] = priceAndDuration.toJson();
+    map['priceAndDuration'] = priceAndDuration?.toJson();
     map["translations"] = translations;
+
     return map;
   }
 
@@ -227,11 +287,6 @@ class Service {
     subCategoryId = serviceModel.subCategoryId;
     serviceName = serviceModel.serviceName;
     priceAndDuration = masterPriceAndDuration ?? serviceModel.priceAndDuration;
-    if (serviceModel.priceAndDurationMax != null) {
-      priceAndDurationMax = serviceModel.priceAndDurationMax;
-    }
-
-    translations = serviceModel.translations;
   }
 }
 
@@ -300,19 +355,22 @@ class Customer {
   late String name;
   late String? pic;
   late String phoneNumber;
+  late String email;
 
   Customer({
     required this.id,
     required this.name,
     required this.pic,
     required this.phoneNumber,
+    required this.email,
   });
 
   Customer.fromJson(dynamic json) {
     id = json["id"];
-    name = json["name"];
-    pic = json["pic"];
-    phoneNumber = json["phoneNumber"];
+    name = json["name"] ?? '';
+    pic = json["pic"] ?? '';
+    phoneNumber = json["phoneNumber"] ?? '';
+    email = json["email"] ?? '';
   }
 
   Map<String, dynamic> toJson() {
@@ -321,6 +379,7 @@ class Customer {
     map["name"] = name;
     map["pic"] = pic;
     map["phoneNumber"] = phoneNumber;
+    map["email"] = email;
     return map;
   }
 }
@@ -348,7 +407,7 @@ class PaymentInfo {
   bool paymentDone;
   bool onlinePayment;
   String? referralId;
-  String paymentMethod;
+  String? paymentMethod;
   String? paymentTransectionId;
   DateTime? payedAt;
 

@@ -1,6 +1,5 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
@@ -31,11 +30,11 @@ class _DefaultAboutViewState extends ConsumerState<DefaultAboutView> {
   @override
   Widget build(BuildContext context) {
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
-    final bool isSingleMaster = (widget.salonModel.ownerType == OwnerType.singleMaster);
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
     final ThemeType themeType = _salonProfileProvider.themeType;
+    final bool isSingleMaster = _salonProfileProvider.isSingleMaster;
 
     return Padding(
       padding: EdgeInsets.only(
@@ -53,25 +52,28 @@ class _DefaultAboutViewState extends ConsumerState<DefaultAboutView> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(
+                    // color: Colors.yellow,
                     // height: 500.h,
                     width: DeviceConstraints.getResponsiveSize(context, 50, 200.w, 200.w),
                     child: Stack(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 30),
+                          padding: const EdgeInsets.symmetric(vertical: 0),
                           child: SizedBox(
+                            // color: Colors.brown,
                             height: 500.h,
                             child: CarouselSlider(
                               carouselController: _controller,
                               options: CarouselOptions(
-                                scrollPhysics: const AlwaysScrollableScrollPhysics(),
+                                scrollPhysics: const NeverScrollableScrollPhysics(),
                                 autoPlay: false,
                                 pauseAutoPlayOnTouch: true,
                                 viewportFraction: 1,
+
                                 // height: DeviceConstraints.getResponsiveSize(context, 280.h, 320, 350.h),
                               ),
-                              items: widget.salonModel.photosOfWork.isNotEmpty
-                                  ? widget.salonModel.photosOfWork
+                              items: widget.salonModel.profilePics.isNotEmpty
+                                  ? widget.salonModel.profilePics
                                       .map((item) => CachedImage(
                                             url: item,
                                             fit: BoxFit.cover,
@@ -100,15 +102,15 @@ class _DefaultAboutViewState extends ConsumerState<DefaultAboutView> {
                         children: [
                           Text(
                             isSingleMaster ? (AppLocalizations.of(context)?.aboutMe ?? 'About Me') : (AppLocalizations.of(context)?.aboutUs ?? 'About Us').toUpperCase(),
-                            style: theme.textTheme.headline2?.copyWith(
-                              fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 30.sp, 50.sp),
+                            style: theme.textTheme.displayMedium?.copyWith(
+                              fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 60.sp),
                             ),
                           ),
                           const SizedBox(height: 10),
                           SizedBox(
                             child: Text(
                               (widget.salonModel.description != '') ? widget.salonModel.description : 'No description yet',
-                              style: theme.textTheme.bodyText2?.copyWith(
+                              style: theme.textTheme.bodyMedium?.copyWith(
                                 color: Colors.white,
                                 fontSize: 15.5.sp,
                               ),
@@ -129,6 +131,8 @@ class _DefaultAboutViewState extends ConsumerState<DefaultAboutView> {
                                 )
                               : OvalButton(
                                   text: AppLocalizations.of(context)?.bookNow ?? "Book Now",
+                                  width: 180.h,
+                                  height: 60.h,
                                   onTap: () => const BookingDialogWidget222().show(context),
                                 ),
                         ],
@@ -148,14 +152,14 @@ class _DefaultAboutViewState extends ConsumerState<DefaultAboutView> {
                 children: [
                   Text(
                     "${AppLocalizations.of(context)?.about} ${isSingleMaster ? "ME" : "US"}".toUpperCase(),
-                    style: theme.textTheme.headline2?.copyWith(
+                    style: theme.textTheme.displayMedium?.copyWith(
                       fontSize: 40.sp,
                     ),
                   ),
                   const SizedBox(height: 20),
                   Text(
                     (widget.salonModel.description != '') ? widget.salonModel.description : 'No description yet',
-                    style: theme.textTheme.bodyText2?.copyWith(
+                    style: theme.textTheme.bodyMedium?.copyWith(
                       color: Colors.white,
                       fontSize: 15.5.sp,
                     ),
@@ -176,29 +180,32 @@ class _DefaultAboutViewState extends ConsumerState<DefaultAboutView> {
                         ),
                   const SizedBox(height: 35),
                   SizedBox(
-                    height: 300.h,
+                    height: 360.sp,
                     width: double.infinity,
                     child: Stack(
                       children: [
                         SizedBox(
-                          height: 300.h,
+                          height: 360.sp,
+                          width: double.infinity,
                           child: CarouselSlider(
                             carouselController: _controller,
                             options: CarouselOptions(
-                              scrollPhysics: const AlwaysScrollableScrollPhysics(),
+                              scrollPhysics: const NeverScrollableScrollPhysics(),
                               autoPlay: false,
                               pauseAutoPlayOnTouch: true,
+
                               viewportFraction: 1,
-                              height: 300.h, //  DeviceConstraints.getResponsiveSize(context, 280.h, 320, 350.h),
+
+                              height: 360.sp, //  DeviceConstraints.getResponsiveSize(context, 280.h, 320, 350.h),
                             ),
-                            items: widget.salonModel.photosOfWork.isNotEmpty
-                                ? widget.salonModel.photosOfWork
+                            items: widget.salonModel.profilePics.isNotEmpty
+                                ? widget.salonModel.profilePics
                                     .map(
                                       (item) => CachedImage(
                                         url: item,
                                         fit: BoxFit.cover,
                                         height: 300.h,
-                                        width: MediaQuery.of(context).size.width - 20.w,
+                                        width: MediaQuery.of(context).size.width,
                                       ),
                                     )
                                     .toList()
@@ -224,11 +231,18 @@ class RightCarouselButton extends StatelessWidget {
     Key? key,
     required CarouselController controller,
     required this.theme,
+    this.size,
+    this.containerSize,
+    this.containerColor,
+    this.iconColor,
   })  : _controller = controller,
         super(key: key);
 
   final CarouselController _controller;
   final ThemeData theme;
+  final double? size;
+  final double? containerSize;
+  final Color? containerColor, iconColor;
 
   @override
   Widget build(BuildContext context) {
@@ -239,14 +253,14 @@ class RightCarouselButton extends StatelessWidget {
         child: InkWell(
           onTap: () => _controller.nextPage(),
           child: Container(
-            height: DeviceConstraints.getResponsiveSize(context, 30.h, 30.h, 40.h),
-            width: DeviceConstraints.getResponsiveSize(context, 30.h, 30.h, 40.h),
-            decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.black87),
+            height: containerSize ?? DeviceConstraints.getResponsiveSize(context, 30.h, 30.h, 40.h),
+            width: containerSize ?? DeviceConstraints.getResponsiveSize(context, 30.h, 30.h, 40.h),
+            decoration: BoxDecoration(shape: BoxShape.circle, color: containerColor ?? Colors.black87),
             child: Center(
               child: Icon(
                 Icons.arrow_forward_ios_rounded,
-                color: theme.primaryColorDark,
-                size: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 20.sp),
+                color: iconColor ?? theme.primaryColorDark,
+                size: size ?? DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 20.sp),
               ),
             ),
           ),
@@ -261,11 +275,18 @@ class LeftCarouselButton extends StatelessWidget {
     Key? key,
     required CarouselController controller,
     required this.theme,
+    this.size,
+    this.containerSize,
+    this.containerColor,
+    this.iconColor,
   })  : _controller = controller,
         super(key: key);
 
   final CarouselController _controller;
   final ThemeData theme;
+  final double? size;
+  final double? containerSize;
+  final Color? containerColor, iconColor;
 
   @override
   Widget build(BuildContext context) {
@@ -276,14 +297,14 @@ class LeftCarouselButton extends StatelessWidget {
         child: InkWell(
           onTap: () => _controller.previousPage(),
           child: Container(
-            height: DeviceConstraints.getResponsiveSize(context, 30.h, 30.h, 40.h),
-            width: DeviceConstraints.getResponsiveSize(context, 30.h, 30.h, 40.h),
-            decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.black87),
+            height: containerSize ?? DeviceConstraints.getResponsiveSize(context, 30.h, 30.h, 40.h),
+            width: containerSize ?? DeviceConstraints.getResponsiveSize(context, 30.h, 30.h, 40.h),
+            decoration: BoxDecoration(shape: BoxShape.circle, color: containerColor ?? Colors.black87),
             child: Center(
               child: Icon(
                 Icons.arrow_back_ios_new_rounded,
-                color: theme.primaryColorDark,
-                size: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 20.sp),
+                color: iconColor ?? theme.primaryColorDark,
+                size: size ?? DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 20.sp),
               ),
             ),
           ),

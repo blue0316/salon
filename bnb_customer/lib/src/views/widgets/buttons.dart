@@ -12,8 +12,10 @@ class DefaultButton extends ConsumerWidget {
   final bool isLoading;
   final Color? color, textColor, borderColor, loaderColor;
   final double height;
-  final double? borderRadius;
-  final Widget? prefixIcon;
+  final double? borderRadius, fontSize;
+  final Widget? prefixIcon, suffixIcon;
+  final FontWeight? fontWeight;
+  final bool noBorder;
 
   const DefaultButton({
     Key? key,
@@ -23,58 +25,62 @@ class DefaultButton extends ConsumerWidget {
     this.color,
     this.height = 60,
     this.borderRadius,
+    this.fontSize,
     this.textColor,
     this.borderColor,
     this.prefixIcon,
+    this.suffixIcon,
     this.loaderColor,
+    this.fontWeight,
+    this.noBorder = false,
   }) : super(key: key);
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
-    return MaterialButton(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(borderRadius ?? 8),
-        side: BorderSide(
-          color: borderColor ?? color ?? Colors.black,
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: MaterialButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(borderRadius ?? 8),
+          side: noBorder ? BorderSide.none : BorderSide(color: borderColor ?? color ?? Colors.black),
         ),
-      ),
-      height: height,
-      // size.width - 94,
-      minWidth: double.infinity,
-      color: color ?? AppTheme.lightBlack,
-      disabledColor: AppTheme.coolGrey,
-      onPressed: onTap as void Function()?,
-      child: isLoading
-          ? CircularProgressIndicator(color: loaderColor)
-          : (prefixIcon != null)
-              ? Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    prefixIcon!,
-                    const SizedBox(width: 10),
-                    Text(
-                      label ?? "Sign up",
-                      textAlign: TextAlign.center,
-                      style: theme.textTheme.bodyText1?.copyWith(
-                        color: textColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.sp,
-                      ),
+        height: height,
+        // size.width - 94,
+        minWidth: double.infinity,
+        color: color ?? AppTheme.lightBlack,
+        disabledColor: AppTheme.coolGrey,
+        onPressed: onTap as void Function()?,
+        child: isLoading
+            ? CircularProgressIndicator(color: loaderColor)
+            : Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (prefixIcon != null)
+                    Padding(
+                      padding: EdgeInsets.only(right: 10.sp),
+                      child: prefixIcon!,
                     ),
-                  ],
-                )
-              : Text(
-                  label ?? "Sign up",
-                  textAlign: TextAlign.center,
-                  style: theme.textTheme.bodyText1?.copyWith(
-                    color: textColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.sp,
+                  Text(
+                    label ?? "Sign up",
+                    textAlign: TextAlign.center,
+                    style: theme.textTheme.bodyLarge?.copyWith(
+                      color: textColor,
+                      fontWeight: fontWeight ?? FontWeight.w600,
+                      fontSize: fontSize ?? 20.sp,
+                    ),
                   ),
-                ),
+                  if (suffixIcon != null)
+                    Padding(
+                      padding: EdgeInsets.only(left: 5.sp),
+                      child: suffixIcon!,
+                    ),
+                ],
+              ),
+      ),
     );
   }
 }
@@ -151,7 +157,7 @@ class BnbMaterialButton extends StatelessWidget {
       minWidth: minWidth,
       child: Text(
         title,
-        style: Theme.of(context).textTheme.headline2,
+        style: Theme.of(context).textTheme.displayMedium,
       ),
     );
   }
@@ -191,10 +197,8 @@ class _BnbCheckCircleState extends State<BnbCheckCircle> {
 
 class ServicesBnbCheckCircle extends ConsumerStatefulWidget {
   final bool value;
-  const ServicesBnbCheckCircle({
-    Key? key,
-    required this.value,
-  }) : super(key: key);
+
+  const ServicesBnbCheckCircle({Key? key, required this.value}) : super(key: key);
 
   @override
   _ServicesBnbCheckCircleState createState() => _ServicesBnbCheckCircleState();
@@ -205,11 +209,11 @@ class _ServicesBnbCheckCircleState extends ConsumerState<ServicesBnbCheckCircle>
   Widget build(BuildContext context) {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool isLightTheme = (theme == AppTheme.lightTheme);
+    bool isLightTheme = (theme == AppTheme.customLightTheme);
 
     return Container(
-      height: DeviceConstraints.getResponsiveSize(context, 28.h, 40.h, 40.h),
-      width: DeviceConstraints.getResponsiveSize(context, 28.h, 40.h, 40.h),
+      height: DeviceConstraints.getResponsiveSize(context, 25.h, 35.h, 35.h),
+      width: DeviceConstraints.getResponsiveSize(context, 25.h, 35.h, 35.h),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: widget.value ? AppTheme.textBlack : Colors.white,
@@ -222,7 +226,7 @@ class _ServicesBnbCheckCircleState extends ConsumerState<ServicesBnbCheckCircle>
                   ? Colors.white
                   : theme.primaryColor
               : Colors.black,
-          size: DeviceConstraints.getResponsiveSize(context, 20.h, 30.h, 30.h),
+          size: DeviceConstraints.getResponsiveSize(context, 18.h, 28.h, 28.h),
         ),
       ),
     );

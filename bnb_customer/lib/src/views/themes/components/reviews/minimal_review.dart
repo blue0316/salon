@@ -65,7 +65,7 @@ class _MinimalReviewViewState extends ConsumerState<MinimalReviewView> {
                   child: Center(
                     child: Text(
                       (AppLocalizations.of(context)?.noReviews ?? 'No reviews yet').toUpperCase(),
-                      style: theme.textTheme.bodyText1?.copyWith(
+                      style: theme.textTheme.bodyLarge?.copyWith(
                         fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
                       ),
                     ),
@@ -210,7 +210,7 @@ class MinimalReviewCard extends ConsumerWidget {
                   children: [
                     Text(
                       (review.customerName == '' || review.customerName.isEmpty) ? 'bnb user' : review.customerName,
-                      style: theme.textTheme.bodyText1?.copyWith(
+                      style: theme.textTheme.bodyLarge?.copyWith(
                         fontSize: 20.sp,
                         fontWeight: FontWeight.w600,
                       ),
@@ -257,7 +257,7 @@ class MinimalReviewCard extends ConsumerWidget {
                   Flexible(
                     child: Text(
                       review.review,
-                      style: theme.textTheme.bodyText1?.copyWith(
+                      style: theme.textTheme.bodyLarge?.copyWith(
                         fontSize: 16.sp,
                       ),
                       maxLines: 2,

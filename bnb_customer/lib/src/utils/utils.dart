@@ -78,7 +78,7 @@ class Utils {
       } else {
         final String url = "tel:$number";
         if (await canLaunchUrl(Uri.parse(url))) {
-          await canLaunchUrl(Uri.parse(url));
+          await launchUrl(Uri.parse(url));
         } else {
           throw 'Could not launch $url';
         }
@@ -141,12 +141,12 @@ class Utils {
     }
   }
 
-  launchUrl({required String? url}) async {
+  launchUrlUtil({required String? url}) async {
     if (url == null || url == '') {
       showToast("cant open!! long press to copy");
     } else {
       if (await canLaunchUrl(Uri.parse(url))) {
-        await canLaunchUrl(Uri.parse(url));
+        await launchUrl(Uri.parse(url));
       } else {
         throw 'Could not launch $url';
       }

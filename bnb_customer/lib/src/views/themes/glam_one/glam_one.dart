@@ -1,11 +1,9 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
-import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/models/backend_codings/owner_type.dart';
+import 'package:bbblient/src/models/customer_web_settings.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
-import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/views/salon/booking/dialog_flow/booking_dialog_2.dart';
 import 'package:bbblient/src/views/themes/components/drawer.dart';
 import 'package:bbblient/src/views/themes/components/header/landing_header.dart';
-import 'package:bbblient/src/views/themes/components/header_image.dart';
 import 'package:bbblient/src/views/themes/components/about/salon_about.dart';
 import 'package:bbblient/src/views/themes/components/contacts/salon_contact.dart';
 import 'package:bbblient/src/views/themes/components/promotions/salon_promotions.dart';
@@ -16,16 +14,10 @@ import 'package:bbblient/src/views/themes/components/salon_sponsors.dart';
 import 'package:bbblient/src/views/themes/components/salon_tags.dart';
 import 'package:bbblient/src/views/themes/components/salon_team.dart';
 import 'package:bbblient/src/views/themes/components/works/salon_works.dart';
-import 'package:bbblient/src/views/themes/glam_one/core/utils/color_constant.dart';
-import 'package:bbblient/src/views/themes/glam_one/views/app_bar.dart';
-import 'package:bbblient/src/views/themes/glam_one/views/header.dart';
 import 'package:bbblient/src/views/themes/components/write_to_us/write_to_us.dart';
-import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'views/profile/socials.dart';
 
 class GlamOneScreen extends ConsumerStatefulWidget {
   static const route = '/glam-one';
@@ -53,6 +45,7 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final SalonModel chosenSalon = _salonProfileProvider.chosenSalon;
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    final DisplaySettings? displaySettings = _salonProfileProvider.themeSettings?.displaySettings;
 
     return SafeArea(
       top: false,
@@ -68,98 +61,97 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Expanded(
-                child: SingleChildScrollView(
-                  child: SizedBox(
-                    // width: size.width,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        const LandingHeader(),
-                        // TAGS
-                        SizedBox.fromSize(size: Size.zero, key: controller.tags),
-                        if (chosenSalon.additionalFeatures.isNotEmpty)
-                          SalonTags(
-                            salonModel: chosenSalon,
-                            additionalFeatures: chosenSalon.additionalFeatures,
-                          ),
+                child: ListView(
+                  physics: const ClampingScrollPhysics(),
+                  children: [
+                    const LandingHeader(),
 
-                        // PROMOTIONS
-                        SizedBox.fromSize(size: Size.zero, key: controller.promotions),
-                        if (_createAppointmentProvider.salonPromotions.isNotEmpty)
-                          SalonPromotions(
-                            salonPromotionsList: _createAppointmentProvider.salonPromotions,
-                          ),
-
-                        // ABOUT
-                        SizedBox.fromSize(size: Size.zero, key: controller.about),
-                        SalonAbout2(salonModel: chosenSalon),
-
-                        // SPONSORS
-                        SizedBox.fromSize(size: Size.zero, key: controller.sponsor),
-                        const SalonSponsors(),
-
-                        // WORKS
-                        SizedBox.fromSize(size: Size.zero, key: controller.works),
-                        SalonWorks(salonModel: chosenSalon),
-
-                        // PRICE
-                        SizedBox.fromSize(size: Size.zero, key: controller.price),
-                        SalonPrice222(
+                    // TAGS
+                    if (displaySettings?.showFeatures == true) SizedBox.fromSize(size: Size.zero, key: controller.tags),
+                    if (displaySettings?.showFeatures == true)
+                      if (chosenSalon.additionalFeatures.isNotEmpty)
+                        SalonTags(
                           salonModel: chosenSalon,
-                          categories: _salonSearchProvider.categories,
-                          categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
+                          additionalFeatures: chosenSalon.additionalFeatures,
                         ),
 
-                        // SHOP
-                        SizedBox.fromSize(size: Size.zero, key: controller.shop),
-                        const SalonShop(),
+                    // PROMOTIONS
+                    if (displaySettings?.showPromotions == true) SizedBox.fromSize(size: Size.zero, key: controller.promotions),
+                    if (displaySettings?.showPromotions == true)
+                      if (_createAppointmentProvider.salonPromotions.isNotEmpty)
+                        SalonPromotions(
+                          salonPromotionsList: _createAppointmentProvider.salonPromotions,
+                        ),
 
-                        // TEAM
-                        SizedBox.fromSize(size: Size.zero, key: controller.team),
-                        if (_salonProfileProvider.chosenSalon.ownerType != OwnerType.singleMaster)
-                          SalonTeam(
-                            salonModel: chosenSalon,
-                          ),
+                    // ABOUT
+                    if (displaySettings?.showAbout == true) SizedBox.fromSize(size: Size.zero, key: controller.about),
+                    if (displaySettings?.showAbout == true) SalonAbout2(salonModel: chosenSalon),
 
-                        // REVIEWS
-                        SizedBox.fromSize(size: Size.zero, key: controller.reviews),
-                        SalonReviews(salonModel: chosenSalon),
+                    // SPONSORS
+                    if (displaySettings?.showBrands == true) SizedBox.fromSize(size: Size.zero, key: controller.sponsor),
+                    if (displaySettings?.showBrands == true) const SalonSponsors(),
 
-                        // WRITE TO US
-                        SizedBox.fromSize(size: Size.zero, key: controller.writeToUs),
-                        WriteToUs(salonModel: chosenSalon),
+                    // WORKS
+                    if (displaySettings?.showPhotosOfWork == true) SizedBox.fromSize(size: Size.zero, key: controller.works),
+                    if (displaySettings?.showPhotosOfWork == true) SalonWorks(salonModel: chosenSalon),
 
-                        // CONTACT
-                        SizedBox.fromSize(size: Size.zero, key: controller.contacts),
-                        SalonContact(salonModel: chosenSalon),
+                    // PRICE
+                    if (displaySettings?.services.showServices == true) SizedBox.fromSize(size: Size.zero, key: controller.price),
+                    if (displaySettings?.services.showServices == true)
+                      SalonPrice222(
+                        salonModel: chosenSalon,
+                        categories: _salonSearchProvider.categories,
+                        categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
+                      ),
 
-                        // BOTTOM ITEM
-                        Padding(
-                          padding: const EdgeInsets.only(top: 19, bottom: 15),
+                    // SHOP
+                    if (displaySettings?.product.showProduct == true) SizedBox.fromSize(size: Size.zero, key: controller.shop),
+                    if (displaySettings?.product.showProduct == true) const SalonShop(),
+
+                    // TEAM
+                    if (displaySettings?.showTeam == true) SizedBox.fromSize(size: Size.zero, key: controller.team),
+                    if (displaySettings?.showTeam == true)
+                      if (!_salonProfileProvider.isSingleMaster)
+                        SalonTeam(
+                          salonModel: chosenSalon,
+                        ),
+
+                    // REVIEWS
+                    if (displaySettings?.reviews.showReviews == true) SizedBox.fromSize(size: Size.zero, key: controller.reviews),
+                    if (displaySettings?.reviews.showReviews == true) SalonReviews(salonModel: chosenSalon),
+
+                    // WRITE TO US
+                    if (displaySettings?.showRequestForm == true) SizedBox.fromSize(size: Size.zero, key: controller.writeToUs),
+                    if (displaySettings?.showRequestForm == true) WriteToUs(salonModel: chosenSalon),
+
+                    // CONTACT
+                    if (displaySettings?.showContact == true) SizedBox.fromSize(size: Size.zero, key: controller.contacts),
+                    if (displaySettings?.showContact == true) SalonContact(salonModel: chosenSalon),
+
+                    // BOTTOM ITEM
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 19, bottom: 15),
+                        child: GestureDetector(
+                          onTap: () => const BookingDialogWidget222().show(context),
                           child: RichText(
                             text: TextSpan(
                               children: [
                                 TextSpan(
                                   text: "Design By ",
-                                  style: theme.textTheme.bodyText1!.copyWith(
-                                    fontSize: 20.sp,
-                                    color: theme.primaryColorLight,
-                                  ),
+                                  style: theme.textTheme.bodyLarge!.copyWith(fontSize: 20.sp, color: theme.primaryColorLight),
                                 ),
                                 TextSpan(
                                   text: "GlamIris",
-                                  style: theme.textTheme.bodyText1!.copyWith(
-                                    fontSize: 20.sp,
-                                    color: theme.primaryColorDark,
-                                  ),
+                                  style: theme.textTheme.bodyLarge!.copyWith(fontSize: 20.sp, color: theme.primaryColorDark),
                                 ),
                               ],
                             ),
                           ),
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ),
             ],
@@ -169,3 +161,5 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
     );
   }
 }
+
+ // fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 50.sp, 60.sp),

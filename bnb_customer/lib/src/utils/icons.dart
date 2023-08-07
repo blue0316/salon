@@ -141,6 +141,12 @@ class AppIcons {
   static const String linkTikTok = "assets/icons/link_tiktok.svg";
   static const String linkFacebook = "assets/icons/link_facebook.svg";
   static const String photoSlider = "assets/images/photo_slider.png";
+  static const String linkGlobeDark = "assets/icons/link_globe_dark.svg";
+  static const String linkInstaDark = "assets/icons/link_insta_dark.svg";
+  static const String linkInstaDark2 = "assets/icons/insta_3.svg";
+  static const String linkTikTokDark = "assets/icons/link_tiktok_dark.svg";
+  static const String linkFacebookDark = "assets/icons/link_facebook_dark.svg";
+  static const String photoSliderDark = "assets/images/photo_slider.png";
 
   //"assets/images/Logo.svg";
   static const String passwordFilledSVG = "assets/icons/password_filled.svg";
@@ -172,6 +178,8 @@ class AppIcons {
   static const String mapPin2WhiteSVG = "assets/icons/map-pin.svg";
   static const String mapPinPNG = "assets/icons/map-pin.png";
   static const String send = "assets/icons/send.svg";
+  static const String send1 = "assets/icons/send1.svg";
+  static const String phone1 = "assets/icons/phone1.svg";
   static const String messageWhiteSVG = "assets/icons/message_icon_white.svg";
   static const String dotActiveSVG = "assets/icons/dot_active.svg";
   static const String dotInactiveSVG = "assets/icons/dot_inactive.svg";
@@ -183,6 +191,8 @@ class AppIcons {
   static const String appleLogoWhitePNG = "assets/icons/apple_logo.png";
   static const String googleLogoPNG = "assets/icons/google_logo.png";
   static const String googleLogoSVG = "assets/icons/google_logo.svg";
+  static const String coloredGoogleLogoSVG = "assets/icons/google_colored.svg";
+  static const String coloredGoogleLogoPNG = "assets/icons/google_coloredPNG.png";
   static const String speechBubbleSVG = "assets/icons/chat_bubble.svg";
   static const String closeRoundSVG = "assets/icons/close_round.svg";
   static const String priceTagSVG = "assets/icons/Price.svg";

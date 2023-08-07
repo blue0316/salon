@@ -19,7 +19,7 @@ class ReviewDescription extends ConsumerWidget {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool isLightTheme = (theme == AppTheme.lightTheme);
+    bool isLightTheme = (theme == AppTheme.customLightTheme);
 
     return Container(
       decoration: BoxDecoration(
@@ -46,18 +46,6 @@ class ReviewDescription extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  // CircleAvatar(
-                  //   radius: DeviceConstraints.getResponsiveSize(context, 26, 35, 48),
-                  //   backgroundColor: AppTheme.white,
-                  //   backgroundImage: review.customerPic != ''
-                  //       ? NetworkImage(review.customerPic)
-                  //       : const AssetImage(
-                  //           AppIcons.defaultUserAvtarPNG,
-                  //         ) as ImageProvider,
-                  // ),
-                  // SizedBox(
-                  //   height: 8.h,
-                  // ),
                   Text(
                     (review.customerName != '' ? review.customerName : 'bnb user').toCapitalized(),
                     textAlign: TextAlign.center,
@@ -69,7 +57,7 @@ class ReviewDescription extends ConsumerWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 5),
+                  SizedBox(height: 12.h),
                   Text(
                     Time().getLocaleDate2(review.createdAt, AppLocalizations.of(context)?.localeName ?? "uk"),
                     style: theme.textTheme.bodyMedium!.copyWith(
@@ -82,8 +70,8 @@ class ReviewDescription extends ConsumerWidget {
                   SizedBox(height: 15.h),
                   Text(
                     review.review,
-                    style: theme.textTheme.bodyLarge!.copyWith(
-                      fontWeight: FontWeight.w500,
+                    style: theme.textTheme.displayMedium!.copyWith(
+                      fontWeight: FontWeight.w400,
                       fontSize: 14.5.sp,
                       color: isLightTheme ? Colors.black : Colors.white,
                     ),

@@ -2,12 +2,27 @@ class CustomerWebSettings {
   String? salonId;
   String? docId;
   WebTheme? theme;
+  String? backgroundImage;
+  String? aboutSectionImage;
+  List<String>? glamLightImages;
   DisplaySettings? displaySettings;
-  CustomerWebSettings({this.salonId, this.docId, this.theme, this.displaySettings});
+
+  CustomerWebSettings({
+    this.salonId,
+    this.docId,
+    this.theme,
+    this.displaySettings,
+    this.backgroundImage,
+    this.aboutSectionImage,
+    this.glamLightImages,
+  });
 
   CustomerWebSettings.fromJson(Map data) {
     if (data["salonId"] != null) salonId = data["salonId"];
     if (data["docId"] != null) docId = data["docId"];
+    if (data["backgroundImage"] != null) backgroundImage = data["backgroundImage"];
+    if (data["aboutSectionImage"] != null) aboutSectionImage = data["aboutSectionImage"];
+    if (data['glamLightImages'] != null) glamLightImages = data['glamLightImages'].cast<String>();
     if (data["theme"] != null) theme = WebTheme.fromJson(data["theme"]);
     displaySettings = (data["displaySettings"] != null)
         ? DisplaySettings.fromJson(
@@ -17,7 +32,7 @@ class CustomerWebSettings {
   }
 
   toJson() {
-    Map data = {};
+    Map<String, dynamic> data = {};
     data["salonId"] = salonId;
     data["docId"] = docId;
     data["theme"] = theme?.toJson();
@@ -39,7 +54,7 @@ class WebTheme {
   }
 
   toJson() {
-    Map data = {};
+    Map<String, dynamic> data = {};
     data["id"] = id;
     data["colorCode"] = colorCode;
     data["testId"] = testId;
@@ -76,7 +91,7 @@ class DisplaySettings {
   final Reviews reviews;
   final bool showRequestForm;
   final bool showContact;
-  final dynamic enableOTP;
+  bool enableOTP = true;
 
   factory DisplaySettings.fromJson(Map<String, dynamic> json) => DisplaySettings(
         showSpecialization: (json["showSpecialization"] == null) ? true : json["showSpecialization"],
@@ -182,25 +197,3 @@ class Services {
         "showServicesWithPhotos": showServicesWithPhotos,
       };
 }
-
-
-
-// Map<String, dynamic> webS = {
-//   "docId": "aaa",
-//   "salonId": "aaaa",
-//   "theme": {"colorCode": "", "id": "2", "testId": "3"},
-//   "displaySettings": {
-//     "showSpecialization": null,
-//     "showFeatures": null,
-//     "showBrands": null,
-//     "showPromotions": null,
-//     "showAbout": null,
-//     "showPhotosOfWork": null,
-//     "services": {"showServices": null, "showServicePrices": null, "showServicesWithPhotos": null},
-//     "product": {"showProduct": null, "showPrductPrices": null, "showProductOutOfStock": null},
-//     "showTeam": null,
-//     "reviews": {"showReviews": null, "showReviewRating": null, "showLatest": null},
-//     "showRequestForm": null,
-//     "showContact": null
-//   }
-// };

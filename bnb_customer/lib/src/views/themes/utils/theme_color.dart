@@ -1,3 +1,4 @@
+import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/theme/others/barbershop.dart';
 import 'package:bbblient/src/theme/others/glam_barbershop.dart';
 import 'package:bbblient/src/theme/others/glam_gradient.dart';
@@ -7,30 +8,79 @@ import 'package:bbblient/src/theme/others/glam_minimal_light.dart';
 import 'package:bbblient/src/theme/others/glam_one.dart';
 import 'package:flutter/material.dart';
 
-// Theme 1 - GLAM
+// Theme 0 - DEFAULT LIGHT
+ThemeData getDefaultLightTheme(String? colorCode) {
+  switch (colorCode) {
+    case null:
+      AppTheme.primaryLightThemeColor = const Color(0XFFFFFFFF); //           DefaultLightTheme.defaultLightColor = const Color(0XFFFFF5F1);
+
+      return AppTheme.customLightTheme;
+
+    default:
+      if (colorCode != null) {
+        try {
+          // Decode color from string
+          String valueString = colorCode.split('(0x')[1].split(')')[0];
+          int value = int.parse(valueString, radix: 16);
+
+          AppTheme.primaryLightThemeColor = Color(value);
+        } catch (e) {
+          AppTheme.primaryLightThemeColor = const Color(0XFFFFFFFF);
+        }
+      }
+
+      return AppTheme.customLightTheme;
+  }
+}
+
+// Theme 1 - DEFAULT DARK
+ThemeData getDefaultDarkTheme(String? colorCode) {
+  switch (colorCode) {
+    case null:
+      AppTheme.darkPrimaryThemeColor = const Color(0XFFF48B72);
+      return AppTheme.darkTheme;
+
+    default:
+      if (colorCode != null) {
+        try {
+          // Decode color from string
+          String valueString = colorCode.split('(0x')[1].split(')')[0];
+          int value = int.parse(valueString, radix: 16);
+
+          AppTheme.darkPrimaryThemeColor = Color(value);
+        } catch (e) {
+          AppTheme.darkPrimaryThemeColor = const Color(0XFFF48B72);
+        }
+      }
+
+      return AppTheme.darkTheme;
+  }
+}
+
+// Theme 2- GLAM
 ThemeData getGlamDataTheme(String? colorCode) {
   switch (colorCode) {
     case null:
       GlamOneTheme.primaryOption1 = const Color(0XFFFFC692);
-      return GlamOneTheme.AccentFFC692;
-    case 'F48B72':
-      return GlamOneTheme.AccentF48B72;
-    case 'F79F7B':
-      return GlamOneTheme.AccentF79F7B;
-    case 'FFCF71':
-      return GlamOneTheme.AccentFFCF71;
-    case 'E3AB9E':
-      return GlamOneTheme.AccentE3AB9E;
-    case 'E2BCBF':
-      return GlamOneTheme.AccentE2BCBF;
-    case 'F9EFE6':
-      return GlamOneTheme.AccentF9EFE6;
-    case 'AFC7D2':
-      return GlamOneTheme.AccentAFC7D2;
-    case 'D7AFFF':
-      return GlamOneTheme.AccentD7AFFF;
-    case 'F9E0CA':
-      return GlamOneTheme.AccentF9E0CA;
+      return GlamOneTheme.mainTheme;
+    // case 'F48B72':
+    //   return GlamOneTheme.AccentF48B72;
+    // case 'F79F7B':
+    //   return GlamOneTheme.AccentF79F7B;
+    // case 'FFCF71':
+    //   return GlamOneTheme.AccentFFCF71;
+    // case 'E3AB9E':
+    //   return GlamOneTheme.AccentE3AB9E;
+    // case 'E2BCBF':
+    //   return GlamOneTheme.AccentE2BCBF;
+    // case 'F9EFE6':
+    //   return GlamOneTheme.AccentF9EFE6;
+    // case 'AFC7D2':
+    //   return GlamOneTheme.AccentAFC7D2;
+    // case 'D7AFFF':
+    //   return GlamOneTheme.AccentD7AFFF;
+    // case 'F9E0CA':
+    //   return GlamOneTheme.AccentF9E0CA;
 
     default:
       if (colorCode != null) {
@@ -45,33 +95,17 @@ ThemeData getGlamDataTheme(String? colorCode) {
         }
       }
 
-      return GlamOneTheme.AccentFFC692;
+      return GlamOneTheme.mainTheme;
   }
 }
 
-// Theme 2 - GLAM BARBERSHOP
+// Theme 3 - GLAM BARBERSHOP
 ThemeData getGlamBarbershopTheme(String? colorCode) {
   switch (colorCode) {
     case null:
       GlamBarberShopTheme.primaryColor1 = const Color(0XFFDDC686);
 
       return GlamBarberShopTheme.mainTheme;
-    case 'DDC686':
-      return GlamBarberShopTheme.AccentDDC686;
-    case 'E3824F':
-      return GlamBarberShopTheme.AccentE3824F;
-    case 'D5824C':
-      return GlamBarberShopTheme.AccentD5824C;
-    case 'FABD64':
-      return GlamBarberShopTheme.AccentFABD64;
-    case 'E3A681':
-      return GlamBarberShopTheme.AccentE3A681;
-    case 'F89F54':
-      return GlamBarberShopTheme.AccentF89F54;
-    case 'C17150':
-      return GlamBarberShopTheme.AccentC17150;
-    case 'E4954A':
-      return GlamBarberShopTheme.AccentE4954A;
 
     default:
       if (colorCode != null) {
@@ -89,7 +123,7 @@ ThemeData getGlamBarbershopTheme(String? colorCode) {
   }
 }
 
-// Theme 3 - GLAM GRADIENT
+// Theme 4 - GLAM GRADIENT
 ThemeData getGlamGradientTheme(String? colorCode) {
   switch (colorCode) {
     case null: // 'FFC692':
@@ -110,7 +144,7 @@ ThemeData getGlamGradientTheme(String? colorCode) {
   }
 }
 
-// Theme 4 - BARBERSHOP
+// Theme 5 - BARBERSHOP
 ThemeData getBarbershopTheme(String? colorCode) {
   switch (colorCode) {
     case null:
@@ -155,11 +189,11 @@ ThemeData getBarbershopTheme(String? colorCode) {
   }
 }
 
-// Theme 5 - GLAM LIGHT
+// Theme 6 - GLAM LIGHT
 ThemeData getGlamLightTheme(String? colorCode) {
   switch (colorCode) {
     case null:
-      GlamLightTheme.primaryColor1 = Colors.black;
+      GlamLightTheme.themeBackgroundColor = const Color(0XFFFFF5F1);
 
       return GlamLightTheme.mainTheme;
 
@@ -173,16 +207,16 @@ ThemeData getGlamLightTheme(String? colorCode) {
           String valueString = colorCode.split('(0x')[1].split(')')[0];
           int value = int.parse(valueString, radix: 16);
 
-          GlamLightTheme.primaryColor1 = Color(value);
+          GlamLightTheme.themeBackgroundColor = Color(value);
         } catch (e) {
-          GlamLightTheme.primaryColor1 = Colors.black;
+          GlamLightTheme.themeBackgroundColor = const Color(0XFFFFF5F1);
         }
       }
       return GlamLightTheme.mainTheme;
   }
 }
 
-// Theme 6 - GLAM MINIMAL LIGHT
+// Theme 7 - GLAM MINIMAL LIGHT
 ThemeData getGlamMinimalLightTheme(String? colorCode) {
   switch (colorCode) {
     case null: // 'FFC692':
@@ -210,7 +244,7 @@ ThemeData getGlamMinimalLightTheme(String? colorCode) {
   }
 }
 
-// Theme 7 - GLAM MINIMAL DARK
+// Theme 8 - GLAM MINIMAL DARK
 ThemeData getGlamMinimalDarkTheme(String? colorCode) {
   switch (colorCode) {
     case null: // 'FFC692':

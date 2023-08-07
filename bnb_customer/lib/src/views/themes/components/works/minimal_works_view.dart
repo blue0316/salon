@@ -1,8 +1,8 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/views/themes/glam_one/master_profile/unique_master_profile.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +28,7 @@ class _MinimalWorksViewState extends ConsumerState<MinimalWorksView> {
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     // Check if Salon is a single master
-    final bool isSingleMaster = (widget.salonModel.ownerType == OwnerType.singleMaster);
+    final bool isSingleMaster = _salonProfileProvider.isSingleMaster;
 
     return Padding(
       padding: EdgeInsets.only(
@@ -41,13 +41,13 @@ class _MinimalWorksViewState extends ConsumerState<MinimalWorksView> {
         children: [
           Text(
             (isSingleMaster ? (AppLocalizations.of(context)?.myWorks ?? 'My Works') : (AppLocalizations.of(context)?.ourWorks ?? 'Our Works')).toUpperCase(),
-            style: theme.textTheme.headline2?.copyWith(
+            style: theme.textTheme.displayMedium?.copyWith(
               color: theme.colorScheme.secondary,
-              fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),
+              fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 60.sp),
             ),
           ),
           SizedBox(height: DeviceConstraints.getResponsiveSize(context, 50, 50, 80)),
-          (widget.salonModel.photosOfWork.isNotEmpty)
+          (widget.salonModel.photosOfWorks!.isNotEmpty)
               ? SizedBox(
                   // height: 260.h,
                   child: CarouselSlider(
@@ -63,7 +63,7 @@ class _MinimalWorksViewState extends ConsumerState<MinimalWorksView> {
                       // viewportFraction: DeviceConstraints.getResponsiveSize(context, 1, 0.5, 0.5),
                       height: DeviceConstraints.getResponsiveSize(context, 280.h, 350.h, 350.h),
                     ),
-                    items: widget.salonModel.photosOfWork
+                    items: widget.salonModel.photosOfWorks!
                         .map(
                           (item) => CachedImage(
                             width: DeviceConstraints.getResponsiveSize(
@@ -78,14 +78,17 @@ class _MinimalWorksViewState extends ConsumerState<MinimalWorksView> {
                             //   size.width - 20.w,
                             //   200.w,
                             // ),
-                            url: item,
+                            url: item.image ?? '',
                             fit: BoxFit.cover,
                           ),
                         )
                         .toList(),
                   ),
                 )
-              : SizedBox(height: 20.h),
+              : NoSectionYet(
+                  text: AppLocalizations.of(context)?.noWorks ?? 'No photos of works',
+                  color: theme.colorScheme.secondary,
+                ),
         ],
       ),
     );

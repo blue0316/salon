@@ -1,10 +1,10 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/chat/image_preview.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/prev_and_next.dart';
+import 'package:bbblient/src/views/themes/glam_one/master_profile/unique_master_profile.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -30,8 +30,9 @@ class _DefaultWorksViewState extends ConsumerState<DefaultWorksView> {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     final ThemeType themeType = _salonProfileProvider.themeType;
+
     // Check if Salon is a single master
-    final bool isSingleMaster = (widget.salonModel.ownerType == OwnerType.singleMaster);
+    final bool isSingleMaster = _salonProfileProvider.isSingleMaster;
 
     return Container(
       width: double.infinity,
@@ -56,9 +57,9 @@ class _DefaultWorksViewState extends ConsumerState<DefaultWorksView> {
               children: [
                 Text(
                   (isSingleMaster ? (AppLocalizations.of(context)?.myWorks ?? 'My Works') : (AppLocalizations.of(context)?.ourWorks ?? 'Our Works')).toUpperCase(),
-                  style: theme.textTheme.headline2?.copyWith(
+                  style: theme.textTheme.displayMedium?.copyWith(
                     color: theme.colorScheme.secondary,
-                    fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 40.sp, 50.sp),
+                    fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 60.sp),
                   ),
                 ),
                 const Spacer(),
@@ -70,8 +71,10 @@ class _DefaultWorksViewState extends ConsumerState<DefaultWorksView> {
                 ),
               ],
             ),
-            SizedBox(height: DeviceConstraints.getResponsiveSize(context, 50, 50, 35)),
-            (widget.salonModel.photosOfWork.isNotEmpty)
+            SizedBox(
+              height: DeviceConstraints.getResponsiveSize(context, 50.sp, 50.sp, 35.sp),
+            ),
+            (widget.salonModel.photosOfWorks!.isNotEmpty)
                 ? SizedBox(
                     // height: 260.h,
                     child: CarouselSlider(
@@ -83,39 +86,45 @@ class _DefaultWorksViewState extends ConsumerState<DefaultWorksView> {
                         viewportFraction: DeviceConstraints.getResponsiveSize(context, 1, 0.4, 0.34),
                         height: DeviceConstraints.getResponsiveSize(context, 280.h, 350.h, 350.h),
                       ),
-                      items: widget.salonModel.photosOfWork
-                          .map(
-                            (item) => GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ImagePreview(
-                                      imageUrls: widget.salonModel.photosOfWork,
-                                      index: widget.salonModel.photosOfWork.indexOf(item),
-                                    ),
+                      items: widget.salonModel.photosOfWorks!.map((item) {
+                        String image = item.image ?? '';
+                        if (image.isNotEmpty) {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ImagePreview(
+                                    imageUrls: [item.image], //  widget.salonModel.photosOfWorks,
+                                    index: widget.salonModel.photosOfWorks!.indexOf(item),
                                   ),
-                                );
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 20),
-                                child: CachedImage(
-                                  width: DeviceConstraints.getResponsiveSize(
-                                    context,
-                                    size.width - 20.w,
-                                    ((size.width / 2)), // size.width - 20.w,
-                                    (size.width / 3) - 20, // 200.w,
-                                  ),
-                                  url: item,
-                                  fit: BoxFit.cover,
                                 ),
+                              );
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 20.sp),
+                              child: CachedImage(
+                                width: DeviceConstraints.getResponsiveSize(
+                                  context,
+                                  size.width - 20.w,
+                                  ((size.width / 2)), // size.width - 20.w,
+                                  (size.width / 3) - 20, // 200.w,
+                                ),
+                                url: item.image!,
+                                fit: BoxFit.cover,
                               ),
                             ),
-                          )
-                          .toList(),
+                          );
+                        } else {
+                          return const SizedBox();
+                        }
+                      }).toList(),
                     ),
                   )
-                : SizedBox(height: 20.h),
+                : NoSectionYet(
+                    text: AppLocalizations.of(context)?.noWorks ?? 'No photos of works',
+                    color: theme.colorScheme.secondary,
+                  ),
           ],
         ),
       ),

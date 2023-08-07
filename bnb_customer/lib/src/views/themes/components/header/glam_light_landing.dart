@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'dart:math';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/models/customer_web_settings.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/buttons.dart';
@@ -89,9 +90,19 @@ class GlamLightHeaderBody extends ConsumerWidget {
 
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    CustomerWebSettings? themeSettings = _salonProfileProvider.themeSettings;
 
     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
 
+    List<String>? images = [];
+
+    if (themeSettings!.glamLightImages != null && themeSettings.glamLightImages!.isNotEmpty) {
+      images = themeSettings.glamLightImages!.take(5).toList();
+    } else if (salonModel.photosOfWork.isNotEmpty && salonModel.photosOfWork[0] != '') {
+      images = salonModel.photosOfWork.take(5).toList();
+    } else {
+      images = [];
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -106,7 +117,7 @@ class GlamLightHeaderBody extends ConsumerWidget {
               Flexible(
                 child: Text(
                   salonModel.salonName, //"Miami's Best",
-                  style: theme.textTheme.headline1?.copyWith(
+                  style: theme.textTheme.displayLarge?.copyWith(
                     letterSpacing: 0.5,
                     fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 50.sp, 80.sp),
                   ),
@@ -146,7 +157,7 @@ class GlamLightHeaderBody extends ConsumerWidget {
                             (item) => Padding(
                               padding: const EdgeInsets.only(right: 10),
                               child: GlamLightWrap(
-                                text: item.translations[AppLocalizations.of(context)?.localeName ?? 'en'],
+                                text: item.translations[AppLocalizations.of(context)?.localeName ?? 'en'] ?? item.translations['en'],
                               ),
                             ),
                           )
@@ -165,7 +176,7 @@ class GlamLightHeaderBody extends ConsumerWidget {
                     children: _createAppointmentProvider.categoriesAvailable
                         .map(
                           (item) => GlamLightWrap(
-                            text: item.translations[AppLocalizations.of(context)?.localeName ?? 'en'],
+                            text: item.translations[AppLocalizations.of(context)?.localeName ?? 'en'] ?? item.translations['en'],
                           ),
                         )
                         .toList(),
@@ -175,44 +186,40 @@ class GlamLightHeaderBody extends ConsumerWidget {
         SizedBox(
           height: DeviceConstraints.getResponsiveSize(context, 30.h, 30.h, 90.h),
         ),
-        SizedBox(
-          width: double.infinity,
-          height: DeviceConstraints.getResponsiveSize(
-            context,
-            300.h,
-            350.h,
-            400.h, // * heightValue[Random().nextInt(rotationValue.length)],
-          ),
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: salonModel.photosOfWork.length,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 30),
-                child: Transform.rotate(
-                  angle: math.pi / rotationValue[Random().nextInt(rotationValue.length)],
-                  child: SizedBox(
-                    height: DeviceConstraints.getResponsiveSize(context, 400.h, 200.h, 350.h),
-                    width: DeviceConstraints.getResponsiveSize(context, 250.w, 250.w, 100.w),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: (salonModel.photosOfWork.isNotEmpty && salonModel.photosOfWork[0] != '')
-                          ? CachedImage(
-                              url: salonModel.photosOfWork[index],
-                              fit: BoxFit.cover,
-                            )
-                          : Image.asset(
-                              ThemeImages.write1,
-                              fit: BoxFit.cover,
-                            ),
+        if (images.isNotEmpty)
+          SizedBox(
+            width: double.infinity,
+            height: DeviceConstraints.getResponsiveSize(
+              context,
+              300.h,
+              350.h,
+              400.h, // * heightValue[Random().nextInt(rotationValue.length)],
+            ),
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: images.length,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 30),
+                  child: Transform.rotate(
+                    angle: math.pi / rotationValue[Random().nextInt(rotationValue.length)],
+                    child: SizedBox(
+                      height: DeviceConstraints.getResponsiveSize(context, 400.h, 200.h, 350.h),
+                      width: DeviceConstraints.getResponsiveSize(context, 250.w, 250.w, 100.w),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: CachedImage(
+                          url: images![index],
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
-        ),
       ],
     );
   }
@@ -245,7 +252,7 @@ class GlamLightWrap extends ConsumerWidget {
         child: Center(
           child: Text(
             text,
-            style: theme.textTheme.bodyText1!.copyWith(
+            style: theme.textTheme.bodyLarge!.copyWith(
               color: themeType == ThemeType.GlamLight ? Colors.black : Colors.white,
               fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 16.sp),
             ),

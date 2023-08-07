@@ -1,6 +1,7 @@
 // Theme 4 - Barbershop Promotions
 
 import 'package:bbblient/src/models/promotions/promotion_service.dart';
+import 'package:bbblient/src/views/themes/glam_one/master_profile/unique_master_profile.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -41,8 +42,8 @@ class _BarbershopPromotionsState extends ConsumerState<BarbershopPromotions> {
           children: [
             Text(
               (AppLocalizations.of(context)?.promotions ?? 'Promotions').toUpperCase(),
-              style: theme.textTheme.headline2?.copyWith(
-                fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 40.sp, 50.sp),
+              style: theme.textTheme.displayMedium?.copyWith(
+                fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 60.sp),
               ),
             ),
             Row(
@@ -69,82 +70,84 @@ class _BarbershopPromotionsState extends ConsumerState<BarbershopPromotions> {
           ],
         ),
         SizedBox(height: 65.h),
-        SizedBox(
-          // color: Colors.red,
-          height: 200.h,
-          // height: DeviceConstraints.getResponsiveSize(context, 280.h, 350.h, 350.h),
+        (widget.salonPromotionsList.isNotEmpty)
+            ? SizedBox(
+                // color: Colors.red,
+                height: 200.h,
+                // height: DeviceConstraints.getResponsiveSize(context, 280.h, 350.h, 350.h),
 
-          width: double.infinity,
-          // color: Colors.yellow,
-          child: CarouselSlider(
-            carouselController: _controller,
-            options: CarouselOptions(
-              // scrollPhysics: const AlwaysScrollableScrollPhysics(),
-              autoPlay: false,
-              pauseAutoPlayOnTouch: true,
-              padEnds: false,
-              enableInfiniteScroll: false,
+                width: double.infinity,
+                // color: Colors.yellow,
+                child: CarouselSlider(
+                  carouselController: _controller,
+                  options: CarouselOptions(
+                    // scrollPhysics: const AlwaysScrollableScrollPhysics(),
+                    autoPlay: false,
+                    pauseAutoPlayOnTouch: true,
+                    padEnds: false,
+                    enableInfiniteScroll: false,
 
-              viewportFraction: DeviceConstraints.getResponsiveSize(context, 0.8, 0.5, 0.333),
-              // height: DeviceConstraints.getResponsiveSize(
-              //     context, 280.h, 320, 350.h),
-            ),
-            items: ls // TODO: DUMMY LIST: CHANGE BACK TO widget.salonPromotionsList
-                .map((promotion) => Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: SizedBox(
-                        // color: Colors.green,
-                        width: DeviceConstraints.getResponsiveSize(
-                          context,
-                          350.w,
-                          (size.width / 1.5), // size.width / 2.5, // 380.w,
-                          size.width / 3, // 350.w,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              "${AppLocalizations.of(context)?.discounts ?? "Discounts"} ${promotion.promotionDiscount} \$".toUpperCase(),
-                              style: theme.textTheme.bodyText1?.copyWith(
-                                fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 22.sp, 28.sp),
+                    viewportFraction: DeviceConstraints.getResponsiveSize(context, 0.8, 0.5, 0.333),
+                    // height: DeviceConstraints.getResponsiveSize(
+                    //     context, 280.h, 320, 350.h),
+                  ),
+                  items: widget.salonPromotionsList
+                      .map((promotion) => Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: SizedBox(
+                              // color: Colors.green,
+                              width: DeviceConstraints.getResponsiveSize(
+                                context,
+                                350.w,
+                                (size.width / 1.5), // size.width / 2.5, // 380.w,
+                                size.width / 3, // 350.w,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "${AppLocalizations.of(context)?.discounts ?? "Discounts"} ${promotion.promotionDiscount} \$".toUpperCase(),
+                                    style: theme.textTheme.bodyLarge?.copyWith(
+                                      fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 22.sp, 28.sp),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Text(
+                                    '${promotion.promotionDescription}',
+                                    maxLines: 4,
+                                    overflow: TextOverflow.clip,
+                                    style: theme.textTheme.bodyLarge?.copyWith(
+                                      fontWeight: FontWeight.w300,
+                                      fontFamily: 'Poppins-Light',
+                                      color: Colors.white,
+                                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 16.sp),
+                                    ),
+                                  ),
+                                  // SizedBox(height: 15),
+                                  const Spacer(),
+                                  SquareButton(
+                                    text: 'GET A DISCOUNT',
+                                    height: 45.h,
+                                    // width: isLandscape ?  : null,
+                                    buttonColor: Colors.transparent,
+                                    borderColor: Colors.white,
+                                    textColor: Colors.white,
+                                    textSize: 15.sp,
+                                    onTap: () {},
+                                  )
+                                ],
                               ),
                             ),
-                            const SizedBox(height: 10),
-                            Text(
-                              '${promotion.promotionDescription}',
-                              maxLines: 4,
-                              overflow: TextOverflow.clip,
-                              style: theme.textTheme.bodyText1?.copyWith(
-                                fontWeight: FontWeight.w300,
-                                fontFamily: 'Poppins-Light',
-                                color: Colors.white,
-                                fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 16.sp),
-                              ),
-                            ),
-                            // SizedBox(height: 15),
-                            const Spacer(),
-                            SquareButton(
-                              text: 'GET A DISCOUNT',
-                              height: 45.h,
-                              // width: isLandscape ?  : null,
-                              buttonColor: Colors.transparent,
-                              borderColor: Colors.white,
-                              textColor: Colors.white,
-                              textSize: 15.sp,
-                              onTap: () {},
-                            )
-                          ],
-                        ),
-                      ),
-                    ))
-                .toList(),
-          ),
-        )
+                          ))
+                      .toList(),
+                ),
+              )
+            : NoSectionYet(
+                text: AppLocalizations.of(context)?.noPromotions ?? 'No promotions at the moment',
+                color: theme.colorScheme.secondary,
+              ),
       ],
     );
   }
 }
-
-
-// SingleChildScrollView

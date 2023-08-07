@@ -1,4 +1,5 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/views/themes/components/header_image.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/header_height.dart';
@@ -11,7 +12,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DefaultLandingHeaderView extends ConsumerWidget {
   final SalonModel chosenSalon;
-  const DefaultLandingHeaderView({Key? key, required this.chosenSalon}) : super(key: key);
+  final MasterModel? masterModel;
+
+  const DefaultLandingHeaderView({Key? key, required this.chosenSalon, this.masterModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -37,8 +40,8 @@ class DefaultLandingHeaderView extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     ThemeAppBar(salonModel: chosenSalon),
-                    const SizedBox(height: 100),
-                    ThemeHeader(salonModel: chosenSalon),
+                    (themeType == ThemeType.Barbershop) ? SizedBox(height: 170.sp) : const SizedBox(height: 100),
+                    ThemeHeader(salonModel: chosenSalon, masterModel: masterModel),
                   ],
                 ),
               ),

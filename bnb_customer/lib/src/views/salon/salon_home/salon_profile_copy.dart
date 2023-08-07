@@ -85,8 +85,21 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
     final _createAppointmentProvider = ref.read(createAppointmentProvider);
     final repository = ref.watch(bnbProvider);
     final _salonSearchProvider = ref.read(salonSearchProvider);
+    final _salonProfileProvider = ref.read(salonProfileProvider);
 
-    repository.changeLocale(locale: Locale(widget.locale));
+    _createAppointmentProvider.cle();
+
+    // repository.changeLocale(locale: Locale(widget.locale));
+
+    // Change Language based on salon
+    String salonLocale = _salonProfileProvider.chosenSalon.locale;
+
+    // print('@@@@#####_______+++++++++@@@@@@@******');
+    // print(widget.locale);
+    // print(salonLocale);
+    // print('@@@@#####_______+++++++++@@@@@@@******');
+    repository.changeLocale(locale: Locale(salonLocale));
+
     if (widget.switchSalon) {
       _createAppointmentProvider.setSalon(
         salonModel: salon,
@@ -94,6 +107,10 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
         servicesFromSearch: widget.chosenServices,
         categories: _salonSearchProvider.categories,
       );
+
+      // get all categories in create appointment provider class
+      // _createAppointmentProvider.setAllCategories(_salonSearchProvider.categories);
+
       await _salonProfileProvider.getSalonReviews(salonId: widget.salonId);
       await _salonProfileProvider.getProductsData(context, salonId: widget.salonId);
 
@@ -120,7 +137,6 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
 
   @override
   Widget build(BuildContext context) {
-    final _salonSearchProvider = ref.watch(salonSearchProvider);
     final _salonProfileProvider = ref.watch(salonProfileProvider);
 
     return _salonProfileProvider.loadingStatus == Status.loading

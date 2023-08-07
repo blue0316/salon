@@ -20,8 +20,7 @@ class SalonPreference extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(12.0),
           child: Container(
-            decoration: BoxDecoration(
-                border: Border.all(color: AppTheme.creamBrown, width: 2.5), borderRadius: BorderRadius.circular(16)),
+            decoration: BoxDecoration(border: Border.all(color: AppTheme.creamBrown, width: 2.5), borderRadius: BorderRadius.circular(16)),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
@@ -45,9 +44,8 @@ class SalonPreference extends StatelessWidget {
                   SizedBox(
                     width: size.width - 120,
                     child: Text(
-                      AppLocalizations.of(context)?.ipreferTopServices ??
-                          "I prefer services from top\nsaloons and top masters only",
-                      style: Theme.of(context).textTheme.headline3,
+                      AppLocalizations.of(context)?.ipreferTopServices ?? "I prefer services from top\nsaloons and top masters only",
+                      style: Theme.of(context).textTheme.displaySmall,
                     ),
                   )
                 ],
@@ -58,9 +56,7 @@ class SalonPreference extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(12.0),
           child: Container(
-            decoration: BoxDecoration(
-                border: Border.all(color: AppTheme.creamBrownLight, width: 1.5),
-                borderRadius: BorderRadius.circular(16)),
+            decoration: BoxDecoration(border: Border.all(color: AppTheme.creamBrownLight, width: 1.5), borderRadius: BorderRadius.circular(16)),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
@@ -84,9 +80,8 @@ class SalonPreference extends StatelessWidget {
                   SizedBox(
                     width: size.width - 120,
                     child: Text(
-                      AppLocalizations.of(context)?.iPreferTraineeServicews ??
-                          "I will gladly receive a service\nfrom a trainee too",
-                      style: Theme.of(context).textTheme.headline3,
+                      AppLocalizations.of(context)?.iPreferTraineeServicews ?? "I will gladly receive a service\nfrom a trainee too",
+                      style: Theme.of(context).textTheme.displaySmall,
                     ),
                   )
                 ],
@@ -97,9 +92,7 @@ class SalonPreference extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(12.0),
           child: Container(
-            decoration: BoxDecoration(
-                border: Border.all(color: AppTheme.creamBrownLight, width: 1.5),
-                borderRadius: BorderRadius.circular(16)),
+            decoration: BoxDecoration(border: Border.all(color: AppTheme.creamBrownLight, width: 1.5), borderRadius: BorderRadius.circular(16)),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
@@ -125,9 +118,8 @@ class SalonPreference extends StatelessWidget {
                   SizedBox(
                     width: size.width - 120,
                     child: Text(
-                      AppLocalizations.of(context)?.idontCareGiveMeGoodService ??
-                          "I don't care about master's salon_home lavel if they provide good service",
-                      style: Theme.of(context).textTheme.headline3,
+                      AppLocalizations.of(context)?.idontCareGiveMeGoodService ?? "I don't care about master's salon_home lavel if they provide good service",
+                      style: Theme.of(context).textTheme.displaySmall,
                     ),
                   )
                 ],

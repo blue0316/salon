@@ -32,13 +32,16 @@ Widget background(ThemeType themeType, SalonModel salon, SalonProfileProvider sa
       return const GradientBackground();
 
     case ThemeType.GlamMinimalDark:
-      return const DefaultImageBG(image: ThemeImages.minimalBackground);
+      return const FilteredAssetImage(
+        image: ThemeImages.minimalBackground,
+        opacity: 0.5,
+      );
 
     case ThemeType.GlamMinimalLight:
       return const DefaultImageBG(image: ThemeImages.minimalBackground);
 
     default:
-      return salon.profilePics.isNotEmpty
+      return (salonProfileProvider.themeSettings?.backgroundImage != null && salonProfileProvider.themeSettings?.backgroundImage != '')
           ? FilteredImage(
               salonProfileProvider: salonProfileProvider,
             )
@@ -51,17 +54,9 @@ class GradientBackground extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _salonProfileProvider = ref.watch(salonProfileProvider);
-
-    return Container(
-      // child: _salonProfileProvider.chosenSalon.profilePics.isNotEmpty
-      //     ? FilteredImage(salonProfileProvider: _salonProfileProvider)
-      //     : const DefaultImageBG(image: ThemeImages.gradientBG),
-
-      child: Image.asset(
-        (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab) ? ThemeImages.gradientBG : ThemeImages.longGradientBG,
-        fit: BoxFit.cover,
-      ),
+    return Image.asset(
+      (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab) ? ThemeImages.gradientBG : ThemeImages.longGradientBG,
+      fit: BoxFit.cover,
     );
   }
 }
@@ -88,9 +83,24 @@ class FilteredImage extends StatelessWidget {
     return ColorFiltered(
       colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.dstATop),
       child: CachedImage(
-        url: _salonProfileProvider.chosenSalon.profilePics[0],
+        url: _salonProfileProvider.themeSettings!.backgroundImage!,
         fit: BoxFit.cover,
       ),
+    );
+  }
+}
+
+class FilteredAssetImage extends StatelessWidget {
+  final String image;
+  final double? opacity;
+
+  const FilteredAssetImage({Key? key, required this.image, this.opacity}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ColorFiltered(
+      colorFilter: ColorFilter.mode(Colors.black.withOpacity(opacity ?? 0.3), BlendMode.dstATop),
+      child: Image.asset(image, fit: BoxFit.cover),
     );
   }
 }

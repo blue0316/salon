@@ -163,17 +163,12 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton> with TickerP
               )
             : null);
 
-    var _loader = SizedBox(
-        height: widget.loaderSize,
-        width: widget.loaderSize,
-        child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(widget.valueColor), strokeWidth: widget.loaderStrokeWidth));
+    var _loader = SizedBox(height: widget.loaderSize, width: widget.loaderSize, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(widget.valueColor), strokeWidth: widget.loaderStrokeWidth));
 
     var childStream = StreamBuilder(
       stream: _state,
       builder: (context, snapshot) {
-        return AnimatedSwitcher(
-            duration: const Duration(milliseconds: 200), child: snapshot.data == ButtonState.loading ? _loader : widget.child);
+        return AnimatedSwitcher(duration: const Duration(milliseconds: 200), child: snapshot.data == ButtonState.loading ? _loader : widget.child);
       },
     );
 
@@ -183,12 +178,13 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton> with TickerP
         padding: const EdgeInsets.all(0),
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            onSurface: widget.disabledColor,
+            backgroundColor: widget.color,
+            disabledForegroundColor: widget.disabledColor?.withOpacity(0.38),
+            disabledBackgroundColor: widget.disabledColor?.withOpacity(0.12),
             minimumSize: Size(_squeezeAnimation.value, widget.height),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(widget.borderRadius),
             ),
-            primary: widget.color,
             elevation: widget.elevation,
             padding: const EdgeInsets.all(0),
           ),
@@ -216,14 +212,12 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton> with TickerP
 
     _borderController = AnimationController(duration: widget._borderDuration, vsync: this);
 
-    _bounceAnimation = Tween<double>(begin: 0, end: widget.height)
-        .animate(CurvedAnimation(parent: _checkButtonControler, curve: widget.completionCurve));
+    _bounceAnimation = Tween<double>(begin: 0, end: widget.height).animate(CurvedAnimation(parent: _checkButtonControler, curve: widget.completionCurve));
     _bounceAnimation.addListener(() {
       setState(() {});
     });
 
-    _squeezeAnimation = Tween<double>(begin: widget.width, end: widget.height)
-        .animate(CurvedAnimation(parent: _buttonController, curve: widget.curve));
+    _squeezeAnimation = Tween<double>(begin: widget.width, end: widget.height).animate(CurvedAnimation(parent: _buttonController, curve: widget.curve));
 
     _squeezeAnimation.addListener(() {
       setState(() {});
@@ -237,9 +231,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton> with TickerP
       }
     });
 
-    _borderAnimation =
-        BorderRadiusTween(begin: BorderRadius.circular(widget.borderRadius), end: BorderRadius.circular(widget.height))
-            .animate(_borderController);
+    _borderAnimation = BorderRadiusTween(begin: BorderRadius.circular(widget.borderRadius), end: BorderRadius.circular(widget.height)).animate(_borderController);
 
     _borderAnimation.addListener(() {
       setState(() {});
@@ -313,8 +305,7 @@ class RoundedLoadingButtonController {
   late VoidCallback _errorListener;
   late VoidCallback _resetListener;
 
-  _addListeners(VoidCallback startListener, VoidCallback stopListener, VoidCallback successListener, VoidCallback errorListener,
-      VoidCallback resetListener) {
+  _addListeners(VoidCallback startListener, VoidCallback stopListener, VoidCallback successListener, VoidCallback errorListener, VoidCallback resetListener) {
     _startListener = startListener;
     _stopListener = stopListener;
     _successListener = successListener;

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import '../utils/theme_type.dart';
 import 'salon_tags.dart';
 
@@ -57,6 +56,8 @@ class _SalonSponsorsState extends ConsumerState<SalonSponsors> {
   @override
   void dispose() {
     super.dispose();
+    _timer?.cancel();
+
     _scrollController.dispose();
   }
 
@@ -105,54 +106,63 @@ class _SalonSponsorsState extends ConsumerState<SalonSponsors> {
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Text(
                     AppLocalizations.of(context)?.noBrandsForThisProfile ?? "No brands available for this profile",
-                    style: theme.textTheme.bodyText1?.copyWith(
+                    style: theme.textTheme.bodyLarge?.copyWith(
                       color: theme.dividerColor,
                       fontSize: 18.sp,
                     ),
                   ),
                 )
               : SizedBox(
-                  height: 40,
+                  height: 40.sp,
+                  child: Center(
+                    child: NotificationListener(
+                      onNotification: (notif) {
+                        if (notif is ScrollEndNotification && scroll) {
+                          Timer(const Duration(seconds: 1), () {
+                            _scroll();
+                          });
+                        }
 
-                  child: NotificationListener(
-                    onNotification: (notif) {
-                      if (notif is ScrollEndNotification && scroll) {
-                        Timer(const Duration(seconds: 1), () {
-                          _scroll();
-                        });
-                      }
-
-                      return true;
-                    },
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      controller: _scrollController,
-                      child: Row(
-                        children: _salonProfileProvider.allProductBrands
-                            .map(
-                              (item) => Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                                    child: Text(
-                                      item.translations![AppLocalizations.of(context)?.localeName ?? 'en'],
-                                      style: theme.textTheme.bodyText1?.copyWith(
-                                        color: theme.dividerColor,
-                                        fontSize: 18.sp,
+                        return true;
+                      },
+                      child: Center(
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          controller: _scrollController,
+                          shrinkWrap: true,
+                          physics: const ClampingScrollPhysics(),
+                          children: [
+                            Center(
+                              child: Row(
+                                children: _salonProfileProvider.allProductBrands
+                                    .map(
+                                      (item) => Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                                            child: Text(
+                                              item.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? item.translations!['en'],
+                                              style: theme.textTheme.bodyLarge?.copyWith(
+                                                color: theme.dividerColor,
+                                                fontSize: 18.sp,
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 8.h,
+                                            width: 8.h,
+                                            decoration: tagSeperator(themeType, theme),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 8.h,
-                                    width: 8.h,
-                                    decoration: tagSeperator(themeType, theme),
-                                  ),
-                                ],
+                                    )
+                                    .toList(),
                               ),
-                            )
-                            .toList(),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

@@ -13,24 +13,13 @@ class DefaultDialogue extends StatelessWidget {
   final String buttonText;
   final String skipText;
   final bool showSkipButton;
-  const DefaultDialogue(
-      {Key? key,
-      required this.onConfirm,
-      required this.onSkip,
-      required this.svg,
-      required this.text,
-      required this.buttonText,
-      required this.skipText,
-      required this.showSkipButton})
-      : super(key: key);
+  const DefaultDialogue({Key? key, required this.onConfirm, required this.onSkip, required this.svg, required this.text, required this.buttonText, required this.skipText, required this.showSkipButton}) : super(key: key);
 
-  final TextStyle _style =
-      const TextStyle(fontFamily: "Montserrat", fontSize: 18, fontWeight: FontWeight.w400, color: AppTheme.lightBlack, height: 1.2);
+  final TextStyle _style = const TextStyle(fontFamily: "Montserrat", fontSize: 18, fontWeight: FontWeight.w400, color: AppTheme.lightBlack, height: 1.2);
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: ConstrainedContainer(
-
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,13 +37,13 @@ class DefaultDialogue extends StatelessWidget {
             SizedBox(
               width: 250,
               child: DefaultButton(
-
                 onTap: () {
                   Navigator.of(context).pop();
                   onConfirm();
                 },
                 label: buttonText,
-                color: Theme.of(context).primaryColor,
+                textColor: Colors.black,
+                color: Colors.white, //Theme.of(context).primaryColor,
                 height: 52,
               ),
             ),
@@ -71,7 +60,7 @@ class DefaultDialogue extends StatelessWidget {
                 child: Text(
                   skipText,
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headline3!.copyWith(color: Theme.of(context).primaryColor),
+                  style: Theme.of(context).textTheme.displaySmall!.copyWith(color: Theme.of(context).primaryColor),
                 ),
               ),
           ],

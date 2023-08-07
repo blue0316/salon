@@ -211,7 +211,7 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
                         for (Service s in appointment.services)
                           Expanded(
                             child: Text(
-                              s.translations[AppLocalizations.of(context)?.localeName ?? 'en'],
+                              s.translations![AppLocalizations.of(context)?.localeName ?? 'en'],
                               style: AppTheme.appointmentSubtitle,
                               maxLines: 1,
                             ),
@@ -404,15 +404,15 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
               Gap(24.h),
               GestureDetector(
                 onTap: () async {
-                  await _auth.verifyPhoneNumber(context: context);
-                  showTopSnackBar(
-                    context,
-                    const CustomSnackBar.success(
-                      message: "New code has been sent",
-                      backgroundColor: AppTheme.creamBrown,
-                    ),
-                  );
-                  _auth.otp = '';
+                  // await _auth.verifyPhoneNumber(context: context);
+                  // showTopSnackBar(
+                  //   context,
+                  //   const CustomSnackBar.success(
+                  //     message: "New code has been sent",
+                  //     backgroundColor: AppTheme.creamBrown,
+                  //   ),
+                  // );
+                  // _auth.otp = '';
                 },
                 child: RichText(
                   text: TextSpan(

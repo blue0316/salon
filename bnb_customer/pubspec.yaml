@@ -63,6 +63,7 @@ dependencies:
   google_fonts: ^3.0.1
   dyn_mouse_scroll:
   google_maps_flutter: ^2.1.0
+  flutter_spinkit: ^5.2.0
   # google_maps_flutter_web: ^0.3.2+1
   image_cropper: ^1.4.1
   image_picker: ^0.8.4+3
@@ -91,12 +92,18 @@ dependencies:
   top_snackbar_flutter: ^2.1.1
   translator: ^0.1.7
   transparent_image: ^2.0.0
-  url_launcher: ^6.0.13
+  url_launcher: ^6.1.11
   uuid: ^3.0.5
   vibration: ^1.7.4-nullsafety.0
   google_maps: ^6.2.0
   scrollable_positioned_list: ^0.3.5
   extended_wrap: 0.1.5 
+  font_awesome_flutter: ^10.4.0
+  maps_launcher: ^2.2.0
+  http: ^0.13.6
+  flutter_horizontal_date_picker:
+  crypto: ^3.0.2
+  grouped_list: ^5.1.2
 
 dev_dependencies:
   build_runner: ^2.1.4
@@ -164,6 +171,13 @@ flutter:
         - asset: assets/fonts/Jost-Medium.ttf
         - asset: assets/fonts/Jost-Regular.ttf
         - asset: assets/fonts/Jost-SemiBold.ttf    
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Light.ttf
+        - asset: assets/fonts/Inter-Medium.ttf
+        - asset: assets/fonts/Inter-Regular.ttf
+        - asset: assets/fonts/Inter-SemiBold.ttf    
+        - asset: assets/fonts/Inter-Bold.ttf    
     - family: UNDERRATED
       fonts:
         - asset: assets/fonts/UNDERRATED.otf

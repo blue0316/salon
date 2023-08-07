@@ -1,6 +1,7 @@
 import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/backend_codings/working_hours.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
+import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -11,7 +12,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Time {
   static const Duration _timeSlotSize = Duration(minutes: 15);
-  static const int timeSlotSizeInt = 15;
+
+  Duration timeSlotSize = const Duration(minutes: 15);
 
   int? toMinutes(TimeOfDay myTime) {
     try {
@@ -152,35 +154,92 @@ class Time {
     } while (hour < endTime!.hour || (hour == endTime.hour && minute < endTime.minute));
   }
 
-  Iterable<String> generateTimeSlots(TimeOfDay startTime, TimeOfDay endTime, {Duration step = _timeSlotSize, inclusive = false}) sync* {
+  //  returns the time slots between start and end time with gap of [timeSlotSize]
+  ///  sample input getTimeSlots( TimeOfDay(hour:10,minute:05) , TimeOfDay(hour:10,minute:55) )
+  ///  if(inclusive = false) output : (10:15, 10:30)
+  //  if inclusive is true, then it will return all the bisect time slots also, to make sure no booking overlaps
+  ///  if(inclusive = true) output : (10:00, 10:15, 10:30, 10:45)
+  Iterable<String> generateTimeSlots(TimeOfDay? startTime, TimeOfDay? endTime, {Duration? step, inclusive = false, int? timeSlotSizeDuration}) sync* {
+    timeSlotSize = Duration(minutes: timeSlotSizeDuration ?? 15);
+    step ??= timeSlotSize;
     //if start time greater than end time then break off
+    if (startTime == null || endTime == null || compareTime(endTime, startTime) == 1) return;
 
-    if (compareTime(endTime, startTime) == 1) {
-      return;
+    if (inclusive) {
+      startTime = roundOfTime(startTime, toFloor: true);
+      endTime = roundOfTime(endTime, toFloor: false);
     } else {
-      TimeOfDay? _startTime;
-      TimeOfDay? _endTime;
-      if (inclusive) {
-        _startTime = roundOfTime(startTime, toFloor: true, step: step);
-        _endTime = roundOfTime(endTime, toFloor: false, step: step);
-      } else {
-        _startTime = roundOfTime(startTime, toFloor: false, step: step);
-        _endTime = roundOfTime(endTime, toFloor: true, step: step);
-      }
-      if (_startTime != null && _endTime != null) {
-        int hour = _startTime.hour;
-        int minute = startTime.minute;
-        do {
-          yield timeToString(TimeOfDay(hour: hour, minute: minute)) ?? '';
-          minute += step.inMinutes;
-          while (minute >= 60) {
-            minute -= 60;
-            hour++;
-          }
-        } while (hour < endTime.hour || (hour == endTime.hour && minute < endTime.minute));
-      }
+      startTime = roundOfTime(startTime, toFloor: false);
+      endTime = roundOfTime(endTime, toFloor: true);
     }
+    int hour = startTime!.hour;
+    int minute = startTime.minute;
+
+    do {
+      yield timeToString(TimeOfDay(hour: hour, minute: minute))!;
+      minute += step.inMinutes;
+      while (minute >= 60) {
+        minute -= 60;
+        hour++;
+      }
+    } while (hour < endTime!.hour || (hour == endTime.hour && minute < endTime.minute));
   }
+
+  Iterable<String> generateTimeSlotsForBlock(TimeOfDay? startTime, TimeOfDay? endTime, {Duration? step, inclusive = false, int? timeSlotSizeDuration}) sync* {
+    timeSlotSize = const Duration(minutes: 1);
+    step ??= timeSlotSize;
+    //if start time greater than end time then break off
+    if (startTime == null || endTime == null || compareTime(endTime, startTime) == 1) return;
+
+    if (inclusive) {
+      startTime = roundOfTime(startTime, toFloor: true);
+      endTime = roundOfTime(endTime, toFloor: false);
+    } else {
+      startTime = roundOfTime(startTime, toFloor: false);
+      endTime = roundOfTime(endTime, toFloor: true);
+    }
+    int hour = startTime!.hour;
+    int minute = startTime.minute;
+
+    do {
+      yield timeToString(TimeOfDay(hour: hour, minute: minute))!;
+      minute += step.inMinutes;
+      while (minute >= 60) {
+        minute -= 60;
+        hour++;
+      }
+    } while (hour < endTime!.hour || (hour == endTime.hour && minute < endTime.minute));
+  }
+
+  // Iterable<String> generateTimeSlots(TimeOfDay startTime, TimeOfDay endTime, {Duration step = _timeSlotSize, inclusive = false}) sync* {
+  //   //if start time greater than end time then break off
+
+  //   if (compareTime(endTime, startTime) == 1) {
+  //     return;
+  //   } else {
+  //     TimeOfDay? _startTime;
+  //     TimeOfDay? _endTime;
+  //     if (inclusive) {
+  //       _startTime = roundOfTime(startTime, toFloor: true, step: step);
+  //       _endTime = roundOfTime(endTime, toFloor: false, step: step);
+  //     } else {
+  //       _startTime = roundOfTime(startTime, toFloor: false, step: step);
+  //       _endTime = roundOfTime(endTime, toFloor: true, step: step);
+  //     }
+  //     if (_startTime != null && _endTime != null) {
+  //       int hour = _startTime.hour;
+  //       int minute = startTime.minute;
+  //       do {
+  //         yield timeToString(TimeOfDay(hour: hour, minute: minute)) ?? '';
+  //         minute += step.inMinutes;
+  //         while (minute >= 60) {
+  //           minute -= 60;
+  //           hour++;
+  //         }
+  //       } while (hour < endTime.hour || (hour == endTime.hour && minute < endTime.minute));
+  //     }
+  //   }
+  // }
 
   //returns the common time/element slots between two lists
   List<String> getCommonSlots(List<String>? list1, List<String>? list2) {
@@ -240,8 +299,11 @@ class Time {
     return TimeOfDay(hour: int.parse(hr), minute: int.parse(min));
   }
 
-  getAppointmentString(String appointment, int appointmentDurationInMin) {
+  getAppointmentString(String? appointment, int appointmentDurationInMin) {
     try {
+      if (appointment == null || appointmentDurationInMin == null) {
+        return null;
+      }
       return "$appointment  - ${timeToString(stringToTime(appointment).addMinutes(appointmentDurationInMin))}";
     } catch (e) {
       debugPrint(e.toString());
@@ -438,7 +500,7 @@ class Time {
   String? getAppointmentEndTime(AppointmentModel appointment) {
     if (appointment.appointmentTime != '' && appointment.priceAndDuration.duration != '0' && appointment.priceAndDuration.duration != '0') {
       TimeOfDay time1 = stringToTime(appointment.appointmentTime);
-      TimeOfDay time2 = time1.addMinutes(int.parse(appointment.priceAndDuration.duration));
+      TimeOfDay time2 = time1.addMinutes(int.parse(appointment.priceAndDuration.duration!));
       return timeToString(time2);
     } else {
       return appointment.appointmentTime;
@@ -448,10 +510,32 @@ class Time {
   String? getAppointmentStartEndTime(AppointmentModel appointment) {
     if (appointment.appointmentTime != '' && appointment.priceAndDuration.duration != '0' && appointment.priceAndDuration.duration != '0') {
       TimeOfDay time1 = stringToTime(appointment.appointmentTime);
-      TimeOfDay time2 = time1.addMinutes(int.parse(appointment.priceAndDuration.duration));
+      TimeOfDay time2 = time1.addMinutes(int.parse(appointment.priceAndDuration.duration!));
       String? _time2 = timeToString(time2);
       String? _time1 = timeToString(time1);
       return "$_time1-$_time2";
+    } else {
+      return appointment.appointmentTime;
+    }
+  }
+
+  String? getAppointmentStartEndTimeWithTimeFormat(AppointmentModel appointment, SalonModel salonModel) {
+    if (appointment.appointmentTime != '' && appointment.priceAndDuration.duration != '0' && appointment.priceAndDuration.duration != '0') {
+      TimeOfDay time1 = stringToTime(appointment.appointmentTime);
+      TimeOfDay time2 = time1.addMinutes(int.parse(appointment.priceAndDuration.duration!));
+      String? _time2 = timeToString(time2);
+      String? _time1 = timeToString(time1);
+
+      if (salonModel.timeFormat == TimeFormat.amPM) {
+        return "$_time1-$_time2";
+      } else {
+        // 24 HR
+
+        DateTime fromTime = DateFormat("hh:mma").parse(time1.toString());
+        DateTime toTime = DateFormat("hh:mma").parse(time2.toString());
+
+        return "${DateFormat('HH:mm').format(fromTime)}-${DateFormat('HH:mm').format(toTime)}";
+      }
     } else {
       return appointment.appointmentTime;
     }
@@ -581,15 +665,69 @@ class Time {
       return null;
     }
   }
+
+  Hours? getIrregularWorkingHours(Map<String, Hours>? irregularHours, {DateTime? date}) {
+    DateTime _date = date ?? DateTime.now();
+
+    try {
+      final dateKey = getDateInStandardFormat(_date);
+      if (irregularHours != null && irregularHours.containsKey(dateKey)) {
+        if (irregularHours[dateKey]!.isWorking) return irregularHours[dateKey];
+      }
+    } catch (e) {
+      //(e);
+    }
+    return null;
+  }
+
+  Hours? getMasterIrregularWorkingHours(MasterModel master, {DateTime? date}) {
+    DateTime _date = date ?? DateTime.now();
+
+    try {
+      final dateKey = getDateInStandardFormat(_date);
+      if (master.irregularWorkingHours != null && master.irregularWorkingHours!.containsKey(dateKey)) {
+        if (master.irregularWorkingHours![dateKey]!.isWorking) return master.irregularWorkingHours![dateKey];
+      }
+    } catch (e) {
+      //(e);
+    }
+    return null;
+  }
+
+  Iterable<String> generateTimeSlotsBlock(TimeOfDay? startTime, TimeOfDay? endTime, {Duration? step, inclusive = false}) sync* {
+    timeSlotSize = const Duration(minutes: 1);
+    step ??= timeSlotSize;
+    //if start time greater than end time then break off
+    if (startTime == null || endTime == null || compareTime(endTime, startTime) == 1) return;
+
+    if (inclusive) {
+      startTime = roundOfTime(startTime, toFloor: true);
+      endTime = roundOfTime(endTime, toFloor: false);
+    } else {
+      startTime = roundOfTime(startTime, toFloor: false);
+      endTime = roundOfTime(endTime, toFloor: true);
+    }
+    int hour = startTime!.hour;
+    int minute = startTime.minute;
+
+    do {
+      yield timeToString(TimeOfDay(hour: hour, minute: minute))!;
+      minute += step.inMinutes;
+      while (minute >= 60) {
+        minute -= 60;
+        hour++;
+      }
+    } while (hour < endTime!.hour || (hour == endTime.hour && minute < endTime.minute));
+  }
 }
 
 extension TimeOfDayExtension on TimeOfDay {
-  TimeOfDay addMinutes(int minutes) {
+  TimeOfDay addMinutes(int? minutes) {
     if (minutes == 0) {
       return this;
     } else {
       int min = hour * 60 + minute;
-      int newMin = ((minutes % 1440) + min + 1440) % 1440;
+      int newMin = ((minutes! % 1440) + min + 1440) % 1440;
       if (min == newMin) {
         return this;
       } else {

@@ -1,6 +1,6 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/models/backend_codings/owner_type.dart';
+import 'package:bbblient/src/models/customer_web_settings.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
@@ -21,10 +21,11 @@ class MinimalAboutView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bool isTab = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab);
-    final bool isSingleMaster = (salonModel.ownerType == OwnerType.singleMaster);
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    CustomerWebSettings? themeSettings = _salonProfileProvider.themeSettings;
+    final bool isSingleMaster = _salonProfileProvider.isSingleMaster;
 
     return Padding(
       padding: const EdgeInsets.only(
@@ -48,12 +49,17 @@ class MinimalAboutView extends ConsumerWidget {
                     child: SizedBox(
                       height: 470.h,
                       // width: double.infinity,
-                      child: salonModel.photosOfWork.isNotEmpty
+                      child: (themeSettings?.aboutSectionImage != null && themeSettings?.aboutSectionImage != '')
                           ? CachedImage(
-                              url: salonModel.photosOfWork[0],
+                              url: themeSettings!.aboutSectionImage!,
                               fit: BoxFit.cover,
                             )
-                          : Image.asset(ThemeImages.makeup, fit: BoxFit.cover),
+                          : salonModel.profilePics.isNotEmpty
+                              ? CachedImage(
+                                  url: salonModel.profilePics[0],
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.asset(ThemeImages.makeup, fit: BoxFit.cover),
                     ),
                   ),
                   SizedBox(
@@ -67,14 +73,14 @@ class MinimalAboutView extends ConsumerWidget {
                       children: [
                         Text(
                           isSingleMaster ? (AppLocalizations.of(context)?.aboutMe ?? 'About Me') : (AppLocalizations.of(context)?.aboutUs ?? 'About Us').toUpperCase(),
-                          style: theme.textTheme.headline2?.copyWith(
+                          style: theme.textTheme.displayMedium?.copyWith(
                             fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
                           ),
                         ),
                         const SizedBox(height: 30),
                         Text(
                           (salonModel.description != '') ? salonModel.description : 'No description yet',
-                          style: theme.textTheme.bodyText2?.copyWith(
+                          style: theme.textTheme.bodyMedium?.copyWith(
                             color: theme.primaryColor,
                             fontSize: 20.sp,
                           ),
@@ -92,6 +98,8 @@ class MinimalAboutView extends ConsumerWidget {
                               borderColor: theme.primaryColor,
                               textSize: 16.5.sp,
                               showSuffix: false,
+                              width: 180.sp,
+                              buttonWidth: 1,
                               onTap: () => const BookingDialogWidget222().show(context),
                             ),
                           ],
@@ -112,9 +120,11 @@ class PortraitView extends ConsumerWidget {
   const PortraitView({Key? key, required this.salonModel}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bool isSingleMaster = (salonModel.ownerType == OwnerType.singleMaster);
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+
+    CustomerWebSettings? themeSettings = _salonProfileProvider.themeSettings;
+    final bool isSingleMaster = _salonProfileProvider.isSingleMaster;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,12 +135,17 @@ class PortraitView extends ConsumerWidget {
           child: SizedBox(
             height: DeviceConstraints.getResponsiveSize(context, 250.h, 350.h, 400.h),
             width: double.infinity,
-            child: salonModel.photosOfWork.isNotEmpty
+            child: (themeSettings?.aboutSectionImage != null && themeSettings?.aboutSectionImage != '')
                 ? CachedImage(
-                    url: salonModel.photosOfWork[0],
+                    url: themeSettings!.aboutSectionImage!,
                     fit: BoxFit.cover,
                   )
-                : Image.asset(ThemeImages.makeup, fit: BoxFit.cover),
+                : salonModel.profilePics.isNotEmpty
+                    ? CachedImage(
+                        url: salonModel.profilePics[0],
+                        fit: BoxFit.cover,
+                      )
+                    : Image.asset(ThemeImages.makeup, fit: BoxFit.cover),
           ),
         ),
         const SizedBox(height: 30),
@@ -141,7 +156,7 @@ class PortraitView extends ConsumerWidget {
           ),
           child: Text(
             isSingleMaster ? (AppLocalizations.of(context)?.aboutMe ?? 'About Me') : (AppLocalizations.of(context)?.aboutUs ?? 'About Us').toUpperCase(),
-            style: theme.textTheme.headline2?.copyWith(
+            style: theme.textTheme.displayMedium?.copyWith(
               fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
             ),
           ),
@@ -158,7 +173,7 @@ class PortraitView extends ConsumerWidget {
             children: [
               Text(
                 (salonModel.description != '') ? salonModel.description : 'No description yet',
-                style: theme.textTheme.bodyText2?.copyWith(
+                style: theme.textTheme.bodyMedium?.copyWith(
                   color: theme.primaryColor,
                   fontSize: 15.sp,
                 ),
@@ -176,6 +191,8 @@ class PortraitView extends ConsumerWidget {
                     borderColor: theme.primaryColor,
                     textSize: 16.sp,
                     showSuffix: false,
+                    width: 180.sp,
+                    buttonWidth: 1,
                     onTap: () => const BookingDialogWidget222().show(context),
                   ),
                 ],

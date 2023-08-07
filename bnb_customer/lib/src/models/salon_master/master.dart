@@ -3,6 +3,8 @@ import 'package:bbblient/src/utils/utils.dart';
 import '../backend_codings/working_hours.dart';
 
 class MasterModel {
+  DateTime? createdAt;
+
   bool availableOnline = false;
   late String masterId;
   late String salonId;
@@ -30,12 +32,14 @@ class MasterModel {
   Map<String, PriceAndDurationModel>? servicesPriceAndDuration;
 
   Map<String, PriceAndDurationModel>? servicesPriceAndDurationMax;
+  String? title;
 
   double? avgRating;
   double? reviewCount;
   List<String>? searchTags;
 
   MasterModel({
+    this.createdAt,
     required this.masterId,
     required this.salonId,
     this.beautyProId,
@@ -57,19 +61,18 @@ class MasterModel {
     this.reviewCount,
     this.avgRating,
     this.searchTags,
+    this.title,
   });
 
   MasterModel.fromJson(Map<String, dynamic> json) {
+    if (json['createdAt'] != null) createdAt = json['createdAt'].toDate();
+
     masterId = json['masterId'];
     salonId = json['salonId'];
     beautyProId = json['beautyProId'];
     yClientsId = json['yClientsId'];
-    personalInfo = json['personalInfo'] != null
-        ? PersonalInfoMaster.fromJson(json['personalInfo'])
-        : null;
-    workingHours = json['workingHours'] != null
-        ? WorkingHoursModel.fromJson(json['workingHours'])
-        : null;
+    personalInfo = json['personalInfo'] != null ? PersonalInfoMaster.fromJson(json['personalInfo']) : null;
+    workingHours = json['workingHours'] != null ? WorkingHoursModel.fromJson(json['workingHours']) : null;
     categoryIds = json['categoryIds']?.cast<String>() ?? [];
     serviceIds = json['serviceIds']?.cast<String>() ?? [];
     reviewIds = json['reviewIds']?.cast<String>() ?? [];
@@ -78,16 +81,11 @@ class MasterModel {
     profilePicUrl = json['profilePicUrl'] ?? '';
     availableOnline = json['availableOnline'] ?? false;
     blockedTime = json['blockedTime'] ?? {};
-    servicesPriceAndDuration = json['servicesPriceAndDuration'] != null
-        ? mapPriceAndDuration(json['servicesPriceAndDuration'])
-        : null;
+    servicesPriceAndDuration = json['servicesPriceAndDuration'] != null ? mapPriceAndDuration(json['servicesPriceAndDuration']) : {};
     if (json['servicesPriceAndDurationMax'] != null) {
-      servicesPriceAndDurationMax =
-          mapPriceAndDuration(json['servicesPriceAndDurationMax']);
+      servicesPriceAndDurationMax = mapPriceAndDuration(json['servicesPriceAndDurationMax']);
     }
-    irregularWorkingHours = json['irregularWorkingHours'] != null
-        ? mapIrregularHours(json['irregularWorkingHours'])
-        : null;
+    irregularWorkingHours = json['irregularWorkingHours'] != null ? mapIrregularHours(json['irregularWorkingHours']) : null;
     colorCode = Utils().assignColorCode();
     if (json['avgRating'] != null) avgRating = json['avgRating'].toDouble();
     if (json['reviewCount'] != null) {
@@ -96,10 +94,13 @@ class MasterModel {
     if (json['searchTags'] != null) {
       searchTags = json['searchTags'].cast<String>();
     }
+    title = json['title'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
+    if (createdAt != null) data['createdAt'] = createdAt;
+
     data['salonId'] = salonId;
     data['masterId'] = masterId;
     data['beautyProId'] = beautyProId;
@@ -117,26 +118,24 @@ class MasterModel {
     data['profilePicUrl'] = profilePicUrl;
     data['availableOnline'] = availableOnline;
     data['blockedTime'] = blockedTime;
-    data['servicesPriceAndDuration'] =
-        priceAndDurationToJson(servicesPriceAndDuration);
+    data['servicesPriceAndDuration'] = priceAndDurationToJson(servicesPriceAndDuration);
     data['searchTags'] = searchTags;
     if (avgRating != null) data['avgRating'] = avgRating;
     if (reviewCount != null) data['reviewCount'] = reviewCount;
+    data['title'] = title;
 
     return data;
   }
 
   //generates a map of PriceAndDuration where key is service id
-  Map<String, PriceAndDurationModel> mapPriceAndDuration(
-      Map<String, dynamic>? map) {
+  Map<String, PriceAndDurationModel> mapPriceAndDuration(Map<String, dynamic>? map) {
     Map<String, PriceAndDurationModel> servicesPriceAndDurationMap = {};
 
     try {
       if (map != null) {
         map.forEach((key, value) {
           if (value != null) {
-            servicesPriceAndDurationMap[key] =
-                PriceAndDurationModel.fromJson(value);
+            servicesPriceAndDurationMap[key] = PriceAndDurationModel.fromJson(value);
           }
         });
       }
@@ -168,8 +167,7 @@ class MasterModel {
   }
 
   //generates a map of PriceAndDuration where key is service id
-  Map<String, dynamic> priceAndDurationToJson(
-      Map<String, PriceAndDurationModel>? map) {
+  Map<String, dynamic> priceAndDurationToJson(Map<String, PriceAndDurationModel>? map) {
     Map<String, dynamic> priceAndDurationJson = {};
 
     try {
@@ -194,12 +192,7 @@ class PersonalInfoMaster {
   String? email;
   String? description;
 
-  PersonalInfoMaster(
-      {this.firstName,
-      this.lastName,
-      this.phone,
-      this.email,
-      this.description});
+  PersonalInfoMaster({this.firstName, this.lastName, this.phone, this.email, this.description});
 
   PersonalInfoMaster.fromJson(Map<String, dynamic> json) {
     firstName = json['firstName'];

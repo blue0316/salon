@@ -128,11 +128,11 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                       children: [
                                         Text(
                                           _date,
-                                          style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: 16, color: Colors.white),
+                                          style: Theme.of(context).textTheme.displaySmall!.copyWith(fontSize: 16, color: Colors.white),
                                         ),
                                         Text(
                                           _time,
-                                          style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: 16, color: Colors.white, fontWeight: FontWeight.normal),
+                                          style: Theme.of(context).textTheme.displaySmall!.copyWith(fontSize: 16, color: Colors.white, fontWeight: FontWeight.normal),
                                         ),
                                       ],
                                     ),
@@ -156,7 +156,7 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                               padding: EdgeInsets.all(16.r),
                                               child: SvgPicture.asset(
                                                 AppIcons.getIconFromCategoryId(
-                                                  id: appointment.services.first.categoryId,
+                                                  id: appointment.services.first.categoryId!,
                                                 ),
                                                 color: Colors.white,
                                               ),
@@ -170,13 +170,13 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                                 children: [
                                                   for (Service s in appointment.services)
                                                     Text(
-                                                      s.translations[AppLocalizations.of(context)?.localeName ?? 'en'],
-                                                      style: Theme.of(context).textTheme.headline4!.copyWith(color: AppTheme.textBlack),
+                                                      s.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? s.translations?['en'],
+                                                      style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: AppTheme.textBlack),
                                                       maxLines: 1,
                                                     ),
                                                   Text(
                                                     "${AppLocalizations.of(context)?.services ?? "services"} (${appointment.services.length})",
-                                                    style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 14),
+                                                    style: Theme.of(context).textTheme.headlineMedium!.copyWith(fontSize: 14),
                                                   )
                                                 ],
                                               ),

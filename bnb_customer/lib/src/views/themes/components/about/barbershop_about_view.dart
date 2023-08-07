@@ -1,6 +1,6 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/models/backend_codings/owner_type.dart';
+import 'package:bbblient/src/models/customer_web_settings.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
@@ -19,10 +19,12 @@ class BarbershopAboutUs extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
-    final bool isSingleMaster = (salonModel.ownerType == OwnerType.singleMaster);
+
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    CustomerWebSettings? themeSettings = _salonProfileProvider.themeSettings;
+    final bool isSingleMaster = _salonProfileProvider.isSingleMaster;
 
     return Padding(
       padding: EdgeInsets.only(
@@ -37,7 +39,7 @@ class BarbershopAboutUs extends ConsumerWidget {
         children: [
           Text(
             isSingleMaster ? (AppLocalizations.of(context)?.aboutMe ?? 'About Me') : (AppLocalizations.of(context)?.aboutUs ?? 'About Us').toUpperCase(),
-            style: theme.textTheme.headline2?.copyWith(
+            style: theme.textTheme.displayMedium?.copyWith(
               fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 30.sp, 50.sp),
             ),
           ),
@@ -52,17 +54,20 @@ class BarbershopAboutUs extends ConsumerWidget {
                   child: SizedBox(
                     height: 200.h,
                     width: double.infinity,
-                    child: salonModel.photosOfWork.isNotEmpty
+                    child: (themeSettings?.aboutSectionImage != null && themeSettings?.aboutSectionImage != '')
                         ? CachedImage(
-                            url: salonModel.photosOfWork[0],
+                            url: themeSettings!.aboutSectionImage!,
                             fit: BoxFit.cover,
-                            // width: DeviceConstraints.getResponsiveSize(
-                            //     context, 50, 200.w, 200.w),
                           )
-                        : Image.asset(
-                            ThemeImages.makeup,
-                            fit: BoxFit.cover,
-                          ),
+                        : salonModel.profilePics.isNotEmpty
+                            ? CachedImage(
+                                url: salonModel.profilePics[0],
+                                fit: BoxFit.cover,
+                              )
+                            : Image.asset(
+                                ThemeImages.makeup,
+                                fit: BoxFit.cover,
+                              ),
                   ),
                 ),
               if (isPortrait) const SizedBox(height: 15),
@@ -76,24 +81,29 @@ class BarbershopAboutUs extends ConsumerWidget {
                       child: SizedBox(
                         height: DeviceConstraints.getResponsiveSize(context, 0, 150.h, 180.h),
                         width: DeviceConstraints.getResponsiveSize(context, 0, 150.w, 100.w),
-                        child: salonModel.photosOfWork.isNotEmpty
+                        child: (themeSettings?.aboutSectionImage != null && themeSettings?.aboutSectionImage != '')
                             ? CachedImage(
-                                url: salonModel.photosOfWork[0],
+                                url: themeSettings!.aboutSectionImage!,
                                 fit: BoxFit.cover,
-                                // width: DeviceConstraints.getResponsiveSize(
-                                //     context, 50, 200.w, 200.w),
                               )
-                            : Image.asset(
-                                ThemeImages.makeup,
-                                fit: BoxFit.cover,
-                              ),
+                            : salonModel.profilePics.isNotEmpty
+                                ? CachedImage(
+                                    url: salonModel.profilePics[0],
+                                    fit: BoxFit.cover,
+                                    // width: DeviceConstraints.getResponsiveSize(
+                                    //     context, 50, 200.w, 200.w),
+                                  )
+                                : Image.asset(
+                                    ThemeImages.makeup,
+                                    fit: BoxFit.cover,
+                                  ),
                       ),
                     ),
                   if (!isPortrait) const SizedBox(width: 30),
                   Flexible(
                     child: Text(
                       (salonModel.description != '') ? salonModel.description : 'No description yet',
-                      style: theme.textTheme.bodyText2?.copyWith(
+                      style: theme.textTheme.bodyMedium?.copyWith(
                         color: Colors.white,
                         fontSize: 15.5.sp,
                       ),

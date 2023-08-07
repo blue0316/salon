@@ -14,6 +14,7 @@ class Collection {
   static final CollectionReference customers = FirebaseFirestore.instance.collection('customers');
   static final CollectionReference customersAdmins = FirebaseFirestore.instance.collection('customerAdmins');
   static final CollectionReference appointments = FirebaseFirestore.instance.collection('appointments');
+  static final CollectionReference transactions = FirebaseFirestore.instance.collection('transactions');
   static final CollectionReference appData = FirebaseFirestore.instance.collection('userAppSettings');
   static final CollectionReference notifications = FirebaseFirestore.instance.collection('notifications');
   static final CollectionReference referrals = FirebaseFirestore.instance.collection('referrals');

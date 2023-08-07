@@ -72,7 +72,7 @@ class _RegisterQuizState extends ConsumerState<RegisterQuiz> {
                         ),
                         Text(
                           getTitle(_quizProvider.currentPage),
-                          style: AppTheme.headLine1.copyWith(
+                          style: AppTheme.displayLarge.copyWith(
                             fontSize: 20,
                           ),
                         ),

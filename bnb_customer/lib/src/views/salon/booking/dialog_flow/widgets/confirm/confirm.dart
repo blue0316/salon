@@ -39,9 +39,29 @@ class _ConfirmationState extends ConsumerState<Confirmation> {
                 OrderDetails(tabController: widget.bookingTabController),
               ],
             ),
-          ),
+          )
         ],
       ),
     );
   }
 }
+
+
+// if no deposit
+// - book appointment
+
+// if there's deposit
+// - pay deposit
+
+
+// on transaction listen
+// - create card sub collection in customer
+// - if card referencfe is present (not null), add card
+
+
+// card no
+// card exp
+// card ref
+// card type
+// merchant ref
+// stored credential use

@@ -1,3 +1,4 @@
+import 'package:bbblient/src/models/cat_sub_service/price_and_duration.dart';
 import 'package:bbblient/src/models/review.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -48,9 +49,31 @@ class MastersApi {
         Map _temp = doc.data() as Map<dynamic, dynamic>;
         _temp['masterId'] = doc.id;
         var master = MasterModel.fromJson(_temp as Map<String, dynamic>);
+
         if (master.availableOnline) {
           masters.add(master);
         }
+      }
+      return masters;
+    } catch (e) {
+      debugPrint(e.toString());
+      return [];
+    }
+  }
+
+  Future<List<MasterModel>> getAllSalonMasters(String salonId) async {
+    try {
+      List<MasterModel> masters = [];
+
+      QuerySnapshot _response = await Collection.masters.where('salonId', isEqualTo: salonId).get();
+
+      for (DocumentSnapshot doc in _response.docs) {
+        Map _temp = doc.data() as Map<dynamic, dynamic>;
+        _temp['masterId'] = doc.id;
+
+        var master = MasterModel.fromJson(_temp as Map<String, dynamic>);
+
+        masters.add(master);
       }
       return masters;
     } catch (e) {
@@ -86,5 +109,60 @@ class MastersApi {
       debugPrint(e.toString());
       return 0;
     }
+  }
+
+  //updates the salon admin data
+  Future updateMaster(MasterModel master, {bool isNewMaster = false}) async {
+    try {
+      //updates salon data
+
+      //assigns a timestamp in-case of a new master
+      if (isNewMaster) master.createdAt = DateTime.now();
+
+      master = removeExtraPriceAndDuration(master);
+
+      if (isNewMaster) {
+        final DocumentReference _doc = Collection.masters.doc();
+
+        await _doc.set(master.toJson());
+        master.masterId = _doc.id;
+        //(master.masterId);
+
+        return master;
+      } else if (master.masterId != null || !isNewMaster) {
+        await Collection.masters.doc(master.masterId).set(
+              master.toJson(),
+            );
+        //('not here');
+        return master;
+      }
+
+      //links th salon with ownerId
+
+      return null;
+    } catch (e) {
+      debugPrint(e.toString());
+      return null;
+    }
+  }
+
+  //removes the extra price and duration
+  MasterModel removeExtraPriceAndDuration(MasterModel master) {
+    try {
+      List<String>? serviceIds = master.serviceIds;
+      if (serviceIds == null) return master;
+
+      Map<String, PriceAndDurationModel>? _map = {};
+
+      for (String id in serviceIds) {
+        if (master.servicesPriceAndDuration!.containsKey(id)) {
+          _map[id] = master.servicesPriceAndDuration![id]!;
+        }
+      }
+      master.servicesPriceAndDuration = _map;
+    } catch (e) {
+      //(e);
+    }
+    return master;
   }
 }

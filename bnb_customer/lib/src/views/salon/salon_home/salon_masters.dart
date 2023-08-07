@@ -38,7 +38,7 @@ class _SaloonMastersState extends ConsumerState<SaloonMasters> {
             SizedBox(height: 20.h),
             Text(
               (AppLocalizations.of(context)?.localeName == 'uk') ? saloonDetailsTitlesUK[2] : saloonDetailsTitles[2].toCapitalized(),
-              style: Theme.of(context).textTheme.bodyText1!.copyWith(
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     color: AppTheme.textBlack,
                     fontWeight: FontWeight.w600,
                     fontSize: 30.sp,
@@ -92,7 +92,7 @@ class _SaloonMastersState extends ConsumerState<SaloonMasters> {
                                 width: DeviceConstraints.getResponsiveSize(context, 15, 30, 30),
                               ),
                               Text(
-                                _salonSearchProvider.categories[index].translations[AppLocalizations.of(context)?.localeName],
+                                _salonSearchProvider.categories[index].translations[AppLocalizations.of(context)?.localeName] ?? _salonSearchProvider.categories[index].translations['en'],
                                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 18.sp, //  DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
@@ -137,13 +137,17 @@ class _SaloonMastersState extends ConsumerState<SaloonMasters> {
                                       behavior: HitTestBehavior.translucent,
                                       key: const ValueKey("tap-master"),
                                       onTap: () {
-                                        _createAppointmentProvider.setMaster(masterModel: _filteredMasters[index]);
+                                        _createAppointmentProvider.setMaster(
+                                          masterModel: _filteredMasters[index],
+                                          categories: _salonSearchProvider.categories,
+                                        );
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) => MasterProfile(
                                               salonModel: widget.salonModel,
                                               masterModel: _filteredMasters[index],
+                                              categories: const [],
                                             ),
                                           ),
                                         );

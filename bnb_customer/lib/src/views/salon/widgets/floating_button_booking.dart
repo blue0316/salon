@@ -1,4 +1,5 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/booking_dialog_2.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // SHOW SERVICES FAB
 class FloatingBar extends ConsumerStatefulWidget {
   final bool master;
-  const FloatingBar({Key? key, this.master = false}) : super(key: key);
+  final MasterModel? masterModel;
+
+  const FloatingBar({Key? key, this.master = false, this.masterModel}) : super(key: key);
 
   @override
   _FloatingBarState createState() => _FloatingBarState();
@@ -19,9 +22,13 @@ class _FloatingBarState extends ConsumerState<FloatingBar> {
   @override
   Widget build(BuildContext context) {
     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
-    int noOfServices = _createAppointmentProvider.chosenServices.length;
+    // int noOfServices = _createAppointmentProvider.chosenServices.length;
+
     return GestureDetector(
-      onTap: () => const BookingDialogWidget222().show(context),
+      onTap: () => BookingDialogWidget222(
+        master: widget.master,
+        masterModel: widget.masterModel,
+      ).show(context),
       child: Padding(
         padding: EdgeInsets.only(bottom: 100.h),
         child: AnimatedSwitcher(
@@ -36,9 +43,12 @@ class _FloatingBarState extends ConsumerState<FloatingBar> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               InkWell(
-                onTap: () => const BookingDialogWidget222().show(context),
+                onTap: () => BookingDialogWidget222(
+                  master: widget.master,
+                  masterModel: widget.masterModel,
+                ).show(context),
                 child: Container(
-                  key: ValueKey(noOfServices),
+                  // key: ValueKey(noOfServices),
                   height: 45.h,
                   decoration: BoxDecoration(
                     color: const Color(0XFF9D9D9D),
@@ -48,10 +58,10 @@ class _FloatingBarState extends ConsumerState<FloatingBar> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 35),
                       child: Text(
-                        AppLocalizations.of(context)?.bookNow ?? "Book Now",
-                        style: AppTheme.headLine2.copyWith(
+                        AppLocalizations.of(context)?.bookNow ?? "Book ${_createAppointmentProvider.chosenServices.length} Now",
+                        style: AppTheme.displayMedium.copyWith(
                           fontWeight: FontWeight.w500,
-                          color: Colors.black,
+                          color: Colors.white,
                           fontSize: 18.sp,
                         ),
                       ),

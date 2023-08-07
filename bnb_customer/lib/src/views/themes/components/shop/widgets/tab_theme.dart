@@ -21,6 +21,12 @@ BoxDecoration shopTabBarTheme(ThemeType themeType, ThemeData theme) {
           bottom: BorderSide(width: 1.5, color: theme.primaryColorDark),
         ),
       );
+    case ThemeType.Glam:
+      return BoxDecoration(
+        border: Border(
+          bottom: BorderSide(width: 1.5, color: theme.primaryColorDark),
+        ),
+      );
 
     default:
       return BoxDecoration(

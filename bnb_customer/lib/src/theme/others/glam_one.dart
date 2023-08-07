@@ -26,7 +26,7 @@ class GlamOneTheme {
   static const primaryDeepOption1 = Color(0XFFF48B72);
 
   // Accent Color FFC692
-  static final ThemeData AccentFFC692 = ThemeData(
+  static final ThemeData mainTheme = ThemeData(
     primaryColor: primaryOption1,
     primaryColorDark: primaryDeepOption1,
     primaryColorLight: primaryOption1,
@@ -57,7 +57,10 @@ class GlamOneTheme {
       onPrimary: (Colors.green[900])!,
       onSecondary: creamBrownLight,
       onSurface: lightGrey,
-      onBackground: lightGrey,
+      // Dialog Colors
+      onBackground: Colors.white,
+      tertiary: Colors.white, // Text colors on dialog
+
       onError: redishPink,
       brightness: Brightness.light,
       outlineVariant: Colors.white, // Color of divider on appbar

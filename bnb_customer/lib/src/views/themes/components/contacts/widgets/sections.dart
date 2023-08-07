@@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ContactSection extends ConsumerWidget {
   final SalonModel salonModel;
@@ -30,7 +31,7 @@ class ContactSection extends ConsumerWidget {
           (themeType == ThemeType.GlamMinimalLight || themeType == ThemeType.GlamMinimalDark) ? AppLocalizations.of(context)?.contacts ?? 'Contacts' : (AppLocalizations.of(context)?.contacts ?? 'Contacts').toUpperCase(),
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.left,
-          style: theme.textTheme.bodyText1?.copyWith(
+          style: theme.textTheme.bodyLarge?.copyWith(
             fontSize: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
           ),
         ),
@@ -66,18 +67,25 @@ class ContactCard extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SvgPicture.asset(
-            icon,
-            height: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
-            color: theme.primaryColorDark,
-          ),
+          (icon != 'ThemeIcons.minimalLocation')
+              ? SvgPicture.asset(
+                  icon,
+                  height: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                  color: theme.primaryColorDark,
+                )
+              : FaIcon(
+                  FontAwesomeIcons.locationDot,
+                  size: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                  color: theme.primaryColorDark,
+                ),
           const SizedBox(width: 15),
           Flexible(
             child: Text(
               value,
-              style: theme.textTheme.bodyText1?.copyWith(
+              style: theme.textTheme.bodyLarge?.copyWith(
                 color: iconColor(themeType), // (themeType == ThemeType.GlamLight) ? Colors.black : Colors.white,
                 fontSize: 20.sp,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ),
@@ -121,13 +129,13 @@ class VisitUs extends ConsumerWidget {
 
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.left,
-          style: theme.textTheme.bodyText1?.copyWith(
+          style: theme.textTheme.bodyLarge?.copyWith(
             fontSize: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
           ),
         ),
         const SizedBox(height: 10),
         ContactCard(
-          icon: (themeType == ThemeType.GlamMinimalLight || themeType == ThemeType.GlamMinimalDark) ? ThemeIcons.minimalLocation : ThemeIcons.location,
+          icon: (themeType == ThemeType.GlamMinimalLight || themeType == ThemeType.GlamMinimalDark) ? 'ThemeIcons.minimalLocation' : ThemeIcons.location,
           value: salonModel.address,
         ),
       ],
@@ -162,7 +170,7 @@ class SocialNetwork extends ConsumerWidget {
 
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.left,
-          style: theme.textTheme.bodyText1?.copyWith(
+          style: theme.textTheme.bodyLarge?.copyWith(
             fontSize: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
           ),
         ),
@@ -172,22 +180,25 @@ class SocialNetwork extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Socials(
-              socialIcon: (themeType == ThemeType.GlamMinimalLight) ? ThemeIcons.minimalInstagram : ThemeIcons.insta,
+              type: 'insta',
+              socialIcon: (themeType == ThemeType.GlamMinimalLight) ? 'ThemeIcons.minimalInstagram' : ThemeIcons.insta,
               socialUrl: salonModel.links?.instagram,
               height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 26.sp),
               color: theme.primaryColorDark,
             ),
-            const SizedBox(width: 20),
+            SizedBox(width: 37.sp),
             Socials(
+              type: (themeType == ThemeType.GlamMinimalLight) ? 'facebook' : 'tiktok',
               socialIcon: (themeType == ThemeType.GlamMinimalLight) ? ThemeIcons.minimalFacebook : ThemeIcons.tiktok,
-              socialUrl: salonModel.links?.facebookMessenger,
+              socialUrl: (themeType == ThemeType.GlamMinimalLight) ? salonModel.links?.facebook : salonModel.links?.tiktok,
               height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 26.sp),
               color: theme.primaryColorDark,
             ),
-            const SizedBox(width: 20),
+            SizedBox(width: 37.sp),
             Socials(
+              type: 'whatsapp',
               socialIcon: (themeType == ThemeType.GlamMinimalLight) ? ThemeIcons.whatsapp : ThemeIcons.whatsapp,
-              socialUrl: salonModel.links?.whatsapp,
+              socialUrl: salonModel.phoneNumber,
               height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 26.sp),
               color: theme.primaryColorDark,
             ),

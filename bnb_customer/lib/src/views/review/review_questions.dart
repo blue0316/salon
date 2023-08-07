@@ -35,7 +35,7 @@
 //             children: [
 //               Text(
 //                 "Your wishes or comments for Master",
-//                 style: Theme.of(context).textTheme.headline3,
+//                 style: Theme.of(context).textTheme.displaySmall,
 //                 textAlign: TextAlign.center,
 //               ),
 //               SizedBox(
@@ -61,7 +61,7 @@
 //                 Text(
 //                   "Your wishes or comments for the salon",
 //                   textAlign: TextAlign.center,
-//                   style: Theme.of(context).textTheme.headline3,
+//                   style: Theme.of(context).textTheme.displaySmall,
 //                 ),
 //                 SizedBox(
 //                   height: 32.h,
