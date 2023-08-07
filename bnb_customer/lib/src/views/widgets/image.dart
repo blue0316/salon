@@ -9,7 +9,19 @@ class CachedImage extends StatelessWidget {
   final LoadingErrorWidgetBuilder? errorWidget;
   final int? cacheWidth;
   final BoxFit? fit;
-  const CachedImage({Key? key, required this.url, this.height, this.width, this.cacheWidth, this.placeHolder, this.errorWidget, this.fit}) : super(key: key);
+  final Widget Function(BuildContext, ImageProvider<Object>)? imageBuilder;
+
+  const CachedImage({
+    Key? key,
+    required this.url,
+    this.height,
+    this.width,
+    this.cacheWidth,
+    this.placeHolder,
+    this.errorWidget,
+    this.fit,
+    this.imageBuilder,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,27 +31,18 @@ class CachedImage extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: url,
       fit: fit ?? BoxFit.cover,
-
       height: height,
       width: width,
-
       //maxHeightDiskCache: 800,
-      errorWidget: (context, url, error) {
-        print('image eorror $error');
-        return SizedBox(
+      errorWidget: (context, url, error) => SizedBox(
         height: height,
         width: width,
         // decoration: BoxDecoration(shape: BoxShape.circle),
-        child: Center(
-          child: Icon(
-            Icons.error,
-            size: height,
-            color: Colors.red,
-          ),
-        ),
-      );},
+        child: Center(child: Icon(Icons.error, size: height, color: Colors.red)),
+      ),
+      imageBuilder: imageBuilder,
       placeholder: placeHolder,
-      memCacheWidth:500,
+      memCacheWidth: _cachedWidth,
     );
   }
 }

@@ -1,8 +1,8 @@
 {
   "hosting": {
     "target1": "bnb-test-dev",
-    "target": "yogasm",
-    "target2": "bnbtest",
+    "target2": "yogasm",
+    "target": "bnbtest",
     "public": "build/web",
     "ignore": [
       "firebase.json",
