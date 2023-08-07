@@ -43,7 +43,7 @@ class CustomerModel {
 
   CustomerModel.fromJson(Map<String, dynamic> json) {
     createdAt = json['createdAt'] != null ? json['createdAt'].toDate() : DateTime.now();
-    customerId = json['customerId'];
+    customerId = json['customerId'] ?? '';
     personalInfo = PersonalInfo.fromJson(json['personalInfo']);
     registeredSalons = json['registeredSalons'] == null ? [] : json['registeredSalons'].cast<String>();
     avgRating = (json['avgRating'] != null) ? json['avgRating'].toDouble() : 0;

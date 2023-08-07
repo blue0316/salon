@@ -165,4 +165,24 @@ class MastersApi {
     }
     return master;
   }
+
+  Future<List<MasterModel>?> getMasterFromPhone({required String phone, required String salonId}) async {
+    try {
+      QuerySnapshot _response = await Collection.masters
+          .where('personalInfo.phone', isEqualTo: phone)
+          .where(
+            'salonId',
+            isEqualTo: salonId,
+          )
+          .get();
+      return _response.docs.map<MasterModel>((master) {
+        Map _temp = master.data() as Map<dynamic, dynamic>;
+        _temp['masterId'] = master.id;
+        return MasterModel.fromJson(_temp as Map<String, dynamic>);
+      }).toList();
+    } catch (e) {
+      debugPrint(e.toString());
+      return null;
+    }
+  }
 }

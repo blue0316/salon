@@ -30,7 +30,7 @@ Color? isAddedSelectedColor(ThemeType themeType) {
       return Colors.white;
 
     default:
-      return Colors.white;
+      return Colors.black;
   }
 }
 
@@ -190,8 +190,8 @@ Color? selectSlots(ThemeType themeType, ThemeData theme) {
       return Colors.black;
     case ThemeType.GlamLight:
       return Colors.white;
-    // case ThemeType.Barbershop:
-    //   return theme.primaryColor;
+    case ThemeType.Glam:
+      return Colors.white;
     case ThemeType.DefaultLight:
       return Colors.white;
 
