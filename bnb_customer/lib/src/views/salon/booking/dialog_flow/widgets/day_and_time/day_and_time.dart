@@ -1,10 +1,8 @@
-import 'dart:math';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
-import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/utils/icons.dart';
@@ -46,9 +44,14 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
       loading = true;
     });
     final _createAppointmentProvider = ref.read(createAppointmentProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.read(salonProfileProvider);
 
     await _createAppointmentProvider.initTimeOfDay();
-    await _createAppointmentProvider.onDateChange(date);
+    await _createAppointmentProvider.onDateChange(date, isSingleMaster: _salonProfileProvider.isSingleMaster);
+
+    if (_salonProfileProvider.isSingleMaster) {
+      _createAppointmentProvider.initializeTimeSlots();
+    }
 
     // final _random = Random();
     // if (_createAppointmentProvider.serviceableMasters.isNotEmpty) {
@@ -83,6 +86,8 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
     final ThemeData theme = _salonProfileProvider.salonTheme;
     ThemeType themeType = _salonProfileProvider.themeType;
     SalonModel salonModel = _salonProfileProvider.chosenSalon;
+
+    bool defaultLightTheme = themeType == ThemeType.DefaultLight;
 
     if (_salonProfileProvider.isSingleMaster) {
       selectedMaster = _salonProfileProvider.allMastersInSalon[0];
@@ -152,7 +157,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                         //     color: Colors.blue,
                         //   ),
                         // ),
-                        if (masterAndSalonPriceDifferent == true)
+                        if (masterAndSalonPriceDifferent == true && !_salonProfileProvider.isSingleMaster)
                           Padding(
                             padding: EdgeInsets.only(bottom: 10.sp),
                             child: Row(
@@ -194,8 +199,8 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                         //       )
                         //       .toList(),
                         // ),
-                        if (masterAndSalonPriceDifferent == true) SizedBox(height: 20.sp),
-                        if (masterAndSalonPriceDifferent == true)
+                        if (masterAndSalonPriceDifferent == true && !_salonProfileProvider.isSingleMaster) SizedBox(height: 20.sp),
+                        if (masterAndSalonPriceDifferent == true && !_salonProfileProvider.isSingleMaster)
                           Container(
                             width: double.infinity,
                             height: 1.5.sp,
@@ -207,7 +212,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                             ),
                           ),
 
-                        SizedBox(height: 20.sp),
+                        if (masterAndSalonPriceDifferent == true && !_salonProfileProvider.isSingleMaster) SizedBox(height: 20.sp),
 
                         // SELECT MASTER
                         if (!_salonProfileProvider.isSingleMaster)
@@ -294,7 +299,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                               // setState(() => isAnyoneSelected = false);
 
                                               _createAppointmentProvider.selectMasterForBooking(master);
-
+                                              _createAppointmentProvider.controlModal(false);
                                               // _createAppointmentProvider.addServiceMaster(service, master, context);
 
                                               // if (_createAppointmentProvider.slotsStatus == Status.failed) {
@@ -359,7 +364,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                             ),
                           ),
 
-                        SizedBox(height: 50.sp),
+                        if (!_salonProfileProvider.isSingleMaster) SizedBox(height: 50.sp),
 
                         // SELECT MASTER TIME
                         Row(
@@ -370,7 +375,10 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                               onTap: () {
                                 date = date.subtract(const Duration(days: 1));
 
-                                _createAppointmentProvider.onDateChange(date);
+                                _createAppointmentProvider.onDateChange(
+                                  date,
+                                  isSingleMaster: _salonProfileProvider.isSingleMaster,
+                                );
                               },
                               child: Icon(
                                 Icons.arrow_back_ios,
@@ -393,7 +401,10 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                               onTap: () {
                                 date = date.add(const Duration(days: 1));
 
-                                _createAppointmentProvider.onDateChange(date);
+                                _createAppointmentProvider.onDateChange(
+                                  date,
+                                  isSingleMaster: _salonProfileProvider.isSingleMaster,
+                                );
                               },
                               child: Icon(
                                 Icons.arrow_forward_ios,
@@ -420,7 +431,10 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                             // print(item);
                             // print('-----+++------ HORIZONTAL DATE PICKER DAY -----+++------');
 
-                            _createAppointmentProvider.onDateChange(date);
+                            _createAppointmentProvider.onDateChange(
+                              date,
+                              isSingleMaster: _salonProfileProvider.isSingleMaster,
+                            );
 
                             // singleMasterTimeLineController.refreshGraph();
                           },
@@ -431,14 +445,19 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                               children: [
                                 Text(
                                   DateFormat("EE").format(itemValue).toUpperCase(),
-                                  style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.tertiary),
+                                  style: theme.textTheme.bodyLarge?.copyWith(
+                                    color: theme.colorScheme.tertiary,
+                                  ),
                                   textAlign: TextAlign.center,
                                 ),
                                 SizedBox(height: 10.h),
                                 InkWell(
                                   onTap: () {
                                     date = itemValue;
-                                    _createAppointmentProvider.onDateChange(date);
+                                    _createAppointmentProvider.onDateChange(
+                                      date,
+                                      isSingleMaster: _salonProfileProvider.isSingleMaster,
+                                    );
                                   },
                                   child: DateTime(date.year, date.month, date.day) == DateTime(itemValue.year, itemValue.month, itemValue.day)
                                       ? Container(
@@ -453,7 +472,10 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                             alignment: Alignment.center,
                                             child: Text(
                                               '${itemValue.day}',
-                                              style: const TextStyle(fontSize: 14, color: AppTheme.white),
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                color: defaultLightTheme ? Colors.white : theme.colorScheme.tertiary,
+                                              ),
                                             ),
                                           ),
                                         )
@@ -470,7 +492,10 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                           child: Center(
                                             child: Text(
                                               '${itemValue.day}',
-                                              style: const TextStyle(fontSize: 14, color: AppTheme.white2),
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                color: defaultLightTheme ? Colors.black : selectSlots(themeType, theme), // AppTheme.white2,
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -495,7 +520,10 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                 InkWell(
                                   onTap: () {
                                     _createAppointmentProvider.timeOfDayIndexForSlots = 0;
-                                    _createAppointmentProvider.onDateChange(date);
+                                    _createAppointmentProvider.onDateChange(
+                                      date,
+                                      isSingleMaster: _salonProfileProvider.isSingleMaster,
+                                    );
                                   },
                                   child: Container(
                                     height: 37.sp,
@@ -513,7 +541,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                           maxLines: 2,
                                           style: theme.textTheme.bodyMedium?.copyWith(
                                             fontWeight: FontWeight.normal,
-                                            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                                            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 18.sp, 18.sp),
                                             color: _createAppointmentProvider.timeOfDayIndexForSlots == 0 ? Colors.white : theme.colorScheme.tertiary,
                                           ),
                                         ),
@@ -524,7 +552,11 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                 InkWell(
                                   onTap: () {
                                     _createAppointmentProvider.timeOfDayIndexForSlots = 1;
-                                    _createAppointmentProvider.onDateChange(date);
+                                    _createAppointmentProvider.onDateChange(
+                                      date,
+                                      isSingleMaster: _salonProfileProvider.isSingleMaster,
+                                    );
+                                    setState(() {});
                                   },
                                   child: Container(
                                     height: 37.sp,
@@ -541,7 +573,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                           maxLines: 2,
                                           style: theme.textTheme.bodyMedium?.copyWith(
                                             fontWeight: FontWeight.normal,
-                                            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                                            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 18.sp, 18.sp),
                                             color: _createAppointmentProvider.timeOfDayIndexForSlots == 1 ? Colors.white : theme.colorScheme.tertiary,
                                           ),
                                         ),
@@ -552,7 +584,10 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                 InkWell(
                                   onTap: () {
                                     _createAppointmentProvider.timeOfDayIndexForSlots = 2;
-                                    _createAppointmentProvider.onDateChange(date);
+                                    _createAppointmentProvider.onDateChange(
+                                      date,
+                                      isSingleMaster: _salonProfileProvider.isSingleMaster,
+                                    );
                                   },
                                   child: Container(
                                     height: 37.sp,
@@ -570,7 +605,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                           maxLines: 2,
                                           style: theme.textTheme.bodyMedium?.copyWith(
                                             fontWeight: FontWeight.normal,
-                                            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                                            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 18.sp, 18.sp),
                                             color: _createAppointmentProvider.timeOfDayIndexForSlots == 2 ? Colors.white : theme.colorScheme.tertiary,
                                           ),
                                         ),
@@ -587,124 +622,207 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                         if (selectedMaster != null)
                           (_createAppointmentProvider.masterViewStatus == Status.loading)
                               ? const Center(child: CircularProgressIndicator())
-                              : (_createAppointmentProvider.allAppointments[selectedMaster?.masterId] == null || _createAppointmentProvider.allAppointments[selectedMaster?.masterId]!.isEmpty)
-                                  ? Center(
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(vertical: 30.sp),
-                                        child: Center(
-                                          child: Text(
-                                            (AppLocalizations.of(context)?.day_off ?? "Day off").toCapitalized(),
-                                            style: theme.textTheme.bodyMedium?.copyWith(
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                                              color: theme.primaryColor,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  : Center(
-                                      child: GridView.builder(
-                                        shrinkWrap: true,
-                                        itemCount: _createAppointmentProvider.allAppointments[selectedMaster?.masterId]?.length ?? 0,
-                                        physics: const NeverScrollableScrollPhysics(),
-                                        padding: EdgeInsets.only(left: 20, right: 20, bottom: 20.sp, top: 0),
-                                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: DeviceConstraints.getCrossAxisCount(context, small: 5, medium: 8, large: 10),
-                                          childAspectRatio: 2,
-                                          mainAxisSpacing: 12,
-                                          crossAxisSpacing: 12,
-                                        ),
-                                        itemBuilder: (context, index) {
-                                          List<String> appointmentString = _createAppointmentProvider.allAppointments[selectedMaster?.masterId] ?? [];
-                                          final String _appointment = appointmentString[index];
-
-                                          final bool _isSelected = _createAppointmentProvider.isMasterSelected(
-                                            selectedMaster?.masterId,
-                                            _createAppointmentProvider.chosenDay,
-                                            _appointment,
-                                          );
-
-                                          final bool _isAvailable = _createAppointmentProvider.availableAppointments[selectedMaster?.masterId]!.contains(
-                                            _appointment,
-                                          );
-
-                                          //  in-case there is no appointments available then don't show salon in the first case as well
-                                          if (_createAppointmentProvider.allAppointments[selectedMaster?.masterId] == null || _createAppointmentProvider.allAppointments[selectedMaster?.masterId]!.isEmpty) {
-                                            return Center(
-                                              child: Padding(
-                                                padding: EdgeInsets.symmetric(vertical: 30.sp),
-                                                child: Center(
-                                                  child: Text(
-                                                    (AppLocalizations.of(context)?.day_off ?? "Day off").toCapitalized(),
-                                                    style: theme.textTheme.bodyMedium?.copyWith(
-                                                      fontWeight: FontWeight.normal,
-                                                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                                                      color: Colors.green, // theme.colorScheme.tertiary,
-                                                    ),
-                                                  ),
+                              : (!_salonProfileProvider.isSingleMaster)
+                                  ? (_createAppointmentProvider.allAppointments[selectedMaster?.masterId] == null || _createAppointmentProvider.allAppointments[selectedMaster?.masterId]!.isEmpty)
+                                      ? Center(
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(vertical: 30.sp),
+                                            child: Center(
+                                              child: Text(
+                                                (AppLocalizations.of(context)?.day_off ?? "Day off").toCapitalized(),
+                                                style: theme.textTheme.bodyMedium?.copyWith(
+                                                  fontWeight: FontWeight.normal,
+                                                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                                                  color: theme.primaryColor,
                                                 ),
                                               ),
-                                            );
-                                          }
+                                            ),
+                                          ),
+                                        )
+                                      : Center(
+                                          child: GridView.builder(
+                                            shrinkWrap: true,
+                                            itemCount: _createAppointmentProvider.allAppointments[selectedMaster?.masterId]?.length ?? 0,
+                                            physics: const NeverScrollableScrollPhysics(),
+                                            padding: EdgeInsets.only(left: 20, right: 20, bottom: 20.sp, top: 0),
+                                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount: DeviceConstraints.getCrossAxisCount(context, small: 5, medium: 8, large: 10),
+                                              childAspectRatio: 2,
+                                              mainAxisSpacing: 12,
+                                              crossAxisSpacing: 12,
+                                            ),
+                                            itemBuilder: (context, index) {
+                                              List<String> appointmentString = _createAppointmentProvider.allAppointments[selectedMaster?.masterId] ?? [];
+                                              final String _appointment = appointmentString[index];
 
-                                          return InkWell(
-                                            onTap: () {
-                                              _createAppointmentProvider.onAppointmentChange(context, selectedMaster!, _appointment);
-                                              setState(() => _createAppointmentProvider.showModal = true);
-                                            },
-                                            child: _isSelected && _isAvailable
-                                                ? Ink(
-                                                    decoration: BoxDecoration(
-                                                      color: theme.primaryColor,
-                                                      borderRadius: const BorderRadius.all(Radius.circular(2)),
-                                                    ),
+                                              final bool _isSelected = _createAppointmentProvider.isMasterSelected(
+                                                selectedMaster?.masterId,
+                                                _createAppointmentProvider.chosenDay,
+                                                _appointment,
+                                              );
+
+                                              final bool _isAvailable = _createAppointmentProvider.availableAppointments[selectedMaster?.masterId]!.contains(
+                                                _appointment,
+                                              );
+
+                                              //  in-case there is no appointments available then don't show salon in the first case as well
+                                              if (_createAppointmentProvider.allAppointments[selectedMaster?.masterId] == null || _createAppointmentProvider.allAppointments[selectedMaster?.masterId]!.isEmpty) {
+                                                return Center(
+                                                  child: Padding(
+                                                    padding: EdgeInsets.symmetric(vertical: 30.sp),
                                                     child: Center(
                                                       child: Text(
-                                                        _createAppointmentProvider.allAppointments[selectedMaster?.masterId]![index],
-                                                        style: theme.textTheme.bodyLarge?.copyWith(
-                                                          color: selectSlots(themeType, theme), // theme.colorScheme.tertiary,
+                                                        (AppLocalizations.of(context)?.day_off ?? "Day off").toCapitalized(),
+                                                        style: theme.textTheme.bodyMedium?.copyWith(
+                                                          fontWeight: FontWeight.normal,
+                                                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                                                          color: Colors.green, // theme.colorScheme.tertiary,
                                                         ),
                                                       ),
                                                     ),
-                                                  )
-                                                : !_isAvailable
+                                                  ),
+                                                );
+                                              }
+
+                                              return InkWell(
+                                                onTap: () {
+                                                  // if (!_salonProfileProvider.isSingleMaster) {
+                                                  //   _createAppointmentProvider.onAppointmentChange(context, selectedMaster!, _appointment);
+                                                  // } else {
+                                                  //   // _createAppointmentProvider.onSlotChange(
+                                                  //   //   context,
+                                                  //   //   selectedMaster!,
+                                                  //   //   _appointment,
+                                                  //   // );
+                                                  // }
+                                                  _createAppointmentProvider.onAppointmentChange(context, selectedMaster!, _appointment);
+
+                                                  // setState(() => _createAppointmentProvider.showModal = true);
+                                                },
+                                                child: _isSelected && _isAvailable
                                                     ? Ink(
-                                                        decoration: const BoxDecoration(
-                                                          color: Color(0xff232529),
-                                                          borderRadius: BorderRadius.all(Radius.circular(2)),
+                                                        decoration: BoxDecoration(
+                                                          color: theme.primaryColor,
+                                                          borderRadius: const BorderRadius.all(Radius.circular(2)),
                                                         ),
                                                         child: Center(
                                                           child: Text(
                                                             _createAppointmentProvider.allAppointments[selectedMaster?.masterId]![index],
                                                             style: theme.textTheme.bodyLarge?.copyWith(
-                                                              color: theme.colorScheme.tertiary,
+                                                              color: selectSlots(themeType, theme), // theme.colorScheme.tertiary,
                                                             ),
                                                           ),
                                                         ),
                                                       )
-                                                    : Ink(
-                                                        decoration: BoxDecoration(
-                                                          color: theme.dialogBackgroundColor,
-                                                          borderRadius: const BorderRadius.all(Radius.circular(2)),
-                                                          border: Border.all(
-                                                            color: Colors.grey,
-                                                          ),
-                                                        ),
-                                                        child: Center(
-                                                          child: Text(
-                                                            _createAppointmentProvider.allAppointments[selectedMaster?.masterId]![index],
-                                                            style: theme.textTheme.bodyLarge?.copyWith(
-                                                              color: theme.colorScheme.tertiary,
+                                                    : !_isAvailable
+                                                        ? Ink(
+                                                            decoration: const BoxDecoration(
+                                                              color: Color(0xff232529),
+                                                              borderRadius: BorderRadius.all(Radius.circular(2)),
+                                                            ),
+                                                            child: Center(
+                                                              child: Text(
+                                                                _createAppointmentProvider.allAppointments[selectedMaster?.masterId]![index],
+                                                                style: theme.textTheme.bodyLarge?.copyWith(
+                                                                  color: theme.colorScheme.tertiary,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          )
+                                                        : Ink(
+                                                            decoration: BoxDecoration(
+                                                              color: theme.dialogBackgroundColor,
+                                                              borderRadius: const BorderRadius.all(Radius.circular(2)),
+                                                              border: Border.all(
+                                                                color: Colors.grey,
+                                                              ),
+                                                            ),
+                                                            child: Center(
+                                                              child: Text(
+                                                                _createAppointmentProvider.allAppointments[selectedMaster?.masterId]![index],
+                                                                style: theme.textTheme.bodyLarge?.copyWith(
+                                                                  color: theme.colorScheme.tertiary,
+                                                                ),
+                                                              ),
                                                             ),
                                                           ),
-                                                        ),
-                                                      ),
-                                          );
-                                        },
-                                      ),
-                                    ),
+                                              );
+                                            },
+                                          ),
+                                        )
+                                  : (_createAppointmentProvider.allSlotsSingleMaster.isEmpty)
+                                      ? Center(
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(vertical: 30.sp),
+                                            child: Center(
+                                              child: Text(
+                                                (AppLocalizations.of(context)?.day_off ?? "Day off").toCapitalized(),
+                                                style: theme.textTheme.bodyMedium?.copyWith(
+                                                  fontWeight: FontWeight.normal,
+                                                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                                                  color: theme.primaryColor,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      : Center(
+                                          child: GridView.builder(
+                                            shrinkWrap: true,
+                                            itemCount: _createAppointmentProvider.allSlotsSingleMaster.length,
+                                            physics: const NeverScrollableScrollPhysics(),
+                                            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16, top: 22),
+                                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: DeviceConstraints.getCrossAxisCount(context, small: 5, medium: 8, large: 10), childAspectRatio: 2, mainAxisSpacing: 12, crossAxisSpacing: 12),
+                                            itemBuilder: (context, index) {
+                                              DateTime date = _createAppointmentProvider.getSelectedDate(index);
+                                              String? preSelectedSlot;
 
+                                              if (date == _createAppointmentProvider.chosenDay) {
+                                                preSelectedSlot = _createAppointmentProvider.selectedAppointmentSlot;
+                                              } else {
+                                                preSelectedSlot = null;
+                                              }
+
+                                              return SlotWidget(
+                                                key: Key('item_${index}_text'),
+                                                onTap: () {
+                                                  _createAppointmentProvider.onSlotChange(
+                                                    context,
+                                                    _createAppointmentProvider.allSlotsSingleMaster[index],
+                                                    date: date,
+                                                  );
+                                                  setState(() {});
+                                                },
+                                                slot: _createAppointmentProvider.allSlotsSingleMaster[index],
+                                                isAvailable: _createAppointmentProvider.slots[0]!.contains(_createAppointmentProvider.allSlots[index]),
+                                                isSelected: preSelectedSlot == null
+                                                    ? false
+                                                    : (_createAppointmentProvider.selectedAppointmentDate == date
+                                                                ? (DateTime(date.year, date.month, date.day, 0, 0, 0).add(Duration(hours: int.parse(_createAppointmentProvider.allSlotsSingleMaster[index].split(":")[0]), minutes: int.parse(_createAppointmentProvider.allSlotsSingleMaster[index].split(":")[1]))).isAfter(
+                                                                      DateTime(date.year, date.month, date.day, 0, 0, 0).add(
+                                                                        Duration(
+                                                                          hours: int.parse(preSelectedSlot.split(":")[0]),
+                                                                          minutes: int.parse(preSelectedSlot.split(":")[1]) - 1,
+                                                                        ),
+                                                                      ),
+                                                                    ))
+                                                                : false) &&
+                                                            _createAppointmentProvider.selectedAppointmentSlot != null &&
+                                                            _createAppointmentProvider.servicePrice != null &&
+                                                            _createAppointmentProvider.selectedAppointmentDate == date
+                                                        ? (DateTime(date.year, date.month, date.day, 0, 0, 0).add(Duration(hours: int.parse(_createAppointmentProvider.allSlotsSingleMaster[index].split(":")[0]), minutes: int.parse(_createAppointmentProvider.allSlotsSingleMaster[index].split(":")[1]))).isBefore(
+                                                              DateTime(date.year, date.month, date.day, 0, 0, 0).add(
+                                                                Duration(
+                                                                  hours: int.parse(_createAppointmentProvider.selectedSlotEndTime!.split(":")[0]),
+                                                                  minutes: int.parse(_createAppointmentProvider.selectedSlotEndTime!.split(":")[1]) + 1,
+                                                                ),
+                                                              ),
+                                                            ))
+                                                        : false,
+                                              );
+                                            },
+                                          ),
+                                        ),
                         SizedBox(height: 20.sp),
                         // Align(
                         //   alignment: Alignment.bottomCenter,
@@ -757,7 +875,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: Visibility(
-                        visible: _createAppointmentProvider.showModal,
+                        visible: _createAppointmentProvider.showModal && !_createAppointmentProvider.isNotEnoughSlots,
                         child: InkWell(
                           onTap: () {
                             if (_createAppointmentProvider.selectedAppointmentSlot != null) {
@@ -811,7 +929,21 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               Text(
-                                                (!_salonProfileProvider.isSingleMaster) ? "${salonModel.selectedCurrency}${_createAppointmentProvider.priceAndDuration[selectedMaster!.masterId]?.price ?? '-'}" : "${salonModel.selectedCurrency}${_createAppointmentProvider.servicePrice}",
+                                                // NOT SINGLE MASTER
+                                                (!_salonProfileProvider.isSingleMaster)
+                                                    ? (_createAppointmentProvider.isPriceFrom!)
+                                                        ? "${salonModel.selectedCurrency}${_createAppointmentProvider.priceAndDuration[selectedMaster?.masterId]?.price ?? '-'} ${_createAppointmentProvider.isPriceFrom! ? "+" : ""}"
+                                                        : _createAppointmentProvider.priceAndDuration[selectedMaster?.masterId]?.priceMax != '0'
+                                                            ? "${salonModel.selectedCurrency}${_createAppointmentProvider.priceAndDuration[selectedMaster?.masterId]?.price ?? '-'}-${salonModel.selectedCurrency}${_createAppointmentProvider.priceAndDuration[selectedMaster?.masterId]?.priceMax ?? '-'}"
+                                                            : "${salonModel.selectedCurrency}${_createAppointmentProvider.priceAndDuration[selectedMaster?.masterId]?.price ?? '-'} ${_createAppointmentProvider.isPriceFrom! ? "+" : ""}"
+
+                                                    // SINGLE MASTER
+                                                    : _createAppointmentProvider.isPriceFrom!
+                                                        ? "${salonModel.selectedCurrency}${_createAppointmentProvider.servicePrice ?? '-'} ${_createAppointmentProvider.isPriceFrom! ? "+" : ""}"
+                                                        : _createAppointmentProvider.serviceMaxPrice != '0'
+                                                            ? "${salonModel.selectedCurrency}${_createAppointmentProvider.servicePrice ?? '-'}-${salonModel.selectedCurrency}${_createAppointmentProvider.serviceMaxPrice ?? '-'}"
+                                                            : "${salonModel.selectedCurrency}${_createAppointmentProvider.servicePrice ?? '-'} ${_createAppointmentProvider.isPriceFrom! ? "+" : ""}",
+
                                                 overflow: TextOverflow.ellipsis,
                                                 textAlign: TextAlign.left,
                                                 style: theme.textTheme.bodyLarge!.copyWith(
@@ -825,12 +957,18 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                 padding: const EdgeInsets.only(top: 3.0),
                                                 child: CircleAvatar(
                                                   radius: 3.sp,
-                                                  backgroundColor: theme.primaryColor, //  Color.fromARGB(43, 74, 74, 74),
+                                                  // backgroundColor: theme.primaryColor, //  Color.fromARGB(43, 74, 74, 74),
+                                                  backgroundColor: selectSlots(themeType, theme),
                                                 ),
                                               ),
                                               SizedBox(width: 7.sp),
                                               Text(
-                                                (!_salonProfileProvider.isSingleMaster) ? '${_createAppointmentProvider.priceAndDuration[selectedMaster!.masterId]?.duration ?? '-'} ${AppLocalizations.of(context)?.minutes ?? "minutes"}' : '${_createAppointmentProvider.serviceDuration} ${AppLocalizations.of(context)?.minutes ?? "minutes"}',
+                                                // NOT SINGLE MASTER
+                                                (!_salonProfileProvider.isSingleMaster)
+                                                    ? '${_createAppointmentProvider.priceAndDuration[selectedMaster?.masterId]?.duration ?? '-'} ${AppLocalizations.of(context)?.minutes ?? "minutes"}'
+
+                                                    // SINGLE MASTER
+                                                    : '${_createAppointmentProvider.serviceDuration} ${AppLocalizations.of(context)?.minutes ?? "minutes"}',
                                                 overflow: TextOverflow.ellipsis,
                                                 textAlign: TextAlign.left,
                                                 style: theme.textTheme.bodyLarge!.copyWith(
@@ -849,7 +987,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
                                           Text(
-                                            '${_createAppointmentProvider.getStartTime()} - ${_createAppointmentProvider.getEndTime()}',
+                                            (!_salonProfileProvider.isSingleMaster) ? '${_createAppointmentProvider.getStartTime()} - ${_createAppointmentProvider.getEndTime()}' : "${_createAppointmentProvider.selectedAppointmentSlot} - ${_createAppointmentProvider.selectedSlotEndTime}",
                                             overflow: TextOverflow.ellipsis,
                                             textAlign: TextAlign.left,
                                             style: theme.textTheme.bodyLarge!.copyWith(
@@ -885,35 +1023,21 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                             servicePrice:
                                                 // NOT SINGLE MASTER
                                                 (!_salonProfileProvider.isSingleMaster)
-                                                    // ? (selectedMaster?.servicesPriceAndDuration?[service.serviceId]?.isPriceRange == true)
-                                                    //     ? "${salonModel.selectedCurrency}${selectedMaster?.servicesPriceAndDuration?[service.serviceId]?.price} -  ${salonModel.selectedCurrency}${selectedMaster?.servicesPriceAndDuration?[service.serviceId]?.priceMax}"
-                                                    //     : '${salonModel.selectedCurrency}${selectedMaster?.servicesPriceAndDuration?[service.serviceId]?.price}'
-
-                                                    ? (service.masterPriceAndDurationMap?[selectedMaster?.masterId]?.isPriceRange == true)
-                                                        ? '${salonModel.selectedCurrency}${service.masterPriceAndDurationMap?[selectedMaster?.masterId]?.price} - ${salonModel.selectedCurrency}${service.masterPriceAndDurationMap?[selectedMaster?.masterId]?.priceMax}'
-                                                        : '${salonModel.selectedCurrency}${service.masterPriceAndDurationMap?[selectedMaster?.masterId]?.price}'
+                                                    ? _createAppointmentProvider.isPriceFrom!
+                                                        ? "${salonModel.selectedCurrency}${_createAppointmentProvider.priceAndDuration[selectedMaster!.masterId]?.price ?? '-'} ${_createAppointmentProvider.isPriceFrom! ? "+" : ""}"
+                                                        : _createAppointmentProvider.priceAndDuration[selectedMaster!.masterId]?.priceMax != '0'
+                                                            ? "${salonModel.selectedCurrency}${_createAppointmentProvider.priceAndDuration[selectedMaster!.masterId]?.price ?? '-'}-${salonModel.selectedCurrency}${_createAppointmentProvider.priceAndDuration[selectedMaster!.masterId]?.priceMax ?? '-'}"
+                                                            : "${salonModel.selectedCurrency}${_createAppointmentProvider.priceAndDuration[selectedMaster!.masterId]?.price ?? '-'} ${_createAppointmentProvider.isPriceFrom! ? "+" : ""}"
 
                                                     // SINGLE MASTER
-                                                    : (service.isFixedPrice == true)
-                                                        ? '${salonModel.selectedCurrency}${service.priceAndDuration?.price}'
-                                                        : (service.isPriceRange == true)
-                                                            ? '${salonModel.selectedCurrency}${service.priceAndDuration?.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax?.price}'
-                                                            : '${salonModel.selectedCurrency}${service.priceAndDuration?.price} - ${salonModel.selectedCurrency}∞',
-
-                                            // servicePrice: '${salonModel.selectedCurrency}${selectedMaster?.servicesPriceAndDuration?[service.serviceId]?.price}',
-
-                                            // former implementation
-
-                                            // servicePrice: '${salonModel.selectedCurrency}${service.masterPriceAndDurationMap?[selectedMaster?.masterId]?.price}',
-
-                                            // fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 15.sp, 16.sp),
-                                            // priceFontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 15.sp, 16.sp),
-                                            //  service.isFixedPrice
-                                            //     ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price}"
-                                            //     : service.isPriceRange
-                                            //         ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}"
-                                            //         : "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}∞",
+                                                    : (service.isPriceRange)
+                                                        ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price ?? '0'}-${salonModel.selectedCurrency}${service.priceAndDurationMax!.price ?? '0'}"
+                                                        : (service.isPriceStartAt)
+                                                            ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price ?? '0'}+"
+                                                            : "${salonModel.selectedCurrency}${service.priceAndDuration!.price ?? '0'}",
                                             color: selectSlots(themeType, theme),
+                                            fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 18.sp, 16.sp),
+                                            priceFontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 18.sp, 16.sp),
                                           ),
                                         )
                                         .toList(),
@@ -923,7 +1047,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                   Align(
                                     alignment: Alignment.bottomCenter,
                                     child: Padding(
-                                      padding: EdgeInsets.only(bottom: 10.h, left: 2, right: 2),
+                                      padding: EdgeInsets.only(bottom: 5.h, left: 2, right: 2),
                                       child: Column(
                                         children: [
                                           DefaultButton(
@@ -941,6 +1065,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                               }
 
                                               _createAppointmentProvider.getTotalDeposit();
+                                              _createAppointmentProvider.calculateTotals(isSingleMaster: _salonProfileProvider.isSingleMaster);
 
                                               // Next Page
                                               _createAppointmentProvider.changeBookingFlowIndex(enteringConfirmationView: true);
@@ -956,7 +1081,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                               color: loaderColor(themeType),
                                               size: 18.sp,
                                             ),
-                                            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                                            fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 18.sp, 16.sp),
                                           ),
                                         ],
                                       ),
@@ -1313,3 +1438,100 @@ class ServiceNameAndPrice extends ConsumerWidget {
 //     );
 //   }
 // }
+
+class SlotWidget extends ConsumerWidget {
+  final String? slot;
+  final bool isSelected;
+  final bool isAvailable;
+  final Function? onTap;
+  const SlotWidget({Key? key, this.slot, this.isSelected = false, this.isAvailable = false, this.onTap}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+    ThemeType themeType = _salonProfileProvider.themeType;
+
+    return InkWell(
+      onTap: onTap as void Function()?,
+      child: isSelected && isAvailable
+          ? Ink(
+              decoration: BoxDecoration(
+                color: theme.primaryColor,
+                borderRadius: const BorderRadius.all(Radius.circular(2)),
+              ),
+              child: Center(
+                child: Text(
+                  slot ?? '',
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    color: selectSlots(themeType, theme), // theme.colorScheme.tertiary,
+                  ),
+                ),
+              ),
+            )
+          : !isAvailable
+              ? Ink(
+                  decoration: const BoxDecoration(
+                    color: Color(0xff232529),
+                    borderRadius: BorderRadius.all(Radius.circular(2)),
+                  ),
+                  child: Center(
+                    child: Text(
+                      slot ?? '',
+                      style: theme.textTheme.bodyLarge?.copyWith(
+                        color: theme.colorScheme.tertiary,
+                      ),
+                    ),
+                  ),
+                )
+              : Ink(
+                  decoration: BoxDecoration(
+                    color: theme.dialogBackgroundColor,
+                    borderRadius: const BorderRadius.all(Radius.circular(2)),
+                    border: Border.all(
+                      color: Colors.grey,
+                    ),
+                  ),
+                  child: Center(
+                    child: Text(
+                      slot ?? '',
+                      style: theme.textTheme.bodyLarge?.copyWith(
+                        color: theme.colorScheme.tertiary,
+                      ),
+                    ),
+                  ),
+                ),
+
+      // child: !isAvailable
+      //     ? Ink(
+      //         decoration: const BoxDecoration(
+      //           color: Color(0xff232529),
+      //           borderRadius: BorderRadius.all(Radius.circular(2)),
+      //         ),
+      //         child: Center(
+      //           child: Text(
+      //             slot ?? '',
+      //             style: theme.textTheme.bodyLarge?.copyWith(
+      //               color: selectSlots(themeType, theme), // theme.colorScheme.tertiary,
+      //             ),
+      //           ),
+      //         ),
+      //       )
+      //     : Ink(
+      //         decoration: BoxDecoration(
+      //           color: isSelected ? Colors.brown : Colors.blueGrey, // theme.primaryColor : theme.dialogBackgroundColor,
+      //           border: Border.all(color: Colors.grey),
+      //           borderRadius: const BorderRadius.all(Radius.circular(2)),
+      //         ),
+      //         child: Center(
+      //           child: Text(
+      //             slot ?? '',
+      //             style: theme.textTheme.bodyLarge?.copyWith(
+      //               color: isSelected ? Colors.green : Colors.amber, // selectSlots(themeType, theme) : theme.colorScheme.tertiary,
+      //             ),
+      //           ),
+      //         ),
+      //       ),
+    );
+  }
+}

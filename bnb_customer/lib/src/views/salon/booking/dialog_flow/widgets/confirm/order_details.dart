@@ -51,15 +51,14 @@ class _OrderListState extends ConsumerState<OrderDetails> {
     final ThemeData theme = _salonProfileProvider.salonTheme;
     ThemeType themeType = _salonProfileProvider.themeType;
 
-    final PriceAndDurationModel _priceAndDuration = _createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId] ?? PriceAndDurationModel();
+    // final PriceAndDurationModel _priceAndDuration = _createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId] ?? PriceAndDurationModel();
 
-    TimeOfDay _startTime = Time().stringToTime(_createAppointmentProvider.selectedAppointmentSlot!);
+    // TimeOfDay _startTime = Time().stringToTime(_createAppointmentProvider.selectedAppointmentSlot!);
+    // TimeOfDay _endTime = _startTime.addMinutes(int.parse(_priceAndDuration.duration!));
+    // '${_createAppointmentProvider.getStartTime()} - ${_createAppointmentProvider.getEndTime()}',
 
-    TimeOfDay _endTime = _startTime.addMinutes(
-      int.parse(_priceAndDuration.duration!),
-    );
-
-    String totalAmount = _createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '0'; // _priceAndDuration.price!;
+    // String totalAmount = _createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '0'; // _priceAndDuration.price!;
+    String totalAmount = _createAppointmentProvider.totalAmount;
 
     double deposit = _createAppointmentProvider.totalDeposit;
     // double payAtAppointment = double.parse(totalAmount) - deposit;
@@ -82,38 +81,24 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                         servicePrice:
                             // NOT SINGLE MASTER
                             (!_salonProfileProvider.isSingleMaster)
-                                // ? (_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.isPriceRange == true)
-                                //     ? "${salonModel.selectedCurrency}${_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.price} -  ${salonModel.selectedCurrency}${_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.priceMax}"
-                                //     : '${salonModel.selectedCurrency}${_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.price}'
+                                ? _createAppointmentProvider.isPriceFrom!
+                                    ? "${salonModel.selectedCurrency}${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster!.masterId]?.price ?? '-'} ${_createAppointmentProvider.isPriceFrom! ? "+" : ""}"
+                                    : _createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster!.masterId]?.priceMax != '0'
+                                        ? "${salonModel.selectedCurrency}${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster!.masterId]?.price ?? '-'}-${salonModel.selectedCurrency}${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster!.masterId]?.priceMax ?? '-'}"
+                                        : "${salonModel.selectedCurrency}${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster!.masterId]?.price ?? '-'} ${_createAppointmentProvider.isPriceFrom! ? "+" : ""}"
 
-                                ? (service.masterPriceAndDurationMap?[_createAppointmentProvider.chosenMaster?.masterId]?.isPriceRange == true)
-                                    ? '${salonModel.selectedCurrency}${service.masterPriceAndDurationMap?[_createAppointmentProvider.chosenMaster?.masterId]?.price} - ${salonModel.selectedCurrency}${service.masterPriceAndDurationMap?[_createAppointmentProvider.chosenMaster?.masterId]?.priceMax}'
-                                    : '${salonModel.selectedCurrency}${service.masterPriceAndDurationMap?[_createAppointmentProvider.chosenMaster?.masterId]?.price}'
+                                // (service.masterPriceAndDurationMap?[_createAppointmentProvider.chosenMaster?.masterId]?.isPriceRange == true)
+                                //     ? '${salonModel.selectedCurrency}${service.masterPriceAndDurationMap?[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '0'} - ${salonModel.selectedCurrency}${service.masterPriceAndDurationMap?[_createAppointmentProvider.chosenMaster?.masterId]?.priceMax ?? '0'}'
+                                //     : (service.isPriceStartAt)
+                                //         ? "${salonModel.selectedCurrency}${service.masterPriceAndDurationMap?[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '0'}+"
+                                //         : '${salonModel.selectedCurrency}${service.masterPriceAndDurationMap?[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '0'}'
 
                                 // SINGLE MASTER
-                                : (service.isFixedPrice == true)
-                                    ? '${salonModel.selectedCurrency}${service.priceAndDuration?.price}'
-                                    : (service.isPriceRange == true)
-                                        ? '${salonModel.selectedCurrency}${service.priceAndDuration?.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax?.price}'
-                                        : '${salonModel.selectedCurrency}${service.priceAndDuration?.price} - ${salonModel.selectedCurrency}∞',
-
-                        // : (service.masterPriceAndDurationMap?[_createAppointmentProvider.chosenMaster?.masterId]?.isPriceRange == true)
-                        //     ? '${salonModel.selectedCurrency}${service.masterPriceAndDurationMap?[_createAppointmentProvider.chosenMaster?.masterId]?.price} - ${salonModel.selectedCurrency}${service.masterPriceAndDurationMap?[_createAppointmentProvider.chosenMaster?.masterId]?.priceMax}'
-                        //     : '${salonModel.selectedCurrency}${service.masterPriceAndDurationMap?[_createAppointmentProvider.chosenMaster?.masterId]?.price}',
-                        // ---------------------------------------------------------------------------------
-                        // servicePrice: (_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.isFixedPrice == true)
-                        //     ? '${salonModel.selectedCurrency}${_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.price}'
-                        //     : (_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.isPriceRange == true)
-                        //         ? "${salonModel.selectedCurrency}${_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.price} - ${salonModel.selectedCurrency}${_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.priceMax}"
-                        //         : "${salonModel.selectedCurrency}${_createAppointmentProvider.chosenMaster?.servicesPriceAndDuration?[service.serviceId]?.price} - ${salonModel.selectedCurrency}∞",
-
-                        // former implementation
-                        // servicePrice: '${salonModel.selectedCurrency}${service.masterPriceAndDurationMap?[_createAppointmentProvider.chosenMaster?.masterId]?.price}',
-                        // servicePrice: service.isFixedPrice
-                        //     ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price}"
-                        //     : service.isPriceRange
-                        //         ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}"
-                        //         : "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}∞",
+                                : (service.isPriceRange)
+                                    ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price ?? '0'}-${salonModel.selectedCurrency}${service.priceAndDurationMax!.price ?? '0'}"
+                                    : (service.isPriceStartAt)
+                                        ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price ?? '0'}+"
+                                        : "${salonModel.selectedCurrency}${service.priceAndDuration!.price ?? '0'}",
                       ),
                     )
                     .toList(),
@@ -138,7 +123,8 @@ class _OrderListState extends ConsumerState<OrderDetails> {
               ServiceNameAndPrice(
                 notService: true,
                 serviceName: '${AppLocalizations.of(context)?.time ?? "Time"}:',
-                servicePrice: '${Time().timeToString(_startTime)} - ${Time().timeToString(_endTime)}',
+                // servicePrice: '${Time().timeToString(_startTime)} - ${Time().timeToString(_endTime)}',
+                servicePrice: (!_salonProfileProvider.isSingleMaster) ? '${_createAppointmentProvider.getStartTime()} - ${_createAppointmentProvider.getEndTime()}' : "${_createAppointmentProvider.selectedAppointmentSlot} - ${_createAppointmentProvider.selectedSlotEndTime}",
               ),
 
               const GradientDivider(),
@@ -331,18 +317,36 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                         // Build Appointment
                         if (_createAppointmentProvider.chosenServices.length > 1) {
                           //call this single appointment service save function
-                          await _createAppointmentProvider.saveNewAppointmentForMultipleServices(
-                            isSingleMaster: _salonProfileProvider.isSingleMaster,
-                            customer: customer,
-                            transactionId: null,
-                          );
+
+                          if (!_salonProfileProvider.isSingleMaster) {
+                            await _createAppointmentProvider.saveNewAppointmentForMultipleServices(
+                              isSingleMaster: _salonProfileProvider.isSingleMaster,
+                              customer: customer,
+                              transactionId: null,
+                            );
+                          } else {
+                            await _createAppointmentProvider.saveAppointmentForMultipleServices(
+                              isSingleMaster: _salonProfileProvider.isSingleMaster,
+                              customer: customer,
+                              transactionId: null,
+                            );
+                          }
                         } else {
                           //call multiple appointment service save option
-                          await _createAppointmentProvider.saveAppointment(
-                            isSingleMaster: _salonProfileProvider.isSingleMaster,
-                            customer: customer,
-                            transactionId: null,
-                          );
+
+                          if (!_salonProfileProvider.isSingleMaster) {
+                            await _createAppointmentProvider.saveAppointment(
+                              isSingleMaster: _salonProfileProvider.isSingleMaster,
+                              customer: customer,
+                              transactionId: null,
+                            );
+                          } else {
+                            await _createAppointmentProvider.saveAppointmentSingleMaster(
+                              isSingleMaster: _salonProfileProvider.isSingleMaster,
+                              customer: customer,
+                              transactionId: null,
+                            );
+                          }
                         }
 
                         if (_createAppointmentProvider.bookAppointmentStatus == Status.success) {
@@ -454,19 +458,35 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                 // html.window.open('https://yogasm.firebaseapp.com/confirmation?RESPONSECODE=${transaction.responseCode}?transactionId=$transactionId', "_self");
                                 // Build Appointment
                                 if (_createAppointmentProvider.chosenServices.length > 1) {
-                                  //call this single appointment service save function
-                                  await _createAppointmentProvider.saveNewAppointmentForMultipleServices(
-                                    isSingleMaster: _salonProfileProvider.isSingleMaster,
-                                    customer: customer,
-                                    transactionId: transactionId,
-                                  );
+                                  if (!_salonProfileProvider.isSingleMaster) {
+                                    await _createAppointmentProvider.saveNewAppointmentForMultipleServices(
+                                      isSingleMaster: _salonProfileProvider.isSingleMaster,
+                                      customer: customer,
+                                      transactionId: transactionId,
+                                    );
+                                  } else {
+                                    await _createAppointmentProvider.saveAppointmentForMultipleServices(
+                                      isSingleMaster: _salonProfileProvider.isSingleMaster,
+                                      customer: customer,
+                                      transactionId: transactionId,
+                                    );
+                                  }
                                 } else {
                                   //call multiple appointment service save option
-                                  await _createAppointmentProvider.saveAppointment(
-                                    isSingleMaster: _salonProfileProvider.isSingleMaster,
-                                    customer: customer,
-                                    transactionId: transactionId,
-                                  );
+
+                                  if (!_salonProfileProvider.isSingleMaster) {
+                                    await _createAppointmentProvider.saveAppointment(
+                                      isSingleMaster: _salonProfileProvider.isSingleMaster,
+                                      customer: customer,
+                                      transactionId: transactionId,
+                                    );
+                                  } else {
+                                    await _createAppointmentProvider.saveAppointmentSingleMaster(
+                                      isSingleMaster: _salonProfileProvider.isSingleMaster,
+                                      customer: customer,
+                                      transactionId: transactionId,
+                                    );
+                                  }
                                 }
 
                                 setState(() => spinner = false);

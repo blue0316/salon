@@ -29,10 +29,7 @@ class ServiceList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
-    // final _salonSearchProvider = ref.watch(salonSearchProvider);
-    // final ThemeData theme = _salonProfileProvider.salonTheme;
 
     return ListView.builder(
       itemCount: services.length,
@@ -89,23 +86,10 @@ class ServiceCard extends ConsumerWidget {
     SalonModel salonModel = _salonProfileProvider.chosenSalon;
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    // bool defaultTheme = (theme == AppTheme.customLightTheme);
     List<MasterModel> theMasters = _createAppointmentProvider.getMasterProvidingService(service);
     ThemeType themeType = _salonProfileProvider.themeType;
 
-    // Color selectedColor = defaultTheme ? theme.primaryColor : const Color(0XFF1F1F21); //  selectedServiceCardOnDayAndTime(themeType, theme); // Color(0XFF202020);
-    // Color selectedColor = defaultTheme ? const Color.fromARGB(255, 239, 239, 239) : selectedServiceCardOnDayAndTime(themeType, theme); // Color(0XFF202020);
     BoxBorder? border = Border.all(width: 1.2, color: theme.primaryColor);
-
-    // BoxBorder? border = defaultTheme
-    //     ? Border.all(
-    //         width: 1.2,
-    //         color: (Colors.grey[400]!), // const Color.fromARGB(255, 239, 239, 239),
-    //       )
-    //     : Border.all(
-    //         width: 1.2,
-    //         color: const Color(0XFF202020), //theme.highlightColor,
-    //       );
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 7.h),
@@ -150,51 +134,13 @@ class ServiceCard extends ConsumerWidget {
                       maxLines: 2,
                     ),
                   ),
-
                   SizedBox(height: 5.sp),
-                  // Discount ?
-                  // Column(
-                  //   crossAxisAlignment: CrossAxisAlignment.start,
-                  //   mainAxisAlignment: MainAxisAlignment.start,
-                  //   children: [
-                  //     Text(
-                  //       service.isFixedPrice
-                  //           ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price}"
-                  //           : service.isPriceRange
-                  //               ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}"
-                  //               : "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}∞",
-                  //       style: theme.textTheme.bodyText1!.copyWith(
-                  //             fontWeight: FontWeight.w500,
-                  //             fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 25.sp, 30.sp),
-                  //             color: Colors.red,
-                  //           ),
-                  //       overflow: TextOverflow.visible,
-                  //       maxLines: 1,
-                  //     ),
-                  //     const SizedBox(height: 5),
-                  //     Text(
-                  //       service.isFixedPrice
-                  //           ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price}"
-                  //           : service.isPriceRange
-                  //               ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}"
-                  //               : "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}∞",
-                  //       style: theme.textTheme.bodyText1!.copyWith(
-                  //             fontWeight: FontWeight.w500,
-                  //             fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 20.sp, 25.sp),
-                  //             color: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
-                  //             decoration: TextDecoration.lineThrough,
-                  //           ),
-                  //       overflow: TextOverflow.visible,
-                  //       maxLines: 1,
-                  //     ),
-                  //   ],
-                  // ),
                   Text(
-                    service.isFixedPrice
-                        ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price}"
-                        : service.isPriceRange
-                            ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}"
-                            : "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}∞",
+                    (service.isPriceRange)
+                        ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price ?? '0'}-${salonModel.selectedCurrency}${service.priceAndDurationMax!.price ?? '0'}"
+                        : (service.isPriceStartAt)
+                            ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price ?? '0'}+"
+                            : "${salonModel.selectedCurrency}${service.priceAndDuration!.price ?? '0'}",
                     style: theme.textTheme.bodyLarge!.copyWith(
                       fontWeight: FontWeight.w500,
                       fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -203,6 +149,20 @@ class ServiceCard extends ConsumerWidget {
                     overflow: TextOverflow.visible,
                     maxLines: 1,
                   ),
+                  // Text(
+                  //   service.isFixedPrice
+                  //       ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price}"
+                  //       : service.isPriceRange
+                  //           ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}"
+                  //           : "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}∞",
+                  //   style: theme.textTheme.bodyLarge!.copyWith(
+                  //     fontWeight: FontWeight.w500,
+                  //     fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                  //     color: isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
+                  //   ),
+                  //   overflow: TextOverflow.visible,
+                  //   maxLines: 1,
+                  // ),
                 ],
               ),
               SizedBox(
@@ -371,28 +331,6 @@ class ServiceCard extends ConsumerWidget {
                                               duration: const Duration(seconds: 5),
                                             );
                                           }
-
-                                          // printIt(
-                                          //     ' -------- Master selected -------- ');
-
-                                          // String res =
-                                          //     await _createAppointmentProvider
-                                          //         .chooseMaster(
-                                          //   masterModel: master,
-                                          //   context: context,
-                                          // );
-
-                                          // if (res == "choosen") {
-                                          //   showToast(AppLocalizations.of(
-                                          //               context)
-                                          //           ?.selected ??
-                                          //       "selected");
-                                          // } else {
-                                          //   showToast(AppLocalizations.of(
-                                          //               context)
-                                          //           ?.notAvailable ??
-                                          //       "not available");
-                                          // }
                                         },
                                         child: Container(
                                           decoration: BoxDecoration(
@@ -495,3 +433,43 @@ class ServiceCard extends ConsumerWidget {
     );
   }
 }
+
+
+
+  // Discount ?
+                  // Column(
+                  //   crossAxisAlignment: CrossAxisAlignment.start,
+                  //   mainAxisAlignment: MainAxisAlignment.start,
+                  //   children: [
+                  //     Text(
+                  //       service.isFixedPrice
+                  //           ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price}"
+                  //           : service.isPriceRange
+                  //               ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}"
+                  //               : "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}∞",
+                  //       style: theme.textTheme.bodyText1!.copyWith(
+                  //             fontWeight: FontWeight.w500,
+                  //             fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 25.sp, 30.sp),
+                  //             color: Colors.red,
+                  //           ),
+                  //       overflow: TextOverflow.visible,
+                  //       maxLines: 1,
+                  //     ),
+                  //     const SizedBox(height: 5),
+                  //     Text(
+                  //       service.isFixedPrice
+                  //           ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price}"
+                  //           : service.isPriceRange
+                  //               ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}"
+                  //               : "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}∞",
+                  //       style: theme.textTheme.bodyText1!.copyWith(
+                  //             fontWeight: FontWeight.w500,
+                  //             fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 20.sp, 25.sp),
+                  //             color: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
+                  //             decoration: TextDecoration.lineThrough,
+                  //           ),
+                  //       overflow: TextOverflow.visible,
+                  //       maxLines: 1,
+                  //     ),
+                  //   ],
+                  // ),
