@@ -832,5 +832,6 @@
   "appointmentDoesNotExist": "Agendamento não existe",
   "appointmentConfirmation": "Confirmação de agendamento",
   "cancelNote1": "Por favor, note que para cancelar você deve entrar em contato?",
-  "cancelNote2": "O cancelamento online não está disponível no momento."
+  "cancelNote2": "O cancelamento online não está disponível no momento.",
+  "noPhotosOfWorksAvailable":"NENHUMA FOTO DE TRABALHOS DISPONÍVEL NO MOMENTO"
   }

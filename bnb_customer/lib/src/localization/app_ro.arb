@@ -833,6 +833,7 @@
   "appointmentDoesNotExist": "Întregirea nu există",
   "appointmentConfirmation" : "Confirmarea întâlnirii",
   "cancelNote1" : "Vă rugăm să rețineți că pentru a anula trebuie să contactați?",
-  "cancelNote2" : "Anularea online nu este disponibilă momentan."
+  "cancelNote2" : "Anularea online nu este disponibilă momentan.",
+  "noPhotosOfWorksAvailable":"NU ESTE FOTOGRAFIE CU LUCRĂRI DISPONIBILE MOMENTULUI"
 }
   

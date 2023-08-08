@@ -837,5 +837,6 @@
  "appointmentDoesNotExist" : "Appointment does not exist",
  "appointmentConfirmation" : "Appointment Confirmation",
  "cancelNote1" : "Please note that to cancel you have to contact?",
- "cancelNote2" : "Online cancelation is not available at the moment."
+ "cancelNote2" : "Online cancelation is not available at the moment.",
+ "noPhotosOfWorksAvailable":"NO PHOTOS OF WORKS AVAILABLE AT THE MOMENT"
 }

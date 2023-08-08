@@ -833,6 +833,7 @@
   "appointmentDoesNotExist": "La cita no existe",
   "appointmentConfirmation" : "Confirmación de cita",
   "cancelNote1" : "Tenga en cuenta que para cancelar tiene que ponerse en contacto?",
-  "cancelNote2": "La cancelación en línea no está disponible en este momento."
+  "cancelNote2": "La cancelación en línea no está disponible en este momento.",
+  "noPhotosOfWorksAvailable":"NO HAY FOTOS DE OBRAS DISPONIBLES EN ESTE MOMENTO"
 }
   

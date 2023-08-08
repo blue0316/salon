@@ -28,9 +28,9 @@ const saloonDetailsTitlesRO = [
 
 const saloonDetailsTitlesUK = [
   "послуги",
-  "про",
+  "Деталі",
   "команда",
-  "все працює",
+  "Усі роботи",
 ];
 
 const masterDetailsTitles = [

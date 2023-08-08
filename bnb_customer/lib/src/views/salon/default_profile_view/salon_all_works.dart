@@ -176,7 +176,7 @@ class _SalonAllWorksState extends ConsumerState<SalonAllWorks> {
 
                         : Center(
                             child: Text(
-                              'NO PHOTOS OF WORKS AVAILABLE AT THE MOMENT',
+                              AppLocalizations.of(context)?.noPhotosOfWorksAvailable ?? 'NO PHOTOS OF WORKS AVAILABLE AT THE MOMENT',
                               style: Theme.of(context).textTheme.displayLarge!.copyWith(
                                     fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
                                     color: isLightTheme ? Colors.black : Colors.white,
