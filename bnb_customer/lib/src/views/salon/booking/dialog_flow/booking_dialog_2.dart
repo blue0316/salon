@@ -132,7 +132,7 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
                       GestureDetector(
                         // onTap: () => const ThankYou().show(context),
                         child: Text(
-                          '${(AppLocalizations.of(context)?.onlineBooking ?? 'ONLINE BOOKING')}..'.toUpperCase(),
+                          (AppLocalizations.of(context)?.onlineBooking ?? 'ONLINE BOOKING').toUpperCase(),
                           style: theme.textTheme.bodyLarge?.copyWith(
                             fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 18.sp, 20.sp),
                             fontWeight: FontWeight.w500,

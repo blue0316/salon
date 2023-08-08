@@ -77,6 +77,8 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
     final bool isLandscape = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.landScape);
     final bool isTab = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab);
     final _salonProfileProvider = ref.watch(salonProfileProvider);
+    bool isSingleMaster = _salonProfileProvider.isSingleMaster;
+
     BnbProvider _bnbProvider = ref.read(bnbProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
@@ -88,7 +90,13 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SectionSpacer(
-            title: salonTitles(AppLocalizations.of(context)?.localeName ?? 'en')[1],
+            title: (!isSingleMaster)
+                ? salonTitles(
+                    AppLocalizations.of(context)?.localeName ?? 'en',
+                  )[1]
+                : masterTitles(
+                    AppLocalizations.of(context)?.localeName ?? 'en',
+                  )[1],
           ),
           Container(
             // height: 1000.h,

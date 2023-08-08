@@ -38,9 +38,7 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SectionSpacer(
-            title: salonTitles(AppLocalizations.of(context)?.localeName ?? 'en')[2],
-          ),
+          SectionSpacer(title: salonTitles(AppLocalizations.of(context)?.localeName ?? 'en')[2]),
           Container(
             // height: 1000.h,
             width: double.infinity,

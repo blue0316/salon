@@ -27,6 +27,7 @@ class _SalonAllWorksState extends ConsumerState<SalonAllWorks> {
   Widget build(BuildContext context) {
     // final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
     final _salonProfileProvider = ref.watch(salonProfileProvider);
+    bool isSingleMaster = _salonProfileProvider.isSingleMaster;
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool isLightTheme = (theme == AppTheme.customLightTheme);
@@ -35,7 +36,13 @@ class _SalonAllWorksState extends ConsumerState<SalonAllWorks> {
       child: Column(
         children: [
           SectionSpacer(
-            title: salonTitles(AppLocalizations.of(context)?.localeName ?? 'en')[3],
+            title: (!isSingleMaster)
+                ? salonTitles(
+                    AppLocalizations.of(context)?.localeName ?? 'en',
+                  )[3]
+                : masterTitles(
+                    AppLocalizations.of(context)?.localeName ?? 'en',
+                  )[2],
           ),
           Container(
             height: 1000.h,

@@ -38,9 +38,9 @@ class _LandscapeAboutHeaderState extends ConsumerState<LandscapeAboutHeader> {
           child: Container(
             decoration: BoxDecoration(
               border: !isLightTheme ? Border.all(color: Colors.white, width: 1.2) : null,
-              color: widget.salonModel.photosOfWorks!.isNotEmpty ? null : theme.primaryColor,
+              color: widget.salonModel.profilePics.isNotEmpty ? null : theme.primaryColor,
             ),
-            child: (widget.salonModel.photosOfWorks!.isNotEmpty)
+            child: (widget.salonModel.profilePics.isNotEmpty)
                 // ? CachedImage(url: salonModel.profilePics[0])
                 ? SizedBox(
                     height: 360.sp,
@@ -61,10 +61,10 @@ class _LandscapeAboutHeaderState extends ConsumerState<LandscapeAboutHeader> {
 
                               // height: 360.sp, //  DeviceConstraints.getResponsiveSize(context, 280.h, 320, 350.h),
                             ),
-                            items: widget.salonModel.photosOfWorks!
+                            items: widget.salonModel.profilePics
                                 .map(
                                   (item) => CachedImage(
-                                    url: item.image!,
+                                    url: item, //  item.image!,
                                     fit: BoxFit.cover,
                                     height: 300.h,
                                     width: MediaQuery.of(context).size.width,
@@ -213,9 +213,9 @@ class _PortraitAboutHeaderState extends ConsumerState<PortraitAboutHeader> {
           width: double.infinity,
           decoration: BoxDecoration(
             border: !isLightTheme ? Border.all(color: Colors.white, width: 1.2) : null,
-            color: widget.salonModel.photosOfWorks!.isNotEmpty ? null : theme.primaryColor,
+            color: widget.salonModel.profilePics.isNotEmpty ? null : theme.primaryColor,
           ),
-          child: (widget.salonModel.photosOfWorks!.isNotEmpty)
+          child: (widget.salonModel.profilePics.isNotEmpty)
               // ? CachedImage(url: salonModel.profilePics[0])
               ? Stack(
                   children: [
@@ -228,20 +228,16 @@ class _PortraitAboutHeaderState extends ConsumerState<PortraitAboutHeader> {
                           scrollPhysics: const NeverScrollableScrollPhysics(),
                           autoPlay: false,
                           pauseAutoPlayOnTouch: true,
-
                           viewportFraction: 1,
-
                           // height: 360.sp, //  DeviceConstraints.getResponsiveSize(context, 280.h, 320, 350.h),
                         ),
-                        items: widget.salonModel.photosOfWorks!
-                            .map(
-                              (item) => CachedImage(
-                                url: item.image!,
-                                fit: BoxFit.cover,
-                                height: 300.h,
-                                width: MediaQuery.of(context).size.width,
-                              ),
-                            )
+                        items: widget.salonModel.profilePics
+                            .map((item) => CachedImage(
+                                  url: item, // item.image!,
+                                  fit: BoxFit.cover,
+                                  height: 300.h,
+                                  width: MediaQuery.of(context).size.width,
+                                ))
                             .toList(),
                       ),
                     ),

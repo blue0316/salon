@@ -22,13 +22,21 @@ class _SalonServicesState extends ConsumerState<SalonServices> {
   Widget build(BuildContext context) {
     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
     final _salonSearchProvider = ref.watch(salonSearchProvider);
+    final _salonProfileProvider = ref.watch(salonProfileProvider);
+    bool isSingleMaster = _salonProfileProvider.isSingleMaster;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         SectionSpacer(
-          title: salonTitles(AppLocalizations.of(context)?.localeName ?? 'en')[0],
+          title: (!isSingleMaster)
+              ? salonTitles(
+                  AppLocalizations.of(context)?.localeName ?? 'en',
+                )[0]
+              : masterTitles(
+                  AppLocalizations.of(context)?.localeName ?? 'en',
+                )[0],
         ),
         SizedBox(
           // height: 1000.h,
