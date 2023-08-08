@@ -48,18 +48,21 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
     final ThemeData theme = _salonProfileProvider.salonTheme;
     ThemeType themeType = _appointmentProvider.themeType ?? ThemeType.DefaultLight;
 
-    final PriceAndDurationModel _priceAndDuration = _createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId] ?? PriceAndDurationModel();
-    TimeOfDay _startTime = Time().stringToTime(_createAppointmentProvider.selectedAppointmentSlot!);
-    TimeOfDay _endTime = _startTime.addMinutes(
-      int.parse(_priceAndDuration.duration!),
-    );
+    // final PriceAndDurationModel _priceAndDuration = _createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId] ?? PriceAndDurationModel();
+    // TimeOfDay _startTime = Time().stringToTime(_createAppointmentProvider.selectedAppointmentSlot!);
+    // TimeOfDay _endTime = _startTime.addMinutes(
+    //   int.parse(_priceAndDuration.duration!),
+    // );
 
-    String totalAmount = _createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '0'; // _priceAndDuration.price!;
+    // String totalAmount = _createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '0'; // _priceAndDuration.price!;
 
-    String deposit = _createAppointmentProvider.chosenServices[0].deposit ?? '0';
-    int payAtAppointment = int.parse(totalAmount) - int.parse(deposit);
+    // String deposit = _createAppointmentProvider.chosenServices[0].deposit ?? '0';
+    // int payAtAppointment = int.parse(totalAmount) - int.parse(deposit);
 
     AppointmentModel? appointment = _createAppointmentProvider.appointmentConfirmation;
+
+    String totalAmount = _createAppointmentProvider.totalAmount;
+    double deposit = _createAppointmentProvider.totalDeposit;
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
@@ -126,22 +129,22 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                   // CUSTOMER DETAILS
                   ServiceNameAndPrice(
                     notService: true,
-                    serviceName: AppLocalizations.of(context)?.firstName ?? 'First Name:',
+                    serviceName: '${AppLocalizations.of(context)?.firstName ?? 'First Name'}:',
                     servicePrice: '${_auth.currentCustomer?.personalInfo.firstName}',
                   ),
                   ServiceNameAndPrice(
                     notService: true,
-                    serviceName: AppLocalizations.of(context)?.lastName ?? 'Last Name:',
+                    serviceName: '${AppLocalizations.of(context)?.lastName ?? 'Last Name'}:',
                     servicePrice: '${_auth.currentCustomer?.personalInfo.lastName}',
                   ),
                   ServiceNameAndPrice(
                     notService: true,
-                    serviceName: AppLocalizations.of(context)?.phoneNumber ?? 'Phone number:',
+                    serviceName: '${AppLocalizations.of(context)?.phoneNumber ?? 'Phone number'}:',
                     servicePrice: '${_auth.currentCustomer?.personalInfo.phone}',
                   ),
                   ServiceNameAndPrice(
                     notService: true,
-                    serviceName: AppLocalizations.of(context)?.email ?? 'Email:',
+                    serviceName: '${AppLocalizations.of(context)?.email ?? 'Email'}:',
                     servicePrice: '${_auth.currentCustomer?.personalInfo.email}',
                   ),
 
@@ -150,7 +153,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                   // SERVICE PROVIDER DETAILS
                   ServiceNameAndPrice(
                     notService: true,
-                    serviceName: AppLocalizations.of(context)?.serviceProvider ?? 'Service provider:',
+                    serviceName: '${AppLocalizations.of(context)?.serviceProvider ?? 'Service provider'}:',
                     servicePrice: '${_createAppointmentProvider.chosenMaster?.personalInfo?.lastName} ${_createAppointmentProvider.chosenMaster?.personalInfo?.firstName}',
                   ),
 
@@ -198,14 +201,14 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
 
                   ServiceNameAndPrice(
                     notService: true,
-                    serviceName: AppLocalizations.of(context)?.date ?? 'Date:',
+                    serviceName: '${AppLocalizations.of(context)?.date ?? 'Date'}:',
                     servicePrice: Time().getDateInStandardFormat(_createAppointmentProvider.chosenDay),
                   ),
 
                   ServiceNameAndPrice(
                     notService: true,
-                    serviceName: AppLocalizations.of(context)?.time ?? 'Time:',
-                    servicePrice: '${Time().timeToString(_startTime)} - ${Time().timeToString(_endTime)}',
+                    serviceName: '${AppLocalizations.of(context)?.time ?? 'Time'}:',
+                    servicePrice: (!_salonProfileProvider.isSingleMaster) ? '${_createAppointmentProvider.getStartTime()} - ${_createAppointmentProvider.getEndTime()}' : "${_createAppointmentProvider.selectedAppointmentSlot} - ${_createAppointmentProvider.selectedSlotEndTime}",
                   ),
 
                   const GradientDivider(),
@@ -214,7 +217,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                   ServiceNameAndPrice(
                     notService: true,
                     serviceName: AppLocalizations.of(context)?.payAtAppointment ?? 'Pay at Appointment:',
-                    servicePrice: '\$$payAtAppointment',
+                    servicePrice: '\$${double.parse(totalAmount) - deposit}',
                   ),
 
                   ServiceNameAndPrice(

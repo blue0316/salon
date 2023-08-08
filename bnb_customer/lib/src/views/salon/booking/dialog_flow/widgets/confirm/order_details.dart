@@ -12,6 +12,7 @@ import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/models/transaction.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/time.dart';
+import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/colors.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/day_and_time/day_and_time.dart';
 import 'package:bbblient/src/views/salon/booking/confirmation_success.dart';
@@ -108,11 +109,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
               const GradientDivider(),
 
               // SERVICE PROVIDER DETAILS
-              ServiceNameAndPrice(
-                notService: true,
-                serviceName: AppLocalizations.of(context)?.serviceProvider ?? "Service provider:",
-                servicePrice: '${_createAppointmentProvider.chosenMaster?.personalInfo?.lastName} ${_createAppointmentProvider.chosenMaster?.personalInfo?.firstName}',
-              ),
+              ServiceNameAndPrice(notService: true, serviceName: AppLocalizations.of(context)?.serviceProvider ?? "Service provider:", servicePrice: '${_createAppointmentProvider.chosenMaster?.personalInfo?.lastName} ${_createAppointmentProvider.chosenMaster?.personalInfo?.firstName}'),
 
               ServiceNameAndPrice(
                 notService: true,

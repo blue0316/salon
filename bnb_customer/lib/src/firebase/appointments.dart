@@ -55,10 +55,12 @@ class AppointmentApi {
     try {
       DocumentReference _docRef;
       if (appointment.appointmentId != null) {
+        print('entered here 1');
         //updates the existing appointment
 
         _docRef = Collection.appointments.doc(appointment.appointmentId);
       } else {
+        print('entered here 2');
         //creates a new appointment
         _docRef = Collection.appointments.doc();
       }

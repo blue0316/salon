@@ -1110,18 +1110,23 @@ class CreateAppointmentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  onSlotChange(BuildContext context, String slot, {DateTime? date}) {
+  void setSelectedMaster(MasterModel master) {
+    chosenMaster = master;
+    notifyListeners();
+  }
+
+  onSlotChange333(BuildContext context, String slot, {DateTime? date}) {
     isBlocked = false;
     isOverlapped = false;
     isNotEnoughSlots = false;
     notifyListeners();
 
-    print('@@@@@-----++++1111++++@@@@@');
+    // print('@@@@@-----++++1111++++@@@@@');
     try {
-      print('serviceDuration - $serviceDuration');
+      // print('serviceDuration - $serviceDuration');
       totalTimeSlotsRequired = (int.parse(serviceDuration) / (chosenSalon!.timeSlotsInterval ?? 15)).ceil();
 
-      print(totalTimeSlotsRequired);
+      // print(totalTimeSlotsRequired);
       if (int.parse(serviceDuration) % (chosenSalon!.timeSlotsInterval ?? 15) > 0) {
         totalTimeSlotsRequired += 1;
       }
@@ -1166,10 +1171,74 @@ class CreateAppointmentProvider with ChangeNotifier {
           );
           isBlocked = true;
           controlModal(true);
-          print('@@@@@-----+++%%%%%%%%%%%%%%%+++@@@@@');
+          // print('@@@@@-----+++%%%%%%%%%%%%%%%+++@@@@@');
 
-          print(selectedAppointmentSlot);
-          print('@@@@@-----+++%%%%%%%%%%%%%%%+++@@@@@');
+          // print(selectedAppointmentSlot);
+          // print('@@@@@-----+++%%%%%%%%%%%%%%%+++@@@@@');
+          // chosenSlots = [];
+          // notifyListeners();
+
+          // showToast(tr(Keys.slotNotAvailable));
+
+          // chosenSlots = [];
+          // notifyListeners();
+          // showToast(tr(Keys.slotNotAvailable));
+        }
+      }
+    } catch (e) {
+      //(e);
+    }
+    notifyListeners();
+  }
+
+  onSlotChange(BuildContext context, DateTime? date, String slot) {
+    isBlocked = false;
+    isOverlapped = false;
+    isNotEnoughSlots = false;
+    notifyListeners();
+
+    try {
+      totalTimeSlotsRequired = (int.parse(serviceDuration) / (chosenSalon!.timeSlotsInterval ?? 15)).ceil();
+      if (int.parse(serviceDuration) % (chosenSalon!.timeSlotsInterval ?? 15) > 0) {
+        totalTimeSlotsRequired += 1;
+      }
+      //(totalTimeSlotsRequired);
+      if (totalTimeSlotsRequired > slots[0]!.length) {
+        showToast(AppLocalizations.of(context)?.notEnoughSlots ?? 'Not enough slots');
+        isNotEnoughSlots = true;
+        controlModal(false);
+      } else {
+        int index = slots[0]!.indexWhere((element) => element == slot);
+        //(index);
+        List<String> chosenSlots = [];
+        if (index != -1) {
+          if (index == 0) {
+            chosenSlots = slots[0]!.getRange(index, totalTimeSlotsRequired).toList();
+          } else if (index > slots[0]!.length - totalTimeSlotsRequired) {
+            chosenSlots = slots[0]!.getRange(slots[0]!.length - (totalTimeSlotsRequired), slots[0]!.length).toList();
+          } else {
+            chosenSlots = slots[0]!.getRange(index, (index + totalTimeSlotsRequired)).toList();
+          }
+          bool continues = checkContinuousSlots222(slotspresent: chosenSlots);
+          if (!continues) {
+            selectedAppointmentSlot = slot;
+            selectedSlotEndTime = Time().timeToString(Time().stringToTime(selectedAppointmentSlot!).addMinutes(int.parse(serviceDuration)));
+            isOverlapped = true;
+            // chosenSlots = [];
+            // notifyListeners();
+            // showToast(tr(Keys.slotsOverLap));
+          } else {
+            selectedAppointmentSlot = slot;
+            selectedAppointmentDate = date;
+            selectedSlotEndTime = Time().timeToString(Time().stringToTime(selectedAppointmentSlot!).addMinutes(int.parse(serviceDuration)));
+            isNextEnabled = true;
+          }
+          controlModal(true);
+        } else {
+          selectedAppointmentSlot = slot;
+          selectedSlotEndTime = Time().timeToString(Time().stringToTime(selectedAppointmentSlot!).addMinutes(int.parse(serviceDuration)));
+          isBlocked = true;
+          controlModal(true);
           // chosenSlots = [];
           // notifyListeners();
 
@@ -1229,10 +1298,6 @@ class CreateAppointmentProvider with ChangeNotifier {
 
   onDateChange(DateTime date, {required bool isSingleMaster}) {
     if (isSingleMaster) {
-      print('-------++++++++----------');
-      print(isSingleMaster);
-      print('-------++++++++----------');
-
       selectedDate1 = date;
       selectedDate2 = date.add(const Duration(days: 1));
       selectedDate3 = date.add(const Duration(days: 2));
@@ -1385,7 +1450,7 @@ class CreateAppointmentProvider with ChangeNotifier {
       } else if (serviceMaxPrice != '0') {
         totalAmount = serviceMaxPrice ?? '0';
       } else {
-        servicePrice ?? '0';
+        totalAmount = servicePrice ?? '0';
       }
     } else {
       // NOT SINGLE MASTER
@@ -1457,6 +1522,10 @@ class CreateAppointmentProvider with ChangeNotifier {
 
   List<String> allSlotsSingleMaster = [];
 
+  var eveningAllTimeslots = [];
+  var morningAllTimeslots = [];
+  var afternoonAllTimeslots = [];
+
   generateTimeSlots(SalonModel salon, bool isSingleMaster) {
     slots.clear();
     allSlotsSingleMaster.clear();
@@ -1515,10 +1584,6 @@ class CreateAppointmentProvider with ChangeNotifier {
       var eveningTimeslots = [];
       var morningTimeslots = [];
       var afternoonTimeslots = [];
-
-      var eveningAllTimeslots = [];
-      var morningAllTimeslots = [];
-      var afternoonAllTimeslots = [];
 
       if (afterNoonIndex != -1) {
         eveningTimeslots = slotsDay1.sublist(afterNoonIndex, slotsDay1.length);
@@ -1608,11 +1673,11 @@ class CreateAppointmentProvider with ChangeNotifier {
       ),
     );
 
-    print('--------------------------- stop cooking -----------------------');
-    print(allSlotsSingleMaster);
-    print('-----------@@@@@@-----------');
-    print(slots);
-    print('--------------------------- stop cooking -----------------------');
+    // print('--------------------------- stop cooking -----------------------');
+    // print(allSlotsSingleMaster);
+    // print('-----------@@@@@@-----------');
+    // print(slots);
+    // print('--------------------------- stop cooking -----------------------');
 
     notifyListeners();
   }
@@ -2318,7 +2383,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 
       unselected();
 
-      print(chosenServices);
+      // print(chosenServices);
       // getServiceMasters();
       notifyListeners();
     }
@@ -2832,6 +2897,22 @@ class CreateAppointmentProvider with ChangeNotifier {
     // we only check against the first day
     for (int i = 0; i <= slotspresent.length - 1; i++) {
       indexes.add(allAppointments[master.masterId]!.indexWhere((element) => element == slotspresent[i]));
+    }
+    for (int i = 0; i < indexes.length - 1; i++) {
+      if (indexes[i + 1] - indexes[i] != 1) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  bool checkContinuousSlots222({required List<String> slotspresent}) {
+    List<int> indexes = [];
+    // since we noLonger work with 3 days in a row
+    // we only check against the first day
+    for (int i = 0; i <= slotspresent.length - 1; i++) {
+      indexes.add(allSlots.indexWhere((element) => element == slotspresent[i]));
     }
     for (int i = 0; i < indexes.length - 1; i++) {
       if (indexes[i + 1] - indexes[i] != 1) {
@@ -3672,7 +3753,24 @@ class CreateAppointmentProvider with ChangeNotifier {
     final List<String> _updates = [AppointmentUpdates.createdByCustomer];
     final List<DateTime> _updatedAt = [DateTime.now()];
 
-    final PriceAndDurationModel _priceAndDuration = priceAndDuration[chosenMaster?.masterId] ?? PriceAndDurationModel();
+    //////////////////////////////////////////////
+    //handling appointment TIME & DURATION
+    //////////////////////////////////////////////
+    ServiceModel selectedService = chosenServices[0];
+
+    selectedService.priceAndDuration!.isPriceRange = selectedService.isPriceRange;
+    selectedService.priceAndDuration!.isFixedPrice = selectedService.isFixedPrice;
+    selectedService.priceAndDuration!.isPriceRange = selectedService.isPriceRange;
+
+    final PriceAndDurationModel _priceAndDuration;
+    if (isPriceFrom!) {
+      _priceAndDuration = PriceAndDurationModel(duration: serviceDuration, price: servicePrice, priceMax: serviceMaxPrice, isPriceStartAt: true);
+    } else if (isPriceRange!) {
+      _priceAndDuration = PriceAndDurationModel(duration: serviceDuration, price: servicePrice, priceMax: serviceMaxPrice, isPriceRange: true);
+    } else {
+      _priceAndDuration = PriceAndDurationModel(duration: serviceDuration, price: servicePrice, isFixedPrice: true);
+    }
+
     debugPrint("Chosen Slots");
     debugPrint(selectedAppointmentSlot);
 
@@ -3724,8 +3822,6 @@ class CreateAppointmentProvider with ChangeNotifier {
     /////////////////////////////////////////////
 
     const String _status = AppointmentStatus.active;
-
-    ServiceModel selectedService = chosenServices[0];
 
     final Service _service = Service(
       serviceId: selectedService.serviceId,
@@ -3902,7 +3998,15 @@ class CreateAppointmentProvider with ChangeNotifier {
     //////////////////////////////////////////////
     //handling appointment TIME & DURATION
     //////////////////////////////////////////////
-    final PriceAndDurationModel _priceAndDuration = PriceAndDurationModel(duration: serviceDuration, price: servicePrice);
+
+    final PriceAndDurationModel _priceAndDuration;
+    if (isPriceFrom!) {
+      _priceAndDuration = PriceAndDurationModel(duration: serviceDuration, price: servicePrice, priceMax: serviceMaxPrice, isPriceStartAt: true);
+    } else if (isPriceRange!) {
+      _priceAndDuration = PriceAndDurationModel(duration: serviceDuration, price: servicePrice, priceMax: serviceMaxPrice, isPriceRange: true);
+    } else {
+      _priceAndDuration = PriceAndDurationModel(duration: serviceDuration, price: servicePrice, priceMax: serviceMaxPrice, isFixedPrice: true);
+    }
 
     debugPrint("Chosen Slots");
     debugPrint(selectedAppointmentSlot);
@@ -4300,9 +4404,11 @@ class CreateAppointmentProvider with ChangeNotifier {
       appointmentConfirmation!.appointmentId = value;
 
       // UPDATE REGISTERED SALONS IN CUSTOMER PROFILE
-      Collection.customers.doc(customer.customerId).update({
-        'registeredSalons': FieldValue.arrayUnion([_appointment.salon.id])
-      });
+      if (customer.customerId != '') {
+        Collection.customers.doc(customer.customerId).update({
+          'registeredSalons': FieldValue.arrayUnion([_appointment.salon.id])
+        });
+      }
     });
   }
 
@@ -4512,9 +4618,11 @@ class CreateAppointmentProvider with ChangeNotifier {
       appointmentConfirmation!.appointmentId = value;
 
       // UPDATE REGISTERED SALONS IN CUSTOMER PROFILE
-      Collection.customers.doc(customer.customerId).update({
-        'registeredSalons': FieldValue.arrayUnion([_appointment.salon.id])
-      });
+      if (customer.customerId != '') {
+        Collection.customers.doc(customer.customerId).update({
+          'registeredSalons': FieldValue.arrayUnion([_appointment.salon.id])
+        });
+      }
     });
   }
 
@@ -4535,6 +4643,8 @@ class CreateAppointmentProvider with ChangeNotifier {
       customer: customer,
       transactionId: transactionId,
     );
+
+    appointmentConfirmation = _appointment;
 
     ///this identifier is used to locate prepTime or cleaUptime created with this appointment
     var identifier = chosenSalon!.salonId + DateTime.now().toString() + _appointment.master!.id;
@@ -4691,9 +4801,11 @@ class CreateAppointmentProvider with ChangeNotifier {
       appointmentConfirmation!.appointmentId = value;
 
       // UPDATE REGISTERED SALONS IN CUSTOMER PROFILE
-      Collection.customers.doc(customer.customerId).update({
-        'registeredSalons': FieldValue.arrayUnion([_appointment.salon.id])
-      });
+      if (customer.customerId != '') {
+        Collection.customers.doc(customer.customerId).update({
+          'registeredSalons': FieldValue.arrayUnion([_appointment.salon.id])
+        });
+      }
     });
   }
 
@@ -4711,6 +4823,8 @@ class CreateAppointmentProvider with ChangeNotifier {
       customer: customer,
       transactionId: transactionId,
     );
+
+    appointmentConfirmation = _appointment;
 
     ///this identifier is used to locate prepTime or cleaUptime created with this appointment
     var identifier = chosenSalon!.salonId + DateTime.now().toString() + _appointment.master!.id;
@@ -4791,14 +4905,14 @@ class CreateAppointmentProvider with ChangeNotifier {
           master: masters!.first,
           date: chosenDay,
           time: selectedAppointmentSlot!,
-          minutes: int.parse(serviceDuration ?? '0'),
+          minutes: int.parse(serviceDuration),
         );
       }
       await AppointmentApi().blockSalonTime(
         salon: chosenSalon!,
         date: chosenDay,
         time: selectedAppointmentSlot!,
-        minutes: int.parse(serviceDuration ?? '0'),
+        minutes: int.parse(serviceDuration),
       );
 
       //if prep time is not 0 then we create appt block for prep time
@@ -4882,9 +4996,11 @@ class CreateAppointmentProvider with ChangeNotifier {
       appointmentConfirmation!.appointmentId = value;
 
       // UPDATE REGISTERED SALONS IN CUSTOMER PROFILE
-      Collection.customers.doc(customer.customerId).update({
-        'registeredSalons': FieldValue.arrayUnion([_appointment.salon.id])
-      });
+      if (customer.customerId != '') {
+        Collection.customers.doc(customer.customerId).update({
+          'registeredSalons': FieldValue.arrayUnion([_appointment.salon.id])
+        });
+      }
     });
   }
 
