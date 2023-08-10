@@ -36,7 +36,6 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
   @override
   Widget build(BuildContext context) {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
-    final _createAppointmentProvider = ref.watch(createAppointmentProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool isLightTheme = (theme == AppTheme.customLightTheme);
 
