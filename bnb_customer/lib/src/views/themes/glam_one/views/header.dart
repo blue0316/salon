@@ -161,7 +161,17 @@ Widget getThemeButton(context, ThemeType themeType) {
 
 class GlamOneWrap extends ConsumerWidget {
   final String text;
-  const GlamOneWrap({Key? key, required this.text}) : super(key: key);
+  final double? vSpacing;
+  final Color? color;
+  final bool showBorder;
+
+  const GlamOneWrap({
+    Key? key,
+    required this.text,
+    this.vSpacing,
+    this.color,
+    this.showBorder = true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -170,13 +180,12 @@ class GlamOneWrap extends ConsumerWidget {
 
     return FittedBox(
       child: Container(
-        // width: text.length * 10.sp, // 150.h,
-        // height: 50.h,
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.white, width: 1),
+          border: showBorder ? Border.all(color: Colors.white, width: 1) : null,
+          color: color,
         ),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30.sp, vertical: 13.sp),
+          padding: EdgeInsets.symmetric(horizontal: 30.sp, vertical: vSpacing ?? 13.sp),
           child: Center(
             child: Text(
               text,

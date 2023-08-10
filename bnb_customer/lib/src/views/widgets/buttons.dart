@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
@@ -12,6 +14,7 @@ class DefaultButton extends ConsumerWidget {
   final bool isLoading;
   final Color? color, textColor, borderColor, loaderColor;
   final double height;
+  final double? width;
   final double? borderRadius, fontSize;
   final Widget? prefixIcon, suffixIcon;
   final FontWeight? fontWeight;
@@ -24,6 +27,7 @@ class DefaultButton extends ConsumerWidget {
     this.isLoading = false,
     this.color,
     this.height = 60,
+    this.width = 60,
     this.borderRadius,
     this.fontSize,
     this.textColor,
@@ -49,9 +53,8 @@ class DefaultButton extends ConsumerWidget {
         ),
         height: height,
         // size.width - 94,
-        minWidth: double.infinity,
+        minWidth: width ?? double.infinity,
         color: color ?? AppTheme.lightBlack,
-        disabledColor: AppTheme.coolGrey,
         onPressed: onTap as void Function()?,
         child: isLoading
             ? CircularProgressIndicator(color: loaderColor)
@@ -253,76 +256,62 @@ class BackButtonGlassMorphic extends StatelessWidget {
   }
 }
 
-// class DefaultButton extends ConsumerWidget {
-//   final String? label;
-//   final Function? onTap;
-//   final bool isLoading;
-//   final Color? color, textColor, borderColor;
-//   final double height;
-//   final double? borderRadius;
-//   final Widget? prefixIcon;
+class LandingButton extends ConsumerWidget {
+  final String? label;
+  final Function? onTap;
+  final Color? color, textColor, borderColor;
+  final double height;
+  final double? width;
+  final double? borderRadius, fontSize;
+  final FontWeight? fontWeight;
 
-//   const DefaultButton({
-//     Key? key,
-//     this.label,
-//     this.onTap,
-//     this.isLoading = false,
-//     this.color,
-//     this.height = 60,
-//     this.borderRadius,
-//     this.textColor,
-//     this.borderColor,
-//     this.prefixIcon,
-//   }) : super(key: key);
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
-//     final ThemeData theme = _salonProfileProvider.salonTheme;
+  const LandingButton({
+    Key? key,
+    this.label,
+    this.onTap,
+    this.color,
+    this.height = 60,
+    this.width = 60,
+    this.borderRadius,
+    this.fontSize,
+    this.textColor,
+    this.borderColor,
+    this.fontWeight,
+  }) : super(key: key);
 
-//     if (isLoading) {
-//       return const CircularProgressIndicator();
-//     } else {
-//       return MaterialButton(
-//         shape: RoundedRectangleBorder(
-//           borderRadius: BorderRadius.circular(borderRadius ?? 8),
-//           side: BorderSide(
-//             color: borderColor ?? color ?? Colors.black,
-//           ),
-//         ),
-//         height: height,
-//         // size.width - 94,
-//         minWidth: double.infinity,
-//         color: color ?? AppTheme.lightBlack,
-//         disabledColor: AppTheme.coolGrey,
-//         onPressed: onTap as void Function()?,
-//         child: (prefixIcon != null)
-//             ? Row(
-//                 crossAxisAlignment: CrossAxisAlignment.center,
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 children: [
-//                   prefixIcon!,
-//                   const SizedBox(width: 10),
-//                   Text(
-//                     label ?? "Sign up",
-//                     textAlign: TextAlign.center,
-//                     style: theme.textTheme.bodyText1?.copyWith(
-//                       color: textColor,
-//                       fontWeight: FontWeight.bold,
-//                       fontSize: 20.sp,
-//                     ),
-//                   ),
-//                 ],
-//               )
-//             : Text(
-//                 label ?? "Sign up",
-//                 textAlign: TextAlign.center,
-//                 style: theme.textTheme.bodyText1?.copyWith(
-//                   color: textColor,
-//                   fontWeight: FontWeight.bold,
-//                   fontSize: 20.sp,
-//                 ),
-//               ),
-//       );
-//     }
-//   }
-// }
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: onTap as void Function()?,
+        child: Container(
+          height: height,
+          width: width,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(borderRadius ?? 0),
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                label ?? "",
+                textAlign: TextAlign.center,
+                style: theme.textTheme.bodyLarge?.copyWith(
+                  color: textColor,
+                  fontWeight: fontWeight ?? FontWeight.w600,
+                  fontSize: fontSize ?? 20.sp,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
