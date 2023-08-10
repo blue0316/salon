@@ -2,63 +2,63 @@ const saloonDetailsTitles = [
   "services",
   "about",
   "team",
-  "all works",
+  "Portfolio",
 ];
 
 const saloonDetailsTitlesES = [
   "servicios",
   "acerca de",
   "equipo",
-  "todas las obras",
+  "portafolio",
 ];
 
 const saloonDetailsTitlesPT = [
   "Serviços",
   "sobre",
   "equipe",
-  "todas as obras",
+  "portfólio",
 ];
 
 const saloonDetailsTitlesRO = [
   "Servicii",
   "despre",
   "echipă",
-  "toate lucrările",
+  "Portofoliu",
 ];
 
 const saloonDetailsTitlesUK = [
   "послуги",
   "Деталі",
   "команда",
-  "Усі роботи",
+  "Портфоліо",
 ];
 
 const masterDetailsTitles = [
   "services",
   "about",
-  "all works",
+  "Portfolio",
 ];
 
 const masterDetailsTitlesES = [
   "servicios",
   "acerca de",
-  "todas las obras",
+  "portafolio",
 ];
 
 const masterDetailsTitlesPT = [
   "Serviços",
   "sobre",
-  "todas as obras",
+  "portfólio",
 ];
 
 const masterDetailsTitlesRO = [
   "Servicii",
   "despre",
-  "toate lucrările",
+  "Portofoliu",
 ];
 
 const masterDetailsTitlesUK = [
   "Послуги",
   "Деталі",
-  "Усі роботи",
+  "Портфоліо",
 ];

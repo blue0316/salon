@@ -79,7 +79,7 @@ class SalonProfileProvider with ChangeNotifier {
   }
 
   Widget getTheme() {
-    if (availableThemes.contains(themeSettings?.theme?.testId)) {
+    if (availableThemes.contains(themeSettings?.theme?.id)) {
       // If theme number is not in this set, it means that's a default theme
       switch (themeSettings?.theme?.testId) {
         case '1':
