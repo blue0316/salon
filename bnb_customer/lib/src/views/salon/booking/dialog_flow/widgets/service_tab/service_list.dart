@@ -3,6 +3,7 @@ import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
+import 'package:bbblient/src/utils/currency/currency.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/utils/time.dart';
@@ -137,10 +138,10 @@ class ServiceCard extends ConsumerWidget {
                   SizedBox(height: 5.sp),
                   Text(
                     (service.isPriceRange)
-                        ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price ?? '0'}-${salonModel.selectedCurrency}${service.priceAndDurationMax!.price ?? '0'}"
+                        ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}-${getCurrency(salonModel.countryCode!)}${service.priceAndDurationMax!.price ?? '0'}"
                         : (service.isPriceStartAt)
-                            ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price ?? '0'}+"
-                            : "${salonModel.selectedCurrency}${service.priceAndDuration!.price ?? '0'}",
+                            ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}+"
+                            : "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}",
                     style: theme.textTheme.bodyLarge!.copyWith(
                       fontWeight: FontWeight.w500,
                       fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -151,10 +152,10 @@ class ServiceCard extends ConsumerWidget {
                   ),
                   // Text(
                   //   service.isFixedPrice
-                  //       ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price}"
+                  //       ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price}"
                   //       : service.isPriceRange
-                  //           ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}"
-                  //           : "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}∞",
+                  //           ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price} - ${getCurrency(salonModel.countryCode!)}${service.priceAndDurationMax!.price}"
+                  //           : "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price} - ${getCurrency(salonModel.countryCode!)}∞",
                   //   style: theme.textTheme.bodyLarge!.copyWith(
                   //     fontWeight: FontWeight.w500,
                   //     fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -443,10 +444,10 @@ class ServiceCard extends ConsumerWidget {
                   //   children: [
                   //     Text(
                   //       service.isFixedPrice
-                  //           ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price}"
+                  //           ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price}"
                   //           : service.isPriceRange
-                  //               ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}"
-                  //               : "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}∞",
+                  //               ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price} - ${getCurrency(salonModel.countryCode!)}${service.priceAndDurationMax!.price}"
+                  //               : "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price} - ${getCurrency(salonModel.countryCode!)}∞",
                   //       style: theme.textTheme.bodyText1!.copyWith(
                   //             fontWeight: FontWeight.w500,
                   //             fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 25.sp, 30.sp),
@@ -458,10 +459,10 @@ class ServiceCard extends ConsumerWidget {
                   //     const SizedBox(height: 5),
                   //     Text(
                   //       service.isFixedPrice
-                  //           ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price}"
+                  //           ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price}"
                   //           : service.isPriceRange
-                  //               ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}"
-                  //               : "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}∞",
+                  //               ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price} - ${getCurrency(salonModel.countryCode!)}${service.priceAndDurationMax!.price}"
+                  //               : "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price} - ${getCurrency(salonModel.countryCode!)}∞",
                   //       style: theme.textTheme.bodyText1!.copyWith(
                   //             fontWeight: FontWeight.w500,
                   //             fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 20.sp, 25.sp),

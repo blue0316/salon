@@ -45,7 +45,6 @@ class SalonModel {
   late List<String> searchTags = [];
   late bool requestSalon;
   late String salonLogo;
-  late String selectedCurrency;
   String? countryCode;
   bool? isAutomaticBookingConfirmation;
   late TimeFormat timeFormat;
@@ -89,7 +88,6 @@ class SalonModel {
     required this.searchTags,
     this.requestSalon = false,
     required this.salonLogo,
-    required this.selectedCurrency,
     this.isAutomaticBookingConfirmation = false,
     this.timeFormat = TimeFormat.amPM,
     required this.customerWebLanguages,
@@ -150,7 +148,6 @@ class SalonModel {
     additionalFeatures = json['additionalFeatures'] != null ? json['additionalFeatures'].cast<String>() : [];
     requestSalon = json['requestSalon'] ?? false;
     salonLogo = json['salonLogo'] ?? '';
-    selectedCurrency = (json['selectedCurrency'] != null) ? getCurrency(json['countryCode']) : '\$';
     countryCode = json['countryCode'] ?? "";
     isAutomaticBookingConfirmation = json['isAutomaticBookingConfirmation'] ?? false;
     timeFormat = (json['timeFormat'] == '24H') ? timeFormat = TimeFormat.twentyFourHr : timeFormat = TimeFormat.amPM;
@@ -201,7 +198,6 @@ class SalonModel {
     data['searchTags'] = searchTags;
     data['additionalFeatures'] = additionalFeatures;
     data['requestSalon'] = requestSalon;
-    data['selectedCurrency'] = selectedCurrency;
     data['timeFormat'] = timeFormat;
     data['customerWebLanguages'] = customerWebLanguages;
 

@@ -2,6 +2,7 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
+import 'package:bbblient/src/utils/currency/currency.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -43,7 +44,7 @@ class DateTimePrice extends ConsumerWidget {
               ),
               RowInfo(
                 title: 'Price:',
-                value: '${salonModel.selectedCurrency} ${appointment.priceAndDuration.price}',
+                value: '${getCurrency(salonModel.countryCode!)} ${appointment.priceAndDuration.price}',
               ),
               RowInfo(
                 title: 'Duration:',

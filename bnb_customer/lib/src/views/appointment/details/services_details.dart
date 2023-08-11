@@ -2,6 +2,7 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
+import 'package:bbblient/src/utils/currency/currency.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/appointment/widgets/row.dart';
 import 'package:bbblient/src/views/appointment/widgets/theme_colors.dart';
@@ -135,7 +136,7 @@ class _ServiceDetailsState extends ConsumerState<ServiceDetails> {
                 const SizedBox(height: 2),
                 RowInfo(
                   title: 'Price:',
-                  value: '${widget.salon.selectedCurrency}${widget.service.priceAndDuration!.price}',
+                  value: '${getCurrency(widget.salon.countryCode!)}${widget.service.priceAndDuration!.price}',
                 ),
                 const SizedBox(height: 2),
                 RowInfo(

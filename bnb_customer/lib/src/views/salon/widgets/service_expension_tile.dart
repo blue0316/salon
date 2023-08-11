@@ -6,6 +6,7 @@ import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
+import 'package:bbblient/src/utils/currency/currency.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/translation.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -317,11 +318,11 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                               if (service.priceAndDuration!.price == '200') // TODO: REMOVE THIS
                                                 Text(
                                                   service.isFixedPrice
-                                                      ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price}"
+                                                      ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price}"
                                                       : service.isPriceStartAt
-                                                          ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}∞"
-                                                          : "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}",
-                                                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                                          ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price} - ${getCurrency(salonModel.countryCode!)}∞"
+                                                          : "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price} - ${getCurrency(salonModel.countryCode!)}${service.priceAndDurationMax!.price}",
+                                                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                                         fontWeight: FontWeight.w400,
                                                         fontSize: 12.5.sp,
                                                         color: AppTheme.lightGrey,
@@ -335,12 +336,12 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                                 // TODO: NOTE - Service PRICE
 
                                                 service.isFixedPrice
-                                                    ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price}"
+                                                    ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price}"
                                                     : service.isPriceStartAt
-                                                        ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}∞"
-                                                        : "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}",
+                                                        ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price} - ${getCurrency(salonModel.countryCode!)}∞"
+                                                        : "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price} - ${getCurrency(salonModel.countryCode!)}${service.priceAndDurationMax!.price}",
 
-                                                style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                                       fontWeight: FontWeight.w600,
                                                       fontSize: 16.sp,
                                                       color: AppTheme.textBlack,

@@ -1,23 +1,14 @@
+// ignore_for_file: avoid_web_libraries_in_flutter
+
 import 'dart:async';
-import 'dart:html' as html;
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/firebase/transaction.dart';
-import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
-import 'package:bbblient/src/views/salon/booking/widgets/confirmation_tab.dart/confirmed_dialog.dart';
-import 'package:bbblient/src/views/salon/booking/widgets/confirmation_tab.dart/view_appointment_details.dart';
-import 'package:bbblient/src/views/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-// ignore_for_file: avoid_web_libraries_in_flutter
-
 import 'dart:html';
 import 'dart:ui' as ui;
-import 'package:flutter/material.dart';
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
@@ -52,7 +43,9 @@ class _PayDialogState extends ConsumerState<PayDialog> {
     super.initState();
     // TERMINALID:ORDERID:AMOUNT:DATETIME:SECRET
 // bnbUkraine20211!
-    var bytesToHash = utf8.encode("${widget.terminalId ?? "5363001"}:${widget.transactionId ?? "${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}"}:${widget.amount ?? "325.56"}:${formatter.format(timeNow)}:https://us-central1-bowandbeautiful-3372d.cloudfunctions.net/payrocreceipt-payrocReceipt:bnbUkraine20211!");
+    var bytesToHash = utf8.encode(
+      "${widget.terminalId ?? "5363001"}:${widget.transactionId ?? "${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}"}:${widget.amount ?? "325.56"}:${formatter.format(timeNow)}:https://us-central1-bowandbeautiful-3372d.cloudfunctions.net/payrocreceipt-payrocReceipt:bnbUkraine20211!",
+    );
     hash = sha512.convert(bytesToHash);
     // print();
     _iframeElement.style.height = '100%';
