@@ -175,3 +175,131 @@ class _DistributedRatingState extends ConsumerState<DistributedRating> {
     );
   }
 }
+
+class NewDistributedRating extends ConsumerStatefulWidget {
+  final List<ReviewModel> allReviews;
+  const NewDistributedRating({Key? key, required this.allReviews}) : super(key: key);
+
+  @override
+  ConsumerState<NewDistributedRating> createState() => _NewDistributedRatingState();
+}
+
+class _NewDistributedRatingState extends ConsumerState<NewDistributedRating> {
+  //count of reviews
+  int totalCount = 0;
+  int reviewCount1 = 0;
+  int reviewCount2 = 0;
+  int reviewCount3 = 0;
+  int reviewCount4 = 0;
+  int reviewCount5 = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _computeReviews();
+  }
+
+  _computeReviews() {
+    totalCount = widget.allReviews.length;
+
+    for (ReviewModel review in widget.allReviews) {
+      _incrementRating(review.rating.round());
+    }
+  }
+
+  _incrementRating(int rating) {
+    switch (rating) {
+      case 1:
+        reviewCount1++;
+        break;
+      case 2:
+        reviewCount2++;
+        break;
+      case 3:
+        reviewCount3++;
+        break;
+      case 4:
+        reviewCount4++;
+        break;
+      case 5:
+        reviewCount5++;
+        break;
+    }
+  }
+
+  Widget rating(String ratingLabel, rating) {
+    final _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
+    bool isLightTheme = (theme == AppTheme.customLightTheme);
+
+    return Padding(
+      padding: EdgeInsets.only(bottom: 2.sp),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Icon(
+            Icons.star,
+            color: const Color(0XFF6A6A6A).withOpacity(0.9),
+            size: 10.sp,
+          ),
+          SizedBox(width: 5.sp),
+          Text(
+            ratingLabel,
+            style: theme.textTheme.bodyMedium!.copyWith(
+              fontSize: 14.sp,
+              color: isLightTheme ? Colors.black : Colors.white,
+            ),
+          ),
+          SizedBox(width: 8.sp),
+          Stack(
+            children: [
+              Container(
+                height: 5.h,
+                width: 100,
+                decoration: BoxDecoration(
+                  color: isLightTheme ? Colors.white : Colors.black,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              Positioned(
+                left: 0,
+                child: Container(
+                  height: 5.sp,
+                  width: 100.0 * (totalCount == 0 ? 0 : (rating / totalCount)),
+                  decoration: BoxDecoration(
+                    color: isLightTheme ? const Color(0XFFF49071) : const Color(0XFFFFA755),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+              )
+            ],
+          ),
+          SizedBox(width: 10.sp),
+          Text(
+            '$rating',
+            style: theme.textTheme.bodyMedium!.copyWith(
+              fontSize: 14.sp,
+              color: isLightTheme ? Colors.black : Colors.white,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        rating("5", reviewCount5),
+        rating("4", reviewCount4),
+        rating("3", reviewCount3),
+        rating("2", reviewCount2),
+        rating("1", reviewCount1),
+      ],
+    );
+  }
+}

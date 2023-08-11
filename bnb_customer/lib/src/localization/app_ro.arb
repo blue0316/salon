@@ -834,6 +834,9 @@
   "appointmentConfirmation" : "Confirmarea întâlnirii",
   "cancelNote1" : "Vă rugăm să rețineți că pentru a anula trebuie să contactați?",
   "cancelNote2" : "Anularea online nu este disponibilă momentan.",
-  "noPhotosOfWorksAvailable":"NU ESTE FOTOGRAFIE CU LUCRĂRI DISPONIBILE MOMENTULUI"
+  "noPhotosOfWorksAvailable":"NU ESTE FOTOGRAFIE CU LUCRĂRI DISPONIBILE MOMENTULUI",
+  "followUs" : "Urmăriți-ne",
+  "totalReviews" : "Numărul total de recenzii",
+  "averageRating": "Evaluare medie"
 }
   

@@ -541,7 +541,7 @@
 "queSendReminders":"Люди забувають близько 1460 речей за рік. Хочете, щоб ми надсилали вам нагадування?",										
 "quicklyChooseFromWide":"швидко обирайте послуги в додатку та записуйтеся без очікування",										
 "rateService":"Ваші враження від майстра?",			
-"rating:":"Рейтинг:",
+"rating":"Рейтинг:",
 "read_privacy_policy":"Я прочитав і приймаю політику конфіденційності",										
 "readMore":"Показати більше",										
 "receiveNotifications":"Отримуйте сповіщення",										
@@ -837,7 +837,10 @@
 "yourFriendInstalledSecond":" приєднався до bnb",										
 "yourTotalCouponsAmount":"Загальна кількість купонів:",										
 "yourWishesOrComments":"Ваші побажання та коментарі",										
-"youSureWeMightSuggestYouVariants":"Ви впевнені? Тоді ми пропонуватимемо варіанти далеко від вас:(",										
+"youSureWeMightSuggestYouVariants":"Ви впевнені? Тоді ми пропонуватимемо варіанти далеко від вас:",										
 "youUseThisPaymentMethod":"Ви вибрали цей спосіб оплати:",										
-"noPromotions":"Зараз немає акцій"										
+"noPromotions":"Зараз немає акцій",
+"followUs" : "Слідкуйте за нами",
+"totalReviews" : "Загальна кількість відгуків",
+"averageRating" : "Середня оцінка"								
 }

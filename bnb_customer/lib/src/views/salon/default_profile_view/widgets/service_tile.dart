@@ -10,7 +10,6 @@ import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/utils/translation.dart';
-import 'package:bbblient/src/views/widgets/buttons.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -258,20 +257,31 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                           SizedBox(height: 10.sp),
                                           (service.description == null || service.description == "")
                                               ? const SizedBox.shrink()
-                                              : GestureDetector(
-                                                  onTap: () => showDialog<bool>(
-                                                    context: context,
-                                                    builder: (BuildContext context) => ShowServiceInfo(service),
+                                              : Tooltip(
+                                                  message: service.description,
+                                                  decoration: const BoxDecoration(
+                                                    color: Color(0XFF0D0C0C),
                                                   ),
-                                                  child: SizedBox(
-                                                    height: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
-                                                    width: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
-                                                    child: Center(
-                                                      child: SvgPicture.asset(
-                                                        AppIcons.informationSVG,
-                                                        height: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
-                                                        width: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
-                                                        color: const Color(0XFF908D8D),
+                                                  textStyle: theme.textTheme.displayMedium!.copyWith(
+                                                    fontWeight: FontWeight.normal,
+                                                    fontSize: 15.sp,
+                                                    color: Colors.white,
+                                                  ),
+                                                  child: GestureDetector(
+                                                    // onTap: () => showDialog<bool>(
+                                                    //   context: context,
+                                                    //   builder: (BuildContext context) => ShowServiceInfo(service),
+                                                    // ),
+                                                    child: SizedBox(
+                                                      height: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                                                      width: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                                                      child: Center(
+                                                        child: SvgPicture.asset(
+                                                          AppIcons.informationSVG,
+                                                          height: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                                                          width: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                                                          color: const Color(0XFF908D8D),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),

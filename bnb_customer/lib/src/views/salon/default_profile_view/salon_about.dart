@@ -1,20 +1,17 @@
+import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_profile.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/app_bar.dart';
-import 'package:extended_wrap/extended_wrap.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
-import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/icons.dart';
-import 'package:bbblient/src/views/salon/widgets/additional%20featured.dart';
-import 'package:bbblient/src/views/salon/widgets/service_expension_tile.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -32,54 +29,13 @@ class SalonAbout extends ConsumerStatefulWidget {
 }
 
 class _SalonAboutState extends ConsumerState<SalonAbout> {
-  getFeature(String s) {
-    debugPrint(widget.salonModel.ownerType);
-    if (widget.salonModel.ownerType == 'singleMaster') {
-      for (Map registeredFeatures in masterFeatures) {
-        if (registeredFeatures.containsKey(s)) {
-          return registeredFeatures[s];
-        }
-      }
-    }
-
-    if (widget.salonModel.ownerType == 'salon') {
-      for (Map registeredFeatures in salonFeatures) {
-        if (registeredFeatures.containsKey(s)) {
-          return registeredFeatures[s];
-        }
-      }
-    }
-  }
-
-  getFeatureUk(String s) {
-    debugPrint(widget.salonModel.ownerType);
-    for (Map registeredFeatures in ukMasterFeatures) {
-      if (registeredFeatures.containsKey(s)) {
-        return registeredFeatures[s];
-      }
-    }
-
-    if (widget.salonModel.ownerType == 'salon') {
-      for (Map registeredFeatures in ukSalonFeatures) {
-        if (registeredFeatures.containsKey(s)) {
-          return registeredFeatures[s];
-        }
-      }
-    }
-  }
-
-  int maxLinesForAdditionalFeature = 1;
   int totalReviewsToShow = 3;
 
   @override
   Widget build(BuildContext context) {
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
-    final bool isLandscape = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.landScape);
-    final bool isTab = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab);
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     bool isSingleMaster = _salonProfileProvider.isSingleMaster;
-
-    BnbProvider _bnbProvider = ref.read(bnbProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool isLightTheme = (theme == AppTheme.customLightTheme);
@@ -103,190 +59,74 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
             width: double.infinity,
             color: theme.canvasColor.withOpacity(0.7),
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 20.h),
+              padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 40.h, bottom: 20.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: isPortrait ? null : 250.h,
+                    height: isPortrait
+                        ? null
+                        : (widget.salonModel.description != '')
+                            ? 400.h
+                            : 200.h,
                     child: isPortrait
                         ? PortraitAboutHeader(
                             salonModel: widget.salonModel,
                           )
-                        : LandscapeAboutHeader(salonModel: widget.salonModel),
+                        : LandscapeAboutHeader(
+                            salonModel: widget.salonModel,
+                          ),
                   ),
-                  SizedBox(height: DeviceConstraints.getResponsiveSize(context, 10, 10, 30)),
                   if (widget.salonModel.additionalFeatures.isNotEmpty)
                     Expanded(
                       flex: 0,
-                      child: SizedBox(
-                        // height: 200.h,
-                        width: double.infinity,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              flex: 3,
-                              child: ExtendedWrap(
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 10.sp),
+                        child: SizedBox(
+                          // height: 200.h,
+                          width: double.infinity,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Wrap(
                                 spacing: 10,
-                                maxLines: maxLinesForAdditionalFeature,
                                 runSpacing: 10.h,
-                                children: [
-                                  for (String s in widget.salonModel.additionalFeatures) ...[
-                                    if (AppIcons.getIconFromFacilityString(feature: s) != null) ...[
-                                      Container(
-                                        color: theme.canvasColor,
-                                        height: DeviceConstraints.getResponsiveSize(context, 100.h, 100.h, 110.h),
-                                        width: DeviceConstraints.getResponsiveSize(context, 100.h, 100.h, 110.h),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(5),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              GestureDetector(
-                                                onTap: () => showDialog<bool>(
-                                                  context: context,
-                                                  builder: (BuildContext context) {
-                                                    return ShowAdditionaFeatureInfo(_bnbProvider, s);
-                                                  },
-                                                ),
-                                                child: SvgPicture.asset(
-                                                  AppIcons.getIconFromFacilityString(feature: s)!,
-                                                  height: DeviceConstraints.getResponsiveSize(context, 30.h, 30.h, 30.h),
-                                                  color: theme.primaryColor,
-                                                ),
-                                              ),
-                                              const SizedBox(height: 10),
-                                              Text(
-                                                _bnbProvider.locale == const Locale('en') ? (getFeature(s) ?? '') : (getFeatureUk(s) ?? ''),
-                                                style: TextStyle(
-                                                  overflow: TextOverflow.ellipsis,
-                                                  fontSize: DeviceConstraints.getResponsiveSize(context, 10.sp, 10.sp, 12.sp),
-                                                  height: 0,
+                                children: widget.salonModel.additionalFeatures
+                                    .map(
+                                      (feature) => Padding(
+                                        padding: EdgeInsets.only(right: 12.sp),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: !isLightTheme ? const Color(0XFF2D2D2D).withOpacity(0.4) : Colors.transparent,
+                                            border: !isLightTheme ? null : Border.all(color: theme.primaryColor),
+                                            borderRadius: BorderRadius.circular(20.sp),
+                                          ),
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(horizontal: 25.sp, vertical: 10.sp),
+                                            child: Center(
+                                              child: Text(
+                                                feature.toCapitalized(),
+                                                style: theme.textTheme.displayMedium!.copyWith(
+                                                  fontWeight: FontWeight.normal,
+                                                  fontSize: 15.sp,
                                                   color: isLightTheme ? Colors.black : Colors.white,
                                                 ),
-                                                maxLines: 3,
-                                                textAlign: TextAlign.center,
                                               ),
-                                            ],
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ]
-                                  ],
-                                ],
+                                    )
+                                    .toList(),
                               ),
-                            ),
-                            if ((isPortrait && widget.salonModel.additionalFeatures.length > 3) || (isLandscape && widget.salonModel.additionalFeatures.length > 4) || (isTab && widget.salonModel.additionalFeatures.length > 6))
-                              Expanded(
-                                flex: 0,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    if (maxLinesForAdditionalFeature != widget.salonModel.additionalFeatures.length) {
-                                      setState(() {
-                                        maxLinesForAdditionalFeature = widget.salonModel.additionalFeatures.length;
-                                      });
-                                    } else {
-                                      setState(() {
-                                        maxLinesForAdditionalFeature = 1;
-                                      });
-                                    }
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: theme.canvasColor,
-                                    ),
-                                    child: Center(
-                                      child: Icon(
-                                        Icons.keyboard_arrow_down_rounded,
-                                        color: theme.primaryColor,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  SizedBox(
-                    height: DeviceConstraints.getResponsiveSize(context, 20, 20, 30),
-                  ),
-                  Expanded(
-                    flex: 0,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            (AppLocalizations.of(context)?.socialMedia ?? "Social media").toUpperCase(),
-                            style: theme.textTheme.bodyLarge!.copyWith(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15.sp,
-                              color: isLightTheme ? Colors.black : Colors.white,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Wrap(
-                          alignment: WrapAlignment.start,
-                          // crossAxisAlignment: CrossAxisAlignment.center,
-                          // mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            if (widget.salonModel.links?.website != '' && widget.salonModel.links?.website != null)
-                              SocialLink(
-                                icon: isLightTheme ? AppIcons.linkGlobe : AppIcons.linkGlobeDark,
-                                type: 'website',
-                                socialUrl: widget.salonModel.links?.website,
-                              ),
-                            if (widget.salonModel.links?.instagram != '' && widget.salonModel.links?.instagram != null)
-                              SocialLink(
-                                icon: isLightTheme ? AppIcons.linkInsta : AppIcons.linkInstaDark2,
-                                type: 'insta',
-                                socialUrl: widget.salonModel.links?.instagram,
-                              ),
-                            if (widget.salonModel.links?.tiktok != '' && widget.salonModel.links?.tiktok != null)
-                              SocialLink(
-                                icon: isLightTheme ? AppIcons.linkTikTok : AppIcons.linkTikTokDark,
-                                type: 'tiktok',
-                                socialUrl: widget.salonModel.links?.tiktok,
-                              ),
-                            if (widget.salonModel.links?.facebook != '' && widget.salonModel.links?.facebook != null)
-                              SocialLink(
-                                icon: isLightTheme ? AppIcons.linkFacebook : AppIcons.linkFacebookDark,
-                                type: 'facebook',
-                                socialUrl: widget.salonModel.links?.facebook,
-                              ),
-                            if (widget.salonModel.links?.twitter != '' && widget.salonModel.links?.twitter != null)
-                              SocialIcon2(
-                                icon: FontAwesomeIcons.twitter,
-                                type: 'twitter',
-                                socialUrl: widget.salonModel.links?.twitter,
-                              ),
-                            if (widget.salonModel.links?.pinterest != '' && widget.salonModel.links?.pinterest != null)
-                              SocialIcon2(
-                                icon: FontAwesomeIcons.pinterest,
-                                type: 'pinterest',
-                                socialUrl: widget.salonModel.links?.pinterest,
-                              ),
-                            if (widget.salonModel.links?.yelp != '' && widget.salonModel.links?.yelp != null)
-                              SocialIcon2(
-                                icon: FontAwesomeIcons.yelp,
-                                type: 'yelp',
-                                socialUrl: widget.salonModel.links?.yelp,
-                              ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Space(factor: 2),
+                  const Space(factor: 2.5),
                   ReviewSection(
                     reviews: _salonProfileProvider.salonReviews,
                     avgRating: widget.salonModel.avgRating,
@@ -295,6 +135,7 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
               ),
             ),
           ),
+          const Space(factor: 2),
         ],
       ),
     );
@@ -331,17 +172,12 @@ class SocialIcon2 extends ConsumerWidget {
           }
         },
         child: Padding(
-          padding: const EdgeInsets.only(right: 15),
-          child: Container(
-            height: 50.h,
-            width: 50.h,
-            color: theme.canvasColor,
-            child: Center(
-              child: FaIcon(
-                icon,
-                size: 30.h,
-                color: theme.primaryColor,
-              ),
+          padding: EdgeInsets.only(right: 10.sp),
+          child: Center(
+            child: FaIcon(
+              icon,
+              size: 25.h,
+              color: theme.primaryColor,
             ),
           ),
         ),
@@ -407,6 +243,65 @@ class SocialLink extends ConsumerWidget {
                           color: isLightTheme ? null : theme.primaryColor,
                         ),
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class SocialLink2 extends ConsumerWidget {
+  final String icon;
+  final String type;
+  final String? socialUrl;
+
+  const SocialLink2({
+    Key? key,
+    required this.icon,
+    required this.type,
+    required this.socialUrl,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+    bool isLightTheme = (theme == AppTheme.customLightTheme);
+
+    return Expanded(
+      flex: 0,
+      child: GestureDetector(
+        onTap: () async {
+          Uri uri = Uri.parse(socialLinks(type, socialUrl ?? ''));
+
+          debugPrint("launching Url: $uri");
+
+          if (await canLaunchUrl(uri)) {
+            await launchUrl(uri);
+          } else {
+            showToast("Social Link is not available");
+          }
+        },
+        child: Padding(
+          padding: EdgeInsets.only(right: 10.sp),
+          child: Center(
+            child: (icon == AppIcons.linkGlobeDark)
+                ? FaIcon(
+                    FontAwesomeIcons.globe,
+                    size: 25.h,
+                    color: theme.primaryColor,
+                  )
+                : (icon == AppIcons.linkInstaDark2)
+                    ? FaIcon(
+                        FontAwesomeIcons.instagram,
+                        size: 25.h,
+                        color: theme.primaryColor,
+                      )
+                    : SvgPicture.asset(
+                        icon,
+                        height: 25.h,
+                        color: isLightTheme ? null : theme.primaryColor,
+                      ),
           ),
         ),
       ),
