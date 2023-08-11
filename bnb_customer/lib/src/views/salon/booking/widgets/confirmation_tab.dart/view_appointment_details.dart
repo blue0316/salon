@@ -2,6 +2,7 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/enums/status.dart';
+import 'package:bbblient/src/utils/currency/currency.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/google_calendar.dart';
 import 'package:bbblient/src/utils/icons.dart';
@@ -143,7 +144,7 @@ class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetai
                   // SERVICE PROVIDER DETAILS
                   ServiceNameAndPrice(
                     notService: true,
-                    serviceName: '${AppLocalizations.of(context)?.serviceProvider ?? 'Service provider'}:',
+                    serviceName: AppLocalizations.of(context)?.serviceProvider ?? 'Service provider:',
                     servicePrice: '${appointment.master?.name}',
                   ),
 
@@ -210,14 +211,14 @@ class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetai
                   // PAYMENT DETAILS
                   ServiceNameAndPrice(
                     notService: true,
-                    serviceName: '${AppLocalizations.of(context)?.payAtAppointment ?? 'Pay at Appointment'}:',
-                    servicePrice: '\$${appointment.priceAndDuration.price}',
+                    serviceName: AppLocalizations.of(context)?.payAtAppointment ?? 'Pay at Appointment:',
+                    servicePrice: '${getCurrency(_salonProfileProvider.chosenSalon.countryCode!)}${appointment.priceAndDuration.price}',
                   ),
 
                   ServiceNameAndPrice(
                     notService: true,
-                    serviceName: '${AppLocalizations.of(context)?.depositPaid ?? 'Deposit paid'}:',
-                    servicePrice: '\$${appointment.priceAndDuration.price}',
+                    serviceName: AppLocalizations.of(context)?.depositPaid ?? 'Deposit paid:',
+                    servicePrice: '${getCurrency(_salonProfileProvider.chosenSalon.countryCode!)}${appointment.priceAndDuration.price}',
                   ),
 
                   Padding(
@@ -229,7 +230,7 @@ class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetai
                         Flexible(
                           flex: 1,
                           child: Text(
-                            '${AppLocalizations.of(context)?.total ?? 'Total'}:',
+                            AppLocalizations.of(context)?.total ?? 'Total:',
                             style: theme.textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w600,
                               fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 21.sp, 20.sp),
@@ -240,7 +241,7 @@ class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetai
                         Flexible(
                           flex: 0,
                           child: Text(
-                            '\$${appointment.priceAndDuration.price}',
+                            '${getCurrency(_salonProfileProvider.chosenSalon.countryCode!)}${appointment.priceAndDuration.price}',
                             style: theme.textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w600,
                               fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 21.sp, 20.sp),

@@ -3,8 +3,8 @@ import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
-import 'package:bbblient/src/models/cat_sub_service/price_and_duration.dart';
 import 'package:bbblient/src/models/enums/status.dart';
+import 'package:bbblient/src/utils/currency/currency.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/google_calendar.dart';
 import 'package:bbblient/src/utils/icons.dart';
@@ -153,7 +153,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                   // SERVICE PROVIDER DETAILS
                   ServiceNameAndPrice(
                     notService: true,
-                    serviceName: '${AppLocalizations.of(context)?.serviceProvider ?? 'Service provider'}:',
+                    serviceName: AppLocalizations.of(context)?.serviceProvider ?? 'Service provider:',
                     servicePrice: '${_createAppointmentProvider.chosenMaster?.personalInfo?.lastName} ${_createAppointmentProvider.chosenMaster?.personalInfo?.firstName}',
                   ),
 
@@ -217,13 +217,13 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                   ServiceNameAndPrice(
                     notService: true,
                     serviceName: AppLocalizations.of(context)?.payAtAppointment ?? 'Pay at Appointment:',
-                    servicePrice: '\$${double.parse(totalAmount) - deposit}',
+                    servicePrice: '${getCurrency(_salonProfileProvider.chosenSalon.countryCode!)}${double.parse(totalAmount) - deposit}',
                   ),
 
                   ServiceNameAndPrice(
                     notService: true,
-                    serviceName: '${AppLocalizations.of(context)?.depositPaid ?? 'Deposit paid'}:',
-                    servicePrice: '\$$deposit',
+                    serviceName: AppLocalizations.of(context)?.depositPaid ?? 'Deposit paid:',
+                    servicePrice: '${getCurrency(_salonProfileProvider.chosenSalon.countryCode!)}$deposit',
                   ),
 
                   Padding(
@@ -235,7 +235,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                         Flexible(
                           flex: 1,
                           child: Text(
-                            '${AppLocalizations.of(context)?.total ?? 'Total'}:',
+                            AppLocalizations.of(context)?.total ?? 'Total:',
                             style: theme.textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w600,
                               fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 21.sp, 20.sp),
@@ -246,7 +246,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                         Flexible(
                           flex: 0,
                           child: Text(
-                            '\$$totalAmount',
+                            '${getCurrency(_salonProfileProvider.chosenSalon.countryCode!)}$totalAmount',
 
                             // '\$${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '0'}',
                             style: theme.textTheme.bodyMedium?.copyWith(

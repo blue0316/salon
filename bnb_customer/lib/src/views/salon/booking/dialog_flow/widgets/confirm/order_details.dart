@@ -128,19 +128,19 @@ class _OrderListState extends ConsumerState<OrderDetails> {
               ServiceNameAndPrice(
                 notService: true,
                 serviceName: AppLocalizations.of(context)?.total ?? "Total:",
-                servicePrice: '\$$totalAmount',
+                servicePrice: '${getCurrency(salonModel.countryCode!)}$totalAmount',
               ),
 
               ServiceNameAndPrice(
                 notService: true,
                 serviceName: AppLocalizations.of(context)?.payAtAppointment ?? "Pay at Appointment:",
-                servicePrice: '\$${double.parse(totalAmount) - deposit}',
+                servicePrice: '${getCurrency(salonModel.countryCode!)}${double.parse(totalAmount) - deposit}',
               ),
 
               ServiceNameAndPrice(
                 notService: true,
                 serviceName: AppLocalizations.of(context)?.depositToBook ?? "Deposit to book:",
-                servicePrice: '\$$deposit',
+                servicePrice: '${getCurrency(salonModel.countryCode!)}$deposit',
               ),
 
               Padding(
@@ -163,7 +163,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                     Flexible(
                       flex: 0,
                       child: Text(
-                        '\$$deposit', // totalAmount',
+                        '${getCurrency(salonModel.countryCode!)}$deposit', // totalAmount',
                         // '\$${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '0'}',
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w600,
@@ -288,6 +288,18 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                     DefaultButton(
                       borderRadius: 60,
                       onTap: () async {
+                        if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy) {
+                          if (!acceptTerms) {
+                            // Terms Checkbox is unchecked
+
+                            showToast(
+                              AppLocalizations.of(context)?.pleaseAcceptCancellationPolicy ?? "Please accept the cancellation policy",
+                            );
+
+                            return;
+                          }
+                        }
+
                         CustomerModel? currentCustomer = _auth.currentCustomer;
 
                         CustomerModel customer = CustomerModel(
@@ -548,7 +560,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                       color: dialogButtonColor(themeType, theme),
                       textColor: loaderColor(themeType),
                       height: 60,
-                      label: 'Pay ${(deposit != 0) ? deposit : totalAmount}\$ deposit',
+                      label: 'Pay ${(deposit != 0) ? deposit : totalAmount}${getCurrency(salonModel.countryCode!)} deposit',
                       // isLoading: _createAppointmentProvider.bookAppointmentStatus == Status.loading,
                       isLoading: spinner,
                       loaderColor: loaderColor(themeType),

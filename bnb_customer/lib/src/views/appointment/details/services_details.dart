@@ -135,22 +135,22 @@ class _ServiceDetailsState extends ConsumerState<ServiceDetails> {
                 const Divider(color: Color(0XFFCDCDCD)),
                 const SizedBox(height: 2),
                 RowInfo(
-                  title: 'Price:',
+                  title: '${AppLocalizations.of(context)?.price ?? 'Price'}:',
                   value: '${getCurrency(widget.salon.countryCode!)}${widget.service.priceAndDuration!.price}',
                 ),
                 const SizedBox(height: 2),
                 RowInfo(
-                  title: 'Duration:',
-                  value: '${widget.service.priceAndDuration!.duration} minutes',
+                  title: '${AppLocalizations.of(context)?.duration ?? 'Duration'}:',
+                  value: '${widget.service.priceAndDuration!.duration} ${AppLocalizations.of(context)?.minutes ?? 'minutes'}',
                 ),
                 const SizedBox(height: 2),
                 RowInfo(
-                  title: 'Master:',
+                  title: '${AppLocalizations.of(context)?.master ?? 'Master'}:',
                   value: widget.appointment.master?.name ?? '',
                 ),
                 const SizedBox(height: 2),
                 RowInfo(
-                  title: 'Phone number:',
+                  title: '${AppLocalizations.of(context)?.phoneNumber ?? 'Phone number'}:',
                   value: widget.salon.phoneNumber,
                 ),
               ],

@@ -1,5 +1,4 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
-import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/backend_codings/appointment.dart';
 import 'package:bbblient/src/models/enums/status.dart';
