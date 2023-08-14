@@ -841,5 +841,6 @@
  "noPhotosOfWorksAvailable":"NO PHOTOS OF WORKS AVAILABLE AT THE MOMENT",
  "followUs" : "Follow Us",
  "totalReviews" : "Total Reviews",
- "averageRating" : "Average Rating"
+ "averageRating" : "Average Rating",
+ "noPhotosAvailable" : "No photos added yet"
 }

@@ -1,6 +1,6 @@
 {
   "es": [
-    "followUs"
+    "noPhotosAvailable"
   ],
 
   "fr": [
@@ -94,10 +94,19 @@
     "anyone",
     "and",
     "others",
-    "pronounce"
+    "pronounce",
+    "noPhotosAvailable"
+  ],
+
+  "pt": [
+    "noPhotosAvailable"
+  ],
+
+  "ro": [
+    "noPhotosAvailable"
   ],
 
   "uk": [
-    "rating"
+    "noPhotosAvailable"
   ]
 }

@@ -59,4 +59,6 @@ class ThemeImages {
   static const minimalBackground = 'assets/themes/glam_one/images/glam_minimal_bg.png';
 
   static const writeAboutBG = 'assets/themes/glam_one/images/minimal_write.png';
+
+  static const noPhotos = 'assets/themes/glam_one/images/no_works.png';
 }
