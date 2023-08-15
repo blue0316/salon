@@ -3,6 +3,7 @@ import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
 import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_profile.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_reviews.dart';
+import 'package:bbblient/src/views/salon/master/new_master_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,7 +14,6 @@ import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:bbblient/src/utils/utils.dart';
-import 'package:bbblient/src/views/salon/master/master_profile.dart';
 import '../../../models/salon_master/master.dart';
 import 'widgets/section_spacer.dart';
 
@@ -37,170 +37,176 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
     bool isLightTheme = (theme == AppTheme.customLightTheme);
 
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          SectionSpacer(title: salonTitles(AppLocalizations.of(context)?.localeName ?? 'en')[2]),
-          Container(
-            // height: 1000.h,
-            width: double.infinity,
-            color: theme.canvasColor.withOpacity(0.7),
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.h),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 10.h),
-                    Center(
-                      child: Container(
-                        width: double.infinity,
-                        alignment: Alignment.center,
-                        child: ListView.builder(
-                          // padding: const EdgeInsets.symmetric(vertical: AppTheme.margin * 2),
+      child: !(_salonProfileProvider.showMasterView)
+          ? Column(
+              children: [
+                SectionSpacer(
+                  title: salonTitles(AppLocalizations.of(context)?.localeName ?? 'en')[2],
+                ),
+                Container(
+                  // height: 1000.h,
+                  width: double.infinity,
+                  color: theme.canvasColor.withOpacity(0.7),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.h),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 10.h),
+                          Center(
+                            child: Container(
+                              width: double.infinity,
+                              alignment: Alignment.center,
+                              child: ListView.builder(
+                                // padding: const EdgeInsets.symmetric(vertical: AppTheme.margin * 2),
 
-                          primary: false,
-                          shrinkWrap: true,
-                          itemCount: _salonSearchProvider.categories.length,
-                          itemBuilder: (context, index) {
-                            List<MasterModel> _filteredMasters = _createAppointmentProvider.salonMasters
-                                .where(
-                                  (element) => element.categoryIds!.contains(
-                                    _salonSearchProvider.categories[index].categoryId,
-                                  ),
-                                )
-                                .toList();
-
-                            if (_filteredMasters.isNotEmpty) {
-                              return Align(
-                                alignment: Alignment.center,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: AppTheme.margin * 1),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Row(
-                                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            '${_salonSearchProvider.categories[index].translations[AppLocalizations.of(context)?.localeName] ?? _salonSearchProvider.categories[index].translations['en']}'.toUpperCase(),
-                                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 15.sp,
-                                                  color: isLightTheme ? Colors.black : Colors.white,
-                                                ),
-                                          ),
-                                          const Spacer(),
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              color: isLightTheme ? const Color.fromARGB(255, 239, 239, 239) : theme.canvasColor,
-                                              borderRadius: BorderRadius.circular(50),
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                                              child: Text(
-                                                "${_filteredMasters.length} ${AppLocalizations.of(context)?.masters.toLowerCase() ?? "masters"}",
-                                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                                      fontSize: 12.sp,
-                                                      fontWeight: FontWeight.w600,
-                                                      color: theme.primaryColor,
-                                                    ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-
-                                      SizedBox(height: 30.h),
-
-                                      /// --- MASTER AVATAR ----
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: DeviceConstraints.getResponsiveSize(context, 5.w, 10.w, 30.w),
+                                primary: false,
+                                shrinkWrap: true,
+                                itemCount: _salonSearchProvider.categories.length,
+                                itemBuilder: (context, index) {
+                                  List<MasterModel> _filteredMasters = _createAppointmentProvider.salonMasters
+                                      .where(
+                                        (element) => element.categoryIds!.contains(
+                                          _salonSearchProvider.categories[index].categoryId,
                                         ),
-                                        child: Center(
-                                          child: Container(
-                                            height: DeviceConstraints.getResponsiveSize(context, 200.h, 200.h, 200.h),
-                                            alignment: Alignment.center,
-                                            child: ListView.builder(
-                                              itemCount: _filteredMasters.length,
-                                              physics: const ClampingScrollPhysics(),
-                                              shrinkWrap: true,
-                                              scrollDirection: Axis.horizontal,
-                                              itemBuilder: (context, index) {
-                                                List<String> masterCategoryIds = _filteredMasters[index].categoryIds!;
+                                      )
+                                      .toList();
 
-                                                // Find Master Service
-                                                // a master might have multiple services (but I just picked the first index to show on landing page)
-                                                List<CategoryModel> categories = _salonSearchProvider.categories; // All available Categories
+                                  if (_filteredMasters.isNotEmpty) {
+                                    return Align(
+                                      alignment: Alignment.center,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(top: AppTheme.margin * 1),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Row(
+                                              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  '${_salonSearchProvider.categories[index].translations[AppLocalizations.of(context)?.localeName] ?? _salonSearchProvider.categories[index].translations['en']}'.toUpperCase(),
+                                                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 15.sp,
+                                                        color: isLightTheme ? Colors.black : Colors.white,
+                                                      ),
+                                                ),
+                                                const Spacer(),
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                    color: isLightTheme ? const Color.fromARGB(255, 239, 239, 239) : theme.canvasColor,
+                                                    borderRadius: BorderRadius.circular(50),
+                                                  ),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                                                    child: Text(
+                                                      "${_filteredMasters.length} ${AppLocalizations.of(context)?.masters.toLowerCase() ?? "masters"}",
+                                                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                                            fontSize: 12.sp,
+                                                            fontWeight: FontWeight.w600,
+                                                            color: theme.primaryColor,
+                                                          ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
 
-                                                List<CategoryModel> masterCategories = [];
-                                                for (String id in masterCategoryIds) {
-                                                  masterCategories.add(categories.firstWhere((element) => element.categoryId == id));
-                                                }
+                                            SizedBox(height: 30.h),
 
-                                                return Align(
+                                            /// --- MASTER AVATAR ----
+                                            Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                horizontal: DeviceConstraints.getResponsiveSize(context, 5.w, 10.w, 30.w),
+                                              ),
+                                              child: Center(
+                                                child: Container(
+                                                  height: DeviceConstraints.getResponsiveSize(context, 200.h, 200.h, 200.h),
                                                   alignment: Alignment.center,
-                                                  child: Center(
-                                                    child: Padding(
-                                                      padding: EdgeInsets.only(right: 5.w), // (left: 40.0.w, right: 8.w),
-                                                      child: GestureDetector(
-                                                        behavior: HitTestBehavior.translucent,
-                                                        key: const ValueKey("tap-master"),
-                                                        onTap: () {
-                                                          _createAppointmentProvider.setMaster(
-                                                            masterModel: _filteredMasters[index],
-                                                            categories: _salonSearchProvider.categories,
-                                                          );
-                                                          Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                              builder: (context) => MasterProfile(
-                                                                salonModel: widget.salonModel,
-                                                                masterModel: _filteredMasters[index],
+                                                  child: ListView.builder(
+                                                    itemCount: _filteredMasters.length,
+                                                    physics: const ClampingScrollPhysics(),
+                                                    shrinkWrap: true,
+                                                    scrollDirection: Axis.horizontal,
+                                                    itemBuilder: (context, index) {
+                                                      List<String> masterCategoryIds = _filteredMasters[index].categoryIds!;
+
+                                                      // Find Master Service
+                                                      // a master might have multiple services (but I just picked the first index to show on landing page)
+                                                      List<CategoryModel> categories = _salonSearchProvider.categories; // All available Categories
+
+                                                      List<CategoryModel> masterCategories = [];
+                                                      for (String id in masterCategoryIds) {
+                                                        masterCategories.add(categories.firstWhere((element) => element.categoryId == id));
+                                                      }
+
+                                                      return Align(
+                                                        alignment: Alignment.center,
+                                                        child: Center(
+                                                          child: Padding(
+                                                            padding: EdgeInsets.only(right: 5.w), // (left: 40.0.w, right: 8.w),
+                                                            child: GestureDetector(
+                                                              behavior: HitTestBehavior.translucent,
+                                                              key: const ValueKey("tap-master"),
+                                                              onTap: () {
+                                                                _createAppointmentProvider.setMaster(
+                                                                  masterModel: _filteredMasters[index],
+                                                                  categories: _salonSearchProvider.categories,
+                                                                );
+                                                                _salonProfileProvider.switchMasterView();
+
+                                                                // Navigator.push(
+                                                                //   context,
+                                                                //   MaterialPageRoute(
+                                                                //     builder: (context) => MasterProfile(
+                                                                //       salonModel: widget.salonModel,
+                                                                //       masterModel: _filteredMasters[index],
+                                                                //       categories: masterCategories,
+                                                                //     ),
+                                                                //   ),
+                                                                // );
+                                                              },
+                                                              child: MasterAvatar(
+                                                                personImageUrl: _filteredMasters[index].profilePicUrl,
+                                                                personName: Utils().getNameMaster(_filteredMasters[index].personalInfo),
+                                                                rating: _filteredMasters[index].avgRating,
                                                                 categories: masterCategories,
                                                               ),
                                                             ),
-                                                          );
-                                                        },
-                                                        child: MasterAvatar(
-                                                          personImageUrl: _filteredMasters[index].profilePicUrl,
-                                                          personName: Utils().getNameMaster(_filteredMasters[index].personalInfo),
-                                                          rating: _filteredMasters[index].avgRating,
-                                                          categories: masterCategories,
+                                                          ),
                                                         ),
-                                                      ),
-                                                    ),
+                                                      );
+                                                    },
                                                   ),
-                                                );
-                                              },
+                                                ),
+                                              ),
                                             ),
-                                          ),
+                                            const Space(factor: 2.5),
+                                            const GradientDivider(),
+                                            const Space(factor: 2.5),
+                                          ],
                                         ),
                                       ),
-                                      const Space(factor: 2.5),
-                                      const GradientDivider(),
-                                      const Space(factor: 2.5),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            } else {
-                              return const SizedBox();
-                            }
-                          },
-                        ),
+                                    );
+                                  } else {
+                                    return const SizedBox();
+                                  }
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          ),
-        ],
-      ),
+              ],
+            )
+          : const SalonMasterView(),
     );
   }
 }

@@ -1,6 +1,7 @@
 {
   "es": [
-    "noPhotosAvailable"
+    "noPhotosAvailable",
+    "portfolio"
   ],
 
   "fr": [
@@ -95,18 +96,22 @@
     "and",
     "others",
     "pronounce",
-    "noPhotosAvailable"
+    "noPhotosAvailable",
+    "portfolio"
   ],
 
   "pt": [
-    "noPhotosAvailable"
+    "noPhotosAvailable",
+    "portfolio"
   ],
 
   "ro": [
-    "noPhotosAvailable"
+    "noPhotosAvailable",
+    "portfolio"
   ],
 
   "uk": [
-    "noPhotosAvailable"
+    "noPhotosAvailable",
+    "portfolio"
   ]
 }

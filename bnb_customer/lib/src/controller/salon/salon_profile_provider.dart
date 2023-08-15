@@ -46,7 +46,7 @@ class SalonProfileProvider with ChangeNotifier {
   CustomerWebSettings? themeSettings;
   ThemeData salonTheme = AppTheme.initial;
   bool isSingleMaster = false;
-  // String? theme;
+  bool showMasterView = false;
 
   ThemeType themeType = ThemeType.DefaultLight;
 
@@ -76,6 +76,11 @@ class SalonProfileProvider with ChangeNotifier {
     }
     notifyListeners();
     return chosenSalon;
+  }
+
+  void switchMasterView() {
+    showMasterView = !showMasterView;
+    notifyListeners();
   }
 
   Widget getTheme() {

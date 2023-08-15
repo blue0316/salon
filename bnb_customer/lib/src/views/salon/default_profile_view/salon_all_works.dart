@@ -4,7 +4,6 @@ import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_profile.dart';
 import 'package:bbblient/src/views/themes/components/widgets/image_preview.dart';
-import 'package:bbblient/src/views/themes/glam_one/core/utils/prev_and_next.dart';
 import 'package:bbblient/src/views/themes/images.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -36,14 +35,6 @@ class _SalonAllWorksState extends ConsumerState<SalonAllWorks> {
     init();
   }
 
-  List<PhotosOfWorks> first = [];
-  List<PhotosOfWorks> second = [];
-  List<PhotosOfWorks> third = [];
-  List<PhotosOfWorks> fourth = [];
-  List<PhotosOfWorks> fifth = [];
-  List<PhotosOfWorks> sixth = [];
-  List<PhotosOfWorks> seventh = [];
-
   init() {
     if (widget.salonModel.photosOfWorks != null && widget.salonModel.photosOfWorks!.isNotEmpty) {
       setState(() {
@@ -62,7 +53,7 @@ class _SalonAllWorksState extends ConsumerState<SalonAllWorks> {
     bool isSingleMaster = _salonProfileProvider.isSingleMaster;
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool isLightTheme = (theme == AppTheme.customLightTheme);
+    // bool isLightTheme = (theme == AppTheme.customLightTheme);
 
     return SingleChildScrollView(
       physics: const NeverScrollableScrollPhysics(),
@@ -399,8 +390,7 @@ class _SalonAllWorksState extends ConsumerState<SalonAllWorks> {
                                   ),
                                   SizedBox(height: 20.sp),
                                   Text(
-                                    // AppLocalizations.of(context)?.noPhotosAvailable ??
-                                    'No photos added yet',
+                                    AppLocalizations.of(context)?.noPhotosAvailable ?? 'No photos added yet',
                                     style: theme.textTheme.displayLarge!.copyWith(
                                       fontSize: 16.sp,
                                       color: const Color(0XFFBDBDBD), // isLightTheme ? Colors.black : Colors.white,

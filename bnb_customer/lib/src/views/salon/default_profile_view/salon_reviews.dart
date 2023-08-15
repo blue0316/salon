@@ -15,8 +15,14 @@ import 'package:bbblient/src/views/salon/widgets/review_description.dart';
 class ReviewSection extends ConsumerStatefulWidget {
   final List<ReviewModel> reviews;
   final double avgRating;
+  final bool isFromMasterView;
 
-  const ReviewSection({Key? key, required this.reviews, this.avgRating = 0}) : super(key: key);
+  const ReviewSection({
+    Key? key,
+    required this.reviews,
+    this.avgRating = 0,
+    this.isFromMasterView = false,
+  }) : super(key: key);
 
   @override
   ConsumerState<ReviewSection> createState() => _ReviewSectionState();
@@ -41,45 +47,50 @@ class _ReviewSectionState extends ConsumerState<ReviewSection> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(
-                  (AppLocalizations.of(context)?.reviews ?? "Reviews").toCapitalized(),
-                  style: theme.textTheme.bodyLarge!.copyWith(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.sp,
-                    color: isLightTheme ? Colors.black : Colors.white,
+                if (!widget.isFromMasterView)
+                  Text(
+                    (AppLocalizations.of(context)?.reviews ?? "Reviews").toCapitalized(),
+                    style: theme.textTheme.bodyLarge!.copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.sp,
+                      color: isLightTheme ? Colors.black : Colors.white,
+                    ),
                   ),
-                ),
-                SizedBox(height: 30.sp),
+                if (!widget.isFromMasterView) SizedBox(height: 30.sp),
 
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    TotalReviewsCount(
-                      count: widget.reviews.length,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.w),
-                      child: const VerticalGradientDivider(),
-                    ),
-                    AverageReviewsCount(
-                      count: widget.avgRating.toStringAsFixed(1),
-                      avgRating: widget.avgRating,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.w),
-                      child: const VerticalGradientDivider(),
-                    ),
-                    NewDistributedRating(
-                      allReviews: widget.reviews,
-                    ),
-                  ],
-                ),
+                if (!widget.isFromMasterView)
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      TotalReviewsCount(
+                        count: widget.reviews.length,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.w),
+                        child: const VerticalGradientDivider(),
+                      ),
+                      AverageReviewsCount(
+                        count: widget.avgRating.toStringAsFixed(1),
+                        avgRating: widget.avgRating,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.w),
+                        child: const VerticalGradientDivider(),
+                      ),
+                      NewDistributedRating(
+                        allReviews: widget.reviews,
+                      ),
+                    ],
+                  ),
 
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 40.sp),
-                  child: const GradientDivider(),
-                ),
+                if (!widget.isFromMasterView)
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 40.sp),
+                    child: const GradientDivider(),
+                  ),
+
+                if (widget.isFromMasterView) SizedBox(height: 20.sp),
 
                 // All reviews
                 Row(
@@ -268,8 +279,9 @@ class TotalReviewsCount extends ConsumerWidget {
 class PortraitReviewView extends ConsumerStatefulWidget {
   final List<ReviewModel> reviews;
   final double avgRating;
+  final bool isFromMasterView;
 
-  const PortraitReviewView({Key? key, required this.reviews, this.avgRating = 0}) : super(key: key);
+  const PortraitReviewView({Key? key, required this.reviews, this.avgRating = 0, this.isFromMasterView = false}) : super(key: key);
 
   @override
   ConsumerState<PortraitReviewView> createState() => _PortraitReviewViewState();
@@ -292,43 +304,51 @@ class _PortraitReviewViewState extends ConsumerState<PortraitReviewView> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(
-            (AppLocalizations.of(context)?.reviews ?? "Reviews").toCapitalized(),
-            style: theme.textTheme.bodyLarge!.copyWith(
-              fontWeight: FontWeight.bold,
-              fontSize: 20.sp,
-              color: isLightTheme ? Colors.black : Colors.white,
+          if (!widget.isFromMasterView)
+            Text(
+              (AppLocalizations.of(context)?.reviews ?? "Reviews").toCapitalized(),
+              style: theme.textTheme.bodyLarge!.copyWith(
+                fontWeight: FontWeight.bold,
+                fontSize: 20.sp,
+                color: isLightTheme ? Colors.black : Colors.white,
+              ),
             ),
-          ),
-          SizedBox(height: 30.sp),
+          if (!widget.isFromMasterView) SizedBox(height: 30.sp),
 
-          TotalReviewsCount(
-            count: widget.reviews.length,
-          ),
+          if (!widget.isFromMasterView)
+            TotalReviewsCount(
+              count: widget.reviews.length,
+            ),
 
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 25.sp),
-            child: const GradientDivider(),
-          ),
+          if (!widget.isFromMasterView)
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 25.sp),
+              child: const GradientDivider(),
+            ),
 
-          AverageReviewsCount(
-            count: widget.avgRating.toStringAsFixed(1),
-            avgRating: widget.avgRating,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 25.sp),
-            child: const GradientDivider(),
-          ),
+          if (!widget.isFromMasterView)
+            AverageReviewsCount(
+              count: widget.avgRating.toStringAsFixed(1),
+              avgRating: widget.avgRating,
+            ),
+          if (!widget.isFromMasterView)
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 25.sp),
+              child: const GradientDivider(),
+            ),
 
-          NewDistributedRating(
-            allReviews: widget.reviews,
-          ),
+          if (!widget.isFromMasterView)
+            NewDistributedRating(
+              allReviews: widget.reviews,
+            ),
 
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 25.sp),
-            child: const GradientDivider(),
-          ),
+          if (!widget.isFromMasterView)
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 25.sp),
+              child: const GradientDivider(),
+            ),
 
+          if (widget.isFromMasterView) SizedBox(height: 20.sp),
           // All reviews
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,

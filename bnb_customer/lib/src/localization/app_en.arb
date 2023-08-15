@@ -842,5 +842,6 @@
  "followUs" : "Follow Us",
  "totalReviews" : "Total Reviews",
  "averageRating" : "Average Rating",
- "noPhotosAvailable" : "No photos added yet"
+ "noPhotosAvailable" : "No photos added yet",
+ "portfolio": "Portfolio"
 }
