@@ -180,6 +180,7 @@ class _ReviewSectionState extends ConsumerState<ReviewSection> {
         : PortraitReviewView(
             reviews: widget.reviews,
             avgRating: widget.avgRating,
+            isFromMasterView: widget.isFromMasterView,
           );
   }
 }
@@ -385,7 +386,7 @@ class _PortraitReviewViewState extends ConsumerState<PortraitReviewView> {
                               width: DeviceConstraints.getResponsiveSize(context, 150, 200, 200),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(50),
-                                color: const Color(0XFF000000),
+                                color: theme.primaryColor, // const Color(0XFF000000),
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 10),
@@ -437,36 +438,65 @@ class _PortraitReviewViewState extends ConsumerState<PortraitReviewView> {
   }
 }
 
-class GradientDivider extends StatelessWidget {
+class GradientDivider extends ConsumerWidget {
   const GradientDivider({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final _salonProfileProvider = ref.watch(salonProfileProvider);
+
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+    bool isLightTheme = (theme == AppTheme.customLightTheme);
+
     return Container(
       width: double.infinity,
       height: 1.5.sp,
-      decoration: const BoxDecoration(
-        color: Colors.white,
+      decoration: BoxDecoration(
+        color: !isLightTheme ? Colors.white : null,
         gradient: LinearGradient(
-          colors: [Color.fromARGB(43, 74, 74, 74), Color(0XFF4A4A4A), Color.fromARGB(43, 74, 74, 74)],
-        ),
+            colors: !isLightTheme
+                ? [
+                    const Color.fromARGB(43, 74, 74, 74),
+                    const Color(0XFF4A4A4A),
+                    const Color.fromARGB(43, 74, 74, 74),
+                  ]
+                : [
+                    const Color(0XFFE0E0E0),
+                    const Color(0XFFE0E0E0),
+                    const Color(0XFFE0E0E0),
+                  ]),
       ),
     );
   }
 }
 
-class VerticalGradientDivider extends StatelessWidget {
+class VerticalGradientDivider extends ConsumerWidget {
   const VerticalGradientDivider({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final _salonProfileProvider = ref.watch(salonProfileProvider);
+
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+    bool isLightTheme = (theme == AppTheme.customLightTheme);
+
     return Container(
       height: 120.h,
       width: 1.5.sp,
-      decoration: const BoxDecoration(
-        color: Colors.white,
+      decoration: BoxDecoration(
+        color: !isLightTheme ? Colors.white : null,
         gradient: LinearGradient(
-          colors: [Color.fromARGB(43, 74, 74, 74), Color(0XFF4A4A4A), Color.fromARGB(43, 74, 74, 74)],
+          colors: !isLightTheme
+              ? [
+                  const Color.fromARGB(43, 74, 74, 74),
+                  const Color(0XFF4A4A4A),
+                  const Color.fromARGB(43, 74, 74, 74),
+                ]
+              : [
+                  const Color(0XFFE0E0E0),
+                  const Color(0XFFE0E0E0),
+                  const Color(0XFFE0E0E0),
+                ],
         ),
       ),
     );

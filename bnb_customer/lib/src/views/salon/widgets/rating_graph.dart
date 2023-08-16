@@ -269,7 +269,7 @@ class _NewDistributedRatingState extends ConsumerState<NewDistributedRating> {
                   height: 5.sp,
                   width: 100.0 * (totalCount == 0 ? 0 : (rating / totalCount)),
                   decoration: BoxDecoration(
-                    color: isLightTheme ? const Color(0XFFF49071) : const Color(0XFFFFA755),
+                    color: theme.primaryColor,
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),

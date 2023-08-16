@@ -148,7 +148,7 @@ class BnbRatings extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return RatingBar.builder(
-      unratedColor: unratedColor ?? Colors.white, // Changed to reflect properly on Booking Dialog
+      unratedColor: unratedColor ?? Colors.grey[350], // Changed to reflect properly on Booking Dialog
       initialRating: rating,
       minRating: 0,
       direction: Axis.horizontal,

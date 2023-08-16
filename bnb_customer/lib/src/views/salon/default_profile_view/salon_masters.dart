@@ -46,7 +46,7 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
                 Container(
                   // height: 1000.h,
                   width: double.infinity,
-                  color: theme.canvasColor.withOpacity(0.7),
+                  color: theme.canvasColor.withOpacity(!isLightTheme ? 0.7 : 1),
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.h),
                     child: SingleChildScrollView(
@@ -98,8 +98,9 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
                                                 const Spacer(),
                                                 Container(
                                                   decoration: BoxDecoration(
-                                                    color: isLightTheme ? const Color.fromARGB(255, 239, 239, 239) : theme.canvasColor,
+                                                    color: isLightTheme ? Colors.white : theme.canvasColor,
                                                     borderRadius: BorderRadius.circular(50),
+                                                    border: isLightTheme ? Border.all(color: const Color(0XFFD9D9D9)) : null,
                                                   ),
                                                   child: Padding(
                                                     padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),

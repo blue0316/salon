@@ -57,7 +57,7 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
           Container(
             // height: 1000.h,
             width: double.infinity,
-            color: theme.canvasColor.withOpacity(0.7),
+            color: theme.canvasColor.withOpacity(!isLightTheme ? 0.7 : 1),
             child: Padding(
               padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 40.h, bottom: 20.h),
               child: Column(
@@ -300,7 +300,7 @@ class SocialLink2 extends ConsumerWidget {
                     : SvgPicture.asset(
                         icon,
                         height: 25.h,
-                        color: isLightTheme ? null : theme.primaryColor,
+                        color: theme.primaryColor,
                       ),
           ),
         ),

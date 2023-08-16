@@ -184,14 +184,14 @@ class _MasterAboutHeaderPortraitState extends ConsumerState<MasterAboutHeaderPor
         ),
         SizedBox(height: 7.sp),
         Text(
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus tellustellus eit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla ',
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit.ur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tel ur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tel ur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tel ur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis telur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tel ur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tel ur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tel Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus tellustellus eit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla ',
           style: theme.textTheme.displayMedium!.copyWith(
             fontWeight: FontWeight.normal,
             fontSize: 15.sp,
             color: isLightTheme ? Colors.black : const Color(0XFFB1B1B1),
           ),
-          // maxLines: 8,
-          // overflow: TextOverflow.ellipsis,
+          maxLines: 8,
+          overflow: TextOverflow.ellipsis,
         ),
         // FollowUs(
         //   masterModel: widget.masterModel,

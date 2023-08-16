@@ -73,7 +73,7 @@ class AppTheme {
   static const Color bookingBlack = Color(0xff0A0A0A);
   static const Color bookingWhite = Color(0xffF5F5F5);
   static const Color bookingGray = Color(0xff9D9D9D);
-  static const Color bookingYellow = Color(0xffFBC844);
+  static const Color bookingYellow = Color(0xffF1B81B);
   static const Color fontColor = black2;
 
   static const Color master2 = divider;
@@ -251,9 +251,9 @@ class AppTheme {
   );
 
   static final ThemeData customLightTheme = ThemeData(
-    primaryColor: Colors.black,
-    dialogBackgroundColor: primaryLightThemeColor,
-    canvasColor: primaryLightThemeColor,
+    primaryColor: primaryLightThemeColor, // Colors.black,
+    dialogBackgroundColor: Colors.white, // primaryLightThemeColor,
+    canvasColor: Colors.white, // primaryLightThemeColor,
 
     tabBarTheme: TabBarTheme(
       unselectedLabelColor: Colors.black,

@@ -92,7 +92,7 @@ class _SalonMasterViewState extends ConsumerState<SalonMasterView> {
                           child: Container(
                             height: 45.h,
                             // width: 70.w,
-                            color: theme.canvasColor.withOpacity(0.5),
+                            color: theme.canvasColor.withOpacity(!isLightTheme ? 0.5 : 1),
                             margin: EdgeInsets.symmetric(horizontal: 0, vertical: 20.h),
 
                             child: Padding(
@@ -129,7 +129,7 @@ class _SalonMasterViewState extends ConsumerState<SalonMasterView> {
             Container(
               width: double.infinity,
               color: theme.canvasColor.withOpacity(0.7),
-              height: 3700.h,
+              height: 2500.h,
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.h),
                 child: SingleChildScrollView(
@@ -140,7 +140,7 @@ class _SalonMasterViewState extends ConsumerState<SalonMasterView> {
                     children: [
                       SizedBox(height: 10.h),
                       SizedBox(
-                        height: !isPortrait ? null : 650.h,
+                        height: !isPortrait ? null : 600.h,
                         child: !isPortrait
                             ? MasterAboutHeaderLandscape(
                                 masterModel: _createAppointmentProvider.chosenMaster!,
@@ -156,7 +156,7 @@ class _SalonMasterViewState extends ConsumerState<SalonMasterView> {
                         tilePadding: EdgeInsets.zero,
                         childrenPadding: EdgeInsets.zero,
                         trailing: const SizedBox.shrink(),
-                        backgroundColor: const Color(0XFF0A0A0A).withOpacity(0.6),
+                        backgroundColor: Colors.transparent, // const Color(0XFF0A0A0A).withOpacity(0.6),
                         // onExpansionChanged: (bool val) {
                         //   setState(() => isExpanded = !isExpanded);
                         // },
@@ -224,7 +224,7 @@ class _SalonMasterViewState extends ConsumerState<SalonMasterView> {
                         tilePadding: EdgeInsets.zero,
                         childrenPadding: EdgeInsets.zero,
                         trailing: const SizedBox.shrink(),
-                        backgroundColor: const Color(0XFF0A0A0A).withOpacity(0.6),
+                        backgroundColor: Colors.transparent, // const Color(0XFF0A0A0A).withOpacity(0.6),
                         title: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -252,13 +252,13 @@ class _SalonMasterViewState extends ConsumerState<SalonMasterView> {
                         ),
                         children: [
                           Container(
-                            height: (_createAppointmentProvider.chosenMaster!.photosOfWork != null && _createAppointmentProvider.chosenMaster!.photosOfWork!.isNotEmpty)
-                                ? 400.h
+                            height: !(_createAppointmentProvider.chosenMaster!.photosOfWork != null && _createAppointmentProvider.chosenMaster!.photosOfWork!.isNotEmpty)
+                                ? 300.h
                                 : isPortrait
-                                    ? 4400.h
+                                    ? 1500.h
                                     : null, // 1000.h,
                             width: double.infinity,
-                            color: theme.canvasColor.withOpacity(0.7),
+                            color: theme.canvasColor.withOpacity(!isLightTheme ? 0.5 : 1),
                             child: Padding(
                               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
                               child: SingleChildScrollView(
@@ -267,193 +267,184 @@ class _SalonMasterViewState extends ConsumerState<SalonMasterView> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    !(_createAppointmentProvider.chosenMaster!.photosOfWork != null && _createAppointmentProvider.chosenMaster!.photosOfWork!.isNotEmpty)
-                                        ? Column(
-                                            children: [
-                                              !isPortrait
-                                                  ? Column(
-                                                      children: [
-                                                        CarouselSlider(
-                                                          carouselController: _controller,
-                                                          options: CarouselOptions(
-                                                            scrollPhysics: const AlwaysScrollableScrollPhysics(),
-                                                            autoPlay: false,
-                                                            pauseAutoPlayOnTouch: true,
-                                                            viewportFraction: DeviceConstraints.getResponsiveSize(context, 1, 0.4, 0.34),
-                                                            height: DeviceConstraints.getResponsiveSize(context, 280.h, 300.h, 320.h),
-                                                          ),
-                                                          items: _createAppointmentProvider.chosenMaster!.photosOfWork!.map((item) {
-                                                            String image = item;
-                                                            if (image.isNotEmpty) {
-                                                              return GestureDetector(
-                                                                onTap: () {
-                                                                  Navigator.push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                      builder: (context) => ImagePreview(
-                                                                        imageUrls: [item],
-                                                                        index: _createAppointmentProvider.chosenMaster!.photosOfWork!.indexOf(item),
-                                                                      ),
-                                                                    ),
-                                                                  );
-                                                                },
-                                                                child: Padding(
-                                                                  padding: EdgeInsets.only(right: 20.sp),
-                                                                  child: Column(
-                                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                                    children: [
-                                                                      Expanded(
-                                                                        child: CachedImage(
-                                                                          width: DeviceConstraints.getResponsiveSize(
-                                                                            context,
-                                                                            size.width - 20.w,
-                                                                            ((size.width / 2)), // size.width - 20.w,
-                                                                            (size.width / 3) - 20, // 200.w,
-                                                                          ),
-                                                                          url: item,
-                                                                          fit: BoxFit.cover,
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              );
-                                                            } else {
-                                                              return const SizedBox();
-                                                            }
-                                                          }).toList(),
-                                                        ),
-                                                        SizedBox(height: 30.sp),
-                                                        Row(
-                                                          crossAxisAlignment: CrossAxisAlignment.end,
-                                                          mainAxisAlignment: MainAxisAlignment.end,
-                                                          children: [
-                                                            GestureDetector(
-                                                              onTap: () => _controller.previousPage(),
-                                                              child: Container(
-                                                                height: 41.h,
-                                                                width: 41.h,
-                                                                decoration: BoxDecoration(
-                                                                  shape: BoxShape.circle,
-                                                                  color: const Color(0XFFFFFFFF).withOpacity(0.1),
-                                                                ),
-                                                                child: const Icon(Icons.chevron_left_outlined, color: Colors.white),
-                                                              ),
-                                                            ),
-                                                            SizedBox(width: 10.w),
-                                                            GestureDetector(
-                                                              onTap: () => _controller.nextPage(),
-                                                              child: Container(
-                                                                height: 41.h,
-                                                                width: 41.h,
-                                                                decoration: BoxDecoration(
-                                                                  shape: BoxShape.circle,
-                                                                  color: const Color(0XFFFFFFFF).withOpacity(0.1),
-                                                                ),
-                                                                child: const Icon(Icons.chevron_right_outlined, color: Colors.white),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ],
-                                                    )
-                                                  : Column(
-                                                      children: [
-                                                        SizedBox(
-                                                          height: 850.h,
-                                                          child: CarouselSlider(
-                                                            carouselController: _controller,
-                                                            options: CarouselOptions(
-                                                              scrollPhysics: const NeverScrollableScrollPhysics(),
-                                                              viewportFraction: DeviceConstraints.getResponsiveSize(context, 0.365, 0.4, 0.34),
-                                                              // height: DeviceConstraints.getResponsiveSize(context, 241.h, 250.h, 280.h),
-                                                              aspectRatio: 1,
-                                                              enlargeCenterPage: false,
-                                                              scrollDirection: Axis.vertical,
-                                                              enableInfiniteScroll: false, // this
-                                                              padEnds: false, // this
-                                                              autoPlay: false,
-                                                            ),
-                                                            items: _createAppointmentProvider.chosenMaster!.photosOfWork!.map((item) {
-                                                              // String image = item.image ?? '';
-
-                                                              return GestureDetector(
-                                                                onTap: () {
-                                                                  Navigator.push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                      builder: (context) => ImagePreview(
-                                                                        imageUrls: [item],
-                                                                        index: _createAppointmentProvider.chosenMaster!.photosOfWork!.indexOf(item),
-                                                                      ),
-                                                                    ),
-                                                                  );
-                                                                },
-                                                                child: Padding(
-                                                                  padding: EdgeInsets.only(bottom: 40.h),
-                                                                  child: Column(
-                                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                                    children: [
-                                                                      Expanded(
-                                                                        child: CachedImage(
-                                                                          // height: 300.h,
-                                                                          width: MediaQuery.of(context).size.width,
-
-                                                                          // height: DeviceConstraints.getResponsiveSize(
-                                                                          //   context,
-                                                                          //   size.width - 20.w,
-                                                                          //   ((size.width / 2)), // size.width - 20.w,
-                                                                          //   (size.width / 3) - 20, // 200.w,
-                                                                          // ),
-                                                                          url: item,
-                                                                          fit: BoxFit.cover,
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              );
-                                                            }).toList(),
-                                                          ),
-                                                        ),
-                                                        SizedBox(height: 30.sp),
-                                                        Row(
-                                                          crossAxisAlignment: CrossAxisAlignment.end,
-                                                          mainAxisAlignment: MainAxisAlignment.end,
-                                                          children: [
-                                                            GestureDetector(
-                                                              onTap: () => _controller.previousPage(),
-                                                              child: Container(
-                                                                height: 41.h,
-                                                                width: 41.h,
-                                                                decoration: BoxDecoration(
-                                                                  shape: BoxShape.circle,
-                                                                  color: const Color(0XFFFFFFFF).withOpacity(0.1),
-                                                                ),
-                                                                child: const Icon(Icons.chevron_left_outlined, color: Colors.white),
-                                                              ),
-                                                            ),
-                                                            SizedBox(width: 30.w),
-                                                            GestureDetector(
-                                                              onTap: () => _controller.nextPage(),
-                                                              child: Container(
-                                                                height: 41.h,
-                                                                width: 41.h,
-                                                                decoration: BoxDecoration(
-                                                                  shape: BoxShape.circle,
-                                                                  color: const Color(0XFFFFFFFF).withOpacity(0.1),
-                                                                ),
-                                                                child: const Icon(Icons.chevron_right_outlined, color: Colors.white),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ],
+                                    (_createAppointmentProvider.chosenMaster!.photosOfWork != null && _createAppointmentProvider.chosenMaster!.photosOfWork!.isNotEmpty)
+                                        ? !isPortrait
+                                            ? Column(
+                                                children: [
+                                                  CarouselSlider(
+                                                    carouselController: _controller,
+                                                    options: CarouselOptions(
+                                                      scrollPhysics: const AlwaysScrollableScrollPhysics(),
+                                                      autoPlay: false,
+                                                      pauseAutoPlayOnTouch: true,
+                                                      viewportFraction: DeviceConstraints.getResponsiveSize(context, 1, 0.4, 0.34),
+                                                      height: DeviceConstraints.getResponsiveSize(context, 280.h, 300.h, 320.h),
                                                     ),
-                                            ],
-                                          )
+                                                    items: _createAppointmentProvider.chosenMaster!.photosOfWork!.map((item) {
+                                                      return GestureDetector(
+                                                        onTap: () {
+                                                          Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                              builder: (context) => ImagePreview(
+                                                                imageUrls: [item],
+                                                                index: _createAppointmentProvider.chosenMaster!.photosOfWork!.indexOf(item),
+                                                              ),
+                                                            ),
+                                                          );
+                                                        },
+                                                        child: Padding(
+                                                          padding: EdgeInsets.only(right: 20.sp),
+                                                          child: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                            children: [
+                                                              Expanded(
+                                                                child: CachedImage(
+                                                                  width: DeviceConstraints.getResponsiveSize(
+                                                                    context,
+                                                                    size.width - 20.w,
+                                                                    ((size.width / 2)), // size.width - 20.w,
+                                                                    (size.width / 3) - 20, // 200.w,
+                                                                  ),
+                                                                  url: item,
+                                                                  fit: BoxFit.cover,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      );
+                                                    }).toList(),
+                                                  ),
+                                                  SizedBox(height: 30.sp),
+                                                  Row(
+                                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                                    mainAxisAlignment: MainAxisAlignment.end,
+                                                    children: [
+                                                      GestureDetector(
+                                                        onTap: () => _controller.previousPage(),
+                                                        child: Container(
+                                                          height: 41.h,
+                                                          width: 41.h,
+                                                          decoration: BoxDecoration(
+                                                            shape: BoxShape.circle,
+                                                            color: !isLightTheme ? const Color(0XFFFFFFFF).withOpacity(0.1) : const Color(0XFF000000).withOpacity(0.4),
+                                                          ),
+                                                          child: const Icon(Icons.chevron_left_outlined, color: Colors.white),
+                                                        ),
+                                                      ),
+                                                      SizedBox(width: 10.w),
+                                                      GestureDetector(
+                                                        onTap: () => _controller.nextPage(),
+                                                        child: Container(
+                                                          height: 41.h,
+                                                          width: 41.h,
+                                                          decoration: BoxDecoration(
+                                                            shape: BoxShape.circle,
+                                                            color: !isLightTheme ? const Color(0XFFFFFFFF).withOpacity(0.1) : const Color(0XFF000000).withOpacity(0.4),
+                                                          ),
+                                                          child: const Icon(Icons.chevron_right_outlined, color: Colors.white),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              )
+                                            : Column(
+                                                children: [
+                                                  SizedBox(
+                                                    height: 850.h,
+                                                    child: CarouselSlider(
+                                                      carouselController: _controller,
+                                                      options: CarouselOptions(
+                                                        scrollPhysics: const NeverScrollableScrollPhysics(),
+                                                        viewportFraction: DeviceConstraints.getResponsiveSize(context, 0.365, 0.4, 0.34),
+                                                        // height: DeviceConstraints.getResponsiveSize(context, 241.h, 250.h, 280.h),
+                                                        aspectRatio: 1,
+                                                        enlargeCenterPage: false,
+                                                        scrollDirection: Axis.vertical,
+                                                        enableInfiniteScroll: false, // this
+                                                        padEnds: false, // this
+                                                        autoPlay: false,
+                                                      ),
+                                                      items: _createAppointmentProvider.chosenMaster!.photosOfWork!.map((item) {
+                                                        // String image = item.image ?? '';
+
+                                                        return GestureDetector(
+                                                          onTap: () {
+                                                            Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                builder: (context) => ImagePreview(
+                                                                  imageUrls: [item],
+                                                                  index: _createAppointmentProvider.chosenMaster!.photosOfWork!.indexOf(item),
+                                                                ),
+                                                              ),
+                                                            );
+                                                          },
+                                                          child: Padding(
+                                                            padding: EdgeInsets.only(bottom: 40.h),
+                                                            child: Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                              children: [
+                                                                Expanded(
+                                                                  child: CachedImage(
+                                                                    // height: 300.h,
+                                                                    width: MediaQuery.of(context).size.width,
+
+                                                                    // height: DeviceConstraints.getResponsiveSize(
+                                                                    //   context,
+                                                                    //   size.width - 20.w,
+                                                                    //   ((size.width / 2)), // size.width - 20.w,
+                                                                    //   (size.width / 3) - 20, // 200.w,
+                                                                    // ),
+                                                                    url: item,
+                                                                    fit: BoxFit.cover,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        );
+                                                      }).toList(),
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 30.sp),
+                                                  Row(
+                                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                                    mainAxisAlignment: MainAxisAlignment.end,
+                                                    children: [
+                                                      GestureDetector(
+                                                        onTap: () => _controller.previousPage(),
+                                                        child: Container(
+                                                          height: 41.h,
+                                                          width: 41.h,
+                                                          decoration: BoxDecoration(
+                                                            shape: BoxShape.circle,
+                                                            color: !isLightTheme ? const Color(0XFFFFFFFF).withOpacity(0.1) : const Color(0XFF000000).withOpacity(0.4),
+                                                          ),
+                                                          child: const Icon(Icons.chevron_left_outlined, color: Colors.white),
+                                                        ),
+                                                      ),
+                                                      SizedBox(width: 30.w),
+                                                      GestureDetector(
+                                                        onTap: () => _controller.nextPage(),
+                                                        child: Container(
+                                                          height: 41.h,
+                                                          width: 41.h,
+                                                          decoration: BoxDecoration(
+                                                            shape: BoxShape.circle,
+                                                            color: !isLightTheme ? const Color(0XFFFFFFFF).withOpacity(0.1) : const Color(0XFF000000).withOpacity(0.4),
+                                                          ),
+                                                          child: const Icon(Icons.chevron_right_outlined, color: Colors.white),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              )
                                         : Padding(
                                             padding: EdgeInsets.only(top: 30.h),
                                             child: Center(
@@ -494,7 +485,7 @@ class _SalonMasterViewState extends ConsumerState<SalonMasterView> {
                         tilePadding: EdgeInsets.zero,
                         childrenPadding: EdgeInsets.zero,
                         trailing: const SizedBox.shrink(),
-                        backgroundColor: const Color(0XFF0A0A0A).withOpacity(0.6),
+                        backgroundColor: Colors.transparent, // const Color(0XFF0A0A0A).withOpacity(0.6),
                         title: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

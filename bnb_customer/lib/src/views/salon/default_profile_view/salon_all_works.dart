@@ -53,7 +53,7 @@ class _SalonAllWorksState extends ConsumerState<SalonAllWorks> {
     bool isSingleMaster = _salonProfileProvider.isSingleMaster;
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    // bool isLightTheme = (theme == AppTheme.customLightTheme);
+    bool isLightTheme = (theme == AppTheme.customLightTheme);
 
     return SingleChildScrollView(
       physics: const NeverScrollableScrollPhysics(),
@@ -69,13 +69,13 @@ class _SalonAllWorksState extends ConsumerState<SalonAllWorks> {
                   )[2],
           ),
           Container(
-            height: (widget.salonModel.photosOfWorks != null && widget.salonModel.photosOfWorks!.isNotEmpty)
-                ? 400.h
+            height: !(widget.salonModel.photosOfWorks != null && widget.salonModel.photosOfWorks!.isNotEmpty)
+                ? 300.h
                 : isPortrait
-                    ? 4400.h
+                    ? 1500.h
                     : null, // 1000.h,
             width: double.infinity,
-            color: theme.canvasColor.withOpacity(0.7),
+            color: theme.canvasColor.withOpacity(!isLightTheme ? 0.7 : 1),
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
               child: SingleChildScrollView(
@@ -84,7 +84,7 @@ class _SalonAllWorksState extends ConsumerState<SalonAllWorks> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    !(widget.salonModel.photosOfWorks != null && widget.salonModel.photosOfWorks!.isNotEmpty)
+                    (widget.salonModel.photosOfWorks != null && widget.salonModel.photosOfWorks!.isNotEmpty)
                         ? Column(
                             children: [
                               Column(
@@ -106,7 +106,7 @@ class _SalonAllWorksState extends ConsumerState<SalonAllWorks> {
                                     style: theme.textTheme.bodyLarge!.copyWith(
                                       fontWeight: FontWeight.normal,
                                       fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 15.sp),
-                                      color: const Color(0XFFBDBDBD), // isLightTheme ? Colors.black : Colors.white,
+                                      color: !isLightTheme ? const Color(0XFFBDBDBD) : const Color(0XFF373737),
                                     ),
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
@@ -167,7 +167,7 @@ class _SalonAllWorksState extends ConsumerState<SalonAllWorks> {
                                                         style: theme.textTheme.bodyLarge!.copyWith(
                                                           fontWeight: FontWeight.normal,
                                                           fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 15.sp),
-                                                          color: const Color(0XFFBDBDBD), //  isLightTheme ? Colors.black : Colors.white,
+                                                          color: !isLightTheme ? const Color(0XFFBDBDBD) : const Color(0XFF373737),
                                                         ),
                                                         maxLines: 2,
                                                         overflow: TextOverflow.ellipsis,
@@ -193,7 +193,7 @@ class _SalonAllWorksState extends ConsumerState<SalonAllWorks> {
                                                 width: 41.h,
                                                 decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
-                                                  color: const Color(0XFFFFFFFF).withOpacity(0.1),
+                                                  color: !isLightTheme ? const Color(0XFFFFFFFF).withOpacity(0.1) : const Color(0XFF000000).withOpacity(0.4),
                                                 ),
                                                 child: const Icon(Icons.chevron_left_outlined, color: Colors.white),
                                               ),
@@ -206,7 +206,7 @@ class _SalonAllWorksState extends ConsumerState<SalonAllWorks> {
                                                 width: 41.h,
                                                 decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
-                                                  color: const Color(0XFFFFFFFF).withOpacity(0.1),
+                                                  color: !isLightTheme ? const Color(0XFFFFFFFF).withOpacity(0.1) : const Color(0XFF000000).withOpacity(0.4),
                                                 ),
                                                 child: const Icon(Icons.chevron_right_outlined, color: Colors.white),
                                               ),
@@ -241,7 +241,7 @@ class _SalonAllWorksState extends ConsumerState<SalonAllWorks> {
                                                     context,
                                                     MaterialPageRoute(
                                                       builder: (context) => ImagePreview(
-                                                        imageUrls: [item.image], //  widget.salonModel.photosOfWorks,
+                                                        imageUrls: [item.image],
                                                         index: remainingPhotos.indexOf(item),
                                                       ),
                                                     ),
@@ -274,7 +274,7 @@ class _SalonAllWorksState extends ConsumerState<SalonAllWorks> {
                                                         style: theme.textTheme.bodyLarge!.copyWith(
                                                           fontWeight: FontWeight.normal,
                                                           fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 15.sp),
-                                                          color: const Color(0XFFBDBDBD), //  isLightTheme ? Colors.black : Colors.white,
+                                                          color: !isLightTheme ? const Color(0XFFBDBDBD) : const Color(0XFF373737),
                                                         ),
                                                         maxLines: 2,
                                                         overflow: TextOverflow.ellipsis,
@@ -298,7 +298,7 @@ class _SalonAllWorksState extends ConsumerState<SalonAllWorks> {
                                                 width: 41.h,
                                                 decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
-                                                  color: const Color(0XFFFFFFFF).withOpacity(0.1),
+                                                  color: !isLightTheme ? const Color(0XFFFFFFFF).withOpacity(0.1) : const Color(0XFF000000).withOpacity(0.4),
                                                 ),
                                                 child: const Icon(Icons.chevron_left_outlined, color: Colors.white),
                                               ),
@@ -311,7 +311,7 @@ class _SalonAllWorksState extends ConsumerState<SalonAllWorks> {
                                                 width: 41.h,
                                                 decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
-                                                  color: const Color(0XFFFFFFFF).withOpacity(0.1),
+                                                  color: !isLightTheme ? const Color(0XFFFFFFFF).withOpacity(0.1) : const Color(0XFF000000).withOpacity(0.4),
                                                 ),
                                                 child: const Icon(Icons.chevron_right_outlined, color: Colors.white),
                                               ),
@@ -393,7 +393,7 @@ class _SalonAllWorksState extends ConsumerState<SalonAllWorks> {
                                     AppLocalizations.of(context)?.noPhotosAvailable ?? 'No photos added yet',
                                     style: theme.textTheme.displayLarge!.copyWith(
                                       fontSize: 16.sp,
-                                      color: const Color(0XFFBDBDBD), // isLightTheme ? Colors.black : Colors.white,
+                                      color: !isLightTheme ? const Color(0XFFBDBDBD) : const Color(0XFF373737),
                                       fontWeight: FontWeight.w400,
                                     ),
                                     textAlign: TextAlign.center,

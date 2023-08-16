@@ -388,17 +388,29 @@ class FollowUs extends ConsumerWidget {
               // mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 if (salonModel.links?.website != '' && salonModel.links?.website != null)
-                  SocialLink2(
-                    icon: isLightTheme ? AppIcons.linkGlobe : AppIcons.linkGlobeDark,
-                    type: 'website',
-                    socialUrl: salonModel.links?.website,
-                  ),
+                  (!isLightTheme)
+                      ? SocialLink2(
+                          icon: AppIcons.linkGlobeDark,
+                          type: 'website',
+                          socialUrl: salonModel.links?.website,
+                        )
+                      : SocialIcon2(
+                          icon: FontAwesomeIcons.globe,
+                          type: 'website',
+                          socialUrl: salonModel.links?.website,
+                        ),
                 if (salonModel.links?.instagram != '' && salonModel.links?.instagram != null)
-                  SocialLink2(
-                    icon: isLightTheme ? AppIcons.linkInsta : AppIcons.linkInstaDark2,
-                    type: 'insta',
-                    socialUrl: salonModel.links?.instagram,
-                  ),
+                  (!isLightTheme)
+                      ? SocialLink2(
+                          icon: AppIcons.linkInstaDark2,
+                          type: 'insta',
+                          socialUrl: salonModel.links?.instagram,
+                        )
+                      : SocialIcon2(
+                          icon: FontAwesomeIcons.instagram,
+                          type: 'insta',
+                          socialUrl: salonModel.links?.instagram,
+                        ),
                 if (salonModel.links?.tiktok != '' && salonModel.links?.tiktok != null)
                   SocialLink2(
                     icon: isLightTheme ? AppIcons.linkTikTok : AppIcons.linkTikTokDark,

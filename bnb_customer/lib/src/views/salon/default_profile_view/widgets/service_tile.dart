@@ -59,12 +59,16 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
           tilePadding: EdgeInsets.zero,
           childrenPadding: EdgeInsets.zero,
           trailing: const SizedBox.shrink(),
-          backgroundColor: const Color(0XFF0A0A0A).withOpacity(0.6),
+          backgroundColor: !isLightTheme ? const Color(0XFF0A0A0A).withOpacity(0.6) : Colors.white,
           onExpansionChanged: (bool val) {
             setState(() => isExpanded = !isExpanded);
           },
           title: Container(
-            color: !isExpanded ? const Color(0XFF0A0A0A).withOpacity(0.6) : null, //  theme.canvasColor.withOpacity(0.7),
+            color: !isExpanded
+                ? !isLightTheme
+                    ? const Color(0XFF0A0A0A).withOpacity(0.6)
+                    : Colors.white
+                : null, //  theme.canvasColor.withOpacity(0.7),
             height: 55.sp,
             width: double.infinity,
             child: Padding(
@@ -92,6 +96,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                     decoration: BoxDecoration(
                       color: theme.canvasColor,
                       borderRadius: BorderRadius.circular(50),
+                      border: isLightTheme ? Border.all(color: const Color(0XFFD9D9D9), width: 1) : null,
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
@@ -122,7 +127,11 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
           ),
           children: [
             Container(
-              color: !isExpanded ? const Color(0XFF0A0A0A).withOpacity(0.6) : null, //  theme.canvasColor.withOpacity(0.7),
+              color: !isExpanded
+                  ? !isLightTheme
+                      ? const Color(0XFF0A0A0A).withOpacity(0.6)
+                      : Colors.white
+                  : null, //  theme.canvasColor.withOpacity(0.7),
               child: Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: DeviceConstraints.getResponsiveSize(context, 15, 30, 50),
@@ -190,7 +199,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                 child: Center(
                                                   child: FaIcon(
                                                     FontAwesomeIcons.clock,
-                                                    color: const Color(0XFF908D8D),
+                                                    color: !isLightTheme ? const Color(0XFF908D8D) : const Color(0XFF6C6C6C),
                                                     size: 15.h,
                                                   ),
                                                 ),
@@ -203,7 +212,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                           style: theme.textTheme.displayMedium!.copyWith(
                                                             fontSize: 15.sp,
                                                             fontWeight: FontWeight.w500,
-                                                            color: const Color(0XFF908D8D),
+                                                            color: !isLightTheme ? const Color(0XFF908D8D) : const Color(0XFF6C6C6C),
                                                           ),
                                                           overflow: TextOverflow.ellipsis,
                                                           maxLines: 1,
@@ -213,7 +222,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                           style: theme.textTheme.displayMedium!.copyWith(
                                                             fontSize: 15.sp,
                                                             fontWeight: FontWeight.w500,
-                                                            color: const Color(0XFF908D8D),
+                                                            color: !isLightTheme ? const Color(0XFF908D8D) : const Color(0XFF6C6C6C),
                                                           ),
                                                           overflow: TextOverflow.ellipsis,
                                                           maxLines: 1,
@@ -223,7 +232,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                       style: theme.textTheme.displayMedium!.copyWith(
                                                         fontSize: 15.sp,
                                                         fontWeight: FontWeight.w500,
-                                                        color: const Color(0XFF908D8D),
+                                                        color: !isLightTheme ? const Color(0XFF908D8D) : const Color(0XFF6C6C6C),
                                                       ),
                                                       overflow: TextOverflow.ellipsis,
                                                       maxLines: 1,
@@ -245,7 +254,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                     ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}∞"
                                                     : "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}",
                                             style: theme.textTheme.displayMedium!.copyWith(
-                                              fontWeight: FontWeight.w500,
+                                              fontWeight: FontWeight.w600,
                                               fontSize: 15.sp,
                                               color: isLightTheme ? Colors.black : Colors.white,
                                               fontFamily: "Inter-Bold",
@@ -280,7 +289,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                           AppIcons.informationSVG,
                                                           height: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
                                                           width: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
-                                                          color: const Color(0XFF908D8D),
+                                                          color: !isLightTheme ? const Color(0XFF908D8D) : const Color(0XFF6C6C6C),
                                                         ),
                                                       ),
                                                     ),

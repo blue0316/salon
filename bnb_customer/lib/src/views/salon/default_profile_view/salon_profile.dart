@@ -207,6 +207,7 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
                                 ),
                               ],
                             ),
+                            const Space(factor: 2),
                           ],
                         ),
                       ],
@@ -339,7 +340,7 @@ Color unselectedTabColor(ThemeData theme, bool isLightTheme) {
       return Colors.white;
 
     default:
-      return theme.primaryColor;
+      return Colors.black;
   }
 }
 
