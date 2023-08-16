@@ -843,5 +843,6 @@
  "totalReviews" : "Total Reviews",
  "averageRating" : "Average Rating",
  "noPhotosAvailable" : "No photos added yet",
- "portfolio": "Portfolio"
+ "portfolio": "Portfolio",
+ "serviceDetails" : "Services Details"
 }

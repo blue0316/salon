@@ -841,7 +841,10 @@
  "noPhotosOfWorksAvailable" : "PAS DE PHOTOS D'ŒUVRES DISPONIBLES EN CE MOMENT",
  "followUs" : "Suivez-nous",
  "totalReviews" : "Nombre total d'avis",
- "averageRating" : "Note moyenne"
+ "averageRating" : "Note moyenne",
+ "noPhotosAvailable": "Aucune photo ajoutée pour le moment",
+  "portfolio": "Portefeuille",
+  "serviceDetails":"Détails des services"
 }
  
 

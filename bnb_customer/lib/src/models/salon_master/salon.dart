@@ -148,7 +148,6 @@ class SalonModel {
     additionalFeatures = json['additionalFeatures'] != null ? json['additionalFeatures'].cast<String>() : [];
     requestSalon = json['requestSalon'] ?? false;
     salonLogo = json['salonLogo'] ?? '';
-    selectedCurrency = (json['selectedCurrency'] != null) ? getCurrency(json['countryCode']) : '\$';
     countryCode = json['countryCode'] ?? "";
     isAutomaticBookingConfirmation = json['isAutomaticBookingConfirmation'] ?? false;
     timeFormat = (json['timeFormat'] == '24H') ? timeFormat = TimeFormat.twentyFourHr : timeFormat = TimeFormat.amPM;

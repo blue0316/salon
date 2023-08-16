@@ -842,5 +842,8 @@
 "noPromotions":"Зараз немає акцій",
 "followUs" : "Слідкуйте за нами",
 "totalReviews" : "Загальна кількість відгуків",
-"averageRating" : "Середня оцінка"								
+"averageRating" : "Середня оцінка",
+"noPhotosAvailable" : "Фото ще не додано",
+"portfolio": "Портфоліо",
+"serviceDetails" : "Деталі послуг"					
 }

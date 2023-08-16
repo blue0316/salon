@@ -250,10 +250,10 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                           // CURRENT PRICE
                                           Text(
                                             service.isFixedPrice
-                                                ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price}"
+                                                ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price}"
                                                 : service.isPriceStartAt
-                                                    ? "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}∞"
-                                                    : "${salonModel.selectedCurrency}${service.priceAndDuration!.price} - ${salonModel.selectedCurrency}${service.priceAndDurationMax!.price}",
+                                                    ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price} - ${getCurrency(salonModel.countryCode!)}∞"
+                                                    : "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price} - ${getCurrency(salonModel.countryCode!)}${service.priceAndDurationMax!.price}",
                                             style: theme.textTheme.displayMedium!.copyWith(
                                               fontWeight: FontWeight.w600,
                                               fontSize: 15.sp,

@@ -33,7 +33,7 @@ class ServiceDetailsSection extends ConsumerWidget {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              'Services Details',
+              AppLocalizations.of(context)?.serviceDetails ?? 'Services Details',
               style: theme.textTheme.bodyLarge!.copyWith(
                 fontWeight: FontWeight.w600,
                 fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 24.sp),

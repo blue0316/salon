@@ -835,5 +835,8 @@
 "registration_line16":"Confirmar",
 "followUs" : "Síguenos",
 "totalReviews" : "Reseñas Totales",
-"averageRating" : "Calificación promedio"
+"averageRating" : "Calificación promedio",
+"noPhotosAvailable" : "No se agregaron fotos todavía",
+"portfolio": "Portafolio",
+"serviceDetails" : "Detalles de los servicios"
 }

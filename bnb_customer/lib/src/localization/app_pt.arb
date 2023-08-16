@@ -835,5 +835,8 @@
 "noPromotions":"Sem promoções no momento",		
 "followUs" : "Siga-nos",
 "totalReviews" : "Total de comentários",
-"averageRating": "Avaliação média"																
+"averageRating": "Avaliação média",
+"noPhotosAvailable": "Nenhuma foto adicionada ainda",
+"portfolio": "portfólio",
+"serviceDetails" : "Detalhes do serviço"													
 }

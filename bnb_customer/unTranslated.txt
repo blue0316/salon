@@ -1,9 +1,4 @@
 {
-  "es": [
-    "noPhotosAvailable",
-    "portfolio"
-  ],
-
   "fr": [
     "success",
     "booked",
@@ -95,23 +90,6 @@
     "anyone",
     "and",
     "others",
-    "pronounce",
-    "noPhotosAvailable",
-    "portfolio"
-  ],
-
-  "pt": [
-    "noPhotosAvailable",
-    "portfolio"
-  ],
-
-  "ro": [
-    "noPhotosAvailable",
-    "portfolio"
-  ],
-
-  "uk": [
-    "noPhotosAvailable",
-    "portfolio"
+    "pronounce"
   ]
 }
