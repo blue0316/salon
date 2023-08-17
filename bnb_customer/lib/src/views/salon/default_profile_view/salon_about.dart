@@ -159,26 +159,23 @@ class SocialIcon2 extends ConsumerWidget {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
-    return Expanded(
-      flex: 0,
-      child: GestureDetector(
-        onTap: () async {
-          Uri uri = Uri.parse(socialLinks(type, socialUrl ?? ''));
+    return GestureDetector(
+      onTap: () async {
+        Uri uri = Uri.parse(socialLinks(type, socialUrl ?? ''));
 
-          if (await canLaunchUrl(uri)) {
-            await launchUrl(uri);
-          } else {
-            showToast("Social Link is not available");
-          }
-        },
-        child: Padding(
-          padding: EdgeInsets.only(right: 10.sp),
-          child: Center(
-            child: FaIcon(
-              icon,
-              size: 25.h,
-              color: theme.primaryColor,
-            ),
+        if (await canLaunchUrl(uri)) {
+          await launchUrl(uri);
+        } else {
+          showToast("Social Link is not available");
+        }
+      },
+      child: Padding(
+        padding: EdgeInsets.only(right: 10.sp),
+        child: Center(
+          child: FaIcon(
+            icon,
+            size: 25.h,
+            color: theme.primaryColor,
           ),
         ),
       ),
