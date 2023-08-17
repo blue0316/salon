@@ -129,7 +129,7 @@ class _SalonMasterViewState extends ConsumerState<SalonMasterView> {
             Container(
               width: double.infinity,
               color: theme.canvasColor.withOpacity(0.7),
-              height: 2500.h,
+              height: 1500.h,
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.h),
                 child: SingleChildScrollView(
@@ -251,14 +251,14 @@ class _SalonMasterViewState extends ConsumerState<SalonMasterView> {
                           ],
                         ),
                         children: [
-                          Container(
+                          SizedBox(
                             height: !(_createAppointmentProvider.chosenMaster!.photosOfWork != null && _createAppointmentProvider.chosenMaster!.photosOfWork!.isNotEmpty)
                                 ? 300.h
                                 : isPortrait
                                     ? 1500.h
                                     : null, // 1000.h,
                             width: double.infinity,
-                            color: theme.canvasColor.withOpacity(!isLightTheme ? 0.5 : 1),
+                            // color: theme.canvasColor.withOpacity(!isLightTheme ? 0.5 : 1),
                             child: Padding(
                               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
                               child: SingleChildScrollView(

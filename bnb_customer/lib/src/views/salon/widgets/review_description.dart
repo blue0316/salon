@@ -61,7 +61,7 @@ class ReviewDescription extends ConsumerWidget {
                                   Time().getLocaleDate2(review.createdAt, AppLocalizations.of(context)?.localeName ?? "en"),
                                   style: theme.textTheme.bodyMedium!.copyWith(
                                     fontSize: 14.sp,
-                                    color: const Color(0XFF858585),
+                                    color: !isLightTheme ? const Color(0XFF858585) : const Color(0XFF373737),
                                   ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -233,7 +233,7 @@ class CustomerReviewName extends ConsumerWidget {
               'Name Service',
               style: theme.textTheme.bodyMedium!.copyWith(
                 fontSize: 14.sp,
-                color: const Color(0XFFB1B1B1),
+                color: !isLightTheme ? const Color(0XFFB1B1B1) : const Color(0XFF373737),
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,

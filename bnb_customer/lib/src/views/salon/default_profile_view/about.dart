@@ -363,88 +363,85 @@ class FollowUs extends ConsumerWidget {
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool isLightTheme = (theme == AppTheme.customLightTheme);
 
-    return Expanded(
-      flex: 0,
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 30.sp),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                (AppLocalizations.of(context)?.followUs ?? "Follow Us").toCapitalized(),
-                style: theme.textTheme.bodyLarge!.copyWith(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 20.sp,
-                  color: isLightTheme ? Colors.black : Colors.white,
-                ),
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 30.sp),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              (AppLocalizations.of(context)?.followUs ?? "Follow Us").toCapitalized(),
+              style: theme.textTheme.bodyLarge!.copyWith(
+                fontWeight: FontWeight.w600,
+                fontSize: 20.sp,
+                color: isLightTheme ? Colors.black : Colors.white,
               ),
             ),
-            Wrap(
-              alignment: WrapAlignment.start,
-              // crossAxisAlignment: CrossAxisAlignment.center,
-              // mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                if (salonModel.links?.website != '' && salonModel.links?.website != null)
-                  (!isLightTheme)
-                      ? SocialLink2(
-                          icon: AppIcons.linkGlobeDark,
-                          type: 'website',
-                          socialUrl: salonModel.links?.website,
-                        )
-                      : SocialIcon2(
-                          icon: FontAwesomeIcons.globe,
-                          type: 'website',
-                          socialUrl: salonModel.links?.website,
-                        ),
-                if (salonModel.links?.instagram != '' && salonModel.links?.instagram != null)
-                  (!isLightTheme)
-                      ? SocialLink2(
-                          icon: AppIcons.linkInstaDark2,
-                          type: 'insta',
-                          socialUrl: salonModel.links?.instagram,
-                        )
-                      : SocialIcon2(
-                          icon: FontAwesomeIcons.instagram,
-                          type: 'insta',
-                          socialUrl: salonModel.links?.instagram,
-                        ),
-                if (salonModel.links?.tiktok != '' && salonModel.links?.tiktok != null)
-                  SocialLink2(
-                    icon: isLightTheme ? AppIcons.linkTikTok : AppIcons.linkTikTokDark,
-                    type: 'tiktok',
-                    socialUrl: salonModel.links?.tiktok,
-                  ),
-                if (salonModel.links?.facebook != '' && salonModel.links?.facebook != null)
-                  SocialLink2(
-                    icon: isLightTheme ? AppIcons.linkFacebook : AppIcons.linkFacebookDark,
-                    type: 'facebook',
-                    socialUrl: salonModel.links?.facebook,
-                  ),
-                if (salonModel.links?.twitter != '' && salonModel.links?.twitter != null)
-                  SocialIcon2(
-                    icon: FontAwesomeIcons.twitter,
-                    type: 'twitter',
-                    socialUrl: salonModel.links?.twitter,
-                  ),
-                if (salonModel.links?.pinterest != '' && salonModel.links?.pinterest != null)
-                  SocialIcon2(
-                    icon: FontAwesomeIcons.pinterest,
-                    type: 'pinterest',
-                    socialUrl: salonModel.links?.pinterest,
-                  ),
-                if (salonModel.links?.yelp != '' && salonModel.links?.yelp != null)
-                  SocialIcon2(
-                    icon: FontAwesomeIcons.yelp,
-                    type: 'yelp',
-                    socialUrl: salonModel.links?.yelp,
-                  ),
-              ],
-            ),
-          ],
-        ),
+          ),
+          Wrap(
+            alignment: WrapAlignment.start,
+            // crossAxisAlignment: CrossAxisAlignment.center,
+            // mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              if (salonModel.links?.website != '' && salonModel.links?.website != null)
+                (!isLightTheme)
+                    ? SocialLink2(
+                        icon: AppIcons.linkGlobeDark,
+                        type: 'website',
+                        socialUrl: salonModel.links?.website,
+                      )
+                    : SocialIcon2(
+                        icon: FontAwesomeIcons.globe,
+                        type: 'website',
+                        socialUrl: salonModel.links?.website,
+                      ),
+              if (salonModel.links?.instagram != '' && salonModel.links?.instagram != null)
+                (!isLightTheme)
+                    ? SocialLink2(
+                        icon: AppIcons.linkInstaDark2,
+                        type: 'insta',
+                        socialUrl: salonModel.links?.instagram,
+                      )
+                    : SocialIcon2(
+                        icon: FontAwesomeIcons.instagram,
+                        type: 'insta',
+                        socialUrl: salonModel.links?.instagram,
+                      ),
+              if (salonModel.links?.tiktok != '' && salonModel.links?.tiktok != null)
+                SocialLink2(
+                  icon: isLightTheme ? AppIcons.linkTikTok : AppIcons.linkTikTokDark,
+                  type: 'tiktok',
+                  socialUrl: salonModel.links?.tiktok,
+                ),
+              if (salonModel.links?.facebook != '' && salonModel.links?.facebook != null)
+                SocialLink2(
+                  icon: isLightTheme ? AppIcons.linkFacebook : AppIcons.linkFacebookDark,
+                  type: 'facebook',
+                  socialUrl: salonModel.links?.facebook,
+                ),
+              if (salonModel.links?.twitter != '' && salonModel.links?.twitter != null)
+                SocialIcon2(
+                  icon: FontAwesomeIcons.twitter,
+                  type: 'twitter',
+                  socialUrl: salonModel.links?.twitter,
+                ),
+              if (salonModel.links?.pinterest != '' && salonModel.links?.pinterest != null)
+                SocialIcon2(
+                  icon: FontAwesomeIcons.pinterest,
+                  type: 'pinterest',
+                  socialUrl: salonModel.links?.pinterest,
+                ),
+              if (salonModel.links?.yelp != '' && salonModel.links?.yelp != null)
+                SocialIcon2(
+                  icon: FontAwesomeIcons.yelp,
+                  type: 'yelp',
+                  socialUrl: salonModel.links?.yelp,
+                ),
+            ],
+          ),
+        ],
       ),
     );
   }
