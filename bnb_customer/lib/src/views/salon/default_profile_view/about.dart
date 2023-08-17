@@ -90,7 +90,11 @@ class _LandscapeAboutHeaderState extends ConsumerState<LandscapeAboutHeader> {
                               margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: Colors.white.withOpacity(_current == entry.key ? 0.9 : 0.4),
+                                color: !isLightTheme
+                                    ? Colors.white.withOpacity(_current == entry.key ? 0.9 : 0.4)
+                                    : const Color(0XFF8A8A8A).withOpacity(
+                                        _current == entry.key ? 0.9 : 0.4,
+                                      ),
                               ),
                             ),
                           );
@@ -318,7 +322,11 @@ class _PortraitAboutHeaderState extends ConsumerState<PortraitAboutHeader> {
                             margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: Colors.white.withOpacity(_current == entry.key ? 0.9 : 0.4),
+                              color: !isLightTheme
+                                  ? Colors.white.withOpacity(_current == entry.key ? 0.9 : 0.4)
+                                  : const Color(0XFF8A8A8A).withOpacity(
+                                      _current == entry.key ? 0.9 : 0.4,
+                                    ),
                             ),
                           ),
                         );

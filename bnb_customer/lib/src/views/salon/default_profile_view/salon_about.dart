@@ -262,41 +262,38 @@ class SocialLink2 extends ConsumerWidget {
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool isLightTheme = (theme == AppTheme.customLightTheme);
 
-    return Expanded(
-      flex: 0,
-      child: GestureDetector(
-        onTap: () async {
-          Uri uri = Uri.parse(socialLinks(type, socialUrl ?? ''));
+    return GestureDetector(
+      onTap: () async {
+        Uri uri = Uri.parse(socialLinks(type, socialUrl ?? ''));
 
-          debugPrint("launching Url: $uri");
+        debugPrint("launching Url: $uri");
 
-          if (await canLaunchUrl(uri)) {
-            await launchUrl(uri);
-          } else {
-            showToast("Social Link is not available");
-          }
-        },
-        child: Padding(
-          padding: EdgeInsets.only(right: 10.sp),
-          child: Center(
-            child: (icon == AppIcons.linkGlobeDark)
-                ? FaIcon(
-                    FontAwesomeIcons.globe,
-                    size: 25.h,
-                    color: theme.primaryColor,
-                  )
-                : (icon == AppIcons.linkInstaDark2)
-                    ? FaIcon(
-                        FontAwesomeIcons.instagram,
-                        size: 25.h,
-                        color: theme.primaryColor,
-                      )
-                    : SvgPicture.asset(
-                        icon,
-                        height: 25.h,
-                        color: theme.primaryColor,
-                      ),
-          ),
+        if (await canLaunchUrl(uri)) {
+          await launchUrl(uri);
+        } else {
+          showToast("Social Link is not available");
+        }
+      },
+      child: Padding(
+        padding: EdgeInsets.only(right: 10.sp),
+        child: Center(
+          child: (icon == AppIcons.linkGlobeDark)
+              ? FaIcon(
+                  FontAwesomeIcons.globe,
+                  size: 25.h,
+                  color: theme.primaryColor,
+                )
+              : (icon == AppIcons.linkInstaDark2)
+                  ? FaIcon(
+                      FontAwesomeIcons.instagram,
+                      size: 25.h,
+                      color: theme.primaryColor,
+                    )
+                  : SvgPicture.asset(
+                      icon,
+                      height: 25.h,
+                      color: theme.primaryColor,
+                    ),
         ),
       ),
     );
