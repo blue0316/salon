@@ -324,7 +324,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
 
                         // Build Appointment
                         if (_createAppointmentProvider.chosenServices.length > 1) {
-                          //call this single appointment service save function
+                          //call multiple appointment service save option
 
                           if (!_salonProfileProvider.isSingleMaster) {
                             await _createAppointmentProvider.saveNewAppointmentForMultipleServices(
@@ -340,7 +340,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                             );
                           }
                         } else {
-                          //call multiple appointment service save option
+                          //call this single appointment service save function
 
                           if (!_salonProfileProvider.isSingleMaster) {
                             await _createAppointmentProvider.saveAppointment(

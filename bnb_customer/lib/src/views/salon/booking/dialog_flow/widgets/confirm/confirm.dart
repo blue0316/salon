@@ -21,6 +21,7 @@ class _ConfirmationState extends ConsumerState<Confirmation> {
   @override
   Widget build(BuildContext context) {
     final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
+    final _salonProfileProvider = ref.watch(salonProfileProvider);
 
     return Padding(
       padding: EdgeInsets.symmetric(
@@ -33,8 +34,8 @@ class _ConfirmationState extends ConsumerState<Confirmation> {
               physics: const NeverScrollableScrollPhysics(),
               controller: _createAppointmentProvider.confirmationPageController,
               children: [
-                EnterNumber(tabController: widget.bookingTabController),
-                const VerifyOtp(),
+                if (_salonProfileProvider.chosenSalon.countryCode == 'US') EnterNumber(tabController: widget.bookingTabController),
+                if (_salonProfileProvider.chosenSalon.countryCode == 'US') const VerifyOtp(),
                 const RegistrationSuccessful(),
                 OrderDetails(tabController: widget.bookingTabController),
               ],

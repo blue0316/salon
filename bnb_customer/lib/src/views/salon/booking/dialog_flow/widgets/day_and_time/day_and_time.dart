@@ -505,7 +505,12 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                               '${itemValue.day}',
                                               style: TextStyle(
                                                 fontSize: 14,
-                                                color: defaultLightTheme ? Colors.black : selectSlots(themeType, theme), // AppTheme.white2,
+                                                color: defaultLightTheme
+                                                    ? (_createAppointmentProvider.checkIfMasterIsWorking(itemValue) ? const Color.fromARGB(255, 53, 53, 54) : Colors.white)
+                                                    : selectSlots(
+                                                        themeType,
+                                                        theme,
+                                                      ), // AppTheme.white2,
                                               ),
                                             ),
                                           ),

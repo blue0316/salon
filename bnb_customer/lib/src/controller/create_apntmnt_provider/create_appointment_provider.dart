@@ -165,7 +165,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   int bookingFlowPageIndex = 0;
   bool showModal = false; // Mini container on date and time screen
   String? servicePrice;
-  late String serviceDuration;
+  String serviceDuration = '0';
 
   bool? isPriceFrom = false;
   bool? isPriceRange = false;
@@ -949,6 +949,7 @@ class CreateAppointmentProvider with ChangeNotifier {
       serviceMaxPrice = totalMaxPrice.toString();
       debugPrint('price $servicePrice durations $serviceDuration');
     }
+    notifyListeners();
   }
 
   // //extracts price and duration for multiple services
@@ -1657,7 +1658,7 @@ class CreateAppointmentProvider with ChangeNotifier {
     }
 
     //generates slots acc. to the service durations
-    // slots.add(_timeUtils.checkAvailableSlotsForTheServiceTime(
+    // slots.add(Time().checkAvailableSlotsForTheServiceTime(
     //     slotsDay1 as List<String>?, int.parse(serviceDuration)));
     slots.add(slotsDay1 as List<String>?);
     slots.add(
@@ -3745,6 +3746,139 @@ class CreateAppointmentProvider with ChangeNotifier {
     divideSlotsForDay();
   }
 
+  /// model for single service for SALON
+  AppointmentModel _createAppointmentModelSALON({required CustomerModel customer, required String? transactionId}) {
+    ///creating all the required variables
+    const String _type = AppointmentType.reservation;
+    //updating the latest update
+    final List<String> _updates = [AppointmentUpdates.createdByCustomer];
+    final List<DateTime> _updatedAt = [DateTime.now()];
+
+    //////////////////////////////////////////////
+    //handling appointment TIME & DURATION
+    //////////////////////////////////////////////
+    PriceAndDurationModel _priceAndDuration;
+    //priceAndDuration[chosenMaster?.masterId] ?? PriceAndDurationModel();
+
+    if (isPriceFrom!) {
+      _priceAndDuration = PriceAndDurationModel(
+        duration: priceAndDuration[chosenMaster?.masterId]!.duration,
+        price: priceAndDuration[chosenMaster?.masterId]!.price,
+        priceMax: priceAndDuration[chosenMaster?.masterId]!.priceMax,
+        isPriceStartAt: true,
+      );
+    } else if (isPriceRange!) {
+      _priceAndDuration = PriceAndDurationModel(
+        duration: priceAndDuration[chosenMaster?.masterId]!.duration,
+        price: priceAndDuration[chosenMaster?.masterId]!.price,
+        priceMax: priceAndDuration[chosenMaster?.masterId]!.priceMax,
+        isPriceRange: true,
+      );
+    } else {
+      _priceAndDuration = PriceAndDurationModel(
+        duration: priceAndDuration[chosenMaster?.masterId]!.duration,
+        price: priceAndDuration[chosenMaster?.masterId]!.price,
+        priceMax: priceAndDuration[chosenMaster?.masterId]!.priceMax,
+        isFixedPrice: true,
+      );
+    }
+    // print('1111$isPriceFrom! $isPriceRange! $isPriceFixed');
+    // final PriceAndDurationModel _priceAndDuration = priceAndDuration[chosenMaster?.masterId] ?? PriceAndDurationModel();
+    // debugPrint("Chosen Slots");
+    // debugPrint(selectedAppointmentSlot);
+
+    TimeOfDay _startTime = Time().stringToTime(selectedAppointmentSlot!);
+    //computing appointment end time in string
+
+    // debugPrint("_startTime");
+    debugPrint(_startTime.toString());
+    TimeOfDay _endTime = _startTime.addMinutes(int.parse(_priceAndDuration.duration ?? 0 as String));
+
+    final DateTime _start = Time().generateDateTimeFromString(chosenDay, selectedAppointmentSlot!);
+
+    // debugPrint("_start");
+    // debugPrint(_start.toString());
+
+    final DateTime _end = Time().generateDateTimeFromString(chosenDay, Time().timeToString(_endTime)!);
+
+    final String? _appointmentTime = selectedAppointmentSlot;
+    final String _appointmentDate = Time().getDateInStandardFormat(chosenDay);
+
+    final DateTime _createdAt = DateTime.now();
+
+    /////////////////////////////////////////////
+    final Salon _salon = Salon(
+      id: chosenSalon!.salonId,
+      name: chosenSalon!.salonName,
+      phoneNo: chosenSalon!.phoneNumber,
+      address: chosenSalon!.address,
+    );
+
+    final Master _master = Master(
+      id: chosenMaster!.masterId,
+      name: "${chosenMaster?.personalInfo?.firstName ?? ''} ${chosenMaster?.personalInfo?.lastName ?? ''}",
+    );
+
+    final Customer _customer = Customer(
+      id: customer.customerId,
+      name: Utils().getName(customer.personalInfo),
+      pic: customer.profilePic,
+      phoneNumber: customer.personalInfo.phone,
+      email: customer.personalInfo.email ?? '',
+    );
+
+    /////////////////////////////////////////////
+
+    const String _status = AppointmentStatus.active;
+    ServiceModel selectedService = chosenServices[0];
+
+    final Service _service = Service(
+      serviceId: selectedService.serviceId,
+      categoryId: selectedService.categoryId,
+      subCategoryId: selectedService.subCategoryId,
+      serviceName: selectedService.serviceName,
+      translations: selectedService.translations,
+      priceAndDuration: _priceAndDuration,
+    );
+
+    PaymentInfo _paymentInfo = PaymentInfo(
+      bonusApplied: false,
+      bonusAmount: 0,
+      actualAmount: int.parse(_priceAndDuration.price!),
+      bonusIds: [],
+      paymentDone: false,
+      onlinePayment: false,
+      paymentMethod: 'card',
+    );
+
+    /// assigning all the variables and creating appointment model ....
+
+    return AppointmentModel(
+      type: _type,
+      createdAt: _createdAt,
+      appointmentStartTime: _start,
+      appointmentEndTime: _end,
+      appointmentTime: _appointmentTime!,
+      appointmentDate: _appointmentDate,
+      salon: _salon,
+      master: _master,
+      customer: _customer,
+      createdBy: CreatedBy.customer,
+      salonOwnerType: OwnerType.salon,
+      status: _status,
+      updates: _updates,
+      updatedAt: _updatedAt,
+      services: [_service],
+      subStatus: (chosenSalon!.isAutomaticBookingConfirmation == true)
+          ? ActiveAppointmentSubStatus.confirmed
+          : _start.difference(DateTime.now()).inHours < 24
+              ? ActiveAppointmentSubStatus.confirmed
+              : ActiveAppointmentSubStatus.unConfirmed,
+      priceAndDuration: _priceAndDuration,
+      paymentInfo: _paymentInfo,
+    );
+  }
+
   /// model for single service
   AppointmentModel _createAppointmentModel({required CustomerModel customer, required String? transactionId}) {
     ///creating all the required variables
@@ -3764,11 +3898,25 @@ class CreateAppointmentProvider with ChangeNotifier {
 
     final PriceAndDurationModel _priceAndDuration;
     if (isPriceFrom!) {
-      _priceAndDuration = PriceAndDurationModel(duration: serviceDuration, price: servicePrice, priceMax: serviceMaxPrice, isPriceStartAt: true);
+      _priceAndDuration = PriceAndDurationModel(
+        duration: serviceDuration,
+        price: servicePrice,
+        priceMax: serviceMaxPrice,
+        isPriceStartAt: true,
+      );
     } else if (isPriceRange!) {
-      _priceAndDuration = PriceAndDurationModel(duration: serviceDuration, price: servicePrice, priceMax: serviceMaxPrice, isPriceRange: true);
+      _priceAndDuration = PriceAndDurationModel(
+        duration: serviceDuration,
+        price: servicePrice,
+        priceMax: serviceMaxPrice,
+        isPriceRange: true,
+      );
     } else {
-      _priceAndDuration = PriceAndDurationModel(duration: serviceDuration, price: servicePrice, isFixedPrice: true);
+      _priceAndDuration = PriceAndDurationModel(
+        duration: serviceDuration,
+        price: servicePrice,
+        isFixedPrice: true,
+      );
     }
 
     debugPrint("Chosen Slots");
@@ -4001,11 +4149,26 @@ class CreateAppointmentProvider with ChangeNotifier {
 
     final PriceAndDurationModel _priceAndDuration;
     if (isPriceFrom!) {
-      _priceAndDuration = PriceAndDurationModel(duration: serviceDuration, price: servicePrice, priceMax: serviceMaxPrice, isPriceStartAt: true);
+      _priceAndDuration = PriceAndDurationModel(
+        duration: serviceDuration,
+        price: servicePrice,
+        priceMax: serviceMaxPrice,
+        isPriceStartAt: true,
+      );
     } else if (isPriceRange!) {
-      _priceAndDuration = PriceAndDurationModel(duration: serviceDuration, price: servicePrice, priceMax: serviceMaxPrice, isPriceRange: true);
+      _priceAndDuration = PriceAndDurationModel(
+        duration: serviceDuration,
+        price: servicePrice,
+        priceMax: serviceMaxPrice,
+        isPriceRange: true,
+      );
     } else {
-      _priceAndDuration = PriceAndDurationModel(duration: serviceDuration, price: servicePrice, priceMax: serviceMaxPrice, isFixedPrice: true);
+      _priceAndDuration = PriceAndDurationModel(
+        duration: serviceDuration,
+        price: servicePrice,
+        priceMax: serviceMaxPrice,
+        isFixedPrice: true,
+      );
     }
 
     debugPrint("Chosen Slots");
@@ -4217,7 +4380,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 
     ServiceModel selectedService = chosenServices[0];
 
-    final AppointmentModel _appointment = _createAppointmentModel(
+    final AppointmentModel _appointment = _createAppointmentModelSALON(
       customer: customer,
       transactionId: transactionId,
     );
@@ -4954,8 +5117,14 @@ class CreateAppointmentProvider with ChangeNotifier {
 
       //create and block cleanUp time if clean up time is not 0
       if (cleanUpApptTime != 0) {
-        final PriceAndDurationModel _priceAndDuration = PriceAndDurationModel(duration: serviceDuration, price: servicePrice);
-        TimeOfDay appointend = Time().stringToTime(selectedAppointmentSlot!).addMinutes(int.parse(_priceAndDuration.duration!));
+        final PriceAndDurationModel _priceAndDuration = PriceAndDurationModel(
+          duration: serviceDuration,
+          price: servicePrice,
+        );
+        TimeOfDay appointend = Time().stringToTime(selectedAppointmentSlot!).addMinutes(
+              int.parse(_priceAndDuration.duration!),
+            );
+
         final AppointmentModel _appointmentCleanUp = _createOtherAppointmentTypeModel(
           type: AppointmentType.cleanUpTime,
           AppointmentSlot: Time().timeToString(appointend)!,

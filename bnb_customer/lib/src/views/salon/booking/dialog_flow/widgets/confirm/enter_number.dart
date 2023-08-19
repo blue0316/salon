@@ -80,25 +80,29 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              CountryCodePicker(
-                onChanged: (val) {
-                  _authProvider.countryCode = val.dialCode ?? '';
-                  _authProvider.updateAuthCountryCode(val.dialCode ?? '');
+              Container(
+                color: Colors.yellow,
+                child: CountryCodePicker(
+                  onChanged: (val) {
+                    _authProvider.countryCode = val.dialCode ?? '';
+                    _authProvider.updateAuthCountryCode(val.dialCode ?? '');
 
-                  setState(() => countryCode = val.dialCode ?? '');
-                },
-                onInit: (val) {
-                  _authProvider.countryCode = val?.dialCode ?? '';
-                  _authProvider.updateAuthCountryCode(val?.dialCode ?? '');
-                  // setState(() => countryCode = val?.dialCode ?? '');
-                },
-                initialSelection: 'UA',
-                favorite: const ['+1', '+380'],
-                showCountryOnly: false,
-                showOnlyCountryWhenClosed: false,
-                alignLeft: false,
-                textStyle: TextStyle(color: theme.colorScheme.tertiary), // defaultTheme ? Colors.black : Colors.white),
-                showFlag: false,
+                    setState(() => countryCode = val.dialCode ?? '');
+                  },
+                  onInit: (val) {
+                    _authProvider.countryCode = val?.dialCode ?? '';
+                    _authProvider.updateAuthCountryCode(val?.dialCode ?? '');
+                    // setState(() => countryCode = val?.dialCode ?? '');
+                  },
+                  initialSelection: 'UA',
+                  favorite: const ['+1', '+380'],
+                  showCountryOnly: false,
+                  showOnlyCountryWhenClosed: false,
+                  alignLeft: false,
+                  textStyle: TextStyle(color: theme.colorScheme.tertiary), // defaultTheme ? Colors.black : Colors.white),
+                  showFlag: false,
+                  padding: EdgeInsets.zero,
+                ),
               ),
               const SizedBox(width: 15),
               Expanded(

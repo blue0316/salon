@@ -2,14 +2,17 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
+import 'package:bbblient/src/firebase/customer.dart';
 import 'package:bbblient/src/models/customer/customer.dart';
 import 'package:bbblient/src/models/enums/status.dart';
+import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/colors.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/buttons.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,6 +29,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
   final TextEditingController pronounceController = TextEditingController();
 
   // Initial Selected Value
@@ -40,6 +44,8 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
   ];
 
   bool isOther = false;
+  String countryCode = '+380';
+  bool loader = false;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +55,8 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
     ThemeType themeType = _salonProfileProvider.themeType;
+    bool isLightTheme = (theme == AppTheme.customLightTheme);
+    final _auth = ref.watch(authProvider);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -154,6 +162,65 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
             ),
           ),
         ),
+        if (_salonProfileProvider.chosenSalon.countryCode != 'US') SizedBox(height: 15.sp),
+        if (_salonProfileProvider.chosenSalon.countryCode != 'US')
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CountryCodePicker(
+                onChanged: (val) {
+                  _authProvider.countryCode = val.dialCode ?? '';
+                  _authProvider.updateAuthCountryCode(val.dialCode ?? '');
+
+                  setState(() => countryCode = val.dialCode ?? '');
+                },
+                onInit: (val) {
+                  _authProvider.countryCode = val?.dialCode ?? '';
+                  _authProvider.updateAuthCountryCode(val?.dialCode ?? '');
+                  // setState(() => countryCode = val?.dialCode ?? '');
+                },
+                initialSelection: 'UA',
+                favorite: const ['+1', '+380'],
+                showCountryOnly: false,
+                showOnlyCountryWhenClosed: false,
+                alignLeft: false,
+                textStyle: TextStyle(color: theme.colorScheme.tertiary), // defaultTheme ? Colors.black : Colors.white),
+                showFlag: false,
+              ),
+              const SizedBox(width: 15),
+              Expanded(
+                child: Container(
+                  decoration: const BoxDecoration(
+                    border: Border(bottom: BorderSide(color: Color(0XFF35373B), width: 0.5)),
+                  ),
+                  child: TextFormField(
+                    controller: phoneNumberController,
+                    decoration: InputDecoration(
+                      label: Text(
+                        AppLocalizations.of(context)?.phoneNumber.toCapitalized() ?? "Phone number",
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w400,
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                          color: theme.colorScheme.tertiary.withOpacity(0.6),
+                        ),
+                      ),
+                      border: InputBorder.none,
+                    ),
+                    keyboardType: TextInputType.text,
+                    onChanged: (val) {
+                      // _authProvider.firstName = val;
+                    },
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w500,
+                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                      color: theme.colorScheme.tertiary,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         SizedBox(height: 15.sp),
         Container(
           decoration: const BoxDecoration(
@@ -168,7 +235,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
                       style: theme.textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w400,
                         fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                        color: theme.colorScheme.tertiary.withOpacity(0.6),
+                        color: isLightTheme ? Colors.black : theme.colorScheme.tertiary.withOpacity(0.6),
                       ),
                     ),
 
@@ -186,7 +253,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
                           style: theme.textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.w500,
                             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                            color: theme.colorScheme.tertiary,
+                            color: isLightTheme ? Colors.white : theme.colorScheme.tertiary,
                           ),
                         ),
                       );
@@ -242,34 +309,88 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
               return;
             }
 
-            CustomerModel? currentCustomer = _authProvider.currentCustomer;
-
             PersonalInfo _personalInfo;
-            // bool success;
 
-            _personalInfo = PersonalInfo(
-              phone: currentCustomer!.personalInfo.phone,
-              firstName: firstNameController.text,
-              lastName: lastNameController.text,
-              description: currentCustomer.personalInfo.description ?? '',
-              dob: currentCustomer.personalInfo.dob ?? DateTime.now().subtract(const Duration(days: 365 * 26)),
-              email: emailController.text,
-              sex: currentCustomer.personalInfo.sex ?? '',
-            );
+            if (_salonProfileProvider.chosenSalon.countryCode == 'US') {
+              CustomerModel? currentCustomer = _authProvider.currentCustomer;
 
-            await _authProvider.updateCustomerPersonalInfo(
-              customerId: currentCustomer.customerId,
-              personalInfo: _personalInfo,
-              gender: dropdownvalue,
-            );
+              _personalInfo = PersonalInfo(
+                phone: currentCustomer!.personalInfo.phone,
+                firstName: firstNameController.text,
+                lastName: lastNameController.text,
+                description: currentCustomer.personalInfo.description ?? '',
+                dob: currentCustomer.personalInfo.dob ?? DateTime.now().subtract(const Duration(days: 365 * 26)),
+                email: emailController.text,
+                sex: currentCustomer.personalInfo.sex ?? '',
+              );
 
-            _createAppointmentProvider.nextPageView(3);
+              await _authProvider.updateCustomerPersonalInfo(
+                customerId: currentCustomer.customerId,
+                personalInfo: _personalInfo,
+                gender: dropdownvalue,
+              );
+
+              _createAppointmentProvider.nextPageView(3);
+            } else {
+              setState(() => loader = true);
+
+              // CHECK IF WE HAVE THIS NUMBER IN OUT DB
+              final CustomerModel? customer = await CustomerApi().findCustomer('$countryCode${phoneNumberController.text.trim()}');
+
+              // IF IT EXISTS - GRAB CUSTOMER INFO
+              if (customer != null) {
+                // UPDATE CUSTOMER INFO
+                PersonalInfo personalInfo = PersonalInfo(
+                  phone: '$countryCode${phoneNumberController.text}',
+                  firstName: firstNameController.text,
+                  lastName: lastNameController.text,
+                  email: emailController.text,
+                  sex: pronounceController.text,
+                );
+
+                await CustomerApi().updatePersonalInfo(
+                  customerId: customer.customerId,
+                  personalInfo: personalInfo,
+                );
+
+                // SET AS CURRENT CUSTOMER
+                _auth.setCurrentCustomer(customer);
+                // Go to PageView Order List Screen
+                _createAppointmentProvider.nextPageView(3);
+              } else {
+                // IF IT DOESN'T EXISTS - JUMP TO PAGE TO INPUT INFO
+                // CREATE NEW CUSTOMER DOCUMENT
+
+                final CustomerModel? createdCustomer = await CustomerApi().createNewCustomer(
+                  personalInfo: PersonalInfo(
+                    phone: '$countryCode${phoneNumberController.text}',
+                    firstName: firstNameController.text,
+                    lastName: lastNameController.text,
+                    description: "",
+                    dob: null,
+                    email: emailController.text,
+                    sex: pronounceController.text,
+                  ),
+                );
+
+                if (createdCustomer != null) {
+                  _authProvider.setCurrentCustomer(createdCustomer);
+
+                  setState(() => loader = false);
+
+                  _createAppointmentProvider.nextPageView(1);
+                } else {
+                  setState(() => loader = false);
+                  return;
+                }
+              }
+            }
           },
           color: dialogButtonColor(themeType, theme),
           textColor: loaderColor(themeType),
           height: 60,
           label: AppLocalizations.of(context)?.confirmMyDetails ?? "Confirm my details",
-          isLoading: (_authProvider.updateCustomerPersonalInfoStatus == Status.loading),
+          isLoading: (_authProvider.updateCustomerPersonalInfoStatus == Status.loading) || loader,
           loaderColor: loaderColor(themeType),
           suffixIcon: Icon(
             Icons.arrow_forward_ios_rounded,

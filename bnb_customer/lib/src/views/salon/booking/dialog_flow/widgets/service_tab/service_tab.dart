@@ -95,6 +95,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                                         'pt': 'Todos',
                                         'ro': 'Toate',
                                         'uk': 'все',
+                                        'fr': 'Tout',
                                       },
                                     ),
                                     ..._createAppointmentProvider.categoriesAvailable,
@@ -363,6 +364,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                                   'pt': 'Todos',
                                   'ro': 'Toate',
                                   'uk': 'все',
+                                  'fr': 'Tout',
                                 },
                               ),
                               ..._createAppointmentProvider.categoriesAvailable,
@@ -509,151 +511,6 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                           ),
                         ],
                       ),
-                    // : Column(
-                    //     children: [
-                    //       ExpandablePageView(
-                    //         controller: _pageController,
-                    //         onPageChanged: (i) {
-                    //           setState(() {
-                    //             _activeTab = i;
-                    //           });
-                    //         },
-                    //         children: [
-                    //           // All Section
-                    //           ListView.builder(
-                    //             shrinkWrap: true,
-                    //             itemCount: _salonSearchProvider.categories.length,
-                    //             itemBuilder: (context, index) {
-                    //               if (_createAppointmentProvider.categoryServicesMap[_salonSearchProvider.categories[index].categoryId.toString()] != null && _createAppointmentProvider.categoryServicesMap[_salonSearchProvider.categories[index].categoryId.toString()]!.isNotEmpty) {
-                    //                 final CategoryModel categoryModel = _salonSearchProvider.categories
-                    //                     .where((
-                    //                       element,
-                    //                     ) =>
-                    //                         element.categoryId == _salonSearchProvider.categories[index].categoryId.toString())
-                    //                     .first;
-
-                    //                 List<ServiceModel> services = _createAppointmentProvider.categoryServicesMap[_salonSearchProvider.categories[index].categoryId.toString()] ?? [];
-
-                    //                 return Padding(
-                    //                   padding: EdgeInsets.symmetric(vertical: 5.sp),
-                    //                   child: Column(
-                    //                     children: [
-                    //                       Theme(
-                    //                         data: ThemeData().copyWith(dividerColor: Colors.transparent),
-                    //                         child: ExpansionTile(
-                    //                           iconColor: const Color(0XFFACACAC), // borderColor(themeType, theme),
-                    //                           collapsedIconColor: const Color(0XFFACACAC), // borderColor(themeType, theme),
-                    //                           tilePadding: EdgeInsets.zero,
-                    //                           childrenPadding: EdgeInsets.zero,
-                    //                           onExpansionChanged: (bool expanded) {
-                    //                             setState(() {
-                    //                               isExpanded = expanded;
-                    //                             });
-                    //                           },
-                    //                           title: Text(
-                    //                             categoryModel.categoryName,
-                    //                             style: theme.textTheme.bodyLarge!.copyWith(
-                    //                               fontWeight: FontWeight.w600,
-                    //                               // fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
-                    //                               fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                    //                               color: theme.colorScheme.tertiary, //defaultTheme ? AppTheme.textBlack : Colors.white,
-                    //                             ),
-                    //                           ),
-                    //                           children: services.map(
-                    //                             (ServiceModel service) {
-                    //                               List<ServiceModel> subItems = services;
-                    //                               bool isAdded = _createAppointmentProvider.isAdded(serviceModel: service);
-                    //                               return GestureDetector(
-                    //                                 onTap: () {
-                    //                                   _createAppointmentProvider.toggleCookings(
-                    //                                     serviceModel: service,
-                    //                                     subItems: services,
-                    //                                     selected: () {
-                    //                                       _createAppointmentProvider.selectedItems.clear();
-                    //                                       _createAppointmentProvider.selectedSubItems.clear();
-                    //                                       _createAppointmentProvider.selectedItems.add(service);
-                    //                                       _createAppointmentProvider.getServiceMasters();
-                    //                                       _createAppointmentProvider.totalSelectedSubItems.add(service);
-                    //                                     },
-                    //                                     unselected: () {
-                    //                                       _createAppointmentProvider.selectedSubItems.remove(service);
-                    //                                       _createAppointmentProvider.selectedItems.remove(service);
-                    //                                       _createAppointmentProvider.totalSelectedSubItems.remove(service);
-                    //                                       _createAppointmentProvider.selectedItems.removeWhere((item) => subItems.contains(item));
-                    //                                     },
-                    //                                   );
-                    //                                 },
-                    //                                 child: ServiceCard(
-                    //                                   isAdded: isAdded,
-                    //                                   service: service,
-                    //                                 ),
-                    //                               );
-                    //                             },
-                    //                           ).toList(),
-                    //                         ),
-                    //                       ),
-                    //                       // if (isExpanded == false) SizedBox(height: 4.sp),
-                    //                       if (isExpanded == false)
-                    //                         const Divider(
-                    //                           thickness: 1,
-                    //                           color: Color(0XFF323232),
-                    //                         ),
-                    //                     ],
-                    //                   ),
-                    //                 );
-                    //               } else {
-                    //                 return const SizedBox();
-                    //               }
-                    //             },
-                    //           ),
-
-                    //           // Other Page views
-                    //           ..._createAppointmentProvider.servicesAvailable.map(
-                    //             (services) {
-                    //               List<ServiceModel> subItems = services;
-
-                    //               return Column(
-                    //                 children: services
-                    //                     .map(
-                    //                       (service) => GestureDetector(
-                    //                         onTap: () {
-                    //                           _createAppointmentProvider.toggleCookings(
-                    //                             serviceModel: service,
-                    //                             subItems: services,
-                    //                             selected: () {
-                    //                               _createAppointmentProvider.selectedItems.clear();
-                    //                               _createAppointmentProvider.selectedSubItems.clear();
-                    //                               _createAppointmentProvider.selectedItems.add(service);
-                    //                               _createAppointmentProvider.getServiceMasters();
-                    //                               _createAppointmentProvider.totalSelectedSubItems.add(service);
-                    //                             },
-                    //                             unselected: () {
-                    //                               _createAppointmentProvider.selectedSubItems.remove(service);
-                    //                               _createAppointmentProvider.selectedItems.remove(service);
-                    //                               _createAppointmentProvider.totalSelectedSubItems.remove(service);
-                    //                               _createAppointmentProvider.selectedItems.removeWhere((item) => subItems.contains(item));
-                    //                             },
-                    //                           );
-                    //                         },
-                    //                         child: ServiceCard(
-                    //                           isAdded: _createAppointmentProvider.isAdded(serviceModel: service),
-                    //                           service: service,
-                    //                         ),
-                    //                       ),
-                    //                     )
-                    //                     .toList(),
-                    //               );
-                    //             },
-                    //           ).toList(),
-                    //           // ..._createAppointmentProvider.servicesAvailable
-                    //           //     .map(
-                    //           //       (services) => ServiceList(services: services),
-                    //           //     )
-                    //           //     .toList(),
-                    //         ],
-                    //       ),
-                    //     ],
-                    //   ),
 
                     if (_createAppointmentProvider.selectedItems.isNotEmpty)
                       Center(
@@ -694,63 +551,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                           );
                         },
                       ),
-                    // if (_createAppointmentProvider.selectedItems.isNotEmpty)
-                    //   Column(
-                    //     children: _createAppointmentProvider.groupUnavailableSelectedItems
-                    //         .map(
-                    //           (category, services) => MapEntry(
-                    //             category,
-                    //             Padding(
-                    //               padding: EdgeInsets.symmetric(vertical: 5.sp),
-                    //               child: Column(
-                    //                 children: [
-                    //                   Theme(
-                    //                     data: ThemeData().copyWith(dividerColor: Colors.transparent),
-                    //                     child: ExpansionTile(
-                    //                       iconColor: const Color(0XFFACACAC),
-                    //                       collapsedIconColor: const Color(0XFFACACAC),
-                    //                       tilePadding: EdgeInsets.zero,
-                    //                       childrenPadding: EdgeInsets.zero,
-                    //                       onExpansionChanged: (bool expanded) {
-                    //                         setState(() {
-                    //                           isExpanded = expanded;
-                    //                         });
-                    //                       },
-                    //                       title: Text(
-                    //                         _createAppointmentProvider.getCategoryFromId(category) != null ? _createAppointmentProvider.getCategoryFromId(category)!.categoryName.toUpperCase() : 'Others'.toUpperCase(),
-                    //                         style: theme.textTheme.bodyLarge!.copyWith(
-                    //                           fontWeight: FontWeight.w600,
-                    //                           fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                    //                           color: theme.colorScheme.tertiary,
-                    //                         ),
-                    //                       ),
-                    //                       children: services.map(
-                    //                         (ServiceModel service) {
-                    //                           return GestureDetector(
-                    //                             onTap: () {},
-                    //                             child: Container(
-                    //                               color: Colors.amber,
-                    //                               child: ServiceCard(
-                    //                                 isAdded: false,
-                    //                                 service: service,
-                    //                               ),
-                    //                             ),
-                    //                           );
-                    //                         },
-                    //                       ).toList(),
-                    //                     ),
-                    //                   ),
-                    //                   // if (isExpanded == false) SizedBox(height: 4.sp),
-                    //                 ],
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         )
-                    //         .values
-                    //         .toList(),
-                    //   ),
 
-                    // const Spacer(),
                     DefaultButton(
                       borderRadius: 60,
                       onTap: () {
