@@ -15,8 +15,9 @@ import 'package:url_launcher/url_launcher.dart';
 
 class Header extends ConsumerWidget {
   final SalonModel salonModel;
+  final VoidCallback goToLanding;
 
-  const Header({Key? key, required this.salonModel}) : super(key: key);
+  const Header({Key? key, required this.salonModel, required this.goToLanding}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -44,21 +45,27 @@ class Header extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Container(
-                      height: DeviceConstraints.getResponsiveSize(context, 50.h, 50.h, 60.h),
-                      width: DeviceConstraints.getResponsiveSize(context, 50.h, 50.h, 60.h),
-                      decoration: BoxDecoration(shape: BoxShape.circle, color: salonModel.salonLogo != '' ? null : theme.primaryColor),
-                      child: (salonModel.salonLogo != '')
-                          ? CachedImage(url: salonModel.salonLogo)
-                          : Center(
-                              child: Text(
-                                (salonModel.salonName.isNotEmpty) ? salonModel.salonName[0].toUpperCase() : '',
-                                style: theme.textTheme.displayLarge!.copyWith(
-                                  fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 30.sp, 30.sp),
-                                  color: Colors.white,
+                    MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        onTap: goToLanding,
+                        child: Container(
+                          height: DeviceConstraints.getResponsiveSize(context, 50.h, 50.h, 60.h),
+                          width: DeviceConstraints.getResponsiveSize(context, 50.h, 50.h, 60.h),
+                          decoration: BoxDecoration(shape: BoxShape.circle, color: salonModel.salonLogo != '' ? null : theme.primaryColor),
+                          child: (salonModel.salonLogo != '')
+                              ? CachedImage(url: salonModel.salonLogo)
+                              : Center(
+                                  child: Text(
+                                    (salonModel.salonName.isNotEmpty) ? salonModel.salonName[0].toUpperCase() : '',
+                                    style: theme.textTheme.displayLarge!.copyWith(
+                                      fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 30.sp, 30.sp),
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
+                        ),
+                      ),
                     ),
                     const SpaceHorizontal(factor: 0.8),
                     Flexible(

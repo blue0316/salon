@@ -106,7 +106,10 @@ class _MasterProfileState extends ConsumerState<MasterProfile> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Header(salonModel: _salonProfileProvider.chosenSalon),
+                        Header(
+                          salonModel: _salonProfileProvider.chosenSalon,
+                          goToLanding: () {},
+                        ),
                         Space(
                           factor: DeviceConstraints.getResponsiveSize(context, 2, 2, 2.5),
                         ),

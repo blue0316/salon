@@ -1613,66 +1613,66 @@ class CreateAppointmentProvider with ChangeNotifier {
       }
     }
 
-    List? slotsDay2;
+    // List? slotsDay2;
 
-    if (salonMasters.length == 1) {
-      slotsDay2 = AppointmentAvailability().getAvailableSlots(
-        salonMasters[0].blockedTime,
-        selectedDate2,
-        workingHours: chosenSalon!.workingHours,
-        irregularWorkingHours: chosenSalon!.irregularWorkingHours,
-        isSingleMaster: isSingleMaster,
-        salon: chosenSalon!,
-      );
-    } else {
-      slotsDay2 = AppointmentAvailability().getAvailableSlots(
-        chosenSalon!.blockedTime,
-        selectedDate2,
-        workingHours: salon.workingHours,
-        irregularWorkingHours: salon.irregularWorkingHours,
-        isSingleMaster: isSingleMaster,
-        salon: chosenSalon!,
-      );
-    }
+    // if (salonMasters.length == 1) {
+    //   slotsDay2 = AppointmentAvailability().getAvailableSlots(
+    //     salonMasters[0].blockedTime,
+    //     selectedDate2,
+    //     workingHours: chosenSalon!.workingHours,
+    //     irregularWorkingHours: chosenSalon!.irregularWorkingHours,
+    //     isSingleMaster: isSingleMaster,
+    //     salon: chosenSalon!,
+    //   );
+    // } else {
+    //   slotsDay2 = AppointmentAvailability().getAvailableSlots(
+    //     chosenSalon!.blockedTime,
+    //     selectedDate2,
+    //     workingHours: salon.workingHours,
+    //     irregularWorkingHours: salon.irregularWorkingHours,
+    //     isSingleMaster: isSingleMaster,
+    //     salon: chosenSalon!,
+    //   );
+    // }
 
-    List? slotsDay3;
+    // List? slotsDay3;
 
-    if (salonMasters.length == 1) {
-      slotsDay3 = AppointmentAvailability().getAvailableSlots(
-        salonMasters[0].blockedTime,
-        selectedDate3,
-        workingHours: chosenSalon!.workingHours,
-        irregularWorkingHours: chosenSalon!.irregularWorkingHours,
-        isSingleMaster: isSingleMaster,
-        salon: chosenSalon!,
-      );
-    } else {
-      slotsDay3 = AppointmentAvailability().getAvailableSlots(
-        chosenSalon!.blockedTime,
-        selectedDate3,
-        workingHours: salon.workingHours,
-        irregularWorkingHours: salon.irregularWorkingHours,
-        isSingleMaster: isSingleMaster,
-        salon: chosenSalon!,
-      );
-    }
+    // if (salonMasters.length == 1) {
+    //   slotsDay3 = AppointmentAvailability().getAvailableSlots(
+    //     salonMasters[0].blockedTime,
+    //     selectedDate3,
+    //     workingHours: chosenSalon!.workingHours,
+    //     irregularWorkingHours: chosenSalon!.irregularWorkingHours,
+    //     isSingleMaster: isSingleMaster,
+    //     salon: chosenSalon!,
+    //   );
+    // } else {
+    //   slotsDay3 = AppointmentAvailability().getAvailableSlots(
+    //     chosenSalon!.blockedTime,
+    //     selectedDate3,
+    //     workingHours: salon.workingHours,
+    //     irregularWorkingHours: salon.irregularWorkingHours,
+    //     isSingleMaster: isSingleMaster,
+    //     salon: chosenSalon!,
+    //   );
+    // }
 
     //generates slots acc. to the service durations
     // slots.add(Time().checkAvailableSlotsForTheServiceTime(
     //     slotsDay1 as List<String>?, int.parse(serviceDuration)));
     slots.add(slotsDay1 as List<String>?);
-    slots.add(
-      Time().checkAvailableSlotsForTheServiceTime(
-        slotsDay2 as List<String>,
-        int.parse(serviceDuration),
-      ),
-    );
-    slots.add(
-      Time().checkAvailableSlotsForTheServiceTime(
-        slotsDay3 as List<String>,
-        int.parse(serviceDuration),
-      ),
-    );
+    // slots.add(
+    //   Time().checkAvailableSlotsForTheServiceTime(
+    //     slotsDay2 as List<String>,
+    //     int.parse(serviceDuration),
+    //   ),
+    // );
+    // slots.add(
+    //   Time().checkAvailableSlotsForTheServiceTime(
+    //     slotsDay3 as List<String>,
+    //     int.parse(serviceDuration),
+    //   ),
+    // );
 
     // print('--------------------------- stop cooking -----------------------');
     // print(allSlotsSingleMaster);

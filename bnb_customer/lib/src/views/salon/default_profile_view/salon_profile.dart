@@ -77,7 +77,13 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Header(salonModel: _salonProfileProvider.chosenSalon),
+                        Header(
+                          salonModel: _salonProfileProvider.chosenSalon,
+                          goToLanding: () {
+                            _pageController.jumpToPage(0);
+                            _activeTab = (0);
+                          },
+                        ),
                         Space(
                           factor: DeviceConstraints.getResponsiveSize(context, 2, 3, 5),
                         ),
@@ -265,11 +271,11 @@ class LandingView extends ConsumerWidget {
                   Text(
                     _salonProfileProvider.chosenSalon.salonName.toUpperCase(),
                     style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                          fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 35.sp, 40.sp),
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 55.sp, 60.sp),
                           color: Colors.white,
                           fontFamily: "Montserrat",
                           letterSpacing: 0.5,
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.bold,
                         ),
                     textAlign: TextAlign.center,
                   ),
