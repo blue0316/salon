@@ -2,9 +2,11 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/enums/profile_datails_tabs.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
+import 'package:bbblient/src/utils/currency/currency.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/booking_dialog_2.dart';
+import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/confirm/pay_dialog.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_about.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_services.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/widgets/landing_bottom.dart';
@@ -227,6 +229,24 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
             //   alignment: Alignment.bottomCenter,
             //   child: FloatingBar(),
             // ),
+
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: InkWell(
+                onTap: () {
+                  PayDialog(
+                    amount: '2500',
+                    currency: getCurrency(_salonProfileProvider.chosenSalon.countryCode!),
+                    transactionId: null,
+                  ).show(context);
+                },
+                child: Container(
+                  height: 100,
+                  width: 700,
+                  color: Colors.amber,
+                ),
+              ),
+            ),
           ],
         ),
       ),

@@ -30,13 +30,23 @@ class _PaymentState extends State<Payment> {
     super.initState();
     // TERMINALID:ORDERID:AMOUNT:DATETIME:SECRET
 // bnbUkraine20211!
-    var bytesToHash = utf8.encode("${widget.terminalId ?? "5363001"}:${widget.transactionId ?? "${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}"}:${widget.amount ?? "325.56"}:${formatter.format(timeNow)}:https://us-central1-bowandbeautiful-3372d.cloudfunctions.net/payrocreceipt-payrocReceipt:bnbUkraine20211!");
+    // var bytesToHash = utf8.encode("${widget.terminalId ?? "5363001"}:${widget.transactionId ?? "${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}"}:${widget.amount ?? "325.56"}:${formatter.format(timeNow)}:https://us-central1-bowandbeautiful-3372d.cloudfunctions.net/payrocreceipt-payrocReceipt:bnbUkraine20211!");
+    // hash = sha512.convert(bytesToHash);
+    // // print();
+    // _iframeElement.style.height = '100%';
+    // _iframeElement.style.width = '100%';
+    // _iframeElement.src =
+    //     'https://testpayments.worldnettps.com/merchant/securecardpage?TERMINALID=${widget.terminalId ?? "5363001"}&ORDERID=${widget.transactionId ?? "${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}"}&AMOUNT=${widget.amount ?? "325.56"}&DATETIME=${formatter.format(timeNow)}&HASH=$hash&CURRENCY=${widget.currency ?? "USD"}&SECURECARDMERCHANTREF=${"Glamiris181234${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}"}&STOREDCREDENTIALUSE=UNSCHEDULED&STOREDCREDENTIALTXTYPE=FIRST_TXN&RECEIPTPAGEURL=https://us-central1-bowandbeautiful-3372d.cloudfunctions.net/payrocreceipt-payrocReceipt';
+    // _iframeElement.style.border = 'none';
+    // _iframeElement.style.border = 'none';
+    var bytesToHash = utf8.encode(
+      "${widget.terminalId ?? "5363001"}:${widget.transactionId ?? "Glamiris181234${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}"}:${formatter.format(timeNow)}:register:bnbUkraine20211!",
+    );
     hash = sha512.convert(bytesToHash);
     // print();
     _iframeElement.style.height = '100%';
     _iframeElement.style.width = '100%';
-    _iframeElement.src =
-        'https://testpayments.worldnettps.com/merchant/paymentpage?TERMINALID=${widget.terminalId ?? "5363001"}&ORDERID=${widget.transactionId ?? "${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}"}&AMOUNT=${widget.amount ?? "325.56"}&DATETIME=${formatter.format(timeNow)}&HASH=$hash&CURRENCY=${widget.currency ?? "USD"}&SECURECARDMERCHANTREF=${"Glamiris181234${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}"}&STOREDCREDENTIALUSE=UNSCHEDULED&STOREDCREDENTIALTXTYPE=FIRST_TXN&RECEIPTPAGEURL=https://us-central1-bowandbeautiful-3372d.cloudfunctions.net/payrocreceipt-payrocReceipt';
+    _iframeElement.src = 'https://testpayments.worldnettps.com/merchant/securecardpage?TERMINALID=${widget.terminalId ?? "5363001"}&DATETIME=${formatter.format(timeNow)}&HASH=$hash&CURRENCY=${widget.currency ?? "USD"}&MERCHANTREF=${widget.transactionId ?? "Glamiris181234${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}"}&ACTION=register&RECEIPTPAGEURL=https://us-central1-bowandbeautiful-3372d.cloudfunctions.net/payrocreceipt-payrocReceipt';
     _iframeElement.style.border = 'none';
     _iframeElement.style.border = 'none';
 

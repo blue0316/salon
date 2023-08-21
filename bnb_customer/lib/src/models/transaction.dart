@@ -31,7 +31,7 @@ class TransactionModel {
     transactionId = json['transactionId'];
     responseCode = json['RESPONSECODE'] ?? '';
 
-    cardNumber = json['CARDNUMBER'];
+    cardNumber = json['CARDNUMBER'] ?? json['MASKEDCARDNUMBER'];
     cardExpiry = json['CARDEXPIRY'];
     cardReference = json['CARDREFERENCE'];
     cardType = json['CARDTYPE'];

@@ -283,164 +283,166 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                 children: [
                   // No policy, no deposit
 
-                  if (deposit == 0)
-                    // if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy == false)
-                    DefaultButton(
-                      borderRadius: 60,
-                      onTap: () async {
-                        if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy) {
-                          if (!acceptTerms) {
-                            // Terms Checkbox is unchecked
+                  // if (deposit == 0)
+                  //   // if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy == false)
+                  //   DefaultButton(
+                  //     borderRadius: 60,
+                  //     onTap: () async {
+                  //       if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy) {
+                  //         if (!acceptTerms) {
+                  //           // Terms Checkbox is unchecked
 
-                            showToast(
-                              AppLocalizations.of(context)?.pleaseAcceptCancellationPolicy ?? "Please accept the cancellation policy",
-                            );
+                  //           showToast(
+                  //             AppLocalizations.of(context)?.pleaseAcceptCancellationPolicy ?? "Please accept the cancellation policy",
+                  //           );
 
-                            return;
-                          }
-                        }
+                  //           return;
+                  //         }
+                  //       }
 
-                        CustomerModel? currentCustomer = _auth.currentCustomer;
+                  //       CustomerModel? currentCustomer = _auth.currentCustomer;
 
-                        CustomerModel customer = CustomerModel(
-                          customerId: currentCustomer!.customerId,
-                          personalInfo: currentCustomer.personalInfo,
-                          registeredSalons: [],
-                          createdAt: DateTime.now(),
-                          avgRating: 3.0,
-                          noOfRatings: 6,
-                          profilePicUploaded: false,
-                          profilePic: "",
-                          profileCompleted: false,
-                          quizCompleted: false,
-                          preferredGender: "male",
-                          preferredCategories: [],
-                          locations: [],
-                          fcmToken: "",
-                          locale: "en",
-                          favSalons: [],
-                          referralLink: "",
-                        );
+                  //       CustomerModel customer = CustomerModel(
+                  //         customerId: currentCustomer!.customerId,
+                  //         personalInfo: currentCustomer.personalInfo,
+                  //         registeredSalons: [],
+                  //         createdAt: DateTime.now(),
+                  //         avgRating: 3.0,
+                  //         noOfRatings: 6,
+                  //         profilePicUploaded: false,
+                  //         profilePic: "",
+                  //         profileCompleted: false,
+                  //         quizCompleted: false,
+                  //         preferredGender: "male",
+                  //         preferredCategories: [],
+                  //         locations: [],
+                  //         fcmToken: "",
+                  //         locale: "en",
+                  //         favSalons: [],
+                  //         referralLink: "",
+                  //       );
 
-                        // Build Appointment
-                        if (_createAppointmentProvider.chosenServices.length > 1) {
-                          //call multiple appointment service save option
+                  //       // Build Appointment
+                  //       if (_createAppointmentProvider.chosenServices.length > 1) {
+                  //         //call multiple appointment service save option
 
-                          if (!_salonProfileProvider.isSingleMaster) {
-                            await _createAppointmentProvider.saveNewAppointmentForMultipleServices(
-                              isSingleMaster: _salonProfileProvider.isSingleMaster,
-                              customer: customer,
-                              transactionId: null,
-                            );
-                          } else {
-                            await _createAppointmentProvider.saveAppointmentForMultipleServices(
-                              isSingleMaster: _salonProfileProvider.isSingleMaster,
-                              customer: customer,
-                              transactionId: null,
-                            );
-                          }
-                        } else {
-                          //call this single appointment service save function
+                  //         if (!_salonProfileProvider.isSingleMaster) {
+                  //           await _createAppointmentProvider.saveNewAppointmentForMultipleServices(
+                  //             isSingleMaster: _salonProfileProvider.isSingleMaster,
+                  //             customer: customer,
+                  //             transactionId: null,
+                  //           );
+                  //         } else {
+                  //           await _createAppointmentProvider.saveAppointmentForMultipleServices(
+                  //             isSingleMaster: _salonProfileProvider.isSingleMaster,
+                  //             customer: customer,
+                  //             transactionId: null,
+                  //           );
+                  //         }
+                  //       } else {
+                  //         //call this single appointment service save function
 
-                          if (!_salonProfileProvider.isSingleMaster) {
-                            await _createAppointmentProvider.saveAppointment(
-                              isSingleMaster: _salonProfileProvider.isSingleMaster,
-                              customer: customer,
-                              transactionId: null,
-                            );
-                          } else {
-                            await _createAppointmentProvider.saveAppointmentSingleMaster(
-                              isSingleMaster: _salonProfileProvider.isSingleMaster,
-                              customer: customer,
-                              transactionId: null,
-                            );
-                          }
-                        }
+                  //         if (!_salonProfileProvider.isSingleMaster) {
+                  //           await _createAppointmentProvider.saveAppointment(
+                  //             isSingleMaster: _salonProfileProvider.isSingleMaster,
+                  //             customer: customer,
+                  //             transactionId: null,
+                  //           );
+                  //         } else {
+                  //           await _createAppointmentProvider.saveAppointmentSingleMaster(
+                  //             isSingleMaster: _salonProfileProvider.isSingleMaster,
+                  //             customer: customer,
+                  //             transactionId: null,
+                  //           );
+                  //         }
+                  //       }
 
-                        if (_createAppointmentProvider.bookAppointmentStatus == Status.success) {
-                          const ConfirmationSuccess(
-                            responseCode: 'A',
-                            transactionID: '',
-                            isLocal: true,
-                          ).show(context);
-                        } else {
-                          showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? 'Something went wrong, please try again');
-                        }
-                      },
-                      color: dialogButtonColor(themeType, theme),
-                      textColor: loaderColor(themeType),
-                      height: 60,
-                      label: AppLocalizations.of(context)?.book ?? 'Book',
-                      isLoading: _createAppointmentProvider.bookAppointmentStatus == Status.loading,
-                      loaderColor: loaderColor(themeType),
-                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                      suffixIcon: Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        color: loaderColor(themeType),
-                        size: 18.sp,
-                      ),
-                    ),
+                  //       if (_createAppointmentProvider.bookAppointmentStatus == Status.success) {
+                  //         const ConfirmationSuccess(
+                  //           responseCode: 'A',
+                  //           transactionID: '',
+                  //           isLocal: true,
+                  //         ).show(context);
+                  //       } else {
+                  //         showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? 'Something went wrong, please try again');
+                  //       }
+                  //     },
+                  //     color: dialogButtonColor(themeType, theme),
+                  //     textColor: loaderColor(themeType),
+                  //     height: 60,
+                  //     label: AppLocalizations.of(context)?.book ?? 'Book',
+                  //     isLoading: _createAppointmentProvider.bookAppointmentStatus == Status.loading,
+                  //     loaderColor: loaderColor(themeType),
+                  //     fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                  //     suffixIcon: Icon(
+                  //       Icons.arrow_forward_ios_rounded,
+                  //       color: loaderColor(themeType),
+                  //       size: 18.sp,
+                  //     ),
+                  //   ),
 
-                  // If there's a cancellation policy
-                  if (deposit != 0)
-                    // if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy == true)
-                    DefaultButton(
-                      borderRadius: 60,
-                      onTap: () async {
-                        if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy) {
-                          if (!acceptTerms) {
-                            // Terms Checkbox is unchecked
+                  // // If there's a cancellation policy
+                  // if (deposit != 0)
+                  // if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy == true)
+                  DefaultButton(
+                    borderRadius: 60,
+                    onTap: () async {
+                      if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy) {
+                        if (!acceptTerms) {
+                          // Terms Checkbox is unchecked
 
-                            showToast(
-                              AppLocalizations.of(context)?.pleaseAcceptCancellationPolicy ?? "Please accept the cancellation policy",
-                            );
+                          showToast(
+                            AppLocalizations.of(context)?.pleaseAcceptCancellationPolicy ?? "Please accept the cancellation policy",
+                          );
 
-                            return;
-                          }
-                        }
-
-                        CustomerModel? currentCustomer = _auth.currentCustomer;
-
-                        CustomerModel customer = CustomerModel(
-                          customerId: currentCustomer!.customerId,
-                          personalInfo: currentCustomer.personalInfo,
-                          registeredSalons: [],
-                          createdAt: DateTime.now(),
-                          avgRating: 3.0,
-                          noOfRatings: 6,
-                          profilePicUploaded: false,
-                          profilePic: "",
-                          profileCompleted: false,
-                          quizCompleted: false,
-                          preferredGender: "male",
-                          preferredCategories: [],
-                          locations: [],
-                          fcmToken: "",
-                          locale: "en",
-                          favSalons: [],
-                          referralLink: "",
-                        );
-
-                        // const ConfirmedDialog().show(context);
-
-                        // ---------------------------- +++++++++++++++ ----------------------------
-                        setState(() => spinner = true);
-
-                        final TransactionModel newTransaction = TransactionModel(
-                          amount: (deposit != 0) ? '$deposit' : totalAmount,
-                          timeInitiated: DateTime.now(),
-                          salonId: salonModel.salonId,
-                        );
-
-                        String? transactionId = await TransactionApi().createTransaction(newTransaction);
-
-                        if (transactionId == null) {
-                          // Transaction must not be null (a doc must me created in transactions collection)
-                          showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? 'Something went wrong, please try again');
                           return;
                         }
+                      }
 
+                      CustomerModel? currentCustomer = _auth.currentCustomer;
+
+                      CustomerModel customer = CustomerModel(
+                        customerId: currentCustomer!.customerId,
+                        personalInfo: currentCustomer.personalInfo,
+                        registeredSalons: [],
+                        createdAt: DateTime.now(),
+                        avgRating: 3.0,
+                        noOfRatings: 6,
+                        profilePicUploaded: false,
+                        profilePic: "",
+                        profileCompleted: false,
+                        quizCompleted: false,
+                        preferredGender: "male",
+                        preferredCategories: [],
+                        locations: [],
+                        fcmToken: "",
+                        locale: "en",
+                        favSalons: [],
+                        referralLink: "",
+                      );
+
+                      // const ConfirmedDialog().show(context);
+
+                      // ---------------------------- +++++++++++++++ ----------------------------
+                      setState(() => spinner = true);
+
+                      final TransactionModel newTransaction = TransactionModel(
+                        amount: (deposit != 0) ? '$deposit' : totalAmount,
+                        timeInitiated: DateTime.now(),
+                        salonId: salonModel.salonId,
+                      );
+
+                      String? transactionId = await TransactionApi().createTransaction(newTransaction);
+
+                      if (transactionId == null) {
+                        // Transaction must not be null (a doc must me created in transactions collection)
+                        showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? 'Something went wrong, please try again');
+                        return;
+                      } else {
                         TransactionApi().streamTransaction(transactionId).listen((event) async {
+                          print('*****');
+                          print(transactionId);
+                          print('*****');
                           for (TransactionModel transaction in event) {
                             if (transaction.responseCode != null) {
                               if (transaction.responseCode == 'A' || transaction.responseCode == 'E') {
@@ -556,21 +558,22 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                         // } else {
                         //   showToast(AppLocalizations.of(context)?.somethingWentWrong ?? "Something went wrong");
                         // }
-                      },
-                      color: dialogButtonColor(themeType, theme),
-                      textColor: loaderColor(themeType),
-                      height: 60,
-                      label: 'Pay ${(deposit != 0) ? deposit : totalAmount}${getCurrency(salonModel.countryCode!)} deposit',
-                      // isLoading: _createAppointmentProvider.bookAppointmentStatus == Status.loading,
-                      isLoading: spinner,
-                      loaderColor: loaderColor(themeType),
-                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                      suffixIcon: Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        color: loaderColor(themeType),
-                        size: 18.sp,
-                      ),
+                      }
+                    },
+                    color: dialogButtonColor(themeType, theme),
+                    textColor: loaderColor(themeType),
+                    height: 60,
+                    label: 'Pay ${(deposit != 0) ? deposit : totalAmount}${getCurrency(salonModel.countryCode!)} deposit',
+                    // isLoading: _createAppointmentProvider.bookAppointmentStatus == Status.loading,
+                    isLoading: spinner,
+                    loaderColor: loaderColor(themeType),
+                    fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                    suffixIcon: Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      color: loaderColor(themeType),
+                      size: 18.sp,
                     ),
+                  ),
                 ],
               ),
               // SizedBox(height: 20.h),

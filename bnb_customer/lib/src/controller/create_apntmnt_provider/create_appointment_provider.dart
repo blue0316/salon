@@ -3876,6 +3876,7 @@ class CreateAppointmentProvider with ChangeNotifier {
               : ActiveAppointmentSubStatus.unConfirmed,
       priceAndDuration: _priceAndDuration,
       paymentInfo: _paymentInfo,
+      transactionId: transactionId == null ? [] : [transactionId],
     );
   }
 
@@ -4278,96 +4279,6 @@ class CreateAppointmentProvider with ChangeNotifier {
     );
   }
 
-  // AppointmentModel _createMultipleServiceAppointmentModel({
-  //   required List<Service> services,
-  //   required DateTime startTime,
-  //   required DateTime endTime,
-  //   String? appointmentTime,
-  //   required CustomerModel? customerModel,
-  //   required PriceAndDurationModel priceAndDuration,
-  //   required Master master,
-  // }) {
-  //   ///creating all the required variables
-  //   const String _type = AppointmentType.reservation;
-  //   //updating the latest update
-  //   final List<String> _updates = [AppointmentUpdates.createdByCustomer];
-  //   final List<DateTime> _updatedAt = [DateTime.now()];
-  //   final DateTime _createdAt = DateTime.now();
-
-  //   const String _status = AppointmentStatus.active;
-  //   const String _createdBy = CreatedBy.salon;
-
-  //   List<Service> selectedAppointmentServices = [];
-
-  //   for (var selectedAvailableService in services) {
-  //     selectedAppointmentServices.add(Service(
-  //       serviceId: selectedAvailableService.serviceId,
-  //       categoryId: selectedAvailableService.categoryId,
-  //       subCategoryId: selectedAvailableService.subCategoryId,
-  //       serviceName: selectedAvailableService.serviceName,
-  //       translations: selectedAvailableService.translations,
-  //       priceAndDuration: PriceAndDurationModel(
-  //         // isFixedPrice: selectedAvailableService.isFixedPrice,
-  //         // isPriceRange: selectedAvailableService.isPriceRange,
-  //         // isPriceStartAt: selectedAvailableService.isPriceStartAt,
-  //         durationinHr: selectedAvailableService.priceAndDuration!.durationinHr,
-  //         durationinMin: selectedAvailableService.priceAndDuration!.durationinMin,
-  //         duration: selectedAvailableService.priceAndDuration!.duration,
-  //         price: selectedAvailableService.priceAndDuration!.price,
-  //       ),
-  //     ));
-  //   }
-
-  //   /// assigning all the variables and creating appointment model ....
-  //   return AppointmentModel(
-  //     type: _type,
-  //     createdAt: _createdAt,
-  //     appointmentStartTime: startTime,
-  //     appointmentEndTime: endTime,
-  //     appointmentTime: appointmentTime ?? chosenSlots.first,
-  //     appointmentDate: Time().getDateInStandardFormat(chosenDay) ?? '',
-  //     salon: Salon(
-  //       id: chosenSalon!.salonId,
-  //       name: chosenSalon!.salonName,
-  //       address: chosenSalon!.address,
-  //       phoneNo: chosenSalon!.phoneNumber,
-  //     ),
-  //     master: chosenSalon!.ownerType == OwnerType.singleMaster
-  //         ? Master(
-  //             id: chosenSalon!.salonId,
-  //             name: chosenSalon!.salonName,
-  //           )
-  //         : Master(
-  //             id: chosenMaster!.masterId,
-  //             name: Utils().getNameMaster(chosenMaster!.personalInfo),
-  //           ),
-  //     customer: Customer(
-  //       id: customerModel!.customerId,
-  //       name: Utils().getName(customerModel.personalInfo),
-  //       phoneNumber: customerModel.personalInfo.phone,
-  //       pic: customerModel.profilePic,
-  //       email: customerModel.personalInfo.email ?? '',
-  //     ),
-  //     createdBy: _createdBy,
-  //     salonOwnerType: OwnerType.salon,
-  //     status: _status,
-  //     updates: _updates,
-  //     updatedAt: _updatedAt,
-  //     services: selectedAppointmentServices,
-  //     subStatus: startTime.difference(DateTime.now()).inHours < 24 ? ActiveAppointmentSubStatus.confirmed : ActiveAppointmentSubStatus.unConfirmed,
-  //     priceAndDuration: priceAndDuration,
-  //     paymentInfo: PaymentInfo(
-  //       bonusApplied: chosenBonus != null,
-  //       bonusAmount: chosenBonus?.amount ?? 0,
-  //       actualAmount: double.parse(priceAndDuration!.price!).toInt(),
-  //       bonusIds: chosenBonus != null ? [chosenBonus!.bonusId] : [],
-  //       paymentDone: false,
-  //       onlinePayment: false,
-  //       paymentMethod: PaymentMethods.cardSalon,
-  //     ),
-  //   );
-  // }
-
   AppointmentModel? appointmentConfirmation; // so we can show details on the confirmed dialog screen
 
   ///get salon Owner master profile
@@ -4492,6 +4403,7 @@ class CreateAppointmentProvider with ChangeNotifier {
           AppointmentSlot: prepTime,
           duration: selectedService.preparationTime,
           customer: customer,
+          transactionId: transactionId,
         );
         _appointmentPrep.appointmentIdentifier = identifier;
         //create and block prep time
@@ -4530,6 +4442,7 @@ class CreateAppointmentProvider with ChangeNotifier {
           AppointmentSlot: Time().timeToString(appointend)!,
           duration: selectedService.cleanUpTime,
           customer: customer,
+          transactionId: transactionId,
         );
         _appointmentCleanUp.appointmentIdentifier = identifier;
         //create and block cleanUp time
@@ -4896,6 +4809,7 @@ class CreateAppointmentProvider with ChangeNotifier {
           AppointmentSlot: prepTime,
           duration: selectedService.preparationTime,
           customer: customer,
+          transactionId: transactionId,
         );
 
         _appointmentPrep.appointmentIdentifier = identifier;
@@ -4929,6 +4843,7 @@ class CreateAppointmentProvider with ChangeNotifier {
           AppointmentSlot: Time().timeToString(appointend)!,
           duration: selectedService.cleanUpTime,
           customer: customer,
+          transactionId: transactionId,
         );
 
         _appointmentCleanUp.appointmentIdentifier = identifier;
@@ -5130,6 +5045,7 @@ class CreateAppointmentProvider with ChangeNotifier {
           AppointmentSlot: Time().timeToString(appointend)!,
           duration: cleanUpApptTime,
           customer: customer,
+          transactionId: transactionId,
         );
         _appointmentCleanUp.appointmentIdentifier = identifier;
         //create and block cleanUp time
@@ -5359,7 +5275,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   //   });
   // }
 
-  AppointmentModel _createOtherAppointmentTypeModel({String? type, String? AppointmentSlot, int? duration, required CustomerModel customer}) {
+  AppointmentModel _createOtherAppointmentTypeModel({String? type, String? AppointmentSlot, int? duration, required CustomerModel customer, required String? transactionId}) {
     ///creating all the required variables
     final String _type = type!;
     //updating the latest update
@@ -5456,124 +5372,9 @@ class CreateAppointmentProvider with ChangeNotifier {
       services: [_service],
       priceAndDuration: _priceAndDuration,
       paymentInfo: _paymentInfo,
+      transactionId: transactionId == null ? [] : [transactionId],
     );
   }
-
-  // AppointmentModel _createOtherAppointmentTypeModel({
-  //   required AppointmentModel appointment,
-  //   String? type,
-  //   String? appointmentSlot,
-  //   int? duration,
-  //   required CustomerModel? customerModel,
-  // }) {
-  //   Service singleService = appointment.services[0];
-
-  //   ///creating all the required variables
-  //   final String _type = type!;
-  //   //updating the latest update
-  //   final List<String> _updates = [AppointmentUpdates.createdByCustomer];
-  //   final List<DateTime> _updatedAt = [DateTime.now()];
-
-  //   //////////////////////////////////////////////
-  //   //handling appointment TIME & DURATION
-  //   //////////////////////////////////////////////
-  //   final PriceAndDurationModel _priceAndDuration = mastersPriceDurationMap[appointment.master?.id] ?? PriceAndDurationModel();
-  //   debugPrint(type + " Chosen Slots");
-  //   debugPrint(appointmentSlot);
-
-  //   TimeOfDay _startTime = Time().stringToTime(appointmentSlot!);
-  //   //computing appointment end time in string
-
-  //   debugPrint("_startTime");
-  //   debugPrint(_startTime.toString());
-  //   TimeOfDay _endTime = _startTime.addMinutes(duration ?? 0);
-
-  //   final DateTime _start = Time().generateDateTimeFromString(
-  //     chosenDay,
-  //     appointmentSlot,
-  //   );
-
-  //   debugPrint("_start");
-  //   debugPrint(_start.toString());
-
-  //   final DateTime _end = Time().generateDateTimeFromString(
-  //     chosenDay,
-  //     Time().timeToString(_endTime)!,
-  //   );
-
-  //   final String? _appointmentTime = appointmentSlot;
-  //   final String _appointmentDate = Time().getDateInStandardFormat(chosenDay);
-
-  //   final DateTime _createdAt = DateTime.now();
-
-  //   /////////////////////////////////////////////
-
-  //   final Master _master = chosenSalon!.ownerType == OwnerType.singleMaster
-  //       ? Master(
-  //           id: chosenSalon!.salonId,
-  //           name: chosenSalon!.salonName,
-  //         )
-  //       : Master(
-  //           id: chosenMaster!.masterId,
-  //           name: Utils().getNameMaster(chosenMaster!.personalInfo),
-  //         );
-
-  //   /////////////////////////////////////////////
-
-  //   const String _status = AppointmentStatus.active;
-  //   const String _createdBy = CreatedBy.salon;
-
-  //   final Service _service = Service(
-  //     serviceId: singleService.serviceId,
-  //     categoryId: singleService.categoryId,
-  //     subCategoryId: singleService.subCategoryId,
-  //     serviceName: singleService.serviceName,
-  //     translations: singleService.translations,
-  //     priceAndDuration: _priceAndDuration,
-  //   );
-
-  //   /// assigning all the variables and creating appointment model ....
-
-  //   return AppointmentModel(
-  //     type: _type,
-  //     createdAt: _createdAt,
-  //     appointmentStartTime: _start,
-  //     appointmentEndTime: _end,
-  //     appointmentTime: _appointmentTime ?? '',
-  //     appointmentDate: _appointmentDate,
-  //     salon: Salon(
-  //       id: chosenSalon!.salonId,
-  //       name: chosenSalon!.salonName,
-  //       address: chosenSalon!.address,
-  //       phoneNo: chosenSalon!.phoneNumber,
-  //     ),
-  //     master: _master,
-  //     customer: Customer(
-  //       id: customerModel!.customerId,
-  //       name: Utils().getName(customerModel.personalInfo),
-  //       phoneNumber: customerModel.personalInfo.phone,
-  //       pic: customerModel.profilePic,
-  //       email: customerModel.personalInfo.email ?? '',
-  //     ),
-  //     createdBy: _createdBy,
-  //     salonOwnerType: OwnerType.salon,
-  //     status: _status,
-  //     subStatus: _start.difference(DateTime.now()).inHours < 24 ? ActiveAppointmentSubStatus.confirmed : ActiveAppointmentSubStatus.unConfirmed,
-  //     updates: _updates,
-  //     updatedAt: _updatedAt,
-  //     services: [_service],
-  //     priceAndDuration: _priceAndDuration,
-  //     paymentInfo: PaymentInfo(
-  //       bonusApplied: false,
-  //       bonusAmount: 0,
-  //       actualAmount: 0,
-  //       bonusIds: [],
-  //       paymentDone: false,
-  //       onlinePayment: false,
-  //       paymentMethod: PaymentMethods.cardSalon,
-  //     ),
-  //   );
-  // }
 
   ///appointment model for multiple services type for prep time, clean up time or processing time
   AppointmentModel _createOtherNewAppointmentTypeModelForMultipleServices({String? type, String? AppointmentSlot, int? duration, required CustomerModel customer}) {
