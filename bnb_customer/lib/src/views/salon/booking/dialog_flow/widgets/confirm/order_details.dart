@@ -283,297 +283,297 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                 children: [
                   // No policy, no deposit
 
-                  // if (deposit == 0)
-                  //   // if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy == false)
-                  //   DefaultButton(
-                  //     borderRadius: 60,
-                  //     onTap: () async {
-                  //       if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy) {
-                  //         if (!acceptTerms) {
-                  //           // Terms Checkbox is unchecked
+                  if (deposit == 0)
+                    // if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy == false)
+                    DefaultButton(
+                      borderRadius: 60,
+                      onTap: () async {
+                        if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy) {
+                          if (!acceptTerms) {
+                            // Terms Checkbox is unchecked
 
-                  //           showToast(
-                  //             AppLocalizations.of(context)?.pleaseAcceptCancellationPolicy ?? "Please accept the cancellation policy",
-                  //           );
+                            showToast(
+                              AppLocalizations.of(context)?.pleaseAcceptCancellationPolicy ?? "Please accept the cancellation policy",
+                            );
 
-                  //           return;
-                  //         }
-                  //       }
-
-                  //       CustomerModel? currentCustomer = _auth.currentCustomer;
-
-                  //       CustomerModel customer = CustomerModel(
-                  //         customerId: currentCustomer!.customerId,
-                  //         personalInfo: currentCustomer.personalInfo,
-                  //         registeredSalons: [],
-                  //         createdAt: DateTime.now(),
-                  //         avgRating: 3.0,
-                  //         noOfRatings: 6,
-                  //         profilePicUploaded: false,
-                  //         profilePic: "",
-                  //         profileCompleted: false,
-                  //         quizCompleted: false,
-                  //         preferredGender: "male",
-                  //         preferredCategories: [],
-                  //         locations: [],
-                  //         fcmToken: "",
-                  //         locale: "en",
-                  //         favSalons: [],
-                  //         referralLink: "",
-                  //       );
-
-                  //       // Build Appointment
-                  //       if (_createAppointmentProvider.chosenServices.length > 1) {
-                  //         //call multiple appointment service save option
-
-                  //         if (!_salonProfileProvider.isSingleMaster) {
-                  //           await _createAppointmentProvider.saveNewAppointmentForMultipleServices(
-                  //             isSingleMaster: _salonProfileProvider.isSingleMaster,
-                  //             customer: customer,
-                  //             transactionId: null,
-                  //           );
-                  //         } else {
-                  //           await _createAppointmentProvider.saveAppointmentForMultipleServices(
-                  //             isSingleMaster: _salonProfileProvider.isSingleMaster,
-                  //             customer: customer,
-                  //             transactionId: null,
-                  //           );
-                  //         }
-                  //       } else {
-                  //         //call this single appointment service save function
-
-                  //         if (!_salonProfileProvider.isSingleMaster) {
-                  //           await _createAppointmentProvider.saveAppointment(
-                  //             isSingleMaster: _salonProfileProvider.isSingleMaster,
-                  //             customer: customer,
-                  //             transactionId: null,
-                  //           );
-                  //         } else {
-                  //           await _createAppointmentProvider.saveAppointmentSingleMaster(
-                  //             isSingleMaster: _salonProfileProvider.isSingleMaster,
-                  //             customer: customer,
-                  //             transactionId: null,
-                  //           );
-                  //         }
-                  //       }
-
-                  //       if (_createAppointmentProvider.bookAppointmentStatus == Status.success) {
-                  //         const ConfirmationSuccess(
-                  //           responseCode: 'A',
-                  //           transactionID: '',
-                  //           isLocal: true,
-                  //         ).show(context);
-                  //       } else {
-                  //         showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? 'Something went wrong, please try again');
-                  //       }
-                  //     },
-                  //     color: dialogButtonColor(themeType, theme),
-                  //     textColor: loaderColor(themeType),
-                  //     height: 60,
-                  //     label: AppLocalizations.of(context)?.book ?? 'Book',
-                  //     isLoading: _createAppointmentProvider.bookAppointmentStatus == Status.loading,
-                  //     loaderColor: loaderColor(themeType),
-                  //     fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                  //     suffixIcon: Icon(
-                  //       Icons.arrow_forward_ios_rounded,
-                  //       color: loaderColor(themeType),
-                  //       size: 18.sp,
-                  //     ),
-                  //   ),
-
-                  // // If there's a cancellation policy
-                  // if (deposit != 0)
-                  // if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy == true)
-                  DefaultButton(
-                    borderRadius: 60,
-                    onTap: () async {
-                      if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy) {
-                        if (!acceptTerms) {
-                          // Terms Checkbox is unchecked
-
-                          showToast(
-                            AppLocalizations.of(context)?.pleaseAcceptCancellationPolicy ?? "Please accept the cancellation policy",
-                          );
-
-                          return;
+                            return;
+                          }
                         }
-                      }
 
-                      CustomerModel? currentCustomer = _auth.currentCustomer;
+                        CustomerModel? currentCustomer = _auth.currentCustomer;
 
-                      CustomerModel customer = CustomerModel(
-                        customerId: currentCustomer!.customerId,
-                        personalInfo: currentCustomer.personalInfo,
-                        registeredSalons: [],
-                        createdAt: DateTime.now(),
-                        avgRating: 3.0,
-                        noOfRatings: 6,
-                        profilePicUploaded: false,
-                        profilePic: "",
-                        profileCompleted: false,
-                        quizCompleted: false,
-                        preferredGender: "male",
-                        preferredCategories: [],
-                        locations: [],
-                        fcmToken: "",
-                        locale: "en",
-                        favSalons: [],
-                        referralLink: "",
-                      );
+                        CustomerModel customer = CustomerModel(
+                          customerId: currentCustomer!.customerId,
+                          personalInfo: currentCustomer.personalInfo,
+                          registeredSalons: [],
+                          createdAt: DateTime.now(),
+                          avgRating: 3.0,
+                          noOfRatings: 6,
+                          profilePicUploaded: false,
+                          profilePic: "",
+                          profileCompleted: false,
+                          quizCompleted: false,
+                          preferredGender: "male",
+                          preferredCategories: [],
+                          locations: [],
+                          fcmToken: "",
+                          locale: "en",
+                          favSalons: [],
+                          referralLink: "",
+                        );
 
-                      // const ConfirmedDialog().show(context);
+                        // Build Appointment
+                        if (_createAppointmentProvider.chosenServices.length > 1) {
+                          //call multiple appointment service save option
 
-                      // ---------------------------- +++++++++++++++ ----------------------------
-                      setState(() => spinner = true);
+                          if (!_salonProfileProvider.isSingleMaster) {
+                            await _createAppointmentProvider.saveNewAppointmentForMultipleServices(
+                              isSingleMaster: _salonProfileProvider.isSingleMaster,
+                              customer: customer,
+                              transactionId: null,
+                            );
+                          } else {
+                            await _createAppointmentProvider.saveAppointmentForMultipleServices(
+                              isSingleMaster: _salonProfileProvider.isSingleMaster,
+                              customer: customer,
+                              transactionId: null,
+                            );
+                          }
+                        } else {
+                          //call this single appointment service save function
 
-                      final TransactionModel newTransaction = TransactionModel(
-                        amount: (deposit != 0) ? '$deposit' : totalAmount,
-                        timeInitiated: DateTime.now(),
-                        salonId: salonModel.salonId,
-                      );
+                          if (!_salonProfileProvider.isSingleMaster) {
+                            await _createAppointmentProvider.saveAppointment(
+                              isSingleMaster: _salonProfileProvider.isSingleMaster,
+                              customer: customer,
+                              transactionId: null,
+                            );
+                          } else {
+                            await _createAppointmentProvider.saveAppointmentSingleMaster(
+                              isSingleMaster: _salonProfileProvider.isSingleMaster,
+                              customer: customer,
+                              transactionId: null,
+                            );
+                          }
+                        }
 
-                      String? transactionId = await TransactionApi().createTransaction(newTransaction);
+                        if (_createAppointmentProvider.bookAppointmentStatus == Status.success) {
+                          const ConfirmationSuccess(
+                            responseCode: 'A',
+                            transactionID: '',
+                            isLocal: true,
+                          ).show(context);
+                        } else {
+                          showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? 'Something went wrong, please try again');
+                        }
+                      },
+                      color: dialogButtonColor(themeType, theme),
+                      textColor: loaderColor(themeType),
+                      height: 60,
+                      label: AppLocalizations.of(context)?.book ?? 'Book',
+                      isLoading: _createAppointmentProvider.bookAppointmentStatus == Status.loading,
+                      loaderColor: loaderColor(themeType),
+                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                      suffixIcon: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: loaderColor(themeType),
+                        size: 18.sp,
+                      ),
+                    ),
 
-                      if (transactionId == null) {
-                        // Transaction must not be null (a doc must me created in transactions collection)
-                        showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? 'Something went wrong, please try again');
-                        return;
-                      } else {
-                        TransactionApi().streamTransaction(transactionId).listen((event) async {
-                          print('*****');
-                          print(transactionId);
-                          print('*****');
-                          for (TransactionModel transaction in event) {
-                            if (transaction.responseCode != null) {
-                              if (transaction.responseCode == 'A' || transaction.responseCode == 'E') {
-                                // ADD CARD TO CARDS SUB-COLLECTION IN CUSTOMER DOCUMENT
-                                // IF REFERENCE EXISTS
+                  // If there's a cancellation policy
+                  if (deposit != 0)
+                    // if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy == true)
+                    DefaultButton(
+                      borderRadius: 60,
+                      onTap: () async {
+                        if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy) {
+                          if (!acceptTerms) {
+                            // Terms Checkbox is unchecked
 
-                                if (transaction.cardReference != null) {
-                                  await CustomerApi().createCard(
-                                    customerId: customer.customerId,
-                                    card: CreditCard(
-                                      cardNumber: transaction.cardNumber ?? '',
-                                      cardExpiry: transaction.cardExpiry ?? '',
-                                      cardReference: transaction.cardReference ?? '',
-                                      cardType: transaction.cardType ?? '',
-                                      merchantRef: transaction.merchantRef ?? '',
-                                      storedCredentialUse: transaction.storedCredentialUse ?? '',
-                                    ),
-                                  );
-                                }
+                            showToast(
+                              AppLocalizations.of(context)?.pleaseAcceptCancellationPolicy ?? "Please accept the cancellation policy",
+                            );
 
-                                Navigator.pop(context); // closes payroc dialog
+                            return;
+                          }
+                        }
 
-                                // html.window.open('https://yogasm.firebaseapp.com/confirmation?RESPONSECODE=${transaction.responseCode}?transactionId=$transactionId', "_self");
-                                // Build Appointment
-                                if (_createAppointmentProvider.chosenServices.length > 1) {
-                                  if (!_salonProfileProvider.isSingleMaster) {
-                                    await _createAppointmentProvider.saveNewAppointmentForMultipleServices(
-                                      isSingleMaster: _salonProfileProvider.isSingleMaster,
-                                      customer: customer,
-                                      transactionId: transactionId,
-                                    );
-                                  } else {
-                                    await _createAppointmentProvider.saveAppointmentForMultipleServices(
-                                      isSingleMaster: _salonProfileProvider.isSingleMaster,
-                                      customer: customer,
-                                      transactionId: transactionId,
+                        CustomerModel? currentCustomer = _auth.currentCustomer;
+
+                        CustomerModel customer = CustomerModel(
+                          customerId: currentCustomer!.customerId,
+                          personalInfo: currentCustomer.personalInfo,
+                          registeredSalons: [],
+                          createdAt: DateTime.now(),
+                          avgRating: 3.0,
+                          noOfRatings: 6,
+                          profilePicUploaded: false,
+                          profilePic: "",
+                          profileCompleted: false,
+                          quizCompleted: false,
+                          preferredGender: "male",
+                          preferredCategories: [],
+                          locations: [],
+                          fcmToken: "",
+                          locale: "en",
+                          favSalons: [],
+                          referralLink: "",
+                        );
+
+                        // const ConfirmedDialog().show(context);
+
+                        // ---------------------------- +++++++++++++++ ----------------------------
+                        setState(() => spinner = true);
+
+                        final TransactionModel newTransaction = TransactionModel(
+                          amount: (deposit != 0) ? '$deposit' : totalAmount,
+                          timeInitiated: DateTime.now(),
+                          salonId: salonModel.salonId,
+                        );
+
+                        String? transactionId = await TransactionApi().createTransaction(newTransaction);
+
+                        if (transactionId == null) {
+                          // Transaction must not be null (a doc must me created in transactions collection)
+                          showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? 'Something went wrong, please try again');
+                          return;
+                        } else {
+                          TransactionApi().streamTransaction(transactionId).listen((event) async {
+                            print('*****');
+                            print(transactionId);
+                            print('*****');
+                            for (TransactionModel transaction in event) {
+                              if (transaction.responseCode != null) {
+                                if (transaction.responseCode == 'A' || transaction.responseCode == 'E') {
+                                  // ADD CARD TO CARDS SUB-COLLECTION IN CUSTOMER DOCUMENT
+                                  // IF REFERENCE EXISTS
+
+                                  if (transaction.cardReference != null) {
+                                    await CustomerApi().createCard(
+                                      customerId: customer.customerId,
+                                      card: CreditCard(
+                                        cardNumber: transaction.cardNumber ?? '',
+                                        cardExpiry: transaction.cardExpiry ?? '',
+                                        cardReference: transaction.cardReference ?? '',
+                                        cardType: transaction.cardType ?? '',
+                                        merchantRef: transaction.merchantRef ?? '',
+                                        storedCredentialUse: transaction.storedCredentialUse ?? '',
+                                      ),
                                     );
                                   }
-                                } else {
-                                  //call multiple appointment service save option
 
-                                  if (!_salonProfileProvider.isSingleMaster) {
-                                    await _createAppointmentProvider.saveAppointment(
-                                      isSingleMaster: _salonProfileProvider.isSingleMaster,
-                                      customer: customer,
-                                      transactionId: transactionId,
-                                    );
+                                  Navigator.pop(context); // closes payroc dialog
+
+                                  // html.window.open('https://yogasm.firebaseapp.com/confirmation?RESPONSECODE=${transaction.responseCode}?transactionId=$transactionId', "_self");
+                                  // Build Appointment
+                                  if (_createAppointmentProvider.chosenServices.length > 1) {
+                                    if (!_salonProfileProvider.isSingleMaster) {
+                                      await _createAppointmentProvider.saveNewAppointmentForMultipleServices(
+                                        isSingleMaster: _salonProfileProvider.isSingleMaster,
+                                        customer: customer,
+                                        transactionId: transactionId,
+                                      );
+                                    } else {
+                                      await _createAppointmentProvider.saveAppointmentForMultipleServices(
+                                        isSingleMaster: _salonProfileProvider.isSingleMaster,
+                                        customer: customer,
+                                        transactionId: transactionId,
+                                      );
+                                    }
                                   } else {
-                                    await _createAppointmentProvider.saveAppointmentSingleMaster(
-                                      isSingleMaster: _salonProfileProvider.isSingleMaster,
-                                      customer: customer,
-                                      transactionId: transactionId,
-                                    );
+                                    //call multiple appointment service save option
+
+                                    if (!_salonProfileProvider.isSingleMaster) {
+                                      await _createAppointmentProvider.saveAppointment(
+                                        isSingleMaster: _salonProfileProvider.isSingleMaster,
+                                        customer: customer,
+                                        transactionId: transactionId,
+                                      );
+                                    } else {
+                                      await _createAppointmentProvider.saveAppointmentSingleMaster(
+                                        isSingleMaster: _salonProfileProvider.isSingleMaster,
+                                        customer: customer,
+                                        transactionId: transactionId,
+                                      );
+                                    }
+                                  }
+
+                                  setState(() => spinner = false);
+
+                                  if (_createAppointmentProvider.bookAppointmentStatus == Status.success) {
+                                    // Show Success Dialog
+                                    ConfirmationSuccess(
+                                      responseCode: '${transaction.responseCode}',
+                                      transactionID: transactionId,
+                                    ).show(context);
+                                  } else {
+                                    showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? 'Something went wrong, please try again');
                                   }
                                 }
+                                if (transaction.responseCode == 'D') {
+                                  setState(() => spinner = false);
 
-                                setState(() => spinner = false);
-
-                                if (_createAppointmentProvider.bookAppointmentStatus == Status.success) {
-                                  // Show Success Dialog
-                                  ConfirmationSuccess(
+                                  ConfirmationError(
                                     responseCode: '${transaction.responseCode}',
-                                    transactionID: transactionId,
                                   ).show(context);
-                                } else {
-                                  showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? 'Something went wrong, please try again');
+
+                                  // html.window.open('https://yogasm.firebaseapp.com/confirmationError?RESPONSECODE=${transaction.responseCode}', "_self");
                                 }
-                              }
-                              if (transaction.responseCode == 'D') {
-                                setState(() => spinner = false);
-
-                                ConfirmationError(
-                                  responseCode: '${transaction.responseCode}',
-                                ).show(context);
-
-                                // html.window.open('https://yogasm.firebaseapp.com/confirmationError?RESPONSECODE=${transaction.responseCode}', "_self");
                               }
                             }
-                          }
-                        });
+                          });
 
-                        PayDialog(
-                          amount: totalAmount,
-                          transactionId: transactionId,
-                        ).show(context);
+                          PayDialog(
+                            amount: totalAmount,
+                            transactionId: transactionId,
+                          ).show(context);
 
-                        // js.context.callMethod(
-                        //   'open',
-                        //   ['https://yogasm.firebaseapp.com/payment?amount=$totalAmount&currency=USD&transactionId=$transactionId&terminalId=5363001'],
-                        // );
-                        // ---------------------------- +++++++++++++++ ----------------------------
+                          // js.context.callMethod(
+                          //   'open',
+                          //   ['https://yogasm.firebaseapp.com/payment?amount=$totalAmount&currency=USD&transactionId=$transactionId&terminalId=5363001'],
+                          // );
+                          // ---------------------------- +++++++++++++++ ----------------------------
 
-                        // bool enabledOTP = _salonProfileProvider.themeSettings?.displaySettings?.enableOTP ?? true;
+                          // bool enabledOTP = _salonProfileProvider.themeSettings?.displaySettings?.enableOTP ?? true;
 
-                        // if (!acceptTerms) {
-                        //   // Terms Checkbox is unchecked
+                          // if (!acceptTerms) {
+                          //   // Terms Checkbox is unchecked
 
-                        //   showToast(AppLocalizations.of(context)?.pleaseAgree ?? "Please agree to the terms and conditions");
+                          //   showToast(AppLocalizations.of(context)?.pleaseAgree ?? "Please agree to the terms and conditions");
 
-                        //   return;
-                        // }
+                          //   return;
+                          // }
 
-                        // bool success = await _createAppointmentProvider.finishBooking(
-                        //   context: context,
-                        //   customerModel: enabledOTP ? _auth.currentCustomer! : _auth.currentCustomerWithoutOTP!,
-                        // );
+                          // bool success = await _createAppointmentProvider.finishBooking(
+                          //   context: context,
+                          //   customerModel: enabledOTP ? _auth.currentCustomer! : _auth.currentCustomerWithoutOTP!,
+                          // );
 
-                        // if (success) {
-                        //   // Pop current dialog
-                        //   Navigator.of(context).pop();
+                          // if (success) {
+                          //   // Pop current dialog
+                          //   Navigator.of(context).pop();
 
-                        //   const ConfirmedDialog().show(context);
-                        // } else {
-                        //   showToast(AppLocalizations.of(context)?.somethingWentWrong ?? "Something went wrong");
-                        // }
-                      }
-                    },
-                    color: dialogButtonColor(themeType, theme),
-                    textColor: loaderColor(themeType),
-                    height: 60,
-                    label: 'Pay ${(deposit != 0) ? deposit : totalAmount}${getCurrency(salonModel.countryCode!)} deposit',
-                    // isLoading: _createAppointmentProvider.bookAppointmentStatus == Status.loading,
-                    isLoading: spinner,
-                    loaderColor: loaderColor(themeType),
-                    fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                    suffixIcon: Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      color: loaderColor(themeType),
-                      size: 18.sp,
+                          //   const ConfirmedDialog().show(context);
+                          // } else {
+                          //   showToast(AppLocalizations.of(context)?.somethingWentWrong ?? "Something went wrong");
+                          // }
+                        }
+                      },
+                      color: dialogButtonColor(themeType, theme),
+                      textColor: loaderColor(themeType),
+                      height: 60,
+                      label: 'Pay ${(deposit != 0) ? deposit : totalAmount}${getCurrency(salonModel.countryCode!)} deposit',
+                      // isLoading: _createAppointmentProvider.bookAppointmentStatus == Status.loading,
+                      isLoading: spinner,
+                      loaderColor: loaderColor(themeType),
+                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                      suffixIcon: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: loaderColor(themeType),
+                        size: 18.sp,
+                      ),
                     ),
-                  ),
                 ],
               ),
               // SizedBox(height: 20.h),

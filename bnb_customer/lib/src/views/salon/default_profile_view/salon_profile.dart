@@ -229,24 +229,6 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
             //   alignment: Alignment.bottomCenter,
             //   child: FloatingBar(),
             // ),
-
-            // Align(
-            //   alignment: Alignment.bottomCenter,
-            //   child: InkWell(
-            //     onTap: () {
-            //       PayDialog(
-            //         amount: '2500',
-            //         currency: getCurrency(_salonProfileProvider.chosenSalon.countryCode!),
-            //         transactionId: null,
-            //       ).show(context);
-            //     },
-            //     child: Container(
-            //       height: 100,
-            //       width: 700,
-            //       color: Colors.amber,
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),
