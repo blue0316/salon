@@ -5,6 +5,7 @@ import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_profile.dart';
 import 'package:bbblient/src/views/themes/components/widgets/image_preview.dart';
 import 'package:bbblient/src/views/themes/images.dart';
+import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -407,6 +408,8 @@ class _SalonAllWorksState extends ConsumerState<SalonAllWorks> {
               ),
             ),
           ),
+          const Space(factor: 2),
+          const LandingBottom(),
         ],
       ),
     );

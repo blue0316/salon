@@ -84,44 +84,41 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                       child: Padding(
                         padding: EdgeInsets.only(top: 10.sp),
                         child: SizedBox(
-                          // height: 200.h,
+                          // height: 200.h,a
                           width: double.infinity,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Wrap(
-                                spacing: 10,
-                                runSpacing: 10.h,
-                                children: widget.salonModel.additionalFeatures
-                                    .map(
-                                      (feature) => Padding(
-                                        padding: EdgeInsets.only(right: 12.sp),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: !isLightTheme ? const Color(0XFF2D2D2D).withOpacity(0.4) : Colors.transparent,
-                                            border: !isLightTheme ? null : Border.all(color: theme.primaryColor),
-                                            borderRadius: BorderRadius.circular(20.sp),
-                                          ),
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(horizontal: 25.sp, vertical: 10.sp),
-                                            child: Center(
-                                              child: Text(
-                                                feature.toCapitalized(),
-                                                style: theme.textTheme.displayMedium!.copyWith(
-                                                  fontWeight: FontWeight.normal,
-                                                  fontSize: 15.sp,
-                                                  color: isLightTheme ? Colors.black : Colors.white,
-                                                ),
+                          child: Wrap(
+                            spacing: 10,
+                            runSpacing: 10.h,
+                            direction: Axis.horizontal,
+                            children: widget.salonModel.additionalFeatures
+                                .map(
+                                  (feature) => Padding(
+                                    padding: EdgeInsets.only(right: 12.sp),
+                                    child: FittedBox(
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: !isLightTheme ? const Color(0XFF2D2D2D).withOpacity(0.4) : Colors.transparent,
+                                          border: !isLightTheme ? null : Border.all(color: theme.primaryColor),
+                                          borderRadius: BorderRadius.circular(20.sp),
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(horizontal: 25.sp, vertical: 10.sp),
+                                          child: Center(
+                                            child: Text(
+                                              feature.toCapitalized(),
+                                              style: theme.textTheme.displayMedium!.copyWith(
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 15.sp,
+                                                color: isLightTheme ? Colors.black : Colors.white,
                                               ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    )
-                                    .toList(),
-                              ),
-                            ],
+                                    ),
+                                  ),
+                                )
+                                .toList(),
                           ),
                         ),
                       ),
@@ -136,6 +133,7 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
             ),
           ),
           const Space(factor: 2),
+          const LandingBottom(),
         ],
       ),
     );

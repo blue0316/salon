@@ -205,6 +205,8 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
                     ),
                   ),
                 ),
+                const Space(factor: 2),
+                const LandingBottom(),
               ],
             )
           : const SalonMasterView(),

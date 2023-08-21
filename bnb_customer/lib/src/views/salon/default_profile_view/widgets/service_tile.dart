@@ -60,14 +60,14 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
           tilePadding: EdgeInsets.zero,
           childrenPadding: EdgeInsets.zero,
           trailing: const SizedBox.shrink(),
-          backgroundColor: !isLightTheme ? const Color(0XFF0A0A0A).withOpacity(0.6) : Colors.white,
+          backgroundColor: !isLightTheme ? const Color(0XFF0A0A0A).withOpacity(0.5) : Colors.white,
           onExpansionChanged: (bool val) {
             setState(() => isExpanded = !isExpanded);
           },
           title: Container(
             color: !isExpanded
                 ? !isLightTheme
-                    ? const Color(0XFF0A0A0A).withOpacity(0.6)
+                    ? const Color(0XFF0A0A0A).withOpacity(0.5)
                     : Colors.white
                 : null, //  theme.canvasColor.withOpacity(0.7),
             height: 55.sp,
@@ -88,6 +88,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                           fontWeight: FontWeight.w600,
                           fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
                           color: isLightTheme ? Colors.black : Colors.white,
+                          fontFamily: "Inter",
                         ),
                       ),
                     ],
@@ -105,8 +106,8 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                         '${widget.services.length} ${AppLocalizations.of(context)?.services ?? 'Services'}',
                         style: theme.textTheme.titleSmall!.copyWith(
                           fontSize: DeviceConstraints.getResponsiveSize(context, 13.sp, 13.sp, 15.sp),
-                          // fontWeight: FontWeight.w400,
                           color: theme.primaryColor,
+                          fontFamily: "Inter",
                         ),
                       ),
                     ),
@@ -130,7 +131,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
             Container(
               color: !isExpanded
                   ? !isLightTheme
-                      ? const Color(0XFF0A0A0A).withOpacity(0.6)
+                      ? const Color(0XFF0A0A0A).withOpacity(0.5)
                       : Colors.white
                   : null, //  theme.canvasColor.withOpacity(0.7),
               child: Padding(
@@ -183,6 +184,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                               fontWeight: FontWeight.w500,
                                               fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
                                               color: isLightTheme ? Colors.black : Colors.white,
+                                              fontFamily: "Inter",
                                             ),
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 2,
@@ -214,6 +216,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                             fontSize: 15.sp,
                                                             fontWeight: FontWeight.w500,
                                                             color: !isLightTheme ? const Color(0XFF908D8D) : const Color(0XFF6C6C6C),
+                                                            fontFamily: "Inter",
                                                           ),
                                                           overflow: TextOverflow.ellipsis,
                                                           maxLines: 1,
@@ -224,6 +227,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                             fontSize: 15.sp,
                                                             fontWeight: FontWeight.w500,
                                                             color: !isLightTheme ? const Color(0XFF908D8D) : const Color(0XFF6C6C6C),
+                                                            fontFamily: "Inter",
                                                           ),
                                                           overflow: TextOverflow.ellipsis,
                                                           maxLines: 1,
@@ -234,6 +238,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                         fontSize: 15.sp,
                                                         fontWeight: FontWeight.w500,
                                                         color: !isLightTheme ? const Color(0XFF908D8D) : const Color(0XFF6C6C6C),
+                                                        fontFamily: "Inter",
                                                       ),
                                                       overflow: TextOverflow.ellipsis,
                                                       maxLines: 1,
@@ -250,10 +255,10 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                           // CURRENT PRICE
                                           Text(
                                             service.isFixedPrice
-                                                ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price}"
+                                                ? "${getCurrency(salonModel.countryCode!)} ${service.priceAndDuration!.price}"
                                                 : service.isPriceStartAt
-                                                    ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price} - ${getCurrency(salonModel.countryCode!)}∞"
-                                                    : "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price} - ${getCurrency(salonModel.countryCode!)}${service.priceAndDurationMax!.price}",
+                                                    ? "${getCurrency(salonModel.countryCode!)} ${service.priceAndDuration!.price} - ${getCurrency(salonModel.countryCode!)} ∞"
+                                                    : "${getCurrency(salonModel.countryCode!)} ${service.priceAndDuration!.price} - ${getCurrency(salonModel.countryCode!)} ${service.priceAndDurationMax!.price}",
                                             style: theme.textTheme.displayMedium!.copyWith(
                                               fontWeight: FontWeight.w600,
                                               fontSize: 15.sp,
@@ -268,15 +273,31 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                           (service.description == null || service.description == "")
                                               ? const SizedBox.shrink()
                                               : Tooltip(
-                                                  message: service.description,
-                                                  decoration: const BoxDecoration(
-                                                    color: Color(0XFF0D0C0C),
+                                                  richMessage: WidgetSpan(
+                                                    alignment: PlaceholderAlignment.baseline,
+                                                    baseline: TextBaseline.alphabetic,
+                                                    child: Container(
+                                                      padding: const EdgeInsets.all(10),
+                                                      constraints: BoxConstraints(maxWidth: 220.sp),
+                                                      child: Text(
+                                                        '${service.description}',
+                                                        style: theme.textTheme.displayMedium!.copyWith(
+                                                          fontWeight: FontWeight.normal,
+                                                          fontSize: 15.sp,
+                                                          color: Colors.white,
+                                                          fontFamily: "Inter",
+                                                        ),
+                                                      ),
+                                                    ),
                                                   ),
-                                                  textStyle: theme.textTheme.displayMedium!.copyWith(
-                                                    fontWeight: FontWeight.normal,
-                                                    fontSize: 15.sp,
-                                                    color: Colors.white,
-                                                  ),
+                                                  // message: service.description,
+                                                  decoration: const BoxDecoration(color: Color(0XFF0D0C0C)),
+                                                  // textStyle: theme.textTheme.displayMedium!.copyWith(
+                                                  //   fontWeight: FontWeight.normal,
+                                                  //   fontSize: 15.sp,
+                                                  //   color: Colors.white,
+                                                  //   fontFamily: "Inter",
+                                                  // ),
                                                   child: GestureDetector(
                                                     // onTap: () => showDialog<bool>(
                                                     //   context: context,
@@ -341,7 +362,10 @@ class ShowServiceInfo extends StatelessWidget {
                   Flexible(
                     child: Text(
                       Translation.getServiceName(service: service, langCode: AppLocalizations.of(context)?.localeName ?? 'en'),
-                      style: const TextStyle(color: AppTheme.white3),
+                      style: const TextStyle(
+                        color: AppTheme.white3,
+                        fontFamily: "Inter",
+                      ),
                     ),
                   ),
                   GestureDetector(
@@ -359,7 +383,11 @@ class ShowServiceInfo extends StatelessWidget {
                 (service.description == null || service.description == "")
                     ? "Опис відсутній" //means no description available
                     : service.description!,
-                style: const TextStyle(color: AppTheme.white3, fontWeight: FontWeight.w400),
+                style: const TextStyle(
+                  color: AppTheme.white3,
+                  fontWeight: FontWeight.w400,
+                  fontFamily: "Inter",
+                ),
               )
             ],
           ),

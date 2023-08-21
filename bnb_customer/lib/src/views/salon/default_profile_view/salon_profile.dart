@@ -51,7 +51,7 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
               height: MediaQuery.of(context).size.height,
               child: ColorFiltered(
                 colorFilter: ColorFilter.mode(
-                  Colors.black.withOpacity(0.7),
+                  Colors.black.withOpacity(0.75),
                   BlendMode.darken,
                 ),
                 child: (_salonProfileProvider.themeSettings?.backgroundImage != null && _salonProfileProvider.themeSettings?.backgroundImage != '')
@@ -154,7 +154,7 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
                                                 fontWeight: _activeTab == (index + 1) ? FontWeight.w600 : FontWeight.w400,
                                                 decoration: _activeTab == (index + 1) ? TextDecoration.underline : null,
                                                 letterSpacing: 0,
-                                                fontFamily: "Inter",
+                                                fontFamily: "Montserrat",
                                               ),
                                             ),
                                           ),
@@ -222,6 +222,7 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
                 ),
               ],
             ),
+
             // const Align(
             //   alignment: Alignment.bottomCenter,
             //   child: FloatingBar(),

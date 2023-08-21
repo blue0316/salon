@@ -50,11 +50,25 @@ class Header extends ConsumerWidget {
                       child: GestureDetector(
                         onTap: goToLanding,
                         child: Container(
-                          height: DeviceConstraints.getResponsiveSize(context, 50.h, 50.h, 60.h),
-                          width: DeviceConstraints.getResponsiveSize(context, 50.h, 50.h, 60.h),
-                          decoration: BoxDecoration(shape: BoxShape.circle, color: salonModel.salonLogo != '' ? null : theme.primaryColor),
+                          height: DeviceConstraints.getResponsiveSize(context, 55.h, 55.h, 65.h),
+                          width: DeviceConstraints.getResponsiveSize(context, 55.h, 55.h, 65.h),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: salonModel.salonLogo != '' ? null : theme.primaryColor,
+                            border: Border.all(color: theme.primaryColor),
+                          ),
                           child: (salonModel.salonLogo != '')
-                              ? CachedImage(url: salonModel.salonLogo)
+                              ? CachedImage(
+                                  url: salonModel.salonLogo,
+                                  imageBuilder: (context, imageProvider) => Container(
+                                    height: DeviceConstraints.getResponsiveSize(context, 55.h, 55.h, 65.h),
+                                    width: DeviceConstraints.getResponsiveSize(context, 55.h, 55.h, 65.h),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+                                    ),
+                                  ),
+                                )
                               : Center(
                                   child: Text(
                                     (salonModel.salonName.isNotEmpty) ? salonModel.salonName[0].toUpperCase() : '',
