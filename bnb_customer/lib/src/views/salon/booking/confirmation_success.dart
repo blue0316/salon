@@ -39,6 +39,9 @@ class ConfirmationSuccess<T> extends ConsumerStatefulWidget {
 }
 
 class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
+  AppointmentModel? appointment;
+  bool isCreated = false;
+
   @override
   void initState() {
     if (widget.isLocal == false) {
@@ -54,9 +57,6 @@ class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
     }
     super.initState();
   }
-
-  AppointmentModel? appointment;
-  bool isCreated = false;
 
   @override
   Widget build(BuildContext context) {

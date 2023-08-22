@@ -50,7 +50,7 @@ class TransactionApi {
   }
 
   Stream<List<AppointmentModel>> getAllAppointmentWithTransaction(String? transactionId) {
-    return Collection.appointments.where('transactionId', isEqualTo: transactionId).snapshots().map((snapShot) => snapShot.docs.map<AppointmentModel>((appointment) {
+    return Collection.appointments.where('transactionId', arrayContains: transactionId).snapshots().map((snapShot) => snapShot.docs.map<AppointmentModel>((appointment) {
           Map _temp = appointment.data() as Map<dynamic, dynamic>;
 
           _temp['appointmentId'] = appointment.id;

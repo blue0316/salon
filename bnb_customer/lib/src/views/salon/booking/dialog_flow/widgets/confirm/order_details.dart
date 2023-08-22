@@ -502,6 +502,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                   setState(() => spinner = false);
 
                                   if (_createAppointmentProvider.bookAppointmentStatus == Status.success) {
+                                    print('DID IT GET HERE ???>>>');
                                     // Show Success Dialog
                                     ConfirmationSuccess(
                                       responseCode: '${transaction.responseCode}',

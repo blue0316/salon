@@ -89,14 +89,16 @@ class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetai
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // const Spacer(flex: 2),
-                      Text(
-                        (AppLocalizations.of(context)?.appointmentDetails ?? 'appointment details').toUpperCase(),
-                        style: theme.textTheme.bodyLarge!.copyWith(
-                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                          fontWeight: FontWeight.w500,
-                          fontFamily: 'Inter',
-                          color: theme.colorScheme.onBackground,
+                      const Spacer(flex: 2),
+                      Center(
+                        child: Text(
+                          (AppLocalizations.of(context)?.appointmentDetails ?? 'appointment details').toUpperCase(),
+                          style: theme.textTheme.bodyLarge!.copyWith(
+                            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Inter',
+                            color: theme.colorScheme.onBackground,
+                          ),
                         ),
                       ),
                       const Spacer(flex: 2),
