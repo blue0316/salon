@@ -569,7 +569,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                     // width: 40.sp,
                                     decoration: BoxDecoration(
                                       color: _createAppointmentProvider.timeOfDayIndexForSlots == 0 ? theme.primaryColor : Colors.transparent,
-                                      border: Border.all(color: _createAppointmentProvider.timeOfDayIndexForSlots == 0 ? Colors.black : Colors.transparent),
+                                      // border: Border.all(color: _createAppointmentProvider.timeOfDayIndexForSlots == 0 ? Colors.black : Colors.transparent),
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                     child: Padding(
@@ -601,7 +601,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                     height: 37.sp,
                                     decoration: BoxDecoration(
                                       color: _createAppointmentProvider.timeOfDayIndexForSlots == 1 ? theme.primaryColor : Colors.transparent,
-                                      border: Border.all(color: _createAppointmentProvider.timeOfDayIndexForSlots == 1 ? Colors.black : Colors.transparent),
+                                      // border: Border.all(color: _createAppointmentProvider.timeOfDayIndexForSlots == 1 ? Colors.black : Colors.transparent),
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                     child: Padding(
@@ -634,7 +634,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                     // width: 130.sp,
                                     decoration: BoxDecoration(
                                       color: _createAppointmentProvider.timeOfDayIndexForSlots == 2 ? theme.primaryColor : Colors.transparent,
-                                      border: Border.all(color: _createAppointmentProvider.timeOfDayIndexForSlots == 2 ? Colors.black : Colors.transparent),
+                                      // border: Border.all(color: _createAppointmentProvider.timeOfDayIndexForSlots == 2 ? Colors.black : Colors.transparent),
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                     child: Padding(
@@ -718,7 +718,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                         style: theme.textTheme.bodyMedium?.copyWith(
                                                           fontWeight: FontWeight.normal,
                                                           fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                                                          color: Colors.green,
+                                                          color: selectSlots(themeType, theme),
                                                           fontFamily: 'Inter',
                                                         ),
                                                       ),
@@ -1779,7 +1779,7 @@ class SlotWidget extends ConsumerWidget {
       child: !isAvailable
           ? Ink(
               decoration: BoxDecoration(
-                color: const Color(0xff232529).withOpacity(0.65),
+                color: const Color(0xff232529).withOpacity(0.9),
                 borderRadius: const BorderRadius.all(Radius.circular(2)),
               ),
               child: Center(
@@ -1794,8 +1794,8 @@ class SlotWidget extends ConsumerWidget {
             )
           : Ink(
               decoration: BoxDecoration(
-                color: isSelected ? theme.primaryColor : Colors.white,
-                border: Border.all(color: Colors.black),
+                color: isSelected ? theme.primaryColor : theme.dialogBackgroundColor, //  Colors.white,
+                border: Border.all(color: Colors.grey),
                 borderRadius: const BorderRadius.all(Radius.circular(2)),
               ),
               child: Center(

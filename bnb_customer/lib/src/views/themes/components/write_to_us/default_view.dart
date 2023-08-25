@@ -43,52 +43,17 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
       children: [
         // (themeType == ThemeType.GlamLight && isTab)
         // ?
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              (AppLocalizations.of(context)?.writeToUsAndWeWillHelpYouDecideOnTheService ?? "Write to us and we will help you decide on the service").toUpperCase(),
-
-              // '${AppLocalizations.of(context)?.writeToUs9 ?? "write to us and"} ${(AppLocalizations.of(context)?.weWillHelpYou ?? "We will help you")} ${AppLocalizations.of(context)?.decideOnTheService ?? "decide on the service"}'.toUpperCase(),
-              textAlign: TextAlign.center,
-              style: theme.textTheme.displayMedium?.copyWith(
-                color: theme.colorScheme.secondary,
-                fontWeight: FontWeight.w500,
-                fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 35.sp, 55.sp),
-              ),
-            ),
-            // Padding(
-            //   padding: const EdgeInsets.only(left: 0), // 80.w),
-            //   child: Text(
-            //     (AppLocalizations.of(context)?.decideOnTheService ?? "decide on the service").toUpperCase(),
-            //     textAlign: TextAlign.center,
-            //     style: theme.textTheme.displayMedium?.copyWith(
-            //       color: theme.colorScheme.secondary,
-            //       fontWeight: FontWeight.w500,
-            //       fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 35.sp, 55.sp),
-            //     ),
-            //   ),
-            // ),
-          ],
+        Text(
+          (AppLocalizations.of(context)?.writeToUsAndWeWillHelpYouDecideOnTheService ?? "Write to us and we will help you decide on the service").toUpperCase(),
+          // '${AppLocalizations.of(context)?.writeToUs9 ?? "write to us and"} ${(AppLocalizations.of(context)?.weWillHelpYou ?? "We will help you")} ${AppLocalizations.of(context)?.decideOnTheService ?? "decide on the service"}'.toUpperCase(),
+          textAlign: TextAlign.center,
+          style: theme.textTheme.displayMedium?.copyWith(
+            color: theme.colorScheme.secondary,
+            fontWeight: FontWeight.w500,
+            fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 35.sp, 55.sp),
+          ),
         ),
 
-        // : Center(
-        //     child: Text(
-        //       ('Not sure? Ask Us').toUpperCase(),
-        //       // (AppLocalizations.of(
-        //       //           context,
-        //       //         )?.writeToUsAndWeWillHelpYouDecideOnTheService ??
-        //       //         "Write to us and we will help you decide on the service")
-        //       //     .toUpperCase(),
-        //       textAlign: TextAlign.center,
-        //       style: theme.textTheme.displayMedium?.copyWith(
-        //         color: theme.colorScheme.secondary,
-        //         fontWeight: FontWeight.w500,
-        //     fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 60.sp),
-        //       ),
-        //     ),
-        //   ),
         SizedBox(height: 60.sp),
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -106,10 +71,7 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
                                 url: widget.salonModel.photosOfWorks![0].image!,
                                 fit: BoxFit.cover,
                               )
-                            : Image.asset(
-                                ThemeImages.write1,
-                                fit: BoxFit.cover,
-                              ),
+                            : Image.asset(ThemeImages.write1, fit: BoxFit.cover),
                       )
                     : const SizedBox(),
               ),
