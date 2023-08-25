@@ -95,26 +95,23 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             if (!isPortrait && !isLandScape)
-              Transform.rotate(
-                angle: math.pi / 1, // 3.5,
-                child: SizedBox(
-                  height: 400.h,
-                  width: DeviceConstraints.getResponsiveSize(context, 0, 100.w, 80.w),
-                  child: themeType != ThemeType.Barbershop
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: (widget.salonModel.photosOfWorks!.isNotEmpty && widget.salonModel.photosOfWorks![0].image! != '')
-                              ? CachedImage(
-                                  url: widget.salonModel.photosOfWorks![0].image!,
-                                  fit: BoxFit.cover,
-                                )
-                              : Image.asset(
-                                  ThemeImages.write1,
-                                  fit: BoxFit.cover,
-                                ),
-                        )
-                      : const SizedBox(),
-                ),
+              SizedBox(
+                height: 400.h,
+                width: DeviceConstraints.getResponsiveSize(context, 0, 100.w, 80.w),
+                child: themeType != ThemeType.Barbershop
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: (widget.salonModel.photosOfWorks!.isNotEmpty && widget.salonModel.photosOfWorks![0].image! != '')
+                            ? CachedImage(
+                                url: widget.salonModel.photosOfWorks![0].image!,
+                                fit: BoxFit.cover,
+                              )
+                            : Image.asset(
+                                ThemeImages.write1,
+                                fit: BoxFit.cover,
+                              ),
+                      )
+                    : const SizedBox(),
               ),
             Flexible(
               child: Padding(
