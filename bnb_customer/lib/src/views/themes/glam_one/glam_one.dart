@@ -138,7 +138,7 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text: "Design By ",
+                                  text: "Designed By ",
                                   style: theme.textTheme.bodyLarge!.copyWith(fontSize: 20.sp, color: theme.primaryColorLight),
                                 ),
                                 TextSpan(
