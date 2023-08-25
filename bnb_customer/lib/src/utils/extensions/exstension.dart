@@ -3,6 +3,25 @@ extension StringCasingExtension on String {
   String toTitleCase() => replaceAll(RegExp(' +'), ' ').split(' ').map((str) => str.toCapitalized()).join(' ');
 }
 
+extension InitialsExtension on String {
+  String get initials {
+    // Split the full name into individual words
+    List<String> words = this.split(' ');
+
+    // Initialize an empty string to store the initials
+    String initials = '';
+
+    // Iterate through the words and append the first character of each word to the initials
+    for (String word in words) {
+      if (word.isNotEmpty) {
+        initials += word[0].toUpperCase();
+      }
+    }
+
+    return initials;
+  }
+}
+
 extension DateHelper on DateTime {
   String formatDate() {
     DateTime today = DateTime.now();

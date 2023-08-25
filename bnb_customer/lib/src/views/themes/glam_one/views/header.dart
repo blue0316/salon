@@ -74,13 +74,18 @@ class ThemeHeader extends ConsumerWidget {
               runSpacing: DeviceConstraints.getResponsiveSize(context, 10.h, 20.w, 10.w),
               direction: Axis.horizontal,
               alignment: WrapAlignment.center,
-              children: _createAppointmentProvider.categoriesAvailable
+              children: _salonProfileProvider.chosenSalon.specializations!
                   .map(
-                    (item) => GlamOneWrap(
-                      text: item.translations[AppLocalizations.of(context)?.localeName ?? 'en'] ?? item.translations['en'],
-                    ),
+                    (item) => GlamOneWrap(text: item),
                   )
                   .toList(),
+              // children: _createAppointmentProvider.categoriesAvailable
+              //     .map(
+              //       (item) => GlamOneWrap(
+              //         text: item.translations[AppLocalizations.of(context)?.localeName ?? 'en'] ?? item.translations['en'],
+              //       ),
+              //     )
+              //     .toList(),
             ),
           ),
       ],

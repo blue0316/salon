@@ -9,7 +9,6 @@ import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/utils/time.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/colors.dart';
-import 'package:bbblient/src/views/salon/widgets/service_expension_tile.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
@@ -90,20 +89,18 @@ class ServiceCard extends ConsumerWidget {
     List<MasterModel> theMasters = _createAppointmentProvider.getMasterProvidingService(service);
     ThemeType themeType = _salonProfileProvider.themeType;
 
-    BoxBorder? border = Border.all(width: 1.2, color: theme.primaryColor);
-
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 7.h),
       child: Container(
         decoration: BoxDecoration(
           color: disabled
               ? const Color(0XFF4A4A4A)
-              : isAdded
-                  ? theme.primaryColor // selectedColor
-                  : Colors.transparent,
-          borderRadius: BorderRadius.circular(10),
+              // : isAdded
+              //     ? theme.primaryColor // selectedColor
+              : Colors.transparent,
+          borderRadius: BorderRadius.circular(7),
           border: isAdded
-              ? border
+              ? Border.all(width: 1.5, color: theme.primaryColor)
               : Border.all(
                   width: 1.2, color: disabled ? const Color(0XFF4A4A4A) : const Color(0XFF4A4A4A), //  defaultTheme ? theme.primaryColor : const Color(0XFF1F1F21),
                 ),
@@ -129,7 +126,7 @@ class ServiceCard extends ConsumerWidget {
                       style: theme.textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w500,
                         fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                        color: isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
+                        color: isAddedSelectedColor(themeType), // isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary,
                       ),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
@@ -145,7 +142,7 @@ class ServiceCard extends ConsumerWidget {
                     style: theme.textTheme.bodyLarge!.copyWith(
                       fontWeight: FontWeight.w500,
                       fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                      color: isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
+                      color: isAddedSelectedColor(themeType), // isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
                     ),
                     overflow: TextOverflow.visible,
                     maxLines: 1,
@@ -181,7 +178,7 @@ class ServiceCard extends ConsumerWidget {
                     child: Center(
                       child: FaIcon(
                         FontAwesomeIcons.clock,
-                        color: isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary,
+                        color: isAddedSelectedColor(themeType), //  isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary,
                         size: 15.h,
                       ),
                       // child: SvgPicture.asset(
@@ -197,7 +194,7 @@ class ServiceCard extends ConsumerWidget {
                               "${service.priceAndDuration!.duration} ${AppLocalizations.of(context)?.minutes ?? "minutes"}",
                               style: theme.textTheme.bodyLarge!.copyWith(
                                 fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                                color: isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
+                                color: isAddedSelectedColor(themeType), //  isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
                               ),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
@@ -206,7 +203,7 @@ class ServiceCard extends ConsumerWidget {
                               "${service.priceAndDuration!.duration} ${AppLocalizations.of(context)?.minutes ?? "minutes"} - ${service.priceAndDurationMax!.duration} ${AppLocalizations.of(context)?.minutes ?? "minutes"}",
                               style: theme.textTheme.bodyLarge!.copyWith(
                                 fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                                color: isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
+                                color: isAddedSelectedColor(themeType), // isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
                               ),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
@@ -215,7 +212,7 @@ class ServiceCard extends ConsumerWidget {
                           "${service.priceAndDuration!.duration} ${AppLocalizations.of(context)?.minutes ?? "minutes"}",
                           style: theme.textTheme.bodyLarge!.copyWith(
                             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                            color: isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
+                            color: isAddedSelectedColor(themeType), // isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
                           ),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
@@ -223,11 +220,25 @@ class ServiceCard extends ConsumerWidget {
                   const Spacer(),
                   (service.description == null || service.description == "")
                       ? const SizedBox(width: 15)
-                      : GestureDetector(
-                          onTap: () => showDialog<bool>(
-                            context: context,
-                            builder: (BuildContext context) => ShowServiceInfo(service),
+                      : Tooltip(
+                          richMessage: WidgetSpan(
+                            alignment: PlaceholderAlignment.baseline,
+                            baseline: TextBaseline.alphabetic,
+                            child: Container(
+                              padding: const EdgeInsets.all(10),
+                              constraints: BoxConstraints(maxWidth: 220.sp),
+                              child: Text(
+                                '${service.description}',
+                                style: theme.textTheme.displayMedium!.copyWith(
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 15.sp,
+                                  color: Colors.white,
+                                  fontFamily: "Inter",
+                                ),
+                              ),
+                            ),
                           ),
+                          decoration: const BoxDecoration(color: Color(0XFF0D0C0C)),
                           child: SizedBox(
                             height: DeviceConstraints.getResponsiveSize(context, 20, 25, 28),
                             width: DeviceConstraints.getResponsiveSize(context, 20, 25, 28),
@@ -236,7 +247,7 @@ class ServiceCard extends ConsumerWidget {
                                 AppIcons.informationSVG,
                                 height: DeviceConstraints.getResponsiveSize(context, 20, 25, 28),
                                 width: DeviceConstraints.getResponsiveSize(context, 20, 25, 28),
-                                color: isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
+                                color: isAddedSelectedColor(themeType), //  isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
                               ),
                             ),
                           ),

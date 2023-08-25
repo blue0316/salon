@@ -4,7 +4,6 @@ import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/utils/keys.dart';
-import 'package:bbblient/src/views/salon/booking/booking_dialog.dart';
 import 'package:bbblient/src/views/widgets/buttons.dart';
 import 'package:bbblient/src/views/widgets/dialogues/dialogue_function.dart';
 import 'package:flutter/material.dart';

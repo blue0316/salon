@@ -96,13 +96,13 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
           children: [
             if (!isPortrait && !isLandScape)
               Transform.rotate(
-                angle: math.pi / 1.03, // 3.5,
+                angle: math.pi / 1, // 3.5,
                 child: SizedBox(
                   height: 400.h,
                   width: DeviceConstraints.getResponsiveSize(context, 0, 100.w, 80.w),
                   child: themeType != ThemeType.Barbershop
                       ? ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(10),
                           child: (widget.salonModel.photosOfWorks!.isNotEmpty && widget.salonModel.photosOfWorks![0].image! != '')
                               ? CachedImage(
                                   url: widget.salonModel.photosOfWorks![0].image!,
@@ -142,14 +142,14 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
                                         style: theme.textTheme.titleSmall?.copyWith(
                                           color: theme.colorScheme.onSecondaryContainer,
                                           fontSize: 17.sp,
-                                          fontWeight: FontWeight.w500,
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                       TextSpan(
                                         text: " *",
                                         style: theme.textTheme.bodyMedium?.copyWith(
-                                          color: theme.primaryColorDark,
-                                          fontWeight: FontWeight.w600,
+                                          color: (theme.cardColor == theme.primaryColorDark) ? Colors.black : theme.primaryColorDark,
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                     ],
@@ -201,14 +201,14 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
                                         style: theme.textTheme.titleSmall?.copyWith(
                                           color: theme.colorScheme.onSecondaryContainer,
                                           fontSize: 17.sp,
-                                          fontWeight: FontWeight.w500,
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                       TextSpan(
                                         text: " *",
                                         style: theme.textTheme.titleSmall!.copyWith(
-                                          color: theme.primaryColorDark,
-                                          fontWeight: FontWeight.w600,
+                                          color: (theme.cardColor == theme.primaryColorDark) ? Colors.black : theme.primaryColorDark,
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                     ],
@@ -260,14 +260,14 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
                                         style: theme.textTheme.titleSmall?.copyWith(
                                           color: theme.colorScheme.onSecondaryContainer,
                                           fontSize: 17.sp,
-                                          fontWeight: FontWeight.w500,
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                       TextSpan(
                                         text: " *",
                                         style: theme.textTheme.bodyMedium?.copyWith(
-                                          color: theme.primaryColorDark,
-                                          fontWeight: FontWeight.w600,
+                                          color: (theme.cardColor == theme.primaryColorDark) ? Colors.black : theme.primaryColorDark,
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                     ],
@@ -331,7 +331,7 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
                                   // width: (isPortrait) ? 350.w : null, // DeviceConstraints.getResponsiveSize(context, 0, 120.w, 70.w),
                                   text: (themeType == ThemeType.GlamBarbershop || themeType == ThemeType.Barbershop) ? (AppLocalizations.of(context)?.submitEnquiry ?? "Submit an Enquiry").toUpperCase() : AppLocalizations.of(context)?.submitEnquiry ?? "Submit an Enquiry",
                                   onTap: () => _salonProfileProvider.sendEnquiryToSalon(context, salonId: widget.salonModel.salonId),
-                                  buttonColor: theme.primaryColorDark,
+                                  buttonColor: (theme.cardColor == theme.primaryColorDark) ? Colors.black : theme.primaryColorDark,
                                   borderColor: theme.primaryColorDark,
                                   borderRadius: (themeType == ThemeType.GlamBarbershop || themeType == ThemeType.Barbershop) ? 0 : 25,
                                   textColor: (themeType == ThemeType.GlamBarbershop || themeType == ThemeType.Barbershop) ? Colors.black : Colors.white,
@@ -351,7 +351,7 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
                   width: DeviceConstraints.getResponsiveSize(context, 0, 100.w, 80.w),
                   child: themeType != ThemeType.Barbershop
                       ? ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(10),
                           child: (widget.salonModel.photosOfWorks!.isNotEmpty && widget.salonModel.photosOfWorks!.length > 1 && widget.salonModel.photosOfWorks![1].image! != '')
                               ? CachedImage(
                                   url: widget.salonModel.photosOfWorks![1].image ?? '',

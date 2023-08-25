@@ -4,6 +4,7 @@ import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -114,7 +115,7 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
                           tabs: _createAppointmentProvider.categoriesAvailable
                               .map(
                                 (item) => Tab(
-                                  text: item.categoryName,
+                                  text: item.categoryName.toCapitalized(),
                                   // height: 20,
                                 ),
                               )

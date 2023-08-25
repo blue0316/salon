@@ -81,12 +81,20 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                         servicePrice:
                             // NOT SINGLE MASTER
                             (!_salonProfileProvider.isSingleMaster)
-                                ? _createAppointmentProvider.isPriceFrom!
-                                    ? "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster!.masterId]?.price ?? '-'} ${_createAppointmentProvider.isPriceFrom! ? "+" : ""}"
-                                    : _createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster!.masterId]?.priceMax != '0'
-                                        ? "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster!.masterId]?.price ?? '-'}-${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster!.masterId]?.priceMax ?? '-'}"
-                                        : "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster!.masterId]?.price ?? '-'} ${_createAppointmentProvider.isPriceFrom! ? "+" : ""}"
+                                ? (service.isPriceRange)
+                                    ? "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.chosenMaster!.originalServicesPriceAndDuration![service.serviceId]?.price ?? '0'}-${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.chosenMaster!.originalServicesPriceAndDurationMax![service.serviceId]?.price ?? '0'}"
+                                    : (service.isPriceStartAt)
+                                        ? "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.chosenMaster!.originalServicesPriceAndDuration![service.serviceId]?.price ?? '0'}+"
+                                        : "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.chosenMaster!.originalServicesPriceAndDuration![service.serviceId]?.price ?? '0'}"
 
+                                // (!_salonProfileProvider.isSingleMaster)
+                                //     ? _createAppointmentProvider.isPriceFrom!
+                                //         ? "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster!.masterId]?.price ?? '-'} ${_createAppointmentProvider.isPriceFrom! ? "+" : ""}"
+                                //         : _createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster!.masterId]?.priceMax != '0'
+                                //             ? "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster!.masterId]?.price ?? '-'}-${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster!.masterId]?.priceMax ?? '-'}"
+                                //             : "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster!.masterId]?.price ?? '-'} ${_createAppointmentProvider.isPriceFrom! ? "+" : ""}"
+
+                                // **
                                 // (service.masterPriceAndDurationMap?[_createAppointmentProvider.chosenMaster?.masterId]?.isPriceRange == true)
                                 //     ? '${getCurrency(salonModel.countryCode!)}${service.masterPriceAndDurationMap?[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '0'} - ${getCurrency(salonModel.countryCode!)}${service.masterPriceAndDurationMap?[_createAppointmentProvider.chosenMaster?.masterId]?.priceMax ?? '0'}'
                                 //     : (service.isPriceStartAt)
@@ -128,7 +136,23 @@ class _OrderListState extends ConsumerState<OrderDetails> {
               ServiceNameAndPrice(
                 notService: true,
                 serviceName: AppLocalizations.of(context)?.total ?? "Total:",
-                servicePrice: '${getCurrency(salonModel.countryCode!)}$totalAmount',
+                // servicePrice: '${getCurrency(salonModel.countryCode!)}$totalAmount',
+                servicePrice:
+
+                    // NOT SINGLE MASTER
+                    (!_salonProfileProvider.isSingleMaster)
+                        ? (_createAppointmentProvider.isPriceFrom!)
+                            ? "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '-'} ${_createAppointmentProvider.isPriceFrom! ? "+" : ""}"
+                            : _createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.priceMax != '0'
+                                ? "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '-'}-${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.priceMax ?? '-'}"
+                                : "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '-'} ${_createAppointmentProvider.isPriceFrom! ? "+" : ""}"
+
+                        // SINGLE MASTER
+                        : _createAppointmentProvider.isPriceFrom!
+                            ? "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.servicePrice ?? '-'} ${_createAppointmentProvider.isPriceFrom! ? "+" : ""}"
+                            : _createAppointmentProvider.serviceMaxPrice != '0'
+                                ? "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.servicePrice ?? '-'}-${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.serviceMaxPrice ?? '-'}"
+                                : "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.servicePrice ?? '-'} ${_createAppointmentProvider.isPriceFrom! ? "+" : ""}",
               ),
 
               ServiceNameAndPrice(
@@ -157,6 +181,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                           fontWeight: FontWeight.w600,
                           fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 21.sp, 20.sp),
                           color: theme.colorScheme.tertiary,
+                          fontFamily: 'Inter',
                         ),
                       ),
                     ),
@@ -169,6 +194,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                           fontWeight: FontWeight.w600,
                           fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 21.sp, 20.sp),
                           color: theme.colorScheme.tertiary,
+                          fontFamily: 'Inter',
                         ),
                       ),
                     ),
@@ -210,6 +236,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                 fontWeight: FontWeight.normal,
                                 fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                                 color: theme.colorScheme.tertiary,
+                                fontFamily: 'Inter',
                               ),
                             ),
                             GestureDetector(
@@ -223,6 +250,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                   fontWeight: FontWeight.w500,
                                   fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                                   color: theme.primaryColor,
+                                  fontFamily: 'Inter',
                                 ),
                               ),
                             ),
@@ -258,6 +286,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                             fontWeight: FontWeight.w500,
                             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                             color: theme.colorScheme.tertiary,
+                            fontFamily: 'Inter',
                           ),
                         ),
                       ),
@@ -270,6 +299,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                       fontWeight: FontWeight.w400,
                       fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                       color: theme.colorScheme.tertiary.withOpacity(0.6),
+                      fontFamily: 'Inter',
                     ),
                   ),
                 ],
@@ -690,6 +720,7 @@ class CancellationPolicyScreen<T> extends ConsumerWidget {
                             fontWeight: FontWeight.w600,
                             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                             color: theme.colorScheme.tertiary,
+                            fontFamily: 'Inter',
                           ),
                         ),
                         SizedBox(height: 10.sp),
@@ -699,6 +730,7 @@ class CancellationPolicyScreen<T> extends ConsumerWidget {
                             fontWeight: FontWeight.normal,
                             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                             color: theme.colorScheme.tertiary.withOpacity(0.6),
+                            fontFamily: 'Inter',
                           ),
                         ),
                         SizedBox(height: 35.sp),
@@ -708,6 +740,7 @@ class CancellationPolicyScreen<T> extends ConsumerWidget {
                             fontWeight: FontWeight.w600,
                             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                             color: theme.colorScheme.tertiary,
+                            fontFamily: 'Inter',
                           ),
                         ),
                         SizedBox(height: 10.sp),
@@ -717,6 +750,7 @@ class CancellationPolicyScreen<T> extends ConsumerWidget {
                             fontWeight: FontWeight.normal,
                             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                             color: theme.colorScheme.tertiary.withOpacity(0.6),
+                            fontFamily: 'Inter',
                           ),
                         ),
                       ],

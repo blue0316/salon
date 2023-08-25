@@ -54,7 +54,7 @@ Widget bookNowButtonTheme(context, {required ThemeType themeType, required Theme
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SquareButton(
-            text: '  ${AppLocalizations.of(context)?.price ?? "BOOK NOW"}  ',
+            text: '  ${AppLocalizations.of(context)?.bookNow ?? "BOOK NOW"}  ',
             height: 60.h,
             // buttonColor: Colors.white,
             // borderColor: Colors.black,
@@ -73,7 +73,7 @@ Widget bookNowButtonTheme(context, {required ThemeType themeType, required Theme
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SquareButton(
-            text: '  ${AppLocalizations.of(context)?.price ?? "BOOK NOW"}  ',
+            text: '  ${AppLocalizations.of(context)?.bookNow ?? "BOOK NOW"}  ',
             height: 60.h,
             // buttonColor: Colors.black,
             // borderColor: Colors.white,
@@ -92,7 +92,7 @@ Widget bookNowButtonTheme(context, {required ThemeType themeType, required Theme
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SquareButton(
-            text: AppLocalizations.of(context)?.price ?? "BOOK NOW",
+            text: AppLocalizations.of(context)?.bookNow ?? "BOOK NOW",
             height: 60.h,
             buttonColor: theme.primaryColor,
             borderColor: Colors.transparent,
@@ -107,7 +107,7 @@ Widget bookNowButtonTheme(context, {required ThemeType themeType, required Theme
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SquareButton(
-            text: AppLocalizations.of(context)?.price ?? "BOOK NOW",
+            text: AppLocalizations.of(context)?.bookNow ?? "BOOK NOW",
             height: 60.h,
             buttonColor: theme.primaryColor,
             borderColor: Colors.transparent,
@@ -122,7 +122,7 @@ Widget bookNowButtonTheme(context, {required ThemeType themeType, required Theme
         width: 180.h,
         height: 60.h,
         textSize: 18.sp,
-        text: (AppLocalizations.of(context)?.price ?? "BOOK NOW").toCapitalized(),
+        text: (AppLocalizations.of(context)?.bookNow ?? "BOOK NOW").toTitleCase(),
         onTap: () => const BookingDialogWidget222().show(context),
       );
   }

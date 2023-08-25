@@ -30,8 +30,10 @@ class MasterModel {
 
   // contains the price and duration of all service assigned to a master
   Map<String, PriceAndDurationModel>? servicesPriceAndDuration;
+  Map<String, PriceAndDurationModel>? originalServicesPriceAndDuration; // untouched
 
   Map<String, PriceAndDurationModel>? servicesPriceAndDurationMax;
+  Map<String, PriceAndDurationModel>? originalServicesPriceAndDurationMax;
   String? title;
 
   double? avgRating;
@@ -56,7 +58,9 @@ class MasterModel {
     this.irregularWorkingHours,
     this.blockedTime,
     this.servicesPriceAndDuration,
+    this.originalServicesPriceAndDuration,
     this.servicesPriceAndDurationMax,
+    this.originalServicesPriceAndDurationMax,
     this.colorCode,
     this.reviewCount,
     this.avgRating,
@@ -82,8 +86,10 @@ class MasterModel {
     availableOnline = json['availableOnline'] ?? false;
     blockedTime = json['blockedTime'] ?? {};
     servicesPriceAndDuration = json['servicesPriceAndDuration'] != null ? mapPriceAndDuration(json['servicesPriceAndDuration']) : {};
+    originalServicesPriceAndDuration = json['servicesPriceAndDuration'] != null ? mapPriceAndDuration(json['servicesPriceAndDuration']) : {};
     if (json['servicesPriceAndDurationMax'] != null) {
       servicesPriceAndDurationMax = mapPriceAndDuration(json['servicesPriceAndDurationMax']);
+      originalServicesPriceAndDurationMax = mapPriceAndDuration(json['servicesPriceAndDurationMax']);
     }
     irregularWorkingHours = json['irregularWorkingHours'] != null ? mapIrregularHours(json['irregularWorkingHours']) : null;
     colorCode = Utils().assignColorCode();

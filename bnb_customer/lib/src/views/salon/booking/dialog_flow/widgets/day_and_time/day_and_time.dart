@@ -3,6 +3,7 @@ import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
+import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/currency/currency.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
@@ -99,6 +100,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
     SalonModel salonModel = _salonProfileProvider.chosenSalon;
 
     bool defaultLightTheme = themeType == ThemeType.DefaultLight;
+    bool isLightTheme = (theme == AppTheme.customLightTheme);
 
     if (_salonProfileProvider.isSingleMaster) {
       selectedMaster = _salonProfileProvider.allMastersInSalon[0];
@@ -119,6 +121,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                       style: theme.textTheme.bodyLarge!.copyWith(
                         fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                         color: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,
+                        fontFamily: 'Inter',
                       ),
                     ),
                     // const SizedBox(height: 10),
@@ -187,6 +190,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                     fontWeight: FontWeight.w400,
                                     fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                                     color: theme.colorScheme.tertiary,
+                                    fontFamily: 'Inter',
                                   ),
                                 ),
                               ],
@@ -332,33 +336,50 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                 ),
                                               ),
                                               child: Padding(
-                                                padding: EdgeInsets.only(top: 3, bottom: 3, right: 15.sp, left: 5.sp),
+                                                padding: EdgeInsets.only(top: 3, bottom: 3, right: 10.sp),
                                                 child: Row(
                                                   crossAxisAlignment: CrossAxisAlignment.center,
                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                   children: [
                                                     Container(
-                                                      height: 30.h,
-                                                      width: 30.h,
-                                                      decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.white),
-                                                      child: ClipRRect(
-                                                        borderRadius: BorderRadius.circular(100),
-                                                        child: (master.profilePicUrl != null && master.profilePicUrl != '')
-                                                            ? CachedImage(url: master.profilePicUrl!, fit: BoxFit.cover)
-                                                            : Image.asset(
-                                                                AppIcons.masterDefaultAvtar,
-                                                                fit: BoxFit.cover,
-                                                              ),
+                                                      height: 50.h,
+                                                      width: 50.h,
+                                                      decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        color: isLightTheme ? const Color(0XFF1A1A1A).withOpacity(0.6) : const Color(0XFF3D3D3D),
                                                       ),
+                                                      child: (master.profilePicUrl != null && master.profilePicUrl != '')
+                                                          ? CachedImage(
+                                                              url: master.profilePicUrl!,
+                                                              imageBuilder: (context, imageProvider) => Container(
+                                                                height: 50.h,
+                                                                width: 50.h,
+                                                                decoration: BoxDecoration(
+                                                                  shape: BoxShape.circle,
+                                                                  image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+                                                                ),
+                                                              ),
+                                                            )
+                                                          : Center(
+                                                              child: Text(
+                                                                Utils().getNameMaster(master.personalInfo).initials,
+                                                                style: theme.textTheme.titleMedium!.copyWith(
+                                                                  fontSize: 16.sp,
+                                                                  fontWeight: FontWeight.w500,
+                                                                  color: isLightTheme ? Colors.black : Colors.white,
+                                                                  fontFamily: 'Inter',
+                                                                ),
+                                                              ),
+                                                            ),
                                                     ),
-                                                    const SizedBox(width: 10),
+                                                    SizedBox(width: 2.sp),
                                                     Text(
                                                       Utils().getNameMaster(master.personalInfo),
                                                       style: theme.textTheme.bodyLarge!.copyWith(
-                                                        fontSize: 14.sp,
+                                                        fontSize: 16.sp,
                                                         fontWeight: FontWeight.normal,
                                                         // color: (selectedMaster == master && isAnyoneSelected == false) ? selectSlots(themeType, theme) : theme.colorScheme.tertiary,
-                                                        color: (selectedMaster == master) ? selectSlots(themeType, theme) : theme.colorScheme.tertiary,
+                                                        color: (selectedMaster == master) ? selectSlots(themeType, theme) : theme.colorScheme.tertiary, fontFamily: 'Inter',
                                                       ),
                                                     ),
                                                   ],
@@ -405,6 +426,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                 fontWeight: FontWeight.normal,
                                 fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                                 color: theme.colorScheme.tertiary,
+                                fontFamily: 'Inter',
                               ),
                             ),
                             SizedBox(width: 8.w),
@@ -458,6 +480,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                   DateFormat("EE").format(itemValue).toUpperCase(),
                                   style: theme.textTheme.bodyLarge?.copyWith(
                                     color: theme.colorScheme.tertiary,
+                                    fontFamily: 'Inter',
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
@@ -559,6 +582,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                             fontWeight: FontWeight.normal,
                                             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 18.sp, 18.sp),
                                             color: _createAppointmentProvider.timeOfDayIndexForSlots == 0 ? Colors.white : theme.colorScheme.tertiary,
+                                            fontFamily: 'Inter',
                                           ),
                                         ),
                                       ),
@@ -590,6 +614,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                             fontWeight: FontWeight.normal,
                                             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 18.sp, 18.sp),
                                             color: _createAppointmentProvider.timeOfDayIndexForSlots == 1 ? Colors.white : theme.colorScheme.tertiary,
+                                            fontFamily: 'Inter',
                                           ),
                                         ),
                                       ),
@@ -622,6 +647,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                             fontWeight: FontWeight.normal,
                                             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 18.sp, 18.sp),
                                             color: _createAppointmentProvider.timeOfDayIndexForSlots == 2 ? Colors.white : theme.colorScheme.tertiary,
+                                            fontFamily: 'Inter',
                                           ),
                                         ),
                                       ),
@@ -649,6 +675,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                   fontWeight: FontWeight.normal,
                                                   fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                                                   color: theme.primaryColor,
+                                                  fontFamily: 'Inter',
                                                 ),
                                               ),
                                             ),
@@ -691,7 +718,8 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                         style: theme.textTheme.bodyMedium?.copyWith(
                                                           fontWeight: FontWeight.normal,
                                                           fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                                                          color: Colors.green, // theme.colorScheme.tertiary,
+                                                          color: Colors.green,
+                                                          fontFamily: 'Inter',
                                                         ),
                                                       ),
                                                     ),
@@ -724,7 +752,8 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                           child: Text(
                                                             _createAppointmentProvider.allAppointments[selectedMaster?.masterId]![index],
                                                             style: theme.textTheme.bodyLarge?.copyWith(
-                                                              color: selectSlots(themeType, theme), // theme.colorScheme.tertiary,
+                                                              color: selectSlots(themeType, theme),
+                                                              fontFamily: 'Inter',
                                                             ),
                                                           ),
                                                         ),
@@ -740,6 +769,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                                 _createAppointmentProvider.allAppointments[selectedMaster?.masterId]![index],
                                                                 style: theme.textTheme.bodyLarge?.copyWith(
                                                                   color: theme.colorScheme.tertiary,
+                                                                  fontFamily: 'Inter',
                                                                 ),
                                                               ),
                                                             ),
@@ -757,6 +787,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                                 _createAppointmentProvider.allAppointments[selectedMaster?.masterId]![index],
                                                                 style: theme.textTheme.bodyLarge?.copyWith(
                                                                   color: theme.colorScheme.tertiary,
+                                                                  fontFamily: 'Inter',
                                                                 ),
                                                               ),
                                                             ),
@@ -776,6 +807,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                   fontWeight: FontWeight.normal,
                                                   fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                                                   color: theme.primaryColor,
+                                                  fontFamily: 'Inter',
                                                 ),
                                               ),
                                             ),
@@ -935,6 +967,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                               fontSize: 16.sp,
                                               fontWeight: FontWeight.normal,
                                               color: selectSlots(themeType, theme),
+                                              fontFamily: 'Inter',
                                             ),
                                           ),
                                           SizedBox(height: 2.sp),
@@ -964,6 +997,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                   fontSize: 14.sp,
                                                   fontWeight: FontWeight.normal,
                                                   color: selectSlots(themeType, theme)?.withOpacity(0.8),
+                                                  fontFamily: 'Inter',
                                                 ),
                                               ),
                                               SizedBox(width: 7.sp),
@@ -989,6 +1023,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                   fontSize: 14.sp,
                                                   fontWeight: FontWeight.normal,
                                                   color: selectSlots(themeType, theme)?.withOpacity(0.8),
+                                                  fontFamily: 'Inter',
                                                 ),
                                               ),
                                             ],
@@ -1009,6 +1044,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                               fontWeight: FontWeight.normal,
                                               color: selectSlots(themeType, theme),
                                               letterSpacing: 0.5,
+                                              fontFamily: 'Inter',
                                             ),
                                           ),
                                           SizedBox(height: 2.sp),
@@ -1020,6 +1056,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                               fontSize: 14.sp,
                                               fontWeight: FontWeight.normal,
                                               color: selectSlots(themeType, theme)?.withOpacity(0.7),
+                                              fontFamily: 'Inter',
                                             ),
                                           ),
                                         ],
@@ -1027,6 +1064,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                     ],
                                   ),
                                   SizedBox(height: 20.sp),
+
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -1037,11 +1075,11 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                             servicePrice:
                                                 // NOT SINGLE MASTER
                                                 (!_salonProfileProvider.isSingleMaster)
-                                                    ? _createAppointmentProvider.isPriceFrom!
-                                                        ? "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[selectedMaster!.masterId]?.price ?? '-'} ${_createAppointmentProvider.isPriceFrom! ? "+" : ""}"
-                                                        : _createAppointmentProvider.priceAndDuration[selectedMaster!.masterId]?.priceMax != '0'
-                                                            ? "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[selectedMaster!.masterId]?.price ?? '-'}-${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[selectedMaster!.masterId]?.priceMax ?? '-'}"
-                                                            : "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[selectedMaster!.masterId]?.price ?? '-'} ${_createAppointmentProvider.isPriceFrom! ? "+" : ""}"
+                                                    ? (service.isPriceRange)
+                                                        ? "${getCurrency(salonModel.countryCode!)}${selectedMaster!.originalServicesPriceAndDuration![service.serviceId]?.price ?? '0'}-${getCurrency(salonModel.countryCode!)}${selectedMaster!.originalServicesPriceAndDurationMax![service.serviceId]?.price ?? '0'}"
+                                                        : (service.isPriceStartAt)
+                                                            ? "${getCurrency(salonModel.countryCode!)}${selectedMaster!.originalServicesPriceAndDuration![service.serviceId]?.price ?? '0'}+"
+                                                            : "${getCurrency(salonModel.countryCode!)}${selectedMaster!.originalServicesPriceAndDuration![service.serviceId]?.price ?? '0'}"
 
                                                     // SINGLE MASTER
                                                     : (service.isPriceRange)
@@ -1049,6 +1087,21 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                         : (service.isPriceStartAt)
                                                             ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}+"
                                                             : "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}",
+                                            // servicePrice:
+                                            //     // NOT SINGLE MASTER
+                                            //     (!_salonProfileProvider.isSingleMaster)
+                                            //         ? _createAppointmentProvider.isPriceFrom!
+                                            //             ? "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[selectedMaster!.masterId]?.price ?? '-'} ${_createAppointmentProvider.isPriceFrom! ? "+" : ""}"
+                                            //             : _createAppointmentProvider.priceAndDuration[selectedMaster!.masterId]?.priceMax != '0'
+                                            //                 ? "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[selectedMaster!.masterId]?.price ?? '-'}-${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[selectedMaster!.masterId]?.priceMax ?? '-'}"
+                                            //                 : "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[selectedMaster!.masterId]?.price ?? '-'} ${_createAppointmentProvider.isPriceFrom! ? "+" : ""}"
+
+                                            //         // SINGLE MASTER
+                                            //         : (service.isPriceRange)
+                                            //             ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}-${getCurrency(salonModel.countryCode!)}${service.priceAndDurationMax!.price ?? '0'}"
+                                            //             : (service.isPriceStartAt)
+                                            //                 ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}+"
+                                            //                 : "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}",
                                             color: selectSlots(themeType, theme),
                                             fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 18.sp, 16.sp),
                                             priceFontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 18.sp, 16.sp),
@@ -1158,6 +1211,7 @@ class ServiceNameAndPrice extends ConsumerWidget {
                     : !notService
                         ? theme.colorScheme.tertiary
                         : theme.colorScheme.tertiary.withOpacity(0.6),
+                fontFamily: 'Inter',
               ),
               overflow: TextOverflow.ellipsis,
               maxLines: 2,
@@ -1171,6 +1225,7 @@ class ServiceNameAndPrice extends ConsumerWidget {
                 fontWeight: FontWeight.w600,
                 fontSize: priceFontSize ?? DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                 color: color ?? theme.colorScheme.tertiary,
+                fontFamily: 'Inter',
               ),
             ),
           ),
@@ -1628,6 +1683,7 @@ class _ShowSlotsState extends ConsumerState<ShowSlots> {
                         fontWeight: FontWeight.normal,
                         fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                         color: theme.primaryColor,
+                        fontFamily: 'Inter',
                       ),
                     ),
                     SizedBox(height: 2.h),
@@ -1637,6 +1693,7 @@ class _ShowSlotsState extends ConsumerState<ShowSlots> {
                         fontWeight: FontWeight.normal,
                         fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                         color: theme.primaryColor,
+                        fontFamily: 'Inter',
                       ),
                     )
                   ],
@@ -1730,6 +1787,7 @@ class SlotWidget extends ConsumerWidget {
                   slot ?? '',
                   style: theme.textTheme.bodyLarge?.copyWith(
                     color: theme.colorScheme.tertiary,
+                    fontFamily: 'Inter',
                   ),
                 ),
               ),
@@ -1745,6 +1803,7 @@ class SlotWidget extends ConsumerWidget {
                   slot ?? '',
                   style: theme.textTheme.bodyLarge?.copyWith(
                     color: isSelected ? selectSlots(themeType, theme) : theme.colorScheme.tertiary,
+                    fontFamily: 'Inter',
                   ),
                 ),
               ),

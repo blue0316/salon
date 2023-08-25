@@ -37,34 +37,39 @@ class ShopCard extends ConsumerWidget {
           children: [
             Expanded(
               flex: 1,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: theme.primaryColorDark, // Colors.transparent,
-                  // border: Border.all(color: theme.primaryColorDark, width: 0.3),
-                ),
-                // height: 300.h,
-                width: DeviceConstraints.getResponsiveSize(
-                  context,
-                  size / 1.5.sp,
-                  size / 2.3.sp,
-                  70.w,
-                ),
+              child: GestureDetector(
+                onTap: () {
+                  print(product.productImageUrlList);
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: theme.primaryColorDark, // Colors.transparent,
+                    // border: Border.all(color: theme.primaryColorDark, width: 0.3),
+                  ),
+                  // height: 300.h,
+                  width: DeviceConstraints.getResponsiveSize(
+                    context,
+                    size / 1.5.sp,
+                    size / 2.3.sp,
+                    70.w,
+                  ),
 
-                child: (product.productImageUrlList!.isNotEmpty)
-                    ? CachedImage(
-                        url: '${product.productImageUrlList![0]}',
-                        fit: BoxFit.cover,
-                      )
-                    : Center(
-                        child: Text(
-                          AppLocalizations.of(context)?.photoNA ?? 'Photo N/A',
-                          style: theme.textTheme.bodyLarge?.copyWith(
-                            color: Colors.white,
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.normal,
+                  child: (product.productImageUrlList!.isNotEmpty)
+                      ? CachedImage(
+                          url: '${product.productImageUrlList![0]}',
+                          fit: BoxFit.cover,
+                        )
+                      : Center(
+                          child: Text(
+                            AppLocalizations.of(context)?.photoNA ?? 'Photo N/A',
+                            style: theme.textTheme.bodyLarge?.copyWith(
+                              color: Colors.white,
+                              fontSize: 20.sp,
+                              fontWeight: FontWeight.normal,
+                            ),
                           ),
                         ),
-                      ),
+                ),
               ),
             ),
             SizedBox(height: 10.sp),

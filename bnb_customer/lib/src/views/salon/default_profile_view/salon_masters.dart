@@ -1,5 +1,6 @@
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
+import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_profile.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_reviews.dart';
@@ -174,6 +175,7 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
                                                               child: MasterAvatar(
                                                                 personImageUrl: _filteredMasters[index].profilePicUrl,
                                                                 personName: Utils().getNameMaster(_filteredMasters[index].personalInfo),
+                                                                masterTitle: _filteredMasters[index].title,
                                                                 rating: _filteredMasters[index].avgRating,
                                                                 categories: masterCategories,
                                                               ),
@@ -216,7 +218,7 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
 
 class MasterAvatar extends ConsumerWidget {
   final String? personImageUrl;
-  final String? personName;
+  final String? personName, masterTitle;
   final double? rating;
   final List<CategoryModel> categories;
 
@@ -226,6 +228,7 @@ class MasterAvatar extends ConsumerWidget {
     required this.personName,
     required this.rating,
     required this.categories,
+    required this.masterTitle,
   }) : super(key: key);
 
   @override
@@ -244,18 +247,33 @@ class MasterAvatar extends ConsumerWidget {
             Container(
               height: 85.sp,
               width: 85.sp,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: (personImageUrl != null && personImageUrl != '')
-                    ? DecorationImage(
+              decoration: (personImageUrl != null && personImageUrl != '')
+                  ? BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
                         image: NetworkImage(personImageUrl!),
                         fit: BoxFit.cover,
-                      )
-                    : const DecorationImage(
-                        image: AssetImage(AppIcons.masterDefaultAvtar),
-                        fit: BoxFit.cover,
+                      ))
+                  : BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: isLightTheme
+                          ? const Color(0XFF1A1A1A).withOpacity(0.6)
+                          : const Color(
+                              0XFF3D3D3D,
+                            ),
+                    ),
+              child: !(personImageUrl != null && personImageUrl != '')
+                  ? Center(
+                      child: Text(
+                        personName?.initials ?? '',
+                        style: theme.textTheme.titleMedium!.copyWith(
+                          fontSize: 25.sp,
+                          fontWeight: FontWeight.w500,
+                          color: isLightTheme ? Colors.black : Colors.white,
+                        ),
                       ),
-              ),
+                    )
+                  : null,
             ),
             SizedBox(height: 15.sp),
             BnbRatings(
@@ -267,7 +285,7 @@ class MasterAvatar extends ConsumerWidget {
             ),
             SizedBox(height: 5.sp),
             Text(
-              'Hairdresser', //   categories[0].translations[AppLocalizations.of(context)?.localeName ?? 'en'], //  'Nail Professional',
+              masterTitle ?? '-',
               style: theme.textTheme.bodyLarge!.copyWith(
                 fontWeight: FontWeight.w300,
                 fontSize: 15.sp,

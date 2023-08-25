@@ -20,7 +20,7 @@ class SectionSpacer extends StatelessWidget {
           style: Theme.of(context).textTheme.displayLarge!.copyWith(
                 fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 30.sp, 35.sp),
                 color: Colors.white,
-                fontFamily: "Inter-Bold",
+                fontFamily: "Montserrat",
                 letterSpacing: 0.5,
               ),
         ),

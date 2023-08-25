@@ -200,7 +200,7 @@ class CustomerReviewName extends ConsumerWidget {
           ),
           child: Center(
             child: Text(
-              (review.customerName != '' ? review.customerName[0] : 'G').toCapitalized(),
+              (review.customerName != '' ? review.customerName.initials : ' '),
               textAlign: TextAlign.center,
               style: theme.textTheme.titleMedium!.copyWith(
                 fontSize: 18.sp,

@@ -13,11 +13,7 @@ class DefaultAppBarTheme extends ConsumerWidget {
   final SalonModel salonModel;
   final bool isSalonMaster;
 
-  const DefaultAppBarTheme({
-    Key? key,
-    required this.salonModel,
-    this.isSalonMaster = false,
-  }) : super(key: key);
+  const DefaultAppBarTheme({Key? key, required this.salonModel, this.isSalonMaster = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -131,16 +127,16 @@ class DefaultAppBarTheme extends ConsumerWidget {
                     //         ),
                     //       )
                     //     :
-                    Text(
-                      salonModel.salonName.toUpperCase(),
-                      style: theme.textTheme.bodyLarge!.copyWith(
-                        color: Colors.white,
-                        fontSize: 22.sp,
-                        letterSpacing: 0.9,
-                        fontWeight: FontWeight.normal,
-                      ),
-                      maxLines: 1,
-                    ),
+                    // Text(
+                    //   salonModel.salonName.toUpperCase(),
+                    //   style: theme.textTheme.bodyLarge!.copyWith(
+                    //     color: Colors.white,
+                    //     fontSize: 22.sp,
+                    //     letterSpacing: 0.9,
+                    //     fontWeight: FontWeight.normal,
+                    //   ),
+                    //   maxLines: 1,
+                    // ),
                     const Spacer(),
                     // const Spacer(),
 

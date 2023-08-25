@@ -2,11 +2,9 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/enums/profile_datails_tabs.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
-import 'package:bbblient/src/utils/currency/currency.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/booking_dialog_2.dart';
-import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/confirm/pay_dialog.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_about.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_services.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/widgets/landing_bottom.dart';
@@ -302,10 +300,10 @@ class LandingView extends ConsumerWidget {
                       runSpacing: DeviceConstraints.getResponsiveSize(context, 10.h, 20.w, 10.w),
                       direction: Axis.horizontal,
                       alignment: WrapAlignment.center,
-                      children: _createAppointmentProvider.categoriesAvailable
+                      children: _salonProfileProvider.chosenSalon.specializations!
                           .map(
                             (item) => GlamOneWrap(
-                              text: item.translations[AppLocalizations.of(context)?.localeName ?? 'en'] ?? item.translations['en'],
+                              text: item,
                               vSpacing: 11.sp,
                               color: const Color(0XFF020203).withOpacity(0.4),
                               showBorder: false,

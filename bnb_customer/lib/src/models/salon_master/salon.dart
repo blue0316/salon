@@ -1,6 +1,5 @@
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/enums/gender.dart';
-import 'package:bbblient/src/utils/currency/currency.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../backend_codings/working_hours.dart';
@@ -50,6 +49,7 @@ class SalonModel {
   late TimeFormat timeFormat;
   late List<String> customerWebLanguages = [];
   CancellationAndNoShow cancellationAndNoShowPolicy = CancellationAndNoShow.fromJson({});
+  List<String>? specializations = [];
 
   SalonModel({
     required this.salonId,
@@ -93,6 +93,7 @@ class SalonModel {
     required this.customerWebLanguages,
     required this.cancellationAndNoShowPolicy,
     this.countryCode,
+    this.specializations,
   });
 
   SalonModel.fromJson(Map<String, dynamic> json) {
@@ -157,6 +158,7 @@ class SalonModel {
         : CancellationAndNoShow.fromJson(
             {},
           );
+    specializations = json['specializations'] == null ? [] : json['specializations'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {
@@ -200,6 +202,7 @@ class SalonModel {
     data['requestSalon'] = requestSalon;
     data['timeFormat'] = timeFormat;
     data['customerWebLanguages'] = customerWebLanguages;
+    data['specializations'] = specializations;
 
     // data['selectedTheme'] = selectedTheme;
     return data;

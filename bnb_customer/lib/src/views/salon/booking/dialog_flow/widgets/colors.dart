@@ -19,18 +19,18 @@ Color? dialogLabelColorTheme(ThemeType themeType, ThemeData theme) {
 Color? isAddedSelectedColor(ThemeType themeType) {
   switch (themeType) {
     case ThemeType.GlamMinimalLight:
-      return Colors.white;
+      return Colors.black;
     case ThemeType.GlamMinimalDark:
-      return Colors.black;
+      return Colors.white;
     case ThemeType.GlamLight:
-      return Colors.white;
-    case ThemeType.Barbershop:
       return Colors.black;
-    case ThemeType.DefaultLight:
+    case ThemeType.Barbershop:
       return Colors.white;
+    case ThemeType.DefaultLight:
+      return Colors.black;
 
     default:
-      return Colors.black;
+      return Colors.white;
   }
 }
 

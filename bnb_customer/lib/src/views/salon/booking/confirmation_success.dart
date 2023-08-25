@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -158,9 +159,9 @@ class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Spacer(flex: 2),
-                      FaIcon(
-                        FontAwesomeIcons.circleCheck,
-                        size: DeviceConstraints.getResponsiveSize(context, 120.sp, 80.sp, 100.sp),
+                      SvgPicture.asset(
+                        'assets/themes/glam_one/svg/success_check.svg',
+                        height: DeviceConstraints.getResponsiveSize(context, 120.sp, 80.sp, 100.sp),
                         color: theme.primaryColor,
                       ),
                       const Spacer(),

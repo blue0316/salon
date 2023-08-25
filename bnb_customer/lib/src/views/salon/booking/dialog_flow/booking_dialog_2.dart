@@ -2,6 +2,7 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
+import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/confirm/confirm.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/service_tab/service_tab.dart';
@@ -62,6 +63,7 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
     final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    bool isLightTheme = (theme == AppTheme.customLightTheme);
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
@@ -183,9 +185,9 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
                                 fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                                 fontWeight: FontWeight.normal,
                                 letterSpacing: 0.5,
-                                color: theme.primaryColor,
+                                color: isLightTheme ? Colors.black : Colors.white,
                               ),
-                              labelColor: theme.primaryColor,
+                              labelColor: isLightTheme ? Colors.black : Colors.white,
                               indicatorColor: theme.primaryColor,
                               indicatorSize: TabBarIndicatorSize.label,
                               tabs: [

@@ -210,10 +210,13 @@ class CreateAppointmentProvider with ChangeNotifier {
               if (service1.masterPriceAndDurationMap!.containsKey(servicemaster.masterId)) {
                 //if the selected list  and subservice list doesn't contain the first selected item
                 if (selectedItems.contains(service1) == false && selectedSubItems.contains(service1) == false) {
-                  if (selectedItems.contains(service1) == false) {
+                  // if (selectedItems.contains(service1) == false) {
+                  //   selectedSubItems.add(service1);
+                  // }
+
+                  if (service1.serviceId != selectedItems[0].serviceId) {
                     selectedSubItems.add(service1);
                   }
-                  //add to the selected sub items list
                 }
               } else {
                 ///add services that master is not offering to unavailble list
@@ -816,7 +819,8 @@ class CreateAppointmentProvider with ChangeNotifier {
       totalDuration = 0;
       totalPrice = 0;
       totalMaxPrice = 0;
-      for (var eachSelectedService in chosenServices) {
+      notifyListeners();
+      for (var eachSelectedService in totalSelectedSubItems) {
         debugPrint(eachSelectedService.serviceId);
         if (eachSelectedService != null && master != null && eachSelectedService.serviceId != null && eachSelectedService.masterPriceAndDurationMap![master.masterId]?.price != null && eachSelectedService.masterPriceAndDurationMap![master.masterId]!.price!.isNotEmpty) {
           totalDuration += int.parse(eachSelectedService.priceAndDuration!.duration!);

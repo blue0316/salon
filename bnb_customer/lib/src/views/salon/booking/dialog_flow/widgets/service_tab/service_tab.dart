@@ -147,6 +147,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                                                 color: _activeTab == index ? serviceTabCategoryColor(themeType) : theme.colorScheme.tertiary, //  isServiceAddedBelogingToCategory ? serviceTabCategoryColor(themeType) : theme.colorScheme.tertiary, //defaultTheme ? Colors.black : Colors.white,
                                                 // color: Colors.white, // _activeTab == index ? AppTheme.textBlack : AppTheme.lightGrey,
                                                 fontWeight: FontWeight.w400, // _activeTab == index ? FontWeight.w500 : FontWeight.w400,
+                                                fontFamily: 'Inter',
                                               ),
                                             ),
                                           ),
@@ -206,6 +207,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                                                   // fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
                                                   fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                                                   color: theme.colorScheme.tertiary, //defaultTheme ? AppTheme.textBlack : Colors.white,
+                                                  fontFamily: 'Inter',
                                                 ),
                                               ),
                                               children: services.map(
@@ -415,6 +417,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                                           color: _activeTab == index ? serviceTabCategoryColor(themeType) : theme.colorScheme.tertiary, //  isServiceAddedBelogingToCategory ? serviceTabCategoryColor(themeType) : theme.colorScheme.tertiary, //defaultTheme ? Colors.black : Colors.white,
                                           // color: Colors.white, // _activeTab == index ? AppTheme.textBlack : AppTheme.lightGrey,
                                           fontWeight: FontWeight.w400, // _activeTab == index ? FontWeight.w500 : FontWeight.w400,
+                                          fontFamily: 'Inter',
                                         ),
                                       ),
                                     ),
@@ -521,6 +524,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                             style: theme.textTheme.bodyLarge?.copyWith(
                               fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                               color: theme.colorScheme.tertiary.withOpacity(0.6),
+                              fontFamily: 'Inter',
                             ),
                           ),
                         ),
@@ -540,6 +544,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                               fontWeight: FontWeight.w600,
                               fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                               color: theme.colorScheme.tertiary.withOpacity(0.6),
+                              fontFamily: 'Inter',
                             ),
                           ),
                         ),
@@ -592,6 +597,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                 style: theme.textTheme.bodyLarge?.copyWith(
                   fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
                   color: theme.colorScheme.tertiary, // defaultTheme ? Colors.black : Colors.white,
+                  fontFamily: 'Inter',
                 ),
               ),
             ),

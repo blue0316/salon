@@ -128,7 +128,7 @@ class _SalonMasterViewState extends ConsumerState<SalonMasterView> {
             const Space(factor: 2.5),
             Container(
               width: double.infinity,
-              color: theme.canvasColor.withOpacity(0.7),
+              color: theme.canvasColor.withOpacity(!isLightTheme ? 0.7 : 1),
               height: 1500.h,
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.h),

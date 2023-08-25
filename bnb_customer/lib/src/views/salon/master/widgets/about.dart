@@ -82,7 +82,7 @@ class _MasterAboutHeaderLandscapeState extends ConsumerState<MasterAboutHeaderLa
                   // const Space(factor: 0.7),
                   SizedBox(height: 12.sp),
                   Text(
-                    'Hairdresser',
+                    _createAppointmentProvider.chosenMaster?.title ?? '-', //   'Hairdresser',
                     style: theme.textTheme.bodyLarge!.copyWith(
                       fontWeight: FontWeight.w300,
                       fontSize: 15.sp,
@@ -94,7 +94,7 @@ class _MasterAboutHeaderLandscapeState extends ConsumerState<MasterAboutHeaderLa
               SizedBox(height: 15.sp),
 
               Text(
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus tellustellus eit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla ',
+                '${_createAppointmentProvider.chosenMaster?.personalInfo?.description}',
                 style: theme.textTheme.displayMedium!.copyWith(
                   fontWeight: FontWeight.normal,
                   fontSize: 15.sp,
@@ -152,7 +152,7 @@ class _MasterAboutHeaderPortraitState extends ConsumerState<MasterAboutHeaderPor
             ),
             SizedBox(height: 12.sp),
             Text(
-              'Hairdresser',
+              widget.masterModel.title ?? '-', //   'Hairdresser',
               style: theme.textTheme.bodyLarge!.copyWith(
                 fontWeight: FontWeight.w300,
                 fontSize: 15.sp,
@@ -184,7 +184,7 @@ class _MasterAboutHeaderPortraitState extends ConsumerState<MasterAboutHeaderPor
         ),
         SizedBox(height: 7.sp),
         Text(
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit.ur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tel ur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tel ur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tel ur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis telur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tel ur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tel ur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tel Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus tellustellus eit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla ',
+          '${widget.masterModel.personalInfo?.description}',
           style: theme.textTheme.displayMedium!.copyWith(
             fontWeight: FontWeight.normal,
             fontSize: 15.sp,
