@@ -813,5 +813,10 @@
   "appointmentConfirmation": "Confirmation du rendez-vous",
   "cancelNote1": "Veuillez noter que pour annuler vous devez contacter ?",
   "cancelNote2": "L'annulation en ligne n'est pas disponible pour le moment.",
-  "noPhotosOfWorksAvailable": "AUCUNE PHOTO DE TRAVAUX DISPONIBLE POUR LE MOMENT"
+  "noPhotosOfWorksAvailable": "AUCUNE PHOTO DE TRAVAUX DISPONIBLE POUR LE MOMENT",
+  "cancelAppointmentDialogue" : "Etes-vous sûr de vouloir annuler ce rendez-vous ?",
+  "willBe" : "sera",
+  "refunded" : "remboursé",
+  "charged" : "chargé",
+  "asCancellationFee" : "comme frais de protection contre l'annulation et la non-présentation"
 }

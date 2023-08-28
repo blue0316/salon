@@ -838,5 +838,10 @@
 "averageRating" : "Calificación promedio",
 "noPhotosAvailable" : "No se agregaron fotos todavía",
 "portfolio": "Portafolio",
-"serviceDetails" : "Detalles de los servicios"
+"serviceDetails" : "Detalles de los servicios",
+"cancelAppointmentDialogue" : "¿Está seguro de que desea cancelar esta cita?",
+  "willBe" : "sera",
+  "refunded": "reembolsado",
+  "charged": "cargado",
+  "asCancellationFee": "como tarifa de protección por cancelación y no presentación"
 }

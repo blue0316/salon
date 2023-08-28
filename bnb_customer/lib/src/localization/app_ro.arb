@@ -840,5 +840,10 @@
 "noPhotosAvailable" : "Nici o fotografie adăugată încă",
 "portfolio": "Portofoliu",
 "serviceDetails" : "Detalii servicii",
-"confirmApppointment" : "Confirmați programarea"												
+"confirmApppointment" : "Confirmați programarea",
+"cancelAppointmentDialogue" : "Sunteți sigur că doriți să anulați această întâlnire?",
+  "willBe" : "va fi",
+  "refunded" : "rambursat",
+  "charged" : "încărcat",
+  "asCancellationFee" : "ca taxă de protecție pentru anulare și neprezentare"
 }

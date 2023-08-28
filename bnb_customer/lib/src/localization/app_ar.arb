@@ -839,5 +839,10 @@
   "averageRating": "متوسط التقييم",
   "noPhotosAvailable": "لا توجد صور مضافة بعد",
   "portfolio": "ملف",
-  "serviceDetails": "تفاصيل الخدمة"
+  "serviceDetails": "تفاصيل الخدمة",
+  "cancelAppointmentDialogue" : "هل أنت متأكد من رغبتك في إلغاء هذا الموعد؟",
+  "willBe": "سوف يكون",
+  "refunded" : "مسترد",
+  "charged" : "مشحونة",
+  "asCancellationFee" : "كرسوم حماية الإلغاء وعدم الحضور"
 }

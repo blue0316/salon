@@ -845,5 +845,10 @@
 "averageRating" : "Середня оцінка",
 "noPhotosAvailable" : "Фото ще не додано",
 "portfolio": "Портфоліо",
-"serviceDetails" : "Деталі послуг"					
+"serviceDetails" : "Деталі послуг",
+"cancelAppointmentDialogue": "Ви впевнені, що хочете скасувати цю зустріч?",
+"willBe" : "буде",
+"refunded" : "повернено",
+"charged" : "заряджено",
+"asCancellationFee" : "як плата за захист від скасування та незаїзду"			
 }

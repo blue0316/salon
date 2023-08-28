@@ -838,5 +838,10 @@
 "averageRating": "Avaliação média",
 "noPhotosAvailable": "Nenhuma foto adicionada ainda",
 "portfolio": "portfólio",
-"serviceDetails" : "Detalhes do serviço"													
+"serviceDetails" : "Detalhes do serviço",
+"cancelAppointmentDialogue" : "Tem certeza que deseja cancelar este compromisso?",
+  "willBe" : "será",
+  "refunded" : "reembolsado",
+  "charged": "carregado",
+  "asCancellationFee" : "como taxa de proteção contra cancelamento e não comparecimento"													
 }

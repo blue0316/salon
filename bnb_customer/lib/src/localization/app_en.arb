@@ -844,5 +844,10 @@
  "averageRating" : "Average Rating",
  "noPhotosAvailable" : "No photos added yet",
  "portfolio": "Portfolio",
- "serviceDetails" : "Services Details"
+ "serviceDetails" : "Services Details",
+ "cancelAppointmentDialogue" : "Are you sure you want to cancel this appointment?",
+ "willBe" : "will be",
+ "refunded" : "refunded",
+ "charged" : "charged",
+ "asCancellationFee" : "as Cancellation & No-show protection fee"
 }
