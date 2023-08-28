@@ -142,6 +142,7 @@ class _VerifyOtpState extends ConsumerState<VerifyOtp> {
                                 CustomerModel? currentCustomer = _auth.currentCustomer;
 
                                 // print('___++++____@@@@_____');
+                                // print(currentCustomer?.personalInfo.phone);
                                 // print(currentCustomer?.personalInfo.firstName);
                                 // print(currentCustomer?.personalInfo.lastName);
                                 // print(currentCustomer?.personalInfo.email);
@@ -157,9 +158,6 @@ class _VerifyOtpState extends ConsumerState<VerifyOtp> {
                                     // Go to PageView Order List Screen
                                     _createAppointmentProvider.nextPageView(3);
 
-                                    // // Customer Personal Info has name and email
-
-                                    // // Create Appointment
                                     // CustomerModel customer = CustomerModel(
                                     //   customerId: currentCustomer.customerId,
                                     //   personalInfo: currentCustomer.personalInfo,
@@ -190,11 +188,13 @@ class _VerifyOtpState extends ConsumerState<VerifyOtp> {
                                     // if mastes list is 1, block time of salon and master, phone number
                                   }
                                 }
+
+                                return;
                               } else if (value == Status.failed) {
                                 showToast(AppLocalizations.of(context)?.somethingWentWrong ?? "Something went wrong");
                               } else {
                                 printIt('wahala dey here');
-                              }
+                              } // /salon?id=IaUsq9UnKNsQ05bhhUuk
                             },
                           );
                         } else {

@@ -488,6 +488,12 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                 InkWell(
                                   onTap: () {
                                     date = itemValue;
+                                    // print(itemValue);
+                                    // print('------+++++-------');
+                                    // print(_createAppointmentProvider.serviceableMasters);
+                                    // print(_createAppointmentProvider.checkIfMasterIsWorking(itemValue));
+                                    // print('------+++++-------');
+
                                     _createAppointmentProvider.onDateChange(
                                       date,
                                       isSingleMaster: _salonProfileProvider.isSingleMaster,
@@ -517,7 +523,11 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                           height: 40.sp,
                                           width: 36.sp,
                                           decoration: BoxDecoration(
-                                            color: _createAppointmentProvider.checkIfMasterIsWorking(itemValue) ? null : const Color.fromARGB(255, 53, 53, 54),
+                                            color: _createAppointmentProvider.checkIfMasterIsWorking(itemValue)
+                                                ? null
+                                                : isLightTheme
+                                                    ? const Color.fromARGB(255, 135, 134, 134)
+                                                    : const Color.fromARGB(255, 53, 53, 54),
                                             borderRadius: BorderRadius.circular(6),
                                             border: Border.all(
                                               color: _createAppointmentProvider.checkIfMasterIsWorking(itemValue) ? theme.primaryColor : Colors.transparent, //  Colors.black,
