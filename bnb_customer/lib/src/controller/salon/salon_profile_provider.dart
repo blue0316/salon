@@ -47,6 +47,7 @@ class SalonProfileProvider with ChangeNotifier {
   ThemeData salonTheme = AppTheme.initial;
   bool isSingleMaster = false;
   bool showMasterView = false;
+  bool hasLandingPage = false;
 
   ThemeType themeType = ThemeType.DefaultLight;
 
@@ -90,12 +91,14 @@ class SalonProfileProvider with ChangeNotifier {
         case '1':
           salonTheme = getDefaultDarkTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.DefaultDark;
+          hasLandingPage = themeSettings?.hasLandingPage ?? false;
           notifyListeners();
           return const DefaultLandingTheme();
 
         case '0':
           salonTheme = getDefaultLightTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.DefaultLight;
+          hasLandingPage = themeSettings?.hasLandingPage ?? false;
           notifyListeners();
           return const DefaultLandingTheme();
 
@@ -152,6 +155,8 @@ class SalonProfileProvider with ChangeNotifier {
     } else {
       salonTheme = AppTheme.customLightTheme;
       themeType = ThemeType.DefaultLight;
+      hasLandingPage = themeSettings?.hasLandingPage ?? false;
+
       notifyListeners();
 
       return const DefaultLandingTheme(); // Default landing theme

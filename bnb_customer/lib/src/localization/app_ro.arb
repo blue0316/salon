@@ -846,5 +846,7 @@
   "refunded" : "rambursat",
   "charged" : "încărcat",
   "asCancellationFee" : "ca taxă de protecție pentru anulare și neprezentare",
-  "markAppointAsNoShowDialogue": "Doriți să marcați întâlnirea ca 'Neprezentare'?"
+  "markAppointAsNoShowDialogue": "Doriți să marcați întâlnirea ca 'Neprezentare'?",
+  "yourDetails":"Detaliile tale",
+"appointmentCancelledSuccessfully" : "Întâlnirea anulată cu succes"
 }

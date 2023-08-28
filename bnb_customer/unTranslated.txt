@@ -1,4 +1,9 @@
 {
+  "ar": [
+    "markAppointAsNoShowDialogue",
+    "yourDetails"
+  ],
+
   "fr": [
     "ukrainian",
     "youSureWeMightSuggestYouVariants",

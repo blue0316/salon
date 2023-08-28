@@ -1,4 +1,5 @@
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
+import 'package:bbblient/src/models/cancellation_noShow_policy.dart';
 import 'package:bbblient/src/models/enums/gender.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -328,37 +329,47 @@ class Links {
 }
 
 class CancellationAndNoShow {
-  String requireCardToBookOnline;
-  bool allowOnlineCancellation;
-  String cancellationWindow;
-  bool setCancellationAndNoShowPolicy;
-  String chargeWhenNoShow;
-  String chargeWhenNoShowPercent;
+  String? requireCardToBookOnline;
+  bool? allowOnlineCancellation;
+  String? cancellationWindow;
+  bool? setCancellationAndNoShowPolicy;
+  bool? chargeWhenNoShowBool;
+  bool? chargeWhenCancelledBool;
+  String? chargeWhenNoShow;
+  String? chargeWhenNoShowPercent;
+  List<CancellationPolicy?>? cancellationPolicies;
+  NoShowPolicy? noshowPolicy;
 
-  CancellationAndNoShow({
-    required this.requireCardToBookOnline,
-    required this.allowOnlineCancellation,
-    required this.cancellationWindow,
-    required this.setCancellationAndNoShowPolicy,
-    required this.chargeWhenNoShow,
-    required this.chargeWhenNoShowPercent,
-  });
+  CancellationAndNoShow({this.requireCardToBookOnline, this.allowOnlineCancellation, this.cancellationWindow, this.setCancellationAndNoShowPolicy, this.chargeWhenNoShow, this.chargeWhenCancelledBool, this.chargeWhenNoShowBool, this.chargeWhenNoShowPercent, this.cancellationPolicies, this.noshowPolicy});
 
-  factory CancellationAndNoShow.fromJson(Map<String, dynamic> json) => CancellationAndNoShow(
-        requireCardToBookOnline: json['requireCardToBookOnline'] ?? 'OFF',
-        allowOnlineCancellation: json['allowOnlineCancellation'] ?? false,
-        cancellationWindow: json['cancellationWindow'] ?? '',
-        setCancellationAndNoShowPolicy: json['setCancellationAndNoShowPolicy'] ?? false,
-        chargeWhenNoShow: json['chargeWhenNoShow'] ?? '',
-        chargeWhenNoShowPercent: json['chargeWhenNoShowPercent'] ?? '',
-      );
+  CancellationAndNoShow.fromJson(Map<String, dynamic> json) {
+    requireCardToBookOnline = json['requireCardToBookOnline'] ?? 'OFF';
+    allowOnlineCancellation = json['allowOnlineCancellation'] ?? false;
+    cancellationWindow = json['cancellationWindow'];
+    setCancellationAndNoShowPolicy = json['setCancellationAndNoShowPolicy'] ?? false;
+    chargeWhenCancelledBool = json['chargeWhenCancelledBool'] ?? false;
+    chargeWhenNoShowBool = json['chargeWhenNoShowBool'] ?? false;
+    chargeWhenNoShow = json['chargeWhenNoShow'];
+    chargeWhenNoShowPercent = json['chargeWhenNoShowPercent'] ?? '';
+    noshowPolicy = json['noshowPolicy'] != null ? NoShowPolicy.fromJson(json['noshowPolicy']) : null;
+    cancellationPolicies = json['cancellationPolicies'] == null
+        ? []
+        : json['cancellationPolicies'].map<CancellationPolicy>((e) {
+            //(e);
+            return CancellationPolicy.fromJson(e);
+          }).toList();
+  }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['requireCardToBookOnline'] = requireCardToBookOnline;
     data['allowOnlineCancellation'] = allowOnlineCancellation;
     data['cancellationWindow'] = cancellationWindow;
+    data['chargeWhenCancelledBool'] = chargeWhenCancelledBool;
+    data['chargeWhenNoShowBool'] = chargeWhenNoShowBool;
     data['setCancellationAndNoShowPolicy'] = setCancellationAndNoShowPolicy;
+    data['noshowPolicy'] = noshowPolicy != null ? noshowPolicy!.toJson() : null;
+    if (cancellationPolicies != null && cancellationPolicies!.isNotEmpty) data['cancellationPolicies'] = cancellationPolicies!.map((e) => e!.toJson()).toList();
     data['chargeWhenNoShow'] = chargeWhenNoShow;
     data['chargeWhenNoShowPercent'] = chargeWhenNoShowPercent;
 

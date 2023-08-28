@@ -845,5 +845,5 @@
   "refunded" : "مسترد",
   "charged" : "مشحونة",
   "asCancellationFee" : "كرسوم حماية الإلغاء وعدم الحضور",
-  "markAppointAsNoShowDialogue": "هل تريد تحديد موعد مثل "عدم الحضور"؟",
+  "appointmentCancelledSuccessfully" : "تم إلغاء الموعد بنجاح"
 }

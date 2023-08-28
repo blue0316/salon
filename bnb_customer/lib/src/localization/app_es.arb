@@ -844,5 +844,7 @@
   "refunded": "reembolsado",
   "charged": "cargado",
   "asCancellationFee": "como tarifa de protección por cancelación y no presentación",
-  "markAppointAsNoShowDialogue": "¿Quieres marcar la cita como “No presentado”?"
+  "markAppointAsNoShowDialogue": "¿Quieres marcar la cita como 'No presentado'?",
+  "yourDetails":" Tus Detalles",
+  "appointmentCancelledSuccessfully": "Cita cancelada exitosamente"
 }

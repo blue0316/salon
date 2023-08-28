@@ -2,12 +2,14 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/appointment/widgets/row.dart';
 import 'package:bbblient/src/views/appointment/widgets/theme_colors.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class YourDetails extends ConsumerWidget {
   final AppointmentModel appointment;
@@ -30,7 +32,7 @@ class YourDetails extends ConsumerWidget {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              'Your Details',
+              AppLocalizations.of(context)?.yourDetails ?? 'Your Details',
               style: theme.textTheme.bodyLarge!.copyWith(
                 fontWeight: FontWeight.w600,
                 fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 24.sp),
@@ -51,11 +53,11 @@ class YourDetails extends ConsumerWidget {
               child: Column(
                 children: [
                   RowInfo(
-                    title: 'Name:',
+                    title: '${AppLocalizations.of(context)?.name ?? 'Name'}:'.toCapitalized(),
                     value: '${appointment.customer?.name}',
                   ),
                   RowInfo(
-                    title: 'Phone number:',
+                    title: '${AppLocalizations.of(context)?.phoneNumber ?? 'Phone number'}:'.toCapitalized(),
                     value: '${appointment.customer?.phoneNumber}',
                     bottom: false,
                   ),

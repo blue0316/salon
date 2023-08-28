@@ -128,10 +128,12 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
                                           padding: const EdgeInsets.symmetric(horizontal: 12),
                                           child: GestureDetector(
                                             onTap: () {
-                                              setState(() {
-                                                _pageController.jumpToPage(index + 1);
-                                                _activeTab = (index + 1);
-                                              });
+                                              {
+                                                setState(() {
+                                                  _pageController.jumpToPage(_salonProfileProvider.hasLandingPage ? index + 1 : index);
+                                                  _activeTab = (_salonProfileProvider.hasLandingPage ? index + 1 : index);
+                                                });
+                                              }
                                             },
                                             child: Text(
                                               ((!isSingleMaster)
@@ -150,9 +152,9 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
                                                   .toUpperCase(),
                                               style: theme.textTheme.displayLarge!.copyWith(
                                                 fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 16.sp, 18.sp),
-                                                color: _activeTab == (index + 1) ? theme.primaryColor : unselectedTabColor(theme, isLightTheme),
-                                                fontWeight: _activeTab == (index + 1) ? FontWeight.w600 : FontWeight.w400,
-                                                decoration: _activeTab == (index + 1) ? TextDecoration.underline : null,
+                                                color: _activeTab == (_salonProfileProvider.hasLandingPage ? index + 1 : index) ? theme.primaryColor : unselectedTabColor(theme, isLightTheme),
+                                                fontWeight: _activeTab == (_salonProfileProvider.hasLandingPage ? index + 1 : index) ? FontWeight.w600 : FontWeight.w400,
+                                                decoration: _activeTab == (_salonProfileProvider.hasLandingPage ? index + 1 : index) ? TextDecoration.underline : null,
                                                 letterSpacing: 0,
                                                 fontFamily: "Montserrat",
                                               ),
@@ -179,7 +181,7 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
                                 });
                               },
                               children: [
-                                const LandingView(),
+                                if (_salonProfileProvider.hasLandingPage) const LandingView(),
                                 Padding(
                                   padding: EdgeInsets.symmetric(
                                     horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 30.w, 60.w),
@@ -240,7 +242,6 @@ class LandingView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
-    final _createAppointmentProvider = ref.watch(createAppointmentProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     // bool isLightTheme = (theme == AppTheme.customLightTheme);
 

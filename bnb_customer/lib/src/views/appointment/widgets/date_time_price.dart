@@ -3,11 +3,13 @@ import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/currency/currency.dart';
+import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'row.dart';
 import 'theme_colors.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DateTimePrice extends ConsumerWidget {
   final AppointmentModel appointment;
@@ -35,19 +37,19 @@ class DateTimePrice extends ConsumerWidget {
           child: Column(
             children: [
               RowInfo(
-                title: 'Date:',
+                title: '${AppLocalizations.of(context)?.date ?? 'Date'}:'.toCapitalized(),
                 value: appointment.appointmentDate,
               ),
               RowInfo(
-                title: 'Time:',
+                title: '${AppLocalizations.of(context)?.time ?? 'Time'}:'.toCapitalized(),
                 value: appointment.appointmentTime,
               ),
               RowInfo(
-                title: 'Price:',
+                title: '${AppLocalizations.of(context)?.price ?? 'Price'}:'.toCapitalized(),
                 value: '${getCurrency(salonModel.countryCode!)} ${appointment.priceAndDuration.price}',
               ),
               RowInfo(
-                title: 'Duration:',
+                title: '${AppLocalizations.of(context)?.duration ?? 'Duration'}:'.toCapitalized(),
                 value: '${appointment.priceAndDuration.duration} minutes',
                 bottom: false,
               ),

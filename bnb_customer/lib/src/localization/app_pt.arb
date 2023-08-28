@@ -844,5 +844,7 @@
   "refunded" : "reembolsado",
   "charged": "carregado",
   "asCancellationFee" : "como taxa de proteção contra cancelamento e não comparecimento",
-  "markAppointAsNoShowDialogue": "Deseja marcar o compromisso como “Não comparecimento”?"
+  "markAppointAsNoShowDialogue": "Deseja marcar o compromisso como 'Não comparecimento'?",
+  "yourDetails":" Seus detalhes",
+  "appointmentCancelledSuccessfully": "Agenda cancelada com sucesso"
 }

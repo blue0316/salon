@@ -202,7 +202,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                 ),
               ),
 
-              if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy)
+              if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy == true)
                 Padding(
                   padding: EdgeInsets.only(top: 10.sp),
                   child: Row(
@@ -294,7 +294,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                   ),
                   SizedBox(height: 10.sp),
                   Text(
-                    salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy ? 'You can cancel up to ${salonModel.cancellationAndNoShowPolicy.chargeWhenNoShow} before the appointment without any charge. Your deposit will be returned to your card within 2 business days' : 'To cancel or reschedule please contact ${salonModel.salonName}. You can cancel up to 24 hours before the appointment without any charge. You deposit will be returned to your card within 2 business days',
+                    (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy == true) ? 'You can cancel up to ${salonModel.cancellationAndNoShowPolicy.chargeWhenNoShow} before the appointment without any charge. Your deposit will be returned to your card within 2 business days' : 'To cancel or reschedule please contact ${salonModel.salonName}. You can cancel up to 24 hours before the appointment without any charge. You deposit will be returned to your card within 2 business days',
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w400,
                       fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -318,7 +318,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                     DefaultButton(
                       borderRadius: 60,
                       onTap: () async {
-                        if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy) {
+                        if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy == true) {
                           if (!acceptTerms) {
                             // Terms Checkbox is unchecked
 
@@ -417,7 +417,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                     DefaultButton(
                       borderRadius: 60,
                       onTap: () async {
-                        if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy) {
+                        if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy == true) {
                           if (!acceptTerms) {
                             // Terms Checkbox is unchecked
 

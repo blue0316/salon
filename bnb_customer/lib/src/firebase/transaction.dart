@@ -68,4 +68,21 @@ class TransactionApi {
           return AppointmentModel.fromJson(_temp as Map<String, dynamic>);
         }).toList());
   }
+
+  /// returns the customerModel from the customerId
+  Future<TransactionModel?> getTransaction(String? id) async {
+    try {
+      DocumentSnapshot transaction = await Collection.transactions.doc(id).get();
+
+      Map? _temp = transaction.data() as Map<dynamic, dynamic>?;
+      if (_temp != null) {
+        _temp['transactionId'] = transaction.id;
+        return TransactionModel.fromJson(_temp as Map<String, dynamic>);
+      }
+      return null;
+    } catch (e) {
+      //(e);
+      return null;
+    }
+  }
 }

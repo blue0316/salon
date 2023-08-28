@@ -1,12 +1,16 @@
 import 'package:bbblient/src/controller/home/salon_search_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/firebase/appointments.dart';
+import 'package:bbblient/src/firebase/cancellation_no_show.dart';
+import 'package:bbblient/src/firebase/category_services.dart';
 import 'package:bbblient/src/firebase/collections.dart';
 import 'package:bbblient/src/firebase/customer_web_settings.dart';
 import 'package:bbblient/src/firebase/master.dart';
 import 'package:bbblient/src/firebase/salons.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/backend_codings/appointment.dart';
+import 'package:bbblient/src/models/cancellation_noShow_policy.dart';
+import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/customer_web_settings.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
@@ -49,6 +53,7 @@ class AppointmentProvider with ChangeNotifier {
   Status appointmentStatus = Status.loading;
   Status updateSubStatus = Status.init;
   Status cancelAppointmentStatus = Status.init;
+  Status createNoShowPolicyStatus = Status.init;
   Status appleCalendarStatus = Status.init;
 
   // CustomerWebSettings? themeSettings;
@@ -57,6 +62,7 @@ class AppointmentProvider with ChangeNotifier {
   SalonModel? salon;
   List<MasterModel> allMastersInSalon = [];
   bool isSingleMaster = false;
+  String totalDeposit = '0';
 
   init() {
     selectedDayAppointments.clear();
@@ -160,8 +166,8 @@ class AppointmentProvider with ChangeNotifier {
       // Get Salon Theme
       themeType = await getSalonTheme(salon?.salonId);
 
-      appointmentStatus = Status.success;
-      notifyListeners();
+      // appointmentStatus = Status.success;
+      // notifyListeners();
 
       return appointment;
     } catch (e) {
@@ -377,7 +383,40 @@ class AppointmentProvider with ChangeNotifier {
     appleCalendarStatus = Status.init;
     notifyListeners();
   }
+
+  void getTotalDeposit(AppointmentModel appointment) async {
+    appointmentStatus = Status.loading;
+    notifyListeners();
+
+    int total = 0;
+
+    List<ServiceModel> salonServices = await CategoryServicesApi().getSalonServices(salonId: salon!.salonId);
+
+    for (var service in appointment.services) {
+      for (var salonService in salonServices) {
+        if (service.serviceId == salonService.serviceId && salonService.hasDeposit!) {
+          total += int.parse(salonService.deposit!);
+        }
+      }
+    }
+    totalDeposit = total.toStringAsFixed(2);
+
+    appointmentStatus = Status.success;
+    notifyListeners();
+  }
+
+  createNoShowPolicy({CancellationNoShowPolicy? policy}) async {
+    createNoShowPolicyStatus = Status.loading;
+    notifyListeners();
+
+    await Cancelation_NoShowApi().createPolicyDoc(policy);
+
+    createNoShowPolicyStatus = Status.success;
+    notifyListeners();
+  }
 }
 
 // http://localhost:58317/appointments?id=KFobyqnivYiOHNJvWI12
 // appointments?id=mvEdvmbMxRjgwFrzIjao
+
+// https://yogasm.firebaseapp.com/appointments?id=V3fTmKLUnNEKFuZFB6BC -> IaUsq9UnKNsQ05bhhUuk

@@ -30,4 +30,5 @@ class Collection {
 
   //auth error in customer app
   static final CollectionReference customerAuthError = FirebaseFirestore.instance.collection('customerAuthError');
+  static final CollectionReference cancellationAndNoShow = FirebaseFirestore.instance.collection('cancellationAndNoShow');
 }

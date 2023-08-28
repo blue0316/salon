@@ -6,6 +6,7 @@ class CustomerWebSettings {
   String? aboutSectionImage;
   List<String>? glamLightImages;
   DisplaySettings? displaySettings;
+  bool? hasLandingPage;
 
   CustomerWebSettings({
     this.salonId,
@@ -15,6 +16,7 @@ class CustomerWebSettings {
     this.backgroundImage,
     this.aboutSectionImage,
     this.glamLightImages,
+    this.hasLandingPage,
   });
 
   CustomerWebSettings.fromJson(Map data) {
@@ -29,6 +31,7 @@ class CustomerWebSettings {
             data["displaySettings"],
           )
         : DisplaySettings.fromJson({});
+    if (data["hasLandingPage"] != null) hasLandingPage = data["hasLandingPage"];
   }
 
   toJson() {
