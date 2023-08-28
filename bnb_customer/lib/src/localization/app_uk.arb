@@ -850,5 +850,6 @@
 "willBe" : "буде",
 "refunded" : "повернено",
 "charged" : "заряджено",
-"asCancellationFee" : "як плата за захист від скасування та незаїзду"			
+"asCancellationFee" : "як плата за захист від скасування та незаїзду",
+"markAppointAsNoShowDialogue": "Ви хочете позначити зустріч як "неявку"?"		
 }

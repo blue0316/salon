@@ -844,5 +844,6 @@
   "willBe": "سوف يكون",
   "refunded" : "مسترد",
   "charged" : "مشحونة",
-  "asCancellationFee" : "كرسوم حماية الإلغاء وعدم الحضور"
+  "asCancellationFee" : "كرسوم حماية الإلغاء وعدم الحضور",
+  "markAppointAsNoShowDialogue": "هل تريد تحديد موعد مثل "عدم الحضور"؟",
 }

@@ -845,5 +845,6 @@
   "willBe" : "va fi",
   "refunded" : "rambursat",
   "charged" : "încărcat",
-  "asCancellationFee" : "ca taxă de protecție pentru anulare și neprezentare"
+  "asCancellationFee" : "ca taxă de protecție pentru anulare și neprezentare",
+  "markAppointAsNoShowDialogue": "Doriți să marcați întâlnirea ca 'Neprezentare'?"
 }

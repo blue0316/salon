@@ -843,5 +843,6 @@
   "willBe" : "sera",
   "refunded": "reembolsado",
   "charged": "cargado",
-  "asCancellationFee": "como tarifa de protección por cancelación y no presentación"
+  "asCancellationFee": "como tarifa de protección por cancelación y no presentación",
+  "markAppointAsNoShowDialogue": "¿Quieres marcar la cita como “No presentado”?"
 }
