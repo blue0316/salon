@@ -122,7 +122,7 @@ class ServiceCard extends ConsumerWidget {
                   Flexible(
                     flex: 3,
                     child: Text(
-                      service.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? service.translations?['en'], // 'Eyebrow Tinting',
+                      service.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? service.translations?['en'] ?? '', // 'Eyebrow Tinting',
                       style: theme.textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w500,
                         fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),

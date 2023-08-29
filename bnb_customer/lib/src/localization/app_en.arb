@@ -852,5 +852,6 @@
  "asCancellationFee" : "as Cancellation & No-show protection fee",
  "markAppointAsNoShowDialogue": "Do you want to mark appointment like 'No-show'?",
  "yourDetails":"Your Details",
- "appointmentCancelledSuccessfully" : "Appointment cancelled succesfully"
+ "appointmentCancelledSuccessfully" : "Appointment cancelled succesfully",
+ "registerCard" : "Register Card"
 }

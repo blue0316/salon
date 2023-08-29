@@ -853,5 +853,6 @@
 "asCancellationFee" : "як плата за захист від скасування та незаїзду",
 "markAppointAsNoShowDialogue": "Ви хочете позначити зустріч як 'неявку'?",
 "yourDetails":"Ваші дані",
-"appointmentCancelledSuccessfully" : "Зустріч успішно скасована"
+"appointmentCancelledSuccessfully" : "Зустріч успішно скасована",
+"registerCard" : "Зареєструвати картку"
 }

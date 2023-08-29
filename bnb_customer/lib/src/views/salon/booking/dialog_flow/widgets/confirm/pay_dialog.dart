@@ -119,7 +119,7 @@ class PayDialog<T> extends ConsumerStatefulWidget {
   String? transactionId;
 
   static const route = "/payment";
-  PayDialog({Key? key, this.amount = "325.56", this.currency = "USD", this.transactionId, this.terminalId = "5363001"}) : super(key: key);
+  PayDialog({Key? key, required this.amount, required this.currency, this.transactionId, this.terminalId = "5363001"}) : super(key: key);
 
   Future<void> show(BuildContext context) async {
     await showDialog<T>(

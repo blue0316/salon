@@ -143,7 +143,7 @@ class _SalonSponsorsState extends ConsumerState<SalonSponsors> {
                                           Padding(
                                             padding: const EdgeInsets.symmetric(horizontal: 20),
                                             child: Text(
-                                              item.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? item.translations!['en'],
+                                              item.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? item.translations!['en'] ?? '',
                                               style: theme.textTheme.bodyLarge?.copyWith(
                                                 color: theme.dividerColor,
                                                 fontSize: 18.sp,
