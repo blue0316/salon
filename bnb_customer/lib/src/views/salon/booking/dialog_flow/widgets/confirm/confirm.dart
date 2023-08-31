@@ -34,7 +34,6 @@ class _ConfirmationState extends ConsumerState<Confirmation> {
               physics: const NeverScrollableScrollPhysics(),
               controller: _createAppointmentProvider.confirmationPageController,
               children: [
-                const RegistrationSuccessful(),
                 if (_salonProfileProvider.chosenSalon.countryCode == 'US') EnterNumber(tabController: widget.bookingTabController),
                 if (_salonProfileProvider.chosenSalon.countryCode == 'US') const VerifyOtp(),
                 const RegistrationSuccessful(),
