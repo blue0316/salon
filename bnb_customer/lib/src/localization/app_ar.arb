@@ -846,5 +846,6 @@
   "charged" : "مشحونة",
   "asCancellationFee" : "كرسوم حماية الإلغاء وعدم الحضور",
   "appointmentCancelledSuccessfully" : "تم إلغاء الموعد بنجاح",
-  "registerCard" : "بطاقة التسجيل"
+  "registerCard" : "بطاقة التسجيل",
+  "unavailable" : "Unavailable"
 }

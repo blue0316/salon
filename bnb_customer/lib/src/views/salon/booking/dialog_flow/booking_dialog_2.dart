@@ -6,6 +6,7 @@ import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/confirm/confirm.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/service_tab/service_tab.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -64,6 +65,7 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool isLightTheme = (theme == AppTheme.customLightTheme);
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
@@ -185,9 +187,9 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
                                 fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                                 fontWeight: FontWeight.normal,
                                 letterSpacing: 0.5,
-                                color: isLightTheme ? Colors.black : Colors.white,
+                                color: tabTitleColor(themeType, theme), //  isLightTheme ? Colors.black : Colors.white,
                               ),
-                              labelColor: isLightTheme ? Colors.black : Colors.white,
+                              labelColor: tabTitleColor(themeType, theme), // isLightTheme ? Colors.black : Colors.white,
                               indicatorColor: theme.primaryColor,
                               indicatorSize: TabBarIndicatorSize.label,
                               tabs: [
@@ -240,5 +242,23 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
         ),
       ),
     );
+  }
+}
+
+Color? tabTitleColor(ThemeType themeType, ThemeData theme) {
+  switch (themeType) {
+    case ThemeType.GlamMinimalLight:
+      return Colors.black;
+    case ThemeType.GlamMinimalDark:
+      return Colors.white;
+    case ThemeType.GlamLight:
+      return Colors.black;
+    case ThemeType.Glam:
+      return Colors.white;
+    case ThemeType.DefaultLight:
+      return Colors.black;
+
+    default:
+      return theme.colorScheme.tertiary;
   }
 }

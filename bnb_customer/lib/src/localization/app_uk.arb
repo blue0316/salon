@@ -854,5 +854,6 @@
 "markAppointAsNoShowDialogue": "Ви хочете позначити зустріч як 'неявку'?",
 "yourDetails":"Ваші дані",
 "appointmentCancelledSuccessfully" : "Зустріч успішно скасована",
-"registerCard" : "Зареєструвати картку"
+"registerCard" : "Зареєструвати картку",
+"unavailable" : "Unavailable"
 }

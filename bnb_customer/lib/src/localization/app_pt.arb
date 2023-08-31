@@ -847,5 +847,6 @@
   "markAppointAsNoShowDialogue": "Deseja marcar o compromisso como 'Não comparecimento'?",
   "yourDetails":" Seus detalhes",
   "appointmentCancelledSuccessfully": "Agenda cancelada com sucesso",
-  "registerCard": "Registrar cartão"
+  "registerCard": "Registrar cartão",
+  "unavailable" : "Unavailable"
 }

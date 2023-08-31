@@ -822,5 +822,6 @@
   "markAppointAsNoShowDialogue": "Voulez-vous marquer le rendez-vous comme 'No-show'?",
   "yourDetails": "Vos coordonnées",
   "appointmentCancelledSuccessfully" : "Rendez-vous annulé avec succès",
-  "registerCard" : "Enregistrer la carte"
+  "registerCard" : "Enregistrer la carte",
+  "unavailable" : "Unavailable"
 }

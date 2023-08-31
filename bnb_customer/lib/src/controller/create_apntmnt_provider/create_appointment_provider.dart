@@ -320,9 +320,9 @@ class CreateAppointmentProvider with ChangeNotifier {
 
     // print('@@@@@@@@@@@@@@@@');
     for (MasterModel master in masters) {
-      // print('@@@@@@@@@@@@@@@@');
-      // print(master.masterId);
-      // print('@@@@@@@@@@@@@@@@');
+      print('@@@@@@@@@@@@@@@@');
+      print(master.masterId);
+      print('@@@@@@@@@@@@@@@@');
 
       // if (chosenMaster != null) {
       //   for (var services in chosenServices) {
@@ -1323,40 +1323,126 @@ class CreateAppointmentProvider with ChangeNotifier {
   ///this was done to display a different calendar border and show when appointments for services are available
   ///if isWorkingList is empty
   ///it means no appointment available since master is not working then
-  bool checkIfMasterIsWorking(DateTime itemValue) {
+  // bool checkIfMasterIsWorking(DateTime itemValue) {
+  //   isWorkingList.clear();
+  //   for (var workingMaster in serviceableMasters) {
+  //     if (workingMaster.workingHours != null) {
+  //       if (itemValue.weekday == 1 && workingMaster.workingHours!.mon.isWorking) {
+  //         isWorkingList.add(true);
+  //       }
+  //       if (itemValue.weekday == 2 && workingMaster.workingHours!.tue.isWorking) {
+  //         isWorkingList.add(true);
+  //       }
+  //       if (itemValue.weekday == 3 && workingMaster.workingHours!.wed.isWorking) {
+  //         isWorkingList.add(true);
+  //       }
+  //       if (itemValue.weekday == 4 && workingMaster.workingHours!.thu.isWorking) {
+  //         isWorkingList.add(true);
+  //       }
+  //       if (itemValue.weekday == 5 && workingMaster.workingHours!.fri.isWorking) {
+  //         isWorkingList.add(true);
+  //       }
+  //       if (itemValue.weekday == 6 && workingMaster.workingHours!.sat.isWorking) {
+  //         isWorkingList.add(true);
+  //       }
+  //       if (itemValue.weekday == 7 && workingMaster.workingHours!.sun.isWorking) {
+  //         isWorkingList.add(true);
+  //       }
+  //     }
+  //   }
+
+  //   if (isWorkingList.isNotEmpty) {
+  //     // isWorking = true;
+
+  //     return true;
+  //   }
+  //   // isWorking = false;
+  //   return false;
+  // }
+
+  bool isWorking = false;
+
+  bool checkIfMasterIsWorking(DateTime itemValue, bool isSingleMaster) {
+    if (isSingleMaster) {
+      return checkIfMasterIsWorkingForSingleMaster(itemValue);
+    }
     isWorkingList.clear();
+    final String _dateKey = Time().getDateInStandardFormat(itemValue);
+
     for (var workingMaster in serviceableMasters) {
-      if (workingMaster.workingHours != null) {
-        if (itemValue.weekday == 1 && workingMaster.workingHours!.mon.isWorking) {
+      if (chosenSalon!.irregularWorkingHours != null && chosenSalon!.irregularWorkingHours!.containsKey(_dateKey) && (chosenSalon!.irregularWorkingHours![_dateKey]?.isWorking ?? false)) {
+        isWorkingList.add(true);
+      }
+      if (workingMaster.workingHours != null && !(chosenSalon?.irregularWorkingHours?.containsKey(_dateKey) ?? false)) {
+        if (itemValue.weekday == 1 && workingMaster.workingHours!.mon != null && workingMaster.workingHours!.mon.isWorking) {
           isWorkingList.add(true);
         }
-        if (itemValue.weekday == 2 && workingMaster.workingHours!.tue.isWorking) {
+        if (itemValue.weekday == 2 && workingMaster.workingHours!.tue != null && workingMaster.workingHours!.tue.isWorking) {
           isWorkingList.add(true);
         }
-        if (itemValue.weekday == 3 && workingMaster.workingHours!.wed.isWorking) {
+        if (itemValue.weekday == 3 && workingMaster.workingHours!.wed != null && workingMaster.workingHours!.wed.isWorking) {
           isWorkingList.add(true);
         }
-        if (itemValue.weekday == 4 && workingMaster.workingHours!.thu.isWorking) {
+        if (itemValue.weekday == 4 && workingMaster.workingHours!.thu != null && workingMaster.workingHours!.thu.isWorking) {
           isWorkingList.add(true);
         }
-        if (itemValue.weekday == 5 && workingMaster.workingHours!.fri.isWorking) {
+        if (itemValue.weekday == 5 && workingMaster.workingHours!.fri != null && workingMaster.workingHours!.fri.isWorking) {
           isWorkingList.add(true);
         }
-        if (itemValue.weekday == 6 && workingMaster.workingHours!.sat.isWorking) {
+        if (itemValue.weekday == 6 && workingMaster.workingHours!.sat != null && workingMaster.workingHours!.sat.isWorking) {
           isWorkingList.add(true);
         }
-        if (itemValue.weekday == 7 && workingMaster.workingHours!.sun.isWorking) {
+        if (itemValue.weekday == 7 && workingMaster.workingHours!.sun != null && workingMaster.workingHours!.sun.isWorking) {
           isWorkingList.add(true);
         }
       }
     }
 
     if (isWorkingList.isNotEmpty) {
-      // isWorking = true;
+      isWorking = true;
 
       return true;
     }
-    // isWorking = false;
+    isWorking = false;
+    return false;
+  }
+
+  bool checkIfMasterIsWorkingForSingleMaster(DateTime itemValue) {
+    isWorkingList.clear();
+
+    final String _dateKey = Time().getDateInStandardFormat(itemValue);
+
+    if (chosenSalon!.irregularWorkingHours != null && chosenSalon!.irregularWorkingHours!.containsKey(_dateKey) && (chosenSalon!.irregularWorkingHours![_dateKey]?.isWorking ?? false)) {
+      isWorkingList.add(true);
+    }
+    if (chosenSalon!.workingHours != null && !(chosenSalon!.irregularWorkingHours?.containsKey(_dateKey) ?? false)) {
+      if (itemValue.weekday == 1 && chosenSalon!.workingHours!.mon.isWorking) {
+        isWorkingList.add(true);
+      }
+      if (itemValue.weekday == 2 && chosenSalon!.workingHours!.tue.isWorking) {
+        isWorkingList.add(true);
+      }
+      if (itemValue.weekday == 3 && chosenSalon!.workingHours!.wed.isWorking) {
+        isWorkingList.add(true);
+      }
+      if (itemValue.weekday == 4 && chosenSalon!.workingHours!.thu.isWorking) {
+        isWorkingList.add(true);
+      }
+      if (itemValue.weekday == 5 && chosenSalon!.workingHours!.fri.isWorking) {
+        isWorkingList.add(true);
+      }
+      if (itemValue.weekday == 6 && chosenSalon!.workingHours!.sat.isWorking) {
+        isWorkingList.add(true);
+      }
+      if (itemValue.weekday == 7 && chosenSalon!.workingHours!.sun.isWorking) {
+        isWorkingList.add(true);
+      }
+    }
+
+    if (isWorkingList.isNotEmpty) {
+      return true;
+    }
+
     return false;
   }
 

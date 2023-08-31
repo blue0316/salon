@@ -847,5 +847,6 @@
   "markAppointAsNoShowDialogue": "¿Quieres marcar la cita como 'No presentado'?",
   "yourDetails":" Tus Detalles",
   "appointmentCancelledSuccessfully": "Cita cancelada exitosamente",
-  "registerCard": "Tarjeta de registro"
+  "registerCard": "Tarjeta de registro",
+  "unavailable" : "Unavailable"
 }

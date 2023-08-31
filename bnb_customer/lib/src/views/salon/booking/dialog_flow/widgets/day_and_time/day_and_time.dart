@@ -89,6 +89,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
   MasterModel? selectedMaster;
   // bool isAnyoneSelected = true;
   // bool showModal = false;
+  bool isSingleMaster = false;
 
   @override
   Widget build(BuildContext context) {
@@ -105,6 +106,8 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
     if (_salonProfileProvider.isSingleMaster) {
       selectedMaster = _salonProfileProvider.allMastersInSalon[0];
     }
+
+    isSingleMaster = _salonProfileProvider.isSingleMaster;
 
     return loading
         ? CircularProgressIndicator(color: theme.primaryColor)
@@ -487,7 +490,9 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                 SizedBox(height: 10.h),
                                 InkWell(
                                   onTap: () {
-                                    date = itemValue;
+                                    setState(() {
+                                      date = itemValue;
+                                    });
                                     // print(itemValue);
                                     // print('------+++++-------');
                                     // print(_createAppointmentProvider.serviceableMasters);
@@ -514,7 +519,8 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                               '${itemValue.day}',
                                               style: TextStyle(
                                                 fontSize: 14,
-                                                color: defaultLightTheme ? Colors.white : theme.colorScheme.tertiary,
+                                                // color: defaultLightTheme ? Colors.white : theme.colorScheme.tertiary,
+                                                color: currentDateTextColor(themeType, theme),
                                               ),
                                             ),
                                           ),
@@ -523,14 +529,14 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                           height: 40.sp,
                                           width: 36.sp,
                                           decoration: BoxDecoration(
-                                            color: _createAppointmentProvider.checkIfMasterIsWorking(itemValue)
+                                            color: _createAppointmentProvider.checkIfMasterIsWorking(itemValue, isSingleMaster)
                                                 ? null
                                                 : isLightTheme
                                                     ? const Color.fromARGB(255, 135, 134, 134)
                                                     : const Color.fromARGB(255, 53, 53, 54),
                                             borderRadius: BorderRadius.circular(6),
                                             border: Border.all(
-                                              color: _createAppointmentProvider.checkIfMasterIsWorking(itemValue) ? theme.primaryColor : Colors.transparent, //  Colors.black,
+                                              color: _createAppointmentProvider.checkIfMasterIsWorking(itemValue, isSingleMaster) ? theme.primaryColor : Colors.transparent, //  Colors.black,
                                             ),
                                           ),
                                           child: Center(
@@ -538,12 +544,13 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                               '${itemValue.day}',
                                               style: TextStyle(
                                                 fontSize: 14,
-                                                color: defaultLightTheme
-                                                    ? (_createAppointmentProvider.checkIfMasterIsWorking(itemValue) ? const Color.fromARGB(255, 53, 53, 54) : Colors.white)
-                                                    : selectSlots(
-                                                        themeType,
-                                                        theme,
-                                                      ), // AppTheme.white2,
+                                                // color: defaultLightTheme
+                                                //     ? (_createAppointmentProvider.checkIfMasterIsWorking(itemValue, isSingleMaster) ? const Color.fromARGB(255, 53, 53, 54) : Colors.white)
+                                                //     : selectSlots(
+                                                //         themeType,
+                                                //         theme,
+                                                //       ), // AppT
+                                                color: notCurrentDateTextColor(themeType, theme), // AppTheme.white2,
                                               ),
                                             ),
                                           ),
@@ -680,7 +687,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                             padding: EdgeInsets.symmetric(vertical: 30.sp),
                                             child: Center(
                                               child: Text(
-                                                (AppLocalizations.of(context)?.day_off ?? "Day off").toCapitalized(),
+                                                (AppLocalizations.of(context)?.unavailable ?? "Unavailable").toCapitalized(),
                                                 style: theme.textTheme.bodyMedium?.copyWith(
                                                   fontWeight: FontWeight.normal,
                                                   fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -724,7 +731,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                     padding: EdgeInsets.symmetric(vertical: 30.sp),
                                                     child: Center(
                                                       child: Text(
-                                                        (AppLocalizations.of(context)?.day_off ?? "Day off").toCapitalized(),
+                                                        (AppLocalizations.of(context)?.unavailable ?? "Unavailable").toCapitalized(),
                                                         style: theme.textTheme.bodyMedium?.copyWith(
                                                           fontWeight: FontWeight.normal,
                                                           fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -812,7 +819,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                             padding: EdgeInsets.symmetric(vertical: 30.sp),
                                             child: Center(
                                               child: Text(
-                                                (AppLocalizations.of(context)?.day_off ?? "Day off").toCapitalized(),
+                                                (AppLocalizations.of(context)?.unavailable ?? "Unavailable").toCapitalized(),
                                                 style: theme.textTheme.bodyMedium?.copyWith(
                                                   fontWeight: FontWeight.normal,
                                                   fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -1245,380 +1252,6 @@ class ServiceNameAndPrice extends ConsumerWidget {
   }
 }
 
-// class MasterWithTime extends ConsumerStatefulWidget {
-//   final MasterModel master;
-//   final String? name, title, price, duration;
-//   final List<String>? appointments;
-
-//   const MasterWithTime({
-//     Key? key,
-//     required this.master,
-//     this.name,
-//     this.title,
-//     this.price,
-//     this.duration,
-//     this.appointments,
-//   }) : super(key: key);
-
-//   @override
-//   ConsumerState<MasterWithTime> createState() => _MasterWithTimeState();
-// }
-
-// class _MasterWithTimeState extends ConsumerState<MasterWithTime> {
-//   final int maxCount = 10;
-//   late bool slotsGreaterThanMaxCount;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
-//     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
-
-//     final ThemeData theme = _salonProfileProvider.salonTheme;
-
-//     // if price and duration for a master is 0 return a white space
-//     //we dont want to create appointments with 0 values as price and duration
-//     if (widget.price == '\$0' || widget.duration == '0') return const SizedBox();
-
-//     //  in-case there is no appointments available then don't show salon in the first case as well
-//     if (widget.appointments == null || widget.appointments!.isEmpty) {
-//       return Column(
-//         children: [
-//           Padding(
-//             padding: const EdgeInsets.only(left: 9, top: 5, right: 9),
-//             child: Row(
-//               mainAxisAlignment: MainAxisAlignment.start,
-//               children: [
-//                 Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     Text(
-//                       "${widget.master.personalInfo!.firstName} ${widget.master.personalInfo!.lastName}",
-//                       overflow: TextOverflow.ellipsis,
-//                       textAlign: TextAlign.left,
-//                       style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14.sp, color: Colors.white),
-//                     ),
-//                     SizedBox(height: 5.h),
-//                     Text(
-//                       widget.title!,
-//                       overflow: TextOverflow.ellipsis,
-//                       textAlign: TextAlign.left,
-//                       style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12.sp, color: Colors.white),
-//                     ),
-//                   ],
-//                 ),
-//                 SizedBox(width: 5.sp),
-//                 Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     Text(
-//                       "${widget.price}",
-//                       overflow: TextOverflow.ellipsis,
-//                       textAlign: TextAlign.left,
-//                       style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14.sp, color: Colors.white),
-//                     ),
-//                     Text(
-//                       widget.duration!,
-//                       overflow: TextOverflow.ellipsis,
-//                       textAlign: TextAlign.left,
-//                       style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12.sp, color: Colors.white),
-//                     ),
-//                   ],
-//                 ),
-//               ],
-//             ),
-//           ),
-//           SizedBox(height: 35.h),
-//           Center(
-//             child: Text(
-//               (AppLocalizations.of(context)?.day_off ?? "Day off").toCapitalized(),
-//               style: const TextStyle(color: Colors.white),
-//             ),
-//           ),
-//         ],
-//       );
-//     }
-
-//     // slotsGreaterThanMaxCount = (widget.appointments ?? []).length > maxCount;
-
-//     int slotCount = widget.appointments?.length ?? 0;
-
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         Padding(
-//           padding: const EdgeInsets.only(left: 9, top: 15, right: 9),
-//           child: Container(
-//             color: Colors.green,
-//             child: Row(
-//               mainAxisAlignment: MainAxisAlignment.start,
-//               children: [
-//                 Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     Text(
-//                       "${widget.master.personalInfo!.firstName} ${widget.master.personalInfo!.lastName}",
-//                       overflow: TextOverflow.ellipsis,
-//                       textAlign: TextAlign.left,
-//                       style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.tertiary),
-//                     ),
-//                     SizedBox(height: 10.sp),
-//                     Text(
-//                       widget.title!,
-//                       overflow: TextOverflow.ellipsis,
-//                       textAlign: TextAlign.left,
-//                       style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.tertiary),
-// //                   ],
-//                 ),
-//                 const Spacer(),
-//                 Column(
-//                   cro//                     Text(
-//                       "PRICE: ${widget.price}",
-//                       overflow: TextOverflow.ellipsis,
-//                       textAlign: TextAlign.left,
-//                       style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.tertiary),
-//                     ),
-//                     Text(
-//                       'DURATION: ${widget.duration!}',
-//                       overflow: TextOverflow.ellipsis,
-//                       textAlign: TextAlign.left,
-//                       style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.tertiary),
-//                     ),
-//                   ],
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//         GridView.builder(
-//           shrinkWrap: true,
-//           itemCount: slotCount,
-//           physics: const NeverScrollableScrollPhysics(),
-//           padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 25),
-//           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-//             crossAxisCount: DeviceConstraints.getCrossAxisCount(context, small: 5, medium: 8, large: 10),
-//             childAspectRatio: 2,
-//             mainAxisSpacing: 12,
-//             crossAxisSpacing: 12,
-//           ),
-//           itemBuilder: (context, index) {
-//             List<String> appointmentString = widget.appointments ?? [];
-//             final String _appointment = appointmentString[index];
-//             final bool _isSelected = _createAppointmentProvider.isMasterSelected(
-//               widget.master.masterId,
-//               _createAppointmentProvider.chosenDay,
-//               _appointment,
-//             );
-//             final bool _isAvailable = _createAppointmentProvider.availableAppointments[widget.master.masterId]!.contains(_appointment);
-
-//             //  in-case there is no appointments available then don't show salon in the first case as well
-//             if (widget.appointments == null || widget.appointments!.isEmpty) {
-//               return Column(
-//                 crossAxisAlignment: CrossAxisAlignment.center,
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 children: [
-//                   Padding(
-//                     padding: const EdgeInsets.only(left: 9, top: 5, right: 9),
-//                     child: Row(
-//                       mainAxisAlignment: MainAxisAlignment.start,
-//                       children: [
-//                         Column(
-//                           crossAxisAlignment: CrossAxisAlignment.start,
-//                           children: [
-//                             Text(
-//                               "${widget.master.personalInfo!.firstName} ${widget.master.personalInfo!.lastName}",
-//                               overflow: TextOverflow.ellipsis,
-//                               textAlign: TextAlign.left,
-//                               style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14.sp, color: Colors.white),
-//                             ),
-//                             SizedBox(height: 5.h),
-//                             Text(
-//                               widget.title!,
-//                               overflow: TextOverflow.ellipsis,
-//                               textAlign: TextAlign.left,
-//                               style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12.sp, color: Colors.white),
-//                             ),
-//                           ],
-//                         ),
-//                         SizedBox(width: 5.sp),
-//                         Column(
-//                           crossAxisAlignment: CrossAxisAlignment.start,
-//                           children: [
-//                             Text(
-//                               "${widget.price}",
-//                               overflow: TextOverflow.ellipsis,
-//                               textAlign: TextAlign.left,
-//                               style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14.sp, color: Colors.white),
-//                             ),
-//                             Text(
-//                               widget.duration!,
-//                               overflow: TextOverflow.ellipsis,
-//                               textAlign: TextAlign.left,
-//                               style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12.sp, color: Colors.white),
-//                             ),
-//                           ],
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                   SizedBox(height: 35.h),
-//                   const Center(
-//                     child: Text(
-//                       'Day off',
-//                       style: TextStyle(color: Colors.white),
-//                     ),
-//                   ),
-//                 ],
-//               );
-//             }
-
-//             return InkWell(
-//               onTap: () => _createAppointmentProvider.onAppointmentChange(widget.master, _appointment),
-//               child: _isSelected && _isAvailable
-//                   ? Ink(
-//                       decoration: const BoxDecoration(
-//                         color: Color(0xffFF5419),
-//                         borderRadius: BorderRadius.all(Radius.circular(2)),
-//                       ),
-//                       child: Center(
-//                         child: Text(
-//                           widget.appointments![index],
-//                           style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.tertiary),
-//                         ),
-//                       ),
-//                     )
-//                   : !_isAvailable
-//                       ? Ink(
-//                           decoration: const BoxDecoration(
-//                             color: Color(0xff232529),
-//                             borderRadius: BorderRadius.all(Radius.circular(2)),
-//                           ),
-//                           child: Center(
-//                             child: Text(
-//                               widget.appointments![index],
-//                               style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.tertiary),
-//                             ),
-//                           ),
-//                         )
-//                       : Ink(
-//                           decoration: BoxDecoration(
-//                             color: Colors.yellow,
-//                             borderRadius: const BorderRadius.all(Radius.circular(2)),
-//                             border: Border.all(
-//                               color: Colors.grey,
-//                             ),
-//                           ),
-//                           child: Center(
-//                             child: Text(
-//                               widget.appointments![index],
-//                               style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.tertiary),
-//                             ),
-//                           ),
-//                         ),
-//             );
-//           },
-//         ),
-//       ],
-//     );
-//   }
-// }
-
-// class SlotWidget extends ConsumerWidget {
-//   final String? slot;
-//   final bool isSelected;
-//   final bool isAvailable;
-//   final Function? onTap;
-//   const SlotWidget({Key? key, this.slot, this.isSelected = false, this.isAvailable = false, this.onTap}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
-//     final ThemeData theme = _salonProfileProvider.salonTheme;
-//     ThemeType themeType = _salonProfileProvider.themeType;
-
-//     return InkWell(
-//       onTap: onTap as void Function()?,
-//       child: isSelected && isAvailable
-//           ? Ink(
-//               decoration: BoxDecoration(
-//                 color: theme.primaryColor,
-//                 borderRadius: const BorderRadius.all(Radius.circular(2)),
-//               ),
-//               child: Center(
-//                 child: Text(
-//                   slot ?? '',
-//                   style: theme.textTheme.bodyLarge?.copyWith(
-//                     color: selectSlots(themeType, theme), // theme.colorScheme.tertiary,
-//                   ),
-//                 ),
-//               ),
-//             )
-//           : !isAvailable
-//               ? Ink(
-//                   decoration: const BoxDecoration(
-//                     color: Color(0xff232529),
-//                     borderRadius: BorderRadius.all(Radius.circular(2)),
-//                   ),
-//                   child: Center(
-//                     child: Text(
-//                       slot ?? '',
-//                       style: theme.textTheme.bodyLarge?.copyWith(
-//                         color: theme.colorScheme.tertiary,
-//                       ),
-//                     ),
-//                   ),
-//                 )
-//               : Ink(
-//                   decoration: BoxDecoration(
-//                     color: theme.dialogBackgroundColor,
-//                     borderRadius: const BorderRadius.all(Radius.circular(2)),
-//                     border: Border.all(
-//                       color: Colors.grey,
-//                     ),
-//                   ),
-//                   child: Center(
-//                     child: Text(
-//                       slot ?? '',
-//                       style: theme.textTheme.bodyLarge?.copyWith(
-//                         color: theme.colorScheme.tertiary,
-//                       ),
-//                     ),
-//                   ),
-//                 ),
-
-//       // child: !isAvailable
-//       //     ? Ink(
-//       //         decoration: const BoxDecoration(
-//       //           color: Color(0xff232529),
-//       //           borderRadius: BorderRadius.all(Radius.circular(2)),
-//       //         ),
-//       //         child: Center(
-//       //           child: Text(
-//       //             slot ?? '',
-//       //             style: theme.textTheme.bodyLarge?.copyWith(
-//       //               color: selectSlots(themeType, theme), // theme.colorScheme.tertiary,
-//       //             ),
-//       //           ),
-//       //         ),
-//       //       )
-//       //     : Ink(
-//       //         decoration: BoxDecoration(
-//       //           color: isSelected ? Colors.brown : Colors.blueGrey, // theme.primaryColor : theme.dialogBackgroundColor,
-//       //           border: Border.all(color: Colors.grey),
-//       //           borderRadius: const BorderRadius.all(Radius.circular(2)),
-//       //         ),
-//       //         child: Center(
-//       //           child: Text(
-//       //             slot ?? '',
-//       //             style: theme.textTheme.bodyLarge?.copyWith(
-//       //               color: isSelected ? Colors.green : Colors.amber, // selectSlots(themeType, theme) : theme.colorScheme.tertiary,
-//       //             ),
-//       //           ),
-//       //         ),
-//       //       ),
-//     );
-//   }
-// }
-
 class ShowSlots extends ConsumerStatefulWidget {
   final DateTime? date;
   final List<String>? timeSlots;
@@ -1688,7 +1321,7 @@ class _ShowSlotsState extends ConsumerState<ShowSlots> {
                   children: [
                     const Space(),
                     Text(
-                      (AppLocalizations.of(context)?.day_off ?? "Day off").toCapitalized(),
+                      (AppLocalizations.of(context)?.unavailable ?? "Unavailable").toCapitalized(),
                       style: theme.textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.normal,
                         fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
@@ -1698,7 +1331,7 @@ class _ShowSlotsState extends ConsumerState<ShowSlots> {
                     ),
                     SizedBox(height: 2.h),
                     Text(
-                      (AppLocalizations.of(context)?.day_off ?? "Day off").toCapitalized(),
+                      (AppLocalizations.of(context)?.unavailable ?? "Unavailable").toCapitalized(),
                       style: theme.textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.normal,
                         fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),

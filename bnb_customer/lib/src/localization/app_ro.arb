@@ -849,5 +849,6 @@
   "markAppointAsNoShowDialogue": "Doriți să marcați întâlnirea ca 'Neprezentare'?",
   "yourDetails":"Detaliile tale",
 "appointmentCancelledSuccessfully" : "Întâlnirea anulată cu succes",
-"registerCard" : "Înregistrare card"
+"registerCard" : "Înregistrare card",
+"unavailable" : "Unavailable"
 }

@@ -100,9 +100,9 @@ class ServiceCard extends ConsumerWidget {
               : Colors.transparent,
           borderRadius: BorderRadius.circular(7),
           border: isAdded
-              ? Border.all(width: 1.5, color: theme.primaryColor)
+              ? Border.all(width: 2, color: theme.primaryColor)
               : Border.all(
-                  width: 1.2, color: disabled ? const Color(0XFF4A4A4A) : const Color(0XFF4A4A4A), //  defaultTheme ? theme.primaryColor : const Color(0XFF1F1F21),
+                  width: 1, color: disabled ? const Color(0XFF4A4A4A) : const Color(0XFF4A4A4A), //  defaultTheme ? theme.primaryColor : const Color(0XFF1F1F21),
                 ),
         ),
         child: Padding(
