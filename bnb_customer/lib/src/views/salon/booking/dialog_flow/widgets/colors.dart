@@ -239,3 +239,21 @@ Color? notCurrentDateTextColor(ThemeType themeType, ThemeData theme) {
       return theme.colorScheme.tertiary;
   }
 }
+
+Color? dropdownBackgroundColor(ThemeType themeType, ThemeData theme) {
+  switch (themeType) {
+    // case ThemeType.GlamMinimalLight:
+    //   return Colors.black;
+    // case ThemeType.GlamMinimalDark:
+    //   return Colors.white;
+    // case ThemeType.GlamLight:
+    //   return Colors.black;
+    // case ThemeType.Glam:
+    //   return Colors.white;
+    // case ThemeType.DefaultLight:
+    //   return Colors.white;
+
+    default:
+      return theme.dialogBackgroundColor;
+  }
+}

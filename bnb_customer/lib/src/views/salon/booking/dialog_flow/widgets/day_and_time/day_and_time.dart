@@ -377,7 +377,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                     ),
                                                     SizedBox(width: 2.sp),
                                                     Text(
-                                                      Utils().getNameMaster(master.personalInfo),
+                                                      Utils().getNameMaster(master.personalInfo).toTitleCase(),
                                                       style: theme.textTheme.bodyLarge!.copyWith(
                                                         fontSize: 16.sp,
                                                         fontWeight: FontWeight.normal,

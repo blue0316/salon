@@ -238,7 +238,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
           child: !isOther
               ? DropdownButtonHideUnderline(
                   child: DropdownButton(
-                    dropdownColor: const Color(0XFF1F1F21),
+                    dropdownColor: theme.dialogBackgroundColor, //  const Color(0XFF1F1F21),
                     hint: Text(
                       AppLocalizations.of(context)?.pronounce ?? 'Pronounce',
                       style: theme.textTheme.bodyMedium?.copyWith(

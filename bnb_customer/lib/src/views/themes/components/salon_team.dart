@@ -5,6 +5,7 @@ import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/themes/glam_one/master_profile/unique_master_profile.dart';
@@ -97,7 +98,12 @@ class SalonTeam extends ConsumerWidget {
 
                     List<CategoryModel> masterCategories = [];
                     for (String id in masterCategoryIds) {
-                      masterCategories.add(categories.firstWhere((element) => element.categoryId == id));
+                      for (CategoryModel cat in categories) {
+                        if (cat.categoryId == id) {
+                          masterCategories.add(cat);
+                        }
+                      }
+                      // masterCategories.add(categories.firstWhere((element) => element.categoryId == id));
                     }
 
                     if (_filteredMasters.isNotEmpty) {
@@ -191,7 +197,7 @@ class TeamMember extends ConsumerWidget {
 
                   SizedBox(height: 15.sp),
                   Text(
-                    name ?? '',
+                    (name ?? '').toTitleCase(),
                     style: theme.textTheme.bodyLarge?.copyWith(
                       color: theme.colorScheme.secondary,
                       fontSize: 17.sp,
