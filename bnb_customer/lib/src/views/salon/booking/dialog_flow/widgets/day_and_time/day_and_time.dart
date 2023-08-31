@@ -912,7 +912,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            Utils().getNameMaster(selectedMaster?.personalInfo),
+                                            Utils().getNameMaster(selectedMaster?.personalInfo).toTitleCase(),
                                             style: theme.textTheme.bodyLarge!.copyWith(
                                               fontSize: 16.sp,
                                               fontWeight: FontWeight.normal,
