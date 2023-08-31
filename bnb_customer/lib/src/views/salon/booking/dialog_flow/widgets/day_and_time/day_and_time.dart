@@ -836,15 +836,15 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                           padding: const EdgeInsets.only(bottom: 10),
                                           itemCount: 1,
                                           itemBuilder: (context, i) {
-                                            List<String>? slotsList;
+                                            var slotsList;
                                             if (_createAppointmentProvider.timeOfDayIndexForSlots == 0) {
-                                              slotsList = _createAppointmentProvider.morningAllTimeslots as List<String>?;
+                                              slotsList = _createAppointmentProvider.morningAllTimeslots;
                                             } else if (_createAppointmentProvider.timeOfDayIndexForSlots == 1) {
                                               // slotsDay1 = afternoonTimeslots;
-                                              slotsList = _createAppointmentProvider.afternoonAllTimeslots as List<String>?;
+                                              slotsList = _createAppointmentProvider.afternoonAllTimeslots;
                                             } else {
                                               // slotsDay1 = eveningTimeslots;
-                                              slotsList = _createAppointmentProvider.eveningAllTimeslots as List<String>?;
+                                              slotsList = _createAppointmentProvider.eveningAllTimeslots;
                                             }
 
                                             // doing this because i don't wat to conflict
@@ -853,81 +853,14 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                 selectedSlot: _createAppointmentProvider.selectedAppointmentSlot,
                                                 selectedDate: _createAppointmentProvider.selectedAppointmentDate,
                                                 date: _createAppointmentProvider.getSelectedDate(i),
-                                                timeSlots: slotsList,
+                                                timeSlots: slotsList.map<String>((e) => e.toString()).toList(),
                                                 masterSlotIndex: i,
                                               );
                                             }
                                             return const SizedBox();
                                           },
                                         ),
-                        // Center(
-                        //   child: GridView.builder(
-                        //     shrinkWrap: true,
-                        //     itemCount: _createAppointmentProvider.allSlotsSingleMaster.length,
-                        //     physics: const NeverScrollableScrollPhysics(),
-                        //     padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16, top: 22),
-                        //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: DeviceConstraints.getCrossAxisCount(context, small: 5, medium: 8, large: 10), childAspectRatio: 2, mainAxisSpacing: 12, crossAxisSpacing: 12),
-                        //     itemBuilder: (context, index) {
-                        //       List<String>? slotsList;
-                        //       if (_createAppointmentProvider!.timeOfDayIndexForSlots == 0) {
-                        //         slotsList = _createAppointmentProvider!.morningAllTimeslots as List<String>?;
-                        //       } else if (_createAppointmentProvider!.timeOfDayIndexForSlots == 1) {
-                        //         // slotsDay1 = afternoonTimeslots;
-                        //         slotsList = _createAppointmentProvider!.afternoonAllTimeslots as List<String>?;
-                        //       } else {
-                        //         // slotsDay1 = eveningTimeslots;
-                        //         slotsList = _createAppointmentProvider!.eveningAllTimeslots as List<String>?;
-                        //       }
 
-                        //       DateTime date = _createAppointmentProvider.getSelectedDate(index);
-                        //       String? preSelectedSlot;
-
-                        //       if (date == _createAppointmentProvider.chosenDay) {
-                        //         preSelectedSlot = _createAppointmentProvider.selectedAppointmentSlot;
-                        //       } else {
-                        //         preSelectedSlot = null;
-                        //       }
-
-                        //       return SlotWidget(
-                        //         key: Key('item_${index}_text'),
-                        //         onTap: () {
-                        //           _createAppointmentProvider.onSlotChange(
-                        //             context,
-                        //             _createAppointmentProvider.allSlotsSingleMaster[index],
-                        //             date: date,
-                        //           );
-                        //           setState(() {});
-                        //         },
-                        //         slot: _createAppointmentProvider.allSlotsSingleMaster[index],
-                        //         isAvailable: _createAppointmentProvider.slots[1]!.contains(_createAppointmentProvider.allSlots[index]),
-                        //         isSelected: preSelectedSlot == null
-                        //             ? false
-                        //             : (_createAppointmentProvider.selectedAppointmentDate == date
-                        //                         ? (DateTime(date.year, date.month, date.day, 0, 0, 0).add(Duration(hours: int.parse(_createAppointmentProvider.allSlotsSingleMaster[index].split(":")[0]), minutes: int.parse(_createAppointmentProvider.allSlotsSingleMaster[index].split(":")[1]))).isAfter(
-                        //                               DateTime(date.year, date.month, date.day, 0, 0, 0).add(
-                        //                                 Duration(
-                        //                                   hours: int.parse(preSelectedSlot.split(":")[0]),
-                        //                                   minutes: int.parse(preSelectedSlot.split(":")[1]) - 1,
-                        //                                 ),
-                        //                               ),
-                        //                             ))
-                        //                         : false) &&
-                        //                     _createAppointmentProvider.selectedAppointmentSlot != null &&
-                        //                     _createAppointmentProvider.servicePrice != null &&
-                        //                     _createAppointmentProvider.selectedAppointmentDate == date
-                        //                 ? (DateTime(date.year, date.month, date.day, 0, 0, 0).add(Duration(hours: int.parse(_createAppointmentProvider.allSlotsSingleMaster[index].split(":")[0]), minutes: int.parse(_createAppointmentProvider.allSlotsSingleMaster[index].split(":")[1]))).isBefore(
-                        //                       DateTime(date.year, date.month, date.day, 0, 0, 0).add(
-                        //                         Duration(
-                        //                           hours: int.parse(_createAppointmentProvider.selectedSlotEndTime!.split(":")[0]),
-                        //                           minutes: int.parse(_createAppointmentProvider.selectedSlotEndTime!.split(":")[1]) + 1,
-                        //                         ),
-                        //                       ),
-                        //                     ))
-                        //                 : false,
-                        //       );
-                        //     },
-                        //   ),
-                        // ),
                         SizedBox(height: 20.sp),
 
                         SizedBox(height: 250.h),
@@ -1358,42 +1291,32 @@ class _ShowSlotsState extends ConsumerState<ShowSlots> {
                   // print('000');
                   // print(_createAppointmentProvider!.slots[widget.masterSlotIndex!]);
                   // print('111');
-                  // print(widget.timeSlots);
+                  // print(widget.timeSlots![index]);
                   return SlotWidget(
                     key: Key('item_${index}_text'),
                     onTap: () {
-                      // // //(Duration(
-                      // //   hours: int.parse(_createAppointmentProvider!
-                      // //       .selectedSlotEndTime!
-                      // //       .split(":")[0]),
-                      // //   minutes: int.parse(_createAppointmentProvider!
-                      // //       .selectedSlotEndTime![index]
-                      // //       .split(":")[1]),
-                      // // ));
-                      //(widget.date!.day);
-
-                      _createAppointmentProvider.onSlotChange(context, widget.date, widget.timeSlots![index]);
+                      _createAppointmentProvider.onSlotChangeSingleMaster(context, widget.date, widget.timeSlots![index]);
                     },
                     slot: widget.timeSlots![index],
                     isAvailable: _createAppointmentProvider.slots[widget.masterSlotIndex!]!.contains(widget.timeSlots![index]),
                     isSelected: preSelectedSlot == null
                         ? false
                         : (_createAppointmentProvider.selectedAppointmentDate == widget.date
-                                    ? (DateTime(widget.date!.year, widget.date!.month, widget.date!.day, 0, 0, 0).add(Duration(hours: int.parse(widget.timeSlots![index].split(":")[0]), minutes: int.parse(widget.timeSlots![index].split(":")[1]))).isAfter(DateTime(widget.date!.year, widget.date!.month, widget.date!.day, 0, 0, 0).add(Duration(
-                                          hours: int.parse(preSelectedSlot!.split(":")[0]),
-                                          minutes: int.parse(preSelectedSlot!.split(":")[1]) - 1,
-                                        ))))
+                                    ? (DateTime(widget.date!.year, widget.date!.month, widget.date!.day, 0, 0, 0).add(Duration(hours: int.parse(widget.timeSlots![index].split(":")[0]), minutes: int.parse(widget.timeSlots![index].split(":")[1]))).isAfter(
+                                          DateTime(widget.date!.year, widget.date!.month, widget.date!.day, 0, 0, 0).add(Duration(
+                                            hours: int.parse(preSelectedSlot!.split(":")[0]),
+                                            minutes: int.parse(preSelectedSlot!.split(":")[1]) - 1,
+                                          )),
+                                        ))
                                     : false) &&
                                 _createAppointmentProvider.selectedAppointmentSlot != null &&
                                 _createAppointmentProvider.servicePrice != null &&
                                 _createAppointmentProvider.selectedAppointmentDate == widget.date
                             ? (DateTime(widget.date!.year, widget.date!.month, widget.date!.day, 0, 0, 0).add(Duration(hours: int.parse(widget.timeSlots![index].split(":")[0]), minutes: int.parse(widget.timeSlots![index].split(":")[1]))).isBefore(
-                                  DateTime(widget.date!.year, widget.date!.month, widget.date!.day, 0, 0, 0).add(
-                                    Duration(
-                                      hours: int.parse(_createAppointmentProvider.selectedSlotEndTime!.split(":")[0]),
-                                      minutes: int.parse(_createAppointmentProvider.selectedSlotEndTime!.split(":")[1]) + 1,
-                                    ),
-                                  ),
+                                  DateTime(widget.date!.year, widget.date!.month, widget.date!.day, 0, 0, 0).add(Duration(
+                                    hours: int.parse(_createAppointmentProvider.selectedSlotEndTime!.split(":")[0]),
+                                    minutes: int.parse(_createAppointmentProvider.selectedSlotEndTime!.split(":")[1]) + 1,
+                                  )),
                                 ))
                             : false,
                   );

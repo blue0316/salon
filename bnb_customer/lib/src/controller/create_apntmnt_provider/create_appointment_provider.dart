@@ -531,8 +531,8 @@ class CreateAppointmentProvider with ChangeNotifier {
       // computes the ending time by comparing master and salon starting time [master and salon fused timing]
       return _time.getMinMaxTime(_salonEndTime, _masterEndTime, returnMaxTime: false);
     } catch (e) {
-      ('error while generating end time');
-      (e);
+      debugPrint('error while generating end time');
+      debugPrint(e.toString());
       return _time.stringToTime(masterEndTime!);
     }
   }
@@ -882,7 +882,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   PriceAndDurationModel getPriceAndDuration(ServiceModel? service, MasterModel master) {
     try {
       if (service != null && master != null && service.serviceId != null && master.servicesPriceAndDuration != null) {
-        print('master price${master.servicesPriceAndDuration![service.serviceId]!.price}');
+        debugPrint('master price${master.servicesPriceAndDuration![service.serviceId]!.price}');
         return master.servicesPriceAndDuration![service.serviceId] ?? PriceAndDurationModel();
       }
     } catch (e) {
@@ -1120,82 +1120,6 @@ class CreateAppointmentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  onSlotChange333(BuildContext context, String slot, {DateTime? date}) {
-    isBlocked = false;
-    isOverlapped = false;
-    isNotEnoughSlots = false;
-    notifyListeners();
-
-    // print('@@@@@-----++++1111++++@@@@@');
-    try {
-      // print('serviceDuration - $serviceDuration');
-      totalTimeSlotsRequired = (int.parse(serviceDuration) / (chosenSalon!.timeSlotsInterval ?? 15)).ceil();
-
-      // print(totalTimeSlotsRequired);
-      if (int.parse(serviceDuration) % (chosenSalon!.timeSlotsInterval ?? 15) > 0) {
-        totalTimeSlotsRequired += 1;
-      }
-      //(totalTimeSlotsRequired);
-      if (totalTimeSlotsRequired > slots[0]!.length) {
-        showToast(AppLocalizations.of(context)?.notEnoughSlots ?? 'Not enough slots');
-        isNotEnoughSlots = true;
-        controlModal(false);
-      } else {
-        int index = slots[0]!.indexWhere((element) => element == slot);
-        //(index);
-        List<String> chosenSlots = [];
-        if (index != -1) {
-          if (index == 0) {
-            chosenSlots = slots[0]!.getRange(index, totalTimeSlotsRequired).toList();
-          } else if (index > slots[0]!.length - totalTimeSlotsRequired) {
-            chosenSlots = slots[0]!.getRange(slots[0]!.length - (totalTimeSlotsRequired), slots[0]!.length).toList();
-          } else {
-            chosenSlots = slots[0]!.getRange(index, (index + totalTimeSlotsRequired)).toList();
-          }
-          bool continues = checkContinuousSlotsSingleMaster(slotspresent: chosenSlots);
-          if (!continues) {
-            isOverlapped = true;
-            // chosenSlots = [];
-            // notifyListeners();
-            // showToast(tr(Keys.slotsOverLap));
-          } else {
-            selectedAppointmentSlot = slot;
-            selectedAppointmentDate = date;
-            selectedSlotEndTime = Time().timeToString(
-              Time().stringToTime(selectedAppointmentSlot!).addMinutes(int.parse(serviceDuration)),
-            );
-            isNextEnabled = true;
-            controlModal(true);
-          }
-
-          controlModal(true);
-        } else {
-          selectedAppointmentSlot = slot;
-          selectedSlotEndTime = Time().timeToString(
-            Time().stringToTime(selectedAppointmentSlot!).addMinutes(int.parse(serviceDuration)),
-          );
-          isBlocked = true;
-          controlModal(true);
-          // print('@@@@@-----+++%%%%%%%%%%%%%%%+++@@@@@');
-
-          // print(selectedAppointmentSlot);
-          // print('@@@@@-----+++%%%%%%%%%%%%%%%+++@@@@@');
-          // chosenSlots = [];
-          // notifyListeners();
-
-          // showToast(tr(Keys.slotNotAvailable));
-
-          // chosenSlots = [];
-          // notifyListeners();
-          // showToast(tr(Keys.slotNotAvailable));
-        }
-      }
-    } catch (e) {
-      //(e);
-    }
-    notifyListeners();
-  }
-
   onSlotChange(BuildContext context, DateTime? date, String slot) {
     isBlocked = false;
     isOverlapped = false;
@@ -1225,6 +1149,72 @@ class CreateAppointmentProvider with ChangeNotifier {
             chosenSlots = slots[0]!.getRange(index, (index + totalTimeSlotsRequired)).toList();
           }
           bool continues = checkContinuousSlots222(slotspresent: chosenSlots);
+
+          if (!continues) {
+            selectedAppointmentSlot = slot;
+            selectedSlotEndTime = Time().timeToString(Time().stringToTime(selectedAppointmentSlot!).addMinutes(int.parse(serviceDuration)));
+            isOverlapped = true;
+            // chosenSlots = [];
+            // notifyListeners();
+            // showToast(tr(Keys.slotsOverLap));
+          } else {
+            selectedAppointmentSlot = slot;
+            selectedAppointmentDate = date;
+            selectedSlotEndTime = Time().timeToString(Time().stringToTime(selectedAppointmentSlot!).addMinutes(int.parse(serviceDuration)));
+            isNextEnabled = true;
+          }
+          controlModal(true);
+        } else {
+          selectedAppointmentSlot = slot;
+          selectedSlotEndTime = Time().timeToString(Time().stringToTime(selectedAppointmentSlot!).addMinutes(int.parse(serviceDuration)));
+          isBlocked = true;
+          controlModal(true);
+          // chosenSlots = [];
+          // notifyListeners();
+
+          // showToast(tr(Keys.slotNotAvailable));
+
+          // chosenSlots = [];
+          // notifyListeners();
+          // showToast(tr(Keys.slotNotAvailable));
+        }
+      }
+    } catch (e) {
+      //(e);
+    }
+    notifyListeners();
+  }
+
+  onSlotChangeSingleMaster(BuildContext context, DateTime? date, String slot) {
+    isBlocked = false;
+    isOverlapped = false;
+    isNotEnoughSlots = false;
+    notifyListeners();
+
+    try {
+      totalTimeSlotsRequired = (int.parse(serviceDuration) / (chosenSalon!.timeSlotsInterval ?? 15)).ceil();
+      if (int.parse(serviceDuration) % (chosenSalon!.timeSlotsInterval ?? 15) > 0) {
+        totalTimeSlotsRequired += 1;
+      }
+      //(totalTimeSlotsRequired);
+      if (totalTimeSlotsRequired > slots[0]!.length) {
+        showToast(AppLocalizations.of(context)?.notEnoughSlots ?? 'Not enough slots');
+        isNotEnoughSlots = true;
+        controlModal(false);
+      } else {
+        int index = slots[0]!.indexWhere((element) => element == slot);
+        //(index);
+        List<String> chosenSlots = [];
+        if (index != -1) {
+          if (index == 0) {
+            chosenSlots = slots[0]!.getRange(index, totalTimeSlotsRequired).toList();
+          } else if (index > slots[0]!.length - totalTimeSlotsRequired) {
+            chosenSlots = slots[0]!.getRange(slots[0]!.length - (totalTimeSlotsRequired), slots[0]!.length).toList();
+          } else {
+            chosenSlots = slots[0]!.getRange(index, (index + totalTimeSlotsRequired)).toList();
+          }
+          bool continues = checkContinuousSlotsSingleMaster(slotspresent: chosenSlots);
+
           if (!continues) {
             selectedAppointmentSlot = slot;
             selectedSlotEndTime = Time().timeToString(Time().stringToTime(selectedAppointmentSlot!).addMinutes(int.parse(serviceDuration)));
@@ -1691,16 +1681,16 @@ class CreateAppointmentProvider with ChangeNotifier {
           afternoonAllTimeslots = allSlotsSingleMaster.sublist(morningAllIndex, allSlotsSingleMaster.length);
         }
       }
-      if (timeOfDayIndexForSlots == 0) {
-        slotsDay1 = morningTimeslots;
-        allSlotsSingleMaster = morningAllTimeslots as List<String>;
-      } else if (timeOfDayIndexForSlots == 1) {
-        slotsDay1 = afternoonTimeslots;
-        allSlotsSingleMaster = afternoonAllTimeslots as List<String>;
-      } else {
-        slotsDay1 = eveningTimeslots;
-        allSlotsSingleMaster = eveningAllTimeslots as List<String>;
-      }
+      // if (timeOfDayIndexForSlots == 0) {
+      //   slotsDay1 = morningTimeslots;
+      //   allSlotsSingleMaster = morningAllTimeslots as List<String>;
+      // } else if (timeOfDayIndexForSlots == 1) {
+      //   slotsDay1 = afternoonTimeslots;
+      //   allSlotsSingleMaster = afternoonAllTimeslots as List<String>;
+      // } else {
+      //   slotsDay1 = eveningTimeslots;
+      //   allSlotsSingleMaster = eveningAllTimeslots as List<String>;
+      // }
     }
 
     // List? slotsDay2;
