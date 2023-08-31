@@ -320,9 +320,9 @@ class CreateAppointmentProvider with ChangeNotifier {
 
     // print('@@@@@@@@@@@@@@@@');
     for (MasterModel master in masters) {
-      print('@@@@@@@@@@@@@@@@');
-      print(master.masterId);
-      print('@@@@@@@@@@@@@@@@');
+      // print('@@@@@@@@@@@@@@@@');
+      // print(master.masterId);
+      // print('@@@@@@@@@@@@@@@@');
 
       // if (chosenMaster != null) {
       //   for (var services in chosenServices) {

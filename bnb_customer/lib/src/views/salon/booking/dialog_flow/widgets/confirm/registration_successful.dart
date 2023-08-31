@@ -238,16 +238,16 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
           child: !isOther
               ? DropdownButtonHideUnderline(
                   child: DropdownButton(
-                    dropdownColor: theme.dialogBackgroundColor, //  const Color(0XFF1F1F21),
-                    hint: Text(
-                      AppLocalizations.of(context)?.pronounce ?? 'Pronounce',
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w400,
-                        fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                        color: isLightTheme ? Colors.black : theme.colorScheme.tertiary.withOpacity(0.6),
-                        fontFamily: 'Inter',
-                      ),
-                    ),
+                    dropdownColor: dropdownBackgroundColor(themeType, theme), //  const Color(0XFF1F1F21),
+                    // hint: Text(
+                    //   AppLocalizations.of(context)?.pronounce ?? 'Pronounce',
+                    //   style: theme.textTheme.bodyMedium?.copyWith(
+                    //     fontWeight: FontWeight.w400,
+                    //     fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                    //     color: Colors.pink, // isLightTheme ? Colors.black : theme.colorScheme.tertiary.withOpacity(0.6),
+                    //     fontFamily: 'Inter',
+                    //   ),
+                    // ),
 
                     // Initial Value
                     value: dropdownvalue,
@@ -263,7 +263,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
                           style: theme.textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.w500,
                             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                            color: isLightTheme ? Colors.white : theme.colorScheme.tertiary,
+                            color: theme.colorScheme.tertiary,
                             fontFamily: 'Inter',
                           ),
                         ),

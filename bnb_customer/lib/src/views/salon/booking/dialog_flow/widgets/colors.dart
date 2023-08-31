@@ -233,7 +233,7 @@ Color? notCurrentDateTextColor(ThemeType themeType, ThemeData theme) {
     case ThemeType.Glam:
       return Colors.white;
     case ThemeType.DefaultLight:
-      return Colors.white;
+      return Colors.black;
 
     default:
       return theme.colorScheme.tertiary;
