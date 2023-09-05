@@ -60,14 +60,14 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
           tilePadding: EdgeInsets.zero,
           childrenPadding: EdgeInsets.zero,
           trailing: const SizedBox.shrink(),
-          backgroundColor: !isLightTheme ? const Color(0XFF0A0A0A).withOpacity(0.5) : Colors.white,
+          backgroundColor: !isLightTheme ? const Color(0XFF0A0A0A).withOpacity(0.9) : Colors.white,
           onExpansionChanged: (bool val) {
             setState(() => isExpanded = !isExpanded);
           },
           title: Container(
             color: !isExpanded
                 ? !isLightTheme
-                    ? const Color(0XFF0A0A0A).withOpacity(0.5)
+                    ? const Color(0XFF0A0A0A).withOpacity(0.9)
                     : Colors.white
                 : null, //  theme.canvasColor.withOpacity(0.7),
             height: 55.sp,
@@ -263,7 +263,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                               fontWeight: FontWeight.w600,
                                               fontSize: 15.sp,
                                               color: isLightTheme ? Colors.black : Colors.white,
-                                              fontFamily: "Inter-Bold",
+                                              fontFamily: "Inter",
                                             ),
                                             overflow: TextOverflow.visible,
                                             maxLines: 1,

@@ -854,5 +854,6 @@
  "yourDetails":"Your Details",
  "appointmentCancelledSuccessfully" : "Appointment cancelled succesfully",
  "registerCard" : "Register Card",
- "unavailable" : "Unavailable"
+ "unavailable" : "Unavailable",
+ "serviceProvider2" : "Service provider"
 }

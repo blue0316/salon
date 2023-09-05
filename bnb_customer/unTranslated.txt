@@ -1,7 +1,12 @@
 {
   "ar": [
     "markAppointAsNoShowDialogue",
-    "yourDetails"
+    "yourDetails",
+    "serviceProvider2"
+  ],
+
+  "es": [
+    "serviceProvider2"
   ],
 
   "fr": [
@@ -30,6 +35,19 @@
     "averageRating",
     "noPhotosAvailable",
     "portfolio",
-    "serviceDetails"
+    "serviceDetails",
+    "serviceProvider2"
+  ],
+
+  "pt": [
+    "serviceProvider2"
+  ],
+
+  "ro": [
+    "serviceProvider2"
+  ],
+
+  "uk": [
+    "serviceProvider2"
   ]
 }

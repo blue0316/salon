@@ -77,7 +77,8 @@ class _SalonMasterViewState extends ConsumerState<SalonMasterView> {
                       style: Theme.of(context).textTheme.displayLarge!.copyWith(
                             fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 30.sp, 35.sp),
                             color: Colors.white,
-                            fontFamily: "Inter-Bold",
+                            fontWeight: FontWeight.w600,
+                            fontFamily: "Inter",
                             letterSpacing: 0.5,
                           ),
                     ),

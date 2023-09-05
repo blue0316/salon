@@ -34,7 +34,7 @@ class _SalonServicesState extends ConsumerState<SalonServices> {
 
     return SingleChildScrollView(
       child: SizedBox(
-        height: MediaQuery.of(context).size.height - 10.h,
+        height: MediaQuery.of(context).size.height - 50.h,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -49,44 +49,43 @@ class _SalonServicesState extends ConsumerState<SalonServices> {
                       AppLocalizations.of(context)?.localeName ?? 'en',
                     )[0],
             ),
-            Flexible(
-              child: SizedBox(
-                // height: 1000.h,
-                width: double.infinity,
-                // color: Colors.white.withOpacity(0.7),
-                child: ListView.builder(
-                  itemCount: _salonSearchProvider.categories.length,
-                  shrinkWrap: true,
-                  primary: false,
-                  controller: _listViewController,
-                  padding: const EdgeInsets.all(0),
-                  itemBuilder: (context, index) {
-                    if (_createAppointmentProvider.categoryServicesMap[_salonSearchProvider.categories[index].categoryId.toString()] != null && _createAppointmentProvider.categoryServicesMap[_salonSearchProvider.categories[index].categoryId.toString()]!.isNotEmpty) {
-                      final CategoryModel categoryModel = _salonSearchProvider.categories
-                          .where((
-                            element,
-                          ) =>
-                              element.categoryId == _salonSearchProvider.categories[index].categoryId.toString())
-                          .first;
+            SizedBox(
+              // height: 1000.h,
+              width: double.infinity,
+              // color: Colors.white.withOpacity(0.7),
+              child: ListView.builder(
+                itemCount: _salonSearchProvider.categories.length,
+                shrinkWrap: true,
+                primary: false,
+                controller: _listViewController,
+                padding: const EdgeInsets.all(0),
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  if (_createAppointmentProvider.categoryServicesMap[_salonSearchProvider.categories[index].categoryId.toString()] != null && _createAppointmentProvider.categoryServicesMap[_salonSearchProvider.categories[index].categoryId.toString()]!.isNotEmpty) {
+                    final CategoryModel categoryModel = _salonSearchProvider.categories
+                        .where((
+                          element,
+                        ) =>
+                            element.categoryId == _salonSearchProvider.categories[index].categoryId.toString())
+                        .first;
 
-                      return NewServiceTile(
-                        services: _createAppointmentProvider.categoryServicesMap[_salonSearchProvider.categories[index].categoryId.toString()] ?? [],
-                        categoryModel: categoryModel,
-                        listViewController: _listViewController,
-                        // initiallyExpanded: true,
-                        initiallyExpanded: _createAppointmentProvider.chosenServices
-                            .where(
-                              (element) => element.categoryId == categoryModel.categoryId,
-                            )
-                            .isNotEmpty,
-                      );
-                      // return Text("data");
-                    } else {
-                      return const SizedBox();
-                    }
+                    return NewServiceTile(
+                      services: _createAppointmentProvider.categoryServicesMap[_salonSearchProvider.categories[index].categoryId.toString()] ?? [],
+                      categoryModel: categoryModel,
+                      listViewController: _listViewController,
+                      // initiallyExpanded: true,
+                      initiallyExpanded: _createAppointmentProvider.chosenServices
+                          .where(
+                            (element) => element.categoryId == categoryModel.categoryId,
+                          )
+                          .isNotEmpty,
+                    );
                     // return Text("data");
-                  },
-                ),
+                  } else {
+                    return const SizedBox();
+                  }
+                  // return Text("data");
+                },
               ),
             ),
             Space(factor: DeviceConstraints.getResponsiveSize(context, 2, 2, 2)),
@@ -102,7 +101,10 @@ class _SalonServicesState extends ConsumerState<SalonServices> {
               onTap: () => const BookingDialogWidget222().show(context),
             ),
             const Spacer(),
-            const LandingBottom(),
+            const Align(
+              alignment: Alignment.bottomCenter,
+              child: LandingBottom(),
+            ),
           ],
         ),
       ),

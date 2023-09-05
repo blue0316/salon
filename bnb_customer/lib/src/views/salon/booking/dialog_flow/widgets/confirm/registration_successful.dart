@@ -56,7 +56,6 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
     final ThemeData theme = _salonProfileProvider.salonTheme;
     ThemeType themeType = _salonProfileProvider.themeType;
     bool isLightTheme = (theme == AppTheme.customLightTheme);
-    final _auth = ref.watch(authProvider);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -367,7 +366,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
                 );
 
                 // SET AS CURRENT CUSTOMER
-                _auth.setCurrentCustomer(customer);
+                _authProvider.setCurrentCustomer(customer);
                 // Go to PageView Order List Screen
                 _createAppointmentProvider.nextPageView(3);
               } else {

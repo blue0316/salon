@@ -3,6 +3,7 @@ import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/booking_dialog_2.dart';
 import 'package:bbblient/src/views/themes/components/widgets/button.dart';
@@ -25,7 +26,7 @@ class ThemeHeader extends ConsumerWidget {
 
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    final _createAppointmentProvider = ref.watch(createAppointmentProvider);
+    // final _createAppointmentProvider = ref.watch(createAppointmentProvider);
     final ThemeType themeType = _salonProfileProvider.themeType;
 
     return Column(
@@ -193,7 +194,7 @@ class GlamOneWrap extends ConsumerWidget {
           padding: EdgeInsets.symmetric(horizontal: 30.sp, vertical: vSpacing ?? 13.sp),
           child: Center(
             child: Text(
-              text,
+              text.toTitleCase(),
               style: theme.textTheme.bodyLarge!.copyWith(color: Colors.white),
               textAlign: TextAlign.center,
             ),

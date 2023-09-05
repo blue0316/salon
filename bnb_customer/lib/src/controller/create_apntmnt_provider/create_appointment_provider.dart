@@ -267,6 +267,7 @@ class CreateAppointmentProvider with ChangeNotifier {
     allAppointments.clear();
     serviceableMasters.clear();
     mastersAbleToPerformService.clear();
+    mastersOfferingChosenServices.clear();
     notifyListeners();
 
     serviceableMasters = getMultipleServiceableMasters(salonMasters);
@@ -297,6 +298,8 @@ class CreateAppointmentProvider with ChangeNotifier {
       generateTimeSlots(chosenSalon!, true);
     }
 
+    checkForMastersOfferingChosenServices();
+
     notifyListeners();
 
     if (!isSingleMaster) {
@@ -310,6 +313,39 @@ class CreateAppointmentProvider with ChangeNotifier {
 
     generateTimeSlots(chosenSalon!, true);
   }
+
+  Set<MasterModel> mastersOfferingChosenServices = {};
+
+  checkForMastersOfferingChosenServices() {
+    for (MasterModel master in serviceableMasters) {
+      for (var services in chosenServices) {
+        if (master.serviceIds!.contains(services.serviceId)) {
+          mastersOfferingChosenServices.add(master);
+        } else {
+          mastersOfferingChosenServices.remove(master);
+          break;
+        }
+      }
+    }
+  }
+
+  // [Test Test,]
+
+  // Test Test = [A, B, C]
+  // A Tect = [B]
+
+  // chosen Services = [A, B]
+
+  // program:
+
+  /// loop through chosen services
+  /// check if this particular master as that service id
+  /// if it has add to set
+  /// if not remove from set
+
+  /// set = {Test, A Tect}
+  /// chosen service B:
+  /// test
 
   // gets multiple serviceable master for new design
   getMultipleServiceableMasters(List<MasterModel> masters) {
@@ -1564,7 +1600,8 @@ class CreateAppointmentProvider with ChangeNotifier {
 
   bool checkIfSalonPriceAndMasterPriceIsDifferent() {
     for (ServiceModel service in chosenServices) {
-      for (MasterModel master in serviceableMasters) {
+      for (MasterModel master in mastersOfferingChosenServices) {
+        // serviceableMasters
         String salonServicePrice = service.priceAndDuration?.price ?? '';
         String masterServicePrice = master.servicesPriceAndDuration?[service.serviceId]?.price ?? '';
 

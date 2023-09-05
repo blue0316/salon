@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/enums/profile_datails_tabs.dart';
@@ -50,19 +51,16 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
               width: double.infinity,
               height: MediaQuery.of(context).size.height,
               child: ColorFiltered(
-                colorFilter: ColorFilter.mode(
-                  Colors.black.withOpacity(0.75),
-                  BlendMode.darken,
+                colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.75), BlendMode.darken),
+                child: ImageFiltered(
+                  imageFilter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                  child: (_salonProfileProvider.themeSettings?.backgroundImage != null && _salonProfileProvider.themeSettings?.backgroundImage != '')
+                      ? CachedImage(
+                          url: _salonProfileProvider.themeSettings!.backgroundImage!,
+                          fit: BoxFit.cover,
+                        )
+                      : Image.asset(AppIcons.photoSlider, fit: BoxFit.cover),
                 ),
-                child: (_salonProfileProvider.themeSettings?.backgroundImage != null && _salonProfileProvider.themeSettings?.backgroundImage != '')
-                    ? CachedImage(
-                        url: _salonProfileProvider.themeSettings!.backgroundImage!,
-                        fit: BoxFit.cover,
-                      )
-                    : Image.asset(
-                        AppIcons.photoSlider,
-                        fit: BoxFit.cover,
-                      ),
               ),
             ),
 
@@ -383,3 +381,16 @@ List<String> masterTitles(String locale) {
       return masterDetailsTitles;
   }
 }
+
+
+//  FirebaseFirestore.instance.collection('salons').doc('wIivFKnshpgS2HjC6CWE').update(
+//     {
+//       'specializations': [
+//         'Hair styling',
+//         'Hair cut',
+//         'Hair Coloring',
+//         'Hair Care & Recovery',
+//         'Hair Extension',
+//       ],
+//     },
+//   );

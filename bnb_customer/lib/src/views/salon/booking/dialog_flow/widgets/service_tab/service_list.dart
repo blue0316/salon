@@ -127,6 +127,7 @@ class ServiceCard extends ConsumerWidget {
                         fontWeight: FontWeight.w500,
                         fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                         color: isAddedSelectedColor(themeType), // isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary,
+                        fontFamily: 'Inter',
                       ),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
@@ -143,6 +144,7 @@ class ServiceCard extends ConsumerWidget {
                       fontWeight: FontWeight.w500,
                       fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                       color: isAddedSelectedColor(themeType), // isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
+                      fontFamily: 'Inter',
                     ),
                     overflow: TextOverflow.visible,
                     maxLines: 1,
@@ -195,6 +197,7 @@ class ServiceCard extends ConsumerWidget {
                               style: theme.textTheme.bodyLarge!.copyWith(
                                 fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                                 color: isAddedSelectedColor(themeType), //  isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
+                                fontFamily: 'Inter',
                               ),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
@@ -204,6 +207,7 @@ class ServiceCard extends ConsumerWidget {
                               style: theme.textTheme.bodyLarge!.copyWith(
                                 fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                                 color: isAddedSelectedColor(themeType), // isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
+                                fontFamily: 'Inter',
                               ),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
@@ -213,6 +217,7 @@ class ServiceCard extends ConsumerWidget {
                           style: theme.textTheme.bodyLarge!.copyWith(
                             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                             color: isAddedSelectedColor(themeType), // isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
+                            fontFamily: 'Inter',
                           ),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
@@ -311,6 +316,7 @@ class ServiceCard extends ConsumerWidget {
                                                 .isNotEmpty)
                                             ? selectMasterColor(themeType)
                                             : unSelectedMasterColor(themeType),
+                                        fontFamily: 'Inter',
                                       ),
                                     ),
                                   ),
@@ -405,6 +411,7 @@ class ServiceCard extends ConsumerWidget {
                                                             .isNotEmpty)
                                                         ? selectMasterColor(themeType)
                                                         : unSelectedMasterColor(themeType),
+                                                    fontFamily: 'Inter',
                                                   ),
                                                 ),
                                               ],
@@ -434,7 +441,8 @@ class ServiceCard extends ConsumerWidget {
                       _createAppointmentProvider.chosenDay,
                     )}',
                     style: theme.textTheme.bodyLarge!.copyWith(
-                      color: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
+                      color: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,
+                      fontFamily: 'Inter',
                     ),
                   ),
                 )

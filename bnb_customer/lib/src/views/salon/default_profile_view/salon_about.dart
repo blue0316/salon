@@ -1,5 +1,5 @@
-import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_profile.dart';
+import 'package:bbblient/src/views/salon/widgets/additional%20featured.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -30,6 +30,27 @@ class SalonAbout extends ConsumerStatefulWidget {
 
 class _SalonAboutState extends ConsumerState<SalonAbout> {
   int totalReviewsToShow = 3;
+
+  getFeature(String s) {
+    // debugPrint(widget.salonModel.ownerType);
+    // if (widget.salonModel.ownerType == 'singleMaster') {
+    //   for (Map registeredFeatures in masterFeatures) {
+    //     if (registeredFeatures.containsKey(s)) {
+    //       return registeredFeatures[s];
+    //     } else {
+    //       return s;
+    //     }
+    //   }
+    // }
+
+    for (Map registeredFeatures in salonFeatures) {
+      if (registeredFeatures.containsKey(s)) {
+        return registeredFeatures[s];
+      }
+    }
+
+    return s;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,11 +126,14 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                                           padding: EdgeInsets.symmetric(horizontal: 25.sp, vertical: 10.sp),
                                           child: Center(
                                             child: Text(
-                                              feature.toCapitalized(),
+                                              getFeature(feature),
+                                              // feature.toCapitalized(),
+
                                               style: theme.textTheme.displayMedium!.copyWith(
                                                 fontWeight: FontWeight.normal,
                                                 fontSize: 15.sp,
                                                 color: isLightTheme ? Colors.black : Colors.white,
+                                                fontFamily: "Inter",
                                               ),
                                             ),
                                           ),

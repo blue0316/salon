@@ -1,6 +1,5 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
@@ -25,7 +24,7 @@ class SalonTeam extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
-    final _salonSearchProvider = ref.watch(salonSearchProvider);
+    // final _salonSearchProvider = ref.watch(salonSearchProvider);
     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
 
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
@@ -78,38 +77,40 @@ class SalonTeam extends ConsumerWidget {
                     // Get All Salon Masters
                     List<MasterModel> _filteredMasters = _createAppointmentProvider.salonMasters;
 
-                    // Find Master Service
-                    // a master might have multiple services (but I just picked the first index to show on landing page)
-                    List<CategoryModel> categories = _salonSearchProvider.categories; // All available Categories
+                    // // Find Master Service
+                    // // a master might have multiple services (but I just picked the first index to show on landing page)
+                    // List<CategoryModel> categories = _salonSearchProvider.categories; // All available Categories
 
-                    // Previous implementation to show only one service
-                    // String masterCategoryId = _filteredMasters[index].categoryIds![0]; // Master category id
-                    // Find master category id in all categories and pick the first one to display
-                    // String? masterService = categories
-                    //     .firstWhere(
-                    //       (item) => item.categoryId == masterCategoryId,
-                    //     )
-                    //     .translations[AppLocalizations.of(context)?.localeName];
+                    // // Previous implementation to show only one service
+                    // // String masterCategoryId = _filteredMasters[index].categoryIds![0]; // Master category id
+                    // // Find master category id in all categories and pick the first one to display
+                    // // String? masterService = categories
+                    // //     .firstWhere(
+                    // //       (item) => item.categoryId == masterCategoryId,
+                    // //     )
+                    // //     .translations[AppLocalizations.of(context)?.localeName];
 
-                    List<String> masterCategoryIds = _filteredMasters[index].categoryIds!;
-                    if (masterCategoryIds.length > 2) {
-                      masterCategoryIds.removeRange(2, masterCategoryIds.length);
-                    }
+                    // List<String> masterCategoryIds = _filteredMasters[index].categoryIds!;
+                    // if (masterCategoryIds.length > 2) {
+                    //   masterCategoryIds.removeRange(2, masterCategoryIds.length);
+                    // }
 
-                    List<CategoryModel> masterCategories = [];
-                    for (String id in masterCategoryIds) {
-                      for (CategoryModel cat in categories) {
-                        if (cat.categoryId == id) {
-                          masterCategories.add(cat);
-                        }
-                      }
-                      // masterCategories.add(categories.firstWhere((element) => element.categoryId == id));
-                    }
+                    // List<CategoryModel> masterCategories = [];
+                    // for (String id in masterCategoryIds) {
+                    //   for (CategoryModel cat in categories) {
+                    //     if (cat.categoryId == id) {
+                    //       masterCategories.add(cat);
+                    //     }
+                    //   }
+                    //   // masterCategories.add(categories.firstWhere((element) => element.categoryId == id));
+                    // }
 
                     if (_filteredMasters.isNotEmpty) {
                       return TeamMember(
                         name: Utils().getNameMaster(_filteredMasters[index].personalInfo),
-                        services: masterCategories, // masterService, // "Hairdresser",
+                        masterTitle: _filteredMasters[index].title,
+
+                        // services: masterCategories,
                         image: _filteredMasters[index].profilePicUrl,
                         master: _filteredMasters[index],
                         salonModel: salonModel,
@@ -142,14 +143,16 @@ class SalonTeam extends ConsumerWidget {
 
 class TeamMember extends ConsumerWidget {
   final String? name, image;
-  final List<CategoryModel> services;
+  // final List<CategoryModel> services;
   final MasterModel master;
   final SalonModel salonModel;
+  final String? masterTitle;
 
   const TeamMember({
     Key? key,
     required this.name,
-    required this.services,
+    required this.masterTitle,
+    // required this.services,
     required this.image,
     required this.master,
     required this.salonModel,
@@ -216,22 +219,31 @@ class TeamMember extends ConsumerWidget {
             ),
           ),
           SizedBox(height: 5.sp),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: services
-                .map(
-                  (item) => Text(
-                    item.translations[AppLocalizations.of(context)?.localeName] ?? '',
-                    style: theme.textTheme.titleSmall?.copyWith(
-                      color: theme.colorScheme.onSecondaryContainer,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                )
-                .toList(),
+          Text(
+            masterTitle ?? '-',
+            style: theme.textTheme.bodyLarge!.copyWith(
+              fontWeight: FontWeight.w300,
+              fontSize: 15.sp,
+              color: theme.colorScheme.onSecondaryContainer,
+            ),
           ),
+
+          // Column(
+          //   crossAxisAlignment: CrossAxisAlignment.center,
+          //   mainAxisAlignment: MainAxisAlignment.start,
+          //   children: services
+          //       .map(
+          //         (item) => Text(
+          //           item.translations[AppLocalizations.of(context)?.localeName] ?? '',
+          //           style: theme.textTheme.titleSmall?.copyWith(
+          //             color: theme.colorScheme.onSecondaryContainer,
+          //             fontSize: 14.sp,
+          //             fontWeight: FontWeight.normal,
+          //           ),
+          //         ),
+          //       )
+          //       .toList(),
+          // ),
         ],
       ),
     );

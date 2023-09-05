@@ -1,7 +1,5 @@
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
-import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_profile.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_reviews.dart';
 import 'package:bbblient/src/views/salon/master/new_master_view.dart';
@@ -106,7 +104,7 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
                                                   child: Padding(
                                                     padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                                                     child: Text(
-                                                      "${_filteredMasters.length} ${AppLocalizations.of(context)?.masters.toLowerCase() ?? "masters"}",
+                                                      "${_filteredMasters.length} ${AppLocalizations.of(context)?.serviceProvider2.toLowerCase() ?? "Service provider"}",
                                                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                                             fontSize: 12.sp,
                                                             fontWeight: FontWeight.w600,
@@ -135,16 +133,17 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
                                                     shrinkWrap: true,
                                                     scrollDirection: Axis.horizontal,
                                                     itemBuilder: (context, index) {
-                                                      List<String> masterCategoryIds = _filteredMasters[index].categoryIds!;
+                                                      // List<String> masterCategoryIds = _filteredMasters[index].categoryIds!;
 
-                                                      // Find Master Service
-                                                      // a master might have multiple services (but I just picked the first index to show on landing page)
-                                                      List<CategoryModel> categories = _salonSearchProvider.categories; // All available Categories
+                                                      // // Find Master Service
+                                                      // // a master might have multiple services (but I just picked the first index to show on landing page)
+                                                      // List<CategoryModel> categories = _salonSearchProvider.categories; // All available Categories
 
-                                                      List<CategoryModel> masterCategories = [];
-                                                      for (String id in masterCategoryIds) {
-                                                        masterCategories.add(categories.firstWhere((element) => element.categoryId == id));
-                                                      }
+                                                      // // List<CategoryModel> masterCategories = [];
+                                                      // // for (String id in masterCategoryIds) {
+                                                      // //   print(categories);
+                                                      // //   masterCategories.add(categories.firstWhere((element) => element.categoryId == id));
+                                                      // // }
 
                                                       return Align(
                                                         alignment: Alignment.center,
@@ -177,7 +176,7 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
                                                                 personName: Utils().getNameMaster(_filteredMasters[index].personalInfo),
                                                                 masterTitle: _filteredMasters[index].title,
                                                                 rating: _filteredMasters[index].avgRating,
-                                                                categories: masterCategories,
+                                                                // categories: masterCategories,
                                                               ),
                                                             ),
                                                           ),
@@ -220,14 +219,14 @@ class MasterAvatar extends ConsumerWidget {
   final String? personImageUrl;
   final String? personName, masterTitle;
   final double? rating;
-  final List<CategoryModel> categories;
+  // final List<CategoryModel> categories;
 
   const MasterAvatar({
     Key? key,
     required this.personImageUrl,
     required this.personName,
     required this.rating,
-    required this.categories,
+    // required this.categories,
     required this.masterTitle,
   }) : super(key: key);
 

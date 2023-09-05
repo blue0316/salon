@@ -75,7 +75,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
     // }
 
     setState(() {
-      selectedMaster = _createAppointmentProvider.serviceableMasters[0];
+      selectedMaster = _createAppointmentProvider.mastersOfferingChosenServices.toList()[0];
     });
 
     masterAndSalonPriceDifferent = _createAppointmentProvider.checkIfSalonPriceAndMasterPriceIsDifferent();
@@ -100,7 +100,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
     ThemeType themeType = _salonProfileProvider.themeType;
     SalonModel salonModel = _salonProfileProvider.chosenSalon;
 
-    bool defaultLightTheme = themeType == ThemeType.DefaultLight;
+    // bool defaultLightTheme = themeType == ThemeType.DefaultLight;
     bool isLightTheme = (theme == AppTheme.customLightTheme);
 
     if (_salonProfileProvider.isSingleMaster) {
@@ -111,7 +111,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
 
     return loading
         ? CircularProgressIndicator(color: theme.primaryColor)
-        : (_createAppointmentProvider.salonMasters.isEmpty || _createAppointmentProvider.serviceableMasters.isEmpty)
+        : (_createAppointmentProvider.salonMasters.isEmpty || _createAppointmentProvider.mastersOfferingChosenServices.isEmpty)
             ? Padding(
                 padding: EdgeInsets.symmetric(horizontal: DeviceConstraints.getResponsiveSize(context, 17.w, 20.w, 20.w)),
                 child: Column(
@@ -156,7 +156,11 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                         // InkWell(
                         //   onTap: () {
                         //     print('-----+++++-----');
-                        //     print(_salonProfileProvider.isSingleMaster);
+                        //     _createAppointmentProvider.checkForMastersOfferingChosenServices();
+
+                        //     for (MasterModel master in _createAppointmentProvider.mastersOfferingChosenServices) {
+                        //       print(master.personalInfo?.firstName);
+                        //     }
                         //     // print(_createAppointmentProvider.chosenServices[0].serviceId);
                         //     // print(selectedMaster?.masterId);
 
@@ -294,11 +298,11 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                   height: 45.h,
                                   child: ListView.builder(
                                     shrinkWrap: true,
-                                    itemCount: _createAppointmentProvider.serviceableMasters.length,
+                                    itemCount: _createAppointmentProvider.mastersOfferingChosenServices.length,
                                     physics: const NeverScrollableScrollPhysics(),
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder: (context, index) {
-                                      MasterModel master = _createAppointmentProvider.serviceableMasters[index];
+                                      MasterModel master = _createAppointmentProvider.mastersOfferingChosenServices.toList()[index];
 
                                       // String? price = _createAppointmentProvider.priceAndDuration[master.masterId]?.price ?? '0';
                                       // String? duration = _createAppointmentProvider.priceAndDuration[master.masterId]?.duration ?? '0';
@@ -521,6 +525,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                 fontSize: 14,
                                                 // color: defaultLightTheme ? Colors.white : theme.colorScheme.tertiary,
                                                 color: currentDateTextColor(themeType, theme),
+                                                fontFamily: 'Inter',
                                               ),
                                             ),
                                           ),
@@ -550,7 +555,8 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                 //         themeType,
                                                 //         theme,
                                                 //       ), // AppT
-                                                color: notCurrentDateTextColor(themeType, theme), // AppTheme.white2,
+                                                color: notCurrentDateTextColor(themeType, theme),
+                                                fontFamily: 'Inter',
                                               ),
                                             ),
                                           ),
