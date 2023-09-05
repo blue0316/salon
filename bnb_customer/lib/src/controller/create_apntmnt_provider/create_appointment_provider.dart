@@ -844,8 +844,9 @@ class CreateAppointmentProvider with ChangeNotifier {
   // }
 
   ///load multiple price and duration for multiple masters in the salon
+  List<ServiceModel> selectedServicesList = [];
   loadMultiplePriceAndDuration() {
-    // selectedServicesList = totalSelectedSubItems;
+    selectedServicesList = totalSelectedSubItems;
     isPriceFrom = false;
     isPriceRange = false;
     isPriceFixed = false;
@@ -855,32 +856,37 @@ class CreateAppointmentProvider with ChangeNotifier {
       totalDuration = 0;
       totalPrice = 0;
       totalMaxPrice = 0;
-      notifyListeners();
-      for (var eachSelectedService in totalSelectedSubItems) {
-        debugPrint(eachSelectedService.serviceId);
+      for (var eachSelectedService in selectedServicesList) {
+        print(eachSelectedService.serviceId);
         if (eachSelectedService != null && master != null && eachSelectedService.serviceId != null && eachSelectedService.masterPriceAndDurationMap![master.masterId]?.price != null && eachSelectedService.masterPriceAndDurationMap![master.masterId]!.price!.isNotEmpty) {
           totalDuration += int.parse(eachSelectedService.priceAndDuration!.duration!);
-
+          if (eachSelectedService.isPriceRange) {
+            isPriceRange = true;
+          }
           if (eachSelectedService.isFixedPrice) {
             isPriceFixed = true;
-            if (eachSelectedService.masterPriceAndDurationMap![master.masterId]!.price != null || eachSelectedService.masterPriceAndDurationMap![master.masterId]!.price != '0') {
-              eachSelectedService.priceAndDuration!.price = eachSelectedService.masterPriceAndDurationMap![master.masterId]!.price!;
-              totalPrice += (int.parse(convertToMinutes(eachSelectedService.masterPriceAndDurationMap![master.masterId]!.price!)));
-              if (isPriceRange!) {
-                totalMaxPrice += (int.parse(convertToMinutes(eachSelectedService.priceAndDuration!.price!)));
-              }
-            } else {
-              totalPrice += (int.parse(convertToMinutes(eachSelectedService.priceAndDuration!.price!)));
-            }
           }
           if (eachSelectedService.isPriceStartAt) {
             isPriceFrom = true;
-            totalPrice += (int.parse(convertToMinutes(eachSelectedService.priceAndDuration!.price!)));
           }
-          if (eachSelectedService.isPriceRange) {
-            isPriceRange = true;
-            //print('range ${eachSelectedService!.priceAndDuration!.price!}');
 
+          if (eachSelectedService.isFixedPrice) {
+            if (eachSelectedService.masterPriceAndDurationMap![master.masterId]!.price != null || eachSelectedService.masterPriceAndDurationMap![master.masterId]!.price != '0') {
+              eachSelectedService.priceAndDuration!.price = eachSelectedService.masterPriceAndDurationMap![master.masterId]!.price!;
+              totalPrice += (int.parse(convertToMinutes(eachSelectedService.masterPriceAndDurationMap![master.masterId]!.price!)));
+              // if(isPriceRange!){
+              //
+              //    totalMaxPrice += (int.parse(convertToMinutes(eachSelectedService.priceAndDuration!.price!)));
+              //
+              //  }
+            } else {
+              totalPrice += (int.parse(convertToMinutes(eachSelectedService.priceAndDuration!.price!)));
+            }
+          } else if (eachSelectedService.isPriceStartAt) {
+            totalPrice += (int.parse(convertToMinutes(eachSelectedService.priceAndDuration!.price!)));
+          } else {
+            //print('range ${eachSelectedService!.priceAndDuration!.price!}');
+            totalMaxPrice += ((int.parse(convertToMinutes(eachSelectedService.priceAndDuration!.price!))));
             if (eachSelectedService.priceAndDurationMax!.price != null) {
               totalPrice += (int.parse(convertToMinutes(eachSelectedService.priceAndDuration!.price!)));
               //totalPrice += (int.parse(convertToMinutes(eachSelectedService!.priceAndDurationMax!.price!)));
@@ -888,19 +894,86 @@ class CreateAppointmentProvider with ChangeNotifier {
               totalMaxPrice += ((int.parse(convertToMinutes(eachSelectedService.priceAndDurationMax!.price!))));
             }
           }
-          debugPrint('total max price $totalMaxPrice  total price $totalPrice');
+          print('total max price $totalMaxPrice  total price $totalPrice');
 
           master.servicesPriceAndDuration![eachSelectedService.serviceId]?.price = totalPrice.toString();
           master.servicesPriceAndDuration![eachSelectedService.serviceId]?.priceMax = totalMaxPrice.toString();
           master.servicesPriceAndDuration![eachSelectedService.serviceId]?.duration = totalDuration.toString();
 
           priceAndDuration[master.masterId] = AppointmentAvailability().getPriceAndDuration(eachSelectedService, master);
-          debugPrint('total price? $totalPrice');
+          // if (isPriceFrom!) {
+          //     priceAndDuration[master.masterId]!.isPriceStartAt=true;
+          // } else if (isPriceRange!) {
+          //   priceAndDuration[master.masterId]!.isPriceRange=true;
+          // } else {
+          //   priceAndDuration[master.masterId]!.isFixedPrice=true;
+          //
+          // }
+          print('total price? $totalPrice');
         }
       }
       //    print('total max price? $totalMaxPrice');
     });
   }
+
+  // ///load multiple price and duration for multiple masters in the salon
+  // loadMultiplePriceAndDuration() {
+  //   // selectedServicesList = totalSelectedSubItems;
+  //   isPriceFrom = false;
+  //   isPriceRange = false;
+  //   isPriceFixed = false;
+
+  //   priceAndDuration.clear();
+  //   serviceableMasters.forEach((MasterModel master) {
+  //     totalDuration = 0;
+  //     totalPrice = 0;
+  //     totalMaxPrice = 0;
+  //     notifyListeners();
+  //     for (var eachSelectedService in totalSelectedSubItems) {
+  //       debugPrint(eachSelectedService.serviceId);
+  //       if (eachSelectedService != null && master != null && eachSelectedService.serviceId != null && eachSelectedService.masterPriceAndDurationMap![master.masterId]?.price != null && eachSelectedService.masterPriceAndDurationMap![master.masterId]!.price!.isNotEmpty) {
+  //         totalDuration += int.parse(eachSelectedService.priceAndDuration!.duration!);
+
+  //         if (eachSelectedService.isFixedPrice) {
+  //           isPriceFixed = true;
+  //           if (eachSelectedService.masterPriceAndDurationMap![master.masterId]!.price != null || eachSelectedService.masterPriceAndDurationMap![master.masterId]!.price != '0') {
+  //             eachSelectedService.priceAndDuration!.price = eachSelectedService.masterPriceAndDurationMap![master.masterId]!.price!;
+  //             totalPrice += (int.parse(convertToMinutes(eachSelectedService.masterPriceAndDurationMap![master.masterId]!.price!)));
+  //             if (isPriceRange!) {
+  //               totalMaxPrice += (int.parse(convertToMinutes(eachSelectedService.priceAndDuration!.price!)));
+  //             }
+  //           } else {
+  //             totalPrice += (int.parse(convertToMinutes(eachSelectedService.priceAndDuration!.price!)));
+  //           }
+  //         }
+  //         if (eachSelectedService.isPriceStartAt) {
+  //           isPriceFrom = true;
+  //           totalPrice += (int.parse(convertToMinutes(eachSelectedService.priceAndDuration!.price!)));
+  //         }
+  //         if (eachSelectedService.isPriceRange) {
+  //           isPriceRange = true;
+  //           //print('range ${eachSelectedService!.priceAndDuration!.price!}');
+
+  //           if (eachSelectedService.priceAndDurationMax!.price != null) {
+  //             totalPrice += (int.parse(convertToMinutes(eachSelectedService.priceAndDuration!.price!)));
+  //             //totalPrice += (int.parse(convertToMinutes(eachSelectedService!.priceAndDurationMax!.price!)));
+  //             // totalMaxPrice += (int.parse(convertToMinutes(eachSelectedService!.priceAndDuration!.price!)));
+  //             totalMaxPrice += ((int.parse(convertToMinutes(eachSelectedService.priceAndDurationMax!.price!))));
+  //           }
+  //         }
+  //         debugPrint('total max price $totalMaxPrice  total price $totalPrice');
+
+  //         master.servicesPriceAndDuration![eachSelectedService.serviceId]?.price = totalPrice.toString();
+  //         master.servicesPriceAndDuration![eachSelectedService.serviceId]?.priceMax = totalMaxPrice.toString();
+  //         master.servicesPriceAndDuration![eachSelectedService.serviceId]?.duration = totalDuration.toString();
+
+  //         priceAndDuration[master.masterId] = AppointmentAvailability().getPriceAndDuration(eachSelectedService, master);
+  //         debugPrint('total price? $totalPrice');
+  //       }
+  //     }
+  //     //    print('total max price? $totalMaxPrice');
+  //   });
+  // }
 
   String convertToMinutes(String timeString) {
     if (timeString.contains("hrs") || timeString.contains("min")) {
@@ -2021,16 +2094,25 @@ class CreateAppointmentProvider with ChangeNotifier {
     // dividing services into categories
     for (ServiceModel _service in _servicesValidList) {
       if (_service.allowClientsBookOnline!) {
-        // print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-        // print(_service.serviceName);
-        // print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-
         if (categoryServicesMap[_service.categoryId] == null) {
           categoryServicesMap[_service.categoryId!] = [];
         }
         categoryServicesMap[_service.categoryId]!.add(_service);
         if (categoryServicesMap != {}) {
-          categoryServicesMap[_service.categoryId]!.sort((a, b) => a.bookOrderId != null && b.bookOrderId != null ? a.bookOrderId!.compareTo(b.bookOrderId!) : 1);
+          // categoryServicesMap[_service.categoryId]!.sort((a, b) => a.bookOrderId != null && b.bookOrderId != null ? a.bookOrderId!.compareTo(b.bookOrderId!) : 1);
+
+          categoryServicesMap[_service.categoryId]!.sort((a, b) {
+            if (a.bookOrderId == null && b.bookOrderId == null) {
+              return 0;
+            } else if (a.bookOrderId == null) {
+              return 1;
+            } else if (b.bookOrderId == null) {
+              return -1;
+            } else {
+              return a.bookOrderId!.compareTo(b.bookOrderId!);
+            }
+          });
+
           loadingStatus = Status.success;
           notifyListeners();
         } else {

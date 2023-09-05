@@ -88,7 +88,6 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
 
   MasterModel? selectedMaster;
   // bool isAnyoneSelected = true;
-  // bool showModal = false;
   bool isSingleMaster = false;
 
   @override
@@ -762,8 +761,6 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                   //   // );
                                                   // }
                                                   _createAppointmentProvider.onAppointmentChange(context, selectedMaster!, _appointment);
-
-                                                  // setState(() => _createAppointmentProvider.showModal = true);
                                                 },
                                                 child: _isSelected && _isAvailable
                                                     ? Ink(
@@ -936,7 +933,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                 (!_salonProfileProvider.isSingleMaster)
                                                     ? (_createAppointmentProvider.isPriceFrom!)
                                                         ? "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[selectedMaster?.masterId]?.price ?? '-'} ${_createAppointmentProvider.isPriceFrom! ? "+" : ""}"
-                                                        : _createAppointmentProvider.priceAndDuration[selectedMaster?.masterId]?.priceMax != '0'
+                                                        : (_createAppointmentProvider.priceAndDuration[selectedMaster?.masterId]?.priceMax != null && _createAppointmentProvider.priceAndDuration[selectedMaster?.masterId]?.priceMax != '0')
                                                             ? "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[selectedMaster?.masterId]?.price ?? '-'}-${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[selectedMaster?.masterId]?.priceMax ?? '-'}"
                                                             : "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[selectedMaster?.masterId]?.price ?? '-'} ${_createAppointmentProvider.isPriceFrom! ? "+" : ""}"
 
@@ -1032,7 +1029,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                 // NOT SINGLE MASTER
                                                 (!_salonProfileProvider.isSingleMaster)
                                                     ? (service.isPriceRange)
-                                                        ? "${getCurrency(salonModel.countryCode!)}${selectedMaster!.originalServicesPriceAndDuration![service.serviceId]?.price ?? '0'}-${getCurrency(salonModel.countryCode!)}${selectedMaster!.originalServicesPriceAndDurationMax![service.serviceId]?.price ?? '0'}"
+                                                        ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration?.price ?? '0'}-${getCurrency(salonModel.countryCode!)}${service.priceAndDurationMax?.price ?? '0'}"
                                                         : (service.isPriceStartAt)
                                                             ? "${getCurrency(salonModel.countryCode!)}${selectedMaster!.originalServicesPriceAndDuration![service.serviceId]?.price ?? '0'}+"
                                                             : "${getCurrency(salonModel.countryCode!)}${selectedMaster!.originalServicesPriceAndDuration![service.serviceId]?.price ?? '0'}"
@@ -1043,6 +1040,22 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                         : (service.isPriceStartAt)
                                                             ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}+"
                                                             : "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}",
+
+                                            // (!_salonProfileProvider.isSingleMaster)
+                                            //     ? (service.isPriceRange)
+                                            //         ? "${getCurrency(salonModel.countryCode!)}${selectedMaster!.originalServicesPriceAndDuration![service.serviceId]?.price ?? '0'}-${getCurrency(salonModel.countryCode!)}${selectedMaster!.originalServicesPriceAndDurationMax![service.serviceId]?.price ?? '0'}"
+                                            //         : (service.isPriceStartAt)
+                                            //             ? "${getCurrency(salonModel.countryCode!)}${selectedMaster!.originalServicesPriceAndDuration![service.serviceId]?.price ?? '0'}+"
+                                            //             : "${getCurrency(salonModel.countryCode!)}${selectedMaster!.originalServicesPriceAndDuration![service.serviceId]?.price ?? '0'}"
+
+                                            //     // SINGLE MASTER
+                                            //     : (service.isPriceRange)
+                                            //         ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}-${getCurrency(salonModel.countryCode!)}${service.priceAndDurationMax!.price ?? '0'}"
+                                            //         : (service.isPriceStartAt)
+                                            //             ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}+"
+                                            //             : "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}",
+
+                                            // -------
                                             // servicePrice:
                                             //     // NOT SINGLE MASTER
                                             //     (!_salonProfileProvider.isSingleMaster)
