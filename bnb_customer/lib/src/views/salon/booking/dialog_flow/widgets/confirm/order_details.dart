@@ -139,12 +139,11 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                 serviceName: AppLocalizations.of(context)?.total ?? "Total:",
                 // servicePrice: '${getCurrency(salonModel.countryCode!)}$totalAmount',
                 servicePrice:
-
                     // NOT SINGLE MASTER
                     (!_salonProfileProvider.isSingleMaster)
                         ? (_createAppointmentProvider.isPriceFrom!)
                             ? "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '-'} ${_createAppointmentProvider.isPriceFrom! ? "+" : ""}"
-                            : _createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.priceMax != '0'
+                            : (_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.priceMax != null && _createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.priceMax != '0')
                                 ? "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '-'}-${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.priceMax ?? '-'}"
                                 : "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '-'} ${_createAppointmentProvider.isPriceFrom! ? "+" : ""}"
 
