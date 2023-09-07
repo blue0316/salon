@@ -2,11 +2,11 @@
 
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
+import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../theme/app_main_theme.dart';
 
 class DefaultButton extends ConsumerWidget {
   final String? label;
@@ -74,6 +74,7 @@ class DefaultButton extends ConsumerWidget {
                       color: textColor,
                       fontWeight: fontWeight ?? FontWeight.w600,
                       fontSize: fontSize ?? 20.sp,
+                      fontFamily: 'Inter-Medium',
                     ),
                   ),
                   if (suffixIcon != null)

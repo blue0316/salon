@@ -138,10 +138,8 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
                           style: theme.textTheme.bodyLarge?.copyWith(
                             fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 18.sp, 20.sp),
                             fontWeight: FontWeight.w500,
-                            fontFamily: 'Inter',
+                            fontFamily: 'Inter-Medium',
                             color: theme.colorScheme.onBackground,
-
-                            // color: a.black,
                           ),
                         ),
                       ),

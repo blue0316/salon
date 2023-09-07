@@ -96,7 +96,7 @@ class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetai
                           style: theme.textTheme.bodyLarge!.copyWith(
                             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                             fontWeight: FontWeight.w500,
-                            fontFamily: 'Inter',
+                            fontFamily: 'Inter-Medium',
                             color: theme.colorScheme.onBackground,
                           ),
                         ),
