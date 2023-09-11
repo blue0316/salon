@@ -83,29 +83,32 @@ class _DefaultWorksViewState extends ConsumerState<DefaultWorksView> {
                       ),
                       items: widget.masterModel.photosOfWork!
                           .map(
-                            (item) => GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ImagePreview(
-                                      imageUrls: widget.masterModel.photosOfWork,
-                                      index: widget.masterModel.photosOfWork!.indexOf(item),
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 20),
-                                child: CachedImage(
-                                  width: DeviceConstraints.getResponsiveSize(
+                            (item) => MouseRegion(
+                              cursor: SystemMouseCursors.click,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
                                     context,
-                                    size.width - 20.w,
-                                    ((size.width / 2)), // size.width - 20.w,
-                                    (size.width / 3) - 20, // 200.w,
+                                    MaterialPageRoute(
+                                      builder: (context) => ImagePreview(
+                                        imageUrls: widget.masterModel.photosOfWork,
+                                        index: widget.masterModel.photosOfWork!.indexOf(item),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 20),
+                                  child: CachedImage(
+                                    width: DeviceConstraints.getResponsiveSize(
+                                      context,
+                                      size.width - 20.w,
+                                      ((size.width / 2)), // size.width - 20.w,
+                                      (size.width / 3) - 20, // 200.w,
+                                    ),
+                                    url: item,
+                                    fit: BoxFit.cover,
                                   ),
-                                  url: item,
-                                  fit: BoxFit.cover,
                                 ),
                               ),
                             ),

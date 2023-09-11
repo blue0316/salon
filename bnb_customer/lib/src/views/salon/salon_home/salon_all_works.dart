@@ -66,46 +66,49 @@ class _SaloonAllWorksState extends State<SaloonAllWorks> {
                       List<String?>? images = [];
                       images.add(widget.salonModel.photosOfWorks![index].image);
 
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ImagePreview(
-                                imageUrls: images,
-                                index: index,
-                              ),
-                            ),
-                          );
-                        },
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: DeviceConstraints.getResponsiveSize(context, 150, 200, 200),
-                              width: DeviceConstraints.getResponsiveSize(context, 200, 300, 400),
-                              // decoration: const BoxDecoration(color: Colors.green),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(15),
-                                child: CachedImage(
-                                  url: '${widget.salonModel.photosOfWorks![index].image}',
-                                  fit: BoxFit.cover,
+                      return MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ImagePreview(
+                                  imageUrls: images,
+                                  index: index,
                                 ),
                               ),
-                            ),
-
-                            const SizedBox(height: 10),
-                            Text(
-                              '${widget.salonModel.photosOfWorks![index].description}',
-                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                    fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 16.sp),
+                            );
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: DeviceConstraints.getResponsiveSize(context, 150, 200, 200),
+                                width: DeviceConstraints.getResponsiveSize(context, 200, 300, 400),
+                                // decoration: const BoxDecoration(color: Colors.green),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: CachedImage(
+                                    url: '${widget.salonModel.photosOfWorks![index].image}',
+                                    fit: BoxFit.cover,
                                   ),
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            // const SizedBox(height: 15),
-                          ],
+                                ),
+                              ),
+
+                              const SizedBox(height: 10),
+                              Text(
+                                '${widget.salonModel.photosOfWorks![index].description}',
+                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 16.sp),
+                                    ),
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              // const SizedBox(height: 15),
+                            ],
+                          ),
                         ),
                       );
                     })

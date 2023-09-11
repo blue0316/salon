@@ -89,29 +89,32 @@ class _DefaultWorksViewState extends ConsumerState<DefaultWorksView> {
                       items: widget.salonModel.photosOfWorks!.map((item) {
                         String image = item.image ?? '';
                         if (image.isNotEmpty) {
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ImagePreview(
-                                    imageUrls: [item.image], //  widget.salonModel.photosOfWorks,
-                                    index: widget.salonModel.photosOfWorks!.indexOf(item),
-                                  ),
-                                ),
-                              );
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.only(right: 20.sp),
-                              child: CachedImage(
-                                width: DeviceConstraints.getResponsiveSize(
+                          return MouseRegion(
+                            cursor: SystemMouseCursors.click,
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
                                   context,
-                                  size.width - 20.w,
-                                  ((size.width / 2)), // size.width - 20.w,
-                                  (size.width / 3) - 20, // 200.w,
+                                  MaterialPageRoute(
+                                    builder: (context) => ImagePreview(
+                                      imageUrls: [item.image], //  widget.salonModel.photosOfWorks,
+                                      index: widget.salonModel.photosOfWorks!.indexOf(item),
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.only(right: 20.sp),
+                                child: CachedImage(
+                                  width: DeviceConstraints.getResponsiveSize(
+                                    context,
+                                    size.width - 20.w,
+                                    ((size.width / 2)), // size.width - 20.w,
+                                    (size.width / 3) - 20, // 200.w,
+                                  ),
+                                  url: item.image!,
+                                  fit: BoxFit.cover,
                                 ),
-                                url: item.image!,
-                                fit: BoxFit.cover,
                               ),
                             ),
                           );

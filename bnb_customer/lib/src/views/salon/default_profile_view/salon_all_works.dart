@@ -92,13 +92,29 @@ class _SalonAllWorksState extends ConsumerState<SalonAllWorks> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  SizedBox(
-                                    height: DeviceConstraints.getResponsiveSize(context, 400.h, 410.h, 410.h),
-                                    width: double.infinity,
-                                    child: CachedImage(
-                                      url: firstPhoto[0].image!, // widget.salonModel.photosOfWorks![0].image!,
-                                      fit: BoxFit.cover,
-                                      width: MediaQuery.of(context).size.width,
+                                  MouseRegion(
+                                    cursor: SystemMouseCursors.click,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => ImagePreview(
+                                              imageUrls: [firstPhoto[0].image],
+                                              index: 0,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: SizedBox(
+                                        height: DeviceConstraints.getResponsiveSize(context, 400.h, 410.h, 410.h),
+                                        width: double.infinity,
+                                        child: CachedImage(
+                                          url: firstPhoto[0].image!, // widget.salonModel.photosOfWorks![0].image!,
+                                          fit: BoxFit.cover,
+                                          width: MediaQuery.of(context).size.width,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                   SizedBox(height: 12.sp),
@@ -132,49 +148,36 @@ class _SalonAllWorksState extends ConsumerState<SalonAllWorks> {
                                           items: remainingPhotos.map((item) {
                                             String image = item.image ?? '';
                                             if (image.isNotEmpty) {
-                                              return GestureDetector(
-                                                onTap: () {
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) => ImagePreview(
-                                                        imageUrls: [item.image], //  widget.salonModel.photosOfWorks,
-                                                        index: remainingPhotos.indexOf(item),
+                                              return Padding(
+                                                padding: EdgeInsets.only(right: 20.sp),
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  children: [
+                                                    Expanded(
+                                                      child: CachedImage(
+                                                        width: DeviceConstraints.getResponsiveSize(
+                                                          context,
+                                                          size.width - 20.w,
+                                                          ((size.width / 2)), // size.width - 20.w,
+                                                          (size.width / 3) - 20, // 200.w,
+                                                        ),
+                                                        url: item.image!,
+                                                        fit: BoxFit.cover,
                                                       ),
                                                     ),
-                                                  );
-                                                },
-                                                child: Padding(
-                                                  padding: EdgeInsets.only(right: 20.sp),
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                    children: [
-                                                      Expanded(
-                                                        child: CachedImage(
-                                                          width: DeviceConstraints.getResponsiveSize(
-                                                            context,
-                                                            size.width - 20.w,
-                                                            ((size.width / 2)), // size.width - 20.w,
-                                                            (size.width / 3) - 20, // 200.w,
-                                                          ),
-                                                          url: item.image!,
-                                                          fit: BoxFit.cover,
-                                                        ),
+                                                    SizedBox(height: 10.sp),
+                                                    Text(
+                                                      (item.description != null && item.description != '') ? '${item.description}' : '',
+                                                      style: theme.textTheme.bodyLarge!.copyWith(
+                                                        fontWeight: FontWeight.normal,
+                                                        fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 15.sp),
+                                                        color: !isLightTheme ? const Color(0XFFBDBDBD) : const Color(0XFF373737),
                                                       ),
-                                                      SizedBox(height: 10.sp),
-                                                      Text(
-                                                        (item.description != null && item.description != '') ? '${item.description}' : '',
-                                                        style: theme.textTheme.bodyLarge!.copyWith(
-                                                          fontWeight: FontWeight.normal,
-                                                          fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 15.sp),
-                                                          color: !isLightTheme ? const Color(0XFFBDBDBD) : const Color(0XFF373737),
-                                                        ),
-                                                        maxLines: 2,
-                                                        overflow: TextOverflow.ellipsis,
-                                                      ),
-                                                    ],
-                                                  ),
+                                                      maxLines: 2,
+                                                      overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                  ],
                                                 ),
                                               );
                                             } else {
@@ -236,52 +239,39 @@ class _SalonAllWorksState extends ConsumerState<SalonAllWorks> {
                                             items: widget.salonModel.photosOfWorks!.map((item) {
                                               // String image = item.image ?? '';
 
-                                              return GestureDetector(
-                                                onTap: () {
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) => ImagePreview(
-                                                        imageUrls: [item.image],
-                                                        index: remainingPhotos.indexOf(item),
+                                              return Padding(
+                                                padding: EdgeInsets.only(bottom: 40.h),
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  children: [
+                                                    Expanded(
+                                                      child: CachedImage(
+                                                        // height: 300.h,
+                                                        width: MediaQuery.of(context).size.width,
+
+                                                        // height: DeviceConstraints.getResponsiveSize(
+                                                        //   context,
+                                                        //   size.width - 20.w,
+                                                        //   ((size.width / 2)), // size.width - 20.w,
+                                                        //   (size.width / 3) - 20, // 200.w,
+                                                        // ),
+                                                        url: item.image!,
+                                                        fit: BoxFit.cover,
                                                       ),
                                                     ),
-                                                  );
-                                                },
-                                                child: Padding(
-                                                  padding: EdgeInsets.only(bottom: 40.h),
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                    children: [
-                                                      Expanded(
-                                                        child: CachedImage(
-                                                          // height: 300.h,
-                                                          width: MediaQuery.of(context).size.width,
-
-                                                          // height: DeviceConstraints.getResponsiveSize(
-                                                          //   context,
-                                                          //   size.width - 20.w,
-                                                          //   ((size.width / 2)), // size.width - 20.w,
-                                                          //   (size.width / 3) - 20, // 200.w,
-                                                          // ),
-                                                          url: item.image!,
-                                                          fit: BoxFit.cover,
-                                                        ),
+                                                    SizedBox(height: 12.sp),
+                                                    Text(
+                                                      (item.description != null && item.description != '') ? '${item.description}' : '',
+                                                      style: theme.textTheme.bodyLarge!.copyWith(
+                                                        fontWeight: FontWeight.normal,
+                                                        fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 15.sp),
+                                                        color: !isLightTheme ? const Color(0XFFBDBDBD) : const Color(0XFF373737),
                                                       ),
-                                                      SizedBox(height: 12.sp),
-                                                      Text(
-                                                        (item.description != null && item.description != '') ? '${item.description}' : '',
-                                                        style: theme.textTheme.bodyLarge!.copyWith(
-                                                          fontWeight: FontWeight.normal,
-                                                          fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 15.sp),
-                                                          color: !isLightTheme ? const Color(0XFFBDBDBD) : const Color(0XFF373737),
-                                                        ),
-                                                        maxLines: 2,
-                                                        overflow: TextOverflow.ellipsis,
-                                                      ),
-                                                    ],
-                                                  ),
+                                                      maxLines: 2,
+                                                      overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                  ],
                                                 ),
                                               );
                                             }).toList(),
@@ -321,57 +311,6 @@ class _SalonAllWorksState extends ConsumerState<SalonAllWorks> {
                                         ),
                                       ],
                                     ),
-
-                              // Wrap(
-                              //   spacing: 20,
-                              //   runSpacing: 40,
-                              //   direction: Axis.horizontal,
-                              //   children: widget.salonModel.photosOfWorks!.map((work) {
-                              //     List<String> images = [];
-
-                              //     for (PhotosOfWorks item in widget.salonModel.photosOfWorks!) {
-                              //       images.add(item.image!);
-                              //     }
-
-                              //     return GestureDetector(
-                              //       onTap: () {
-                              //         Navigator.push(
-                              //           context,
-                              //           MaterialPageRoute(
-                              //             builder: (context) => ImagePreview(
-                              //               imageUrls: images,
-                              //               index: widget.salonModel.photosOfWorks!.indexOf(work),
-                              //             ),
-                              //           ),
-                              //         );
-                              //       },
-                              //       child: Column(
-                              //         children: [
-                              //           SizedBox(
-                              //             height: 180.h,
-                              //             width: 290.h,
-                              //             child: CachedImage(url: '${work.image}', fit: BoxFit.cover),
-                              //           ),
-                              //           const SizedBox(height: 10),
-                              //           SizedBox(
-                              //             height: 50.h,
-                              //             width: 290.h,
-                              //             child: Text(
-                              //               (work.description != null && work.description != '') ? '${work.description}' : '',
-                              //               style: theme.textTheme.bodyLarge!.copyWith(
-                              //                 fontWeight: FontWeight.normal,
-                              //                 fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 15.sp),
-                              //                 color: const Color(0XFFBDBDBD), //  isLightTheme ? Colors.black : Colors.white,
-                              //               ),
-                              //               maxLines: 2,
-                              //               overflow: TextOverflow.ellipsis,
-                              //             ),
-                              //           ),
-                              //         ],
-                              //       ),
-                              //     );
-                              //   }).toList(),
-                              // ),
                             ],
                           )
                         : Padding(

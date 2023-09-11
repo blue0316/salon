@@ -132,8 +132,8 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
                                               style: theme.textTheme.displayMedium!.copyWith(
                                                 fontWeight: FontWeight.normal,
                                                 fontSize: 15.sp,
-                                                color: isLightTheme ? Colors.black : Colors.white,
-                                                fontFamily: "Inter",
+                                                color: isLightTheme ? const Color(0XFF373737) : const Color(0XFFB1B1B1),
+                                                fontFamily: "Inter-Light",
                                               ),
                                             ),
                                           ),
@@ -236,7 +236,7 @@ class SocialLink extends ConsumerWidget {
         }
       },
       child: Padding(
-        padding: const EdgeInsets.only(right: 15),
+        padding: EdgeInsets.only(right: 15.sp),
         child: Container(
           height: 50.h,
           width: 50.h,
@@ -282,7 +282,6 @@ class SocialLink2 extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    bool isLightTheme = (theme == AppTheme.customLightTheme);
 
     return GestureDetector(
       onTap: () async {
@@ -297,7 +296,7 @@ class SocialLink2 extends ConsumerWidget {
         }
       },
       child: Padding(
-        padding: EdgeInsets.only(right: 10.sp),
+        padding: EdgeInsets.only(right: 15.sp),
         child: Center(
           child: (icon == AppIcons.linkGlobeDark)
               ? FaIcon(

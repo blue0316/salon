@@ -9,8 +9,7 @@ import 'package:flutter_svg/svg.dart';
 class ImagePreview extends StatefulWidget {
   final List<String?>? imageUrls;
   final int index;
-  const ImagePreview({Key? key, required this.imageUrls, required this.index})
-      : super(key: key);
+  const ImagePreview({Key? key, required this.imageUrls, required this.index}) : super(key: key);
 
   @override
   _ImagePreviewState createState() => _ImagePreviewState();
@@ -23,8 +22,7 @@ class _ImagePreviewState extends State<ImagePreview> {
   void setIndex() {
     _current = widget.index;
     Future.delayed(const Duration(microseconds: 300), () {
-      _bestWorksController.animateToPage(widget.index,
-          duration: const Duration(microseconds: 300), curve: Curves.easeIn);
+      _bestWorksController.animateToPage(widget.index, duration: const Duration(microseconds: 300), curve: Curves.easeIn);
     });
   }
 
@@ -49,8 +47,7 @@ class _ImagePreviewState extends State<ImagePreview> {
             },
             children: [
               for (var string in widget.imageUrls!)
-                InteractiveViewer(
-                    clipBehavior: Clip.none, child: CachedImage(url: string!)
+                InteractiveViewer(clipBehavior: Clip.none, child: CachedImage(url: string!)
                     // child: OptimizedCacheImage(
                     //   imageUrl: string!,
                     //   fit: BoxFit.contain,
@@ -81,9 +78,7 @@ class _ImagePreviewState extends State<ImagePreview> {
               child: SafeArea(
                 child: SizedBox(
                   height: 20,
-                  width: 20 * widget.imageUrls!.length.toDouble() >= 0.8.sw
-                      ? 0.8.sw
-                      : 20 * widget.imageUrls!.length.toDouble(),
+                  width: 20 * widget.imageUrls!.length.toDouble() >= 0.8.sw ? 0.8.sw : 20 * widget.imageUrls!.length.toDouble(),
                   child: ListView.builder(
                       shrinkWrap: true,
                       primary: false,
@@ -97,11 +92,8 @@ class _ImagePreviewState extends State<ImagePreview> {
                             height: 20,
                             width: 20,
                             child: Padding(
-                              padding:
-                                  EdgeInsets.all((index == _current) ? 0 : 5.0),
-                              child: SvgPicture.asset(index == _current
-                                  ? AppIcons.dotActiveSVG
-                                  : AppIcons.dotInactiveSVG),
+                              padding: EdgeInsets.all((index == _current) ? 0 : 5.0),
+                              child: SvgPicture.asset(index == _current ? AppIcons.dotActiveSVG : AppIcons.dotInactiveSVG),
                             ),
                           ),
                         );

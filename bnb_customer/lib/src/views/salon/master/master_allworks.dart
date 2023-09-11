@@ -77,41 +77,44 @@ class _MasterAllWorksState extends ConsumerState<MasterAllWorks> {
                             controller: _gridViewScrollController,
                             // padding: EdgeInsets.all(20.w),
                             itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ImagePreview(imageUrls: widget.master.photosOfWork, index: index),
-                                    ),
-                                  );
-                                },
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                      flex: 1,
-                                      child: SizedBox(
-                                        height: DeviceConstraints.getResponsiveSize(context, 250, 200, 100),
-                                        width: isPortrait ? double.infinity : DeviceConstraints.getResponsiveSize(context, 200, 300, 400),
-                                        // decoration: const BoxDecoration(color: Colors.green),
-                                        child: CachedImage(
-                                          url: widget.master.photosOfWork![index],
-                                          fit: BoxFit.contain,
+                              return MouseRegion(
+                                cursor: SystemMouseCursors.click,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ImagePreview(imageUrls: widget.master.photosOfWork, index: index),
+                                      ),
+                                    );
+                                  },
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: SizedBox(
+                                          height: DeviceConstraints.getResponsiveSize(context, 250, 200, 100),
+                                          width: isPortrait ? double.infinity : DeviceConstraints.getResponsiveSize(context, 200, 300, 400),
+                                          // decoration: const BoxDecoration(color: Colors.green),
+                                          child: CachedImage(
+                                            url: widget.master.photosOfWork![index],
+                                            fit: BoxFit.contain,
+                                          ),
                                         ),
                                       ),
-                                    ),
 
-                                    // const SizedBox(height: 10),
-                                    // Text(
-                                    //   (widget.master.photosOfWork![index]. .description != null && widget.master.photosOfWork![index].description != '') ? '${widget.master.photosOfWork![index].description}' : '...',
-                                    //   style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.normal, fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 15.sp), color: Colors.black),
-                                    //   maxLines: 2,
-                                    //   overflow: TextOverflow.ellipsis,
-                                    // ),
-                                    // const SizedBox(height: 15),
-                                  ],
+                                      // const SizedBox(height: 10),
+                                      // Text(
+                                      //   (widget.master.photosOfWork![index]. .description != null && widget.master.photosOfWork![index].description != '') ? '${widget.master.photosOfWork![index].description}' : '...',
+                                      //   style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.normal, fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 15.sp), color: Colors.black),
+                                      //   maxLines: 2,
+                                      //   overflow: TextOverflow.ellipsis,
+                                      // ),
+                                      // const SizedBox(height: 15),
+                                    ],
+                                  ),
                                 ),
                               );
                             })
