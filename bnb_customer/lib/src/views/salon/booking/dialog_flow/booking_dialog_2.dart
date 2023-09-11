@@ -184,6 +184,7 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
                                 fontWeight: FontWeight.normal,
                                 letterSpacing: 0.5,
                                 color: tabTitleColor(themeType, theme), //  isLightTheme ? Colors.black : Colors.white,
+                                fontFamily: 'Inter',
                               ),
                               labelColor: tabTitleColor(themeType, theme), // isLightTheme ? Colors.black : Colors.white,
                               indicatorColor: theme.primaryColor,
