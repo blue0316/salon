@@ -124,7 +124,11 @@ class _OrderListState extends ConsumerState<OrderDetails> {
               const GradientDivider(),
 
               // SERVICE PROVIDER DETAILS
-              ServiceNameAndPrice(notService: true, serviceName: AppLocalizations.of(context)?.serviceProvider ?? "Service provider:", servicePrice: '${_createAppointmentProvider.chosenMaster?.personalInfo?.lastName} ${_createAppointmentProvider.chosenMaster?.personalInfo?.firstName}'),
+              ServiceNameAndPrice(
+                notService: true,
+                serviceName: AppLocalizations.of(context)?.serviceProvider ?? "Service provider:",
+                servicePrice: '${_createAppointmentProvider.chosenMaster?.personalInfo?.lastName} ${_createAppointmentProvider.chosenMaster?.personalInfo?.firstName}',
+              ),
 
               ServiceNameAndPrice(
                 notService: true,
