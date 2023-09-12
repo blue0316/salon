@@ -23,7 +23,8 @@ import 'salon_masters.dart';
 import 'widgets/header.dart';
 
 class DefaultLandingTheme extends ConsumerStatefulWidget {
-  const DefaultLandingTheme({Key? key}) : super(key: key);
+  final bool showBooking;
+  const DefaultLandingTheme({Key? key, this.showBooking = false}) : super(key: key);
 
   @override
   ConsumerState<DefaultLandingTheme> createState() => _DefaultLandingThemeState();
@@ -33,6 +34,16 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
   int _activeTab = 0;
   final ScrollController _scrollController = ScrollController();
   final PageController _pageController = PageController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.showBooking) {
+      Future.delayed(Duration.zero, () {
+        const BookingDialogWidget222().show(context);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

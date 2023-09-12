@@ -95,16 +95,17 @@ final GoRouter router = GoRouter(
       path: ErrorScreen.route,
       pageBuilder: (context, state) => MaterialPage(
         key: state.pageKey,
-        child: const ErrorScreen(
-          error: "Invalid Link",
-        ),
+        child: const ErrorScreen(error: "Invalid Link"),
       ),
     ),
 
     /// privacy
     GoRoute(
       path: EasyWebDemo.route,
-      pageBuilder: (context, state) => MaterialPage(key: state.pageKey, child: const NewTEst()),
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const NewTEst(),
+      ),
     ),
 
     /// payment
@@ -119,102 +120,106 @@ final GoRouter router = GoRouter(
         final String? terminalId = state.queryParams['terminalId'] == null ? "5363001" : state.queryParams['terminalId'] as String;
         final bool? isDeposit = state.queryParams['isDeposit'] == null ? true : state.queryParams['isDeposit'] as bool;
         return MaterialPage(
-            key: state.pageKey,
-            child: Payment(
-              amount: amount,
-              currency: currency,
-              transactionId: transactionId,
-              terminalId: terminalId,
-              // isDeposit: isDeposit!,
-            ));
+          key: state.pageKey,
+          child: Payment(
+            amount: amount,
+            currency: currency,
+            transactionId: transactionId,
+            terminalId: terminalId,
+            // isDeposit: isDeposit!,
+          ),
+        );
       },
     ),
 
     /// home/salon for either master or salonOwner
     GoRoute(
-        path: NavigatorPage.route,
-        pageBuilder: (context, state) => MaterialPage(
-              key: state.pageKey,
-              child: const NavigatorPage(),
-            ),
-        routes: [
-          GoRoute(
-            path: SalonPage.route,
-            pageBuilder: (context, state) {
-              final String id = state.queryParams['id']!;
-              final String locale = state.queryParams['locale'] ?? "en";
-              final String id2 = state.queryParams['id2'] ?? "";
+      path: NavigatorPage.route,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const NavigatorPage(),
+      ),
+      routes: [
+        GoRoute(
+          path: SalonPage.route,
+          pageBuilder: (context, state) {
+            final String id = state.queryParams['id']!;
+            final String locale = state.queryParams['locale'] ?? "en";
+            final String id2 = state.queryParams['id2'] ?? "";
+            final String showBooking = state.queryParams['booking'] ?? "";
 
-              bool back = true;
-              MasterModel? salonMaster;
-              if (state.queryParams['back'] != null) {
-                back = !(state.queryParams['back'] == 'false');
+            bool back = true;
+            MasterModel? salonMaster;
+            if (state.queryParams['back'] != null) {
+              back = !(state.queryParams['back'] == 'false');
+            }
+
+            final bnbProvider = ChangeNotifierProvider<BnbProvider>(
+              (ref) => BnbProvider(),
+            );
+
+            final provider = Provider((ref) async {
+              // use ref to obtain other providers
+              final repository = ref.watch(bnbProvider);
+
+              repository.changeLocale(locale: Locale(state.queryParams['locale']!.toString()));
+
+              if (id2 != "") {
+                repository.retrieveSalonMasterModel(state.queryParams['id2']!.toString());
+                salonMaster = repository.getCurrenMaster;
+                debugPrint(repository.getCurrenMaster);
               }
-
-              final bnbProvider = ChangeNotifierProvider<BnbProvider>(
-                (ref) => BnbProvider(),
-              );
-
-              final provider = Provider((ref) async {
-                // use ref to obtain other providers
-                final repository = ref.watch(bnbProvider);
-
-                repository.changeLocale(locale: Locale(state.queryParams['locale']!.toString()));
-
-                if (id2 != "") {
-                  repository.retrieveSalonMasterModel(state.queryParams['id2']!.toString());
-                  salonMaster = repository.getCurrenMaster;
-                  debugPrint(repository.getCurrenMaster);
-                }
-                return repository;
-              });
-              debugPrint(salonMaster.toString());
-              return MaterialPage(
-                key: state.pageKey,
-                child: SalonPage(
-                  salonId: id,
-                  showBackButton: back,
-                  locale: locale,
-                ),
-              );
-            },
-          ),
-          // GoRoute(
-          //   path: MasterProfile.route,
-          //   pageBuilder: (context, state) {
-          //     final String id = state.queryParams['id']!;
-          //     final String id2 = state.queryParams['id2']!;
-          //
-          //     final String locale = state.queryParams['locale'] ?? "en";
-          //     printIt('id'+id2);
-          //     bool back = true;
-          //     if (state.queryParams['back'] != null) {
-          //       back = !(state.queryParams['back'] == 'false');
-          //     }
-          //
-          //     final bnbProvider = ChangeNotifierProvider<BnbProvider>(
-          //           (ref) => BnbProvider(),
-          //     );
-          //
-          //     final provider = Provider((ref) {
-          //       // use ref to obtain other providers
-          //       final repository = ref.watch(bnbProvider);
-          //       repository.changeLocale(
-          //           locale: Locale(state.queryParams['locale']!.toString()));
-          //       repository.retrieveSalonMasterModel(id2);
-          //       return repository;
-          //     });
-          //
-          //     return MaterialPage(
-          //         key: state.pageKey,
-          //         child: id2 != null ? MasterProfile(masterModel : AppProvider().salonMaster):  SalonPage(
-          //           salonId: id,
-          //           showBackButton: back,
-          //           locale: locale,
-          //         ));
-          //   },
-          // ),
-        ]),
+              return repository;
+            });
+            debugPrint(salonMaster.toString());
+            return MaterialPage(
+              key: state.pageKey,
+              child: SalonPage(
+                salonId: id,
+                showBackButton: back,
+                locale: locale,
+                showBooking: (showBooking == 'true') ? true : false,
+              ),
+            );
+          },
+        ),
+        // GoRoute(
+        //   path: MasterProfile.route,
+        //   pageBuilder: (context, state) {
+        //     final String id = state.queryParams['id']!;
+        //     final String id2 = state.queryParams['id2']!;
+        //
+        //     final String locale = state.queryParams['locale'] ?? "en";
+        //     printIt('id'+id2);
+        //     bool back = true;
+        //     if (state.queryParams['back'] != null) {
+        //       back = !(state.queryParams['back'] == 'false');
+        //     }
+        //
+        //     final bnbProvider = ChangeNotifierProvider<BnbProvider>(
+        //           (ref) => BnbProvider(),
+        //     );
+        //
+        //     final provider = Provider((ref) {
+        //       // use ref to obtain other providers
+        //       final repository = ref.watch(bnbProvider);
+        //       repository.changeLocale(
+        //           locale: Locale(state.queryParams['locale']!.toString()));
+        //       repository.retrieveSalonMasterModel(id2);
+        //       return repository;
+        //     });
+        //
+        //     return MaterialPage(
+        //         key: state.pageKey,
+        //         child: id2 != null ? MasterProfile(masterModel : AppProvider().salonMaster):  SalonPage(
+        //           salonId: id,
+        //           showBackButton: back,
+        //           locale: locale,
+        //         ));
+        //   },
+        // ),
+      ],
+    ),
 
     // GoRoute(path: Home)
   ],

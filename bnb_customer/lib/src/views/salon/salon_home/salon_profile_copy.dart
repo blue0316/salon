@@ -21,12 +21,14 @@ class SalonPage extends ConsumerStatefulWidget {
   final String locale;
   final List<ServiceModel> chosenServices;
   final bool showBackButton;
+  final bool showBooking;
 
   const SalonPage({
     Key? key,
     required this.salonId,
     this.locale = "uk",
     this.showBackButton = true,
+    this.showBooking = false,
     this.switchSalon = true,
     this.chosenServices = const [],
   }) : super(key: key);
@@ -145,6 +147,6 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
           )
         : _salonProfileProvider.loadingStatus == Status.failed
             ? const ErrorScreen()
-            : _salonProfileProvider.getTheme();
+            : _salonProfileProvider.getTheme(widget.showBooking);
   }
 }

@@ -84,7 +84,7 @@ class SalonProfileProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Widget getTheme() {
+  Widget getTheme(bool showBooking) {
     if (availableThemes.contains(themeSettings?.theme?.id)) {
       // If theme number is not in this set, it means that's a default theme
       switch (themeSettings?.theme?.testId) {
@@ -93,14 +93,13 @@ class SalonProfileProvider with ChangeNotifier {
           themeType = ThemeType.DefaultDark;
           hasLandingPage = themeSettings?.hasLandingPage ?? false;
           notifyListeners();
-          return const DefaultLandingTheme();
-
+          return DefaultLandingTheme(showBooking: showBooking);
         case '0':
           salonTheme = getDefaultLightTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.DefaultLight;
           hasLandingPage = themeSettings?.hasLandingPage ?? false;
           notifyListeners();
-          return const DefaultLandingTheme();
+          return DefaultLandingTheme(showBooking: showBooking);
 
         case '2':
           salonTheme = getGlamDataTheme(themeSettings?.theme?.colorCode);
@@ -151,7 +150,7 @@ class SalonProfileProvider with ChangeNotifier {
           break;
       }
 
-      return const GlamOneScreen(); // New Themes Base Widget
+      return GlamOneScreen(showBooking: showBooking); // New Themes Base Widget
     } else {
       salonTheme = AppTheme.customLightTheme;
       themeType = ThemeType.DefaultLight;
@@ -159,7 +158,7 @@ class SalonProfileProvider with ChangeNotifier {
 
       notifyListeners();
 
-      return const DefaultLandingTheme(); // Default landing theme
+      return DefaultLandingTheme(showBooking: showBooking); // Default landing theme
     }
   }
 

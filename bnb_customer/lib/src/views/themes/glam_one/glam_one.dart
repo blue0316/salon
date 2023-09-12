@@ -21,10 +21,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class GlamOneScreen extends ConsumerStatefulWidget {
   static const route = '/glam-one';
+  final bool showBooking;
 
   // final SalonModel salonModel;
 
-  const GlamOneScreen({Key? key}) : super(key: key);
+  const GlamOneScreen({Key? key, this.showBooking = false}) : super(key: key);
 
   @override
   _GlamOneScreenState createState() => _GlamOneScreenState();
@@ -34,6 +35,11 @@ class _GlamOneScreenState extends ConsumerState<GlamOneScreen> {
   @override
   void initState() {
     super.initState();
+    if (widget.showBooking) {
+      Future.delayed(Duration.zero, () {
+        const BookingDialogWidget222().show(context);
+      });
+    }
   }
 
   @override
