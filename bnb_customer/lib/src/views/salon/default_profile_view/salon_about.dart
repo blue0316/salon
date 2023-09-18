@@ -185,6 +185,8 @@ class SocialIcon2 extends ConsumerWidget {
       onTap: () async {
         Uri uri = Uri.parse(socialLinks(type, socialUrl ?? ''));
 
+        debugPrint("launching Url: $uri");
+
         if (await canLaunchUrl(uri)) {
           await launchUrl(uri);
         } else {

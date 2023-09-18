@@ -118,7 +118,7 @@ String socialLinks(String type, String username) {
       return 'https://wa.me/$username';
 
     case 'website':
-      return username;
+      return 'https://$username';
 
     default:
       return '';
