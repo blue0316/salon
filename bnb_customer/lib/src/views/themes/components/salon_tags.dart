@@ -23,7 +23,7 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
   final ScrollController _scrollController = ScrollController();
 
   Timer? _timer;
-  int _currentPage = 0;
+  // int _currentPage = 0;
 
   PageController pageController = PageController();
 
@@ -46,7 +46,11 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
     double distanceDifference = maxExtent - _scrollController.offset;
     double durationDouble = distanceDifference / speedFactor;
 
-    _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: Duration(seconds: durationDouble.toInt()), curve: Curves.linear);
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      duration: Duration(seconds: durationDouble.toInt()),
+      curve: Curves.linear,
+    );
   }
 
   _toggleScrolling() {
@@ -58,7 +62,11 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
       if (scroll) {
         _scroll();
       } else {
-        _scrollController.animateTo(_scrollController.offset, duration: const Duration(seconds: 1), curve: Curves.linear);
+        _scrollController.animateTo(
+          _scrollController.offset,
+          duration: const Duration(seconds: 1),
+          curve: Curves.linear,
+        );
       }
     }
   }
@@ -71,47 +79,23 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
   }
 
   getFeature(String s) {
-    debugPrint(widget.salonModel.ownerType);
-    if (widget.salonModel.ownerType == 'singleMaster') {
-      for (Map registeredFeatures in masterFeatures) {
-        if (registeredFeatures.containsKey(s)) {
-          return registeredFeatures[s];
-        } else {
-          return s;
-        }
+    for (Map registeredFeatures in salonFeatures) {
+      if (registeredFeatures.containsKey(s)) {
+        return registeredFeatures[s];
       }
     }
 
-    if (widget.salonModel.ownerType == 'salon') {
-      for (Map registeredFeatures in salonFeatures) {
-        if (registeredFeatures.containsKey(s)) {
-          return registeredFeatures[s];
-        } else {
-          return s;
-        }
-      }
-    }
+    return s;
   }
 
   getFeatureUk(String s) {
-    debugPrint(widget.salonModel.ownerType);
-    for (Map registeredFeatures in ukMasterFeatures) {
+    for (Map registeredFeatures in ukSalonFeatures) {
       if (registeredFeatures.containsKey(s)) {
         return registeredFeatures[s];
-      } else {
-        return s;
       }
     }
 
-    if (widget.salonModel.ownerType == 'salon') {
-      for (Map registeredFeatures in ukSalonFeatures) {
-        if (registeredFeatures.containsKey(s)) {
-          return registeredFeatures[s];
-        } else {
-          return s;
-        }
-      }
-    }
+    return s;
   }
 
   @override
@@ -130,74 +114,77 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
 
     return Padding(
       padding: const EdgeInsets.only(top: 20, bottom: 50),
-      child: RotationTransition(
-        turns: AlwaysStoppedAnimation(themeType == ThemeType.GlamLight ? 3 / 360 : 0),
-        child: Column(
-          children: [
-            Divider(color: theme.dividerColor, thickness: 2),
-            SizedBox(
-              height: 35.h,
-              child: Center(
-                child: NotificationListener(
-                  onNotification: (notif) {
-                    if (notif is ScrollEndNotification && scroll) {
-                      Timer(const Duration(seconds: 1), () {
-                        _scroll();
-                      });
-                    }
+      //  RotationTransition(
+      // turns: AlwaysStoppedAnimation(themeType == ThemeType.GlamLight ? 3 / 360 : 0),
+      child: Column(
+        children: [
+          Divider(color: theme.dividerColor, thickness: 2),
+          SizedBox(
+            height: 35.h,
+            child: Center(
+              child: NotificationListener(
+                onNotification: (notif) {
+                  if (notif is ScrollEndNotification && scroll) {
+                    Timer(const Duration(seconds: 1), () {
+                      _scroll();
+                    });
+                  }
 
-                    return true;
-                  },
-                  child: Center(
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      controller: _scrollController,
-                      shrinkWrap: true,
-                      physics: const ClampingScrollPhysics(),
-                      children: [
-                        Center(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: aFeatured
-                                .map(
-                                  (item) => Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                                        child: Text(
-                                          // TODO: HANDLE FOR OTHER LOCALIZATIONS
-                                          (_bnbProvider.locale == const Locale('en'))
-                                              ? getFeature(item)
-                                              : (_bnbProvider.locale == const Locale('uk'))
-                                                  ? getFeatureUk(item)
-                                                  : item,
-                                          //  convertLowerCamelCase(widget.additionalFeatures[item]),
-                                          style: theme.textTheme.bodyLarge?.copyWith(
-                                            color: theme.dividerColor,
-                                            fontSize: 18.sp,
-                                            fontFamily: 'Poppins-Light',
-                                          ),
+                  return true;
+                },
+                child: Center(
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    controller: _scrollController,
+                    shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(),
+                    children: [
+                      Center(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: aFeatured
+                              .map(
+                                (item) => Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                                      child: Text(
+                                        // TODO: HANDLE FOR OTHER LOCALIZATIONS
+                                        (_bnbProvider.locale == const Locale('en'))
+                                            ? getFeature(item)
+                                            : (_bnbProvider.locale == const Locale('uk'))
+                                                ? getFeatureUk(item)
+                                                : item,
+                                        //  convertLowerCamelCase(widget.additionalFeatures[item]),
+                                        style: theme.textTheme.bodyLarge?.copyWith(
+                                          color: theme.dividerColor,
+                                          fontSize: 18.sp,
+                                          fontFamily: 'Inter-Medium',
                                         ),
                                       ),
-                                      Container(height: 8.h, width: 8.h, decoration: tagSeperator(themeType, theme)),
-                                    ],
-                                  ),
-                                )
-                                .toList(),
-                          ),
+                                    ),
+                                    Container(
+                                      height: 8.h,
+                                      width: 8.h,
+                                      decoration: tagSeperator(themeType, theme),
+                                    ),
+                                  ],
+                                ),
+                              )
+                              .toList(),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
             ),
-            Divider(color: theme.dividerColor, thickness: 2),
-          ],
-        ),
+          ),
+          Divider(color: theme.dividerColor, thickness: 2),
+        ],
       ),
     );
   }

@@ -13,11 +13,15 @@ class PrevAndNextButtons extends ConsumerWidget {
   final VoidCallback forwardOnTap;
   final Color? backColor;
   final Color? forwardColor;
+  final double? leftFontSize;
+  final double? rightFontSize;
 
   const PrevAndNextButtons({
     Key? key,
     required this.backOnTap,
     required this.forwardOnTap,
+    this.leftFontSize,
+    this.rightFontSize,
     this.backColor,
     this.forwardColor,
   }) : super(key: key);
@@ -32,10 +36,17 @@ class PrevAndNextButtons extends ConsumerWidget {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           GestureDetector(
             onTap: backOnTap,
-            child: themeLeftIcon(context, themeType: themeType, theme: theme, backColor: backColor),
+            child: themeLeftIcon(
+              context,
+              themeType: themeType,
+              theme: theme,
+              backColor: backColor,
+              fontSize: leftFontSize,
+            ),
             // (themeType != ThemeType.GlamBarbershop && themeType != ThemeType.Barbershop)
             //     ? SvgPicture.asset(
             //         ThemeIcons.leftArrow,
@@ -51,7 +62,13 @@ class PrevAndNextButtons extends ConsumerWidget {
           SizedBox(width: DeviceConstraints.getResponsiveSize(context, 15.sp, 30.sp, 40.sp)),
           GestureDetector(
             onTap: forwardOnTap,
-            child: themeRightIcon(context, themeType: themeType, theme: theme, forwardColor: forwardColor),
+            child: themeRightIcon(
+              context,
+              themeType: themeType,
+              theme: theme,
+              forwardColor: forwardColor,
+              fontSize: leftFontSize,
+            ),
             // (_salonProfileProvider.theme != '2' && _salonProfileProvider.theme != '4')
             //     ? SvgPicture.asset(
             //         ThemeIcons.rightArrow,
@@ -70,7 +87,7 @@ class PrevAndNextButtons extends ConsumerWidget {
   }
 }
 
-Widget themeLeftIcon(context, {required ThemeType themeType, required ThemeData theme, Color? backColor}) {
+Widget themeLeftIcon(context, {required ThemeType themeType, required ThemeData theme, Color? backColor, double? fontSize}) {
   switch (themeType) {
     case ThemeType.GlamBarbershop:
       return Icon(
@@ -107,6 +124,13 @@ Widget themeLeftIcon(context, {required ThemeType themeType, required ThemeData 
         color: const Color(0XFFB3B3B3),
       );
 
+    case ThemeType.GlamLight:
+      return SvgPicture.asset(
+        ThemeIcons.glamLightLeftArrow,
+        color: backColor ?? theme.primaryColor,
+        height: fontSize ?? DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+      );
+
     default:
       return SvgPicture.asset(
         ThemeIcons.leftArrow,
@@ -116,7 +140,7 @@ Widget themeLeftIcon(context, {required ThemeType themeType, required ThemeData 
   }
 }
 
-Widget themeRightIcon(context, {required ThemeType themeType, required ThemeData theme, Color? forwardColor}) {
+Widget themeRightIcon(context, {required ThemeType themeType, required ThemeData theme, Color? forwardColor, double? fontSize}) {
   switch (themeType) {
     case ThemeType.GlamBarbershop:
       return Icon(
@@ -153,6 +177,13 @@ Widget themeRightIcon(context, {required ThemeType themeType, required ThemeData
         Icons.arrow_forward,
         size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
         color: Colors.black,
+      );
+
+    case ThemeType.GlamLight:
+      return SvgPicture.asset(
+        ThemeIcons.glamLightRightArrow,
+        color: forwardColor ?? theme.primaryColor,
+        height: fontSize ?? DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
       );
 
     default:

@@ -14,6 +14,7 @@ import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_profile.dart';
+import 'package:bbblient/src/views/themes/glam_light_natural_hue.dart';
 import 'package:bbblient/src/views/themes/glam_one/glam_one.dart';
 import 'package:bbblient/src/views/themes/utils/theme_color.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
@@ -93,12 +94,15 @@ class SalonProfileProvider with ChangeNotifier {
           themeType = ThemeType.DefaultDark;
           hasLandingPage = themeSettings?.hasLandingPage ?? false;
           notifyListeners();
+
           return DefaultLandingTheme(showBooking: showBooking);
+
         case '0':
           salonTheme = getDefaultLightTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.DefaultLight;
           hasLandingPage = themeSettings?.hasLandingPage ?? false;
           notifyListeners();
+
           return DefaultLandingTheme(showBooking: showBooking);
 
         case '2':
@@ -133,7 +137,7 @@ class SalonProfileProvider with ChangeNotifier {
           themeType = ThemeType.GlamLight;
 
           notifyListeners();
-          break;
+          return GlamLightNaturalHue(showBooking: showBooking);
 
         case '7':
           salonTheme = getGlamMinimalLightTheme(themeSettings?.theme?.colorCode);

@@ -1,8 +1,11 @@
+// ignore_for_file: avoid_web_libraries_in_flutter
+
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'dart:js' as js;
 
 class PortraitLandingBottom extends ConsumerWidget {
   const PortraitLandingBottom({Key? key}) : super(key: key);
@@ -66,7 +69,7 @@ class PortraitLandingBottom extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                '© 2023 Glamiris. ',
+                'Powered by ',
                 style: theme.textTheme.titleSmall!.copyWith(
                   fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 16.sp),
                   fontWeight: FontWeight.w400,
@@ -75,14 +78,23 @@ class PortraitLandingBottom extends ConsumerWidget {
                 textAlign: TextAlign.center,
               ),
               SizedBox(width: 2.sp),
-              Text(
-                'Design by GlamIris',
-                style: theme.textTheme.titleSmall!.copyWith(
-                  fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 16.sp),
-                  fontWeight: FontWeight.w600,
-                  color: const Color(0XFFBA681E),
+              MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: GestureDetector(
+                  onTap: () {
+                    js.context.callMethod('open', ['https://www.glamiris.com/']);
+                  },
+                  child: Text(
+                    'Glamiris',
+                    style: theme.textTheme.titleSmall!.copyWith(
+                      fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 16.sp),
+                      fontWeight: FontWeight.w500,
+                      color: const Color.fromARGB(255, 19, 121, 204), // const Color(0XFF908D8D),
+                      decoration: TextDecoration.underline,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-                textAlign: TextAlign.center,
               ),
             ],
           ),
@@ -151,7 +163,7 @@ class LandscapeLandingBottom extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    '© 2023 Glamiris. ',
+                    'Powered by ',
                     style: theme.textTheme.titleSmall!.copyWith(
                       fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 16.sp),
                       fontWeight: FontWeight.w400,
@@ -160,14 +172,23 @@ class LandscapeLandingBottom extends ConsumerWidget {
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(width: 2.sp),
-                  Text(
-                    'Design by GlamIris',
-                    style: theme.textTheme.titleSmall!.copyWith(
-                      fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 16.sp),
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0XFF908D8D),
+                  MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: GestureDetector(
+                      onTap: () {
+                        js.context.callMethod('open', ['https://www.glamiris.com/']);
+                      },
+                      child: Text(
+                        'Glamiris',
+                        style: theme.textTheme.titleSmall!.copyWith(
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 16.sp),
+                          fontWeight: FontWeight.w500,
+                          color: const Color.fromARGB(255, 19, 121, 204), // const Color(0XFF908D8D),
+                          decoration: TextDecoration.underline,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                    textAlign: TextAlign.center,
                   ),
                 ],
               ),

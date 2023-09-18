@@ -55,6 +55,8 @@ class ThemeImages {
 
   static const glamLightEllipse = 'assets/themes/glam_one/svg/glam_light_ellipse.svg';
 
+  static const glamLightNaturalHue = 'assets/themes/glam_one/images/glam_light_natural_hue.png';
+
   // Minimal Theme
   static const minimalBackground = 'assets/themes/glam_one/images/glam_minimal_bg.png';
 

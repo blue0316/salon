@@ -5,6 +5,8 @@ class ThemeIcons {
   static const String whatsapp = 'assets/themes/glam_one/svg/whatsapp.svg';
   static const String leftArrow = 'assets/themes/glam_one/svg/left_arrow.svg';
   static const String rightArrow = 'assets/themes/glam_one/svg/right_arrow.svg';
+  static const String glamLightRightArrow = 'assets/themes/glam_one/svg/glam_right.svg';
+  static const String glamLightLeftArrow = 'assets/themes/glam_one/svg/glam_left.svg';
   static const String leftQuote = 'assets/themes/glam_one/svg/left_quote.svg';
   static const String rightQuote = 'assets/themes/glam_one/svg/right_quote.svg';
   static const String location = 'assets/themes/glam_one/svg/location.svg';

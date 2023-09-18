@@ -104,6 +104,7 @@ dependencies:
   flutter_horizontal_date_picker:
   crypto: ^3.0.2
   grouped_list: ^5.1.2
+  flutter_staggered_grid_view: ^0.7.0
 
 dev_dependencies:
   build_runner: ^2.1.4

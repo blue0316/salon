@@ -193,12 +193,8 @@ ThemeData getBarbershopTheme(String? colorCode) {
 ThemeData getGlamLightTheme(String? colorCode) {
   switch (colorCode) {
     case null:
-      GlamLightTheme.themeBackgroundColor = const Color(0XFFFFF5F1);
-
+      GlamLightTheme.accentColor = Colors.black;
       return GlamLightTheme.mainTheme;
-
-    // case 'FFC692':
-    //   return GlamOneTheme.glamOneTheme;
 
     default:
       if (colorCode != null) {
@@ -207,9 +203,9 @@ ThemeData getGlamLightTheme(String? colorCode) {
           String valueString = colorCode.split('(0x')[1].split(')')[0];
           int value = int.parse(valueString, radix: 16);
 
-          GlamLightTheme.themeBackgroundColor = Color(value);
+          GlamLightTheme.accentColor = Color(value);
         } catch (e) {
-          GlamLightTheme.themeBackgroundColor = const Color(0XFFFFF5F1);
+          GlamLightTheme.accentColor = Colors.black;
         }
       }
       return GlamLightTheme.mainTheme;

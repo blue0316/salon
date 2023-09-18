@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'default_works_view.dart';
+import 'glam_light_works_view.dart';
 import 'minimal_works_view.dart';
 
 class SalonWorks extends ConsumerStatefulWidget {
@@ -37,6 +38,8 @@ Widget worksThemeView(ThemeType themeType, ThemeData theme, SalonModel salon) {
       return MinimalWorksView(salonModel: salon);
     case ThemeType.GlamMinimalLight:
       return MinimalWorksView(salonModel: salon);
+    case ThemeType.GlamLight:
+      return GlamLightWorksView(salonModel: salon);
 
     default:
       return DefaultWorksView(salonModel: salon);

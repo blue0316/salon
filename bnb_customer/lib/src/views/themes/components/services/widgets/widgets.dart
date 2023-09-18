@@ -13,6 +13,8 @@ Color? labelColorTheme(ThemeType themeType, ThemeData theme) {
       return Colors.white;
     case ThemeType.GlamMinimalDark:
       return Colors.white;
+    case ThemeType.GlamLight:
+      return Colors.black;
 
     default:
       return theme.tabBarTheme.labelColor;
@@ -23,13 +25,16 @@ BoxDecoration servicesTabBarTheme(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
     case ThemeType.GlamLight:
       return BoxDecoration(
-        color: theme.primaryColor,
-        borderRadius: BorderRadius.circular(60),
+        border: Border(
+          bottom: BorderSide(width: 1.5, color: theme.colorScheme.secondary),
+        ),
       );
+
     case ThemeType.GlamMinimalLight:
       return const BoxDecoration(
         color: Colors.black,
       );
+
     case ThemeType.GlamMinimalDark:
       return BoxDecoration(
         color: Colors.black,
@@ -48,6 +53,26 @@ BoxDecoration servicesTabBarTheme(ThemeType themeType, ThemeData theme) {
 
 Widget bookNowButtonTheme(context, {required ThemeType themeType, required ThemeData theme}) {
   switch (themeType) {
+    case ThemeType.GlamLight:
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SquareButton(
+            borderColor: Colors.transparent,
+            buttonColor: const Color(0XFF687830),
+            width: 180.sp,
+            text: (AppLocalizations.of(context)?.bookNow ?? "Book Now"),
+            weight: FontWeight.normal,
+            textColor: const Color(0XFFFFFFFF),
+            height: 47.h,
+            showSuffix: false,
+            borderRadius: 1,
+            onTap: () => const BookingDialogWidget222().show(context),
+          ),
+        ],
+      );
+
     case ThemeType.GlamMinimalLight:
       return Row(
         crossAxisAlignment: CrossAxisAlignment.center,

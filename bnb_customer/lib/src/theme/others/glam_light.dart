@@ -3,9 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-// Theme 5 ThemeData
 class GlamLightTheme {
-  static Color themeBackgroundColor = const Color(0XFFFFF5F1);
+  static Color themeBackgroundColor = const Color(0XFFFAF6F0); // Color(0XFFFFF5F1);
 
   static const Color textBlack = Color(0xff0E141E);
   static const Color lightBlack = Color(0xff1E2D3D);
@@ -15,6 +14,7 @@ class GlamLightTheme {
 
   // MAIN COLORS 1
   static Color primaryColor1 = Colors.black;
+  static Color accentColor = Colors.black;
 
   // Main Theme 1
   static final ThemeData mainTheme = ThemeData(
@@ -25,7 +25,7 @@ class GlamLightTheme {
     textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
 
     tabBarTheme: TabBarTheme(
-      unselectedLabelColor: primaryColor1,
+      unselectedLabelColor: const Color(0XFF868686),
       labelColor: Colors.white,
       labelStyle: bodyText1.copyWith(
         color: Colors.white,
@@ -40,7 +40,7 @@ class GlamLightTheme {
     cardColor: themeBackgroundColor,
     colorScheme: ColorScheme(
       primary: (Colors.pink[900])!,
-      secondary: primaryColor1, // Color of title text on cards
+      secondary: accentColor, // Color of title text on cards
       onSecondaryContainer: Colors.black, // Color of sub text on cards
 
       surface: Colors.white,
@@ -71,7 +71,7 @@ class GlamLightTheme {
       titleMedium: subTitle1.copyWith(color: primaryColor1),
       titleSmall: subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
     ),
-    dividerColor: Colors.black,
+    dividerColor: const Color(0XFF9F9F9F),
 
     inputDecorationTheme: InputDecorationTheme(
       labelStyle: bodyText1.copyWith(color: Colors.black),

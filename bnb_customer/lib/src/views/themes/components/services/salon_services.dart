@@ -70,7 +70,11 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              isSingleMaster ? (AppLocalizations.of(context)?.price ?? 'Price') : (AppLocalizations.of(context)?.ourPrice ?? 'Our Price').toUpperCase(),
+              (themeType == ThemeType.GlamLight)
+                  ? (AppLocalizations.of(context)?.itemsOfServices ?? 'services').toUpperCase()
+                  : isSingleMaster
+                      ? (AppLocalizations.of(context)?.price ?? 'Price')
+                      : (AppLocalizations.of(context)?.ourPrice ?? 'Our Price').toUpperCase(),
               style: theme.textTheme.displayMedium?.copyWith(
                 fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 60.sp),
               ),
@@ -111,11 +115,11 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
                           //   ),
                           // ),
                           isScrollable: true,
-                          labelPadding: const EdgeInsets.symmetric(horizontal: 50),
+                          labelPadding: EdgeInsets.symmetric(horizontal: (themeType == ThemeType.GlamLight) ? 15.sp : 50),
                           tabs: _createAppointmentProvider.categoriesAvailable
                               .map(
                                 (item) => Tab(
-                                  text: item.categoryName.toCapitalized(),
+                                  text: item.categoryName.toTitleCase(),
                                   // height: 20,
                                 ),
                               )
@@ -149,18 +153,6 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
                     },
                   )
                 : const SizedBox.shrink(),
-
-            // Section Divider
-
-            if (themeType == ThemeType.GlamLight)
-              Space(
-                factor: DeviceConstraints.getResponsiveSize(context, 8, 8, 10),
-              ),
-            if (themeType == ThemeType.GlamLight)
-              const Divider(
-                color: Colors.black,
-                thickness: 1,
-              ),
           ],
         ),
       ),
@@ -183,29 +175,30 @@ class ServiceAndPrice extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                (AppLocalizations.of(context)?.service ?? 'Service').trim().toUpperCase(),
-                style: theme.textTheme.bodyLarge?.copyWith(
-                  color: theme.primaryColorDark,
-                  fontSize: 20.sp,
-                  letterSpacing: 1,
+          if (themeType != ThemeType.GlamLight)
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  (AppLocalizations.of(context)?.service ?? 'Service').trim().toUpperCase(),
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    color: theme.primaryColorDark,
+                    fontSize: 20.sp,
+                    letterSpacing: 1,
+                  ),
                 ),
-              ),
-              Text(
-                (AppLocalizations.of(context)?.price ?? 'Price').toUpperCase(),
-                style: theme.textTheme.bodyLarge?.copyWith(
-                  color: theme.primaryColorDark,
-                  fontSize: 20.sp,
-                  letterSpacing: 1,
+                Text(
+                  (AppLocalizations.of(context)?.price ?? 'Price').toUpperCase(),
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    color: theme.primaryColorDark,
+                    fontSize: 20.sp,
+                    letterSpacing: 1,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 15),
+              ],
+            ),
+          if (themeType != ThemeType.GlamLight) const SizedBox(height: 15),
           Expanded(
             flex: 0,
             child: ListView.builder(

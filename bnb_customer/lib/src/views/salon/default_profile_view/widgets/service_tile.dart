@@ -173,81 +173,85 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          // -- SERVICES SUB TITLE WITH INFORMATION ICON --
-                                          Text(
-                                            '${widget.services[index].translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? widget.services[index].translations?['en']}'.toCapitalized(),
-                                            style: theme.textTheme.displayMedium!.copyWith(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
-                                              color: isLightTheme ? Colors.black : Colors.white,
-                                              fontFamily: "Inter",
+                                      Expanded(
+                                        flex: 1,
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            // -- SERVICES SUB TITLE WITH INFORMATION ICON --
+                                            Text(
+                                              '${widget.services[index].translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? widget.services[index].translations?['en']}'.toCapitalized(),
+                                              style: theme.textTheme.displayMedium!.copyWith(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
+                                                color: isLightTheme ? Colors.black : Colors.white,
+                                                fontFamily: "Inter",
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 2,
                                             ),
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 2,
-                                          ),
-                                          SizedBox(height: 10.sp),
+                                            SizedBox(height: 10.sp),
 
-                                          // -- DURATION SECTION --
-                                          Row(
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              SizedBox(
-                                                height: 15.h,
-                                                width: 15.h,
-                                                child: Center(
-                                                  child: FaIcon(
-                                                    FontAwesomeIcons.clock,
-                                                    color: !isLightTheme ? const Color(0XFF908D8D) : const Color(0XFF6C6C6C),
-                                                    size: 15.h,
+                                            // -- DURATION SECTION --
+                                            Row(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              children: [
+                                                SizedBox(
+                                                  height: 15.h,
+                                                  width: 15.h,
+                                                  child: Center(
+                                                    child: FaIcon(
+                                                      FontAwesomeIcons.clock,
+                                                      color: !isLightTheme ? const Color(0XFF908D8D) : const Color(0XFF6C6C6C),
+                                                      size: 15.h,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              SizedBox(width: 15.sp),
-                                              service.isFixedDuration != null
-                                                  ? service.isFixedDuration
-                                                      ? Text(
-                                                          "${service.priceAndDuration!.duration} ${AppLocalizations.of(context)?.min ?? 'min'}",
-                                                          style: theme.textTheme.displayMedium!.copyWith(
-                                                            fontSize: 15.sp,
-                                                            fontWeight: FontWeight.w500,
-                                                            color: !isLightTheme ? const Color(0XFF908D8D) : const Color(0XFF6C6C6C),
-                                                            fontFamily: "Inter",
-                                                          ),
-                                                          overflow: TextOverflow.ellipsis,
-                                                          maxLines: 1,
-                                                        )
-                                                      : Text(
-                                                          "${service.priceAndDuration!.duration}  ${AppLocalizations.of(context)?.min ?? 'min'} - ${service.priceAndDurationMax!.duration}  ${AppLocalizations.of(context)?.min ?? 'min'}",
-                                                          style: theme.textTheme.displayMedium!.copyWith(
-                                                            fontSize: 15.sp,
-                                                            fontWeight: FontWeight.w500,
-                                                            color: !isLightTheme ? const Color(0XFF908D8D) : const Color(0XFF6C6C6C),
-                                                            fontFamily: "Inter",
-                                                          ),
-                                                          overflow: TextOverflow.ellipsis,
-                                                          maxLines: 1,
-                                                        )
-                                                  : Text(
-                                                      "${service.priceAndDuration!.duration}  ${AppLocalizations.of(context)?.min ?? 'min'}",
-                                                      style: theme.textTheme.displayMedium!.copyWith(
-                                                        fontSize: 15.sp,
-                                                        fontWeight: FontWeight.w500,
-                                                        color: !isLightTheme ? const Color(0XFF908D8D) : const Color(0XFF6C6C6C),
-                                                        fontFamily: "Inter",
+                                                SizedBox(width: 15.sp),
+                                                service.isFixedDuration != null
+                                                    ? service.isFixedDuration
+                                                        ? Text(
+                                                            "${service.priceAndDuration!.duration} ${AppLocalizations.of(context)?.min ?? 'min'}",
+                                                            style: theme.textTheme.displayMedium!.copyWith(
+                                                              fontSize: 15.sp,
+                                                              fontWeight: FontWeight.w500,
+                                                              color: !isLightTheme ? const Color(0XFF908D8D) : const Color(0XFF6C6C6C),
+                                                              fontFamily: "Inter",
+                                                            ),
+                                                            overflow: TextOverflow.ellipsis,
+                                                            maxLines: 1,
+                                                          )
+                                                        : Text(
+                                                            "${service.priceAndDuration!.duration}  ${AppLocalizations.of(context)?.min ?? 'min'} - ${service.priceAndDurationMax!.duration}  ${AppLocalizations.of(context)?.min ?? 'min'}",
+                                                            style: theme.textTheme.displayMedium!.copyWith(
+                                                              fontSize: 15.sp,
+                                                              fontWeight: FontWeight.w500,
+                                                              color: !isLightTheme ? const Color(0XFF908D8D) : const Color(0XFF6C6C6C),
+                                                              fontFamily: "Inter",
+                                                            ),
+                                                            overflow: TextOverflow.ellipsis,
+                                                            maxLines: 1,
+                                                          )
+                                                    : Text(
+                                                        "${service.priceAndDuration!.duration}  ${AppLocalizations.of(context)?.min ?? 'min'}",
+                                                        style: theme.textTheme.displayMedium!.copyWith(
+                                                          fontSize: 15.sp,
+                                                          fontWeight: FontWeight.w500,
+                                                          color: !isLightTheme ? const Color(0XFF908D8D) : const Color(0XFF6C6C6C),
+                                                          fontFamily: "Inter",
+                                                        ),
+                                                        overflow: TextOverflow.ellipsis,
+                                                        maxLines: 1,
                                                       ),
-                                                      overflow: TextOverflow.ellipsis,
-                                                      maxLines: 1,
-                                                    ),
-                                            ],
-                                          ),
-                                        ],
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                       // const Spacer(),
+                                      SizedBox(width: 10.sp),
                                       Column(
                                         crossAxisAlignment: CrossAxisAlignment.end,
                                         mainAxisAlignment: MainAxisAlignment.end,

@@ -40,6 +40,13 @@ Widget background(ThemeType themeType, SalonModel salon, SalonProfileProvider sa
     case ThemeType.GlamMinimalLight:
       return const DefaultImageBG(image: ThemeImages.minimalBackground);
 
+    case ThemeType.GlamLight:
+      return (salonProfileProvider.themeSettings?.backgroundImage != null && salonProfileProvider.themeSettings?.backgroundImage != '')
+          ? BackgroundImageExists(
+              salonProfileProvider: salonProfileProvider,
+            )
+          : const DefaultImageBG(image: ThemeImages.glamLightNaturalHue);
+
     default:
       return (salonProfileProvider.themeSettings?.backgroundImage != null && salonProfileProvider.themeSettings?.backgroundImage != '')
           ? FilteredImage(
@@ -101,6 +108,22 @@ class FilteredAssetImage extends StatelessWidget {
     return ColorFiltered(
       colorFilter: ColorFilter.mode(Colors.black.withOpacity(opacity ?? 0.3), BlendMode.dstATop),
       child: Image.asset(image, fit: BoxFit.cover),
+    );
+  }
+}
+
+class BackgroundImageExists extends StatelessWidget {
+  const BackgroundImageExists({Key? key, required SalonProfileProvider salonProfileProvider})
+      : _salonProfileProvider = salonProfileProvider,
+        super(key: key);
+
+  final SalonProfileProvider _salonProfileProvider;
+
+  @override
+  Widget build(BuildContext context) {
+    return CachedImage(
+      url: _salonProfileProvider.themeSettings!.backgroundImage!,
+      fit: BoxFit.cover,
     );
   }
 }

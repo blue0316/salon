@@ -131,6 +131,20 @@ Widget getThemeButton(context, ThemeType themeType) {
     case ThemeType.Barbershop:
       return squareButton;
 
+    case ThemeType.GlamLight:
+      return SquareButton(
+        borderColor: Colors.transparent,
+        buttonColor: const Color(0XFF687830),
+        width: 180.sp,
+        text: (AppLocalizations.of(context)?.bookNow ?? "Book Now"),
+        weight: FontWeight.normal,
+        textColor: const Color(0XFFFFFFFF),
+        height: 47.h,
+        showSuffix: false,
+        borderRadius: 3,
+        onTap: () => const BookingDialogWidget222().show(context),
+      );
+
     case ThemeType.GlamMinimalLight:
       return SquareButton(
         borderColor: Colors.transparent,
@@ -184,14 +198,24 @@ class GlamOneWrap extends ConsumerWidget {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
+    ThemeType themeType = _salonProfileProvider.themeType;
+
     return FittedBox(
       child: Container(
-        decoration: BoxDecoration(
-          border: showBorder ? Border.all(color: Colors.white, width: 1) : null,
-          color: color,
-        ),
+        decoration: (themeType != ThemeType.GlamLight)
+            ? BoxDecoration(
+                border: showBorder ? Border.all(color: Colors.white, width: 1) : null,
+                color: color,
+              )
+            : ShapeDecoration(
+                color: Colors.black.withOpacity(0.15000000596046448),
+                shape: RoundedRectangleBorder(
+                  side: const BorderSide(width: 1, color: Color(0xFFA5A5A5)),
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30.sp, vertical: vSpacing ?? 13.sp),
+          padding: EdgeInsets.symmetric(horizontal: 30.sp, vertical: (themeType == ThemeType.GlamLight) ? 10.sp : vSpacing ?? 13.sp),
           child: Center(
             child: Text(
               text.toTitleCase(),
