@@ -788,7 +788,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                               child: Text(
                                                                 _createAppointmentProvider.allAppointments[selectedMaster?.masterId]![index],
                                                                 style: theme.textTheme.bodyLarge?.copyWith(
-                                                                  color: theme.colorScheme.tertiary,
+                                                                  color: isLightTheme ? Colors.white : theme.colorScheme.tertiary,
                                                                   fontFamily: 'Inter-Medium',
                                                                 ),
                                                               ),

@@ -909,7 +909,7 @@ class CreateAppointmentProvider with ChangeNotifier {
           //   priceAndDuration[master.masterId]!.isFixedPrice=true;
           //
           // }
-          print('total price? $totalPrice');
+          debugPrint('total price? $totalPrice');
         }
       }
       //    print('total max price? $totalMaxPrice');
