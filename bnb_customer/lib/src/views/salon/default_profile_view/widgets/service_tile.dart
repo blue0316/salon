@@ -88,7 +88,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                           fontWeight: FontWeight.w600,
                           fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
                           color: isLightTheme ? Colors.black : Colors.white,
-                          fontFamily: "Inter",
+                          fontFamily: "Inter-Light",
                         ),
                       ),
                     ],
@@ -107,7 +107,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                         style: theme.textTheme.titleSmall!.copyWith(
                           fontSize: DeviceConstraints.getResponsiveSize(context, 13.sp, 13.sp, 15.sp),
                           color: theme.primaryColor,
-                          fontFamily: "Inter",
+                          fontFamily: "Inter-Light",
                         ),
                       ),
                     ),
@@ -186,10 +186,10 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
                                                 color: isLightTheme ? Colors.black : Colors.white,
-                                                fontFamily: "Inter",
+                                                fontFamily: "Inter-Light",
                                               ),
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 2,
+                                              // overflow: TextOverflow.ellipsis,
+                                              // maxLines: 3,
                                             ),
                                             SizedBox(height: 10.sp),
 
@@ -209,7 +209,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                     ),
                                                   ),
                                                 ),
-                                                SizedBox(width: 15.sp),
+                                                SizedBox(width: 10.sp),
                                                 service.isFixedDuration != null
                                                     ? service.isFixedDuration
                                                         ? Text(
@@ -218,7 +218,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                               fontSize: 15.sp,
                                                               fontWeight: FontWeight.w500,
                                                               color: !isLightTheme ? const Color(0XFF908D8D) : const Color(0XFF6C6C6C),
-                                                              fontFamily: "Inter",
+                                                              fontFamily: "Inter-Light",
                                                             ),
                                                             overflow: TextOverflow.ellipsis,
                                                             maxLines: 1,
@@ -229,7 +229,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                               fontSize: 15.sp,
                                                               fontWeight: FontWeight.w500,
                                                               color: !isLightTheme ? const Color(0XFF908D8D) : const Color(0XFF6C6C6C),
-                                                              fontFamily: "Inter",
+                                                              fontFamily: "Inter-Light",
                                                             ),
                                                             overflow: TextOverflow.ellipsis,
                                                             maxLines: 1,
@@ -240,7 +240,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                           fontSize: 15.sp,
                                                           fontWeight: FontWeight.w500,
                                                           color: !isLightTheme ? const Color(0XFF908D8D) : const Color(0XFF6C6C6C),
-                                                          fontFamily: "Inter",
+                                                          fontFamily: "Inter-Light",
                                                         ),
                                                         overflow: TextOverflow.ellipsis,
                                                         maxLines: 1,
@@ -251,7 +251,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                         ),
                                       ),
                                       // const Spacer(),
-                                      SizedBox(width: 10.sp),
+                                      SizedBox(width: 25.sp),
                                       Column(
                                         crossAxisAlignment: CrossAxisAlignment.end,
                                         mainAxisAlignment: MainAxisAlignment.end,
@@ -267,7 +267,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                               fontWeight: FontWeight.w600,
                                               fontSize: 15.sp,
                                               color: isLightTheme ? Colors.black : Colors.white,
-                                              fontFamily: "Inter",
+                                              fontFamily: "Inter-Light",
                                             ),
                                             overflow: TextOverflow.visible,
                                             maxLines: 1,
@@ -289,7 +289,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                           fontWeight: FontWeight.normal,
                                                           fontSize: 15.sp,
                                                           color: Colors.white,
-                                                          fontFamily: "Inter",
+                                                          fontFamily: "Inter-Light",
                                                         ),
                                                       ),
                                                     ),
@@ -300,7 +300,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                   //   fontWeight: FontWeight.normal,
                                                   //   fontSize: 15.sp,
                                                   //   color: Colors.white,
-                                                  //   fontFamily: "Inter",
+                                                  //   fontFamily: "Inter-Light",
                                                   // ),
                                                   child: GestureDetector(
                                                     // onTap: () => showDialog<bool>(
@@ -368,7 +368,7 @@ class ShowServiceInfo extends StatelessWidget {
                       Translation.getServiceName(service: service, langCode: AppLocalizations.of(context)?.localeName ?? 'en'),
                       style: const TextStyle(
                         color: AppTheme.white3,
-                        fontFamily: "Inter",
+                        fontFamily: "Inter-Light",
                       ),
                     ),
                   ),
@@ -390,7 +390,7 @@ class ShowServiceInfo extends StatelessWidget {
                 style: const TextStyle(
                   color: AppTheme.white3,
                   fontWeight: FontWeight.w400,
-                  fontFamily: "Inter",
+                  fontFamily: "Inter-Light",
                 ),
               )
             ],
