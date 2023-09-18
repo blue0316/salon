@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'glam_light_shop.dart';
+import 'gentle_touch_shop.dart';
 import 'widgets/shop_card.dart';
 import 'widgets/tab_theme.dart';
 
@@ -47,7 +47,7 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
     ThemeType themeType = _salonProfileProvider.themeType;
 
     return (themeType == ThemeType.GlamLight)
-        ? const GlamLightShop()
+        ? const GentleTouchShop()
         : Padding(
             padding: EdgeInsets.only(
               left: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),

@@ -11,15 +11,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-class GlamLightWorksView extends ConsumerStatefulWidget {
+class GentleTouchWorksView extends ConsumerStatefulWidget {
   final SalonModel salonModel;
-  const GlamLightWorksView({Key? key, required this.salonModel}) : super(key: key);
+  const GentleTouchWorksView({Key? key, required this.salonModel}) : super(key: key);
 
   @override
-  ConsumerState<GlamLightWorksView> createState() => _GlamLightWorksViewState();
+  ConsumerState<GentleTouchWorksView> createState() => _GentleTouchWorksViewState();
 }
 
-class _GlamLightWorksViewState extends ConsumerState<GlamLightWorksView> {
+class _GentleTouchWorksViewState extends ConsumerState<GentleTouchWorksView> {
   // final CarouselController _controller = CarouselController();
 
   @override

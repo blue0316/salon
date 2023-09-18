@@ -22,19 +22,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:js' as js;
 
-class GlamLightNaturalHue extends ConsumerStatefulWidget {
-  static const route = '/glam-light-natural-hue';
+class GentleTouch extends ConsumerStatefulWidget {
+  static const route = '/gentle-touch';
   final bool showBooking;
 
   // final SalonModel salonModel;
 
-  const GlamLightNaturalHue({Key? key, this.showBooking = false}) : super(key: key);
+  const GentleTouch({Key? key, this.showBooking = false}) : super(key: key);
 
   @override
-  _GlamLightNaturalHueState createState() => _GlamLightNaturalHueState();
+  _GentleTouchState createState() => _GentleTouchState();
 }
 
-class _GlamLightNaturalHueState extends ConsumerState<GlamLightNaturalHue> {
+class _GentleTouchState extends ConsumerState<GentleTouch> {
   @override
   void initState() {
     super.initState();
@@ -105,17 +105,17 @@ class _GlamLightNaturalHueState extends ConsumerState<GlamLightNaturalHue> {
                     //     categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
                     //   ),
 
-                    // SHOP
-                    if (displaySettings?.product.showProduct == true) SizedBox.fromSize(size: Size.zero, key: controller.shop),
-                    if (displaySettings?.product.showProduct == true) const SalonShop(),
+                    // // SHOP
+                    // if (displaySettings?.product.showProduct == true) SizedBox.fromSize(size: Size.zero, key: controller.shop),
+                    // if (displaySettings?.product.showProduct == true) const SalonShop(),
 
-                    // // TEAM
-                    // if (displaySettings?.showTeam == true) SizedBox.fromSize(size: Size.zero, key: controller.team),
-                    // if (displaySettings?.showTeam == true)
-                    //   if (!_salonProfileProvider.isSingleMaster)
-                    //     SalonTeam(
-                    //       salonModel: chosenSalon,
-                    //     ),
+                    // TEAM
+                    if (displaySettings?.showTeam == true) SizedBox.fromSize(size: Size.zero, key: controller.team),
+                    if (displaySettings?.showTeam == true)
+                      if (!_salonProfileProvider.isSingleMaster)
+                        SalonTeam(
+                          salonModel: chosenSalon,
+                        ),
 
                     // // REVIEWS
                     // if (displaySettings?.reviews.showReviews == true) SizedBox.fromSize(size: Size.zero, key: controller.reviews),

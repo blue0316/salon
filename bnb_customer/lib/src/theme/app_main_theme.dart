@@ -126,50 +126,50 @@ class AppTheme {
   );
 
   static final TextStyle displayMedium = TextStyle(
-    fontFamily: "Poppins",
+    fontFamily: "Inter",
     fontSize: 18.sp,
     fontWeight: FontWeight.w600,
     color: Colors.white,
   );
 
   static final TextStyle titleSmall = TextStyle(
-    fontFamily: "Poppins",
+    fontFamily: "Inter-Light",
     fontSize: 16.sp,
     fontWeight: FontWeight.normal,
     color: Colors.black,
   );
 
   static final TextStyle headLine3 = TextStyle(
-    fontFamily: "Poppins",
+    fontFamily: "Inter-Light",
     fontSize: 18.sp,
     fontWeight: FontWeight.w600,
     color: lightBlack,
   );
   static final TextStyle headLine4 = TextStyle(
-    fontFamily: "Poppins",
+    fontFamily: "Inter-Light",
     fontSize: 16.sp,
     fontWeight: FontWeight.normal,
     color: lightGrey,
   );
   static final TextStyle headLine5 = TextStyle(
-    fontFamily: "Poppins",
+    fontFamily: "Inter-Light",
     fontSize: 16.sp,
     fontWeight: FontWeight.w300,
     color: lightGrey,
   );
   static final TextStyle bodyText1 = TextStyle(
-    fontFamily: "Poppins",
+    fontFamily: "Inter-Light",
     fontSize: 16.sp,
     fontWeight: FontWeight.w500,
   );
   static final TextStyle bodyText2 = TextStyle(
-    fontFamily: "Poppins",
+    fontFamily: "Inter-Light",
     fontSize: 14.sp,
     fontWeight: FontWeight.w400,
     color: lightGrey,
   );
   static final TextStyle subTitle1 = TextStyle(
-    fontFamily: "Poppins",
+    fontFamily: "Inter-Light",
     fontSize: 16.sp,
     fontWeight: FontWeight.w600,
     color: lightBlack,

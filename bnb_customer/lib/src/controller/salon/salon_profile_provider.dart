@@ -14,7 +14,7 @@ import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_profile.dart';
-import 'package:bbblient/src/views/themes/glam_light_natural_hue.dart';
+import 'package:bbblient/src/views/themes/gentle_touch_view.dart';
 import 'package:bbblient/src/views/themes/glam_one/glam_one.dart';
 import 'package:bbblient/src/views/themes/utils/theme_color.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
@@ -144,7 +144,7 @@ class SalonProfileProvider with ChangeNotifier {
           themeType = ThemeType.GlamLight;
 
           notifyListeners();
-          return GlamLightNaturalHue(showBooking: showBooking);
+          return GentleTouch(showBooking: showBooking);
 
         case '7':
           salonTheme = getGlamMinimalLightTheme(themeSettings?.theme?.colorCode);
@@ -271,6 +271,13 @@ class SalonProfileProvider with ChangeNotifier {
 
     notifyListeners();
   }
+
+  bool isHovered = false;
+
+  setIsHovered(bool value) {
+    isHovered = value;
+    notifyListeners();
+  }
 }
 
 Set availableThemes = {
@@ -281,6 +288,7 @@ Set availableThemes = {
   '4', // Glam Gradient
   '5', // Barbershop
   '6', // Glam Light
+  '66', // Glam Light New Design
   '7', // Glam Minimal Light
   '8', // Glam Minimal Dark
 };

@@ -14,6 +14,7 @@ class SquareButton extends StatelessWidget {
   final double? borderRadius;
   final double? spaceBetweenButtonAndText, buttonWidth;
   final FontWeight? weight;
+  final double? vSpacing;
 
   const SquareButton({
     Key? key,
@@ -31,6 +32,7 @@ class SquareButton extends StatelessWidget {
     this.spaceBetweenButtonAndText,
     this.buttonWidth,
     this.weight,
+    this.vSpacing,
   }) : super(key: key);
 
   @override
@@ -48,7 +50,7 @@ class SquareButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(borderRadius ?? 0),
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+            padding: EdgeInsets.symmetric(vertical: vSpacing ?? 10, horizontal: 15),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -59,7 +61,7 @@ class SquareButton extends StatelessWidget {
                     fontSize: textSize ?? 18.sp,
                     fontWeight: weight ?? FontWeight.w600,
                     color: textColor,
-                    fontFamily: "Poppins",
+                    fontFamily: "Inter-Light",
                   ),
                 ),
                 if (showSuffix) SizedBox(width: spaceBetweenButtonAndText ?? 10),
