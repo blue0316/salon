@@ -44,7 +44,6 @@ class _GentleTouchWorksViewState extends ConsumerState<GentleTouchWorksView> {
           Text(
             (AppLocalizations.of(context)?.portfolio ?? 'portfolio').toUpperCase(),
             style: theme.textTheme.displayMedium?.copyWith(
-              color: theme.colorScheme.secondary,
               fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 60.sp),
             ),
           ),

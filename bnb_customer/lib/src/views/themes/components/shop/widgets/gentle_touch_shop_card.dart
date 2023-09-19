@@ -1,4 +1,5 @@
 import 'package:bbblient/src/views/themes/components/widgets/button.dart';
+import 'package:bbblient/src/views/themes/images.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
@@ -82,16 +83,21 @@ class _GentleTouchShopCardState extends ConsumerState<GentleTouchShopCard> {
                           url: '${widget.product.productImageUrlList![0]}',
                           fit: BoxFit.cover,
                         )
-                      : Center(
-                          child: Text(
-                            AppLocalizations.of(context)?.photoNA ?? 'Photo N/A',
-                            style: theme.textTheme.bodyLarge?.copyWith(
-                              color: Colors.black,
-                              fontSize: 20.sp,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
+                      : Image.asset(
+                          ThemeImages.noProduct,
+                          fit: BoxFit.cover,
                         ),
+
+                  // Center(
+                  //     child: Text(
+                  //       AppLocalizations.of(context)?.photoNA ?? 'Photo N/A',
+                  //       style: theme.textTheme.bodyLarge?.copyWith(
+                  //         color: Colors.black,
+                  //         fontSize: 20.sp,
+                  //         fontWeight: FontWeight.normal,
+                  //       ),
+                  //     ),
+                  //   ),
                 ),
               ),
               // SizedBox(height: 10.sp),

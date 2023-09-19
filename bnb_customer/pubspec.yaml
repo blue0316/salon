@@ -175,10 +175,10 @@ flutter:
     - family: Inter
       fonts:
         - asset: assets/fonts/Inter-Light.ttf
-        - asset: assets/fonts/Inter-Medium.ttf
-        - asset: assets/fonts/Inter-Regular.ttf
-        - asset: assets/fonts/Inter-SemiBold.ttf    
-        - asset: assets/fonts/Inter-Bold.ttf    
+        # - asset: assets/fonts/Inter-Medium.ttf
+        # - asset: assets/fonts/Inter-Regular.ttf
+        # - asset: assets/fonts/Inter-SemiBold.ttf    
+        # - asset: assets/fonts/Inter-Bold.ttf    
     - family: UNDERRATED
       fonts:
         - asset: assets/fonts/UNDERRATED.otf

@@ -122,18 +122,6 @@ class SalonTeam extends ConsumerWidget {
                 ),
               ),
             ),
-
-            // Section Divider
-
-            if (themeType == ThemeType.GlamLight)
-              Space(
-                factor: DeviceConstraints.getResponsiveSize(context, 4, 5, 9),
-              ),
-            if (themeType == ThemeType.GlamLight)
-              const Divider(
-                color: Colors.black,
-                thickness: 1,
-              ),
           ],
         ),
       ),

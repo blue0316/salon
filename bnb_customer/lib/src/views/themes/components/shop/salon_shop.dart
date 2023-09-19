@@ -209,21 +209,6 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
                         ),
                       ),
                     ),
-
-                    // Section Divider
-
-                    if (themeType == ThemeType.GlamLight)
-                      Space(
-                        factor: DeviceConstraints.getResponsiveSize(context, 3, 4, 6),
-                      ),
-
-                    if (themeType == ThemeType.GlamLight)
-                      const Divider(
-                        color: Colors.black,
-                        thickness: 1,
-                      ),
-
-                    // SizedBox(height: 30.h),
                   ],
                 ),
               ),

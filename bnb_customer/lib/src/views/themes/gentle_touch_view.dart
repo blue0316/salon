@@ -15,6 +15,7 @@ import 'package:bbblient/src/views/themes/components/shop/salon_shop.dart';
 import 'package:bbblient/src/views/themes/components/salon_sponsors.dart';
 import 'package:bbblient/src/views/themes/components/salon_tags.dart';
 import 'package:bbblient/src/views/themes/components/salon_team.dart';
+import 'package:bbblient/src/views/themes/components/team/gentle_touch_team.dart';
 import 'package:bbblient/src/views/themes/components/works/salon_works.dart';
 import 'package:bbblient/src/views/themes/components/write_to_us/write_to_us.dart';
 import 'package:flutter/material.dart';
@@ -113,13 +114,13 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
                     if (displaySettings?.showTeam == true) SizedBox.fromSize(size: Size.zero, key: controller.team),
                     if (displaySettings?.showTeam == true)
                       if (!_salonProfileProvider.isSingleMaster)
-                        SalonTeam(
+                        GentleTouchTeam(
                           salonModel: chosenSalon,
                         ),
 
-                    // // REVIEWS
-                    // if (displaySettings?.reviews.showReviews == true) SizedBox.fromSize(size: Size.zero, key: controller.reviews),
-                    // if (displaySettings?.reviews.showReviews == true) SalonReviews(salonModel: chosenSalon),
+                    // REVIEWS
+                    if (displaySettings?.reviews.showReviews == true) SizedBox.fromSize(size: Size.zero, key: controller.reviews),
+                    if (displaySettings?.reviews.showReviews == true) SalonReviews(salonModel: chosenSalon),
 
                     // // WRITE TO US
                     // if (displaySettings?.showRequestForm == true) SizedBox.fromSize(size: Size.zero, key: controller.writeToUs),

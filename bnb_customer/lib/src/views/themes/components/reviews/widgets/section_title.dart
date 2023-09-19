@@ -7,7 +7,6 @@ import 'package:bbblient/src/views/themes/glam_one/core/utils/prev_and_next.dart
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

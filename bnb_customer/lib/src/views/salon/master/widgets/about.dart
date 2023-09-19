@@ -1,9 +1,8 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
-import 'package:bbblient/src/utils/icons.dart';
+import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/utils/utils.dart';
-import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,29 +32,32 @@ class _MasterAboutHeaderLandscapeState extends ConsumerState<MasterAboutHeaderLa
           flex: 1,
           child: Container(
             height: widget.masterModel.profilePicUrl!.isNotEmpty ? null : 250.h,
-            decoration: BoxDecoration(
-              color: widget.masterModel.profilePicUrl!.isNotEmpty ? null : theme.primaryColor,
-            ),
-            child: Container(
-              height: 300.sp,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                // border: !isLightTheme ? Border.all(color: Colors.white, width: 1) : null,
-                color: widget.masterModel.profilePicUrl!.isNotEmpty ? null : theme.primaryColor,
-              ),
-              child: SizedBox(
-                height: 300.sp,
-                width: double.infinity,
-                child: (widget.masterModel.profilePicUrl!.isNotEmpty)
-                    ? CachedImage(
-                        url: widget.masterModel.profilePicUrl!,
-                      )
-                    : Image.asset(
-                        AppIcons.masterDefaultAvtar,
-                        fit: BoxFit.cover,
+            decoration: (widget.masterModel.profilePicUrl != null && widget.masterModel.profilePicUrl != '')
+                ? BoxDecoration(
+                    image: DecorationImage(
+                    image: NetworkImage(widget.masterModel.profilePicUrl!),
+                    fit: BoxFit.cover,
+                  ))
+                : BoxDecoration(
+                    color: isLightTheme
+                        ? const Color(0XFF1A1A1A).withOpacity(0.6)
+                        : const Color(
+                            0XFF3D3D3D,
+                          ),
+                  ),
+            child: !(widget.masterModel.profilePicUrl != null && widget.masterModel.profilePicUrl != '')
+                ? Center(
+                    child: Text(
+                      (Utils().getNameMaster(_createAppointmentProvider.chosenMaster?.personalInfo)).initials,
+                      style: theme.textTheme.titleMedium!.copyWith(
+                        fontSize: 25.sp,
+                        fontWeight: FontWeight.w500,
+                        color: isLightTheme ? Colors.black : Colors.white,
+                        fontFamily: 'Inter-Light',
                       ),
-              ),
-            ),
+                    ),
+                  )
+                : null,
           ),
         ),
         const SizedBox(width: 35),
@@ -75,6 +77,7 @@ class _MasterAboutHeaderLandscapeState extends ConsumerState<MasterAboutHeaderLa
                       fontWeight: FontWeight.bold,
                       fontSize: 20.sp,
                       color: isLightTheme ? Colors.black : Colors.white,
+                      fontFamily: 'Inter-Light',
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -87,6 +90,7 @@ class _MasterAboutHeaderLandscapeState extends ConsumerState<MasterAboutHeaderLa
                       fontWeight: FontWeight.w300,
                       fontSize: 15.sp,
                       color: isLightTheme ? Colors.black : Colors.white,
+                      fontFamily: 'Inter-Light',
                     ),
                   ),
                 ],
@@ -99,6 +103,7 @@ class _MasterAboutHeaderLandscapeState extends ConsumerState<MasterAboutHeaderLa
                   fontWeight: FontWeight.normal,
                   fontSize: 15.sp,
                   color: isLightTheme ? Colors.black : const Color(0XFFB1B1B1),
+                  fontFamily: 'Inter-Light',
                 ),
                 // maxLines: 8,
                 // overflow: TextOverflow.ellipsis,
@@ -146,6 +151,7 @@ class _MasterAboutHeaderPortraitState extends ConsumerState<MasterAboutHeaderPor
                 fontWeight: FontWeight.bold,
                 fontSize: 20.sp,
                 color: isLightTheme ? Colors.black : Colors.white,
+                fontFamily: 'Inter-Light',
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -157,6 +163,7 @@ class _MasterAboutHeaderPortraitState extends ConsumerState<MasterAboutHeaderPor
                 fontWeight: FontWeight.w300,
                 fontSize: 15.sp,
                 color: isLightTheme ? Colors.black : Colors.white,
+                fontFamily: 'Inter-Light',
               ),
             ),
           ],
@@ -165,22 +172,32 @@ class _MasterAboutHeaderPortraitState extends ConsumerState<MasterAboutHeaderPor
         Container(
           height: 300.h,
           width: double.infinity,
-          decoration: BoxDecoration(
-            // border: !isLightTheme ? Border.all(color: Colors.white, width: 1) : null,
-            color: widget.masterModel.profilePicUrl!.isNotEmpty ? null : theme.primaryColor,
-          ),
-          child: SizedBox(
-            height: 300.h,
-            width: double.infinity,
-            child: (widget.masterModel.profilePicUrl!.isNotEmpty)
-                ? CachedImage(
-                    url: widget.masterModel.profilePicUrl!,
-                  )
-                : Image.asset(
-                    AppIcons.masterDefaultAvtar,
-                    fit: BoxFit.cover,
+          decoration: (widget.masterModel.profilePicUrl != null && widget.masterModel.profilePicUrl != '')
+              ? BoxDecoration(
+                  image: DecorationImage(
+                  image: NetworkImage(widget.masterModel.profilePicUrl!),
+                  fit: BoxFit.cover,
+                ))
+              : BoxDecoration(
+                  color: isLightTheme
+                      ? const Color(0XFF1A1A1A).withOpacity(0.6)
+                      : const Color(
+                          0XFF3D3D3D,
+                        ),
+                ),
+          child: !(widget.masterModel.profilePicUrl != null && widget.masterModel.profilePicUrl != '')
+              ? Center(
+                  child: Text(
+                    (Utils().getNameMaster(widget.masterModel.personalInfo)).initials,
+                    style: theme.textTheme.titleMedium!.copyWith(
+                      fontSize: 25.sp,
+                      fontWeight: FontWeight.w500,
+                      color: isLightTheme ? Colors.black : Colors.white,
+                      fontFamily: 'Inter-Light',
+                    ),
                   ),
-          ),
+                )
+              : null,
         ),
         SizedBox(height: 7.sp),
         Text(
@@ -189,6 +206,7 @@ class _MasterAboutHeaderPortraitState extends ConsumerState<MasterAboutHeaderPor
             fontWeight: FontWeight.normal,
             fontSize: 15.sp,
             color: isLightTheme ? Colors.black : const Color(0XFFB1B1B1),
+            fontFamily: 'Inter-Light',
           ),
           maxLines: 8,
           overflow: TextOverflow.ellipsis,

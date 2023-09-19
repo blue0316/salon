@@ -63,4 +63,8 @@ class ThemeImages {
   static const writeAboutBG = 'assets/themes/glam_one/images/minimal_write.png';
 
   static const noPhotos = 'assets/themes/glam_one/images/no_works.png';
+
+  static const noTeamMember = 'assets/themes/glam_one/images/empty_team_member.png';
+
+  static const noProduct = 'assets/themes/glam_one/images/empty_product.png';
 }
