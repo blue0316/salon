@@ -168,12 +168,14 @@ class SocialIcon2 extends ConsumerWidget {
   final IconData icon;
   final String type;
   final String? socialUrl;
+  final Color? color;
 
   const SocialIcon2({
     Key? key,
     required this.icon,
     required this.type,
     this.socialUrl,
+    this.color,
   }) : super(key: key);
 
   @override
@@ -199,7 +201,7 @@ class SocialIcon2 extends ConsumerWidget {
           child: FaIcon(
             icon,
             size: 25.h,
-            color: theme.primaryColor,
+            color: color ?? theme.primaryColor,
           ),
         ),
       ),
@@ -211,9 +213,11 @@ class SocialLink extends ConsumerWidget {
   final String icon;
   final String type;
   final String? socialUrl;
+  final Color? color;
 
   const SocialLink({
     Key? key,
+    this.color,
     required this.icon,
     required this.type,
     required this.socialUrl,
@@ -248,18 +252,22 @@ class SocialLink extends ConsumerWidget {
                 ? FaIcon(
                     FontAwesomeIcons.globe,
                     size: 30.h,
-                    color: theme.primaryColor,
+                    color: color ?? theme.primaryColor,
                   )
                 : (icon == AppIcons.linkInstaDark2)
                     ? FaIcon(
                         FontAwesomeIcons.instagram,
                         size: 30.h,
-                        color: theme.primaryColor,
+                        color: color ?? theme.primaryColor,
                       )
                     : SvgPicture.asset(
                         icon,
                         height: 30.h,
-                        color: isLightTheme ? null : theme.primaryColor,
+                        color: (color != null)
+                            ? color
+                            : isLightTheme
+                                ? null
+                                : theme.primaryColor,
                       ),
           ),
         ),
@@ -272,12 +280,14 @@ class SocialLink2 extends ConsumerWidget {
   final String icon;
   final String type;
   final String? socialUrl;
+  final Color? color;
 
   const SocialLink2({
     Key? key,
     required this.icon,
     required this.type,
     required this.socialUrl,
+    this.color,
   }) : super(key: key);
 
   @override
@@ -298,24 +308,24 @@ class SocialLink2 extends ConsumerWidget {
         }
       },
       child: Padding(
-        padding: EdgeInsets.only(right: 15.sp),
+        padding: EdgeInsets.only(right: 10.sp),
         child: Center(
           child: (icon == AppIcons.linkGlobeDark)
               ? FaIcon(
                   FontAwesomeIcons.globe,
                   size: 25.h,
-                  color: theme.primaryColor,
+                  color: color ?? theme.primaryColor,
                 )
               : (icon == AppIcons.linkInstaDark2)
                   ? FaIcon(
                       FontAwesomeIcons.instagram,
                       size: 25.h,
-                      color: theme.primaryColor,
+                      color: color ?? theme.primaryColor,
                     )
                   : SvgPicture.asset(
                       icon,
                       height: 25.h,
-                      color: theme.primaryColor,
+                      color: color ?? theme.primaryColor,
                     ),
         ),
       ),

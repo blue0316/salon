@@ -123,7 +123,7 @@ class CustomTextFormField extends ConsumerWidget {
         return TextStyle(
           color: ColorConstant.blueGray900,
           fontSize: 14,
-          fontFamily: 'Poppins',
+          fontFamily: 'Inter-Light',
           fontWeight: FontWeight.w500,
         );
     }

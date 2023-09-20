@@ -75,21 +75,22 @@ class GlamLightTheme {
 
     inputDecorationTheme: InputDecorationTheme(
       labelStyle: bodyText1.copyWith(color: Colors.black),
+      fillColor: const Color(0xFFF0E8DB),
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(50),
-        borderSide: const BorderSide(color: Colors.black, width: 1),
+        borderRadius: BorderRadius.circular(5),
+        borderSide: const BorderSide(color: Color(0xFFD9D9D9), width: 1),
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(50),
-        borderSide: const BorderSide(color: Colors.black, width: 1),
+        borderRadius: BorderRadius.circular(5),
+        borderSide: const BorderSide(color: Color(0xFFD9D9D9), width: 1),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(50),
-        borderSide: const BorderSide(color: Colors.black, width: 1),
+        borderRadius: BorderRadius.circular(5),
+        borderSide: const BorderSide(color: Color(0xFFD9D9D9), width: 1),
       ),
-      hintStyle: bodyText1.copyWith(color: Colors.black),
+      hintStyle: bodyText1.copyWith(color: const Color(0xFF535353)),
     ),
-    hintColor: Colors.black,
+    hintColor: const Color(0xFF535353),
     unselectedWidgetColor: Colors.grey[700], // Color for not valid time slot container
     highlightColor: primaryColor1,
     // Stop

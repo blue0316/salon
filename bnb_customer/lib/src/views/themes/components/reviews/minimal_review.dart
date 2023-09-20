@@ -41,7 +41,7 @@ class _MinimalReviewViewState extends ConsumerState<MinimalReviewView> {
       padding: EdgeInsets.only(
         left: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
         right: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
-        top: DeviceConstraints.getResponsiveSize(context, 140.h, 180.h, 200.h),
+        top: DeviceConstraints.getResponsiveSize(context, 50.h, 80.h, 100.h),
         // bottom: DeviceConstraints.getResponsiveSize(context, 140.h, 180.h, 200.h),
       ),
       child: Column(

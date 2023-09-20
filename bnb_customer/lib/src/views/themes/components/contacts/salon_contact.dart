@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'default_view.dart';
+import 'gentle_touch_contact.dart';
 
 class SalonContact extends ConsumerStatefulWidget {
   final SalonModel salonModel;
@@ -42,26 +43,28 @@ class _SalonContactState extends ConsumerState<SalonContact> with SingleTickerPr
 
     ThemeType themeType = _salonProfileProvider.themeType;
 
-    return Container(
-      decoration: themeType == ThemeType.Barbershop
-          ? BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(
-                  isPortrait ? ThemeImages.footerLongGradientBG : ThemeImages.footerGradientBG,
-                ),
-                fit: BoxFit.cover,
+    return (themeType == ThemeType.GlamLight)
+        ? GentleTouchContactView(salonModel: widget.salonModel)
+        : Container(
+            decoration: themeType == ThemeType.Barbershop
+                ? BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(
+                        isPortrait ? ThemeImages.footerLongGradientBG : ThemeImages.footerGradientBG,
+                      ),
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                : null,
+            child: Padding(
+              padding: EdgeInsets.only(
+                left: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
+                right: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
+                top: DeviceConstraints.getResponsiveSize(context, 100.h, 120.h, 140.h), // 120,
+                bottom: 100, // DeviceConstraints.getResponsiveSize(context, 100.h, 120.h, 140.h), // 120,
               ),
-            )
-          : null,
-      child: Padding(
-        padding: EdgeInsets.only(
-          left: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
-          right: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
-          top: DeviceConstraints.getResponsiveSize(context, 100.h, 120.h, 140.h), // 120,
-          bottom: 100, // DeviceConstraints.getResponsiveSize(context, 100.h, 120.h, 140.h), // 120,
-        ),
-        child: ContactDefaultView(salonModel: widget.salonModel),
-      ),
-    );
+              child: ContactDefaultView(salonModel: widget.salonModel),
+            ),
+          );
   }
 }

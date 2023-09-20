@@ -55,6 +55,7 @@ class SalonProfileProvider with ChangeNotifier {
   Status enquiryStatus = Status.init;
 
   final TextEditingController nameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
   final TextEditingController requestController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -132,12 +133,12 @@ class SalonProfileProvider with ChangeNotifier {
           notifyListeners();
           break;
 
-        case '6':
-          salonTheme = getGlamLightTheme(themeSettings?.theme?.colorCode);
-          themeType = ThemeType.GlamLight;
+        // case '6':
+        //   salonTheme = getGlamLightTheme(themeSettings?.theme?.colorCode);
+        //   themeType = ThemeType.GlamLight;
 
-          notifyListeners();
-          break;
+        //   notifyListeners();
+        //   break;
 
         case '66':
           salonTheme = getGlamLightTheme(themeSettings?.theme?.colorCode);
@@ -207,6 +208,7 @@ class SalonProfileProvider with ChangeNotifier {
     try {
       EnquiryModel _newEnquiry = EnquiryModel(
         customerName: nameController.text,
+        lastName: lastNameController.text,
         customerPhone: phoneController.text,
         customerRequest: requestController.text,
         salonId: salonId,

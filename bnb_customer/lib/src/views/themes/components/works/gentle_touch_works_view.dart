@@ -63,6 +63,7 @@ class _GentleTouchWorksViewState extends ConsumerState<GentleTouchWorksView> {
                             child: Tile(
                               index: 1,
                               image: widget.salonModel.photosOfWorks![0].image!,
+                              description: widget.salonModel.photosOfWorks![0].description ?? '',
                             ),
                           ),
                         if (widget.salonModel.photosOfWorks!.length >= 2)
@@ -72,6 +73,7 @@ class _GentleTouchWorksViewState extends ConsumerState<GentleTouchWorksView> {
                             child: Tile(
                               index: 2,
                               image: widget.salonModel.photosOfWorks![1].image!,
+                              description: widget.salonModel.photosOfWorks![1].description ?? '',
                             ),
                           ),
                         if (widget.salonModel.photosOfWorks!.length >= 4)
@@ -81,6 +83,7 @@ class _GentleTouchWorksViewState extends ConsumerState<GentleTouchWorksView> {
                             child: Tile(
                               index: 4,
                               image: widget.salonModel.photosOfWorks![3].image!,
+                              description: widget.salonModel.photosOfWorks![3].description ?? '',
                             ),
                           ),
                         if (widget.salonModel.photosOfWorks!.length >= 3)
@@ -90,6 +93,7 @@ class _GentleTouchWorksViewState extends ConsumerState<GentleTouchWorksView> {
                             child: Tile(
                               index: 3,
                               image: widget.salonModel.photosOfWorks![2].image!,
+                              description: widget.salonModel.photosOfWorks![2].description ?? '',
                             ),
                           ),
                         if (widget.salonModel.photosOfWorks!.length >= 5)
@@ -99,6 +103,7 @@ class _GentleTouchWorksViewState extends ConsumerState<GentleTouchWorksView> {
                             child: Tile(
                               index: 6,
                               image: widget.salonModel.photosOfWorks![4].image!,
+                              description: widget.salonModel.photosOfWorks![4].description ?? '',
                             ),
                           ),
                         if (widget.salonModel.photosOfWorks!.length > 5)
@@ -108,6 +113,7 @@ class _GentleTouchWorksViewState extends ConsumerState<GentleTouchWorksView> {
                             child: Tile(
                               index: 5,
                               image: widget.salonModel.photosOfWorks![5].image!,
+                              description: widget.salonModel.photosOfWorks![5].description ?? '',
                             ),
                           ),
                       ],
@@ -134,7 +140,7 @@ class _GentleTouchWorksViewState extends ConsumerState<GentleTouchWorksView> {
   }
 }
 
-class Tile extends StatelessWidget {
+class Tile extends ConsumerStatefulWidget {
   const Tile({
     Key? key,
     required this.index,
@@ -142,6 +148,7 @@ class Tile extends StatelessWidget {
     this.extent,
     this.backgroundColor,
     this.bottomSpace,
+    required this.description,
   }) : super(key: key);
 
   final int index;
@@ -149,9 +156,23 @@ class Tile extends StatelessWidget {
   final double? extent;
   final double? bottomSpace;
   final Color? backgroundColor;
+  final String description;
+
+  @override
+  ConsumerState<Tile> createState() => _TileState();
+}
+
+class _TileState extends ConsumerState<Tile> {
+  bool isHovered = false;
+
+  void onEntered(bool isHovered) => setState(() {
+        this.isHovered = isHovered;
+      });
 
   @override
   Widget build(BuildContext context) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
     // final child = Container(
     //   color: backgroundColor ?? Colors.blue,
     //   height: extent,
@@ -166,27 +187,53 @@ class Tile extends StatelessWidget {
     //   ),
     // );
 
-    final child = GestureDetector(
-      onTap: () {
-        debugPrint(index.toString());
-      },
-      child: SizedBox(
-        // color: backgroundColor ?? Colors.blue,
-        height: extent,
-        child: CachedImage(
-          url: image,
-          // width: double.infinity,
-          fit: BoxFit.cover,
+    final child = MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (event) => onEntered(true),
+      onExit: (event) => onEntered(false),
+      child: GestureDetector(
+        onTap: () {
+          debugPrint(widget.index.toString());
+        },
+        child: SizedBox(
+          // color: backgroundColor ?? Colors.blue,
+          height: widget.extent,
+          child: Column(
+            children: [
+              Expanded(
+                flex: 1,
+                child: CachedImage(
+                  url: widget.image,
+                  fit: BoxFit.cover,
+                  width: MediaQuery.of(context).size.width / 3,
+                ),
+              ),
+              if (isHovered && widget.description.isNotEmpty)
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                  child: Text(
+                    widget.description,
+                    style: theme.textTheme.bodyLarge?.copyWith(
+                      color: theme.primaryColorDark,
+                      fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 14.sp, 14.sp),
+                      fontWeight: FontWeight.normal,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+            ],
+          ),
+          // Image.asset(
+          //   image,
+          //   fit: BoxFit.cover,
+          //   width: double.infinity,
+          // ),
         ),
-        // Image.asset(
-        //   image,
-        //   fit: BoxFit.cover,
-        //   width: double.infinity,
-        // ),
       ),
     );
 
-    if (bottomSpace == null) {
+    if (widget.bottomSpace == null) {
       return child;
     }
 
@@ -194,7 +241,7 @@ class Tile extends StatelessWidget {
       children: [
         Expanded(child: child),
         Container(
-          height: bottomSpace,
+          height: widget.bottomSpace,
           color: Colors.green,
         )
       ],

@@ -19,31 +19,24 @@ class ContactDefaultView extends ConsumerWidget {
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
-
-    final _bnbProvider = ref.watch(bnbProvider);
     final bool isSingleMaster = _salonProfileProvider.isSingleMaster;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        GestureDetector(
-          onTap: () {
-            _bnbProvider.changeLocale(locale: const Locale('uk'));
-          },
-          child: Text(
-            isSingleMaster
-                ? (AppLocalizations.of(context)?.contacts ?? 'Contacts')
-                : (AppLocalizations.of(
-                          context,
-                        )?.contactUs ??
-                        'Contact Us')
-                    .toUpperCase(),
-            style: theme.textTheme.displayMedium!.copyWith(
-              fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 60.sp),
-            ),
-            textAlign: TextAlign.center,
+        Text(
+          isSingleMaster
+              ? (AppLocalizations.of(context)?.contacts ?? 'Contacts')
+              : (AppLocalizations.of(
+                        context,
+                      )?.contactUs ??
+                      'Contact Us')
+                  .toUpperCase(),
+          style: theme.textTheme.displayMedium!.copyWith(
+            fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 60.sp),
           ),
+          textAlign: TextAlign.center,
         ),
         const SizedBox(height: 50),
         SizedBox(

@@ -15,7 +15,7 @@ double getThemeHeaderHeight(context, ThemeType themeType) {
     case ThemeType.Barbershop:
       return DeviceConstraints.getResponsiveSize(context, 900.h, 900.h, 900.h);
     case ThemeType.GlamLight:
-      return DeviceConstraints.getResponsiveSize(context, 900.h, 900.h, 900.h);
+      return DeviceConstraints.getResponsiveSize(context, 830.h, 830.h, 830.h);
     case ThemeType.GlamMinimalDark:
       return DeviceConstraints.getResponsiveSize(context, 800.h, 800.h, 800.h);
     case ThemeType.GlamMinimalLight:

@@ -1,5 +1,6 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
+import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
@@ -23,6 +24,7 @@ class ThemeHeader extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+    final bool isTab = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab);
 
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
@@ -35,14 +37,17 @@ class ThemeHeader extends ConsumerWidget {
       children: [
         const SizedBox(height: 20),
         (masterModel == null)
-            ? Text(
-                (salonModel.salonName).toUpperCase(), //"Miami's Best",
-                style: theme.textTheme.displayLarge?.copyWith(
-                  letterSpacing: 0.5,
-                  fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 75.sp, 85.sp),
-                  color: titleHeaderColor(theme, themeType),
+            ? Padding(
+                padding: EdgeInsets.symmetric(horizontal: !isTab ? 15.w : 0),
+                child: Text(
+                  (salonModel.salonName).toUpperCase(),
+                  style: theme.textTheme.displayLarge?.copyWith(
+                    letterSpacing: 0.5,
+                    fontSize: DeviceConstraints.getResponsiveSize(context, (themeType == ThemeType.GlamLight) ? 70.sp : 50.sp, 75.sp, 85.sp),
+                    color: titleHeaderColor(theme, themeType),
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
               )
             : Text(
                 Utils().getNameMaster(masterModel?.personalInfo).toUpperCase(),

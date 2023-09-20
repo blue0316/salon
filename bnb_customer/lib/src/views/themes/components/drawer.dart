@@ -1,6 +1,10 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/utils/extensions/exstension.dart';
+import 'package:bbblient/src/views/salon/booking/dialog_flow/booking_dialog_2.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,6 +19,7 @@ class ThemeDrawer extends ConsumerWidget {
 
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
     final bool isSingleMaster = _salonProfileProvider.isSingleMaster;
@@ -24,7 +29,7 @@ class ThemeDrawer extends ConsumerWidget {
       child: Drawer(
         backgroundColor: theme.colorScheme.background,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: isPortrait ? 40.w : 20.w, vertical: 20.h),
+          padding: EdgeInsets.symmetric(horizontal: isPortrait ? 40.w : 10.w, vertical: 20.h),
           child: ListView(
             children: [
               IntrinsicHeight(
@@ -40,7 +45,7 @@ class ThemeDrawer extends ConsumerWidget {
                           onTap: () => Navigator.pop(context),
                           child: Icon(
                             Icons.close,
-                            color: Colors.white,
+                            color: (themeType == ThemeType.GlamLight) ? Colors.black : Colors.white,
                             size: 40.h,
                           ),
                         ),
@@ -171,6 +176,15 @@ class ThemeDrawer extends ConsumerWidget {
                         );
                       },
                     ),
+
+                    if (themeType == ThemeType.GlamLight)
+                      DrawerText(
+                        drawerText: (AppLocalizations.of(context)?.bookNow ?? "Book Now").toTitleCase(),
+                        onTap: () {
+                          Navigator.pop(context);
+                          const BookingDialogWidget222().show(context);
+                        },
+                      ),
                   ],
                 ),
               ),
@@ -198,6 +212,7 @@ class _DrawerTextState extends ConsumerState<DrawerText> {
   Widget build(BuildContext context) {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     Color textColor = isHovered ? theme.primaryColorDark : theme.primaryColor;
     return Expanded(
@@ -212,13 +227,27 @@ class _DrawerTextState extends ConsumerState<DrawerText> {
             padding: EdgeInsets.symmetric(
               vertical: DeviceConstraints.getResponsiveSize(context, 20.h, 15.h, 15.h),
             ),
-            child: Text(
-              widget.drawerText,
-              style: theme.textTheme.bodyLarge?.copyWith(
-                fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 25.sp, 35.sp),
-                letterSpacing: 0,
-                color: textColor,
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  widget.drawerText,
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 25.sp, 35.sp),
+                    letterSpacing: 0,
+                    color: textColor,
+                  ),
+                ),
+                if (themeType == ThemeType.GlamLight)
+                  const Padding(
+                    padding: EdgeInsets.only(top: 1),
+                    child: Divider(
+                      color: Color(0XFF9F9F9F),
+                      thickness: 1,
+                    ),
+                  ),
+              ],
             ),
           ),
         ),

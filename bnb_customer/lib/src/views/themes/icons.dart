@@ -29,4 +29,8 @@ class ThemeIcons {
   static const String minimalFacebook = 'assets/themes/glam_one/svg/glam_minimal_facebook.svg';
 
   static const String minimalInstagram = 'assets/themes/glam_one/svg/glam_minimal_instagram.svg';
+
+  static const String quote = 'assets/themes/glam_one/svg/review_quote.svg';
+
+  static const String quote2 = 'assets/themes/glam_one/svg/review_quote_2.svg';
 }

@@ -112,78 +112,145 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
 
     List<String> aFeatured = [...widget.additionalFeatures, ...widget.additionalFeatures, ...widget.additionalFeatures];
 
-    return Padding(
-      padding: const EdgeInsets.only(top: 20, bottom: 50),
-      //  RotationTransition(
-      // turns: AlwaysStoppedAnimation(themeType == ThemeType.GlamLight ? 3 / 360 : 0),
-      child: Column(
-        children: [
-          Divider(color: theme.dividerColor, thickness: 2),
-          SizedBox(
-            height: 35.h,
-            child: Center(
-              child: NotificationListener(
-                onNotification: (notif) {
-                  if (notif is ScrollEndNotification && scroll) {
-                    Timer(const Duration(seconds: 1), () {
-                      _scroll();
-                    });
-                  }
+    return (themeType == ThemeType.GlamLight)
+        ? Padding(
+            padding: EdgeInsets.only(
+              left: DeviceConstraints.getResponsiveSize(context, 10.w, 10.w, 30.w),
+              right: DeviceConstraints.getResponsiveSize(context, 10.w, 10.w, 30.w),
+              top: 100.h,
+              bottom: 50.h,
+            ),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Wrap(
+                direction: Axis.horizontal,
+                alignment: WrapAlignment.spaceBetween,
+                runAlignment: WrapAlignment.spaceBetween,
+                runSpacing: 15.sp,
+                children: widget.additionalFeatures
+                    .map(
+                      (item) => GentleTouchTagItem(
+                        title: (_bnbProvider.locale == const Locale('en'))
+                            ? getFeature(item)
+                            : (_bnbProvider.locale == const Locale('uk'))
+                                ? getFeatureUk(item)
+                                : item,
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
+          )
+        : Padding(
+            padding: const EdgeInsets.only(top: 20, bottom: 50),
+            //  RotationTransition(
+            // turns: AlwaysStoppedAnimation(themeType == ThemeType.GlamLight ? 3 / 360 : 0),
+            child: Column(
+              children: [
+                Divider(color: theme.dividerColor, thickness: 2),
+                SizedBox(
+                  height: 35.h,
+                  child: Center(
+                    child: NotificationListener(
+                      onNotification: (notif) {
+                        if (notif is ScrollEndNotification && scroll) {
+                          Timer(const Duration(seconds: 1), () {
+                            _scroll();
+                          });
+                        }
 
-                  return true;
-                },
-                child: Center(
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    controller: _scrollController,
-                    shrinkWrap: true,
-                    physics: const ClampingScrollPhysics(),
-                    children: [
-                      Center(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: aFeatured
-                              .map(
-                                (item) => Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                                      child: Text(
-                                        // TODO: HANDLE FOR OTHER LOCALIZATIONS
-                                        (_bnbProvider.locale == const Locale('en'))
-                                            ? getFeature(item)
-                                            : (_bnbProvider.locale == const Locale('uk'))
-                                                ? getFeatureUk(item)
-                                                : item,
-                                        //  convertLowerCamelCase(widget.additionalFeatures[item]),
-                                        style: theme.textTheme.bodyLarge?.copyWith(
-                                          color: theme.dividerColor,
-                                          fontSize: 18.sp,
-                                          fontFamily: 'Inter-Medium',
-                                        ),
+                        return true;
+                      },
+                      child: Center(
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          controller: _scrollController,
+                          shrinkWrap: true,
+                          physics: const ClampingScrollPhysics(),
+                          children: [
+                            Center(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: aFeatured
+                                    .map(
+                                      (item) => Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                                            child: Text(
+                                              // TODO: HANDLE FOR OTHER LOCALIZATIONS
+                                              (_bnbProvider.locale == const Locale('en'))
+                                                  ? getFeature(item)
+                                                  : (_bnbProvider.locale == const Locale('uk'))
+                                                      ? getFeatureUk(item)
+                                                      : item,
+                                              //  convertLowerCamelCase(widget.additionalFeatures[item]),
+                                              style: theme.textTheme.bodyLarge?.copyWith(
+                                                color: theme.dividerColor,
+                                                fontSize: 18.sp,
+                                                fontFamily: 'Inter-Medium',
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 8.h,
+                                            width: 8.h,
+                                            decoration: tagSeperator(themeType, theme),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                    Container(
-                                      height: 8.h,
-                                      width: 8.h,
-                                      decoration: tagSeperator(themeType, theme),
-                                    ),
-                                  ],
-                                ),
-                              )
-                              .toList(),
+                                    )
+                                    .toList(),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
+                    ),
                   ),
                 ),
+                Divider(color: theme.dividerColor, thickness: 2),
+              ],
+            ),
+          );
+  }
+}
+
+class GentleTouchTagItem extends ConsumerWidget {
+  final String title;
+
+  const GentleTouchTagItem({Key? key, required this.title}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
+    return SizedBox(
+      width: 350.h,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Icon(
+            Icons.check_rounded,
+            color: theme.colorScheme.secondary,
+            size: 30.sp,
+          ),
+          SizedBox(width: 10.sp),
+          SizedBox(
+            width: 250.h,
+            child: Text(
+              title.toUpperCase(),
+              style: theme.textTheme.bodyLarge?.copyWith(
+                fontSize: 20.sp,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ),
-          Divider(color: theme.dividerColor, thickness: 2),
         ],
       ),
     );

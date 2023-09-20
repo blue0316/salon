@@ -3,6 +3,9 @@ class EnquiryModel {
   // Customer name
   late String customerName;
 
+  // Customer Last name
+  late String lastName;
+
   // Customer phone
   late String customerPhone;
 
@@ -20,6 +23,7 @@ class EnquiryModel {
 
   EnquiryModel({
     required this.customerName,
+    required this.lastName,
     required this.customerPhone,
     required this.customerRequest,
     required this.salonId,
@@ -29,6 +33,7 @@ class EnquiryModel {
 
   EnquiryModel.fromJson(Map<String, dynamic> json) {
     customerName = json['customerName'];
+    lastName = json['lastName'];
     customerPhone = json['customerPhone'];
     customerRequest = json['customerRequest'];
     salonId = json['salonId'];
@@ -39,6 +44,7 @@ class EnquiryModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     data['customerName'] = customerName;
+    data['lastName'] = lastName;
     data['customerPhone'] = customerPhone;
     data['customerRequest'] = customerRequest;
     data['salonId'] = salonId;
