@@ -6,7 +6,6 @@ import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
-import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -76,7 +75,7 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
                       ? (AppLocalizations.of(context)?.price ?? 'Price')
                       : (AppLocalizations.of(context)?.ourPrice ?? 'Our Price').toUpperCase(),
               style: theme.textTheme.displayMedium?.copyWith(
-                fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 60.sp),
+                fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 50.sp, 60.sp),
               ),
             ),
             const SizedBox(height: 50),

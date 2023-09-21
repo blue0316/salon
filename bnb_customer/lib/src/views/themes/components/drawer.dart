@@ -1,14 +1,12 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
-import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
-import 'package:bbblient/src/utils/extensions/exstension.dart';
-import 'package:bbblient/src/views/salon/booking/dialog_flow/booking_dialog_2.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'gentle_touch_drawer.dart';
 
 class ThemeDrawer extends ConsumerWidget {
   const ThemeDrawer({Key? key}) : super(key: key);
@@ -28,168 +26,163 @@ class ThemeDrawer extends ConsumerWidget {
       width: MediaQuery.of(context).size.width,
       child: Drawer(
         backgroundColor: theme.colorScheme.background,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: isPortrait ? 40.w : 10.w, vertical: 20.h),
-          child: ListView(
-            children: [
-              IntrinsicHeight(
-                child: Column(
-                  crossAxisAlignment: isPortrait ? CrossAxisAlignment.start : CrossAxisAlignment.center,
-                  mainAxisAlignment: isPortrait ? MainAxisAlignment.start : MainAxisAlignment.center,
-                  children: [
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: MouseRegion(
-                        cursor: SystemMouseCursors.click,
-                        child: GestureDetector(
-                          onTap: () => Navigator.pop(context),
-                          child: Icon(
-                            Icons.close,
-                            color: (themeType == ThemeType.GlamLight) ? Colors.black : Colors.white,
-                            size: 40.h,
-                          ),
+        child: Container(
+          child: (themeType == ThemeType.GlamLight)
+              ? const GentleTouchDrawer()
+              : Padding(
+                  padding: EdgeInsets.symmetric(horizontal: isPortrait ? 40.w : 10.w, vertical: 20.h),
+                  child: ListView(
+                    children: [
+                      IntrinsicHeight(
+                        child: Column(
+                          crossAxisAlignment: isPortrait ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+                          mainAxisAlignment: isPortrait ? MainAxisAlignment.start : MainAxisAlignment.center,
+                          children: [
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: MouseRegion(
+                                cursor: SystemMouseCursors.click,
+                                child: GestureDetector(
+                                  onTap: () => Navigator.pop(context),
+                                  child: Icon(
+                                    Icons.close,
+                                    color: Colors.white,
+                                    size: 40.h,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 30.h),
+
+                            // PROMOTIONS
+                            DrawerText(
+                              drawerText: AppLocalizations.of(context)?.promotions ?? 'Promotions',
+                              onTap: () {
+                                Navigator.pop(context);
+                                Scrollable.ensureVisible(
+                                  controller.promotions.currentContext!,
+                                  duration: const Duration(seconds: 2),
+                                  curve: Curves.ease,
+                                );
+                              },
+                            ),
+
+                            // ABOUT US
+                            DrawerText(
+                              drawerText: isSingleMaster
+                                  ? (AppLocalizations.of(
+                                        context,
+                                      )?.aboutMe ??
+                                      'About Me')
+                                  : (AppLocalizations.of(context)?.aboutUs ?? 'About Us'),
+                              onTap: () {
+                                Navigator.pop(context);
+                                Scrollable.ensureVisible(
+                                  controller.about.currentContext!,
+                                  duration: const Duration(seconds: 2),
+                                  curve: Curves.ease,
+                                );
+                              },
+                            ),
+
+                            // OUR WORKS
+                            DrawerText(
+                              drawerText: (isSingleMaster
+                                  ? (AppLocalizations.of(
+                                        context,
+                                      )?.myWorks ??
+                                      'My Works')
+                                  : (AppLocalizations.of(context)?.ourWorks ?? 'Our Works')),
+                              onTap: () {
+                                Navigator.pop(context);
+                                Scrollable.ensureVisible(
+                                  controller.works.currentContext!,
+                                  duration: const Duration(seconds: 2),
+                                  curve: Curves.ease,
+                                );
+                              },
+                            ),
+
+                            // OUR PRICE
+                            DrawerText(
+                              drawerText: isSingleMaster
+                                  ? (AppLocalizations.of(
+                                        context,
+                                      )?.price ??
+                                      'Price')
+                                  : (AppLocalizations.of(context)?.ourPrice ?? 'Our Price'),
+                              onTap: () {
+                                Navigator.pop(context);
+                                Scrollable.ensureVisible(
+                                  controller.price.currentContext!,
+                                  duration: const Duration(seconds: 2),
+                                  curve: Curves.ease,
+                                );
+                              },
+                            ),
+
+                            // SHOP
+                            DrawerText(
+                              drawerText: (AppLocalizations.of(context)?.shop ?? 'Shop'),
+                              onTap: () {
+                                Navigator.pop(context);
+                                Scrollable.ensureVisible(
+                                  controller.shop.currentContext!,
+                                  duration: const Duration(seconds: 2),
+                                  curve: Curves.ease,
+                                );
+                              },
+                            ),
+
+                            // TEAM
+                            DrawerText(
+                              drawerText: AppLocalizations.of(context)?.ourTeam ?? 'Our Team',
+                              onTap: () {
+                                Navigator.pop(context);
+                                Scrollable.ensureVisible(
+                                  controller.team.currentContext!,
+                                  duration: const Duration(seconds: 2),
+                                  curve: Curves.ease,
+                                );
+                              },
+                            ),
+
+                            // REVIEWS
+                            DrawerText(
+                              drawerText: AppLocalizations.of(context)?.reviews ?? 'Reviews',
+                              onTap: () {
+                                Navigator.pop(context);
+                                Scrollable.ensureVisible(
+                                  controller.reviews.currentContext!,
+                                  duration: const Duration(seconds: 2),
+                                  curve: Curves.ease,
+                                );
+                              },
+                            ),
+
+                            // CONTACTS
+                            DrawerText(
+                              drawerText: isSingleMaster
+                                  ? (AppLocalizations.of(context)?.contacts ?? 'Contacts')
+                                  : (AppLocalizations.of(
+                                        context,
+                                      )?.contactUs ??
+                                      'Contact Us'),
+                              onTap: () {
+                                Navigator.pop(context);
+                                Scrollable.ensureVisible(
+                                  controller.contacts.currentContext!,
+                                  duration: const Duration(seconds: 2),
+                                  curve: Curves.ease,
+                                );
+                              },
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                    SizedBox(height: 30.h),
-
-                    // PROMOTIONS
-                    DrawerText(
-                      drawerText: AppLocalizations.of(context)?.promotions ?? 'Promotions',
-                      onTap: () {
-                        Navigator.pop(context);
-                        Scrollable.ensureVisible(
-                          controller.promotions.currentContext!,
-                          duration: const Duration(seconds: 2),
-                          curve: Curves.ease,
-                        );
-                      },
-                    ),
-
-                    // ABOUT US
-                    DrawerText(
-                      drawerText: isSingleMaster
-                          ? (AppLocalizations.of(
-                                context,
-                              )?.aboutMe ??
-                              'About Me')
-                          : (AppLocalizations.of(context)?.aboutUs ?? 'About Us'),
-                      onTap: () {
-                        Navigator.pop(context);
-                        Scrollable.ensureVisible(
-                          controller.about.currentContext!,
-                          duration: const Duration(seconds: 2),
-                          curve: Curves.ease,
-                        );
-                      },
-                    ),
-
-                    // OUR WORKS
-                    DrawerText(
-                      drawerText: (isSingleMaster
-                          ? (AppLocalizations.of(
-                                context,
-                              )?.myWorks ??
-                              'My Works')
-                          : (AppLocalizations.of(context)?.ourWorks ?? 'Our Works')),
-                      onTap: () {
-                        Navigator.pop(context);
-                        Scrollable.ensureVisible(
-                          controller.works.currentContext!,
-                          duration: const Duration(seconds: 2),
-                          curve: Curves.ease,
-                        );
-                      },
-                    ),
-
-                    // OUR PRICE
-                    DrawerText(
-                      drawerText: isSingleMaster
-                          ? (AppLocalizations.of(
-                                context,
-                              )?.price ??
-                              'Price')
-                          : (AppLocalizations.of(context)?.ourPrice ?? 'Our Price'),
-                      onTap: () {
-                        Navigator.pop(context);
-                        Scrollable.ensureVisible(
-                          controller.price.currentContext!,
-                          duration: const Duration(seconds: 2),
-                          curve: Curves.ease,
-                        );
-                      },
-                    ),
-
-                    // SHOP
-                    DrawerText(
-                      drawerText: (AppLocalizations.of(context)?.shop ?? 'Shop'),
-                      onTap: () {
-                        Navigator.pop(context);
-                        Scrollable.ensureVisible(
-                          controller.shop.currentContext!,
-                          duration: const Duration(seconds: 2),
-                          curve: Curves.ease,
-                        );
-                      },
-                    ),
-
-                    // TEAM
-                    DrawerText(
-                      drawerText: AppLocalizations.of(context)?.ourTeam ?? 'Our Team',
-                      onTap: () {
-                        Navigator.pop(context);
-                        Scrollable.ensureVisible(
-                          controller.team.currentContext!,
-                          duration: const Duration(seconds: 2),
-                          curve: Curves.ease,
-                        );
-                      },
-                    ),
-
-                    // REVIEWS
-                    DrawerText(
-                      drawerText: AppLocalizations.of(context)?.reviews ?? 'Reviews',
-                      onTap: () {
-                        Navigator.pop(context);
-                        Scrollable.ensureVisible(
-                          controller.reviews.currentContext!,
-                          duration: const Duration(seconds: 2),
-                          curve: Curves.ease,
-                        );
-                      },
-                    ),
-
-                    // CONTACTS
-                    DrawerText(
-                      drawerText: isSingleMaster
-                          ? (AppLocalizations.of(context)?.contacts ?? 'Contacts')
-                          : (AppLocalizations.of(
-                                context,
-                              )?.contactUs ??
-                              'Contact Us'),
-                      onTap: () {
-                        Navigator.pop(context);
-                        Scrollable.ensureVisible(
-                          controller.contacts.currentContext!,
-                          duration: const Duration(seconds: 2),
-                          curve: Curves.ease,
-                        );
-                      },
-                    ),
-
-                    if (themeType == ThemeType.GlamLight)
-                      DrawerText(
-                        drawerText: (AppLocalizations.of(context)?.bookNow ?? "Book Now").toTitleCase(),
-                        onTap: () {
-                          Navigator.pop(context);
-                          const BookingDialogWidget222().show(context);
-                        },
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
         ),
       ),
     );
@@ -224,9 +217,7 @@ class _DrawerTextState extends ConsumerState<DrawerText> {
         child: GestureDetector(
           onTap: widget.onTap,
           child: Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: DeviceConstraints.getResponsiveSize(context, 20.h, 15.h, 15.h),
-            ),
+            padding: EdgeInsets.symmetric(vertical: (themeType != ThemeType.GlamLight) ? DeviceConstraints.getResponsiveSize(context, 20.h, 15.h, 15.h) : 10.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -234,9 +225,11 @@ class _DrawerTextState extends ConsumerState<DrawerText> {
                 Text(
                   widget.drawerText,
                   style: theme.textTheme.bodyLarge?.copyWith(
-                    fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 25.sp, 35.sp),
+                    fontSize: (themeType == ThemeType.GlamLight) ? 17.sp : DeviceConstraints.getResponsiveSize(context, 20.sp, 25.sp, 35.sp),
                     letterSpacing: 0,
                     color: textColor,
+                    fontFamily: 'Inter-Light',
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 if (themeType == ThemeType.GlamLight)

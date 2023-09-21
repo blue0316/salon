@@ -244,8 +244,8 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
           child: Column(
             // physics: const ClampingScrollPhysics(),
             children: [
-              SizedBox.fromSize(size: Size.zero, key: controller.landing),
-              const LandingHeader(),
+              // SizedBox.fromSize(size: Size.zero, key: controller.landing),
+              // const LandingHeader(),
 
               // // TAGS
               // if (displaySettings?.showFeatures == true) SizedBox.fromSize(size: Size.zero, key: controller.tags),
@@ -256,9 +256,9 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
               //       additionalFeatures: chosenSalon.additionalFeatures,
               //     ),
 
-              // // ABOUT
-              // if (displaySettings?.showAbout == true) SizedBox.fromSize(size: Size.zero, key: controller.about),
-              // if (displaySettings?.showAbout == true) SalonAbout2(salonModel: chosenSalon),
+              // ABOUT
+              if (displaySettings?.showAbout == true) SizedBox.fromSize(size: Size.zero, key: controller.about),
+              if (displaySettings?.showAbout == true) SalonAbout2(salonModel: chosenSalon),
 
               // // SPONSORS
               // if (displaySettings?.showBrands == true) SizedBox.fromSize(size: Size.zero, key: controller.sponsor),
@@ -277,9 +277,9 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
               //     categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
               //   ),
 
-              // // SHOP
-              // if (displaySettings?.product.showProduct == true) SizedBox.fromSize(size: Size.zero, key: controller.shop),
-              // if (displaySettings?.product.showProduct == true) const SalonShop(),
+              // SHOP
+              if (displaySettings?.product.showProduct == true) SizedBox.fromSize(size: Size.zero, key: controller.shop),
+              if (displaySettings?.product.showProduct == true) const SalonShop(),
 
               // // TEAM
               // if (displaySettings?.showTeam == true) SizedBox.fromSize(size: Size.zero, key: controller.team),

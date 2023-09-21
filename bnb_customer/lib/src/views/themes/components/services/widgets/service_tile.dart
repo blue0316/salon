@@ -98,36 +98,34 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
               if (isHovered && (widget.service.description != null && widget.service.description != ''))
                 Padding(
                   padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp),
-                  child: Flexible(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: Text(
-                            '${widget.service.description}',
-                            // 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum.',
-                            style: theme.textTheme.bodyLarge?.copyWith(
-                              color: serviceNameColor(themeType, theme),
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.normal,
-                            ),
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: Text(
+                          '${widget.service.description}',
+                          // 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum.',
+                          style: theme.textTheme.bodyLarge?.copyWith(
+                            color: serviceNameColor(themeType, theme),
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.normal,
                           ),
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        // const Expanded(flex: 1, child: SizedBox()),
-                        // Expanded(
-                        //   flex: 0,
-                        //   child: Container(
-                        //     height: 100.sp,
-                        //     width: 200.sp,
-                        //     color: Colors.yellow,
-                        //   ),
-                        // ),
-                      ],
-                    ),
+                      ),
+                      // const Expanded(flex: 1, child: SizedBox()),
+                      // Expanded(
+                      //   flex: 0,
+                      //   child: Container(
+                      //     height: 100.sp,
+                      //     width: 200.sp,
+                      //     color: Colors.yellow,
+                      //   ),
+                      // ),
+                    ],
                   ),
                 ),
               Divider(

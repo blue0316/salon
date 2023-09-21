@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
+import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/salon/widgets/additional%20featured.dart';
@@ -229,8 +230,10 @@ class GentleTouchTagItem extends ConsumerWidget {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
+    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+
     return SizedBox(
-      width: 350.h,
+      width: isPortrait ? (MediaQuery.of(context).size.width - 20.w) : 350.h,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -242,7 +245,7 @@ class GentleTouchTagItem extends ConsumerWidget {
           ),
           SizedBox(width: 10.sp),
           SizedBox(
-            width: 250.h,
+            width: isPortrait ? null : 250.h,
             child: Text(
               title.toUpperCase(),
               style: theme.textTheme.bodyLarge?.copyWith(

@@ -157,6 +157,11 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                     return;
                   }
 
+                  print('@@@#####*******************@@@@#####');
+                  print(_authProvider.countryCode);
+                  print(_authProvider.phoneNoController.text);
+                  print('@@@#####*******************@@@@#####');
+
                   showToast(
                     AppLocalizations.of(context)?.pleaseWait ?? "Please wait",
                   );
