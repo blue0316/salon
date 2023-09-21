@@ -4,6 +4,9 @@ import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/products.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/prev_and_next.dart';
+import 'package:bbblient/src/views/themes/images.dart';
+import 'package:bbblient/src/views/widgets/image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -44,10 +47,15 @@ class _GentleTouchShopState extends ConsumerState<GentleTouchShop> {
               ),
             ),
           ),
-          _salonProfileProvider.allProducts.isNotEmpty ? SizedBox(height: 70.sp) : const SizedBox(height: 50),
+          _salonProfileProvider.allProducts.isNotEmpty ? SizedBox(height: 60.sp) : const SizedBox(height: 50),
           (_salonProfileProvider.allProducts.isNotEmpty)
               ? isPortrait
-                  ? const PortraitView()
+                  ? PortraitView(
+                      items: [
+                        'All',
+                        ..._salonProfileProvider.tabs.keys.toList(),
+                      ],
+                    )
                   : Expanded(
                       flex: 0,
                       child: Column(
@@ -189,18 +197,231 @@ class GentleTouchShopTab extends ConsumerWidget {
   }
 }
 
-class PortraitView extends StatefulWidget {
-  const PortraitView({Key? key}) : super(key: key);
+class PortraitView extends ConsumerStatefulWidget {
+  final List<String> items;
+
+  const PortraitView({Key? key, required this.items}) : super(key: key);
 
   @override
-  State<PortraitView> createState() => _PortraitViewState();
+  ConsumerState<PortraitView> createState() => _PortraitViewState();
 }
 
-class _PortraitViewState extends State<PortraitView> {
+class _PortraitViewState extends ConsumerState<PortraitView> {
+  final CarouselController _controller = CarouselController();
+  int _current = 0;
+
+  String dropdownvalue = 'All';
+
   @override
   Widget build(BuildContext context) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
     return Column(
-      children: [],
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        DropdownButton(
+          // Initial Value
+          value: dropdownvalue,
+
+          // Down Arrow Icon
+          icon: const Icon(Icons.keyboard_arrow_down),
+          isExpanded: true,
+          // Array list of items
+          items: widget.items.map((String items) {
+            return DropdownMenuItem(
+              value: items,
+              child: Text(items),
+            );
+          }).toList(),
+          // After selecting the desired option,it will
+          // change button value to selected value
+          onChanged: (String? newValue) {
+            setState(() {
+              dropdownvalue = newValue!;
+            });
+          },
+        ),
+        SizedBox(height: 40.sp),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 5.w),
+          child: SizedBox(
+            height: 450.h,
+            width: double.infinity,
+            child: SizedBox(
+              width: double.infinity,
+              child: CarouselSlider(
+                carouselController: _controller,
+                options: CarouselOptions(
+                  height: 450.h,
+                  autoPlay: true,
+                  viewportFraction: 1,
+                  onPageChanged: (index, reason) {
+                    setState(() {
+                      _current = index;
+                    });
+                  },
+                ),
+                items: dropdownvalue == 'All'
+                    ? _salonProfileProvider.allProducts
+                        .map(
+                          (item) => ProductPortraitItemCard(product: item),
+                        )
+                        .toList()
+                    : _salonProfileProvider.tabs[dropdownvalue]!
+                        .map(
+                          (item) => ProductPortraitItemCard(product: item),
+                        )
+                        .toList(),
+              ),
+            ),
+          ),
+        ),
+        SizedBox(height: 10.sp),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: dropdownvalue == 'All'
+              ? _salonProfileProvider.allProducts.asMap().entries.map((entry) {
+                  return GestureDetector(
+                    onTap: () => _controller.animateToPage(entry.key),
+                    child: Container(
+                      width: _current == entry.key ? 7 : 4,
+                      height: _current == entry.key ? 7 : 4,
+                      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: _current == entry.key
+                            ? Colors.black
+                            : const Color(0XFF8A8A8A).withOpacity(
+                                _current == entry.key ? 0.9 : 0.4,
+                              ),
+                      ),
+                    ),
+                  );
+                }).toList()
+              : _salonProfileProvider.tabs[dropdownvalue]!.asMap().entries.map((entry) {
+                  return GestureDetector(
+                    onTap: () => _controller.animateToPage(entry.key),
+                    child: Container(
+                      width: _current == entry.key ? 10 : 7,
+                      height: _current == entry.key ? 10 : 7,
+                      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: _current == entry.key
+                            ? Colors.black
+                            : const Color(0XFF8A8A8A).withOpacity(
+                                _current == entry.key ? 0.9 : 0.4,
+                              ),
+                      ),
+                    ),
+                  );
+                }).toList(),
+        ),
+      ],
+    );
+  }
+}
+
+class ProductPortraitItemCard extends ConsumerWidget {
+  final ProductModel product;
+
+  const ProductPortraitItemCard({Key? key, required this.product}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: Colors.black),
+        ),
+        // color: backgroundColor ?? Colors.blue,
+        child: Column(
+          children: [
+            Expanded(
+              flex: 1,
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white, // theme.primaryColorDark, // Colors.transparent,
+                  border: Border(
+                    bottom: BorderSide(color: Colors.black, width: 0.3),
+                  ),
+                ),
+                // height: 300.h,
+                // width: DeviceConstraints.getResponsiveSize(
+                //   context,
+                //   size / 1.5.sp,
+                //   size / 2.3.sp,
+                //   70.w,
+                // ),
+
+                child: (product.productImageUrlList!.isNotEmpty)
+                    ? CachedImage(
+                        url: '${product.productImageUrlList![0]}',
+                        fit: BoxFit.cover,
+                        width: MediaQuery.of(context).size.width - 20 - 40.w,
+                      )
+                    : Image.asset(
+                        ThemeImages.noProduct,
+                        fit: BoxFit.cover,
+                        width: MediaQuery.of(context).size.width - 20 - 40.w,
+                      ),
+              ),
+            ),
+            // SizedBox(height: 10.sp),
+            Expanded(
+              flex: 0,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        height: 40.sp,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            '${product.productName}'.toUpperCase(),
+                            style: theme.textTheme.bodyLarge?.copyWith(
+                              color: theme.primaryColorDark,
+                              fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 16.sp),
+                              fontWeight: FontWeight.normal,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ),
+                    ),
+                    // Spacer(),
+                    Text(
+                      '\$${product.clientPrice}',
+                      style: theme.textTheme.bodyLarge?.copyWith(
+                        color: theme.primaryColorLight,
+                        fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 16.sp),
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+        // Image.asset(
+        //   image,
+        //   fit: BoxFit.cover,
+        //   width: double.infinity,
+        // ),
+      ),
     );
   }
 }

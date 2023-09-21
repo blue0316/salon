@@ -141,7 +141,11 @@ class _SalonMasterViewState extends ConsumerState<SalonMasterView> {
                     children: [
                       SizedBox(height: 10.h),
                       SizedBox(
-                        height: !isPortrait ? null : 600.h,
+                        height: !isPortrait
+                            ? null
+                            : _createAppointmentProvider.chosenMaster!.links == null
+                                ? 600.h
+                                : 650.h,
                         child: !isPortrait
                             ? MasterAboutHeaderLandscape(
                                 masterModel: _createAppointmentProvider.chosenMaster!,

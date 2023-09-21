@@ -1,4 +1,5 @@
 import 'package:bbblient/src/models/cat_sub_service/price_and_duration.dart';
+import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import '../backend_codings/working_hours.dart';
 
@@ -20,6 +21,7 @@ class MasterModel {
   List<String>? masterTags;
   List<String>? photosOfWork;
   String? profilePicUrl;
+  late Links? links;
 
   // contains all the reserved slots
   Map<String, dynamic>? blockedTime;
@@ -50,6 +52,7 @@ class MasterModel {
     this.personalInfo,
     this.workingHours,
     this.categoryIds,
+    this.links,
     this.serviceIds,
     this.reviewIds,
     this.masterTags,
@@ -83,6 +86,8 @@ class MasterModel {
     masterTags = json['masterTags']?.cast<String>() ?? [];
     photosOfWork = json['photosOfWork']?.cast<String>() ?? [];
     profilePicUrl = json['profilePicUrl'] ?? '';
+    links = json['links'] != null ? Links.fromJson(json['links']) : null;
+
     availableOnline = json['availableOnline'] ?? false;
     blockedTime = json['blockedTime'] ?? {};
     servicesPriceAndDuration = json['servicesPriceAndDuration'] != null ? mapPriceAndDuration(json['servicesPriceAndDuration']) : {};
@@ -115,6 +120,9 @@ class MasterModel {
     }
     if (workingHours != null) {
       data['workingHours'] = workingHours!.toJson();
+    }
+    if (links != null) {
+      data['links'] = links!.toJson();
     }
     data['categoryIds'] = categoryIds;
     data['serviceIds'] = serviceIds;

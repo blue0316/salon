@@ -155,15 +155,31 @@ class _SalonAllWorksState extends ConsumerState<SalonAllWorks> {
                                                   mainAxisAlignment: MainAxisAlignment.start,
                                                   children: [
                                                     Expanded(
-                                                      child: CachedImage(
-                                                        width: DeviceConstraints.getResponsiveSize(
-                                                          context,
-                                                          size.width - 20.w,
-                                                          ((size.width / 2)), // size.width - 20.w,
-                                                          (size.width / 3) - 20, // 200.w,
+                                                      child: MouseRegion(
+                                                        cursor: SystemMouseCursors.click,
+                                                        child: GestureDetector(
+                                                          onTap: () {
+                                                            Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                builder: (context) => ImagePreview(
+                                                                  imageUrls: [item.image],
+                                                                  index: 0,
+                                                                ),
+                                                              ),
+                                                            );
+                                                          },
+                                                          child: CachedImage(
+                                                            width: DeviceConstraints.getResponsiveSize(
+                                                              context,
+                                                              size.width - 20.w,
+                                                              ((size.width / 2)), // size.width - 20.w,
+                                                              (size.width / 3) - 20, // 200.w,
+                                                            ),
+                                                            url: item.image!,
+                                                            fit: BoxFit.cover,
+                                                          ),
                                                         ),
-                                                        url: item.image!,
-                                                        fit: BoxFit.cover,
                                                       ),
                                                     ),
                                                     SizedBox(height: 10.sp),

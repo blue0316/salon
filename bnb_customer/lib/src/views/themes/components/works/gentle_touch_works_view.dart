@@ -214,8 +214,8 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
             return GestureDetector(
               onTap: () => _controller.animateToPage(entry.key),
               child: Container(
-                width: _current == entry.key ? 10 : 7,
-                height: _current == entry.key ? 10 : 7,
+                width: _current == entry.key ? 7 : 4,
+                height: _current == entry.key ? 7 : 4,
                 margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
@@ -355,44 +355,47 @@ class PortraitItemCard extends ConsumerWidget {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.black),
-        ),
-        // color: backgroundColor ?? Colors.blue,
-        child: Column(
-          children: [
-            Expanded(
-              flex: 1,
-              child: CachedImage(
-                url: image,
-                fit: BoxFit.cover,
-                width: MediaQuery.of(context).size.width - 40.w,
-              ),
-            ),
-            if (description.isNotEmpty)
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 15.sp),
-                child: Text(
-                  description,
-                  style: theme.textTheme.bodyLarge?.copyWith(
-                    color: theme.primaryColorDark,
-                    fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 14.sp, 14.sp),
-                    fontWeight: FontWeight.normal,
-                  ),
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.black),
+          ),
+          // color: backgroundColor ?? Colors.blue,
+          child: Column(
+            children: [
+              Expanded(
+                flex: 1,
+                child: CachedImage(
+                  url: image,
+                  fit: BoxFit.cover,
+                  width: MediaQuery.of(context).size.width - 40.w,
                 ),
               ),
-          ],
+              if (description.isNotEmpty)
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 15.sp),
+                  child: Text(
+                    description,
+                    style: theme.textTheme.bodyLarge?.copyWith(
+                      color: theme.primaryColorDark,
+                      fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 14.sp, 14.sp),
+                      fontWeight: FontWeight.normal,
+                    ),
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+            ],
+          ),
+          // Image.asset(
+          //   image,
+          //   fit: BoxFit.cover,
+          //   width: double.infinity,
+          // ),
         ),
-        // Image.asset(
-        //   image,
-        //   fit: BoxFit.cover,
-        //   width: double.infinity,
-        // ),
       ),
     );
   }

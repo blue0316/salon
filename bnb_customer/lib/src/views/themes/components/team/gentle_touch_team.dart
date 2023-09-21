@@ -16,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'portrait.dart';
 
 class GentleTouchTeam extends ConsumerStatefulWidget {
   final SalonModel salonModel;
@@ -39,6 +40,7 @@ class _GentleTouchTeamState extends ConsumerState<GentleTouchTeam> {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     final bool isTab = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab);
+    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
 
     return SizedBox(
       width: double.infinity,
@@ -57,84 +59,92 @@ class _GentleTouchTeamState extends ConsumerState<GentleTouchTeam> {
               child: Text(
                 'Team'.toUpperCase(),
                 style: theme.textTheme.displayMedium?.copyWith(
-                  fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 60.sp),
+                  fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 50.sp, 60.sp),
                 ),
               ),
             ),
-            const Space(factor: 3.5),
-            Center(
-              child: SizedBox(
-                // height: size.height * 0.4, // DeviceConstraints.getResponsiveSize(context, 230.h, 230.h, 210.h),
-                height: 460.h,
+            Space(factor: isPortrait ? 2 : 3),
+            isPortrait
+                ? TeamPortraitView(
+                    items: [
+                      'All',
+                      ..._salonProfileProvider.tabs.keys.toList(),
+                    ],
+                  )
+                : Center(
+                    child: SizedBox(
+                      // height: size.height * 0.4, // DeviceConstraints.getResponsiveSize(context, 230.h, 230.h, 210.h),
+                      height: 460.h,
 
-                child: ScrollablePositionedList.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: _createAppointmentProvider.salonMasters.length,
-                  itemBuilder: (context, index) {
-                    // Get All Salon Masters
-                    List<MasterModel> _filteredMasters = _createAppointmentProvider.salonMasters;
+                      child: ScrollablePositionedList.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: _createAppointmentProvider.salonMasters.length,
+                        itemBuilder: (context, index) {
+                          // Get All Salon Masters
+                          List<MasterModel> _filteredMasters = _createAppointmentProvider.salonMasters;
 
-                    if (_filteredMasters.isNotEmpty) {
-                      return GentleTouchTeamMember(
-                        name: Utils().getNameMaster(_filteredMasters[index].personalInfo),
-                        masterTitle: _filteredMasters[index].title ?? '',
+                          if (_filteredMasters.isNotEmpty) {
+                            return GentleTouchTeamMember(
+                              name: Utils().getNameMaster(_filteredMasters[index].personalInfo),
+                              masterTitle: _filteredMasters[index].title ?? '',
 
-                        // services: masterCategories,
-                        image: _filteredMasters[index].profilePicUrl,
-                        master: _filteredMasters[index],
-                      );
-                    } else {
-                      return const SizedBox();
-                    }
-                  },
-                  scrollDirection: Axis.horizontal,
-                  itemScrollController: itemScrollController,
-                  itemPositionsListener: itemPositionsListener,
+                              // services: masterCategories,
+                              image: _filteredMasters[index].profilePicUrl,
+                              master: _filteredMasters[index],
+                            );
+                          } else {
+                            return const SizedBox();
+                          }
+                        },
+                        scrollDirection: Axis.horizontal,
+                        itemScrollController: itemScrollController,
+                        itemPositionsListener: itemPositionsListener,
+                      ),
+                    ),
+                  ),
+            if (!isPortrait) SizedBox(height: 20.sp),
+            if (!isPortrait)
+              Align(
+                alignment: Alignment.centerRight,
+                child: PrevAndNextButtons(
+                  backOnTap: isTab
+                      ? () {
+                          if (tabInitial < 3) return;
+                          setState(() {
+                            tabInitial -= 3;
+                          });
+
+                          itemScrollController.jumpTo(index: tabInitial);
+
+                          // => controller!.previousPage()
+                        }
+                      : () {
+                          if (portraitInitial < 1) return;
+                          setState(() {
+                            portraitInitial -= 1;
+                          });
+
+                          itemScrollController.jumpTo(index: portraitInitial);
+                        },
+                  forwardOnTap: isTab
+                      ? () {
+                          itemScrollController.jumpTo(index: tabInitial);
+
+                          setState(() {
+                            tabInitial += 3;
+                          });
+                          //  => controller!.nextPage()
+                        }
+                      : () {
+                          itemScrollController.jumpTo(index: portraitInitial);
+                          setState(() {
+                            portraitInitial += 1;
+                          });
+                        },
+                  leftFontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 18.sp),
+                  rightFontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 18.sp),
                 ),
               ),
-            ),
-            SizedBox(height: 20.sp),
-            Align(
-              alignment: Alignment.centerRight,
-              child: PrevAndNextButtons(
-                backOnTap: isTab
-                    ? () {
-                        if (tabInitial < 3) return;
-                        setState(() {
-                          tabInitial -= 3;
-                        });
-
-                        itemScrollController.jumpTo(index: tabInitial);
-
-                        // => controller!.previousPage()
-                      }
-                    : () {
-                        if (portraitInitial < 1) return;
-                        setState(() {
-                          portraitInitial -= 1;
-                        });
-
-                        itemScrollController.jumpTo(index: portraitInitial);
-                      },
-                forwardOnTap: isTab
-                    ? () {
-                        itemScrollController.jumpTo(index: tabInitial);
-
-                        setState(() {
-                          tabInitial += 3;
-                        });
-                        //  => controller!.nextPage()
-                      }
-                    : () {
-                        itemScrollController.jumpTo(index: portraitInitial);
-                        setState(() {
-                          portraitInitial += 1;
-                        });
-                      },
-                leftFontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 18.sp),
-                rightFontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 18.sp),
-              ),
-            ),
           ],
         ),
       ),
@@ -146,6 +156,7 @@ class GentleTouchTeamMember extends ConsumerStatefulWidget {
   final String? name, image;
   final MasterModel master;
   final String? masterTitle;
+  final bool showDesc;
 
   const GentleTouchTeamMember({
     Key? key,
@@ -153,6 +164,7 @@ class GentleTouchTeamMember extends ConsumerStatefulWidget {
     required this.masterTitle,
     required this.image,
     required this.master,
+    this.showDesc = false,
   }) : super(key: key);
 
   @override
@@ -250,9 +262,9 @@ class _GentleTouchTeamMemberState extends ConsumerState<GentleTouchTeamMember> {
                   ),
                 ),
 
-                (widget.masterTitle!.isNotEmpty && isHovered) ? SizedBox(height: 10.sp) : SizedBox(height: 5.sp),
+                (widget.masterTitle!.isNotEmpty && (isHovered || widget.showDesc)) ? SizedBox(height: 10.sp) : SizedBox(height: 5.sp),
 
-                if (isHovered)
+                if (isHovered || widget.showDesc)
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 12.sp),
                     child: Column(

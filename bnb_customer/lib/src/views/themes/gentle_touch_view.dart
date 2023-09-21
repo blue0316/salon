@@ -256,9 +256,9 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
               //       additionalFeatures: chosenSalon.additionalFeatures,
               //     ),
 
-              // ABOUT
-              if (displaySettings?.showAbout == true) SizedBox.fromSize(size: Size.zero, key: controller.about),
-              if (displaySettings?.showAbout == true) SalonAbout2(salonModel: chosenSalon),
+              // // ABOUT
+              // if (displaySettings?.showAbout == true) SizedBox.fromSize(size: Size.zero, key: controller.about),
+              // if (displaySettings?.showAbout == true) SalonAbout2(salonModel: chosenSalon),
 
               // // SPONSORS
               // if (displaySettings?.showBrands == true) SizedBox.fromSize(size: Size.zero, key: controller.sponsor),
@@ -277,9 +277,9 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
               //     categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
               //   ),
 
-              // SHOP
-              if (displaySettings?.product.showProduct == true) SizedBox.fromSize(size: Size.zero, key: controller.shop),
-              if (displaySettings?.product.showProduct == true) const SalonShop(),
+              // // SHOP
+              // if (displaySettings?.product.showProduct == true) SizedBox.fromSize(size: Size.zero, key: controller.shop),
+              // if (displaySettings?.product.showProduct == true) const SalonShop(),
 
               // // TEAM
               // if (displaySettings?.showTeam == true) SizedBox.fromSize(size: Size.zero, key: controller.team),
@@ -289,9 +289,9 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
               //       salonModel: chosenSalon,
               //     ),
 
-              // // REVIEWS
-              // if (displaySettings?.reviews.showReviews == true) SizedBox.fromSize(size: Size.zero, key: controller.reviews),
-              // if (displaySettings?.reviews.showReviews == true) SalonReviews(salonModel: chosenSalon),
+              // REVIEWS
+              if (displaySettings?.reviews.showReviews == true) SizedBox.fromSize(size: Size.zero, key: controller.reviews),
+              if (displaySettings?.reviews.showReviews == true) SalonReviews(salonModel: chosenSalon),
 
               // // WRITE TO US
               // if (displaySettings?.showRequestForm == true) SizedBox.fromSize(size: Size.zero, key: controller.writeToUs),
