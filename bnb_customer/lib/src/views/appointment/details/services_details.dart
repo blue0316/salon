@@ -4,6 +4,7 @@ import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/currency/currency.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/appointment/widgets/row.dart';
 import 'package:bbblient/src/views/appointment/widgets/theme_colors.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
@@ -124,7 +125,7 @@ class _ServiceDetailsState extends ConsumerState<ServiceDetails> {
                 });
               },
               title: Text(
-                widget.service.translations![AppLocalizations.of(context)?.localeName ?? 'en'],
+                '${widget.service.translations![AppLocalizations.of(context)?.localeName ?? 'en']}'.toTitleCase(),
                 style: theme.textTheme.bodyLarge!.copyWith(
                   fontWeight: FontWeight.w600,
                   fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 15.sp, 20.sp),

@@ -15,6 +15,7 @@ import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'appointment_review.dart';
 import 'details/services_details.dart';
 import 'details/your_details.dart';
 import 'widgets/appointment_header.dart';
@@ -75,7 +76,9 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
     return Scaffold(
       backgroundColor: scaffoldBGColor(themeType, theme),
       body: _appointmentProvider.appointmentStatus == Status.loading
-          ? const Center(child: CircularProgressIndicator())
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
           : _appointmentProvider.appointmentStatus == Status.failed
               ? ErrorScreen(
                   backgroundColor: boxColor(themeType, theme), // isLightTheme ? const Color(0XFFEFEFEF) : theme.colorScheme.background,
@@ -106,14 +109,24 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     const SizedBox(height: 30),
-                                    Text(
-                                      AppLocalizations.of(context)?.appointmentConfirmation ?? 'Appointment Confirmation',
-                                      style: theme.textTheme.bodyLarge!.copyWith(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 30.sp, 40.sp),
-                                        color: confirmationTextColor(themeType, theme),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => const ReviewAppointments(),
+                                          ),
+                                        );
+                                      },
+                                      child: Text(
+                                        AppLocalizations.of(context)?.appointmentConfirmation ?? 'Appointment Confirmation',
+                                        style: theme.textTheme.bodyLarge!.copyWith(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 30.sp, 40.sp),
+                                          color: confirmationTextColor(themeType, theme),
+                                        ),
+                                        textAlign: TextAlign.center,
                                       ),
-                                      textAlign: TextAlign.center,
                                     ),
                                     AddToCalendars(
                                       appointment: appointment!,
@@ -166,12 +179,12 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                                   SizedBox(width: 10.sp),
                                                   Flexible(
                                                     child: Text(
-                                                      '${AppLocalizations.of(context)?.cancelNote1 ?? 'Please note that to cancel you have to contact?'}  ${_appointmentProvider.salon?.salonName}. ${AppLocalizations.of(context)?.cancelNote2 ?? 'Online cancelation is not available at the moment.'}',
+                                                      '${AppLocalizations.of(context)?.cancelNote1 ?? 'Please note that to cancel you have to contact'}  ${_appointmentProvider.salon?.salonName.toUpperCase()}. ${AppLocalizations.of(context)?.cancelNote2 ?? 'Online cancelation is not available at the moment.'}',
                                                       // 'Please note that to cancel you have to contact ${_appointmentProvider.salon?.salonName}. Online cancelation is not available at the moment. ',
                                                       style: theme.textTheme.bodyMedium?.copyWith(
                                                         fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 18.sp),
                                                         fontWeight: FontWeight.w400,
-                                                        fontFamily: 'Poppins',
+                                                        fontFamily: 'Inter',
                                                         color: theme.colorScheme.onBackground,
                                                       ),
                                                       textAlign: TextAlign.start,

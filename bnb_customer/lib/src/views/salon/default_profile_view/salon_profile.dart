@@ -252,7 +252,7 @@ class LandingView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    // bool isLightTheme = (theme == AppTheme.customLightTheme);
+    bool isLightTheme = (theme == AppTheme.customLightTheme);
 
     return SizedBox(
       // color: Colors.brown,
@@ -299,7 +299,7 @@ class LandingView extends ConsumerWidget {
                     label: (AppLocalizations.of(context)?.bookNow ?? "Book Now").toUpperCase(),
                     fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                     fontWeight: FontWeight.w500,
-                    textColor: Colors.white,
+                    textColor: isLightTheme ? Colors.white : Colors.black,
                     onTap: () => const BookingDialogWidget222().show(context),
                   ),
                   Space(factor: DeviceConstraints.getResponsiveSize(context, 5, 5, 5)),

@@ -87,6 +87,20 @@ Color borderColor(ThemeType themeType, ThemeData theme) {
   }
 }
 
+Color textBorderColor(ThemeType themeType, ThemeData theme) {
+  switch (themeType) {
+    case ThemeType.DefaultLight:
+      return const Color(0XFFACACAC);
+    case ThemeType.GlamLight:
+      return Colors.black;
+    case ThemeType.GlamMinimalLight:
+      return Colors.black;
+
+    default:
+      return const Color(0XFF35373B);
+  }
+}
+
 Color confirmationTextColor(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
     case ThemeType.DefaultLight:

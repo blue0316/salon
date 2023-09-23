@@ -1,5 +1,6 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
+import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/icons.dart';
@@ -17,7 +18,7 @@ class GentleTouchContactView extends ConsumerWidget {
   const GentleTouchContactView({Key? key, required this.salonModel}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
@@ -25,7 +26,7 @@ class GentleTouchContactView extends ConsumerWidget {
       padding: EdgeInsets.only(
         left: DeviceConstraints.getResponsiveSize(context, 10.w, 10.w, 30.w),
         right: DeviceConstraints.getResponsiveSize(context, 10.w, 10.w, 30.w),
-        top: 120.h,
+        top: 100.h,
         bottom: 20.h,
       ),
       child: Column(
@@ -35,17 +36,18 @@ class GentleTouchContactView extends ConsumerWidget {
           Text(
             (AppLocalizations.of(context)?.contacts ?? 'Contacts').toUpperCase(),
             style: theme.textTheme.displayMedium!.copyWith(
-              fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 60.sp),
+              fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 50.sp, 60.sp),
             ),
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 7.sp),
-          SizedBox(
-            width: MediaQuery.of(context).size.width / 1.8,
+          Container(
+            width: !isPortrait ? MediaQuery.of(context).size.width / 1.8 : null,
+            padding: isPortrait ? EdgeInsets.symmetric(horizontal: 15.w) : null,
             child: Text(
               'Connect with us easily. Whether it\'s questions, collaborations, or just saying hello, we\'re here for you. Reach out via email, find us on social media, give us a call, or visit our address below.',
               style: theme.textTheme.bodyLarge?.copyWith(
-                fontSize: 18.sp,
+                fontSize: DeviceConstraints.getResponsiveSize(context, 17.sp, 17.sp, 18.sp),
                 fontWeight: FontWeight.normal,
               ),
               textAlign: TextAlign.center,

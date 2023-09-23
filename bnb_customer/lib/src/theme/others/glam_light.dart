@@ -88,7 +88,7 @@ class GlamLightTheme {
         borderRadius: BorderRadius.circular(5),
         borderSide: const BorderSide(color: Color(0xFFD9D9D9), width: 1),
       ),
-      hintStyle: bodyText1.copyWith(color: const Color(0xFF535353)),
+      hintStyle: bodyText1.copyWith(color: const Color(0XFF9A9A9A)),
     ),
     hintColor: const Color(0xFF535353),
     unselectedWidgetColor: Colors.grey[700], // Color for not valid time slot container

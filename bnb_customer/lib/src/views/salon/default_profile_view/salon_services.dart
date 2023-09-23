@@ -1,6 +1,7 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
+import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -34,6 +35,7 @@ class _SalonServicesState extends ConsumerState<SalonServices> {
     bool isSingleMaster = _salonProfileProvider.isSingleMaster;
 
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+    bool isLightTheme = (theme == AppTheme.customLightTheme);
 
     return SingleChildScrollView(
       child: Column(
@@ -98,7 +100,7 @@ class _SalonServicesState extends ConsumerState<SalonServices> {
             label: (AppLocalizations.of(context)?.bookNow ?? "Book Now").toUpperCase(),
             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
             fontWeight: FontWeight.w500,
-            textColor: Colors.white,
+            textColor: isLightTheme ? Colors.white : Colors.black,
             onTap: () => const BookingDialogWidget222().show(context),
           ),
           // Space(factor: DeviceConstraints.getResponsiveSize(context, 2, 2, 2)),

@@ -1,5 +1,6 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
+import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/review.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/prev_and_next.dart';
@@ -25,11 +26,13 @@ class GentleTouchReviewView extends ConsumerStatefulWidget {
 
 class _GentleTouchReviewViewState extends ConsumerState<GentleTouchReviewView> {
   final CarouselController _controller = CarouselController();
+  int _current = 0;
 
   @override
   Widget build(BuildContext context) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
 
     return Container(
       color: theme.colorScheme.secondary.withOpacity(0.2),
@@ -37,7 +40,7 @@ class _GentleTouchReviewViewState extends ConsumerState<GentleTouchReviewView> {
         padding: EdgeInsets.only(
           left: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
           right: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
-          top: 100.h, // DeviceConstraints.getResponsiveSize(context, 140.h, 180.h, 200.h),
+          top: 70.h, // DeviceConstraints.getResponsiveSize(context, 140.h, 180.h, 200.h),
           bottom: 80.h, // DeviceConstraints.getResponsiveSize(context, 140.h, 180.h, 200.h),
         ),
         child: (_salonProfileProvider.salonReviews.isNotEmpty)
@@ -48,22 +51,22 @@ class _GentleTouchReviewViewState extends ConsumerState<GentleTouchReviewView> {
                   Text(
                     (AppLocalizations.of(context)?.reviews ?? 'Reviews').toUpperCase(),
                     style: theme.textTheme.displayMedium?.copyWith(
-                      fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 60.sp),
+                      fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 50.sp, 60.sp),
                     ),
                   ),
                   // SizedBox(height: 10.sp),
                   SizedBox(
-                    height: 280.h,
+                    height: !isPortrait ? 280.h : null,
                     width: double.infinity,
                     child: CarouselSlider(
                       carouselController: _controller,
                       options: CarouselOptions(
                         viewportFraction: 1,
-                        autoPlay: false,
+                        autoPlay: true,
                         onPageChanged: (index, reason) {
-                          // setState(() {
-                          //   _current = index;
-                          // });
+                          setState(() {
+                            _current = index;
+                          });
                         },
                       ),
                       items: _salonProfileProvider.salonReviews
@@ -73,13 +76,41 @@ class _GentleTouchReviewViewState extends ConsumerState<GentleTouchReviewView> {
                           .toList(),
                     ),
                   ),
-                  SizedBox(height: 20.sp),
-                  PrevAndNextButtons(
-                    backOnTap: () => _controller.previousPage(),
-                    forwardOnTap: () => _controller.nextPage(),
-                    leftFontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 18.sp),
-                    rightFontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 18.sp),
-                  ),
+
+                  // SizedBox(height: 20.sp),
+
+                  if (isPortrait)
+                    Padding(
+                      padding: EdgeInsets.only(top: 30.sp),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: _salonProfileProvider.salonReviews.asMap().entries.map((entry) {
+                          return GestureDetector(
+                            onTap: () => _controller.animateToPage(entry.key),
+                            child: Container(
+                              width: _current == entry.key ? 7.5 : 6,
+                              height: _current == entry.key ? 7.5 : 6,
+                              margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: _current == entry.key
+                                    ? Colors.black
+                                    : const Color(0XFF8A8A8A).withOpacity(
+                                        _current == entry.key ? 0.9 : 0.4,
+                                      ),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  if (!isPortrait)
+                    PrevAndNextButtons(
+                      backOnTap: () => _controller.previousPage(),
+                      forwardOnTap: () => _controller.nextPage(),
+                      leftFontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 18.sp),
+                      rightFontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 18.sp),
+                    ),
                 ],
               )
             : Padding(
@@ -107,18 +138,19 @@ class GentleTouchReviewCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        SizedBox(height: 10.sp),
+        if (!isPortrait) SizedBox(height: 10.sp),
         RatingBar.builder(
           initialRating: review.rating,
           minRating: 0,
           direction: Axis.horizontal,
           allowHalfRating: false,
-          itemSize: 15,
+          itemSize: isPortrait ? 20 : 15,
           itemCount: 5,
           updateOnDrag: true,
           unratedColor: Colors.black,
@@ -127,25 +159,26 @@ class GentleTouchReviewCard extends ConsumerWidget {
             return Icon(Icons.star, color: theme.colorScheme.secondary);
           },
         ),
-        SizedBox(height: 20.sp),
+        SizedBox(height: !isPortrait ? 20.sp : 30.sp),
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(
-              height: 100.h,
-              width: 80.h,
-              child: Center(
-                child: SvgPicture.asset(ThemeIcons.quote),
+            if (!isPortrait)
+              SizedBox(
+                height: 100.h,
+                width: 80.h,
+                child: Center(
+                  child: SvgPicture.asset(ThemeIcons.quote),
+                ),
               ),
-            ),
             Flexible(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 30.sp),
                 child: Text(
                   review.review,
                   style: theme.textTheme.bodyLarge?.copyWith(
-                    fontSize: 18.sp,
+                    fontSize: !isPortrait ? 18.sp : 20.sp,
                     fontWeight: FontWeight.normal,
                   ),
                   maxLines: 3,
@@ -154,18 +187,19 @@ class GentleTouchReviewCard extends ConsumerWidget {
                 ),
               ),
             ),
-            SizedBox(
-              height: 100.h,
-              width: 80.h,
-              child: SvgPicture.asset(ThemeIcons.quote2),
-            ),
+            if (!isPortrait)
+              SizedBox(
+                height: 100.h,
+                width: 80.h,
+                child: SvgPicture.asset(ThemeIcons.quote2),
+              ),
           ],
         ),
-        SizedBox(height: 20.sp),
+        SizedBox(height: !isPortrait ? 20.sp : 10.sp),
         Text(
           review.customerName.toUpperCase(),
           style: theme.textTheme.bodyLarge?.copyWith(
-            fontSize: 20.sp,
+            fontSize: !isPortrait ? 20.sp : 22.sp,
             fontWeight: FontWeight.w500,
           ),
         ),

@@ -75,7 +75,7 @@ class Header extends ConsumerWidget {
                                     (salonModel.salonName.isNotEmpty) ? salonModel.salonName[0].toUpperCase() : '',
                                     style: theme.textTheme.displayLarge!.copyWith(
                                       fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 30.sp, 30.sp),
-                                      color: Colors.white,
+                                      color: isLightTheme ? Colors.white : Colors.black,
                                     ),
                                   ),
                                 ),

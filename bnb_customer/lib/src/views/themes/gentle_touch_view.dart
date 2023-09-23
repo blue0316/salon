@@ -289,17 +289,17 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
               //       salonModel: chosenSalon,
               //     ),
 
-              // REVIEWS
-              if (displaySettings?.reviews.showReviews == true) SizedBox.fromSize(size: Size.zero, key: controller.reviews),
-              if (displaySettings?.reviews.showReviews == true) SalonReviews(salonModel: chosenSalon),
+              // // REVIEWS
+              // if (displaySettings?.reviews.showReviews == true) SizedBox.fromSize(size: Size.zero, key: controller.reviews),
+              // if (displaySettings?.reviews.showReviews == true) SalonReviews(salonModel: chosenSalon),
 
               // // WRITE TO US
               // if (displaySettings?.showRequestForm == true) SizedBox.fromSize(size: Size.zero, key: controller.writeToUs),
               // if (displaySettings?.showRequestForm == true) WriteToUs(salonModel: chosenSalon),
 
-              // // CONTACT
-              // if (displaySettings?.showContact == true) SizedBox.fromSize(size: Size.zero, key: controller.contacts),
-              // if (displaySettings?.showContact == true) SalonContact(salonModel: chosenSalon),
+              // CONTACT
+              if (displaySettings?.showContact == true) SizedBox.fromSize(size: Size.zero, key: controller.contacts),
+              if (displaySettings?.showContact == true) SalonContact(salonModel: chosenSalon),
 
               // BOTTOM
               Padding(
