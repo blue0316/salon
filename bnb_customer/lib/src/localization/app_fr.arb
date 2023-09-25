@@ -859,5 +859,8 @@
    "goodCovid19": "bonne prévention covid-19",
    "cleanSpace": "espace propre",
    "convenientLocation": "emplacement pratique",
-   "goodPriceRation": "bon rapport qualité/prix"
+   "goodPriceRation": "bon rapport qualité/prix",
+   "organisedWork": "travail organisé (pas de retards)",
+  "serviceProvider2" : "Fournisseur de services",
+   "confortableSeat": "siège confortable"
 }
