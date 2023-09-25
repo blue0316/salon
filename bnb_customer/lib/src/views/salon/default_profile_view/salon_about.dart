@@ -61,105 +61,103 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool isLightTheme = (theme == AppTheme.customLightTheme);
 
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          SectionSpacer(
-            title: (!isSingleMaster)
-                ? salonTitles(
-                    AppLocalizations.of(context)?.localeName ?? 'en',
-                  )[1]
-                : masterTitles(
-                    AppLocalizations.of(context)?.localeName ?? 'en',
-                  )[1],
-          ),
-          Container(
-            // height: 1000.h,
-            width: double.infinity,
-            color: theme.canvasColor.withOpacity(!isLightTheme ? 0.7 : 1),
-            child: Padding(
-              padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 40.h, bottom: 20.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: isPortrait
-                        ? null
-                        : (widget.salonModel.description != '')
-                            ? 400.h
-                            : 200.h,
-                    child: isPortrait
-                        ? PortraitAboutHeader(
-                            salonModel: widget.salonModel,
-                          )
-                        : LandscapeAboutHeader(
-                            salonModel: widget.salonModel,
-                          ),
-                  ),
-                  if (widget.salonModel.additionalFeatures.isNotEmpty)
-                    Expanded(
-                      flex: 0,
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 10.sp),
-                        child: SizedBox(
-                          // height: 200.h,a
-                          width: double.infinity,
-                          child: Wrap(
-                            spacing: 10,
-                            runSpacing: 10.h,
-                            direction: Axis.horizontal,
-                            children: widget.salonModel.additionalFeatures
-                                .map(
-                                  (feature) => Padding(
-                                    padding: EdgeInsets.only(right: 12.sp),
-                                    child: FittedBox(
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: !isLightTheme ? const Color(0XFF2D2D2D).withOpacity(0.4) : Colors.transparent,
-                                          border: !isLightTheme ? null : Border.all(color: theme.primaryColor),
-                                          borderRadius: BorderRadius.circular(20.sp),
-                                        ),
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(horizontal: 25.sp, vertical: 10.sp),
-                                          child: Center(
-                                            child: Text(
-                                              getFeature(feature),
-                                              // feature.toCapitalized(),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        SectionSpacer(
+          title: (!isSingleMaster)
+              ? salonTitles(
+                  AppLocalizations.of(context)?.localeName ?? 'en',
+                )[1]
+              : masterTitles(
+                  AppLocalizations.of(context)?.localeName ?? 'en',
+                )[1],
+        ),
+        Container(
+          // height: 1000.h,
+          width: double.infinity,
+          color: theme.canvasColor.withOpacity(!isLightTheme ? 0.7 : 1),
+          child: Padding(
+            padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 40.h, bottom: 20.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: isPortrait
+                      ? null
+                      : (widget.salonModel.description != '')
+                          ? 400.h
+                          : 200.h,
+                  child: isPortrait
+                      ? PortraitAboutHeader(
+                          salonModel: widget.salonModel,
+                        )
+                      : LandscapeAboutHeader(
+                          salonModel: widget.salonModel,
+                        ),
+                ),
+                if (widget.salonModel.additionalFeatures.isNotEmpty)
+                  Expanded(
+                    flex: 0,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 10.sp),
+                      child: SizedBox(
+                        // height: 200.h,a
+                        width: double.infinity,
+                        child: Wrap(
+                          spacing: 10,
+                          runSpacing: 10.h,
+                          direction: Axis.horizontal,
+                          children: widget.salonModel.additionalFeatures
+                              .map(
+                                (feature) => Padding(
+                                  padding: EdgeInsets.only(right: 12.sp),
+                                  child: FittedBox(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: !isLightTheme ? const Color(0XFF2D2D2D).withOpacity(0.4) : Colors.transparent,
+                                        border: !isLightTheme ? null : Border.all(color: theme.primaryColor),
+                                        borderRadius: BorderRadius.circular(20.sp),
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: 25.sp, vertical: 10.sp),
+                                        child: Center(
+                                          child: Text(
+                                            getFeature(feature),
+                                            // feature.toCapitalized(),
 
-                                              style: theme.textTheme.displayMedium!.copyWith(
-                                                fontWeight: FontWeight.normal,
-                                                fontSize: 15.sp,
-                                                color: isLightTheme ? const Color(0XFF373737) : const Color(0XFFB1B1B1),
-                                                fontFamily: "Inter-Light",
-                                              ),
+                                            style: theme.textTheme.displayMedium!.copyWith(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 15.sp,
+                                              color: isLightTheme ? const Color(0XFF373737) : const Color(0XFFB1B1B1),
+                                              fontFamily: "Inter-Light",
                                             ),
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                )
-                                .toList(),
-                          ),
+                                ),
+                              )
+                              .toList(),
                         ),
                       ),
                     ),
-                  const Space(factor: 2.5),
-                  ReviewSection(
-                    reviews: _salonProfileProvider.salonReviews,
-                    avgRating: widget.salonModel.avgRating,
                   ),
-                ],
-              ),
+                const Space(factor: 2.5),
+                ReviewSection(
+                  reviews: _salonProfileProvider.salonReviews,
+                  avgRating: widget.salonModel.avgRating,
+                ),
+              ],
             ),
           ),
-          const Space(factor: 2),
-          const LandingBottom(),
-        ],
-      ),
+        ),
+        const Space(factor: 2),
+        const LandingBottom(),
+      ],
     );
   }
 }
