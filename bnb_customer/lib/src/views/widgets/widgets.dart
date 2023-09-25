@@ -156,10 +156,15 @@ class BnbRatings extends ConsumerWidget {
       itemCount: 5,
       itemPadding: EdgeInsets.symmetric(horizontal: padding ?? 0.0),
       itemBuilder: (context, _) {
-        return SvgPicture.asset(
-          'assets/icons/flutterRating.svg',
+        return Icon(
+          Icons.star,
           color: color ?? AppTheme.bookingYellow,
         );
+
+        //  SvgPicture.asset(
+        //   'assets/icons/flutterRating.svg',
+        //   color: color ?? AppTheme.bookingYellow,
+        // );
       },
       onRatingUpdate: (rating) {
         onRatingUpdate!();
