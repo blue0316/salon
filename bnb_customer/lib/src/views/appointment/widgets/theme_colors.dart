@@ -32,6 +32,20 @@ Color? valueColor(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
     case ThemeType.DefaultLight:
       return Colors.black;
+    case ThemeType.GlamLight:
+      return Colors.black;
+    case ThemeType.GlamMinimalLight:
+      return Colors.black;
+
+    default:
+      return Colors.white;
+  }
+}
+
+Color? chooseReviewTag(ThemeType themeType, ThemeData theme) {
+  switch (themeType) {
+    case ThemeType.GlamMinimalDark:
+      return Colors.black;
 
     default:
       return Colors.white;
@@ -168,5 +182,37 @@ Color loaderColor(ThemeType themeType, ThemeData theme) {
 
     default:
       return Colors.black; // theme.primaryColor;
+  }
+}
+
+Color reviewButtonText(ThemeType themeType) {
+  switch (themeType) {
+    case ThemeType.GlamMinimalLight:
+      return Colors.white;
+    case ThemeType.GlamMinimalDark:
+      return Colors.black;
+    case ThemeType.GlamLight:
+      return Colors.white;
+    case ThemeType.Barbershop:
+      return Colors.black;
+    case ThemeType.DefaultLight:
+      return Colors.white;
+
+    default:
+      return Colors.black;
+  }
+}
+
+Color feedbackBGColor(ThemeType themeType, ThemeData theme) {
+  switch (themeType) {
+    case ThemeType.DefaultLight:
+      return Colors.white;
+    case ThemeType.GlamLight:
+      return Colors.white;
+    case ThemeType.GlamMinimalLight:
+      return Colors.white;
+
+    default:
+      return const Color(0xFF383838);
   }
 }

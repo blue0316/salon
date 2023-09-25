@@ -26,8 +26,6 @@ class Header extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final _appointmentProvider = ref.watch(appointmentProvider);
     ThemeData theme = _appointmentProvider.salonTheme ?? AppTheme.customLightTheme;
-
-    bool isLightTheme = (theme == AppTheme.customLightTheme);
     ThemeType themeType = _appointmentProvider.themeType!;
 
     return Center(
@@ -60,7 +58,7 @@ class Header extends ConsumerWidget {
                                 (salonName.isNotEmpty) ? salonName[0].toUpperCase() : '',
                                 style: theme.textTheme.displayLarge!.copyWith(
                                   fontSize: DeviceConstraints.getResponsiveSize(context, 25.sp, 30.sp, 30.sp),
-                                  color: Colors.white,
+                                  color: reviewButtonText(themeType),
                                 ),
                               ),
                             ),
@@ -92,7 +90,7 @@ class Header extends ConsumerWidget {
                                 SvgPicture.asset(
                                   AppIcons.mapPin2WhiteSVG,
                                   height: 15.sp,
-                                  color: isLightTheme ? Colors.black : Colors.white,
+                                  color: valueColor(themeType, theme), // color: isLightTheme ? Colors.black : Colors.white,
                                 ),
                                 const SizedBox(width: 10),
                                 Flexible(
@@ -101,7 +99,7 @@ class Header extends ConsumerWidget {
                                     style: theme.textTheme.displayMedium!.copyWith(
                                       fontSize: 13.sp,
                                       fontWeight: FontWeight.w400,
-                                      color: isLightTheme ? Colors.black : Colors.white,
+                                      color: valueColor(themeType, theme), // isLightTheme ? Colors.black : Colors.white,
                                       fontFamily: 'Poppins',
                                     ),
                                     maxLines: 1,

@@ -57,7 +57,13 @@ class DefaultButton extends ConsumerWidget {
         color: color ?? AppTheme.lightBlack,
         onPressed: onTap as void Function()?,
         child: isLoading
-            ? CircularProgressIndicator(color: loaderColor)
+            ? Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(color: loaderColor),
+                ],
+              )
             : Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,

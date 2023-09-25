@@ -15,7 +15,7 @@ import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'appointment_review.dart';
+import 'reviews/appointment_review.dart';
 import 'details/services_details.dart';
 import 'details/your_details.dart';
 import 'widgets/appointment_header.dart';
@@ -114,7 +114,10 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => const ReviewAppointments(),
+                                            builder: (context) => ReviewAppointments(
+                                              appointment: appointment!,
+                                              appointmentId: widget.appointmentDocId,
+                                            ),
                                           ),
                                         );
                                       },
