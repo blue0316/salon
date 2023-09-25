@@ -56,317 +56,311 @@ class _SalonAllWorksState extends ConsumerState<SalonAllWorks> {
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool isLightTheme = (theme == AppTheme.customLightTheme);
 
-    return SingleChildScrollView(
-      physics: const NeverScrollableScrollPhysics(),
-      child: Column(
-        children: [
-          SectionSpacer(
-            title: (!isSingleMaster)
-                ? salonTitles(
-                    AppLocalizations.of(context)?.localeName ?? 'en',
-                  )[3]
-                : masterTitles(
-                    AppLocalizations.of(context)?.localeName ?? 'en',
-                  )[2],
-          ),
-          Container(
-            height: !(widget.salonModel.photosOfWorks != null && widget.salonModel.photosOfWorks!.isNotEmpty)
-                ? 300.h
-                : isPortrait
-                    ? 1500.h
-                    : null, // 1000.h,
-            width: double.infinity,
-            color: theme.canvasColor.withOpacity(!isLightTheme ? 0.7 : 1),
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
-              child: SingleChildScrollView(
-                physics: const NeverScrollableScrollPhysics(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    (widget.salonModel.photosOfWorks != null && widget.salonModel.photosOfWorks!.isNotEmpty)
-                        ? Column(
+    return Column(
+      children: [
+        SectionSpacer(
+          title: (!isSingleMaster)
+              ? salonTitles(
+                  AppLocalizations.of(context)?.localeName ?? 'en',
+                )[3]
+              : masterTitles(
+                  AppLocalizations.of(context)?.localeName ?? 'en',
+                )[2],
+        ),
+        Container(
+          height: !(widget.salonModel.photosOfWorks != null && widget.salonModel.photosOfWorks!.isNotEmpty)
+              ? 300.h
+              : isPortrait
+                  ? 1500.h
+                  : null, // 1000.h,
+          width: double.infinity,
+          color: theme.canvasColor.withOpacity(!isLightTheme ? 0.7 : 1),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                (widget.salonModel.photosOfWorks != null && widget.salonModel.photosOfWorks!.isNotEmpty)
+                    ? Column(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  MouseRegion(
-                                    cursor: SystemMouseCursors.click,
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => ImagePreview(
-                                              imageUrls: [firstPhoto[0].image],
-                                              index: 0,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      child: SizedBox(
-                                        height: DeviceConstraints.getResponsiveSize(context, 400.h, 410.h, 410.h),
-                                        width: double.infinity,
-                                        child: CachedImage(
-                                          url: firstPhoto[0].image!, // widget.salonModel.photosOfWorks![0].image!,
-                                          fit: BoxFit.cover,
-                                          width: MediaQuery.of(context).size.width,
+                              MouseRegion(
+                                cursor: SystemMouseCursors.click,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ImagePreview(
+                                          imageUrls: [firstPhoto[0].image],
+                                          index: 0,
                                         ),
                                       ),
+                                    );
+                                  },
+                                  child: SizedBox(
+                                    height: DeviceConstraints.getResponsiveSize(context, 400.h, 410.h, 410.h),
+                                    width: double.infinity,
+                                    child: CachedImage(
+                                      url: firstPhoto[0].image!, // widget.salonModel.photosOfWorks![0].image!,
+                                      fit: BoxFit.cover,
+                                      width: MediaQuery.of(context).size.width,
                                     ),
                                   ),
-                                  SizedBox(height: 12.sp),
-                                  Text(
-                                    '${firstPhoto[0].description}',
-                                    style: theme.textTheme.bodyLarge!.copyWith(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 15.sp),
-                                      color: !isLightTheme ? const Color(0XFFBDBDBD) : const Color(0XFF373737),
-                                    ),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ],
+                                ),
                               ),
-                              SizedBox(height: 20.h),
+                              SizedBox(height: 12.sp),
+                              Text(
+                                '${firstPhoto[0].description}',
+                                style: theme.textTheme.bodyLarge!.copyWith(
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 15.sp),
+                                  color: !isLightTheme ? const Color(0XFFBDBDBD) : const Color(0XFF373737),
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 20.h),
 
-                              //
-                              !isPortrait
-                                  ? Column(
-                                      children: [
-                                        CarouselSlider(
-                                          carouselController: _controller,
-                                          options: CarouselOptions(
-                                            scrollPhysics: const AlwaysScrollableScrollPhysics(),
-                                            autoPlay: false,
-                                            pauseAutoPlayOnTouch: true,
-                                            viewportFraction: DeviceConstraints.getResponsiveSize(context, 1, 0.4, 0.34),
-                                            height: DeviceConstraints.getResponsiveSize(context, 280.h, 300.h, 320.h),
-                                          ),
-                                          items: remainingPhotos.map((item) {
-                                            String image = item.image ?? '';
-                                            if (image.isNotEmpty) {
-                                              return Padding(
-                                                padding: EdgeInsets.only(right: 20.sp),
-                                                child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                  children: [
-                                                    Expanded(
-                                                      child: MouseRegion(
-                                                        cursor: SystemMouseCursors.click,
-                                                        child: GestureDetector(
-                                                          onTap: () {
-                                                            Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                builder: (context) => ImagePreview(
-                                                                  imageUrls: [item.image],
-                                                                  index: 0,
-                                                                ),
-                                                              ),
-                                                            );
-                                                          },
-                                                          child: CachedImage(
-                                                            width: DeviceConstraints.getResponsiveSize(
-                                                              context,
-                                                              size.width - 20.w,
-                                                              ((size.width / 2)), // size.width - 20.w,
-                                                              (size.width / 3) - 20, // 200.w,
+                          //
+                          !isPortrait
+                              ? Column(
+                                  children: [
+                                    CarouselSlider(
+                                      carouselController: _controller,
+                                      options: CarouselOptions(
+                                        scrollPhysics: const AlwaysScrollableScrollPhysics(),
+                                        autoPlay: false,
+                                        pauseAutoPlayOnTouch: true,
+                                        viewportFraction: DeviceConstraints.getResponsiveSize(context, 1, 0.4, 0.34),
+                                        height: DeviceConstraints.getResponsiveSize(context, 280.h, 300.h, 320.h),
+                                      ),
+                                      items: remainingPhotos.map((item) {
+                                        String image = item.image ?? '';
+                                        if (image.isNotEmpty) {
+                                          return Padding(
+                                            padding: EdgeInsets.only(right: 20.sp),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              children: [
+                                                Expanded(
+                                                  child: MouseRegion(
+                                                    cursor: SystemMouseCursors.click,
+                                                    child: GestureDetector(
+                                                      onTap: () {
+                                                        Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                            builder: (context) => ImagePreview(
+                                                              imageUrls: [item.image],
+                                                              index: 0,
                                                             ),
-                                                            url: item.image!,
-                                                            fit: BoxFit.cover,
                                                           ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    SizedBox(height: 10.sp),
-                                                    Text(
-                                                      (item.description != null && item.description != '') ? '${item.description}' : '',
-                                                      style: theme.textTheme.bodyLarge!.copyWith(
-                                                        fontWeight: FontWeight.normal,
-                                                        fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 15.sp),
-                                                        color: !isLightTheme ? const Color(0XFFBDBDBD) : const Color(0XFF373737),
-                                                      ),
-                                                      maxLines: 2,
-                                                      overflow: TextOverflow.ellipsis,
-                                                    ),
-                                                  ],
-                                                ),
-                                              );
-                                            } else {
-                                              return const SizedBox();
-                                            }
-                                          }).toList(),
-                                        ),
-                                        SizedBox(height: 30.sp),
-                                        Row(
-                                          crossAxisAlignment: CrossAxisAlignment.end,
-                                          mainAxisAlignment: MainAxisAlignment.end,
-                                          children: [
-                                            GestureDetector(
-                                              onTap: () => _controller.previousPage(),
-                                              child: Container(
-                                                height: 41.h,
-                                                width: 41.h,
-                                                decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: !isLightTheme ? const Color(0XFFFFFFFF).withOpacity(0.1) : const Color(0XFF000000).withOpacity(0.4),
-                                                ),
-                                                child: const Icon(Icons.chevron_left_outlined, color: Colors.white),
-                                              ),
-                                            ),
-                                            SizedBox(width: 10.w),
-                                            GestureDetector(
-                                              onTap: () => _controller.nextPage(),
-                                              child: Container(
-                                                height: 41.h,
-                                                width: 41.h,
-                                                decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: !isLightTheme ? const Color(0XFFFFFFFF).withOpacity(0.1) : const Color(0XFF000000).withOpacity(0.4),
-                                                ),
-                                                child: const Icon(Icons.chevron_right_outlined, color: Colors.white),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    )
-                                  : Column(
-                                      children: [
-                                        SizedBox(
-                                          height: 850.h,
-                                          child: CarouselSlider(
-                                            carouselController: _controller,
-                                            options: CarouselOptions(
-                                              scrollPhysics: const NeverScrollableScrollPhysics(),
-                                              viewportFraction: DeviceConstraints.getResponsiveSize(context, 0.365, 0.4, 0.34),
-                                              // height: DeviceConstraints.getResponsiveSize(context, 241.h, 250.h, 280.h),
-                                              aspectRatio: 1,
-                                              enlargeCenterPage: false,
-                                              scrollDirection: Axis.vertical,
-                                              enableInfiniteScroll: false, // this
-                                              padEnds: false, // this
-                                              autoPlay: false,
-                                            ),
-                                            items: widget.salonModel.photosOfWorks!.map((item) {
-                                              // String image = item.image ?? '';
-
-                                              return Padding(
-                                                padding: EdgeInsets.only(bottom: 40.h),
-                                                child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                  children: [
-                                                    Expanded(
+                                                        );
+                                                      },
                                                       child: CachedImage(
-                                                        // height: 300.h,
-                                                        width: MediaQuery.of(context).size.width,
-
-                                                        // height: DeviceConstraints.getResponsiveSize(
-                                                        //   context,
-                                                        //   size.width - 20.w,
-                                                        //   ((size.width / 2)), // size.width - 20.w,
-                                                        //   (size.width / 3) - 20, // 200.w,
-                                                        // ),
+                                                        width: DeviceConstraints.getResponsiveSize(
+                                                          context,
+                                                          size.width - 20.w,
+                                                          ((size.width / 2)), // size.width - 20.w,
+                                                          (size.width / 3) - 20, // 200.w,
+                                                        ),
                                                         url: item.image!,
                                                         fit: BoxFit.cover,
                                                       ),
                                                     ),
-                                                    SizedBox(height: 12.sp),
-                                                    Text(
-                                                      (item.description != null && item.description != '') ? '${item.description}' : '',
-                                                      style: theme.textTheme.bodyLarge!.copyWith(
-                                                        fontWeight: FontWeight.normal,
-                                                        fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 15.sp),
-                                                        color: !isLightTheme ? const Color(0XFFBDBDBD) : const Color(0XFF373737),
-                                                      ),
-                                                      maxLines: 2,
-                                                      overflow: TextOverflow.ellipsis,
-                                                    ),
-                                                  ],
+                                                  ),
                                                 ),
-                                              );
-                                            }).toList(),
+                                                SizedBox(height: 10.sp),
+                                                Text(
+                                                  (item.description != null && item.description != '') ? '${item.description}' : '',
+                                                  style: theme.textTheme.bodyLarge!.copyWith(
+                                                    fontWeight: FontWeight.normal,
+                                                    fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 15.sp),
+                                                    color: !isLightTheme ? const Color(0XFFBDBDBD) : const Color(0XFF373737),
+                                                  ),
+                                                  maxLines: 2,
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        } else {
+                                          return const SizedBox();
+                                        }
+                                      }).toList(),
+                                    ),
+                                    SizedBox(height: 30.sp),
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () => _controller.previousPage(),
+                                          child: Container(
+                                            height: 41.h,
+                                            width: 41.h,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: !isLightTheme ? const Color(0XFFFFFFFF).withOpacity(0.1) : const Color(0XFF000000).withOpacity(0.4),
+                                            ),
+                                            child: const Icon(Icons.chevron_left_outlined, color: Colors.white),
                                           ),
                                         ),
-                                        SizedBox(height: 30.sp),
-                                        Row(
-                                          crossAxisAlignment: CrossAxisAlignment.end,
-                                          mainAxisAlignment: MainAxisAlignment.end,
-                                          children: [
-                                            GestureDetector(
-                                              onTap: () => _controller.previousPage(),
-                                              child: Container(
-                                                height: 41.h,
-                                                width: 41.h,
-                                                decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: !isLightTheme ? const Color(0XFFFFFFFF).withOpacity(0.1) : const Color(0XFF000000).withOpacity(0.4),
-                                                ),
-                                                child: const Icon(Icons.chevron_left_outlined, color: Colors.white),
-                                              ),
+                                        SizedBox(width: 10.w),
+                                        GestureDetector(
+                                          onTap: () => _controller.nextPage(),
+                                          child: Container(
+                                            height: 41.h,
+                                            width: 41.h,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: !isLightTheme ? const Color(0XFFFFFFFF).withOpacity(0.1) : const Color(0XFF000000).withOpacity(0.4),
                                             ),
-                                            SizedBox(width: 30.w),
-                                            GestureDetector(
-                                              onTap: () => _controller.nextPage(),
-                                              child: Container(
-                                                height: 41.h,
-                                                width: 41.h,
-                                                decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: !isLightTheme ? const Color(0XFFFFFFFF).withOpacity(0.1) : const Color(0XFF000000).withOpacity(0.4),
-                                                ),
-                                                child: const Icon(Icons.chevron_right_outlined, color: Colors.white),
-                                              ),
-                                            ),
-                                          ],
+                                            child: const Icon(Icons.chevron_right_outlined, color: Colors.white),
+                                          ),
                                         ),
                                       ],
                                     ),
-                            ],
-                          )
-                        : Padding(
-                            padding: EdgeInsets.only(top: 30.h),
-                            child: Center(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    height: 150.h,
-                                    width: 250.h,
-                                    child: Image.asset(
-                                      ThemeImages.noPhotos,
-                                      fit: BoxFit.cover,
+                                  ],
+                                )
+                              : Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 850.h,
+                                      child: CarouselSlider(
+                                        carouselController: _controller,
+                                        options: CarouselOptions(
+                                          scrollPhysics: const NeverScrollableScrollPhysics(),
+                                          viewportFraction: DeviceConstraints.getResponsiveSize(context, 0.365, 0.4, 0.34),
+                                          // height: DeviceConstraints.getResponsiveSize(context, 241.h, 250.h, 280.h),
+                                          aspectRatio: 1,
+                                          enlargeCenterPage: false,
+                                          scrollDirection: Axis.vertical,
+                                          enableInfiniteScroll: false, // this
+                                          padEnds: false, // this
+                                          autoPlay: false,
+                                        ),
+                                        items: widget.salonModel.photosOfWorks!.map((item) {
+                                          // String image = item.image ?? '';
+
+                                          return Padding(
+                                            padding: EdgeInsets.only(bottom: 40.h),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              children: [
+                                                Expanded(
+                                                  child: CachedImage(
+                                                    // height: 300.h,
+                                                    width: MediaQuery.of(context).size.width,
+
+                                                    // height: DeviceConstraints.getResponsiveSize(
+                                                    //   context,
+                                                    //   size.width - 20.w,
+                                                    //   ((size.width / 2)), // size.width - 20.w,
+                                                    //   (size.width / 3) - 20, // 200.w,
+                                                    // ),
+                                                    url: item.image!,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 12.sp),
+                                                Text(
+                                                  (item.description != null && item.description != '') ? '${item.description}' : '',
+                                                  style: theme.textTheme.bodyLarge!.copyWith(
+                                                    fontWeight: FontWeight.normal,
+                                                    fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 15.sp),
+                                                    color: !isLightTheme ? const Color(0XFFBDBDBD) : const Color(0XFF373737),
+                                                  ),
+                                                  maxLines: 2,
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        }).toList(),
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(height: 20.sp),
-                                  Text(
-                                    AppLocalizations.of(context)?.noPhotosAvailable ?? 'No photos added yet',
-                                    style: theme.textTheme.displayLarge!.copyWith(
-                                      fontSize: 16.sp,
-                                      color: !isLightTheme ? const Color(0XFFBDBDBD) : const Color(0XFF373737),
-                                      fontWeight: FontWeight.w400,
+                                    SizedBox(height: 30.sp),
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () => _controller.previousPage(),
+                                          child: Container(
+                                            height: 41.h,
+                                            width: 41.h,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: !isLightTheme ? const Color(0XFFFFFFFF).withOpacity(0.1) : const Color(0XFF000000).withOpacity(0.4),
+                                            ),
+                                            child: const Icon(Icons.chevron_left_outlined, color: Colors.white),
+                                          ),
+                                        ),
+                                        SizedBox(width: 30.w),
+                                        GestureDetector(
+                                          onTap: () => _controller.nextPage(),
+                                          child: Container(
+                                            height: 41.h,
+                                            width: 41.h,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: !isLightTheme ? const Color(0XFFFFFFFF).withOpacity(0.1) : const Color(0XFF000000).withOpacity(0.4),
+                                            ),
+                                            child: const Icon(Icons.chevron_right_outlined, color: Colors.white),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ],
+                                  ],
+                                ),
+                        ],
+                      )
+                    : Padding(
+                        padding: EdgeInsets.only(top: 30.h),
+                        child: Center(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                height: 150.h,
+                                width: 250.h,
+                                child: Image.asset(
+                                  ThemeImages.noPhotos,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
-                            ),
+                              SizedBox(height: 20.sp),
+                              Text(
+                                AppLocalizations.of(context)?.noPhotosAvailable ?? 'No photos added yet',
+                                style: theme.textTheme.displayLarge!.copyWith(
+                                  fontSize: 16.sp,
+                                  color: !isLightTheme ? const Color(0XFFBDBDBD) : const Color(0XFF373737),
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
                           ),
-                  ],
-                ),
-              ),
+                        ),
+                      ),
+              ],
             ),
           ),
-          const Space(factor: 2),
-          const LandingBottom(),
-        ],
-      ),
+        ),
+        const Space(factor: 2),
+        const LandingBottom(),
+      ],
     );
   }
 }

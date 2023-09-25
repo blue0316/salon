@@ -133,401 +133,393 @@ class _SalonMasterViewState extends ConsumerState<SalonMasterView> {
               height: 1500.h,
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.h),
-                child: SingleChildScrollView(
+                child: ListView(
                   physics: const NeverScrollableScrollPhysics(),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 10.h),
-                      SizedBox(
-                        height: !isPortrait
-                            ? null
-                            : _createAppointmentProvider.chosenMaster!.links == null
-                                ? 600.h
-                                : 650.h,
-                        child: !isPortrait
-                            ? MasterAboutHeaderLandscape(
-                                masterModel: _createAppointmentProvider.chosenMaster!,
-                              )
-                            : MasterAboutHeaderPortrait(
-                                masterModel: _createAppointmentProvider.chosenMaster!,
-                              ),
-                      ),
-                      SizedBox(height: 30.h),
-                      CustomExpansionTile(
-                        iconColor: Colors.black,
-                        collapsedIconColor: Colors.black,
-                        tilePadding: EdgeInsets.zero,
-                        childrenPadding: EdgeInsets.zero,
-                        trailing: const SizedBox.shrink(),
-                        backgroundColor: Colors.transparent, // const Color(0XFF0A0A0A).withOpacity(0.6),
-                        // onExpansionChanged: (bool val) {
-                        //   setState(() => isExpanded = !isExpanded);
-                        // },
-                        title: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              AppLocalizations.of(context)?.services ?? 'Services',
-                              style: theme.textTheme.displayLarge!.copyWith(
-                                fontWeight: FontWeight.w600,
-                                fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
-                                color: isLightTheme ? Colors.black : Colors.white,
-                              ),
+                  children: [
+                    SizedBox(height: 10.h),
+                    SizedBox(
+                      height: !isPortrait
+                          ? null
+                          : _createAppointmentProvider.chosenMaster!.links == null
+                              ? 600.h
+                              : 650.h,
+                      child: !isPortrait
+                          ? MasterAboutHeaderLandscape(
+                              masterModel: _createAppointmentProvider.chosenMaster!,
+                            )
+                          : MasterAboutHeaderPortrait(
+                              masterModel: _createAppointmentProvider.chosenMaster!,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 7),
-                              child: RotatedBox(
-                                quarterTurns: -1,
-                                child: Icon(
-                                  Icons.arrow_back_ios_new_rounded,
-                                  color: const Color(0XFF919191),
-                                  size: 20.sp,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                    ),
+                    SizedBox(height: 30.h),
+                    CustomExpansionTile(
+                      iconColor: Colors.black,
+                      collapsedIconColor: Colors.black,
+                      tilePadding: EdgeInsets.zero,
+                      childrenPadding: EdgeInsets.zero,
+                      trailing: const SizedBox.shrink(),
+                      backgroundColor: Colors.transparent, // const Color(0XFF0A0A0A).withOpacity(0.6),
+                      // onExpansionChanged: (bool val) {
+                      //   setState(() => isExpanded = !isExpanded);
+                      // },
+                      title: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          ListView.builder(
-                              itemCount: _salonSearchProvider.categories.length,
-                              shrinkWrap: true,
-                              primary: false,
-                              controller: _listViewController,
-                              padding: const EdgeInsets.all(0),
-                              itemBuilder: (context, index) {
-                                List<ServiceModel> services = _createAppointmentProvider.mastersServicesMapAll[_createAppointmentProvider.chosenMaster?.masterId]
-                                        ?.where(
-                                          (element) => element.categoryId == (_salonSearchProvider.categories[index].categoryId).toString(),
-                                        )
-                                        .toList() ??
-                                    [];
-
-                                if (services.isNotEmpty) {
-                                  return NewServiceTile(
-                                    services: services,
-                                    categoryModel: _salonSearchProvider.categories
-                                        .where(
-                                          (element) => element.categoryId == (_salonSearchProvider.categories[index].categoryId).toString(),
-                                        )
-                                        .first,
-                                    listViewController: _listViewController,
-                                    initiallyExpanded: false,
-                                  );
-                                } else {
-                                  return const SizedBox();
-                                }
-                              }),
+                          Text(
+                            AppLocalizations.of(context)?.services ?? 'Services',
+                            style: theme.textTheme.displayLarge!.copyWith(
+                              fontWeight: FontWeight.w600,
+                              fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
+                              color: isLightTheme ? Colors.black : Colors.white,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 7),
+                            child: RotatedBox(
+                              quarterTurns: -1,
+                              child: Icon(
+                                Icons.arrow_back_ios_new_rounded,
+                                color: const Color(0XFF919191),
+                                size: 20.sp,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
-                      SizedBox(height: 25.sp),
-                      CustomExpansionTile(
-                        iconColor: Colors.black,
-                        collapsedIconColor: Colors.black,
-                        tilePadding: EdgeInsets.zero,
-                        childrenPadding: EdgeInsets.zero,
-                        trailing: const SizedBox.shrink(),
-                        backgroundColor: Colors.transparent, // const Color(0XFF0A0A0A).withOpacity(0.6),
-                        title: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              AppLocalizations.of(context)?.portfolio ?? 'Portfolio',
-                              style: theme.textTheme.displayLarge!.copyWith(
-                                fontWeight: FontWeight.w600,
-                                fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
-                                color: isLightTheme ? Colors.black : Colors.white,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 7),
-                              child: RotatedBox(
-                                quarterTurns: -1,
-                                child: Icon(
-                                  Icons.arrow_back_ios_new_rounded,
-                                  color: const Color(0XFF919191),
-                                  size: 20.sp,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                      children: [
+                        ListView.builder(
+                            itemCount: _salonSearchProvider.categories.length,
+                            shrinkWrap: true,
+                            primary: false,
+                            controller: _listViewController,
+                            padding: const EdgeInsets.all(0),
+                            itemBuilder: (context, index) {
+                              List<ServiceModel> services = _createAppointmentProvider.mastersServicesMapAll[_createAppointmentProvider.chosenMaster?.masterId]
+                                      ?.where(
+                                        (element) => element.categoryId == (_salonSearchProvider.categories[index].categoryId).toString(),
+                                      )
+                                      .toList() ??
+                                  [];
+
+                              if (services.isNotEmpty) {
+                                return NewServiceTile(
+                                  services: services,
+                                  categoryModel: _salonSearchProvider.categories
+                                      .where(
+                                        (element) => element.categoryId == (_salonSearchProvider.categories[index].categoryId).toString(),
+                                      )
+                                      .first,
+                                  listViewController: _listViewController,
+                                  initiallyExpanded: false,
+                                );
+                              } else {
+                                return const SizedBox();
+                              }
+                            }),
+                      ],
+                    ),
+                    SizedBox(height: 25.sp),
+                    CustomExpansionTile(
+                      iconColor: Colors.black,
+                      collapsedIconColor: Colors.black,
+                      tilePadding: EdgeInsets.zero,
+                      childrenPadding: EdgeInsets.zero,
+                      trailing: const SizedBox.shrink(),
+                      backgroundColor: Colors.transparent, // const Color(0XFF0A0A0A).withOpacity(0.6),
+                      title: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          SizedBox(
-                            height: !(_createAppointmentProvider.chosenMaster!.photosOfWork != null && _createAppointmentProvider.chosenMaster!.photosOfWork!.isNotEmpty)
-                                ? 300.h
-                                : isPortrait
-                                    ? 1500.h
-                                    : null, // 1000.h,
-                            width: double.infinity,
-                            // color: theme.canvasColor.withOpacity(!isLightTheme ? 0.5 : 1),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
-                              child: SingleChildScrollView(
-                                physics: const NeverScrollableScrollPhysics(),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    (_createAppointmentProvider.chosenMaster!.photosOfWork != null && _createAppointmentProvider.chosenMaster!.photosOfWork!.isNotEmpty)
-                                        ? !isPortrait
-                                            ? Column(
-                                                children: [
-                                                  CarouselSlider(
-                                                    carouselController: _controller,
-                                                    options: CarouselOptions(
-                                                      scrollPhysics: const AlwaysScrollableScrollPhysics(),
-                                                      autoPlay: false,
-                                                      pauseAutoPlayOnTouch: true,
-                                                      viewportFraction: DeviceConstraints.getResponsiveSize(context, 1, 0.4, 0.34),
-                                                      height: DeviceConstraints.getResponsiveSize(context, 280.h, 300.h, 320.h),
-                                                    ),
-                                                    items: _createAppointmentProvider.chosenMaster!.photosOfWork!.map((item) {
-                                                      return GestureDetector(
-                                                        onTap: () {
-                                                          Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                              builder: (context) => ImagePreview(
-                                                                imageUrls: [item],
-                                                                index: _createAppointmentProvider.chosenMaster!.photosOfWork!.indexOf(item),
-                                                              ),
-                                                            ),
-                                                          );
-                                                        },
-                                                        child: Padding(
-                                                          padding: EdgeInsets.only(right: 20.sp),
-                                                          child: Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            mainAxisAlignment: MainAxisAlignment.start,
-                                                            children: [
-                                                              Expanded(
-                                                                child: CachedImage(
-                                                                  width: DeviceConstraints.getResponsiveSize(
-                                                                    context,
-                                                                    size.width - 20.w,
-                                                                    ((size.width / 2)), // size.width - 20.w,
-                                                                    (size.width / 3) - 20, // 200.w,
-                                                                  ),
-                                                                  url: item,
-                                                                  fit: BoxFit.cover,
-                                                                ),
-                                                              ),
-                                                            ],
+                          Text(
+                            AppLocalizations.of(context)?.portfolio ?? 'Portfolio',
+                            style: theme.textTheme.displayLarge!.copyWith(
+                              fontWeight: FontWeight.w600,
+                              fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
+                              color: isLightTheme ? Colors.black : Colors.white,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 7),
+                            child: RotatedBox(
+                              quarterTurns: -1,
+                              child: Icon(
+                                Icons.arrow_back_ios_new_rounded,
+                                color: const Color(0XFF919191),
+                                size: 20.sp,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      children: [
+                        SizedBox(
+                          height: !(_createAppointmentProvider.chosenMaster!.photosOfWork != null && _createAppointmentProvider.chosenMaster!.photosOfWork!.isNotEmpty)
+                              ? 300.h
+                              : isPortrait
+                                  ? 1500.h
+                                  : null, // 1000.h,
+                          width: double.infinity,
+                          // color: theme.canvasColor.withOpacity(!isLightTheme ? 0.5 : 1),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
+                            child: ListView(
+                              physics: const NeverScrollableScrollPhysics(),
+                              children: [
+                                (_createAppointmentProvider.chosenMaster!.photosOfWork != null && _createAppointmentProvider.chosenMaster!.photosOfWork!.isNotEmpty)
+                                    ? !isPortrait
+                                        ? Column(
+                                            children: [
+                                              CarouselSlider(
+                                                carouselController: _controller,
+                                                options: CarouselOptions(
+                                                  scrollPhysics: const AlwaysScrollableScrollPhysics(),
+                                                  autoPlay: false,
+                                                  pauseAutoPlayOnTouch: true,
+                                                  viewportFraction: DeviceConstraints.getResponsiveSize(context, 1, 0.4, 0.34),
+                                                  height: DeviceConstraints.getResponsiveSize(context, 280.h, 300.h, 320.h),
+                                                ),
+                                                items: _createAppointmentProvider.chosenMaster!.photosOfWork!.map((item) {
+                                                  return GestureDetector(
+                                                    onTap: () {
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) => ImagePreview(
+                                                            imageUrls: [item],
+                                                            index: _createAppointmentProvider.chosenMaster!.photosOfWork!.indexOf(item),
                                                           ),
                                                         ),
                                                       );
-                                                    }).toList(),
-                                                  ),
-                                                  SizedBox(height: 30.sp),
-                                                  Row(
-                                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                                    mainAxisAlignment: MainAxisAlignment.end,
-                                                    children: [
-                                                      GestureDetector(
-                                                        onTap: () => _controller.previousPage(),
-                                                        child: Container(
-                                                          height: 41.h,
-                                                          width: 41.h,
-                                                          decoration: BoxDecoration(
-                                                            shape: BoxShape.circle,
-                                                            color: !isLightTheme ? const Color(0XFFFFFFFF).withOpacity(0.1) : const Color(0XFF000000).withOpacity(0.4),
-                                                          ),
-                                                          child: const Icon(Icons.chevron_left_outlined, color: Colors.white),
-                                                        ),
-                                                      ),
-                                                      SizedBox(width: 10.w),
-                                                      GestureDetector(
-                                                        onTap: () => _controller.nextPage(),
-                                                        child: Container(
-                                                          height: 41.h,
-                                                          width: 41.h,
-                                                          decoration: BoxDecoration(
-                                                            shape: BoxShape.circle,
-                                                            color: !isLightTheme ? const Color(0XFFFFFFFF).withOpacity(0.1) : const Color(0XFF000000).withOpacity(0.4),
-                                                          ),
-                                                          child: const Icon(Icons.chevron_right_outlined, color: Colors.white),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              )
-                                            : Column(
-                                                children: [
-                                                  SizedBox(
-                                                    height: 850.h,
-                                                    child: CarouselSlider(
-                                                      carouselController: _controller,
-                                                      options: CarouselOptions(
-                                                        scrollPhysics: const NeverScrollableScrollPhysics(),
-                                                        viewportFraction: DeviceConstraints.getResponsiveSize(context, 0.365, 0.4, 0.34),
-                                                        // height: DeviceConstraints.getResponsiveSize(context, 241.h, 250.h, 280.h),
-                                                        aspectRatio: 1,
-                                                        enlargeCenterPage: false,
-                                                        scrollDirection: Axis.vertical,
-                                                        enableInfiniteScroll: false, // this
-                                                        padEnds: false, // this
-                                                        autoPlay: false,
-                                                      ),
-                                                      items: _createAppointmentProvider.chosenMaster!.photosOfWork!.map((item) {
-                                                        // String image = item.image ?? '';
-
-                                                        return GestureDetector(
-                                                          onTap: () {
-                                                            Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                builder: (context) => ImagePreview(
-                                                                  imageUrls: [item],
-                                                                  index: _createAppointmentProvider.chosenMaster!.photosOfWork!.indexOf(item),
-                                                                ),
+                                                    },
+                                                    child: Padding(
+                                                      padding: EdgeInsets.only(right: 20.sp),
+                                                      child: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        children: [
+                                                          Expanded(
+                                                            child: CachedImage(
+                                                              width: DeviceConstraints.getResponsiveSize(
+                                                                context,
+                                                                size.width - 20.w,
+                                                                ((size.width / 2)), // size.width - 20.w,
+                                                                (size.width / 3) - 20, // 200.w,
                                                               ),
-                                                            );
-                                                          },
-                                                          child: Padding(
-                                                            padding: EdgeInsets.only(bottom: 40.h),
-                                                            child: Column(
-                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                              mainAxisAlignment: MainAxisAlignment.start,
-                                                              children: [
-                                                                Expanded(
-                                                                  child: CachedImage(
-                                                                    // height: 300.h,
-                                                                    width: MediaQuery.of(context).size.width,
-
-                                                                    // height: DeviceConstraints.getResponsiveSize(
-                                                                    //   context,
-                                                                    //   size.width - 20.w,
-                                                                    //   ((size.width / 2)), // size.width - 20.w,
-                                                                    //   (size.width / 3) - 20, // 200.w,
-                                                                    // ),
-                                                                    url: item,
-                                                                    fit: BoxFit.cover,
-                                                                  ),
-                                                                ),
-                                                              ],
+                                                              url: item,
+                                                              fit: BoxFit.cover,
                                                             ),
                                                           ),
-                                                        );
-                                                      }).toList(),
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                  SizedBox(height: 30.sp),
-                                                  Row(
-                                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                                    mainAxisAlignment: MainAxisAlignment.end,
-                                                    children: [
-                                                      GestureDetector(
-                                                        onTap: () => _controller.previousPage(),
-                                                        child: Container(
-                                                          height: 41.h,
-                                                          width: 41.h,
-                                                          decoration: BoxDecoration(
-                                                            shape: BoxShape.circle,
-                                                            color: !isLightTheme ? const Color(0XFFFFFFFF).withOpacity(0.1) : const Color(0XFF000000).withOpacity(0.4),
-                                                          ),
-                                                          child: const Icon(Icons.chevron_left_outlined, color: Colors.white),
-                                                        ),
-                                                      ),
-                                                      SizedBox(width: 30.w),
-                                                      GestureDetector(
-                                                        onTap: () => _controller.nextPage(),
-                                                        child: Container(
-                                                          height: 41.h,
-                                                          width: 41.h,
-                                                          decoration: BoxDecoration(
-                                                            shape: BoxShape.circle,
-                                                            color: !isLightTheme ? const Color(0XFFFFFFFF).withOpacity(0.1) : const Color(0XFF000000).withOpacity(0.4),
-                                                          ),
-                                                          child: const Icon(Icons.chevron_right_outlined, color: Colors.white),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              )
-                                        : Padding(
-                                            padding: EdgeInsets.only(top: 30.h),
-                                            child: Center(
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                  );
+                                                }).toList(),
+                                              ),
+                                              SizedBox(height: 30.sp),
+                                              Row(
+                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                                mainAxisAlignment: MainAxisAlignment.end,
                                                 children: [
-                                                  SizedBox(
-                                                    height: 150.h,
-                                                    width: 250.h,
-                                                    child: Image.asset(ThemeImages.noPhotos, fit: BoxFit.cover),
-                                                  ),
-                                                  SizedBox(height: 20.sp),
-                                                  Text(
-                                                    AppLocalizations.of(context)?.noPhotosAvailable ?? 'No photos added yet',
-                                                    style: theme.textTheme.displayLarge!.copyWith(
-                                                      fontSize: 16.sp,
-                                                      color: const Color(0XFFBDBDBD), // isLightTheme ? Colors.black : Colors.white,
-                                                      fontWeight: FontWeight.w400,
+                                                  GestureDetector(
+                                                    onTap: () => _controller.previousPage(),
+                                                    child: Container(
+                                                      height: 41.h,
+                                                      width: 41.h,
+                                                      decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        color: !isLightTheme ? const Color(0XFFFFFFFF).withOpacity(0.1) : const Color(0XFF000000).withOpacity(0.4),
+                                                      ),
+                                                      child: const Icon(Icons.chevron_left_outlined, color: Colors.white),
                                                     ),
-                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                  SizedBox(width: 10.w),
+                                                  GestureDetector(
+                                                    onTap: () => _controller.nextPage(),
+                                                    child: Container(
+                                                      height: 41.h,
+                                                      width: 41.h,
+                                                      decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        color: !isLightTheme ? const Color(0XFFFFFFFF).withOpacity(0.1) : const Color(0XFF000000).withOpacity(0.4),
+                                                      ),
+                                                      child: const Icon(Icons.chevron_right_outlined, color: Colors.white),
+                                                    ),
                                                   ),
                                                 ],
                                               ),
-                                            ),
+                                            ],
+                                          )
+                                        : Column(
+                                            children: [
+                                              SizedBox(
+                                                height: 850.h,
+                                                child: CarouselSlider(
+                                                  carouselController: _controller,
+                                                  options: CarouselOptions(
+                                                    scrollPhysics: const NeverScrollableScrollPhysics(),
+                                                    viewportFraction: DeviceConstraints.getResponsiveSize(context, 0.365, 0.4, 0.34),
+                                                    // height: DeviceConstraints.getResponsiveSize(context, 241.h, 250.h, 280.h),
+                                                    aspectRatio: 1,
+                                                    enlargeCenterPage: false,
+                                                    scrollDirection: Axis.vertical,
+                                                    enableInfiniteScroll: false, // this
+                                                    padEnds: false, // this
+                                                    autoPlay: false,
+                                                  ),
+                                                  items: _createAppointmentProvider.chosenMaster!.photosOfWork!.map((item) {
+                                                    // String image = item.image ?? '';
+
+                                                    return GestureDetector(
+                                                      onTap: () {
+                                                        Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                            builder: (context) => ImagePreview(
+                                                              imageUrls: [item],
+                                                              index: _createAppointmentProvider.chosenMaster!.photosOfWork!.indexOf(item),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                      child: Padding(
+                                                        padding: EdgeInsets.only(bottom: 40.h),
+                                                        child: Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                          children: [
+                                                            Expanded(
+                                                              child: CachedImage(
+                                                                // height: 300.h,
+                                                                width: MediaQuery.of(context).size.width,
+
+                                                                // height: DeviceConstraints.getResponsiveSize(
+                                                                //   context,
+                                                                //   size.width - 20.w,
+                                                                //   ((size.width / 2)), // size.width - 20.w,
+                                                                //   (size.width / 3) - 20, // 200.w,
+                                                                // ),
+                                                                url: item,
+                                                                fit: BoxFit.cover,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    );
+                                                  }).toList(),
+                                                ),
+                                              ),
+                                              SizedBox(height: 30.sp),
+                                              Row(
+                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                children: [
+                                                  GestureDetector(
+                                                    onTap: () => _controller.previousPage(),
+                                                    child: Container(
+                                                      height: 41.h,
+                                                      width: 41.h,
+                                                      decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        color: !isLightTheme ? const Color(0XFFFFFFFF).withOpacity(0.1) : const Color(0XFF000000).withOpacity(0.4),
+                                                      ),
+                                                      child: const Icon(Icons.chevron_left_outlined, color: Colors.white),
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 30.w),
+                                                  GestureDetector(
+                                                    onTap: () => _controller.nextPage(),
+                                                    child: Container(
+                                                      height: 41.h,
+                                                      width: 41.h,
+                                                      decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        color: !isLightTheme ? const Color(0XFFFFFFFF).withOpacity(0.1) : const Color(0XFF000000).withOpacity(0.4),
+                                                      ),
+                                                      child: const Icon(Icons.chevron_right_outlined, color: Colors.white),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          )
+                                    : Padding(
+                                        padding: EdgeInsets.only(top: 30.h),
+                                        child: Center(
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              SizedBox(
+                                                height: 150.h,
+                                                width: 250.h,
+                                                child: Image.asset(ThemeImages.noPhotos, fit: BoxFit.cover),
+                                              ),
+                                              SizedBox(height: 20.sp),
+                                              Text(
+                                                AppLocalizations.of(context)?.noPhotosAvailable ?? 'No photos added yet',
+                                                style: theme.textTheme.displayLarge!.copyWith(
+                                                  fontSize: 16.sp,
+                                                  color: const Color(0XFFBDBDBD), // isLightTheme ? Colors.black : Colors.white,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ],
                                           ),
-                                  ],
-                                ),
-                              ),
+                                        ),
+                                      ),
+                              ],
                             ),
                           ),
-                        ],
-                      ),
-                      SizedBox(height: 25.sp),
-                      CustomExpansionTile(
-                        iconColor: Colors.black,
-                        collapsedIconColor: Colors.black,
-                        tilePadding: EdgeInsets.zero,
-                        childrenPadding: EdgeInsets.zero,
-                        trailing: const SizedBox.shrink(),
-                        backgroundColor: Colors.transparent, // const Color(0XFF0A0A0A).withOpacity(0.6),
-                        title: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              AppLocalizations.of(context)?.reviews ?? 'Reviews',
-                              style: theme.textTheme.displayLarge!.copyWith(
-                                fontWeight: FontWeight.w600,
-                                fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
-                                color: isLightTheme ? Colors.black : Colors.white,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 7),
-                              child: RotatedBox(
-                                quarterTurns: -1,
-                                child: Icon(
-                                  Icons.arrow_back_ios_new_rounded,
-                                  color: const Color(0XFF919191),
-                                  size: 20.sp,
-                                ),
-                              ),
-                            ),
-                          ],
                         ),
+                      ],
+                    ),
+                    SizedBox(height: 25.sp),
+                    CustomExpansionTile(
+                      iconColor: Colors.black,
+                      collapsedIconColor: Colors.black,
+                      tilePadding: EdgeInsets.zero,
+                      childrenPadding: EdgeInsets.zero,
+                      trailing: const SizedBox.shrink(),
+                      backgroundColor: Colors.transparent, // const Color(0XFF0A0A0A).withOpacity(0.6),
+                      title: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Consumer(
-                            builder: (context, ref, child) => ReviewSection(
-                              reviews: ref.watch(salonProfileProvider).masterReviews,
-                              avgRating: _createAppointmentProvider.chosenMaster!.avgRating ?? 0,
-                              isFromMasterView: true,
+                          Text(
+                            AppLocalizations.of(context)?.reviews ?? 'Reviews',
+                            style: theme.textTheme.displayLarge!.copyWith(
+                              fontWeight: FontWeight.w600,
+                              fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 18.sp, 18.sp),
+                              color: isLightTheme ? Colors.black : Colors.white,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 7),
+                            child: RotatedBox(
+                              quarterTurns: -1,
+                              child: Icon(
+                                Icons.arrow_back_ios_new_rounded,
+                                color: const Color(0XFF919191),
+                                size: 20.sp,
+                              ),
                             ),
                           ),
                         ],
                       ),
-                    ],
-                  ),
+                      children: [
+                        Consumer(
+                          builder: (context, ref, child) => ReviewSection(
+                            reviews: ref.watch(salonProfileProvider).masterReviews,
+                            avgRating: _createAppointmentProvider.chosenMaster!.avgRating ?? 0,
+                            isFromMasterView: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
