@@ -27,7 +27,9 @@ class CustomerApi {
 
         printIt(doc.data());
         if (doc.exists) {
-          final CustomerModel customer = CustomerModel.fromJson(doc.data() as Map<String, dynamic>);
+          Map<String,dynamic> customerMap = doc.data() as Map<String, dynamic>;
+          customerMap['customerId'] = doc.id;
+          final CustomerModel customer = CustomerModel.fromJson(customerMap);
           customer.customerId = doc.id;
 
           FCMTokenHandler.updateCustomerFCMToken(customer);
@@ -79,9 +81,11 @@ class CustomerApi {
       DocumentSnapshot doc = await Collection.customers.doc(customerId).get();
       printIt(doc.data());
       if (doc.exists) {
-        final CustomerModel user = CustomerModel.fromJson(doc.data() as Map<String, dynamic>);
-        user.customerId = doc.id;
-        return user;
+        Map<String,dynamic> customerMap = doc.data() as Map<String, dynamic>;
+        customerMap['customerId'] = doc.id;
+        final CustomerModel customer = CustomerModel.fromJson(customerMap);
+        customer.customerId = doc.id;
+        return customer;
       } else {
         return null;
       }
@@ -223,7 +227,10 @@ class CustomerApi {
       if (getData.docs.isEmpty) {
         return null;
       } else {
-        final CustomerModel customer = CustomerModel.fromJson(getData.docs.first.data() as Map<String, dynamic>);
+        Map<String,dynamic> customerMap = getData.docs.first.data() as Map<String, dynamic>;
+        customerMap['customerId'] = getData.docs.first.id;
+        final CustomerModel customer = CustomerModel.fromJson(customerMap);
+       // final CustomerModel customer = CustomerModel.fromJson(getData.docs.first.data() as Map<String, dynamic>);
 
         return customer;
       }
