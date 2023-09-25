@@ -37,84 +37,82 @@ class _SalonServicesState extends ConsumerState<SalonServices> {
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
     bool isLightTheme = (theme == AppTheme.customLightTheme);
 
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SectionSpacer(
-            title: (!isSingleMaster)
-                ? salonTitles(
-                    AppLocalizations.of(context)?.localeName ?? 'en',
-                  )[0]
-                : masterTitles(
-                    AppLocalizations.of(context)?.localeName ?? 'en',
-                  )[0],
-          ),
-          SizedBox(
-            // height: 1000.h,
-            width: double.infinity,
-            // color: Colors.white.withOpacity(0.7),
-            child: ListView.builder(
-              itemCount: _salonSearchProvider.categories.length,
-              shrinkWrap: true,
-              primary: false,
-              controller: _listViewController,
-              padding: const EdgeInsets.all(0),
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                if (_createAppointmentProvider.categoryServicesMap[_salonSearchProvider.categories[index].categoryId.toString()] != null && _createAppointmentProvider.categoryServicesMap[_salonSearchProvider.categories[index].categoryId.toString()]!.isNotEmpty) {
-                  final CategoryModel categoryModel = _salonSearchProvider.categories
-                      .where((
-                        element,
-                      ) =>
-                          element.categoryId == _salonSearchProvider.categories[index].categoryId.toString())
-                      .first;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SectionSpacer(
+          title: (!isSingleMaster)
+              ? salonTitles(
+                  AppLocalizations.of(context)?.localeName ?? 'en',
+                )[0]
+              : masterTitles(
+                  AppLocalizations.of(context)?.localeName ?? 'en',
+                )[0],
+        ),
+        SizedBox(
+          // height: 1000.h,
+          width: double.infinity,
+          // color: Colors.white.withOpacity(0.7),
+          child: ListView.builder(
+            itemCount: _salonSearchProvider.categories.length,
+            shrinkWrap: true,
+            primary: false,
+            controller: _listViewController,
+            padding: const EdgeInsets.all(0),
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              if (_createAppointmentProvider.categoryServicesMap[_salonSearchProvider.categories[index].categoryId.toString()] != null && _createAppointmentProvider.categoryServicesMap[_salonSearchProvider.categories[index].categoryId.toString()]!.isNotEmpty) {
+                final CategoryModel categoryModel = _salonSearchProvider.categories
+                    .where((
+                      element,
+                    ) =>
+                        element.categoryId == _salonSearchProvider.categories[index].categoryId.toString())
+                    .first;
 
-                  return NewServiceTile(
-                    services: _createAppointmentProvider.categoryServicesMap[_salonSearchProvider.categories[index].categoryId.toString()] ?? [],
-                    categoryModel: categoryModel,
-                    listViewController: _listViewController,
-                    // initiallyExpanded: true,
-                    initiallyExpanded: _createAppointmentProvider.chosenServices
-                        .where(
-                          (element) => element.categoryId == categoryModel.categoryId,
-                        )
-                        .isNotEmpty,
-                  );
-                  // return Text("data");
-                } else {
-                  return const SizedBox();
-                }
+                return NewServiceTile(
+                  services: _createAppointmentProvider.categoryServicesMap[_salonSearchProvider.categories[index].categoryId.toString()] ?? [],
+                  categoryModel: categoryModel,
+                  listViewController: _listViewController,
+                  // initiallyExpanded: true,
+                  initiallyExpanded: _createAppointmentProvider.chosenServices
+                      .where(
+                        (element) => element.categoryId == categoryModel.categoryId,
+                      )
+                      .isNotEmpty,
+                );
                 // return Text("data");
-              },
-            ),
+              } else {
+                return const SizedBox();
+              }
+              // return Text("data");
+            },
           ),
-          Space(factor: DeviceConstraints.getResponsiveSize(context, 2, 2, 2)),
-          LandingButton(
-            color: theme.primaryColor,
-            height: 45.sp,
-            width: 250.sp,
-            borderRadius: 60.sp,
-            label: (AppLocalizations.of(context)?.bookNow ?? "Book Now").toUpperCase(),
-            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-            fontWeight: FontWeight.w500,
-            textColor: isLightTheme ? Colors.white : Colors.black,
-            onTap: () => const BookingDialogWidget222().show(context),
-          ),
-          // Space(factor: DeviceConstraints.getResponsiveSize(context, 2, 2, 2)),
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height / (isPortrait ? 3 : 4.2),
-          ),
-          // const Spacer(),
-          const Align(
-            alignment: Alignment.bottomCenter,
-            child: LandingBottom(),
-          ),
-        ],
-      ),
+        ),
+        Space(factor: DeviceConstraints.getResponsiveSize(context, 2, 2, 2)),
+        LandingButton(
+          color: theme.primaryColor,
+          height: 45.sp,
+          width: 250.sp,
+          borderRadius: 60.sp,
+          label: (AppLocalizations.of(context)?.bookNow ?? "Book Now").toUpperCase(),
+          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+          fontWeight: FontWeight.w500,
+          textColor: isLightTheme ? Colors.white : Colors.black,
+          onTap: () => const BookingDialogWidget222().show(context),
+        ),
+        // Space(factor: DeviceConstraints.getResponsiveSize(context, 2, 2, 2)),
+        SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height / (isPortrait ? 3 : 4.2),
+        ),
+        // const Spacer(),
+        const Align(
+          alignment: Alignment.bottomCenter,
+          child: LandingBottom(),
+        ),
+      ],
     );
   }
 }
