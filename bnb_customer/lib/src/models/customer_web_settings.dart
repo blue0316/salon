@@ -46,21 +46,18 @@ class CustomerWebSettings {
 class WebTheme {
   String? id;
   String? colorCode;
-  String? testId;
 
-  WebTheme({this.id, this.colorCode, this.testId});
+  WebTheme({this.id, this.colorCode});
 
   WebTheme.fromJson(Map data) {
     if (data["id"] != null) id = data["id"];
     if (data["colorCode"] != null) colorCode = data["colorCode"];
-    if (data["testId"] != null) testId = data["testId"];
   }
 
   toJson() {
     Map<String, dynamic> data = {};
     data["id"] = id;
     data["colorCode"] = colorCode;
-    data["testId"] = testId;
     return data;
   }
 }

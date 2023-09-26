@@ -45,14 +45,14 @@ class DateTimePrice extends ConsumerWidget {
                 value: appointment.appointmentTime,
               ),
               RowInfo(
-                title: '${AppLocalizations.of(context)?.price ?? 'Price'}:'.toCapitalized(),
+                title: '${AppLocalizations.of(context)?.total ?? 'Total'} ${AppLocalizations.of(context)?.price ?? 'Price'}'.toCapitalized(),
                 value: '${getCurrency(salonModel.countryCode!)} ${appointment.priceAndDuration.price}',
               ),
-              RowInfo(
-                title: '${AppLocalizations.of(context)?.duration ?? 'Duration'}:'.toCapitalized(),
-                value: '${appointment.priceAndDuration.duration} minutes',
-                bottom: false,
-              ),
+              // RowInfo(
+              //   title: '${AppLocalizations.of(context)?.duration ?? 'Duration'}:'.toCapitalized(),
+              //   value: '${appointment.priceAndDuration.duration} minutes',
+              //   bottom: false,
+              // ),
             ],
           ),
         ),

@@ -261,8 +261,8 @@ class AppointmentProvider with ChangeNotifier {
   }
 
   ThemeType? getTheme(CustomerWebSettings? themeSettings) {
-    if (availableThemes.contains(themeSettings?.theme?.testId)) {
-      switch (themeSettings?.theme?.testId) {
+    if (availableThemes.contains(themeSettings?.theme?.id)) {
+      switch (themeSettings?.theme?.id) {
         case '1':
           salonTheme = getDefaultDarkTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.DefaultDark;

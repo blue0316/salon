@@ -66,7 +66,7 @@ class SalonProfileProvider with ChangeNotifier {
       chosenSalon = (await _salonApi.getSalonFromId(salonId))!;
       // await Time().setTimeSlot(chosenSalon.timeSlotsInterval);
       themeSettings = await CustomerWebSettingsApi().getSalonTheme(salonId: salonId);
-      themeType = getThemeTypeEnum(themeSettings?.theme?.testId);
+      themeType = getThemeTypeEnum(themeSettings?.theme?.id);
 
       await getSalonReviews(salonId: salonId);
       await getProductsData(context, salonId: salonId);
@@ -89,7 +89,7 @@ class SalonProfileProvider with ChangeNotifier {
   Widget getTheme(bool showBooking) {
     if (availableThemes.contains(themeSettings?.theme?.id)) {
       // If theme number is not in this set, it means that's a default theme
-      switch (themeSettings?.theme?.testId) {
+      switch (themeSettings?.theme?.id) {
         case '1':
           salonTheme = getDefaultDarkTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.DefaultDark;
