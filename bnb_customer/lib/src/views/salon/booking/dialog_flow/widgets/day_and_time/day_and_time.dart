@@ -19,6 +19,7 @@ import 'package:flutter_horizontal_date_picker/flutter_horizontal_date_picker.da
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
 class DayAndTime extends ConsumerStatefulWidget {
@@ -1018,115 +1019,122 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                   ),
                                   SizedBox(height: 20.sp),
 
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: _createAppointmentProvider.chosenServices
-                                        .map(
-                                          (service) => ServiceNameAndPrice(
-                                            serviceName: (service.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? service.translations?['en']).toString().toTitleCase(),
-                                            servicePrice:
-                                                // NOT SINGLE MASTER
-                                                (!_salonProfileProvider.isSingleMaster)
-                                                    ? (service.isPriceRange)
-                                                        ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration?.price ?? '0'}-${getCurrency(salonModel.countryCode!)}${service.priceAndDurationMax?.price ?? '0'}"
-                                                        : (service.isPriceStartAt)
-                                                            ? "${getCurrency(salonModel.countryCode!)}${selectedMaster!.originalServicesPriceAndDuration![service.serviceId]?.price ?? '0'}+"
-                                                            : "${getCurrency(salonModel.countryCode!)}${selectedMaster!.originalServicesPriceAndDuration![service.serviceId]?.price ?? '0'}"
+                                  if (!_createAppointmentProvider.isBlocked && !_createAppointmentProvider.isOverlapped)
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: _createAppointmentProvider.chosenServices
+                                          .map(
+                                            (service) => ServiceNameAndPrice(
+                                              serviceName: (service.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? service.translations?['en']).toString().toTitleCase(),
+                                              servicePrice:
+                                                  // NOT SINGLE MASTER
+                                                  (!_salonProfileProvider.isSingleMaster)
+                                                      ? (service.isPriceRange)
+                                                          ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration?.price ?? '0'}-${getCurrency(salonModel.countryCode!)}${service.priceAndDurationMax?.price ?? '0'}"
+                                                          : (service.isPriceStartAt)
+                                                              ? "${getCurrency(salonModel.countryCode!)}${selectedMaster!.originalServicesPriceAndDuration![service.serviceId]?.price ?? '0'}+"
+                                                              : "${getCurrency(salonModel.countryCode!)}${selectedMaster!.originalServicesPriceAndDuration![service.serviceId]?.price ?? '0'}"
 
-                                                    // SINGLE MASTER
-                                                    : (service.isPriceRange)
-                                                        ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}-${getCurrency(salonModel.countryCode!)}${service.priceAndDurationMax!.price ?? '0'}"
-                                                        : (service.isPriceStartAt)
-                                                            ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}+"
-                                                            : "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}",
+                                                      // SINGLE MASTER
+                                                      : (service.isPriceRange)
+                                                          ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}-${getCurrency(salonModel.countryCode!)}${service.priceAndDurationMax!.price ?? '0'}"
+                                                          : (service.isPriceStartAt)
+                                                              ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}+"
+                                                              : "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}",
 
-                                            // (!_salonProfileProvider.isSingleMaster)
-                                            //     ? (service.isPriceRange)
-                                            //         ? "${getCurrency(salonModel.countryCode!)}${selectedMaster!.originalServicesPriceAndDuration![service.serviceId]?.price ?? '0'}-${getCurrency(salonModel.countryCode!)}${selectedMaster!.originalServicesPriceAndDurationMax![service.serviceId]?.price ?? '0'}"
-                                            //         : (service.isPriceStartAt)
-                                            //             ? "${getCurrency(salonModel.countryCode!)}${selectedMaster!.originalServicesPriceAndDuration![service.serviceId]?.price ?? '0'}+"
-                                            //             : "${getCurrency(salonModel.countryCode!)}${selectedMaster!.originalServicesPriceAndDuration![service.serviceId]?.price ?? '0'}"
+                                              // (!_salonProfileProvider.isSingleMaster)
+                                              //     ? (service.isPriceRange)
+                                              //         ? "${getCurrency(salonModel.countryCode!)}${selectedMaster!.originalServicesPriceAndDuration![service.serviceId]?.price ?? '0'}-${getCurrency(salonModel.countryCode!)}${selectedMaster!.originalServicesPriceAndDurationMax![service.serviceId]?.price ?? '0'}"
+                                              //         : (service.isPriceStartAt)
+                                              //             ? "${getCurrency(salonModel.countryCode!)}${selectedMaster!.originalServicesPriceAndDuration![service.serviceId]?.price ?? '0'}+"
+                                              //             : "${getCurrency(salonModel.countryCode!)}${selectedMaster!.originalServicesPriceAndDuration![service.serviceId]?.price ?? '0'}"
 
-                                            //     // SINGLE MASTER
-                                            //     : (service.isPriceRange)
-                                            //         ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}-${getCurrency(salonModel.countryCode!)}${service.priceAndDurationMax!.price ?? '0'}"
-                                            //         : (service.isPriceStartAt)
-                                            //             ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}+"
-                                            //             : "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}",
+                                              //     // SINGLE MASTER
+                                              //     : (service.isPriceRange)
+                                              //         ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}-${getCurrency(salonModel.countryCode!)}${service.priceAndDurationMax!.price ?? '0'}"
+                                              //         : (service.isPriceStartAt)
+                                              //             ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}+"
+                                              //             : "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}",
 
-                                            // -------
-                                            // servicePrice:
-                                            //     // NOT SINGLE MASTER
-                                            //     (!_salonProfileProvider.isSingleMaster)
-                                            //         ? _createAppointmentProvider.isPriceFrom!
-                                            //             ? "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[selectedMaster!.masterId]?.price ?? '-'} ${_createAppointmentProvider.isPriceFrom! ? "+" : ""}"
-                                            //             : _createAppointmentProvider.priceAndDuration[selectedMaster!.masterId]?.priceMax != '0'
-                                            //                 ? "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[selectedMaster!.masterId]?.price ?? '-'}-${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[selectedMaster!.masterId]?.priceMax ?? '-'}"
-                                            //                 : "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[selectedMaster!.masterId]?.price ?? '-'} ${_createAppointmentProvider.isPriceFrom! ? "+" : ""}"
+                                              // -------
+                                              // servicePrice:
+                                              //     // NOT SINGLE MASTER
+                                              //     (!_salonProfileProvider.isSingleMaster)
+                                              //         ? _createAppointmentProvider.isPriceFrom!
+                                              //             ? "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[selectedMaster!.masterId]?.price ?? '-'} ${_createAppointmentProvider.isPriceFrom! ? "+" : ""}"
+                                              //             : _createAppointmentProvider.priceAndDuration[selectedMaster!.masterId]?.priceMax != '0'
+                                              //                 ? "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[selectedMaster!.masterId]?.price ?? '-'}-${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[selectedMaster!.masterId]?.priceMax ?? '-'}"
+                                              //                 : "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[selectedMaster!.masterId]?.price ?? '-'} ${_createAppointmentProvider.isPriceFrom! ? "+" : ""}"
 
-                                            //         // SINGLE MASTER
-                                            //         : (service.isPriceRange)
-                                            //             ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}-${getCurrency(salonModel.countryCode!)}${service.priceAndDurationMax!.price ?? '0'}"
-                                            //             : (service.isPriceStartAt)
-                                            //                 ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}+"
-                                            //                 : "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}",
-                                            color: selectSlots(themeType, theme),
-                                            fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 18.sp, 16.sp),
-                                            priceFontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 18.sp, 16.sp),
-                                          ),
-                                        )
-                                        .toList(),
-                                  ),
-                                  SizedBox(height: 20.sp),
-                                  // const Spacer(),
-                                  Align(
-                                    alignment: Alignment.bottomCenter,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(bottom: 5.h, left: 2, right: 2),
-                                      child: Column(
-                                        children: [
-                                          DefaultButton(
-                                            borderRadius: 60,
-                                            onTap: () {
-                                              if (selectedMaster == null) {
-                                                showToast(AppLocalizations.of(context)?.selectAMasterBeforeProceeding ?? "Please select a master before proceeding");
-
-                                                return;
-                                              }
-
-                                              if (_createAppointmentProvider.selectedAppointmentSlot == null) {
-                                                showToast(AppLocalizations.of(context)?.chooseSlots ?? "choose slots");
-                                                return;
-                                              }
-
-                                              if (_salonProfileProvider.isSingleMaster) {
-                                                _createAppointmentProvider.setSelectedMaster(selectedMaster!);
-                                              }
-
-                                              _createAppointmentProvider.getTotalDeposit();
-                                              _createAppointmentProvider.calculateTotals(isSingleMaster: _salonProfileProvider.isSingleMaster);
-
-                                              // Next Page
-                                              _createAppointmentProvider.changeBookingFlowIndex(enteringConfirmationView: true);
-                                              widget.tabController.animateTo(2);
-                                            },
-                                            color: dialogButtonColor(themeType, theme),
-                                            borderColor: theme.primaryColor,
-                                            textColor: loaderColor(themeType),
-                                            height: 60,
-                                            label: (AppLocalizations.of(context)?.selectAndConfirm ?? "Select & Confirm"),
-                                            suffixIcon: Icon(
-                                              Icons.arrow_forward_ios_rounded,
-                                              color: loaderColor(themeType),
-                                              size: 18.sp,
+                                              //         // SINGLE MASTER
+                                              //         : (service.isPriceRange)
+                                              //             ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}-${getCurrency(salonModel.countryCode!)}${service.priceAndDurationMax!.price ?? '0'}"
+                                              //             : (service.isPriceStartAt)
+                                              //                 ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}+"
+                                              //                 : "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}",
+                                              color: selectSlots(themeType, theme),
+                                              fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 18.sp, 16.sp),
+                                              priceFontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 18.sp, 16.sp),
                                             ),
-                                            fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 18.sp, 16.sp),
-                                          ),
-                                        ],
+                                          )
+                                          .toList(),
+                                    ),
+                                  if (!_createAppointmentProvider.isBlocked && !_createAppointmentProvider.isOverlapped) SizedBox(height: 20.sp),
+                                  // const Spacer(),
+
+                                  if (_createAppointmentProvider.isBlocked) const AlreadyBooked(),
+                                  if (_createAppointmentProvider.isOverlapped) const AlreadyBooked(),
+                                  if (_createAppointmentProvider.isOverlapped || _createAppointmentProvider.isBlocked) SizedBox(height: 20.sp),
+
+                                  if (!_createAppointmentProvider.isBlocked && !_createAppointmentProvider.isOverlapped)
+                                    Align(
+                                      alignment: Alignment.bottomCenter,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(bottom: 5.h, left: 2, right: 2),
+                                        child: Column(
+                                          children: [
+                                            DefaultButton(
+                                              borderRadius: 60,
+                                              onTap: () {
+                                                if (selectedMaster == null) {
+                                                  showToast(AppLocalizations.of(context)?.selectAMasterBeforeProceeding ?? "Please select a master before proceeding");
+
+                                                  return;
+                                                }
+
+                                                if (_createAppointmentProvider.selectedAppointmentSlot == null) {
+                                                  showToast(AppLocalizations.of(context)?.chooseSlots ?? "choose slots");
+                                                  return;
+                                                }
+
+                                                if (_salonProfileProvider.isSingleMaster) {
+                                                  _createAppointmentProvider.setSelectedMaster(selectedMaster!);
+                                                }
+
+                                                _createAppointmentProvider.getTotalDeposit();
+                                                _createAppointmentProvider.calculateTotals(isSingleMaster: _salonProfileProvider.isSingleMaster);
+
+                                                // Next Page
+                                                _createAppointmentProvider.changeBookingFlowIndex(enteringConfirmationView: true);
+                                                widget.tabController.animateTo(2);
+                                              },
+                                              color: dialogButtonColor(themeType, theme),
+                                              borderColor: theme.primaryColor,
+                                              textColor: loaderColor(themeType),
+                                              height: 60,
+                                              label: (AppLocalizations.of(context)?.selectAndConfirm ?? "Select & Confirm"),
+                                              suffixIcon: Icon(
+                                                Icons.arrow_forward_ios_rounded,
+                                                color: loaderColor(themeType),
+                                                size: 18.sp,
+                                              ),
+                                              fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 18.sp, 16.sp),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
                                 ],
                               ),
                             ),
@@ -1136,6 +1144,37 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                     ),
                 ],
               );
+  }
+}
+
+class AlreadyBooked extends ConsumerWidget {
+  const AlreadyBooked({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        FaIcon(
+          FontAwesomeIcons.circleInfo,
+          size: 25.h,
+          color: Colors.grey,
+        ),
+        SizedBox(width: 25.sp),
+        Text(
+          AppLocalizations.of(context)?.timeAlreadyBooked ?? 'This time is already blocked by other appointment',
+          style: theme.textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.w400,
+            fontSize: 15.sp,
+            color: Colors.grey,
+          ),
+        ),
+      ],
+    );
   }
 }
 

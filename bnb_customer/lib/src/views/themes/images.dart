@@ -57,6 +57,8 @@ class ThemeImages {
 
   static const glamLightNaturalHue = 'assets/themes/glam_one/images/glam_light_natural_hue.png';
 
+  static const darkGentleTouch = 'assets/themes/glam_one/images/dark_gentle_touch.png';
+
   // Minimal Theme
   static const minimalBackground = 'assets/themes/glam_one/images/glam_minimal_bg.png';
 

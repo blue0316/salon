@@ -133,14 +133,7 @@ class SalonProfileProvider with ChangeNotifier {
           notifyListeners();
           break;
 
-        // case '6':
-        //   salonTheme = getGlamLightTheme(themeSettings?.theme?.colorCode);
-        //   themeType = ThemeType.GlamLight;
-
-        //   notifyListeners();
-        //   break;
-
-        case '66':
+        case '6':
           salonTheme = getGlamLightTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.GlamLight;
 

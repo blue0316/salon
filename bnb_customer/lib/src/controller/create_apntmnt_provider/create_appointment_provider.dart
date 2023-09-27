@@ -1141,6 +1141,10 @@ class CreateAppointmentProvider with ChangeNotifier {
     isBlocked = false;
     isNotEnoughSlots = false;
 
+    isOverlapped = false;
+    totalAppointmentDuration = 0;
+    totalAppointmentPrice = 0;
+
     totalTimeSlotsRequired = (int.parse(priceAndDuration[master.masterId]?.duration ?? defaultServiceDuration) / (chosenSalon!.timeSlotsInterval ?? 15)).ceil();
 
     if (int.parse(priceAndDuration[master.masterId]?.duration ?? defaultServiceDuration) % (chosenSalon!.timeSlotsInterval ?? 15) > 0) {
@@ -1181,6 +1185,8 @@ class CreateAppointmentProvider with ChangeNotifier {
           // notifyListeners();
           showToast(AppLocalizations.of(context)?.slotsOverlap ?? 'Slots  Overlap with salon\'s booked Time, choose another slot'); // AppLocalizations.of(context)?.slotsOverlap
           isNotEnoughSlots = true;
+          isOverlapped = true;
+
           controlModal(false);
           return;
         } else {

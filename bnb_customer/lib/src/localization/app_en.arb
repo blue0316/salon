@@ -891,5 +891,7 @@
   "goodCovid19": "good covid-19 prevention",
   "cleanSpace": "clean space",
   "convenientLocation": "convenient location",
-  "goodPriceRation": "good price/quality ratio"
+  "goodPriceRation": "good price/quality ratio",
+  "timeAlreadyBooked": "This time is already blocked by other appointment",
+  "chooseAnotherSlot": "Slots Overlap with salon's booked Time, choose another slot"
 }

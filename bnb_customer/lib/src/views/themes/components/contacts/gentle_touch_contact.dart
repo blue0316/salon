@@ -132,10 +132,11 @@ class GentleTouchContactCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
 
     return Container(
       height: 140.h,
-      width: 280.h,
+      width: !isPortrait ? 280.h : double.infinity,
       decoration: BoxDecoration(
         border: Border.all(color: const Color(0XFFD9D9D9)),
         borderRadius: BorderRadius.circular(2),

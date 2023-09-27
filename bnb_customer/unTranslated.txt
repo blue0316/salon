@@ -1,7 +1,14 @@
 {
   "ar": [
     "markAppointAsNoShowDialogue",
-    "yourDetails"
+    "yourDetails",
+    "timeAlreadyBooked",
+    "chooseAnotherSlot"
+  ],
+
+  "es": [
+    "timeAlreadyBooked",
+    "chooseAnotherSlot"
   ],
 
   "fr": [
@@ -32,6 +39,23 @@
     "portfolio",
     "serviceDetails",
     "organizedWork",
-    "comfortableSeat"
+    "comfortableSeat",
+    "timeAlreadyBooked",
+    "chooseAnotherSlot"
+  ],
+
+  "pt": [
+    "timeAlreadyBooked",
+    "chooseAnotherSlot"
+  ],
+
+  "ro": [
+    "timeAlreadyBooked",
+    "chooseAnotherSlot"
+  ],
+
+  "uk": [
+    "timeAlreadyBooked",
+    "chooseAnotherSlot"
   ]
 }

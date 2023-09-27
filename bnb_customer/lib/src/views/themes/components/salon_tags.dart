@@ -14,7 +14,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class SalonTags extends ConsumerStatefulWidget {
   final SalonModel salonModel;
   final List<String> additionalFeatures;
-  const SalonTags({Key? key, required this.additionalFeatures, required this.salonModel}) : super(key: key);
+  final bool isScrollingNeeded;
+
+  const SalonTags({
+    Key? key,
+    required this.additionalFeatures,
+    required this.salonModel,
+    this.isScrollingNeeded = true,
+  }) : super(key: key);
 
   @override
   ConsumerState<SalonTags> createState() => _SalonTagsState();
@@ -34,9 +41,11 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
   void initState() {
     super.initState();
 
-    _timer = Timer.periodic(const Duration(seconds: 2), (Timer timer) {
-      _toggleScrolling();
-    });
+    if (widget.isScrollingNeeded) {
+      _timer = Timer.periodic(const Duration(seconds: 2), (Timer timer) {
+        _toggleScrolling();
+      });
+    }
   }
 
   bool scroll = false;
