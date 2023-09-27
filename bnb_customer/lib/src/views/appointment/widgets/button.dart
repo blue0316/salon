@@ -89,8 +89,14 @@ class Button extends ConsumerWidget {
 class ViewOrReview extends ConsumerWidget {
   final AppointmentModel appointment;
   final String appointmentId;
+  final VoidCallback viewReceiptOnTap;
 
-  const ViewOrReview({Key? key, required this.appointment, required this.appointmentId}) : super(key: key);
+  const ViewOrReview({
+    Key? key,
+    required this.appointment,
+    required this.appointmentId,
+    required this.viewReceiptOnTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -112,7 +118,7 @@ class ViewOrReview extends ConsumerWidget {
               text: 'View Receipt',
               buttonColor: viewReceiptColor(themeType, theme),
               textColor: Colors.white,
-              onTap: () {},
+              onTap: viewReceiptOnTap,
             ),
             ViewOrReviewButton(
               text: 'Review Appointment',
