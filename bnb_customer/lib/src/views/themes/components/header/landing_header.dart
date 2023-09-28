@@ -4,7 +4,7 @@ import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'default_landing.dart';
-import 'glam_light_landing.dart';
+import 'gentle_touch_header.dart';
 import 'minimal_header.dart';
 
 class LandingHeader extends ConsumerWidget {
@@ -24,7 +24,10 @@ class LandingHeader extends ConsumerWidget {
 Widget headerTheme(ThemeType themeType, SalonModel salon) {
   switch (themeType) {
     case ThemeType.GentleTouch:
-      return GlamLightHeader(chosenSalon: salon);
+      return GentleTouchHeader(chosenSalon: salon);
+
+    case ThemeType.GentleTouchDark:
+      return GentleTouchHeader(chosenSalon: salon);
 
     case ThemeType.GlamMinimalLight:
       return MinimalHeader(salonModel: salon);

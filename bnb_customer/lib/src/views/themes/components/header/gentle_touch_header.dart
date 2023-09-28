@@ -10,10 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class GlamLightHeader extends ConsumerWidget {
+class GentleTouchHeader extends ConsumerWidget {
   final SalonModel chosenSalon;
 
-  const GlamLightHeader({Key? key, required this.chosenSalon}) : super(key: key);
+  const GentleTouchHeader({Key? key, required this.chosenSalon}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -27,7 +27,7 @@ class GlamLightHeader extends ConsumerWidget {
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
-          // TOP BACKGROUND IMAGE
+          // TOP BACKGROUND IMAGEj
 
           const ThemeHeaderImage(),
           SizedBox(

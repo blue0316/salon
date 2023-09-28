@@ -69,7 +69,11 @@ class _SalonSponsorsState extends ConsumerState<SalonSponsors> {
     double distanceDifference = maxExtent - _scrollController.offset;
     double durationDouble = distanceDifference / speedFactor;
 
-    _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: Duration(seconds: durationDouble.toInt()), curve: Curves.linear);
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      duration: Duration(seconds: durationDouble.toInt()),
+      curve: Curves.linear,
+    );
   }
 
   _toggleScrolling() {
@@ -143,7 +147,7 @@ class _SalonSponsorsState extends ConsumerState<SalonSponsors> {
                                           Padding(
                                             padding: const EdgeInsets.symmetric(horizontal: 20),
                                             child: Text(
-                                              item.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? item.translations!['en'] ?? '',
+                                              '${item.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? item.translations!['en'] ?? ''}'.toUpperCase(),
                                               style: theme.textTheme.bodyLarge?.copyWith(
                                                 color: theme.dividerColor,
                                                 fontSize: 18.sp,

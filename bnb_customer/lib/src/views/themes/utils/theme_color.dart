@@ -1,8 +1,8 @@
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/theme/others/barbershop.dart';
 import 'package:bbblient/src/theme/others/glam_barbershop.dart';
-import 'package:bbblient/src/theme/others/glam_gradient.dart';
-import 'package:bbblient/src/theme/others/glam_light.dart';
+import 'package:bbblient/src/theme/others/gentle_touch_dark.dart';
+import 'package:bbblient/src/theme/others/gentle_touch.dart';
 import 'package:bbblient/src/theme/others/glam_minimal_dark.dart';
 import 'package:bbblient/src/theme/others/glam_minimal_light.dart';
 import 'package:bbblient/src/theme/others/glam_one.dart';
@@ -126,21 +126,23 @@ ThemeData getGlamBarbershopTheme(String? colorCode) {
 // Theme 4 - GLAM GRADIENT
 ThemeData getGentleTouchDarkTheme(String? colorCode) {
   switch (colorCode) {
-    case null: // 'FFC692':
-      return GlamGradientTheme.mainTheme;
-    case 'Color(0xfff49457)':
-      return GlamGradientTheme.AccentF49457;
-    case 'Color(0xfff1affc)':
-      return GlamGradientTheme.AccentF1AFFC;
-    case 'Color(0xffffb36a)':
-      return GlamGradientTheme.AccentFFB36A;
-    case 'Color(0xffef7158)':
-      return GlamGradientTheme.AccentEF7158;
-    case 'Color(0xff58ddef)':
-      return GlamGradientTheme.Accent58DDEF;
+    case null:
+      GentleTouchDarkTheme.accentColor = Colors.white;
+      return GentleTouchDarkTheme.mainTheme;
 
     default:
-      return GlamGradientTheme.mainTheme;
+      if (colorCode != null) {
+        try {
+          // Decode color from string
+          String valueString = colorCode.split('(0x')[1].split(')')[0];
+          int value = int.parse(valueString, radix: 16);
+
+          GentleTouchDarkTheme.accentColor = Color(value);
+        } catch (e) {
+          GentleTouchDarkTheme.accentColor = Colors.white;
+        }
+      }
+      return GentleTouchDarkTheme.mainTheme;
   }
 }
 
@@ -193,8 +195,8 @@ ThemeData getBarbershopTheme(String? colorCode) {
 ThemeData getGentleTouchTheme(String? colorCode) {
   switch (colorCode) {
     case null:
-      GlamLightTheme.accentColor = Colors.black;
-      return GlamLightTheme.mainTheme;
+      GentleTouchTheme.accentColor = Colors.black;
+      return GentleTouchTheme.mainTheme;
 
     default:
       if (colorCode != null) {
@@ -203,12 +205,12 @@ ThemeData getGentleTouchTheme(String? colorCode) {
           String valueString = colorCode.split('(0x')[1].split(')')[0];
           int value = int.parse(valueString, radix: 16);
 
-          GlamLightTheme.accentColor = Color(value);
+          GentleTouchTheme.accentColor = Color(value);
         } catch (e) {
-          GlamLightTheme.accentColor = Colors.black;
+          GentleTouchTheme.accentColor = Colors.black;
         }
       }
-      return GlamLightTheme.mainTheme;
+      return GentleTouchTheme.mainTheme;
   }
 }
 

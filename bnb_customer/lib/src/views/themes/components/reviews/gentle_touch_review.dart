@@ -3,8 +3,10 @@ import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/review.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/views/themes/components/widgets/button.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/prev_and_next.dart';
 import 'package:bbblient/src/views/themes/icons.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -33,14 +35,18 @@ class _GentleTouchReviewViewState extends ConsumerState<GentleTouchReviewView> {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     return Container(
-      color: theme.colorScheme.secondary.withOpacity(0.2),
+      // color: theme.colorScheme.secondary.withOpacity(0.2),
+      decoration: BoxDecoration(
+        gradient: buttonGradient(themeType, theme, opacity: 0.3),
+      ),
       child: Padding(
         padding: EdgeInsets.only(
           left: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
           right: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
-          top: 70.h, // DeviceConstraints.getResponsiveSize(context, 140.h, 180.h, 200.h),
+          top: 70.h, // DeviceConstraints.getResponsiveSize(context, 140.h, 180.h, 200.h),s
           bottom: 80.h, // DeviceConstraints.getResponsiveSize(context, 140.h, 180.h, 200.h),
         ),
         child: (_salonProfileProvider.salonReviews.isNotEmpty)
@@ -94,7 +100,9 @@ class _GentleTouchReviewViewState extends ConsumerState<GentleTouchReviewView> {
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: _current == entry.key
-                                    ? Colors.black
+                                    ? (themeType == ThemeType.GentleTouch)
+                                        ? Colors.black
+                                        : Colors.white.withOpacity(0.5)
                                     : const Color(0XFF8A8A8A).withOpacity(
                                         _current == entry.key ? 0.9 : 0.4,
                                       ),

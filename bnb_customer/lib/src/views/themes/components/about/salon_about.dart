@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'barbershop_about_view.dart';
 import 'default_about_view.dart';
-import 'glam_light_about_view.dart';
+import 'gentle_touch_about_view.dart';
 import 'minimal_about_view.dart';
 
 class SalonAbout2 extends ConsumerStatefulWidget {
@@ -35,7 +35,10 @@ Widget aboutTheme(ThemeType themeType, SalonModel salonModel) {
       return BarbershopAboutUs(salonModel: salonModel);
 
     case ThemeType.GentleTouch:
-      return GlamLightAboutUs(salonModel: salonModel);
+      return GentleTouchAboutUs(salonModel: salonModel);
+
+    case ThemeType.GentleTouchDark:
+      return GentleTouchAboutUs(salonModel: salonModel);
 
     case ThemeType.GlamMinimalDark:
       return MinimalAboutView(salonModel: salonModel);

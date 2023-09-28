@@ -122,7 +122,7 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
 
     List<String> aFeatured = [...widget.additionalFeatures, ...widget.additionalFeatures, ...widget.additionalFeatures];
 
-    return (themeType == ThemeType.GentleTouch)
+    return (themeType == ThemeType.GentleTouch || themeType == ThemeType.GentleTouchDark)
         ? Padding(
             padding: EdgeInsets.only(
               left: DeviceConstraints.getResponsiveSize(context, 10.w, 10.w, 30.w),

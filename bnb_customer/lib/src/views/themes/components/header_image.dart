@@ -3,12 +3,12 @@ import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/views/themes/glam_one/core/utils/header_height.dart';
 import 'package:bbblient/src/views/themes/images.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ThemeHeaderImage extends ConsumerWidget {
   const ThemeHeaderImage({Key? key}) : super(key: key);
@@ -19,7 +19,7 @@ class ThemeHeaderImage extends ConsumerWidget {
     ThemeType themeType = _salonProfileProvider.themeType;
 
     return SizedBox(
-      height: DeviceConstraints.getResponsiveSize(context, 1000.h, 1000.h, 1000.h),
+      height: getThemeHeaderHeight(context, themeType), // DeviceConstraints.getResponsiveSize(context, 1000.h, 1000.h, 1000.h),
       width: double.infinity,
       child: background(themeType, _salonProfileProvider.chosenSalon, _salonProfileProvider),
     );
@@ -46,6 +46,13 @@ Widget background(ThemeType themeType, SalonModel salon, SalonProfileProvider sa
               salonProfileProvider: salonProfileProvider,
             )
           : const DefaultImageBG(image: ThemeImages.glamLightNaturalHue);
+
+    case ThemeType.GentleTouchDark:
+      return (salonProfileProvider.themeSettings?.backgroundImage != null && salonProfileProvider.themeSettings?.backgroundImage != '')
+          ? BackgroundImageExists(
+              salonProfileProvider: salonProfileProvider,
+            )
+          : const FilteredAssetImage(image: ThemeImages.darkGentleTouch);
 
     default:
       return (salonProfileProvider.themeSettings?.backgroundImage != null && salonProfileProvider.themeSettings?.backgroundImage != '')

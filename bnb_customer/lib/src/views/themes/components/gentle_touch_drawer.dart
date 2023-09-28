@@ -24,7 +24,7 @@ class _GentleTouchDrawerState extends ConsumerState<GentleTouchDrawer> {
 
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     // final ThemeData theme = _salonProfileProvider.salonTheme;
-    // ThemeType themeType = _salonProfileProvider.themeType;
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
     final bool isSingleMaster = _salonProfileProvider.isSingleMaster;
@@ -46,7 +46,7 @@ class _GentleTouchDrawerState extends ConsumerState<GentleTouchDrawer> {
                       onTap: () => Navigator.pop(context),
                       child: Icon(
                         Icons.close,
-                        color: Colors.black,
+                        color: themeType == ThemeType.GentleTouch ? Colors.black : Colors.white,
                         size: 30.h,
                       ),
                     ),

@@ -21,12 +21,12 @@ import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/booking_dialog_2.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class GlamLightHeader extends ConsumerWidget {
+class GentleTouchHeader extends ConsumerWidget {
   final SalonModel chosenSalon;
   final MasterModel masterModel;
   final bool isSalonMaster;
 
-  const GlamLightHeader({
+  const GentleTouchHeader({
     Key? key,
     required this.chosenSalon,
     required this.masterModel,
@@ -69,7 +69,7 @@ class GlamLightHeader extends ConsumerWidget {
                     child: ThemeAppBar(salonModel: chosenSalon, isSalonMaster: isSalonMaster),
                   ),
                   SizedBox(height: 20.h),
-                  GlamLightHeaderBody(salonModel: chosenSalon, masterModel: masterModel),
+                  GentleTouchHeaderBody(salonModel: chosenSalon, masterModel: masterModel),
                 ],
               ),
             ),
@@ -80,11 +80,11 @@ class GlamLightHeader extends ConsumerWidget {
   }
 }
 
-class GlamLightHeaderBody extends ConsumerWidget {
+class GentleTouchHeaderBody extends ConsumerWidget {
   final SalonModel salonModel;
   final MasterModel masterModel;
 
-  const GlamLightHeaderBody({Key? key, required this.salonModel, required this.masterModel}) : super(key: key);
+  const GentleTouchHeaderBody({Key? key, required this.salonModel, required this.masterModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

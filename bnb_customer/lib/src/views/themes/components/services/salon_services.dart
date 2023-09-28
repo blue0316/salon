@@ -69,7 +69,7 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              (themeType == ThemeType.GentleTouch)
+              (themeType == ThemeType.GentleTouch || themeType == ThemeType.GentleTouchDark)
                   ? (AppLocalizations.of(context)?.itemsOfServices ?? 'services').toUpperCase()
                   : isSingleMaster
                       ? (AppLocalizations.of(context)?.price ?? 'Price')
@@ -114,7 +114,7 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
                           //   ),
                           // ),
                           isScrollable: true,
-                          labelPadding: EdgeInsets.symmetric(horizontal: (themeType == ThemeType.GentleTouch) ? 15.sp : 50),
+                          labelPadding: EdgeInsets.symmetric(horizontal: (themeType == ThemeType.GentleTouch || themeType == ThemeType.GentleTouchDark) ? 15.sp : 50),
                           tabs: _createAppointmentProvider.categoriesAvailable
                               .map(
                                 (item) => Tab(
@@ -168,13 +168,14 @@ class ServiceAndPrice extends ConsumerWidget {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     ThemeType themeType = _salonProfileProvider.themeType;
+
     return SizedBox(
       // height: 100,
       width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          if (themeType != ThemeType.GentleTouch)
+          if (themeType != ThemeType.GentleTouch && themeType != ThemeType.GentleTouchDark)
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -197,7 +198,7 @@ class ServiceAndPrice extends ConsumerWidget {
                 ),
               ],
             ),
-          if (themeType != ThemeType.GentleTouch) const SizedBox(height: 15),
+          if (themeType != ThemeType.GentleTouch || themeType == ThemeType.GentleTouchDark) const SizedBox(height: 15),
           Expanded(
             flex: 0,
             child: ListView.builder(

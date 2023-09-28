@@ -10,6 +10,7 @@ import 'package:bbblient/src/views/themes/components/widgets/button.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/prev_and_next.dart';
 import 'package:bbblient/src/views/themes/glam_one/master_profile/unique_master_profile.dart';
 import 'package:bbblient/src/views/themes/images.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -186,6 +187,7 @@ class _GentleTouchTeamMemberState extends ConsumerState<GentleTouchTeamMember> {
 
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     return Padding(
       padding: const EdgeInsets.only(right: 20),
@@ -216,8 +218,8 @@ class _GentleTouchTeamMemberState extends ConsumerState<GentleTouchTeamMember> {
               ((size.width - 100.w - 60) / 3),
             ),
             decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(color: Colors.black, width: 0.4),
+              color: (themeType == ThemeType.GentleTouch) ? Colors.white : Colors.black,
+              border: Border.all(color: (themeType == ThemeType.GentleTouch) ? Colors.black : const Color(0XFF868686), width: 0.4),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -228,7 +230,7 @@ class _GentleTouchTeamMemberState extends ConsumerState<GentleTouchTeamMember> {
                   child: Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: (themeType == ThemeType.GentleTouch) ? Colors.white : Colors.black,
                       border: Border.all(color: Colors.black, width: 0.4),
                     ),
                     child: (widget.image != null && widget.image != '')
@@ -243,7 +245,7 @@ class _GentleTouchTeamMemberState extends ConsumerState<GentleTouchTeamMember> {
                 Text(
                   (widget.name ?? '').toTitleCase(),
                   style: theme.textTheme.bodyLarge?.copyWith(
-                    color: Colors.black,
+                    color: (themeType == ThemeType.GentleTouch) ? Colors.black : Colors.white,
                     fontSize: 17.sp,
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Inter-Light',
@@ -274,7 +276,7 @@ class _GentleTouchTeamMemberState extends ConsumerState<GentleTouchTeamMember> {
                         Text(
                           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus',
                           style: theme.textTheme.bodyLarge?.copyWith(
-                            color: Colors.black,
+                            color: (themeType == ThemeType.GentleTouch) ? Colors.black : Colors.white,
                             fontSize: 14.sp,
                             fontWeight: FontWeight.normal,
                             fontFamily: 'Inter-Light',
@@ -291,8 +293,8 @@ class _GentleTouchTeamMemberState extends ConsumerState<GentleTouchTeamMember> {
                               child: SquareButton(
                                 text: "Learn More",
                                 buttonColor: Colors.transparent,
-                                textColor: Colors.black,
-                                borderColor: Colors.black,
+                                textColor: (themeType == ThemeType.GentleTouch) ? Colors.black : Colors.white,
+                                borderColor: (themeType == ThemeType.GentleTouch) ? Colors.black : const Color(0XFF868686),
                                 textSize: 15.sp,
                                 showSuffix: false,
                                 weight: FontWeight.w500,

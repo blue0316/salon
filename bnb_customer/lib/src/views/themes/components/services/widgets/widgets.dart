@@ -15,6 +15,8 @@ Color? labelColorTheme(ThemeType themeType, ThemeData theme) {
       return Colors.white;
     case ThemeType.GentleTouch:
       return Colors.black;
+    case ThemeType.GentleTouchDark:
+      return Colors.white;
 
     default:
       return theme.tabBarTheme.labelColor;
@@ -24,6 +26,13 @@ Color? labelColorTheme(ThemeType themeType, ThemeData theme) {
 BoxDecoration servicesTabBarTheme(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
     case ThemeType.GentleTouch:
+      return BoxDecoration(
+        border: Border(
+          bottom: BorderSide(width: 1.5, color: theme.colorScheme.secondary),
+        ),
+      );
+
+    case ThemeType.GentleTouchDark:
       return BoxDecoration(
         border: Border(
           bottom: BorderSide(width: 1.5, color: theme.colorScheme.secondary),
@@ -67,7 +76,29 @@ Widget bookNowButtonTheme(context, {required ThemeType themeType, required Theme
             textColor: const Color(0XFFFFFFFF),
             height: 47.h,
             showSuffix: false,
-            borderRadius: 1,
+            borderRadius: 2,
+            isGradient: true,
+            onTap: () => const BookingDialogWidget222().show(context),
+          ),
+        ],
+      );
+
+    case ThemeType.GentleTouchDark:
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SquareButton(
+            borderColor: Colors.transparent,
+            buttonColor: const Color(0XFF687830),
+            width: 180.sp,
+            text: (AppLocalizations.of(context)?.bookNow ?? "Book Now"),
+            weight: FontWeight.normal,
+            textColor: const Color(0XFFFFFFFF),
+            height: 47.h,
+            showSuffix: false,
+            borderRadius: 2,
+            isGradient: true,
             onTap: () => const BookingDialogWidget222().show(context),
           ),
         ],

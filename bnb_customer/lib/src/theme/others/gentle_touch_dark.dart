@@ -3,14 +3,9 @@
 import 'package:bbblient/src/views/themes/glam_one/core/utils/color_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'accents/glam_gradient/accent_EF7158.dart';
-import 'accents/glam_gradient/accent_F1AFFC.dart';
-import 'accents/glam_gradient/accent_F49457.dart';
-import 'accents/glam_gradient/accent_EF5734.dart';
-import 'accents/glam_gradient/accent_58DDEF.dart';
 
 // Theme 3 ThemeData
-class GlamGradientTheme {
+class GentleTouchDarkTheme {
   static const Color textBlack = Color(0xff0E141E);
   static const Color lightBlack = Color(0xff1E2D3D);
   static const Color redishPink = Color(0xffff006e);
@@ -18,13 +13,13 @@ class GlamGradientTheme {
   static const Color lightGrey = Color(0xff89959F);
 
   // MAIN COLORS 1
-  static const primaryColor1 = Color(0XFFFFC692);
-  static const deepOrange = Color(0XFFF48B72);
+  static const primaryColor1 = Colors.white;
+  static Color accentColor = Colors.black;
 
   // Theme 1
   static final ThemeData mainTheme = ThemeData(
     primaryColor: primaryColor1,
-    primaryColorDark: deepOrange,
+    primaryColorDark: primaryColor1,
     primaryColorLight: primaryColor1,
     scaffoldBackgroundColor: Colors.black,
     textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
@@ -45,7 +40,7 @@ class GlamGradientTheme {
     cardColor: primaryColor1,
     colorScheme: ColorScheme(
       primary: (Colors.pink[900])!,
-      secondary: Colors.black, // Color of title text on cards
+      secondary: accentColor, // Color of title text on cards
       onSecondaryContainer: Colors.black, // Color of sub text on cardsf
       surface: Colors.white,
       background: ColorConstant.black900,
@@ -86,7 +81,7 @@ class GlamGradientTheme {
       titleTextStyle: bodyText1,
       iconTheme: const IconThemeData(color: Colors.white),
     ),
-    dividerColor: const Color(0XFFF48B72),
+    dividerColor: const Color(0XFF616161),
     inputDecorationTheme: InputDecorationTheme(
       labelStyle: bodyText1.copyWith(color: Colors.black),
       border: OutlineInputBorder(
@@ -111,21 +106,6 @@ class GlamGradientTheme {
     splashColor: lightGrey,
     hoverColor: lightGrey,
   );
-
-  // Accent Color F49457
-  static final ThemeData AccentF49457 = accentF49457;
-
-  // Accent Color F1AFFC
-  static final ThemeData AccentF1AFFC = accentF1AFFC;
-
-  // Accent Color FFB36A
-  static final ThemeData AccentFFB36A = accentFFB36A;
-
-  // Accent Color EF7158
-  static final ThemeData AccentEF7158 = accentEF7158;
-
-  // Accent Color 58DDEF
-  static final ThemeData Accent58DDEF = accent58DDEF;
 
   static final TextStyle headLine1 = TextStyle(
     fontFamily: "VASQUZ",

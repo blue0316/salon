@@ -5,6 +5,7 @@ import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/prev_and_next.dart';
 import 'package:bbblient/src/views/themes/glam_one/master_profile/unique_master_profile.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,9 @@ class _GentleTouchWorksViewState extends ConsumerState<GentleTouchWorksView> {
     final ThemeData theme = _salonProfileProvider.salonTheme;
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
 
-    // Check if Salon is a single master
+    final ThemeType themeType = _salonProfileProvider.themeType;
+
+    // Check if Salon is a single masters
     // final bool isSingleMaster = _salonProfileProvider.isSingleMaster;
 
     return Padding(
@@ -172,8 +175,9 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
 
   @override
   Widget build(BuildContext context) {
-    // final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     // final ThemeData theme = _salonProfileProvider.salonTheme;
+    final ThemeType themeType = _salonProfileProvider.themeType;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -220,7 +224,9 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: _current == entry.key
-                      ? Colors.black
+                      ? themeType == ThemeType.GentleTouch
+                          ? Colors.black
+                          : Colors.white
                       : const Color(0XFF8A8A8A).withOpacity(
                           _current == entry.key ? 0.9 : 0.4,
                         ),
@@ -354,6 +360,7 @@ class PortraitItemCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    final ThemeType themeType = _salonProfileProvider.themeType;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -361,17 +368,28 @@ class PortraitItemCard extends ConsumerWidget {
         cursor: SystemMouseCursors.click,
         child: Container(
           decoration: BoxDecoration(
-            border: Border.all(color: Colors.black),
+            border: Border.all(
+              color: (themeType == ThemeType.GentleTouch) ? Colors.black : Colors.white,
+            ),
           ),
           // color: backgroundColor ?? Colors.blue,
           child: Column(
             children: [
               Expanded(
                 flex: 1,
-                child: CachedImage(
-                  url: image,
-                  fit: BoxFit.cover,
-                  width: MediaQuery.of(context).size.width - 40.w,
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: description.isNotEmpty
+                        ? Border.all(
+                            color: (themeType == ThemeType.GentleTouch) ? Colors.black : Colors.white,
+                          )
+                        : null,
+                  ),
+                  child: CachedImage(
+                    url: image,
+                    fit: BoxFit.cover,
+                    width: MediaQuery.of(context).size.width - 40.w,
+                  ),
                 ),
               ),
               if (description.isNotEmpty)

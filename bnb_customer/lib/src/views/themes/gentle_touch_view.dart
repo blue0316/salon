@@ -20,6 +20,7 @@ import 'package:bbblient/src/views/themes/components/salon_tags.dart';
 import 'package:bbblient/src/views/themes/components/team/gentle_touch_team.dart';
 import 'package:bbblient/src/views/themes/components/works/salon_works.dart';
 import 'package:bbblient/src/views/themes/components/write_to_us/write_to_us.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -58,6 +59,7 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
     final ThemeData theme = _salonProfileProvider.salonTheme;
     final DisplaySettings? displaySettings = _salonProfileProvider.themeSettings?.displaySettings;
     final bool isTab = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab);
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     return SafeArea(
       top: false,
@@ -68,7 +70,7 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
         resizeToAvoidBottomInset: false,
         drawer: const ThemeDrawer(),
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: themeType == ThemeType.GentleTouch ? Colors.white : Colors.black,
           automaticallyImplyLeading: false,
           toolbarHeight: 70.h,
           actions: [
@@ -85,7 +87,7 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
                       child: Icon(
                         Icons.menu,
                         size: 35.sp,
-                        color: Colors.black,
+                        color: themeType == ThemeType.GentleTouch ? Colors.black : const Color(0XFF616161),
                       ),
                     ),
                   ),
@@ -95,10 +97,12 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
           title: Container(
             height: 70.h,
             decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border(
-                bottom: BorderSide(color: Colors.grey[200]!, width: 0.6),
-              ),
+              color: themeType == ThemeType.GentleTouch ? Colors.white : Colors.black,
+              border: themeType == ThemeType.GentleTouch
+                  ? Border(
+                      bottom: BorderSide(color: Colors.grey[200]!, width: 0.6),
+                    )
+                  : null,
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -113,7 +117,7 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
                         chosenSalon.salonName.initials,
                         style: theme.textTheme.displayLarge!.copyWith(
                           fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 50.sp, 50.sp),
-                          color: Colors.black,
+                          color: themeType == ThemeType.GentleTouch ? Colors.black : Colors.white,
                           fontFamily: "VASQUZ",
                           fontWeight: FontWeight.w500,
                         ),
@@ -244,63 +248,63 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
           child: Column(
             // physics: const ClampingScrollPhysics(),
             children: [
-              SizedBox.fromSize(size: Size.zero, key: controller.landing),
-              const LandingHeader(),
+              // SizedBox.fromSize(size: Size.zero, key: controller.landing),
+              // const LandingHeader(),
 
-              // TAGS
-              if (displaySettings?.showFeatures == true) SizedBox.fromSize(size: Size.zero, key: controller.tags),
-              if (displaySettings?.showFeatures == true)
-                if (chosenSalon.additionalFeatures.isNotEmpty)
-                  SalonTags(
-                    salonModel: chosenSalon,
-                    additionalFeatures: chosenSalon.additionalFeatures,
-                    isScrollingNeeded: false,
-                  ),
+              // // TAGS
+              // if (displaySettings?.showFeatures == true) SizedBox.fromSize(size: Size.zero, key: controller.tags),
+              // if (displaySettings?.showFeatures == true)
+              //   if (chosenSalon.additionalFeatures.isNotEmpty)
+              //     SalonTags(
+              //       salonModel: chosenSalon,
+              //       additionalFeatures: chosenSalon.additionalFeatures,
+              //       isScrollingNeeded: false,
+              //     ),
 
-              // ABOUT
-              if (displaySettings?.showAbout == true) SizedBox.fromSize(size: Size.zero, key: controller.about),
-              if (displaySettings?.showAbout == true) SalonAbout2(salonModel: chosenSalon),
+              // // ABOUT
+              // if (displaySettings?.showAbout == true) SizedBox.fromSize(size: Size.zero, key: controller.about),
+              // if (displaySettings?.showAbout == true) SalonAbout2(salonModel: chosenSalon),
 
-              // SPONSORS
-              if (displaySettings?.showBrands == true) SizedBox.fromSize(size: Size.zero, key: controller.sponsor),
-              if (displaySettings?.showBrands == true) const SalonSponsors(),
+              // // SPONSORS
+              // if (displaySettings?.showBrands == true) SizedBox.fromSize(size: Size.zero, key: controller.sponsor),
+              // if (displaySettings?.showBrands == true) const SalonSponsors(),
 
-              // WORKS
-              if (displaySettings?.showPhotosOfWork == true) SizedBox.fromSize(size: Size.zero, key: controller.works),
-              if (displaySettings?.showPhotosOfWork == true) SalonWorks(salonModel: chosenSalon),
+              // // WORKS
+              // if (displaySettings?.showPhotosOfWork == true) SizedBox.fromSize(size: Size.zero, key: controller.works),
+              // if (displaySettings?.showPhotosOfWork == true) SalonWorks(salonModel: chosenSalon),
 
-              // PRICE
-              if (displaySettings?.services.showServices == true) SizedBox.fromSize(size: Size.zero, key: controller.price),
-              if (displaySettings?.services.showServices == true)
-                SalonPrice222(
-                  salonModel: chosenSalon,
-                  categories: _salonSearchProvider.categories,
-                  categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
-                ),
+              // // PRICE
+              // if (displaySettings?.services.showServices == true) SizedBox.fromSize(size: Size.zero, key: controller.price),
+              // if (displaySettings?.services.showServices == true)
+              //   SalonPrice222(
+              //     salonModel: chosenSalon,
+              //     categories: _salonSearchProvider.categories,
+              //     categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
+              //   ),
 
-              // SHOP
-              if (displaySettings?.product.showProduct == true) SizedBox.fromSize(size: Size.zero, key: controller.shop),
-              if (displaySettings?.product.showProduct == true) const SalonShop(),
+              // // SHOP
+              // if (displaySettings?.product.showProduct == true) SizedBox.fromSize(size: Size.zero, key: controller.shop),
+              // if (displaySettings?.product.showProduct == true) const SalonShop(),
 
-              // TEAM
-              if (displaySettings?.showTeam == true) SizedBox.fromSize(size: Size.zero, key: controller.team),
-              if (displaySettings?.showTeam == true)
-                if (!_salonProfileProvider.isSingleMaster)
-                  GentleTouchTeam(
-                    salonModel: chosenSalon,
-                  ),
+              // // TEAM
+              // if (displaySettings?.showTeam == true) SizedBox.fromSize(size: Size.zero, key: controller.team),
+              // if (displaySettings?.showTeam == true)
+              //   if (!_salonProfileProvider.isSingleMaster)
+              //     GentleTouchTeam(
+              //       salonModel: chosenSalon,
+              //     ),
 
               // REVIEWS
               if (displaySettings?.reviews.showReviews == true) SizedBox.fromSize(size: Size.zero, key: controller.reviews),
               if (displaySettings?.reviews.showReviews == true) SalonReviews(salonModel: chosenSalon),
 
-              // WRITE TO US
-              if (displaySettings?.showRequestForm == true) SizedBox.fromSize(size: Size.zero, key: controller.writeToUs),
-              if (displaySettings?.showRequestForm == true) WriteToUs(salonModel: chosenSalon),
+              // // WRITE TO US
+              // if (displaySettings?.showRequestForm == true) SizedBox.fromSize(size: Size.zero, key: controller.writeToUs),
+              // if (displaySettings?.showRequestForm == true) WriteToUs(salonModel: chosenSalon),
 
-              // CONTACT
-              if (displaySettings?.showContact == true) SizedBox.fromSize(size: Size.zero, key: controller.contacts),
-              if (displaySettings?.showContact == true) SalonContact(salonModel: chosenSalon),
+              // // CONTACT
+              // if (displaySettings?.showContact == true) SizedBox.fromSize(size: Size.zero, key: controller.contacts),
+              // if (displaySettings?.showContact == true) SalonContact(salonModel: chosenSalon),
 
               // BOTTOM
               Padding(
@@ -370,6 +374,7 @@ class AppBarItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
@@ -381,7 +386,7 @@ class AppBarItem extends ConsumerWidget {
             title,
             style: theme.textTheme.displayLarge!.copyWith(
               fontSize: 15.sp,
-              color: const Color(0XFF0D0D0E),
+              color: themeType == ThemeType.GentleTouch ? const Color(0XFF0D0D0E) : Colors.white,
               fontWeight: FontWeight.normal,
               fontFamily: "Inter-Light",
             ),

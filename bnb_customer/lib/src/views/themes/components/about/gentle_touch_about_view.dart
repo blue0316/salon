@@ -12,16 +12,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class GlamLightAboutUs extends ConsumerStatefulWidget {
+class GentleTouchAboutUs extends ConsumerStatefulWidget {
   final SalonModel salonModel;
 
-  const GlamLightAboutUs({Key? key, required this.salonModel}) : super(key: key);
+  const GentleTouchAboutUs({Key? key, required this.salonModel}) : super(key: key);
 
   @override
-  ConsumerState<GlamLightAboutUs> createState() => _GlamLightAboutUsState();
+  ConsumerState<GentleTouchAboutUs> createState() => _GentleTouchAboutUsState();
 }
 
-class _GlamLightAboutUsState extends ConsumerState<GlamLightAboutUs> {
+class _GentleTouchAboutUsState extends ConsumerState<GentleTouchAboutUs> {
   final CarouselController _controller = CarouselController();
   int _current = 0;
 
@@ -154,7 +154,7 @@ class _GlamLightAboutUsState extends ConsumerState<GlamLightAboutUs> {
                           style: theme.textTheme.bodyMedium?.copyWith(
                             color: Colors.black, // theme.primaryColor,
                             fontSize: 18.sp,
-                            fontFamily: 'Poppins',
+                            fontFamily: 'Inter',
                           ),
                           maxLines: 10,
                         ),
@@ -164,16 +164,16 @@ class _GlamLightAboutUsState extends ConsumerState<GlamLightAboutUs> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             SquareButton(
+                              borderColor: Colors.transparent,
+                              buttonColor: theme.colorScheme.secondary,
+                              width: 180.sp,
                               text: (AppLocalizations.of(context)?.bookNow ?? "Book Now"),
-                              buttonColor: const Color(0XFF687830),
                               weight: FontWeight.normal,
                               textColor: const Color(0XFFFFFFFF),
-                              borderColor: Colors.transparent,
-                              textSize: 16.5.sp,
+                              height: 47.h,
                               showSuffix: false,
-                              width: 180.sp,
-                              buttonWidth: 1,
-                              height: 50.h,
+                              borderRadius: 2,
+                              isGradient: true,
                               onTap: () => const BookingDialogWidget222().show(context),
                             ),
                           ],
@@ -339,16 +339,16 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SquareButton(
+                    borderColor: Colors.transparent,
+                    buttonColor: theme.colorScheme.secondary,
+                    width: 180.sp,
                     text: (AppLocalizations.of(context)?.bookNow ?? "Book Now"),
-                    buttonColor: const Color(0XFF687830),
                     weight: FontWeight.normal,
                     textColor: const Color(0XFFFFFFFF),
-                    borderColor: Colors.transparent,
-                    textSize: 16.5.sp,
+                    height: 47.h,
                     showSuffix: false,
-                    width: 180.sp,
-                    buttonWidth: 1,
-                    borderRadius: 2,
+                    borderRadius: 3,
+                    isGradient: true,
                     onTap: () => const BookingDialogWidget222().show(context),
                   ),
                 ],

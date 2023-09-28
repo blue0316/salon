@@ -1,6 +1,7 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/utils/utils.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,8 +24,8 @@ class _TeamPortraitViewState extends ConsumerState<TeamPortraitView> {
   @override
   Widget build(BuildContext context) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
-    final ThemeData theme = _salonProfileProvider.salonTheme;
     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -80,7 +81,9 @@ class _TeamPortraitViewState extends ConsumerState<TeamPortraitView> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: _current == entry.key
-                      ? Colors.black
+                      ? themeType == ThemeType.GentleTouch
+                          ? Colors.black
+                          : Colors.white
                       : const Color(0XFF8A8A8A).withOpacity(
                           _current == entry.key ? 0.9 : 0.4,
                         ),

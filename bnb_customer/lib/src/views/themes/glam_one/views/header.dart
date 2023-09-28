@@ -43,7 +43,7 @@ class ThemeHeader extends ConsumerWidget {
                   (salonModel.salonName).toUpperCase(),
                   style: theme.textTheme.displayLarge?.copyWith(
                     letterSpacing: 0.5,
-                    fontSize: DeviceConstraints.getResponsiveSize(context, (themeType == ThemeType.GentleTouch) ? 70.sp : 50.sp, 75.sp, 85.sp),
+                    fontSize: DeviceConstraints.getResponsiveSize(context, (themeType == ThemeType.GentleTouch || themeType == ThemeType.GentleTouchDark) ? 70.sp : 50.sp, 75.sp, 85.sp),
                     color: titleHeaderColor(theme, themeType),
                   ),
                   textAlign: TextAlign.center,
@@ -67,7 +67,7 @@ class ThemeHeader extends ConsumerWidget {
         //   textAlign: TextAlign.center,
         // ),
         SizedBox(height: DeviceConstraints.getResponsiveSize(context, 40.h, 40.h, 40.h)),
-        getThemeButton(context, themeType),
+        getThemeButton(context, themeType, theme),
 
         if (themeType != ThemeType.Barbershop) SizedBox(height: DeviceConstraints.getResponsiveSize(context, 100.h, 100.h, 150.h)),
         if (themeType != ThemeType.Barbershop)
@@ -110,12 +110,15 @@ Color titleHeaderColor(ThemeData theme, ThemeType themeType) {
     case ThemeType.GentleTouch:
       return Colors.black;
 
+    case ThemeType.GentleTouchDark:
+      return Colors.white;
+
     default:
       return theme.primaryColor;
   }
 }
 
-Widget getThemeButton(context, ThemeType themeType) {
+Widget getThemeButton(context, ThemeType themeType, ThemeData theme) {
   Widget squareButton = Row(
     crossAxisAlignment: CrossAxisAlignment.center,
     mainAxisAlignment: MainAxisAlignment.center,
@@ -139,7 +142,7 @@ Widget getThemeButton(context, ThemeType themeType) {
     case ThemeType.GentleTouch:
       return SquareButton(
         borderColor: Colors.transparent,
-        buttonColor: const Color(0XFF687830),
+        buttonColor: theme.colorScheme.secondary,
         width: 180.sp,
         text: (AppLocalizations.of(context)?.bookNow ?? "Book Now"),
         weight: FontWeight.normal,
@@ -147,6 +150,22 @@ Widget getThemeButton(context, ThemeType themeType) {
         height: 47.h,
         showSuffix: false,
         borderRadius: 3,
+        isGradient: true,
+        onTap: () => const BookingDialogWidget222().show(context),
+      );
+
+    case ThemeType.GentleTouchDark:
+      return SquareButton(
+        borderColor: Colors.transparent,
+        buttonColor: theme.colorScheme.secondary,
+        width: 180.sp,
+        text: (AppLocalizations.of(context)?.bookNow ?? "Book Now"),
+        weight: FontWeight.normal,
+        textColor: const Color(0XFFFFFFFF),
+        height: 47.h,
+        showSuffix: false,
+        borderRadius: 3,
+        isGradient: true,
         onTap: () => const BookingDialogWidget222().show(context),
       );
 
@@ -207,7 +226,7 @@ class GlamOneWrap extends ConsumerWidget {
 
     return FittedBox(
       child: Container(
-        decoration: (themeType != ThemeType.GentleTouch)
+        decoration: (themeType != ThemeType.GentleTouch && themeType != ThemeType.GentleTouchDark)
             ? BoxDecoration(
                 border: showBorder ? Border.all(color: Colors.white, width: 1) : null,
                 color: color,

@@ -47,6 +47,9 @@ Widget reviewsSectionTheme(context, {required ThemeType themeType, required Salo
     case ThemeType.GentleTouch:
       return GentleTouchReviewView(salonModel: salon, controller: controller);
 
+    case ThemeType.GentleTouchDark:
+      return GentleTouchReviewView(salonModel: salon, controller: controller);
+
     default:
       return DefaultReviewsView(salonModel: salon, controller: controller);
   }

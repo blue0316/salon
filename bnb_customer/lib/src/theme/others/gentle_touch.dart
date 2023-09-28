@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class GlamLightTheme {
+class GentleTouchTheme {
   static Color themeBackgroundColor = const Color(0XFFFAF6F0); // Color(0XFFFFF5F1);
 
   static const Color textBlack = Color(0xff0E141E);

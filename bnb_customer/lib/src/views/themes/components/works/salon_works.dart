@@ -40,6 +40,8 @@ Widget worksThemeView(ThemeType themeType, ThemeData theme, SalonModel salon) {
       return MinimalWorksView(salonModel: salon);
     case ThemeType.GentleTouch:
       return GentleTouchWorksView(salonModel: salon);
+    case ThemeType.GentleTouchDark:
+      return GentleTouchWorksView(salonModel: salon);
 
     default:
       return DefaultWorksView(salonModel: salon);

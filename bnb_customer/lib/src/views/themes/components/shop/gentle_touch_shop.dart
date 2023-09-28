@@ -5,6 +5,7 @@ import 'package:bbblient/src/models/products.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/prev_and_next.dart';
 import 'package:bbblient/src/views/themes/images.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -216,6 +217,7 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
   Widget build(BuildContext context) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -224,15 +226,22 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
         DropdownButton(
           // Initial Value
           value: dropdownvalue,
-
+          dropdownColor: themeType == ThemeType.GentleTouchDark ? Colors.black : null,
           // Down Arrow Icon
           icon: const Icon(Icons.keyboard_arrow_down),
           isExpanded: true,
-          // Array list of items
+          // Array list of itemsn
           items: widget.items.map((String items) {
             return DropdownMenuItem(
               value: items,
-              child: Text(items),
+              child: Text(
+                items,
+                style: theme.textTheme.bodyLarge?.copyWith(
+                  // color: theme.primaryColorDark,
+                  fontSize: 20.sp,
+                  letterSpacing: 1,
+                ),
+              ),
             );
           }).toList(),
           // After selecting the desired option,it will
@@ -292,7 +301,9 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: _current == entry.key
-                            ? Colors.black
+                            ? themeType == ThemeType.GentleTouch
+                                ? Colors.black
+                                : Colors.white
                             : const Color(0XFF8A8A8A).withOpacity(
                                 _current == entry.key ? 0.9 : 0.4,
                               ),
@@ -310,7 +321,9 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: _current == entry.key
-                            ? Colors.black
+                            ? themeType == ThemeType.GentleTouch
+                                ? Colors.black
+                                : Colors.white
                             : const Color(0XFF8A8A8A).withOpacity(
                                 _current == entry.key ? 0.9 : 0.4,
                               ),
@@ -333,13 +346,14 @@ class ProductPortraitItemCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(color: Colors.black),
+          color: (themeType == ThemeType.GentleTouch) ? Colors.white : Colors.black,
+          border: Border.all(color: (themeType == ThemeType.GentleTouch) ? Colors.black : Colors.white),
         ),
         // color: backgroundColor ?? Colors.blue,
         child: Column(
@@ -347,11 +361,9 @@ class ProductPortraitItemCard extends ConsumerWidget {
             Expanded(
               flex: 1,
               child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white, // theme.primaryColorDark, // Colors.transparent,
-                  border: Border(
-                    bottom: BorderSide(color: Colors.black, width: 0.3),
-                  ),
+                decoration: BoxDecoration(
+                  color: (themeType == ThemeType.GentleTouch) ? Colors.white : Colors.black,
+                  border: const Border(bottom: BorderSide(color: Colors.black, width: 0.3)),
                 ),
                 // height: 300.h,
                 // width: DeviceConstraints.getResponsiveSize(
