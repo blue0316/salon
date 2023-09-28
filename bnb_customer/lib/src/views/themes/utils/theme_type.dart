@@ -7,7 +7,7 @@ enum ThemeType {
   GlamBarbershop, // 3
   GlamGradient, // 4
   Barbershop, // 5
-  GlamLight, // 6
+  GentleTouch, // 6
   GlamMinimalLight, // 7
   GlamMinimalDark, // 8
 }
@@ -27,7 +27,7 @@ ThemeType getThemeTypeEnum(String? themeId) {
     case '5':
       return ThemeType.Barbershop;
     case '6':
-      return ThemeType.GlamLight;
+      return ThemeType.GentleTouch;
     case '7':
       return ThemeType.GlamMinimalLight;
     case '8':

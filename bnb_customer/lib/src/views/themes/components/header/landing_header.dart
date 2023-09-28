@@ -23,7 +23,7 @@ class LandingHeader extends ConsumerWidget {
 
 Widget headerTheme(ThemeType themeType, SalonModel salon) {
   switch (themeType) {
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return GlamLightHeader(chosenSalon: salon);
 
     case ThemeType.GlamMinimalLight:

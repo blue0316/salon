@@ -557,7 +557,7 @@
 //       return Colors.white;
 //     case ThemeType.GlamMinimalDark:
 //       return Colors.black;
-//     case ThemeType.GlamLight:
+//     case ThemeType.GentleTouch:
 //       return Colors.white;
 //     case ThemeType.Barbershop:
 //       return Colors.black;

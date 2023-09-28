@@ -41,7 +41,7 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        // (themeType == ThemeType.GlamLight && isTab)
+        // (themeType == ThemeType.GentleTouch && isTab)
         // ?
         Text(
           (AppLocalizations.of(context)?.writeToUsAndWeWillHelpYouDecideOnTheService ?? "Write to us and we will help you decide on the service").toUpperCase(),
@@ -277,7 +277,7 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
                                 child: CircularProgressIndicator(color: theme.primaryColorDark),
                               ),
                             )
-                          : themeType == ThemeType.GlamLight
+                          : themeType == ThemeType.GentleTouch
                               ? OvalButton(
                                   text: 'Submit',
                                   onTap: () => _salonProfileProvider.sendEnquiryToSalon(
@@ -328,12 +328,12 @@ class _DefaultWriteToUsViewState extends ConsumerState<DefaultWriteToUsView> {
         ),
 
         // Section Divider
-        if (themeType == ThemeType.GlamLight)
+        if (themeType == ThemeType.GentleTouch)
           Space(
             factor: DeviceConstraints.getResponsiveSize(context, 3, 4, 6),
           ),
 
-        if (themeType == ThemeType.GlamLight)
+        if (themeType == ThemeType.GentleTouch)
           const Divider(
             color: Colors.black,
             thickness: 1,

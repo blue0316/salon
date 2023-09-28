@@ -122,7 +122,7 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
 
     List<String> aFeatured = [...widget.additionalFeatures, ...widget.additionalFeatures, ...widget.additionalFeatures];
 
-    return (themeType == ThemeType.GlamLight)
+    return (themeType == ThemeType.GentleTouch)
         ? Padding(
             padding: EdgeInsets.only(
               left: DeviceConstraints.getResponsiveSize(context, 10.w, 10.w, 30.w),
@@ -154,7 +154,7 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
         : Padding(
             padding: const EdgeInsets.only(top: 20, bottom: 50),
             //  RotationTransition(
-            // turns: AlwaysStoppedAnimation(themeType == ThemeType.GlamLight ? 3 / 360 : 0),
+            // turns: AlwaysStoppedAnimation(themeType == ThemeType.GentleTouch ? 3 / 360 : 0),
             child: Column(
               children: [
                 Divider(color: theme.dividerColor, thickness: 2),

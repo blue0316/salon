@@ -34,7 +34,7 @@ Widget aboutTheme(ThemeType themeType, SalonModel salonModel) {
     case ThemeType.Barbershop:
       return BarbershopAboutUs(salonModel: salonModel);
 
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return GlamLightAboutUs(salonModel: salonModel);
 
     case ThemeType.GlamMinimalDark:

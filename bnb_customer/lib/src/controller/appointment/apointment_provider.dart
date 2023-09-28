@@ -306,7 +306,7 @@ class AppointmentProvider with ChangeNotifier {
 
         case '6':
           salonTheme = getGlamLightTheme(themeSettings?.theme?.colorCode);
-          themeType = ThemeType.GlamLight;
+          themeType = ThemeType.GentleTouch;
           notifyListeners();
           return themeType;
 

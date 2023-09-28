@@ -27,7 +27,7 @@ class ThemeDrawer extends ConsumerWidget {
       child: Drawer(
         backgroundColor: theme.colorScheme.background,
         child: Container(
-          child: (themeType == ThemeType.GlamLight)
+          child: (themeType == ThemeType.GentleTouch)
               ? const GentleTouchDrawer()
               : Padding(
                   padding: EdgeInsets.symmetric(horizontal: isPortrait ? 40.w : 10.w, vertical: 20.h),
@@ -217,7 +217,7 @@ class _DrawerTextState extends ConsumerState<DrawerText> {
         child: GestureDetector(
           onTap: widget.onTap,
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: (themeType != ThemeType.GlamLight) ? DeviceConstraints.getResponsiveSize(context, 20.h, 15.h, 15.h) : 10.h),
+            padding: EdgeInsets.symmetric(vertical: (themeType != ThemeType.GentleTouch) ? DeviceConstraints.getResponsiveSize(context, 20.h, 15.h, 15.h) : 10.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -225,14 +225,14 @@ class _DrawerTextState extends ConsumerState<DrawerText> {
                 Text(
                   widget.drawerText,
                   style: theme.textTheme.bodyLarge?.copyWith(
-                    fontSize: (themeType == ThemeType.GlamLight) ? 17.sp : DeviceConstraints.getResponsiveSize(context, 20.sp, 25.sp, 35.sp),
+                    fontSize: (themeType == ThemeType.GentleTouch) ? 17.sp : DeviceConstraints.getResponsiveSize(context, 20.sp, 25.sp, 35.sp),
                     letterSpacing: 0,
                     color: textColor,
                     fontFamily: 'Inter-Light',
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                if (themeType == ThemeType.GlamLight)
+                if (themeType == ThemeType.GentleTouch)
                   const Padding(
                     padding: EdgeInsets.only(top: 1),
                     child: Divider(

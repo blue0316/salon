@@ -269,7 +269,7 @@ class CircularTeamAvatar extends ConsumerWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: AppTheme.white, // coolGrey,
-        border: (themeType == ThemeType.GlamLight) ? Border.all(color: Colors.black) : null,
+        border: (themeType == ThemeType.GentleTouch) ? Border.all(color: Colors.black) : null,
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(100.sp),

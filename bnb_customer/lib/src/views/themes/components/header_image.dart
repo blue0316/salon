@@ -40,7 +40,7 @@ Widget background(ThemeType themeType, SalonModel salon, SalonProfileProvider sa
     case ThemeType.GlamMinimalLight:
       return const DefaultImageBG(image: ThemeImages.minimalBackground);
 
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return (salonProfileProvider.themeSettings?.backgroundImage != null && salonProfileProvider.themeSettings?.backgroundImage != '')
           ? BackgroundImageExists(
               salonProfileProvider: salonProfileProvider,

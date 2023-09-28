@@ -213,7 +213,7 @@ Color viewReceiptColor(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
     case ThemeType.DefaultLight:
       return const Color(0XFF000000).withOpacity(0.4);
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return const Color(0XFF000000).withOpacity(0.4);
     case ThemeType.GlamMinimalLight:
       return const Color(0XFF000000).withOpacity(0.4);
@@ -227,7 +227,7 @@ Color borderColor2(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
     case ThemeType.DefaultLight:
       return Colors.transparent;
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return Colors.transparent;
     case ThemeType.GlamMinimalLight:
       return Colors.transparent;

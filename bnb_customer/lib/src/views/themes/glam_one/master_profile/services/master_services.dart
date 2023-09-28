@@ -191,11 +191,11 @@ class _MasterPriceUniqueState extends ConsumerState<MasterPriceUnique> with Sing
 
             // Section Divider
 
-            if (themeType == ThemeType.GlamLight)
+            if (themeType == ThemeType.GentleTouch)
               Space(
                 factor: DeviceConstraints.getResponsiveSize(context, 8, 8, 10),
               ),
-            if (themeType == ThemeType.GlamLight)
+            if (themeType == ThemeType.GentleTouch)
               const Divider(
                 color: Colors.black,
                 thickness: 1,

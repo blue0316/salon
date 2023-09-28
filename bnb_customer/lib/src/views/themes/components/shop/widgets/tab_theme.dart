@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 BoxDecoration shopTabBarTheme(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return BoxDecoration(
         border: Border(
           bottom: BorderSide(width: 1.5, color: theme.primaryColorDark),

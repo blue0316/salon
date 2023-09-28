@@ -69,7 +69,7 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              (themeType == ThemeType.GlamLight)
+              (themeType == ThemeType.GentleTouch)
                   ? (AppLocalizations.of(context)?.itemsOfServices ?? 'services').toUpperCase()
                   : isSingleMaster
                       ? (AppLocalizations.of(context)?.price ?? 'Price')
@@ -114,7 +114,7 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
                           //   ),
                           // ),
                           isScrollable: true,
-                          labelPadding: EdgeInsets.symmetric(horizontal: (themeType == ThemeType.GlamLight) ? 15.sp : 50),
+                          labelPadding: EdgeInsets.symmetric(horizontal: (themeType == ThemeType.GentleTouch) ? 15.sp : 50),
                           tabs: _createAppointmentProvider.categoriesAvailable
                               .map(
                                 (item) => Tab(
@@ -174,7 +174,7 @@ class ServiceAndPrice extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          if (themeType != ThemeType.GlamLight)
+          if (themeType != ThemeType.GentleTouch)
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -197,7 +197,7 @@ class ServiceAndPrice extends ConsumerWidget {
                 ),
               ],
             ),
-          if (themeType != ThemeType.GlamLight) const SizedBox(height: 15),
+          if (themeType != ThemeType.GentleTouch) const SizedBox(height: 15),
           Expanded(
             flex: 0,
             child: ListView.builder(

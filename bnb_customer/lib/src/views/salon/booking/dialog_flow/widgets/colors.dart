@@ -22,7 +22,7 @@ Color? isAddedSelectedColor(ThemeType themeType) {
       return Colors.black;
     case ThemeType.GlamMinimalDark:
       return Colors.white;
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return Colors.black;
     case ThemeType.Barbershop:
       return Colors.white;
@@ -40,7 +40,7 @@ Color? serviceTabCategoryColor(ThemeType themeType) {
       return Colors.white;
     case ThemeType.GlamMinimalDark:
       return Colors.black;
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return Colors.white;
     case ThemeType.DefaultLight:
       return Colors.white;
@@ -56,7 +56,7 @@ Color loaderColor(ThemeType themeType) {
       return Colors.white;
     case ThemeType.GlamMinimalDark:
       return Colors.black;
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return Colors.white;
     case ThemeType.Barbershop:
       return Colors.black;
@@ -74,7 +74,7 @@ Color selectMasterColor(ThemeType themeType) {
       return Colors.black;
     case ThemeType.GlamMinimalDark:
       return Colors.white;
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return Colors.black;
     case ThemeType.DefaultLight:
       return Colors.white;
@@ -90,7 +90,7 @@ Color? unSelectedMasterColor(ThemeType themeType) {
       return Colors.white;
     case ThemeType.GlamMinimalDark:
       return Colors.black;
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return Colors.black;
     case ThemeType.DefaultLight:
       return Colors.black;
@@ -106,7 +106,7 @@ Color? dialogButtonColor(ThemeType themeType, ThemeData theme) {
       return theme.primaryColor;
     case ThemeType.GlamMinimalDark:
       return theme.primaryColor;
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return theme.primaryColor;
     case ThemeType.Barbershop:
       return theme.primaryColor;
@@ -122,7 +122,7 @@ Color? dialogBackButtonColor(ThemeType themeType, ThemeData theme) {
       return Colors.white;
     case ThemeType.GlamMinimalDark:
       return Colors.transparent;
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return theme.dialogBackgroundColor;
 
     default:
@@ -136,7 +136,7 @@ Color dialogTextColor(ThemeType themeType, ThemeData theme) {
       return theme.primaryColor;
     case ThemeType.GlamMinimalDark:
       return Colors.black;
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return theme.primaryColor;
     case ThemeType.GlamGradient:
       return theme.primaryColor;
@@ -164,7 +164,7 @@ Color selectedServiceCardOnDayAndTime(ThemeType themeType, ThemeData theme) {
       return theme.primaryColor;
     case ThemeType.GlamMinimalDark:
       return theme.primaryColor;
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return theme.primaryColor.withOpacity(0.5);
 
     default:
@@ -188,7 +188,7 @@ Color? selectSlots(ThemeType themeType, ThemeData theme) {
       return Colors.white;
     case ThemeType.GlamMinimalDark:
       return Colors.black;
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return Colors.white;
     case ThemeType.Glam:
       return Colors.white;
@@ -228,7 +228,7 @@ Color? notCurrentDateTextColor(ThemeType themeType, ThemeData theme) {
       return Colors.black;
     case ThemeType.GlamMinimalDark:
       return Colors.white;
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return Colors.black;
     case ThemeType.Glam:
       return Colors.white;
@@ -246,7 +246,7 @@ Color? dropdownBackgroundColor(ThemeType themeType, ThemeData theme) {
     //   return Colors.black;
     // case ThemeType.GlamMinimalDark:
     //   return Colors.white;
-    // case ThemeType.GlamLight:
+    // case ThemeType.GentleTouch:
     //   return Colors.black;
     // case ThemeType.Glam:
     //   return Colors.white;

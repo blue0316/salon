@@ -247,7 +247,7 @@ class GlamLightWrap extends ConsumerWidget {
         height: 50.h,
         decoration: BoxDecoration(
           border: Border.all(
-            color: themeType == ThemeType.GlamLight ? Colors.black : Colors.white,
+            color: themeType == ThemeType.GentleTouch ? Colors.black : Colors.white,
             width: 1.5,
           ),
           borderRadius: BorderRadius.circular(60),
@@ -256,7 +256,7 @@ class GlamLightWrap extends ConsumerWidget {
           child: Text(
             text,
             style: theme.textTheme.bodyText1!.copyWith(
-              color: themeType == ThemeType.GlamLight ? Colors.black : Colors.white,
+              color: themeType == ThemeType.GentleTouch ? Colors.black : Colors.white,
               fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 16.sp),
             ),
             maxLines: 2,

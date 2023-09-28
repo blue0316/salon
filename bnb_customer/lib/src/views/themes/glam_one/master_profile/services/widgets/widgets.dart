@@ -19,7 +19,7 @@ Color? labelColorTheme(ThemeType themeType, ThemeData theme) {
 
 BoxDecoration servicesTabBarTheme(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return BoxDecoration(
         color: theme.primaryColor,
         borderRadius: BorderRadius.circular(60),

@@ -41,7 +41,7 @@ class _MasterReviewsUniqueState extends ConsumerState<MasterReviewsUnique> {
 
 Widget reviewsSectionTheme(context, {required ThemeType themeType, required MasterModel master, required CarouselController controller}) {
   switch (themeType) {
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return Stack(
         children: [
           Positioned(

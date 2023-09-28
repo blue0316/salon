@@ -119,7 +119,7 @@ class ReviewCard extends ConsumerWidget {
                               style: theme.textTheme.titleMedium?.copyWith(
                                 fontSize: DeviceConstraints.getResponsiveSize(context, 17.sp, 18.sp, 18.sp),
                                 fontWeight: FontWeight.w400,
-                                color: (themeType == ThemeType.GlamLight) ? Colors.black : Colors.white,
+                                color: (themeType == ThemeType.GentleTouch) ? Colors.black : Colors.white,
                                 letterSpacing: -0.8,
                               ),
                             ),

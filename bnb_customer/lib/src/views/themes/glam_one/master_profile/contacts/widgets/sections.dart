@@ -76,7 +76,7 @@ class ContactCard extends ConsumerWidget {
             child: Text(
               value,
               style: theme.textTheme.bodyLarge?.copyWith(
-                color: iconColor(themeType), // (themeType == ThemeType.GlamLight) ? Colors.black : Colors.white,
+                color: iconColor(themeType), // (themeType == ThemeType.GentleTouch) ? Colors.black : Colors.white,
                 fontSize: 20.sp,
               ),
             ),
@@ -96,7 +96,7 @@ Color iconColor(ThemeType themeType) {
       return Colors.white;
 
     default:
-      return (themeType == ThemeType.GlamLight) ? Colors.black : Colors.white;
+      return (themeType == ThemeType.GentleTouch) ? Colors.black : Colors.white;
   }
 }
 

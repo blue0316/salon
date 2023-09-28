@@ -35,7 +35,7 @@ class _SalonPromotionsState extends ConsumerState<SalonPromotions> {
           context,
           20.w,
           20.w,
-          themeType == ThemeType.GlamLight ? 0 : 50.w,
+          themeType == ThemeType.GentleTouch ? 0 : 50.w,
         ),
         top: 50,
         bottom: 50,
@@ -50,7 +50,7 @@ Widget promotionTheme(ThemeType themeType, List<PromotionModel> salonPromotionsL
     case ThemeType.Barbershop:
       return BarbershopPromotions(salonPromotionsList: salonPromotionsList);
 
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return GlamLightPromotions(salonPromotionsList: salonPromotionsList);
 
     case ThemeType.GlamMinimalLight:

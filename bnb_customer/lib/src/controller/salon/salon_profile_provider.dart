@@ -119,12 +119,12 @@ class SalonProfileProvider with ChangeNotifier {
           notifyListeners();
           break;
 
-        case '4':
+        case '4': // Gentle Touch Dark
           salonTheme = getGlamGradientTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.GlamGradient;
 
           notifyListeners();
-          break;
+          return GentleTouch(showBooking: showBooking);
 
         case '5':
           salonTheme = getBarbershopTheme(themeSettings?.theme?.colorCode);
@@ -135,7 +135,7 @@ class SalonProfileProvider with ChangeNotifier {
 
         case '6':
           salonTheme = getGlamLightTheme(themeSettings?.theme?.colorCode);
-          themeType = ThemeType.GlamLight;
+          themeType = ThemeType.GentleTouch;
 
           notifyListeners();
           return GentleTouch(showBooking: showBooking);

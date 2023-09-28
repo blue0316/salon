@@ -79,7 +79,7 @@ Widget writeToUsTheme(context, ThemeType themeType, SalonModel salon) {
         child: MinimalWriteToUsView(salonModel: salon),
       );
 
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return Padding(
         padding: EdgeInsets.only(
           left: DeviceConstraints.getResponsiveSize(context, 10.w, 10.w, 30.w),

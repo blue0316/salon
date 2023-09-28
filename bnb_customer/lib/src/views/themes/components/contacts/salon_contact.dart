@@ -43,7 +43,7 @@ class _SalonContactState extends ConsumerState<SalonContact> with SingleTickerPr
 
     ThemeType themeType = _salonProfileProvider.themeType;
 
-    return (themeType == ThemeType.GlamLight)
+    return (themeType == ThemeType.GentleTouch)
         ? GentleTouchContactView(salonModel: widget.salonModel)
         : Container(
             decoration: themeType == ThemeType.Barbershop

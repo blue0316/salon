@@ -43,7 +43,7 @@ class ThemeHeader extends ConsumerWidget {
                   (salonModel.salonName).toUpperCase(),
                   style: theme.textTheme.displayLarge?.copyWith(
                     letterSpacing: 0.5,
-                    fontSize: DeviceConstraints.getResponsiveSize(context, (themeType == ThemeType.GlamLight) ? 70.sp : 50.sp, 75.sp, 85.sp),
+                    fontSize: DeviceConstraints.getResponsiveSize(context, (themeType == ThemeType.GentleTouch) ? 70.sp : 50.sp, 75.sp, 85.sp),
                     color: titleHeaderColor(theme, themeType),
                   ),
                   textAlign: TextAlign.center,
@@ -107,7 +107,7 @@ Color titleHeaderColor(ThemeData theme, ThemeType themeType) {
     case ThemeType.GlamMinimalDark:
       return Colors.white;
 
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return Colors.black;
 
     default:
@@ -136,7 +136,7 @@ Widget getThemeButton(context, ThemeType themeType) {
     case ThemeType.Barbershop:
       return squareButton;
 
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return SquareButton(
         borderColor: Colors.transparent,
         buttonColor: const Color(0XFF687830),
@@ -207,7 +207,7 @@ class GlamOneWrap extends ConsumerWidget {
 
     return FittedBox(
       child: Container(
-        decoration: (themeType != ThemeType.GlamLight)
+        decoration: (themeType != ThemeType.GentleTouch)
             ? BoxDecoration(
                 border: showBorder ? Border.all(color: Colors.white, width: 1) : null,
                 color: color,
@@ -220,7 +220,7 @@ class GlamOneWrap extends ConsumerWidget {
                 ),
               ),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30.sp, vertical: (themeType == ThemeType.GlamLight) ? 10.sp : vSpacing ?? 13.sp),
+          padding: EdgeInsets.symmetric(horizontal: 30.sp, vertical: (themeType == ThemeType.GentleTouch) ? 10.sp : vSpacing ?? 13.sp),
           child: Center(
             child: Text(
               text.toTitleCase(),

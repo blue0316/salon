@@ -124,7 +124,7 @@ Widget themeLeftIcon(context, {required ThemeType themeType, required ThemeData 
         color: const Color(0XFFB3B3B3),
       );
 
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return SvgPicture.asset(
         ThemeIcons.glamLightLeftArrow,
         color: backColor ?? theme.primaryColor,
@@ -179,7 +179,7 @@ Widget themeRightIcon(context, {required ThemeType themeType, required ThemeData
         color: Colors.black,
       );
 
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return SvgPicture.asset(
         ThemeIcons.glamLightRightArrow,
         color: forwardColor ?? theme.primaryColor,

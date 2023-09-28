@@ -57,7 +57,7 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          (themeType != ThemeType.GlamLight)
+                          (themeType != ThemeType.GentleTouch)
                               ? '${widget.service.translations?[AppLocalizations.of(
                                         context,
                                       )?.localeName ?? 'en'] ?? widget.service.translations?['en']}'
@@ -88,7 +88,7 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                     widget.service.isFixedPrice ? "${getCurrency(salonModel.countryCode!)}${widget.service.priceAndDuration!.price}" : "${getCurrency(salonModel.countryCode!)}${widget.service.priceAndDuration!.price} - ${getCurrency(salonModel.countryCode!)}${widget.service.priceAndDurationMax!.price}",
                     // service.isFixedPrice ? "${service.priceAndDuration!.price}${Keys.uah}" : "${service.priceAndDuration!.price}${Keys.uah} - ${service.priceAndDurationMax!.price}${Keys.uah}",
                     style: theme.textTheme.bodyLarge?.copyWith(
-                      color: priceColor(themeType, theme), // (themeType == ThemeType.GlamLight) ? Colors.black : Colors.white,
+                      color: priceColor(themeType, theme), // (themeType == ThemeType.GentleTouch) ? Colors.black : Colors.white,
                       fontSize: 20.sp,
                     ),
                   ),
@@ -129,7 +129,7 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                   ),
                 ),
               Divider(
-                color: (themeType != ThemeType.GlamLight) ? theme.primaryColor : const Color(0XFF9F9F9F),
+                color: (themeType != ThemeType.GentleTouch) ? theme.primaryColor : const Color(0XFF9F9F9F),
                 thickness: 1,
               ),
             ],
@@ -142,7 +142,7 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
 
 Color priceColor(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return Colors.black;
 
     case ThemeType.GlamMinimalLight:
@@ -155,7 +155,7 @@ Color priceColor(ThemeType themeType, ThemeData theme) {
 
 Color serviceNameColor(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return Colors.black;
 
     case ThemeType.GlamMinimalLight:

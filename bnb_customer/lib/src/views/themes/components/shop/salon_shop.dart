@@ -45,7 +45,7 @@ class _SalonShopState extends ConsumerState<SalonShop> with SingleTickerProvider
     final List<ProductModel> allProducts = _salonProfileProvider.allProducts;
     ThemeType themeType = _salonProfileProvider.themeType;
 
-    return (themeType == ThemeType.GlamLight)
+    return (themeType == ThemeType.GentleTouch)
         ? const GentleTouchShop()
         : Padding(
             padding: EdgeInsets.only(

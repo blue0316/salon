@@ -7,7 +7,7 @@ Color? headerColor(ThemeType themeType, ThemeData theme) {
       return const Color(0XFFFFFFFF);
     case ThemeType.DefaultDark:
       return const Color(0XFF202020);
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return const Color(0XFFFFFFFF);
     case ThemeType.GlamMinimalLight:
       return const Color(0XFFFFFFFF);
@@ -32,7 +32,7 @@ Color? valueColor(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
     case ThemeType.DefaultLight:
       return Colors.black;
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return Colors.black;
     case ThemeType.GlamMinimalLight:
       return Colors.black;
@@ -75,7 +75,7 @@ Color buttonTextColor(ThemeType themeType) {
       return Colors.white;
     case ThemeType.GlamMinimalDark:
       return Colors.black;
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return Colors.white;
     case ThemeType.Barbershop:
       return Colors.black;
@@ -91,7 +91,7 @@ Color borderColor(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
     case ThemeType.DefaultLight:
       return Colors.black;
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return Colors.black;
     case ThemeType.GlamMinimalLight:
       return Colors.black;
@@ -105,7 +105,7 @@ Color textBorderColor(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
     case ThemeType.DefaultLight:
       return const Color(0XFFACACAC);
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return Colors.black;
     case ThemeType.GlamMinimalLight:
       return Colors.black;
@@ -119,7 +119,7 @@ Color confirmationTextColor(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
     case ThemeType.DefaultLight:
       return Colors.black;
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return Colors.black;
     case ThemeType.GlamMinimalLight:
       return Colors.black;
@@ -133,7 +133,7 @@ Color boxColor(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
     case ThemeType.DefaultLight:
       return const Color(0XFFFFFFFF);
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return const Color(0XFFFFFFFF);
     case ThemeType.GlamMinimalLight:
       return const Color(0XFFFFFFFF);
@@ -147,7 +147,7 @@ Color scaffoldBGColor(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
     case ThemeType.DefaultLight:
       return const Color(0XFFEFEFEF);
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return const Color(0XFFEFEFEF);
     case ThemeType.GlamMinimalLight:
       return const Color(0XFFEFEFEF);
@@ -161,7 +161,7 @@ Color transparentLoaderColor(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
     case ThemeType.DefaultLight:
       return Colors.black;
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return Colors.black;
     case ThemeType.GlamMinimalLight:
       return Colors.black;
@@ -175,7 +175,7 @@ Color loaderColor(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
     case ThemeType.DefaultLight:
       return Colors.white;
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return Colors.white;
     case ThemeType.GlamMinimalLight:
       return Colors.white;
@@ -191,7 +191,7 @@ Color reviewButtonText(ThemeType themeType) {
       return Colors.white;
     case ThemeType.GlamMinimalDark:
       return Colors.black;
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return Colors.white;
     case ThemeType.Barbershop:
       return Colors.black;
@@ -207,7 +207,7 @@ Color feedbackBGColor(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
     case ThemeType.DefaultLight:
       return Colors.white;
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return Colors.white;
     case ThemeType.GlamMinimalLight:
       return Colors.white;

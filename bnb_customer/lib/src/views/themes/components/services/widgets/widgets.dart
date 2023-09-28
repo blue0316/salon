@@ -13,7 +13,7 @@ Color? labelColorTheme(ThemeType themeType, ThemeData theme) {
       return Colors.white;
     case ThemeType.GlamMinimalDark:
       return Colors.white;
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return Colors.black;
 
     default:
@@ -23,7 +23,7 @@ Color? labelColorTheme(ThemeType themeType, ThemeData theme) {
 
 BoxDecoration servicesTabBarTheme(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return BoxDecoration(
         border: Border(
           bottom: BorderSide(width: 1.5, color: theme.colorScheme.secondary),
@@ -53,7 +53,7 @@ BoxDecoration servicesTabBarTheme(ThemeType themeType, ThemeData theme) {
 
 Widget bookNowButtonTheme(context, {required ThemeType themeType, required ThemeData theme}) {
   switch (themeType) {
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,

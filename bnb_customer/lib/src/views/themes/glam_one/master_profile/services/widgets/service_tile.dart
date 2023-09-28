@@ -64,7 +64,7 @@ class ServiceTile extends ConsumerWidget {
                   service.isFixedPrice ? "\$${service.priceAndDuration!.price}" : "\$${service.priceAndDuration!.price} - \$${service.priceAndDurationMax!.price}",
                   // service.isFixedPrice ? "${service.priceAndDuration!.price}${Keys.uah}" : "${service.priceAndDuration!.price}${Keys.uah} - ${service.priceAndDurationMax!.price}${Keys.uah}",
                   style: theme.textTheme.bodyLarge?.copyWith(
-                    color: priceColor(themeType, theme), // (themeType == ThemeType.GlamLight) ? Colors.black : Colors.white,
+                    color: priceColor(themeType, theme), // (themeType == ThemeType.GentleTouch) ? Colors.black : Colors.white,
                     fontSize: 20.sp,
                   ),
                 ),
@@ -84,7 +84,7 @@ class ServiceTile extends ConsumerWidget {
 
 Color priceColor(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return Colors.black;
 
     case ThemeType.GlamMinimalLight:
@@ -97,7 +97,7 @@ Color priceColor(ThemeType themeType, ThemeData theme) {
 
 Color serviceNameColor(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return Colors.black;
 
     case ThemeType.GlamMinimalLight:

@@ -248,7 +248,7 @@ Color? tabTitleColor(ThemeType themeType, ThemeData theme) {
       return Colors.black;
     case ThemeType.GlamMinimalDark:
       return Colors.white;
-    case ThemeType.GlamLight:
+    case ThemeType.GentleTouch:
       return Colors.black;
     case ThemeType.Glam:
       return Colors.white;
