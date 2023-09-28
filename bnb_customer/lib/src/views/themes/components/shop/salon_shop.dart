@@ -222,7 +222,7 @@ Color labelColor(ThemeType themeType, ThemeData theme) {
       return Colors.white;
     case ThemeType.GlamBarbershop:
       return Colors.white;
-    case ThemeType.GlamGradient:
+    case ThemeType.GentleTouchDark:
       return Colors.white;
     default:
       return theme.primaryColorDark;

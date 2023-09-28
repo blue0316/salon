@@ -32,7 +32,7 @@ class _WriteToUsState extends ConsumerState<WriteToUs> {
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          color: (themeType == ThemeType.GlamGradient) ? null : theme.cardColor,
+          color: (themeType == ThemeType.GentleTouchDark) ? null : theme.cardColor,
           gradient: themeGradient(themeType, theme),
         ),
         child: writeToUsTheme(context, themeType, widget.salonModel),
@@ -43,7 +43,7 @@ class _WriteToUsState extends ConsumerState<WriteToUs> {
 
 Gradient? themeGradient(ThemeType type, ThemeData theme) {
   switch (type) {
-    case ThemeType.GlamGradient:
+    case ThemeType.GentleTouchDark:
       return LinearGradient(
         colors: [
           theme.colorScheme.surfaceTint,

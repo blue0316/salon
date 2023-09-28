@@ -68,7 +68,7 @@ class OurWorksButton extends ConsumerWidget {
             child: (themeType != ThemeType.GlamBarbershop && themeType != ThemeType.Barbershop)
                 ? SvgPicture.asset(
                     ThemeIcons.leftArrow,
-                    color: (themeType == ThemeType.Glam || themeType == ThemeType.GlamGradient) ? Colors.black : theme.primaryColor,
+                    color: (themeType == ThemeType.Glam || themeType == ThemeType.GentleTouchDark) ? Colors.black : theme.primaryColor,
                     height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
                   )
                 : Icon(
@@ -83,7 +83,7 @@ class OurWorksButton extends ConsumerWidget {
             child: (themeType != ThemeType.GlamBarbershop && themeType != ThemeType.Barbershop)
                 ? SvgPicture.asset(
                     ThemeIcons.rightArrow,
-                    color: (themeType == ThemeType.Glam || themeType == ThemeType.GlamGradient) ? Colors.black : theme.primaryColor,
+                    color: (themeType == ThemeType.Glam || themeType == ThemeType.GentleTouchDark) ? Colors.black : theme.primaryColor,
                     height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
                   )
                 : Icon(

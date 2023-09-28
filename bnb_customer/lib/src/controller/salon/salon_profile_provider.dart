@@ -120,8 +120,8 @@ class SalonProfileProvider with ChangeNotifier {
           break;
 
         case '4': // Gentle Touch Dark
-          salonTheme = getGlamGradientTheme(themeSettings?.theme?.colorCode);
-          themeType = ThemeType.GlamGradient;
+          salonTheme = getGentleTouchDarkTheme(themeSettings?.theme?.colorCode);
+          themeType = ThemeType.GentleTouchDark;
 
           notifyListeners();
           return GentleTouch(showBooking: showBooking);
@@ -134,7 +134,7 @@ class SalonProfileProvider with ChangeNotifier {
           break;
 
         case '6':
-          salonTheme = getGlamLightTheme(themeSettings?.theme?.colorCode);
+          salonTheme = getGentleTouchTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.GentleTouch;
 
           notifyListeners();

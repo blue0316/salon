@@ -124,7 +124,7 @@ ThemeData getGlamBarbershopTheme(String? colorCode) {
 }
 
 // Theme 4 - GLAM GRADIENT
-ThemeData getGlamGradientTheme(String? colorCode) {
+ThemeData getGentleTouchDarkTheme(String? colorCode) {
   switch (colorCode) {
     case null: // 'FFC692':
       return GlamGradientTheme.mainTheme;
@@ -190,7 +190,7 @@ ThemeData getBarbershopTheme(String? colorCode) {
 }
 
 // Theme 6 - GLAM LIGHT
-ThemeData getGlamLightTheme(String? colorCode) {
+ThemeData getGentleTouchTheme(String? colorCode) {
   switch (colorCode) {
     case null:
       GlamLightTheme.accentColor = Colors.black;

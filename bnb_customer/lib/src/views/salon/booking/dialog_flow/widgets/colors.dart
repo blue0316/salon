@@ -138,7 +138,7 @@ Color dialogTextColor(ThemeType themeType, ThemeData theme) {
       return Colors.black;
     case ThemeType.GentleTouch:
       return theme.primaryColor;
-    case ThemeType.GlamGradient:
+    case ThemeType.GentleTouchDark:
       return theme.primaryColor;
 
     default:

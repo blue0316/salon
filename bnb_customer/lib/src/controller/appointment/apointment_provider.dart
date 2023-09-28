@@ -292,8 +292,8 @@ class AppointmentProvider with ChangeNotifier {
           return themeType;
 
         case '4':
-          salonTheme = getGlamGradientTheme(themeSettings?.theme?.colorCode);
-          themeType = ThemeType.GlamGradient;
+          salonTheme = getGentleTouchDarkTheme(themeSettings?.theme?.colorCode);
+          themeType = ThemeType.GentleTouchDark;
 
           notifyListeners();
           return themeType;
@@ -305,7 +305,7 @@ class AppointmentProvider with ChangeNotifier {
           return themeType;
 
         case '6':
-          salonTheme = getGlamLightTheme(themeSettings?.theme?.colorCode);
+          salonTheme = getGentleTouchTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.GentleTouch;
           notifyListeners();
           return themeType;
