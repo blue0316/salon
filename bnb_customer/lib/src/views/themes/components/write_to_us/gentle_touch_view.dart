@@ -8,6 +8,8 @@ import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/themes/components/widgets/button.dart';
 import 'package:bbblient/src/views/themes/images.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/profile/widgets/custom_text_form_field.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
+import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,6 +30,7 @@ class _GentleTouchWriteToUsViewState extends ConsumerState<GentleTouchWriteToUsV
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     void submit() {
       _salonProfileProvider.sendEnquiryToSalon(context, salonId: widget.salonModel.salonId);
@@ -88,11 +91,12 @@ class _GentleTouchWriteToUsViewState extends ConsumerState<GentleTouchWriteToUsV
                                     Expanded(
                                       flex: 0,
                                       child: Container(
-                                        color: const Color(0xFFF0E8DB),
+                                        color: themeType == ThemeType.GentleTouch ? const Color(0xFFF0E8DB) : const Color(0XFF1D1E20),
                                         child: CustomTextFormField(
                                           focusNode: FocusNode(),
                                           controller: _salonProfileProvider.nameController,
                                           contentPadding: 15.sp,
+
                                           hintText: (AppLocalizations.of(context)?.firstName ?? "First name").toTitleCase(),
                                           // margin: const EdgeInsets.only(top: 10),
                                         ),
@@ -122,7 +126,7 @@ class _GentleTouchWriteToUsViewState extends ConsumerState<GentleTouchWriteToUsV
                                     Expanded(
                                       flex: 0,
                                       child: Container(
-                                        color: const Color(0xFFF0E8DB),
+                                        color: themeType == ThemeType.GentleTouch ? const Color(0xFFF0E8DB) : const Color(0XFF1D1E20),
                                         child: CustomTextFormField(
                                           focusNode: FocusNode(),
                                           controller: _salonProfileProvider.lastNameController,
@@ -162,7 +166,7 @@ class _GentleTouchWriteToUsViewState extends ConsumerState<GentleTouchWriteToUsV
                                     Expanded(
                                       flex: 0,
                                       child: Container(
-                                        color: const Color(0xFFF0E8DB),
+                                        color: themeType == ThemeType.GentleTouch ? const Color(0xFFF0E8DB) : const Color(0XFF1D1E20),
                                         child: CustomTextFormField(
                                           focusNode: FocusNode(),
                                           controller: _salonProfileProvider.requestController,
@@ -197,7 +201,7 @@ class _GentleTouchWriteToUsViewState extends ConsumerState<GentleTouchWriteToUsV
                                     Expanded(
                                       flex: 0,
                                       child: Container(
-                                        color: const Color(0xFFF0E8DB),
+                                        color: themeType == ThemeType.GentleTouch ? const Color(0xFFF0E8DB) : const Color(0XFF1D1E20),
                                         child: CustomTextFormField(
                                           focusNode: FocusNode(),
                                           controller: _salonProfileProvider.phoneController,
@@ -230,7 +234,7 @@ class _GentleTouchWriteToUsViewState extends ConsumerState<GentleTouchWriteToUsV
                             Expanded(
                               flex: 0,
                               child: Container(
-                                color: const Color(0xFFF0E8DB),
+                                color: themeType == ThemeType.GentleTouch ? const Color(0xFFF0E8DB) : const Color(0XFF1D1E20),
                                 child: CustomTextFormField(
                                   focusNode: FocusNode(),
                                   // controller: _salonProfileProvider.requestController,
@@ -269,10 +273,17 @@ class _GentleTouchWriteToUsViewState extends ConsumerState<GentleTouchWriteToUsV
                 ),
                 SizedBox(width: 150.sp),
                 Expanded(
-                  child: Container(
-                    color: Colors.purple,
+                  child: SizedBox(
                     height: 650.h,
-                    child: Image.asset(ThemeImages.gentleTouchWrite, fit: BoxFit.cover),
+                    child: (_salonProfileProvider.themeSettings?.backgroundImage != null && _salonProfileProvider.themeSettings?.backgroundImage != '')
+                        ? CachedImage(
+                            url: _salonProfileProvider.themeSettings!.backgroundImage!,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.asset(
+                            themeType == ThemeType.GentleTouch ? ThemeImages.glamLightNaturalHue : ThemeImages.darkGentleTouch, // gentleTouchWrite,
+                            fit: BoxFit.cover,
+                          ),
                   ),
                 ),
               ],
@@ -294,6 +305,7 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
   Widget build(BuildContext context) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     void submit() {
       _salonProfileProvider.sendEnquiryToSalon(context, salonId: widget.salonModel.salonId);
@@ -345,7 +357,7 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
                 Expanded(
                   flex: 0,
                   child: Container(
-                    color: const Color(0xFFF0E8DB),
+                    color: themeType == ThemeType.GentleTouch ? const Color(0xFFF0E8DB) : const Color(0XFF1D1E20),
                     child: CustomTextFormField(
                       focusNode: FocusNode(),
                       controller: _salonProfileProvider.nameController,
@@ -378,7 +390,7 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
                 Expanded(
                   flex: 0,
                   child: Container(
-                    color: const Color(0xFFF0E8DB),
+                    color: themeType == ThemeType.GentleTouch ? const Color(0xFFF0E8DB) : const Color(0XFF1D1E20),
                     child: CustomTextFormField(
                       focusNode: FocusNode(),
                       controller: _salonProfileProvider.lastNameController,
@@ -410,7 +422,7 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
                 Expanded(
                   flex: 0,
                   child: Container(
-                    color: const Color(0xFFF0E8DB),
+                    color: themeType == ThemeType.GentleTouch ? const Color(0xFFF0E8DB) : const Color(0XFF1D1E20),
                     child: CustomTextFormField(
                       focusNode: FocusNode(),
                       controller: _salonProfileProvider.requestController,
@@ -443,7 +455,7 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
                 Expanded(
                   flex: 0,
                   child: Container(
-                    color: const Color(0xFFF0E8DB),
+                    color: themeType == ThemeType.GentleTouch ? const Color(0xFFF0E8DB) : const Color(0XFF1D1E20),
                     child: CustomTextFormField(
                       focusNode: FocusNode(),
                       controller: _salonProfileProvider.phoneController,
@@ -473,7 +485,7 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
               Expanded(
                 flex: 0,
                 child: Container(
-                  color: const Color(0xFFF0E8DB),
+                  color: themeType == ThemeType.GentleTouch ? const Color(0xFFF0E8DB) : const Color(0XFF1D1E20),
                   child: CustomTextFormField(
                     focusNode: FocusNode(),
                     // controller: _salonProfileProvider.requestController,
@@ -504,6 +516,7 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
                   weight: FontWeight.w500,
                   borderRadius: 2,
                   showSuffix: false,
+                  isGradient: true,
                 ),
         ],
       ),

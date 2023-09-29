@@ -31,29 +31,10 @@ class _WriteToUsState extends ConsumerState<WriteToUs> {
       key: _salonProfileProvider.formKey,
       child: Container(
         width: double.infinity,
-        decoration: BoxDecoration(
-          color: (themeType == ThemeType.GentleTouchDark) ? null : theme.cardColor,
-          gradient: themeGradient(themeType, theme),
-        ),
+        decoration: BoxDecoration(color: theme.cardColor),
         child: writeToUsTheme(context, themeType, widget.salonModel),
       ),
     );
-  }
-}
-
-Gradient? themeGradient(ThemeType type, ThemeData theme) {
-  switch (type) {
-    case ThemeType.GentleTouchDark:
-      return LinearGradient(
-        colors: [
-          theme.colorScheme.surfaceTint,
-          theme.colorScheme.onSurfaceVariant,
-          theme.colorScheme.surfaceVariant,
-        ],
-      );
-
-    default:
-      return null;
   }
 }
 
@@ -80,6 +61,16 @@ Widget writeToUsTheme(context, ThemeType themeType, SalonModel salon) {
       );
 
     case ThemeType.GentleTouch:
+      return Padding(
+        padding: EdgeInsets.only(
+          left: DeviceConstraints.getResponsiveSize(context, 10.w, 10.w, 30.w),
+          top: DeviceConstraints.getResponsiveSize(context, 100.h, 120.h, 140.h),
+          // bottom: DeviceConstraints.getResponsiveSize(context, 100.h, 120.h, 140.h), // 120,
+        ),
+        child: GentleTouchWriteToUsView(salonModel: salon),
+      );
+
+    case ThemeType.GentleTouchDark:
       return Padding(
         padding: EdgeInsets.only(
           left: DeviceConstraints.getResponsiveSize(context, 10.w, 10.w, 30.w),

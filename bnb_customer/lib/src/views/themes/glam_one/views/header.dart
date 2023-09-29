@@ -41,7 +41,7 @@ class ThemeHeader extends ConsumerWidget {
                 padding: EdgeInsets.symmetric(horizontal: !isTab ? 15.w : 0),
                 child: Text(
                   (salonModel.salonName).toUpperCase(),
-                  style: theme.textTheme.displayLarge?.copyWith(
+                  style: theme.textTheme.displayMedium?.copyWith(
                     letterSpacing: 0.5,
                     fontSize: DeviceConstraints.getResponsiveSize(context, (themeType == ThemeType.GentleTouch || themeType == ThemeType.GentleTouchDark) ? 70.sp : 50.sp, 75.sp, 85.sp),
                     color: titleHeaderColor(theme, themeType),
@@ -151,6 +151,7 @@ Widget getThemeButton(context, ThemeType themeType, ThemeData theme) {
         showSuffix: false,
         borderRadius: 3,
         isGradient: true,
+        hoveredColor: const Color(0XFF687830),
         onTap: () => const BookingDialogWidget222().show(context),
       );
 
@@ -166,6 +167,7 @@ Widget getThemeButton(context, ThemeType themeType, ThemeData theme) {
         showSuffix: false,
         borderRadius: 3,
         isGradient: true,
+        hoveredColor: const Color(0XFF687830),
         onTap: () => const BookingDialogWidget222().show(context),
       );
 

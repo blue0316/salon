@@ -1,5 +1,7 @@
+import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/themes/components/widgets/button.dart';
 import 'package:bbblient/src/views/themes/images.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
@@ -31,6 +33,9 @@ class _GentleTouchShopCardState extends ConsumerState<GentleTouchShopCard> {
     final size = MediaQuery.of(context).size.width;
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    ThemeType themeType = _salonProfileProvider.themeType;
+    final controller = ref.watch(themeController);
+
     // final int? themeNo = _salonProfileProvider.chosenSalon.selectedTheme;
 
     return Padding(
@@ -47,8 +52,11 @@ class _GentleTouchShopCardState extends ConsumerState<GentleTouchShopCard> {
         child: Container(
           height: 60,
           decoration: BoxDecoration(
-            color: !isHovered ? Colors.white : const Color(0XFFDEB273), // theme.primaryColorDark, // Colors.transparent,
-            border: Border.all(color: Colors.black, width: 0.3),
+            color: !isHovered ? (themeType == ThemeType.GentleTouch ? Colors.white : Colors.black) : theme.colorScheme.secondary,
+            border: Border.all(
+              color: themeType == ThemeType.GentleTouch ? Colors.black : Colors.white,
+              width: 0.3,
+            ),
           ),
           // color: Colors.orange,
           width: DeviceConstraints.getResponsiveSize(
@@ -64,10 +72,13 @@ class _GentleTouchShopCardState extends ConsumerState<GentleTouchShopCard> {
               Expanded(
                 flex: 1,
                 child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white, // theme.primaryColorDark, // Colors.transparent,
+                  decoration: BoxDecoration(
+                    color: themeType == ThemeType.GentleTouch ? Colors.white : Colors.black,
                     border: Border(
-                      bottom: BorderSide(color: Colors.black, width: 0.3),
+                      bottom: BorderSide(
+                        color: themeType == ThemeType.GentleTouch ? Colors.black : Colors.white,
+                        width: 0.3,
+                      ),
                     ),
                   ),
                   // height: 300.h,
@@ -84,20 +95,9 @@ class _GentleTouchShopCardState extends ConsumerState<GentleTouchShopCard> {
                           fit: BoxFit.cover,
                         )
                       : Image.asset(
-                          ThemeImages.noProduct,
+                          themeType == ThemeType.GentleTouch ? ThemeImages.noProduct : ThemeImages.noProductDark,
                           fit: BoxFit.cover,
                         ),
-
-                  // Center(
-                  //     child: Text(
-                  //       AppLocalizations.of(context)?.photoNA ?? 'Photo N/A',
-                  //       style: theme.textTheme.bodyLarge?.copyWith(
-                  //         color: Colors.black,
-                  //         fontSize: 20.sp,
-                  //         fontWeight: FontWeight.normal,
-                  //       ),
-                  //     ),
-                  //   ),
                 ),
               ),
               // SizedBox(height: 10.sp),
@@ -148,7 +148,8 @@ class _GentleTouchShopCardState extends ConsumerState<GentleTouchShopCard> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                        (widget.product.productDescription ?? '').toTitleCase(),
+                        // 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
                         style: theme.textTheme.bodyLarge?.copyWith(
                           color: theme.primaryColorDark,
                           fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 14.sp, 14.sp),
@@ -160,7 +161,7 @@ class _GentleTouchShopCardState extends ConsumerState<GentleTouchShopCard> {
                       SizedBox(height: 5.sp),
                       Center(
                         child: SquareButton(
-                          text: (AppLocalizations.of(context)?.bookNow ?? "Book Now"),
+                          text: (AppLocalizations.of(context)?.contactUs ?? "Contact Us"),
                           buttonColor: Colors.transparent,
                           textColor: Colors.white,
                           borderColor: Colors.white,
@@ -172,7 +173,13 @@ class _GentleTouchShopCardState extends ConsumerState<GentleTouchShopCard> {
                           // vSpacing: 2,
                           width: DeviceConstraints.getResponsiveSize(context, size / 1.5.sp, size / 2.3.sp, 70.w) / 2,
                           height: 40.h,
-                          onTap: () {},
+                          onTap: () {
+                            Scrollable.ensureVisible(
+                              controller.contacts.currentContext!,
+                              duration: const Duration(seconds: 2),
+                              curve: Curves.ease,
+                            );
+                          },
                         ),
                       ),
                       SizedBox(height: 5.sp),

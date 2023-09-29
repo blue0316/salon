@@ -38,12 +38,10 @@ class _SalonContactState extends ConsumerState<SalonContact> with SingleTickerPr
   @override
   Widget build(BuildContext context) {
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
-
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
-
     ThemeType themeType = _salonProfileProvider.themeType;
 
-    return (themeType == ThemeType.GentleTouch)
+    return (themeType == ThemeType.GentleTouch || themeType == ThemeType.GentleTouchDark)
         ? GentleTouchContactView(salonModel: widget.salonModel)
         : Container(
             decoration: themeType == ThemeType.Barbershop

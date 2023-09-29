@@ -4,12 +4,16 @@ import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/icons.dart';
+import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_about.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
+import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'widgets/contact_maps.dart';
 
 class GentleTouchContactView extends ConsumerWidget {
@@ -70,18 +74,24 @@ class GentleTouchContactView extends ConsumerWidget {
                   cardTitle: 'Write To Us',
                   cardDesc: 'Start a conversations via email',
                   cardValue: salonModel.email,
+                  onDescTap: () {},
                 ),
                 GentleTouchContactCard(
                   icon: Icons.call,
                   cardTitle: 'Call Us',
                   cardDesc: 'Today from 10 am to 7 pm',
                   cardValue: salonModel.phoneNumber,
+                  onDescTap: () {
+                    Utils().launchCaller(salonModel.phoneNumber.replaceAll("-", ""));
+                  },
                 ),
                 GentleTouchContactCard(
+                  isAddress: true,
                   icon: Icons.location_pin,
                   cardTitle: 'Visit Us',
                   cardDesc: salonModel.address,
                   cardValue: 'View On The Map',
+                  onDescTap: () {},
                 ),
                 GentleTouchContactCard(
                   isSocial: true,
@@ -89,9 +99,7 @@ class GentleTouchContactView extends ConsumerWidget {
                   cardTitle: 'Social Media',
                   cardDesc: 'Discover more on social',
                   cardValue: '',
-                  facebook: salonModel.links?.facebook,
-                  tiktok: salonModel.links?.tiktok,
-                  insta: salonModel.links?.instagram,
+                  salon: salonModel,
                 ),
               ],
             ),
@@ -113,8 +121,9 @@ class GentleTouchContactView extends ConsumerWidget {
 class GentleTouchContactCard extends ConsumerWidget {
   final IconData icon;
   final String cardTitle, cardDesc, cardValue;
-  final bool isSocial;
-  final String? insta, facebook, tiktok;
+  final bool isSocial, isAddress;
+  final SalonModel? salon;
+  final VoidCallback? onDescTap;
 
   const GentleTouchContactCard({
     Key? key,
@@ -123,9 +132,9 @@ class GentleTouchContactCard extends ConsumerWidget {
     required this.cardDesc,
     required this.cardValue,
     this.isSocial = false,
-    this.insta,
-    this.facebook,
-    this.tiktok,
+    this.isAddress = false,
+    this.salon,
+    this.onDescTap,
   }) : super(key: key);
 
   @override
@@ -133,12 +142,15 @@ class GentleTouchContactCard extends ConsumerWidget {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     return Container(
       height: 140.h,
       width: !isPortrait ? 280.h : double.infinity,
       decoration: BoxDecoration(
-        border: Border.all(color: const Color(0XFFD9D9D9)),
+        border: Border.all(
+          color: (themeType == ThemeType.GentleTouch) ? const Color(0XFFD9D9D9) : const Color(0XFF616161),
+        ),
         borderRadius: BorderRadius.circular(2),
       ),
       child: Padding(
@@ -148,8 +160,10 @@ class GentleTouchContactCard extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Icon(icon, size: 20.sp),
+                Icon(icon, size: 20.sp, color: const Color(0XFF868686)),
                 SizedBox(width: 10.sp),
                 Text(
                   cardTitle,
@@ -161,43 +175,89 @@ class GentleTouchContactCard extends ConsumerWidget {
               ],
             ),
             SizedBox(height: 10.sp),
-            Text(
-              cardDesc,
-              style: theme.textTheme.bodyLarge?.copyWith(fontSize: 14.sp, fontWeight: FontWeight.normal),
+            GestureDetector(
+              onTap: () async {
+                if (isAddress) {
+                  String url = "https://maps.google.com/maps?q=${salon!.position?.geoPoint?.latitude ?? 0},${salon!.position?.geoPoint?.longitude ?? 0}&";
+                  Uri uri = Uri.parse(url);
+
+                  if (await canLaunchUrl(uri)) {
+                    await launchUrl(uri);
+                  } else {
+                    showToast("Could not launch");
+                  }
+                } else {}
+              },
+              child: Text(
+                cardDesc,
+                style: theme.textTheme.bodyLarge?.copyWith(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.normal,
+                  color: themeType == ThemeType.GentleTouch ? const Color(0XFF282828) : const Color(0XFFDDDDDD),
+                ),
+              ),
             ),
             const Spacer(),
             if (!isSocial)
               Text(
                 cardValue,
                 style: theme.textTheme.bodyLarge?.copyWith(
-                  fontSize: 14.sp,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
                   decoration: TextDecoration.underline,
+                  color: themeType == ThemeType.GentleTouch ? const Color(0XFF282828) : const Color(0XFFDDDDDD),
                 ),
               ),
             if (isSocial)
               MouseRegion(
                 cursor: SystemMouseCursors.click,
-                child: Row(
+                child: Wrap(
+                  direction: Axis.horizontal,
+                  alignment: WrapAlignment.start,
+                  crossAxisAlignment: WrapCrossAlignment.start,
                   children: [
                     SocialIcon2(
                       icon: FontAwesomeIcons.instagram,
                       type: 'insta',
-                      socialUrl: insta,
+                      socialUrl: salon!.links?.instagram,
                       color: const Color(0XFF868686),
                     ),
-                    SizedBox(width: 5.sp),
+                    // SizedBox(width: 5.sp),
                     SocialLink2(
                       icon: AppIcons.linkTikTok,
                       type: 'tiktok',
-                      socialUrl: tiktok,
+                      socialUrl: salon!.links?.tiktok,
                       color: const Color(0XFF868686),
                     ),
                     SizedBox(width: 5.sp),
                     SocialLink2(
                       icon: AppIcons.linkFacebook,
                       type: 'facebook',
-                      socialUrl: facebook,
+                      socialUrl: salon!.links?.facebook,
+                      color: const Color(0XFF868686),
+                    ),
+                    SocialIcon2(
+                      icon: FontAwesomeIcons.globe,
+                      type: 'website',
+                      socialUrl: salon!.links?.website,
+                      color: const Color(0XFF868686),
+                    ),
+                    SocialIcon2(
+                      icon: FontAwesomeIcons.twitter,
+                      type: 'twitter',
+                      socialUrl: salon!.links?.twitter,
+                      color: const Color(0XFF868686),
+                    ),
+                    SocialIcon2(
+                      icon: FontAwesomeIcons.pinterest,
+                      type: 'pinterest',
+                      socialUrl: salon!.links?.pinterest,
+                      color: const Color(0XFF868686),
+                    ),
+                    SocialIcon2(
+                      icon: FontAwesomeIcons.yelp,
+                      type: 'yelp',
+                      socialUrl: salon!.links?.yelp,
                       color: const Color(0XFF868686),
                     ),
                   ],

@@ -27,7 +27,7 @@ class GentleTouchHeader extends ConsumerWidget {
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
-          // TOP BACKGROUND IMAGEj
+          // TOP BACKGROUND IMAGE
 
           const ThemeHeaderImage(),
           SizedBox(

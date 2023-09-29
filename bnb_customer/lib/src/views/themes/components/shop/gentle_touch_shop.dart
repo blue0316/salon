@@ -164,6 +164,8 @@ class GentleTouchShopTab extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    ThemeType themeType = _salonProfileProvider.themeType;
+
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
@@ -177,7 +179,7 @@ class GentleTouchShopTab extends ConsumerWidget {
               child: Container(
                 height: 1.7,
                 width: 20.w,
-                color: showTab ? Colors.black : Colors.transparent,
+                color: showTab ? (themeType == ThemeType.GentleTouch ? Colors.black : Colors.white) : Colors.transparent,
               ),
             ),
             SizedBox(width: 30.sp),

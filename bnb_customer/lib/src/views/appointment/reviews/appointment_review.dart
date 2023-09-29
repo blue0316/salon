@@ -438,9 +438,9 @@ class _ReviewAppointmentsState extends ConsumerState<ReviewAppointments> {
                               masterId: widget.appointment.salon.id,
                             );
 
-                            DocumentReference _docRef = Collection.customers
+                            DocumentReference _docRef = Collection.salons
                                 .doc(
-                                  widget.appointment.customer!.id,
+                                  widget.appointment.salon.id,
                                 )
                                 .collection('reviews')
                                 .doc();

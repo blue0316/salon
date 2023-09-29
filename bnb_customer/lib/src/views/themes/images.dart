@@ -68,7 +68,11 @@ class ThemeImages {
 
   static const noTeamMember = 'assets/themes/glam_one/images/empty_team_member.png';
 
+  static const noTeamMemberDark = 'assets/themes/glam_one/images/empty_team_member_dark.png';
+
   static const noProduct = 'assets/themes/glam_one/images/empty_product.png';
+
+  static const noProductDark = 'assets/themes/glam_one/images/empty_product_dark.png';
 
   static const gentleTouchWrite = 'assets/themes/glam_one/images/gentle_touch_write.png';
 }

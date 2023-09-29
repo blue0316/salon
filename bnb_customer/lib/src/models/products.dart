@@ -86,6 +86,7 @@ class ProductModel {
     categoryIdList = json['categoryIdList'] == null ? [] : categoryIdList = json['categoryIdList'].cast<String>();
     // categoryIdList = json["categoryIdList"] ?? [];
     productName = json['productName'] ?? "";
+    productDescription = json['description'] ?? "";
     clientPrice = json['clientPrice'] ?? "";
     discountedPrice = json['discountedPrice'] ?? "";
     dispayPrice = json['dispayPrice'] ?? false;

@@ -193,13 +193,15 @@ class SocialIcon2 extends ConsumerWidget {
           showToast("Social Link is not available");
         }
       },
-      child: Padding(
-        padding: EdgeInsets.only(right: 10.sp),
-        child: Center(
-          child: FaIcon(
-            icon,
-            size: 25.h,
-            color: color ?? theme.primaryColor,
+      child: FittedBox(
+        child: Padding(
+          padding: EdgeInsets.only(right: 10.sp),
+          child: Center(
+            child: FaIcon(
+              icon,
+              size: 25.h,
+              color: color ?? theme.primaryColor,
+            ),
           ),
         ),
       ),
@@ -305,26 +307,28 @@ class SocialLink2 extends ConsumerWidget {
           showToast("Social Link is not available");
         }
       },
-      child: Padding(
-        padding: EdgeInsets.only(right: 10.sp),
-        child: Center(
-          child: (icon == AppIcons.linkGlobeDark)
-              ? FaIcon(
-                  FontAwesomeIcons.globe,
-                  size: 25.h,
-                  color: color ?? theme.primaryColor,
-                )
-              : (icon == AppIcons.linkInstaDark2)
-                  ? FaIcon(
-                      FontAwesomeIcons.instagram,
-                      size: 25.h,
-                      color: color ?? theme.primaryColor,
-                    )
-                  : SvgPicture.asset(
-                      icon,
-                      height: 25.h,
-                      color: color ?? theme.primaryColor,
-                    ),
+      child: FittedBox(
+        child: Padding(
+          padding: EdgeInsets.only(right: 10.sp),
+          child: Center(
+            child: (icon == AppIcons.linkGlobeDark)
+                ? FaIcon(
+                    FontAwesomeIcons.globe,
+                    size: 25.h,
+                    color: color ?? theme.primaryColor,
+                  )
+                : (icon == AppIcons.linkInstaDark2)
+                    ? FaIcon(
+                        FontAwesomeIcons.instagram,
+                        size: 25.h,
+                        color: color ?? theme.primaryColor,
+                      )
+                    : SvgPicture.asset(
+                        icon,
+                        height: 25.h,
+                        color: color ?? theme.primaryColor,
+                      ),
+          ),
         ),
       ),
     );

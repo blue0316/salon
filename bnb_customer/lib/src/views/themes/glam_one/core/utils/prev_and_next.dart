@@ -131,6 +131,13 @@ Widget themeLeftIcon(context, {required ThemeType themeType, required ThemeData 
         height: fontSize ?? DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
       );
 
+    case ThemeType.GentleTouchDark:
+      return SvgPicture.asset(
+        ThemeIcons.glamLightLeftArrow,
+        color: backColor ?? theme.primaryColor,
+        height: fontSize ?? DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+      );
+
     default:
       return SvgPicture.asset(
         ThemeIcons.leftArrow,
@@ -180,6 +187,13 @@ Widget themeRightIcon(context, {required ThemeType themeType, required ThemeData
       );
 
     case ThemeType.GentleTouch:
+      return SvgPicture.asset(
+        ThemeIcons.glamLightRightArrow,
+        color: forwardColor ?? theme.primaryColor,
+        height: fontSize ?? DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+      );
+
+    case ThemeType.GentleTouchDark:
       return SvgPicture.asset(
         ThemeIcons.glamLightRightArrow,
         color: forwardColor ?? theme.primaryColor,

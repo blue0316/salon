@@ -14,7 +14,7 @@ class GentleTouchDarkTheme {
 
   // MAIN COLORS 1
   static const primaryColor1 = Colors.white;
-  static Color accentColor = Colors.black;
+  static Color accentColor = Colors.white;
 
   // Theme 1
   static final ThemeData mainTheme = ThemeData(
@@ -37,7 +37,7 @@ class GentleTouchDarkTheme {
     ),
     dialogBackgroundColor: Colors.black,
 
-    cardColor: primaryColor1,
+    cardColor: Colors.black,
     colorScheme: ColorScheme(
       primary: (Colors.pink[900])!,
       secondary: accentColor, // Color of title text on cards
@@ -74,7 +74,7 @@ class GentleTouchDarkTheme {
       bodyMedium: bodyText2.copyWith(color: primaryColor1),
       //text-field style
       titleMedium: subTitle1.copyWith(color: primaryColor1),
-      titleSmall: subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
+      titleSmall: subTitle2.copyWith(color: primaryColor1), // Sub text under a section title in a section container
     ),
     appBarTheme: AppBarTheme(
       backgroundColor: Colors.white,
@@ -83,20 +83,20 @@ class GentleTouchDarkTheme {
     ),
     dividerColor: const Color(0XFF616161),
     inputDecorationTheme: InputDecorationTheme(
-      labelStyle: bodyText1.copyWith(color: Colors.black),
+      labelStyle: bodyText1.copyWith(color: const Color(0XFF9A9A9A)),
       border: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.black, width: 1),
-        borderRadius: BorderRadius.circular(20),
+        borderSide: const BorderSide(color: Color(0XFF1D1E20), width: 1),
+        borderRadius: BorderRadius.circular(5),
       ),
       enabledBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.black, width: 1),
-        borderRadius: BorderRadius.circular(20),
+        borderSide: const BorderSide(color: Color(0XFF1D1E20), width: 1),
+        borderRadius: BorderRadius.circular(5),
       ),
       focusedBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.black, width: 1),
-        borderRadius: BorderRadius.circular(20),
+        borderSide: const BorderSide(color: Color(0XFF1D1E20), width: 1),
+        borderRadius: BorderRadius.circular(5),
       ),
-      hintStyle: bodyText1.copyWith(color: Colors.black),
+      hintStyle: bodyText1.copyWith(color: const Color(0XFF9A9A9A)),
     ),
     unselectedWidgetColor: Colors.grey[700], // Color for not valid time slot container
     highlightColor: primaryColor1,

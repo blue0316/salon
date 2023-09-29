@@ -6,6 +6,7 @@ import 'package:bbblient/src/utils/currency/currency.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
+import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -116,15 +117,20 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      // const Expanded(flex: 1, child: SizedBox()),
-                      // Expanded(
-                      //   flex: 0,
-                      //   child: Container(
-                      //     height: 100.sp,
-                      //     width: 200.sp,
-                      //     color: Colors.yellow,
-                      //   ),
-                      // ),
+                      const Expanded(flex: 1, child: SizedBox()),
+                      Expanded(
+                        flex: 0,
+                        child: SizedBox(
+                          height: 100.sp,
+                          width: 200.sp,
+                          // color: Colors.yellow,
+                          child: CachedImage(
+                            url: widget.service.servicePhoto ?? '',
+                            fit: BoxFit.cover,
+                            width: MediaQuery.of(context).size.width - 40.w,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),

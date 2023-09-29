@@ -31,8 +31,6 @@ class _GentleTouchWorksViewState extends ConsumerState<GentleTouchWorksView> {
     final ThemeData theme = _salonProfileProvider.salonTheme;
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
 
-    final ThemeType themeType = _salonProfileProvider.themeType;
-
     // Check if Salon is a single masters
     // final bool isSingleMaster = _salonProfileProvider.isSingleMaster;
 

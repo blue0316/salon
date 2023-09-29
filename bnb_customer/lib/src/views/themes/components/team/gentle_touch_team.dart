@@ -6,7 +6,6 @@ import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/utils/utils.dart';
-import 'package:bbblient/src/views/themes/components/widgets/button.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/prev_and_next.dart';
 import 'package:bbblient/src/views/themes/glam_one/master_profile/unique_master_profile.dart';
 import 'package:bbblient/src/views/themes/images.dart';
@@ -197,18 +196,18 @@ class _GentleTouchTeamMemberState extends ConsumerState<GentleTouchTeamMember> {
         onExit: (event) => onEntered(false),
         child: GestureDetector(
           onTap: () {
-            _createAppointmentProvider.setMaster(
-              masterModel: widget.master,
-              categories: _salonSearchProvider.categories,
-            );
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => UniqueMasterProfile(
-                  masterModel: widget.master,
-                ),
-              ),
-            );
+            // _createAppointmentProvider.setMaster(
+            //   masterModel: widget.master,
+            //   categories: _salonSearchProvider.categories,
+            // );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) => UniqueMasterProfile(
+            //       masterModel: widget.master,
+            //     ),
+            //   ),
+            // );
           },
           child: Container(
             width: DeviceConstraints.getResponsiveSize(
@@ -236,7 +235,7 @@ class _GentleTouchTeamMemberState extends ConsumerState<GentleTouchTeamMember> {
                     child: (widget.image != null && widget.image != '')
                         ? CachedImage(url: widget.image!, fit: BoxFit.cover)
                         : Image.asset(
-                            ThemeImages.noTeamMember,
+                            themeType == ThemeType.GentleTouch ? ThemeImages.noTeamMember : ThemeImages.noTeamMemberDark,
                             fit: BoxFit.cover,
                           ),
                   ),
@@ -274,7 +273,7 @@ class _GentleTouchTeamMemberState extends ConsumerState<GentleTouchTeamMember> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus',
+                          (widget.master.personalInfo?.description ?? '').toTitleCase(),
                           style: theme.textTheme.bodyLarge?.copyWith(
                             color: (themeType == ThemeType.GentleTouch) ? Colors.black : Colors.white,
                             fontSize: 14.sp,
@@ -290,18 +289,8 @@ class _GentleTouchTeamMemberState extends ConsumerState<GentleTouchTeamMember> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Center(
-                              child: SquareButton(
-                                text: "Learn More",
-                                buttonColor: Colors.transparent,
-                                textColor: (themeType == ThemeType.GentleTouch) ? Colors.black : Colors.white,
-                                borderColor: (themeType == ThemeType.GentleTouch) ? Colors.black : const Color(0XFF868686),
-                                textSize: 15.sp,
-                                showSuffix: false,
-                                weight: FontWeight.w500,
-                                buttonWidth: 0.8,
-                                borderRadius: 1.5,
-                                // vSpacing: 2,
-                                height: 40.h,
+                              child: GentleTouchTeamButton(
+                                text: "  Learn More  ",
                                 onTap: () {},
                               ),
                             ),
@@ -317,5 +306,98 @@ class _GentleTouchTeamMemberState extends ConsumerState<GentleTouchTeamMember> {
         ),
       ),
     );
+  }
+}
+
+class GentleTouchTeamButton extends ConsumerStatefulWidget {
+  final String text;
+  final VoidCallback onTap;
+  final bool isGradient;
+
+  const GentleTouchTeamButton({
+    Key? key,
+    required this.text,
+    required this.onTap,
+    this.isGradient = false,
+  }) : super(key: key);
+
+  @override
+  ConsumerState<GentleTouchTeamButton> createState() => _GentleTouchTeamButtonState();
+}
+
+class _GentleTouchTeamButtonState extends ConsumerState<GentleTouchTeamButton> {
+  bool isHovered = false;
+
+  void onEntered(bool isHovered) => setState(() {
+        this.isHovered = isHovered;
+      });
+
+  @override
+  Widget build(BuildContext context) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+    ThemeType themeType = _salonProfileProvider.themeType;
+
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (event) => onEntered(true),
+      onExit: (event) => onEntered(false),
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: Container(
+          height: 40.h,
+          decoration: BoxDecoration(
+            // color: Colors.transparent,
+            border: isHovered
+                ? null
+                : Border.all(
+                    color: (themeType == ThemeType.GentleTouch) ? Colors.black : const Color(0XFF868686),
+                    width: 0.8,
+                  ),
+            borderRadius: BorderRadius.circular(1.5),
+            gradient: isHovered ? buttonGradient(themeType, theme) : null,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  widget.text,
+                  style: TextStyle(
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w500,
+                    color: (themeType == ThemeType.GentleTouch) ? (!isHovered ? Colors.black : Colors.white) : Colors.white,
+                    fontFamily: "Inter-Light",
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+Gradient? buttonGradient(ThemeType type, ThemeData theme, {double? opacity}) {
+  switch (type) {
+    case ThemeType.GentleTouch:
+      return LinearGradient(
+        begin: const Alignment(-0.6, -0.4),
+        end: const Alignment(2, 1),
+        colors: [theme.colorScheme.secondary, Colors.white],
+      );
+
+    case ThemeType.GentleTouchDark:
+      return LinearGradient(
+        begin: const Alignment(-0.6, -0.4),
+        end: const Alignment(2, 1),
+        colors: [theme.colorScheme.secondary.withOpacity(opacity ?? 1), Colors.white],
+      );
+
+    default:
+      return null;
   }
 }
