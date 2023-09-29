@@ -58,66 +58,72 @@ class GentleTouchContactView extends ConsumerWidget {
             ),
           ),
           SizedBox(height: 40.sp),
-          SizedBox(
-            // height: 200.h,
-            width: double.infinity,
-            child: Wrap(
-              direction: Axis.horizontal,
-              // crossAxisAlignment: CrossAxisAlignment.center,
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              alignment: WrapAlignment.spaceBetween,
-              runAlignment: WrapAlignment.spaceBetween,
-              runSpacing: 15.sp,
-              children: [
-                GentleTouchContactCard(
-                  icon: Icons.message,
-                  cardTitle: 'Write To Us',
-                  cardDesc: 'Start a conversations via email',
-                  cardValue: salonModel.email,
-                  onDescTap: () {
-                    final Uri emailLaunchUri = Uri(
-                      scheme: 'mailto',
-                      path: salonModel.email,
-                      queryParameters: {'subject': 'Contact'},
-                    );
-                    launchUrl(emailLaunchUri);
-                  },
-                ),
-                GentleTouchContactCard(
-                  icon: Icons.call,
-                  cardTitle: 'Call Us',
-                  cardDesc: 'Today from 10 am to 7 pm',
-                  cardValue: salonModel.phoneNumber,
-                  onDescTap: () {
-                    Utils().launchCaller(salonModel.phoneNumber.replaceAll("-", ""));
-                  },
-                ),
-                GentleTouchContactCard(
-                  isAddress: true,
-                  icon: Icons.location_pin,
-                  cardTitle: 'Visit Us',
-                  cardDesc: salonModel.address,
-                  cardValue: 'View On The Map',
-                  onDescTap: () async {
-                    String url = "https://maps.google.com/maps?q=${salonModel.position?.geoPoint?.latitude ?? 0},${salonModel.position?.geoPoint?.longitude ?? 0}&";
-                    Uri uri = Uri.parse(url);
+          Padding(
+            padding: EdgeInsets.only(
+              left: DeviceConstraints.getResponsiveSize(context, 10.w, 10.w, 10.w),
+              right: DeviceConstraints.getResponsiveSize(context, 10.w, 10.w, 10.w),
+            ),
+            child: SizedBox(
+              // height: 200.h,
+              width: double.infinity,
+              child: Wrap(
+                direction: Axis.horizontal,
+                // crossAxisAlignment: CrossAxisAlignment.center,
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                alignment: WrapAlignment.spaceBetween,
+                runAlignment: WrapAlignment.spaceBetween,
+                runSpacing: 15.sp,
+                children: [
+                  GentleTouchContactCard(
+                    icon: Icons.message,
+                    cardTitle: 'Write To Us',
+                    cardDesc: 'Start a conversations via email',
+                    cardValue: salonModel.email,
+                    onDescTap: () {
+                      final Uri emailLaunchUri = Uri(
+                        scheme: 'mailto',
+                        path: salonModel.email,
+                        queryParameters: {'subject': 'Contact'},
+                      );
+                      launchUrl(emailLaunchUri);
+                    },
+                  ),
+                  GentleTouchContactCard(
+                    icon: Icons.call,
+                    cardTitle: 'Call Us',
+                    cardDesc: 'Today from 10 am to 7 pm',
+                    cardValue: salonModel.phoneNumber,
+                    onDescTap: () {
+                      Utils().launchCaller(salonModel.phoneNumber.replaceAll("-", ""));
+                    },
+                  ),
+                  GentleTouchContactCard(
+                    isAddress: true,
+                    icon: Icons.location_pin,
+                    cardTitle: 'Visit Us',
+                    cardDesc: salonModel.address,
+                    cardValue: 'View On The Map',
+                    onDescTap: () async {
+                      String url = "https://maps.google.com/maps?q=${salonModel.position?.geoPoint?.latitude ?? 0},${salonModel.position?.geoPoint?.longitude ?? 0}&";
+                      Uri uri = Uri.parse(url);
 
-                    if (await canLaunchUrl(uri)) {
-                      await launchUrl(uri);
-                    } else {
-                      showToast("Could not launch");
-                    }
-                  },
-                ),
-                GentleTouchContactCard(
-                  isSocial: true,
-                  icon: Icons.soap_rounded,
-                  cardTitle: 'Social Media',
-                  cardDesc: 'Discover more on social',
-                  cardValue: '',
-                  salon: salonModel,
-                ),
-              ],
+                      if (await canLaunchUrl(uri)) {
+                        await launchUrl(uri);
+                      } else {
+                        showToast("Could not launch");
+                      }
+                    },
+                  ),
+                  GentleTouchContactCard(
+                    isSocial: true,
+                    icon: Icons.soap_rounded,
+                    cardTitle: 'Social Media',
+                    cardDesc: 'Discover more on social',
+                    cardValue: '',
+                    salon: salonModel,
+                  ),
+                ],
+              ),
             ),
           ),
           SizedBox(height: 50.sp),
