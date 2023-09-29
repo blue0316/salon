@@ -74,7 +74,14 @@ class GentleTouchContactView extends ConsumerWidget {
                   cardTitle: 'Write To Us',
                   cardDesc: 'Start a conversations via email',
                   cardValue: salonModel.email,
-                  onDescTap: () {},
+                  onDescTap: () {
+                    final Uri emailLaunchUri = Uri(
+                      scheme: 'mailto',
+                      path: salonModel.email,
+                      queryParameters: {'subject': 'Contact'},
+                    );
+                    launchUrl(emailLaunchUri);
+                  },
                 ),
                 GentleTouchContactCard(
                   icon: Icons.call,
@@ -91,7 +98,16 @@ class GentleTouchContactView extends ConsumerWidget {
                   cardTitle: 'Visit Us',
                   cardDesc: salonModel.address,
                   cardValue: 'View On The Map',
-                  onDescTap: () {},
+                  onDescTap: () async {
+                    String url = "https://maps.google.com/maps?q=${salonModel.position?.geoPoint?.latitude ?? 0},${salonModel.position?.geoPoint?.longitude ?? 0}&";
+                    Uri uri = Uri.parse(url);
+
+                    if (await canLaunchUrl(uri)) {
+                      await launchUrl(uri);
+                    } else {
+                      showToast("Could not launch");
+                    }
+                  },
                 ),
                 GentleTouchContactCard(
                   isSocial: true,
@@ -175,26 +191,12 @@ class GentleTouchContactCard extends ConsumerWidget {
               ],
             ),
             SizedBox(height: 10.sp),
-            GestureDetector(
-              onTap: () async {
-                if (isAddress) {
-                  String url = "https://maps.google.com/maps?q=${salon!.position?.geoPoint?.latitude ?? 0},${salon!.position?.geoPoint?.longitude ?? 0}&";
-                  Uri uri = Uri.parse(url);
-
-                  if (await canLaunchUrl(uri)) {
-                    await launchUrl(uri);
-                  } else {
-                    showToast("Could not launch");
-                  }
-                } else {}
-              },
-              child: Text(
-                cardDesc,
-                style: theme.textTheme.bodyLarge?.copyWith(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.normal,
-                  color: themeType == ThemeType.GentleTouch ? const Color(0XFF282828) : const Color(0XFFDDDDDD),
-                ),
+            Text(
+              cardDesc,
+              style: theme.textTheme.bodyLarge?.copyWith(
+                fontSize: 14.sp,
+                fontWeight: FontWeight.normal,
+                color: themeType == ThemeType.GentleTouch ? const Color(0XFF282828) : const Color(0XFFDDDDDD),
               ),
             ),
             const Spacer(),
