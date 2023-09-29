@@ -436,6 +436,7 @@ class _ReviewAppointmentsState extends ConsumerState<ReviewAppointments> {
                               customerName: clientNameControler.text,
                               customerPic: widget.appointment.customer!.pic ?? '',
                               masterId: widget.appointment.salon.id,
+                              isAnonymous: postAnonymously,
                             );
 
                             // print(widget.appointment.salon.id);
