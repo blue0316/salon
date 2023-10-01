@@ -27,6 +27,18 @@ class AppointmentApi {
 
   final Time _timeUtils = Time();
 
+  // void updateAppointmentReview(String appointmentID) {
+  //   try {
+  //     DocumentReference _docRef = Collection.appointments.doc(appointmentID);
+  //     _docRef.update(
+  //       {'isReviewed': true},
+  //     );
+  //   } catch (e) {
+  //     debugPrint(e.toString());
+  //     return;
+  //   }
+  // }
+
   Stream<List<AppointmentModel>> listenAppointments({required String customerId}) {
     printIt('customer $customerId');
     return Collection.appointments.limit(20).where('customer.id', isEqualTo: customerId).snapshots().map((snapShot) {
