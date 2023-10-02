@@ -167,7 +167,7 @@ class GentleTouchContactCard extends ConsumerWidget {
     ThemeType themeType = _salonProfileProvider.themeType;
 
     return Container(
-      height: 140.h,
+      height: 145.h,
       width: !isPortrait ? 280.h : double.infinity,
       decoration: BoxDecoration(
         border: Border.all(

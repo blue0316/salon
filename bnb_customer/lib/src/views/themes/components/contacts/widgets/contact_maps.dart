@@ -1,8 +1,8 @@
 import 'dart:html';
 import 'package:bbblient/src/models/salon_master/salon.dart';
+import 'package:bbblient/src/views/themes/components/contacts/api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:google_maps/google_maps.dart';
 import 'dart:ui' as ui;
 import 'package:google_maps/google_maps.dart' as maps;
 
@@ -16,25 +16,61 @@ class GoogleMaps extends ConsumerStatefulWidget {
 
 class _GoogleMapsState extends ConsumerState<GoogleMaps> {
   String htmlId = "7";
+  double lat = 28.538336;
+  double long = -81.379234;
+  bool _spinner = false;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchLatAndLong();
+  }
+
+  fetchLatAndLong() async {
+    setState(() => _spinner = true);
+
+    if (widget.salonModel!.position?.geoPoint?.latitude == 0 || widget.salonModel!.position?.geoPoint?.longitude == 0) {
+      try {
+        Map<String, dynamic> location = await getLatLongFromAddress(
+          widget.salonModel!.address,
+        );
+        setState(() {
+          lat = location['lat'];
+          long = location['lng'];
+        });
+      } catch (e) {
+        debugPrint('Maps Error: $e');
+
+        setState(() {
+          lat = widget.salonModel!.position?.geoPoint?.latitude ?? 28.538336;
+          long = widget.salonModel!.position?.geoPoint?.longitude ?? -81.379234;
+        });
+      }
+    } else {
+      setState(() {
+        lat = widget.salonModel!.position?.geoPoint?.latitude ?? 28.538336;
+        long = widget.salonModel!.position?.geoPoint?.longitude ?? -81.379234;
+      });
+    }
+
+    setState(() => _spinner = false);
+  }
 
   @override
   Widget build(BuildContext context) {
-    double lat = widget.salonModel!.position?.geoPoint?.latitude ?? 0;
-    double long = widget.salonModel!.position?.geoPoint?.longitude ?? 0;
+    // print('=======@@@@@================@@@@===========');
+    // print(widget.salonModel!.address);
+    // print(lat);
+    // print(long);
+    // print('=======@@@@@================@@@@===========');
 
     ui.platformViewRegistry.registerViewFactory(htmlId, (int viewId) {
-      final myLatlng = maps.LatLng(
-        (lat != 0) ? lat : 28.538336,
-        (long != 0) ? long : -81.379234,
-      );
+      final myLatlng = maps.LatLng(lat, long);
 
       final mapOptions = maps.MapOptions()
-        ..zoom = 10
-        ..maxZoom = 19
-        ..center = maps.LatLng(
-          (lat != 0) ? lat : 28.538336,
-          (long != 0) ? long : -81.379234,
-        );
+        ..zoom = 18
+        ..maxZoom = 20
+        ..center = maps.LatLng(lat, long);
 
       final elem = DivElement()
         ..id = htmlId
@@ -53,6 +89,10 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
       return elem;
     });
 
-    return HtmlElementView(viewType: htmlId);
+    return _spinner
+        ? const Center(child: CircularProgressIndicator())
+        : HtmlElementView(
+            viewType: htmlId,
+          );
   }
 }
