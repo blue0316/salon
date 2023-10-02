@@ -5,6 +5,7 @@ import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/appointment/reviews/appointment_review.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
+import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -120,22 +121,31 @@ class ViewOrReview extends ConsumerWidget {
               textColor: Colors.white,
               onTap: viewReceiptOnTap,
             ),
-            ViewOrReviewButton(
-              text: 'Review Appointment',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ReviewAppointments(
-                      appointment: appointment,
-                      appointmentId: appointmentId,
-                    ),
+            (appointment.reviewed != true)
+                ? ViewOrReviewButton(
+                    text: 'Review Appointment',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ReviewAppointments(
+                            appointment: appointment,
+                            appointmentId: appointmentId,
+                          ),
+                        ),
+                      );
+                    },
+                    buttonColor: Colors.white,
+                    textColor: Colors.black,
+                  )
+                : ViewOrReviewButton(
+                    text: 'Appointment Reviewed',
+                    onTap: () {
+                      showToast('This appointment has been reviewed');
+                    },
+                    buttonColor: const Color.fromARGB(130, 157, 157, 157),
+                    textColor: Colors.black,
                   ),
-                );
-              },
-              buttonColor: Colors.white,
-              textColor: Colors.black,
-            ),
           ],
         ),
       ),
@@ -212,11 +222,11 @@ class ViewOrReviewButton extends ConsumerWidget {
 Color viewReceiptColor(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
     case ThemeType.DefaultLight:
-      return const Color(0XFF000000).withOpacity(0.4);
+      return const Color(0XFF000000).withOpacity(0.6);
     case ThemeType.GentleTouch:
-      return const Color(0XFF000000).withOpacity(0.4);
+      return const Color(0XFF000000).withOpacity(0.6);
     case ThemeType.GlamMinimalLight:
-      return const Color(0XFF000000).withOpacity(0.4);
+      return const Color(0XFF000000).withOpacity(0.6);
 
     default:
       return const Color(0XFF000000).withOpacity(0.1);

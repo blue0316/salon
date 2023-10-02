@@ -58,6 +58,7 @@ class AppointmentModel {
 
   // id of appointment transaction
   List<String>? transactionId = [];
+  bool? reviewed = false;
 
   AppointmentModel({
     required this.appointmentStartTime,
@@ -92,6 +93,7 @@ class AppointmentModel {
     this.beautyProId,
     this.yClientsId,
     this.transactionId,
+    this.reviewed,
   });
 
   AppointmentModel.fromJson(Map<String, dynamic> json) {
@@ -184,6 +186,7 @@ class AppointmentModel {
     services = json['services'] != null ? json['services'].map<Service>((e) => Service.fromJson(e)).toList() : [];
     masterReviewed = json['masterReviewed'] ?? false;
     salonReviewed = json['salonReviewed'] ?? false;
+    reviewed = json['reviewed'] ?? false;
     beautyProId = json['beautyProId'];
     yClientsId = json['yClientsId'];
     transactionId = json['transactionId'] == null
@@ -229,6 +232,7 @@ class AppointmentModel {
     data['services'] = services.map((e) => e.toJson()).toList();
     data['masterReviewed'] = masterReviewed;
     data['salonReviewed'] = salonReviewed;
+    data['reviewed'] = reviewed;
     data['beautyProId'] = beautyProId;
     data['yClientsId'] = yClientsId;
     data['transactionId'] = transactionId;

@@ -1,4 +1,5 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/firebase/appointments.dart';
 import 'package:bbblient/src/firebase/collections.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
@@ -6,6 +7,7 @@ import 'package:bbblient/src/models/review.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
+import 'package:bbblient/src/views/appointment/view_appointment.dart';
 import 'package:bbblient/src/views/appointment/widgets/appointment_header.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/buttons.dart';
@@ -91,6 +93,14 @@ class _ReviewAppointmentsState extends ConsumerState<ReviewAppointments> {
                 onTap: () {
                   Navigator.of(context).pop();
                   Navigator.of(context).pop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AppointmentViewDetails(
+                        appointmentDocId: widget.appointmentId,
+                      ),
+                    ),
+                  );
                 },
                 child: Container(
                   width: 339,
@@ -452,6 +462,8 @@ class _ReviewAppointmentsState extends ConsumerState<ReviewAppointments> {
                             _review.reviewId = _docRef.id;
 
                             await _docRef.set(_review.toJson(), SetOptions(merge: true));
+
+                            AppointmentApi().updateAppointmentReviews(widget.appointmentId);
 
                             setState(() {
                               submittingReview = false;
