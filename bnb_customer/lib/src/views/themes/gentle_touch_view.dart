@@ -26,6 +26,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'components/team/team_member_view.dart';
+
 class GentleTouch extends ConsumerStatefulWidget {
   static const route = '/gentle-touch';
   final bool showBooking;
@@ -247,112 +249,117 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
 
         body: SingleChildScrollView(
           physics: const ClampingScrollPhysics(),
-          child: Column(
-            children: [
-              SizedBox.fromSize(size: Size.zero, key: controller.landing),
-              const LandingHeader(),
+          child: !(_salonProfileProvider.showMasterView)
+              ? Column(
+                  children: [
+                    // SizedBox.fromSize(size: Size.zero, key: controller.landing),
+                    // const LandingHeader(),
 
-              // TAGS
-              if (displaySettings?.showFeatures == true) SizedBox.fromSize(size: Size.zero, key: controller.tags),
-              if (displaySettings?.showFeatures == true)
-                if (chosenSalon.additionalFeatures.isNotEmpty)
-                  SalonTags(
-                    salonModel: chosenSalon,
-                    additionalFeatures: chosenSalon.additionalFeatures,
-                    isScrollingNeeded: false,
-                  ),
+                    // // TAGS
+                    // if (displaySettings?.showFeatures == true) SizedBox.fromSize(size: Size.zero, key: controller.tags),
+                    // if (displaySettings?.showFeatures == true)
+                    //   if (chosenSalon.additionalFeatures.isNotEmpty)
+                    //     SalonTags(
+                    //       salonModel: chosenSalon,
+                    //       additionalFeatures: chosenSalon.additionalFeatures,
+                    //       isScrollingNeeded: false,
+                    //     ),
 
-              // ABOUT
-              if (displaySettings?.showAbout == true) SizedBox.fromSize(size: Size.zero, key: controller.about),
-              if (displaySettings?.showAbout == true) SalonAbout2(salonModel: chosenSalon),
+                    // // ABOUT
+                    // if (displaySettings?.showAbout == true) SizedBox.fromSize(size: Size.zero, key: controller.about),
+                    // if (displaySettings?.showAbout == true) SalonAbout2(salonModel: chosenSalon),
 
-              // SPONSORS
-              if (displaySettings?.showBrands == true) SizedBox.fromSize(size: Size.zero, key: controller.sponsor),
-              if (displaySettings?.showBrands == true) const SalonSponsors(),
+                    // // SPONSORS
+                    // if (displaySettings?.showBrands == true) SizedBox.fromSize(size: Size.zero, key: controller.sponsor),
+                    // if (displaySettings?.showBrands == true) const SalonSponsors(),
 
-              // WORKS
-              if (displaySettings?.showPhotosOfWork == true) SizedBox.fromSize(size: Size.zero, key: controller.works),
-              if (displaySettings?.showPhotosOfWork == true) SalonWorks(salonModel: chosenSalon),
+                    // WORKS
+                    if (displaySettings?.showPhotosOfWork == true) SizedBox.fromSize(size: Size.zero, key: controller.works),
+                    if (displaySettings?.showPhotosOfWork == true) SalonWorks(salonModel: chosenSalon),
 
-              // PRICE
-              if (displaySettings?.services.showServices == true) SizedBox.fromSize(size: Size.zero, key: controller.price),
-              if (displaySettings?.services.showServices == true)
-                SalonPrice222(
-                  salonModel: chosenSalon,
-                  categories: _salonSearchProvider.categories,
-                  categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
+                    // // PRICE
+                    // if (displaySettings?.services.showServices == true) SizedBox.fromSize(size: Size.zero, key: controller.price),
+                    // if (displaySettings?.services.showServices == true)
+                    //   SalonPrice222(
+                    //     salonModel: chosenSalon,
+                    //     categories: _salonSearchProvider.categories,
+                    //     categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
+                    //   ),
+
+                    // // SHOP
+                    // if (displaySettings?.product.showProduct == true) SizedBox.fromSize(size: Size.zero, key: controller.shop),
+                    // if (displaySettings?.product.showProduct == true) const SalonShop(),
+
+                    // // TEAM
+                    // if (displaySettings?.showTeam == true) SizedBox.fromSize(size: Size.zero, key: controller.team),
+                    // if (displaySettings?.showTeam == true)
+                    //   if (!_salonProfileProvider.isSingleMaster)
+                    //     GentleTouchTeam(
+                    //       salonModel: chosenSalon,
+                    //     ),
+
+                    // // REVIEWS
+                    // if (displaySettings?.reviews.showReviews == true) SizedBox.fromSize(size: Size.zero, key: controller.reviews),
+                    // if (displaySettings?.reviews.showReviews == true) SalonReviews(salonModel: chosenSalon),
+
+                    // // WRITE TO US
+                    // if (displaySettings?.showRequestForm == true) SizedBox.fromSize(size: Size.zero, key: controller.writeToUs),
+                    // if (displaySettings?.showRequestForm == true) WriteToUs(salonModel: chosenSalon),
+
+                    // // CONTACT
+                    // if (displaySettings?.showContact == true) SizedBox.fromSize(size: Size.zero, key: controller.contacts),
+                    // if (displaySettings?.showContact == true) SalonContact(salonModel: chosenSalon),
+
+                    // BOTTOM
+                    Padding(
+                      padding: EdgeInsets.only(top: 100.sp, bottom: 30.sp),
+                      child: const LandingBottom(),
+                    ),
+                    // Center(
+                    //   child: Padding(
+                    //     padding: const EdgeInsets.only(top: 19, bottom: 15),
+                    //     child: Row(
+                    //       crossAxisAlignment: CrossAxisAlignment.center,
+                    //       mainAxisAlignment: MainAxisAlignment.center,
+                    //       children: [
+                    //         Text(
+                    //           'Powered by ',
+                    //           style: theme.textTheme.titleSmall!.copyWith(
+                    //             fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 16.sp),
+                    //             fontWeight: FontWeight.w400,
+                    //             color: const Color(0XFF908D8D),
+                    //           ),
+                    //           textAlign: TextAlign.center,
+                    //         ),
+                    //         SizedBox(width: 2.sp),
+                    //         MouseRegion(
+                    //           cursor: SystemMouseCursors.click,
+                    //           child: GestureDetector(
+                    //             onTap: () {
+                    //               js.context.callMethod('open', ['https://www.glamiris.com/']);
+                    //             },
+                    //             child: Text(
+                    //               'Glamiris',
+                    //               style: theme.textTheme.titleSmall!.copyWith(
+                    //                 fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 16.sp),
+                    //                 fontWeight: FontWeight.w500,
+                    //                 color: const Color.fromARGB(255, 19, 121, 204), // const Color(0XFF908D8D),
+                    //                 decoration: TextDecoration.underline,
+                    //               ),
+                    //               textAlign: TextAlign.center,
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
+                  ],
+                )
+              : GentleTouchMasterView(
+                  masters: _createAppointmentProvider.salonMasters,
+                  initialIndex: _salonProfileProvider.showMasterAtIndex,
                 ),
-
-              // SHOP
-              if (displaySettings?.product.showProduct == true) SizedBox.fromSize(size: Size.zero, key: controller.shop),
-              if (displaySettings?.product.showProduct == true) const SalonShop(),
-
-              // TEAM
-              if (displaySettings?.showTeam == true) SizedBox.fromSize(size: Size.zero, key: controller.team),
-              if (displaySettings?.showTeam == true)
-                if (!_salonProfileProvider.isSingleMaster)
-                  GentleTouchTeam(
-                    salonModel: chosenSalon,
-                  ),
-
-              // REVIEWS
-              if (displaySettings?.reviews.showReviews == true) SizedBox.fromSize(size: Size.zero, key: controller.reviews),
-              if (displaySettings?.reviews.showReviews == true) SalonReviews(salonModel: chosenSalon),
-
-              // WRITE TO US
-              if (displaySettings?.showRequestForm == true) SizedBox.fromSize(size: Size.zero, key: controller.writeToUs),
-              if (displaySettings?.showRequestForm == true) WriteToUs(salonModel: chosenSalon),
-
-              // CONTACT
-              if (displaySettings?.showContact == true) SizedBox.fromSize(size: Size.zero, key: controller.contacts),
-              if (displaySettings?.showContact == true) SalonContact(salonModel: chosenSalon),
-
-              // BOTTOM
-              Padding(
-                padding: EdgeInsets.only(top: 100.sp, bottom: 30.sp),
-                child: const LandingBottom(),
-              ),
-              // Center(
-              //   child: Padding(
-              //     padding: const EdgeInsets.only(top: 19, bottom: 15),
-              //     child: Row(
-              //       crossAxisAlignment: CrossAxisAlignment.center,
-              //       mainAxisAlignment: MainAxisAlignment.center,
-              //       children: [
-              //         Text(
-              //           'Powered by ',
-              //           style: theme.textTheme.titleSmall!.copyWith(
-              //             fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 16.sp),
-              //             fontWeight: FontWeight.w400,
-              //             color: const Color(0XFF908D8D),
-              //           ),
-              //           textAlign: TextAlign.center,
-              //         ),
-              //         SizedBox(width: 2.sp),
-              //         MouseRegion(
-              //           cursor: SystemMouseCursors.click,
-              //           child: GestureDetector(
-              //             onTap: () {
-              //               js.context.callMethod('open', ['https://www.glamiris.com/']);
-              //             },
-              //             child: Text(
-              //               'Glamiris',
-              //               style: theme.textTheme.titleSmall!.copyWith(
-              //                 fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 16.sp),
-              //                 fontWeight: FontWeight.w500,
-              //                 color: const Color.fromARGB(255, 19, 121, 204), // const Color(0XFF908D8D),
-              //                 decoration: TextDecoration.underline,
-              //               ),
-              //               textAlign: TextAlign.center,
-              //             ),
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
-            ],
-          ),
         ),
       ),
     );

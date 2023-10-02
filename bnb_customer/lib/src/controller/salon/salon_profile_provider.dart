@@ -48,6 +48,7 @@ class SalonProfileProvider with ChangeNotifier {
   ThemeData salonTheme = AppTheme.initial;
   bool isSingleMaster = false;
   bool showMasterView = false;
+  int showMasterAtIndex = 0;
   bool hasLandingPage = false;
 
   ThemeType themeType = ThemeType.DefaultLight;
@@ -81,8 +82,9 @@ class SalonProfileProvider with ChangeNotifier {
     return chosenSalon;
   }
 
-  void switchMasterView() {
+  void switchMasterView({int index = 0}) {
     showMasterView = !showMasterView;
+    showMasterAtIndex = index;
     notifyListeners();
   }
 

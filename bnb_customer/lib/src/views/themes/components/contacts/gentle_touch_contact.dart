@@ -79,7 +79,7 @@ class GentleTouchContactView extends ConsumerWidget {
                     cardTitle: 'Write To Us',
                     cardDesc: 'Start a conversations via email',
                     cardValue: salonModel.email,
-                    onDescTap: () {
+                    onValueTap: () {
                       final Uri emailLaunchUri = Uri(
                         scheme: 'mailto',
                         path: salonModel.email,
@@ -93,7 +93,7 @@ class GentleTouchContactView extends ConsumerWidget {
                     cardTitle: 'Call Us',
                     cardDesc: 'Today from 10 am to 7 pm',
                     cardValue: salonModel.phoneNumber,
-                    onDescTap: () {
+                    onValueTap: () {
                       Utils().launchCaller(salonModel.phoneNumber.replaceAll("-", ""));
                     },
                   ),
@@ -103,7 +103,7 @@ class GentleTouchContactView extends ConsumerWidget {
                     cardTitle: 'Visit Us',
                     cardDesc: salonModel.address,
                     cardValue: 'View On The Map',
-                    onDescTap: () async {
+                    onValueTap: () async {
                       String url = "https://maps.google.com/maps?q=${salonModel.position?.geoPoint?.latitude ?? 0},${salonModel.position?.geoPoint?.longitude ?? 0}&";
                       Uri uri = Uri.parse(url);
 
@@ -145,7 +145,7 @@ class GentleTouchContactCard extends ConsumerWidget {
   final String cardTitle, cardDesc, cardValue;
   final bool isSocial, isAddress;
   final SalonModel? salon;
-  final VoidCallback? onDescTap;
+  final VoidCallback? onValueTap;
 
   const GentleTouchContactCard({
     Key? key,
@@ -156,7 +156,7 @@ class GentleTouchContactCard extends ConsumerWidget {
     this.isSocial = false,
     this.isAddress = false,
     this.salon,
-    this.onDescTap,
+    this.onValueTap,
   }) : super(key: key);
 
   @override
@@ -168,7 +168,7 @@ class GentleTouchContactCard extends ConsumerWidget {
 
     return Container(
       height: 145.h,
-      width: !isPortrait ? 280.h : double.infinity,
+      width: !isPortrait ? 305.h : double.infinity,
       decoration: BoxDecoration(
         border: Border.all(
           color: (themeType == ThemeType.GentleTouch) ? const Color(0XFFD9D9D9) : const Color(0XFF616161),
@@ -207,13 +207,19 @@ class GentleTouchContactCard extends ConsumerWidget {
             ),
             const Spacer(),
             if (!isSocial)
-              Text(
-                cardValue,
-                style: theme.textTheme.bodyLarge?.copyWith(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
-                  decoration: TextDecoration.underline,
-                  color: themeType == ThemeType.GentleTouch ? const Color(0XFF282828) : const Color(0XFFDDDDDD),
+              MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: GestureDetector(
+                  onTap: onValueTap,
+                  child: Text(
+                    cardValue,
+                    style: theme.textTheme.bodyLarge?.copyWith(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                      decoration: TextDecoration.underline,
+                      color: themeType == ThemeType.GentleTouch ? const Color(0XFF282828) : const Color(0XFFDDDDDD),
+                    ),
+                  ),
                 ),
               ),
             if (isSocial)
@@ -230,6 +236,29 @@ class GentleTouchContactCard extends ConsumerWidget {
                       socialUrl: salon!.links?.instagram,
                       color: const Color(0XFF868686),
                     ),
+                    // GestureDetector(
+                    //   onTap: () async {
+                    //     Uri uri = Uri.parse(socialLinks('insta', salon!.links?.instagram ?? ''));
+
+                    //     if (await canLaunchUrl(uri)) {
+                    //       await launchUrl(uri);
+                    //     } else {
+                    //       showToast("Social Link is not available");
+                    //     }
+                    //   },
+                    //   child: FittedBox(
+                    //     child: Padding(
+                    //       padding: EdgeInsets.only(right: 10.sp),
+                    //       child: Center(
+                    //         child: SvgPicture.asset(
+                    //           ThemeIcons.gentleInsta1,
+                    //           height: 25.h,
+                    //           color: Colors.red,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                     // SizedBox(width: 5.sp),
                     SocialLink2(
                       icon: AppIcons.linkTikTok,
@@ -237,7 +266,7 @@ class GentleTouchContactCard extends ConsumerWidget {
                       socialUrl: salon!.links?.tiktok,
                       color: const Color(0XFF868686),
                     ),
-                    SizedBox(width: 5.sp),
+                    // SizedBox(width: 5.sp),
                     SocialLink2(
                       icon: AppIcons.linkFacebook,
                       type: 'facebook',

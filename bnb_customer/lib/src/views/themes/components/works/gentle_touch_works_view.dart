@@ -25,6 +25,26 @@ class GentleTouchWorksView extends ConsumerStatefulWidget {
 class _GentleTouchWorksViewState extends ConsumerState<GentleTouchWorksView> {
   // final CarouselController _controller = CarouselController();
 
+  List<String> aaPicturesList = [
+    'https://firebasestorage.googleapis.com/v0/b/bowandbeautiful-3372d.appspot.com/o/salonPhotosOfWork%2F9YCtgsdrgEk676k6ZnKT%2Fceb1d140-64de-11ec-a647-19e333e57cfb?alt=media&token=87c05edc-ce32-4f92-a509-05648c9feadd',
+    'https://firebasestorage.googleapis.com/v0/b/bowandbeautiful-3372d.appspot.com/o/salonPhotosOfWork%2F1izAwBiXsxZagn7V6H8L%2F5f3389b0-9096-11ec-863e-9beef4ecd0b1?alt=media&token=7f028128-0d99-42ce-8c25-270b6252db76',
+    'https://bnb-spaces.nyc3.digitaloceanspaces.com/salonPhotosOfWork/images%20%281%29.jpg',
+    'https://firebasestorage.googleapis.com/v0/b/bowandbeautiful-3372d.appspot.com/o/salonPhotosOfWork%2F1izAwBiXsxZagn7V6H8L%2F69469410-9096-11ec-863e-9beef4ecd0b1?alt=media&token=73b7a1cf-c392-4606-8f33-4af70b2e3843',
+    'https://firebasestorage.googleapis.com/v0/b/bowandbeautiful-3372d.appspot.com/o/salonPhotosOfWork%2FWYrgM54KNamjs0hpVHsA%2F1cc48d40-2c28-11ec-bfb3-e7270c512a15?alt=media&token=563ea492-a50d-4d25-bec9-6cf4a5f7794c',
+    'https://bnb-spaces.nyc3.digitaloceanspaces.com/salonPhotosOfWork/image_picker_01CB4C06-0716-4305-A509-90665074690C-57743-0000CA85AB3A4AF5.jpg',
+    'https://firebasestorage.googleapis.com/v0/b/bowandbeautiful-3372d.appspot.com/o/salonPhotosOfWork%2F1izAwBiXsxZagn7V6H8L%2Ffc5fea10-8e68-11ec-9fb7-53fdd332a66d?alt=media&token=95b754de-5532-415d-872b-5df8c322b895',
+    'https://firebasestorage.googleapis.com/v0/b/bowandbeautiful-3372d.appspot.com/o/salonPhotosOfWork%2FHxvmuk3SFnIMtAmVArAI%2Fca318d80-4fdb-11ec-b1f5-c7610a0129a6?alt=media&token=05380b3b-533d-4945-b7de-9f491a1395db',
+    'https://bnb-spaces.nyc3.digitaloceanspaces.com/salonPhotosOfWork/images%20%283%29.jpg',
+    'https://bnb-spaces.nyc3.digitaloceanspaces.com/salonPhotosOfWork/images.jpg',
+  ];
+
+  var a = [
+    'https://firebasestorage.googleapis.com/v0/b/bowandbeautiful-3372d.appspot.com/o/salonPhotosOfWork%2F1izAwBiXsxZagn7V6H8L%2Ffc5fea10-8e68-11ec-9fb7-53fdd332a66d?alt=media&token=95b754de-5532-415d-872b-5df8c322b895',
+    'https://firebasestorage.googleapis.com/v0/b/bowandbeautiful-3372d.appspot.com/o/salonPhotosOfWork%2FHxvmuk3SFnIMtAmVArAI%2Fca318d80-4fdb-11ec-b1f5-c7610a0129a6?alt=media&token=05380b3b-533d-4945-b7de-9f491a1395db',
+    'https://bnb-spaces.nyc3.digitaloceanspaces.com/salonPhotosOfWork/images%20%283%29.jpg',
+    'https://bnb-spaces.nyc3.digitaloceanspaces.com/salonPhotosOfWork/images.jpg'
+  ];
+
   @override
   Widget build(BuildContext context) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
@@ -62,7 +82,7 @@ class _GentleTouchWorksViewState extends ConsumerState<GentleTouchWorksView> {
                   ),
                 ),
           SizedBox(height: DeviceConstraints.getResponsiveSize(context, 30, 30, 60)),
-          (widget.salonModel.photosOfWorks!.isNotEmpty)
+          (aaPicturesList.isNotEmpty)
               ? isPortrait
                   ? PortraitView(
                       salon: widget.salonModel,
@@ -74,74 +94,148 @@ class _GentleTouchWorksViewState extends ConsumerState<GentleTouchWorksView> {
                           mainAxisSpacing: 6,
                           crossAxisSpacing: 4,
                           children: [
-                            if (widget.salonModel.photosOfWorks!.isNotEmpty)
+                            if (aaPicturesList.isNotEmpty)
                               StaggeredGridTile.count(
                                 crossAxisCellCount: 1,
                                 mainAxisCellCount: 1,
                                 child: Tile(
                                   index: 1,
-                                  image: widget.salonModel.photosOfWorks![0].image!,
+                                  image: aaPicturesList[0],
                                   description: widget.salonModel.photosOfWorks![0].description ?? '',
                                 ),
                               ),
-                            if (widget.salonModel.photosOfWorks!.length >= 2)
+                            if (aaPicturesList.length >= 2)
                               StaggeredGridTile.count(
                                 crossAxisCellCount: 1,
                                 mainAxisCellCount: 1,
                                 child: Tile(
                                   index: 2,
-                                  image: widget.salonModel.photosOfWorks![1].image!,
+                                  image: aaPicturesList[1],
                                   description: widget.salonModel.photosOfWorks![1].description ?? '',
                                 ),
                               ),
-                            if (widget.salonModel.photosOfWorks!.length >= 4)
+                            if (aaPicturesList.length >= 3)
                               StaggeredGridTile.count(
                                 crossAxisCellCount: 2,
                                 mainAxisCellCount: 1.25,
                                 child: Tile(
                                   index: 4,
-                                  image: widget.salonModel.photosOfWorks![3].image!,
-                                  description: widget.salonModel.photosOfWorks![3].description ?? '',
+                                  image: aaPicturesList[2],
+                                  description: widget.salonModel.photosOfWorks![2].description ?? '',
                                 ),
                               ),
-                            if (widget.salonModel.photosOfWorks!.length >= 3)
+                            if (aaPicturesList.length >= 4)
                               StaggeredGridTile.count(
                                 crossAxisCellCount: 2,
                                 mainAxisCellCount: 1.5,
                                 child: Tile(
                                   index: 3,
-                                  image: widget.salonModel.photosOfWorks![2].image!,
-                                  description: widget.salonModel.photosOfWorks![2].description ?? '',
+                                  image: aaPicturesList[3],
+                                  description: widget.salonModel.photosOfWorks![3].description ?? '',
                                 ),
                               ),
-                            if (widget.salonModel.photosOfWorks!.length >= 5)
+                            if (aaPicturesList.length >= 5)
                               StaggeredGridTile.count(
                                 crossAxisCellCount: 1,
                                 mainAxisCellCount: 2.5,
                                 child: Tile(
                                   index: 6,
-                                  image: widget.salonModel.photosOfWorks![4].image!,
+                                  image: aaPicturesList[4],
                                   description: widget.salonModel.photosOfWorks![4].description ?? '',
                                 ),
                               ),
-                            if (widget.salonModel.photosOfWorks!.length > 5)
+                            if (aaPicturesList.length > 5)
                               StaggeredGridTile.count(
                                 crossAxisCellCount: 2,
                                 mainAxisCellCount: 1.25,
                                 child: Tile(
                                   index: 5,
-                                  image: widget.salonModel.photosOfWorks![5].image!,
+                                  image: aaPicturesList[5],
                                   description: widget.salonModel.photosOfWorks![5].description ?? '',
                                 ),
                               ),
                           ],
                         ),
+                        // StaggeredGrid.count(
+                        //   crossAxisCount: 5,
+                        //   mainAxisSpacing: 6,
+                        //   crossAxisSpacing: 4,
+                        //   children: [
+                        //     if (aaPicturesList.isNotEmpty)
+                        //       StaggeredGridTile.count(
+                        //         crossAxisCellCount: 1,
+                        //         mainAxisCellCount: 1,
+                        //         child: Tile(
+                        //           index: 1,
+                        //           image: widget.salonModel.photosOfWorks![0].image!,
+                        //           description: widget.salonModel.photosOfWorks![0].description ?? '',
+                        //         ),
+                        //       ),
+                        //     if (aaPicturesList.length >= 2)
+                        //       StaggeredGridTile.count(
+                        //         crossAxisCellCount: 1,
+                        //         mainAxisCellCount: 1,
+                        //         child: Tile(
+                        //           index: 2,
+                        //           image: widget.salonModel.photosOfWorks![1].image!,
+                        //           description: widget.salonModel.photosOfWorks![1].description ?? '',
+                        //         ),
+                        //       ),
+                        //     if (aaPicturesList.length >= 4)
+                        //       StaggeredGridTile.count(
+                        //         crossAxisCellCount: 2,
+                        //         mainAxisCellCount: 1.25,
+                        //         child: Tile(
+                        //           index: 4,
+                        //           image: widget.salonModel.photosOfWorks![3].image!,
+                        //           description: widget.salonModel.photosOfWorks![3].description ?? '',
+                        //         ),
+                        //       ),
+                        //     if (aaPicturesList.length >= 3)
+                        //       StaggeredGridTile.count(
+                        //         crossAxisCellCount: 2,
+                        //         mainAxisCellCount: 1.5,
+                        //         child: Tile(
+                        //           index: 3,
+                        //           image: widget.salonModel.photosOfWorks![2].image!,
+                        //           description: widget.salonModel.photosOfWorks![2].description ?? '',
+                        //         ),
+                        //       ),
+                        //     if (aaPicturesList.length >= 5)
+                        //       StaggeredGridTile.count(
+                        //         crossAxisCellCount: 1,
+                        //         mainAxisCellCount: 2.5,
+                        //         child: Tile(
+                        //           index: 6,
+                        //           image: widget.salonModel.photosOfWorks![4].image!,
+                        //           description: widget.salonModel.photosOfWorks![4].description ?? '',
+                        //         ),
+                        //       ),
+                        //     if (aaPicturesList.length > 5)
+                        //       StaggeredGridTile.count(
+                        //         crossAxisCellCount: 2,
+                        //         mainAxisCellCount: 1.25,
+                        //         child: Tile(
+                        //           index: 5,
+                        //           image: widget.salonModel.photosOfWorks![5].image!,
+                        //           description: widget.salonModel.photosOfWorks![5].description ?? '',
+                        //         ),
+                        //       ),
+                        //   ],
+                        // ),
                         SizedBox(height: 20.sp),
                         Align(
                           alignment: Alignment.centerRight,
                           child: PrevAndNextButtons(
                             backOnTap: () {},
-                            forwardOnTap: () {},
+                            forwardOnTap: () {
+                              // if (aaPicturesList.length > 6) {
+                              setState(() {
+                                aaPicturesList = aaPicturesList.sublist(6);
+                              });
+                              // }
+                              print(aaPicturesList);
+                            },
                             leftFontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 18.sp),
                             rightFontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 18.sp),
                           ),

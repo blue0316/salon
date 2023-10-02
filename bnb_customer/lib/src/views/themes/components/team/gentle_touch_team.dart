@@ -7,7 +7,6 @@ import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/prev_and_next.dart';
-import 'package:bbblient/src/views/themes/glam_one/master_profile/unique_master_profile.dart';
 import 'package:bbblient/src/views/themes/images.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
@@ -291,7 +290,13 @@ class _GentleTouchTeamMemberState extends ConsumerState<GentleTouchTeamMember> {
                             Center(
                               child: GentleTouchTeamButton(
                                 text: "  Learn More  ",
-                                onTap: () {},
+                                onTap: () {
+                                  _salonProfileProvider.switchMasterView(
+                                    index: _createAppointmentProvider.salonMasters.indexWhere(
+                                      (element) => element == widget.master,
+                                    ),
+                                  );
+                                },
                               ),
                             ),
                           ],

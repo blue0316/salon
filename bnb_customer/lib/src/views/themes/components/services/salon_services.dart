@@ -5,6 +5,7 @@ import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
+import 'package:bbblient/src/views/themes/components/services/widgets/gentle_touch_service_tile.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -114,7 +115,9 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
                           //   ),
                           // ),
                           isScrollable: true,
-                          labelPadding: EdgeInsets.symmetric(horizontal: (themeType == ThemeType.GentleTouch || themeType == ThemeType.GentleTouchDark) ? 15.sp : 50),
+                          labelPadding: EdgeInsets.symmetric(
+                            horizontal: (themeType == ThemeType.GentleTouch || themeType == ThemeType.GentleTouchDark) ? 15.sp : 50,
+                          ),
                           tabs: _createAppointmentProvider.categoriesAvailable
                               .map(
                                 (item) => Tab(
@@ -206,7 +209,13 @@ class ServiceAndPrice extends ConsumerWidget {
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 final ServiceModel service = listOfServices[index];
-                return ServiceTile(service: service);
+                return (themeType != ThemeType.GentleTouch || themeType == ThemeType.GentleTouchDark)
+                    ? GentleTouchServiceTile(
+                        service: service,
+                      )
+                    : ServiceTile(
+                        service: service,
+                      );
               },
             ),
           ),
