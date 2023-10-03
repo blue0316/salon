@@ -53,6 +53,7 @@ class _GentleTouchServiceTileState extends ConsumerState<GentleTouchServiceTile>
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  if (isHovered) SizedBox(height: 60.sp),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -74,25 +75,20 @@ class _GentleTouchServiceTileState extends ConsumerState<GentleTouchServiceTile>
                                 fontSize: 20.sp,
                               ),
                             ),
-                            if (_createAppointmentProvider.isAdded(
-                              serviceModel: widget.service,
-                            ))
-                              SizedBox(width: DeviceConstraints.getResponsiveSize(context, 5, 5, 30)),
+                            if (_createAppointmentProvider.isAdded(serviceModel: widget.service))
+                              SizedBox(
+                                width: DeviceConstraints.getResponsiveSize(context, 5, 5, 30),
+                              ),
                             Icon(
                               Icons.check,
                               size: 20.sp,
-                              color: _createAppointmentProvider.isAdded(
-                                serviceModel: widget.service,
-                              )
-                                  ? serviceNameColor(themeType, theme)
-                                  : Colors.transparent,
+                              color: _createAppointmentProvider.isAdded(serviceModel: widget.service) ? serviceNameColor(themeType, theme) : Colors.transparent,
                             ),
                           ],
                         ),
                       ),
                       Text(
                         widget.service.isFixedPrice ? "${getCurrency(salonModel.countryCode!)}${widget.service.priceAndDuration!.price}" : "${getCurrency(salonModel.countryCode!)}${widget.service.priceAndDuration!.price} - ${getCurrency(salonModel.countryCode!)}${widget.service.priceAndDurationMax!.price}",
-                        // service.isFixedPrice ? "${service.priceAndDuration!.price}${Keys.uah}" : "${service.priceAndDuration!.price}${Keys.uah} - ${service.priceAndDurationMax!.price}${Keys.uah}",
                         style: theme.textTheme.bodyLarge?.copyWith(
                           color: priceColor(themeType, theme), // (themeType == ThemeType.GentleTouch) ? Colors.black : Colors.white,
                           fontSize: 20.sp,
@@ -101,44 +97,44 @@ class _GentleTouchServiceTileState extends ConsumerState<GentleTouchServiceTile>
                     ],
                   ),
                   const SizedBox(height: 10),
-                  // if (isHovered && (widget.service.description != null && widget.service.description != ''))
-                  //   Padding(
-                  //     padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp),
-                  //     child: Row(
-                  //       crossAxisAlignment: CrossAxisAlignment.start,
-                  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //       children: [
-                  //         Expanded(
-                  //           flex: 2,
-                  //           child: Text(
-                  //             '${widget.service.description}',
-                  //             // 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum.',
-                  //             style: theme.textTheme.bodyLarge?.copyWith(
-                  //               color: serviceNameColor(themeType, theme),
-                  //               fontSize: 15.sp,
-                  //               fontWeight: FontWeight.normal,
-                  //             ),
-                  //             maxLines: 3,
-                  //             overflow: TextOverflow.ellipsis,
-                  //           ),
-                  //         ),
-                  //         const Expanded(flex: 1, child: SizedBox()),
-                  //         Expanded(
-                  //           flex: 0,
-                  //           child: SizedBox(
-                  //             height: 100.sp,
-                  //             width: 200.sp,
-                  //             // color: Colors.yellow,
-                  //             child: CachedImage(
-                  //               url: widget.service.servicePhoto ?? '',
-                  //               fit: BoxFit.cover,
-                  //               width: MediaQuery.of(context).size.width - 40.w,
-                  //             ),
-                  //           ),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ),
+                  if (isHovered && (widget.service.description != null && widget.service.description != ''))
+                    Padding(
+                      padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, right: 50.w),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Text(
+                              // '${widget.service.description}',
+                              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum.',
+                              style: theme.textTheme.bodyLarge?.copyWith(
+                                color: serviceNameColor(themeType, theme),
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.normal,
+                              ),
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          const Expanded(flex: 1, child: SizedBox()),
+                          // Expanded(
+                          //   flex: 0,
+                          // child: SizedBox(
+                          //   height: 100.sp,
+                          //   width: 200.sp,
+                          //   // color: Colors.yellow,
+                          //   child: CachedImage(
+                          //     url: widget.service.servicePhoto ?? '',
+                          //     fit: BoxFit.cover,
+                          //     width: MediaQuery.of(context).size.width - 40.w,
+                          //   ),
+                          // ),
+                          // ),
+                        ],
+                      ),
+                    ),
                   Divider(
                     color: (themeType != ThemeType.GentleTouch) ? theme.primaryColor : const Color(0XFF9F9F9F),
                     thickness: 1,
@@ -149,11 +145,16 @@ class _GentleTouchServiceTileState extends ConsumerState<GentleTouchServiceTile>
                 Align(
                   alignment: Alignment.centerRight,
                   child: Padding(
-                    padding: EdgeInsets.only(right: 20.w),
+                    padding: EdgeInsets.only(right: 50.w, top: 20.sp),
                     child: Container(
-                      height: 200,
-                      width: 200,
-                      color: Colors.green,
+                      height: 230.h,
+                      width: 220.sp,
+                      color: Colors.black,
+                      child: CachedImage(
+                        url: widget.service.servicePhoto ?? '',
+                        fit: BoxFit.cover,
+                        width: MediaQuery.of(context).size.width - 40.w,
+                      ),
                     ),
                   ),
                 ),

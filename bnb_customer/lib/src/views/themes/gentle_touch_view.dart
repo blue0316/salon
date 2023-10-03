@@ -273,18 +273,18 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
                     // if (displaySettings?.showBrands == true) SizedBox.fromSize(size: Size.zero, key: controller.sponsor),
                     // if (displaySettings?.showBrands == true) const SalonSponsors(),
 
-                    // WORKS
-                    if (displaySettings?.showPhotosOfWork == true) SizedBox.fromSize(size: Size.zero, key: controller.works),
-                    if (displaySettings?.showPhotosOfWork == true) SalonWorks(salonModel: chosenSalon),
+                    // // WORKS
+                    // if (displaySettings?.showPhotosOfWork == true) SizedBox.fromSize(size: Size.zero, key: controller.works),
+                    // if (displaySettings?.showPhotosOfWork == true) SalonWorks(salonModel: chosenSalon),
 
-                    // // PRICE
-                    // if (displaySettings?.services.showServices == true) SizedBox.fromSize(size: Size.zero, key: controller.price),
-                    // if (displaySettings?.services.showServices == true)
-                    //   SalonPrice222(
-                    //     salonModel: chosenSalon,
-                    //     categories: _salonSearchProvider.categories,
-                    //     categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
-                    //   ),
+                    // PRICE
+                    if (displaySettings?.services.showServices == true) SizedBox.fromSize(size: Size.zero, key: controller.price),
+                    if (displaySettings?.services.showServices == true)
+                      SalonPrice222(
+                        salonModel: chosenSalon,
+                        categories: _salonSearchProvider.categories,
+                        categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
+                      ),
 
                     // // SHOP
                     // if (displaySettings?.product.showProduct == true) SizedBox.fromSize(size: Size.zero, key: controller.shop),

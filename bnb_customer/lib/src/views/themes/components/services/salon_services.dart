@@ -209,7 +209,7 @@ class ServiceAndPrice extends ConsumerWidget {
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 final ServiceModel service = listOfServices[index];
-                return (themeType != ThemeType.GentleTouch || themeType == ThemeType.GentleTouchDark)
+                return (themeType == ThemeType.GentleTouch || themeType == ThemeType.GentleTouchDark)
                     ? GentleTouchServiceTile(
                         service: service,
                       )
