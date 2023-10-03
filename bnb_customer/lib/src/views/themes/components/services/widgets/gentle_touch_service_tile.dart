@@ -146,10 +146,9 @@ class _GentleTouchServiceTileState extends ConsumerState<GentleTouchServiceTile>
                   alignment: Alignment.centerRight,
                   child: Padding(
                     padding: EdgeInsets.only(right: 50.w, top: 20.sp),
-                    child: Container(
+                    child: SizedBox(
                       height: 230.h,
                       width: 220.sp,
-                      color: Colors.black,
                       child: CachedImage(
                         url: widget.service.servicePhoto ?? '',
                         fit: BoxFit.cover,
