@@ -7,7 +7,6 @@ import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/booking_dialog_2.dart';
-import 'package:bbblient/src/views/salon/default_profile_view/salon_profile.dart';
 import 'package:bbblient/src/views/themes/components/drawer.dart';
 import 'package:bbblient/src/views/themes/components/header/landing_header.dart';
 import 'package:bbblient/src/views/themes/components/about/salon_about.dart';
@@ -252,30 +251,30 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
           child: !(_salonProfileProvider.showMasterView)
               ? Column(
                   children: [
-                    // SizedBox.fromSize(size: Size.zero, key: controller.landing),
-                    // const LandingHeader(),
+                    SizedBox.fromSize(size: Size.zero, key: controller.landing),
+                    const LandingHeader(),
 
-                    // // TAGS
-                    // if (displaySettings?.showFeatures == true) SizedBox.fromSize(size: Size.zero, key: controller.tags),
-                    // if (displaySettings?.showFeatures == true)
-                    //   if (chosenSalon.additionalFeatures.isNotEmpty)
-                    //     SalonTags(
-                    //       salonModel: chosenSalon,
-                    //       additionalFeatures: chosenSalon.additionalFeatures,
-                    //       isScrollingNeeded: false,
-                    //     ),
+                    // TAGS
+                    if (displaySettings?.showFeatures == true) SizedBox.fromSize(size: Size.zero, key: controller.tags),
+                    if (displaySettings?.showFeatures == true)
+                      if (chosenSalon.additionalFeatures.isNotEmpty)
+                        SalonTags(
+                          salonModel: chosenSalon,
+                          additionalFeatures: chosenSalon.additionalFeatures,
+                          isScrollingNeeded: false,
+                        ),
 
-                    // // ABOUT
-                    // if (displaySettings?.showAbout == true) SizedBox.fromSize(size: Size.zero, key: controller.about),
-                    // if (displaySettings?.showAbout == true) SalonAbout2(salonModel: chosenSalon),
+                    // ABOUT
+                    if (displaySettings?.showAbout == true) SizedBox.fromSize(size: Size.zero, key: controller.about),
+                    if (displaySettings?.showAbout == true) SalonAbout2(salonModel: chosenSalon),
 
-                    // // SPONSORS
-                    // if (displaySettings?.showBrands == true) SizedBox.fromSize(size: Size.zero, key: controller.sponsor),
-                    // if (displaySettings?.showBrands == true) const SalonSponsors(),
+                    // SPONSORS
+                    if (displaySettings?.showBrands == true) SizedBox.fromSize(size: Size.zero, key: controller.sponsor),
+                    if (displaySettings?.showBrands == true) const SalonSponsors(),
 
-                    // // WORKS
-                    // if (displaySettings?.showPhotosOfWork == true) SizedBox.fromSize(size: Size.zero, key: controller.works),
-                    // if (displaySettings?.showPhotosOfWork == true) SalonWorks(salonModel: chosenSalon),
+                    // WORKS
+                    if (displaySettings?.showPhotosOfWork == true) SizedBox.fromSize(size: Size.zero, key: controller.works),
+                    if (displaySettings?.showPhotosOfWork == true) SalonWorks(salonModel: chosenSalon),
 
                     // PRICE
                     if (displaySettings?.services.showServices == true) SizedBox.fromSize(size: Size.zero, key: controller.price),
@@ -286,74 +285,35 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
                         categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
                       ),
 
-                    // // SHOP
-                    // if (displaySettings?.product.showProduct == true) SizedBox.fromSize(size: Size.zero, key: controller.shop),
-                    // if (displaySettings?.product.showProduct == true) const SalonShop(),
+                    // SHOP
+                    if (displaySettings?.product.showProduct == true) SizedBox.fromSize(size: Size.zero, key: controller.shop),
+                    if (displaySettings?.product.showProduct == true) const SalonShop(),
 
-                    // // TEAM
-                    // if (displaySettings?.showTeam == true) SizedBox.fromSize(size: Size.zero, key: controller.team),
-                    // if (displaySettings?.showTeam == true)
-                    //   if (!_salonProfileProvider.isSingleMaster)
-                    //     GentleTouchTeam(
-                    //       salonModel: chosenSalon,
-                    //     ),
+                    // TEAM
+                    if (displaySettings?.showTeam == true) SizedBox.fromSize(size: Size.zero, key: controller.team),
+                    if (displaySettings?.showTeam == true)
+                      if (!_salonProfileProvider.isSingleMaster)
+                        GentleTouchTeam(
+                          salonModel: chosenSalon,
+                        ),
 
-                    // // REVIEWS
-                    // if (displaySettings?.reviews.showReviews == true) SizedBox.fromSize(size: Size.zero, key: controller.reviews),
-                    // if (displaySettings?.reviews.showReviews == true) SalonReviews(salonModel: chosenSalon),
+                    // REVIEWS
+                    if (displaySettings?.reviews.showReviews == true) SizedBox.fromSize(size: Size.zero, key: controller.reviews),
+                    if (displaySettings?.reviews.showReviews == true) SalonReviews(salonModel: chosenSalon),
 
-                    // // WRITE TO US
-                    // if (displaySettings?.showRequestForm == true) SizedBox.fromSize(size: Size.zero, key: controller.writeToUs),
-                    // if (displaySettings?.showRequestForm == true) WriteToUs(salonModel: chosenSalon),
+                    // WRITE TO US
+                    if (displaySettings?.showRequestForm == true) SizedBox.fromSize(size: Size.zero, key: controller.writeToUs),
+                    if (displaySettings?.showRequestForm == true) WriteToUs(salonModel: chosenSalon),
 
-                    // // CONTACT
-                    // if (displaySettings?.showContact == true) SizedBox.fromSize(size: Size.zero, key: controller.contacts),
-                    // if (displaySettings?.showContact == true) SalonContact(salonModel: chosenSalon),
+                    // CONTACT
+                    if (displaySettings?.showContact == true) SizedBox.fromSize(size: Size.zero, key: controller.contacts),
+                    if (displaySettings?.showContact == true) SalonContact(salonModel: chosenSalon),
 
                     // BOTTOM
                     Padding(
                       padding: EdgeInsets.only(top: 100.sp, bottom: 30.sp),
                       child: const LandingBottom(),
                     ),
-                    // Center(
-                    //   child: Padding(
-                    //     padding: const EdgeInsets.only(top: 19, bottom: 15),
-                    //     child: Row(
-                    //       crossAxisAlignment: CrossAxisAlignment.center,
-                    //       mainAxisAlignment: MainAxisAlignment.center,
-                    //       children: [
-                    //         Text(
-                    //           'Powered by ',
-                    //           style: theme.textTheme.titleSmall!.copyWith(
-                    //             fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 16.sp),
-                    //             fontWeight: FontWeight.w400,
-                    //             color: const Color(0XFF908D8D),
-                    //           ),
-                    //           textAlign: TextAlign.center,
-                    //         ),
-                    //         SizedBox(width: 2.sp),
-                    //         MouseRegion(
-                    //           cursor: SystemMouseCursors.click,
-                    //           child: GestureDetector(
-                    //             onTap: () {
-                    //               js.context.callMethod('open', ['https://www.glamiris.com/']);
-                    //             },
-                    //             child: Text(
-                    //               'Glamiris',
-                    //               style: theme.textTheme.titleSmall!.copyWith(
-                    //                 fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 16.sp),
-                    //                 fontWeight: FontWeight.w500,
-                    //                 color: const Color.fromARGB(255, 19, 121, 204), // const Color(0XFF908D8D),
-                    //                 decoration: TextDecoration.underline,
-                    //               ),
-                    //               textAlign: TextAlign.center,
-                    //             ),
-                    //           ),
-                    //         ),
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
                   ],
                 )
               : GentleTouchMasterView(
