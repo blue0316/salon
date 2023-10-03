@@ -352,7 +352,7 @@ class _GentleTouchTeamButtonState extends ConsumerState<GentleTouchTeamButton> {
         child: Container(
           height: 40.h,
           decoration: BoxDecoration(
-            // color: Colors.transparent,
+            color: !isHovered ? Colors.transparent : theme.colorScheme.secondary,
             border: isHovered
                 ? null
                 : Border.all(
@@ -360,7 +360,7 @@ class _GentleTouchTeamButtonState extends ConsumerState<GentleTouchTeamButton> {
                     width: 0.8,
                   ),
             borderRadius: BorderRadius.circular(1.5),
-            gradient: isHovered ? buttonGradient(themeType, theme) : null,
+            // gradient: isHovered ? buttonGradient(themeType, theme) : null,
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
