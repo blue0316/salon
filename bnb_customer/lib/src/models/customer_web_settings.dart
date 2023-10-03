@@ -46,18 +46,21 @@ class CustomerWebSettings {
 class WebTheme {
   String? id;
   String? colorCode;
+  bool? isGradient;
 
-  WebTheme({this.id, this.colorCode});
+  WebTheme({this.id, this.colorCode, this.isGradient});
 
   WebTheme.fromJson(Map data) {
     if (data["id"] != null) id = data["id"];
     if (data["colorCode"] != null) colorCode = data["colorCode"];
+    data["isGradient"] != null ? isGradient = data["isGradient"] : isGradient = false;
   }
 
   toJson() {
     Map<String, dynamic> data = {};
     data["id"] = id;
     data["colorCode"] = colorCode;
+    data["isGradient"] = isGradient;
     return data;
   }
 }

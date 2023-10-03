@@ -224,6 +224,7 @@ class ServiceAndPrice extends ConsumerWidget {
             context,
             themeType: themeType,
             theme: theme,
+            hasGradient: _salonProfileProvider.hasThemeGradient,
           ),
         ],
       ),

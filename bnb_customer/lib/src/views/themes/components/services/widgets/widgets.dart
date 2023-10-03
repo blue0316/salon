@@ -60,7 +60,7 @@ BoxDecoration servicesTabBarTheme(ThemeType themeType, ThemeData theme) {
   }
 }
 
-Widget bookNowButtonTheme(context, {required ThemeType themeType, required ThemeData theme}) {
+Widget bookNowButtonTheme(context, {required ThemeType themeType, required ThemeData theme, bool hasGradient = false}) {
   switch (themeType) {
     case ThemeType.GentleTouch:
       return Row(
@@ -77,7 +77,7 @@ Widget bookNowButtonTheme(context, {required ThemeType themeType, required Theme
             height: 47.h,
             showSuffix: false,
             borderRadius: 2,
-            isGradient: true,
+            isGradient: hasGradient,
             onTap: () => const BookingDialogWidget222().show(context),
           ),
         ],
@@ -98,7 +98,7 @@ Widget bookNowButtonTheme(context, {required ThemeType themeType, required Theme
             height: 47.h,
             showSuffix: false,
             borderRadius: 2,
-            isGradient: true,
+            isGradient: hasGradient,
             onTap: () => const BookingDialogWidget222().show(context),
           ),
         ],

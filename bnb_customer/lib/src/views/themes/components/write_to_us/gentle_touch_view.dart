@@ -516,7 +516,7 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
                   weight: FontWeight.w500,
                   borderRadius: 2,
                   showSuffix: false,
-                  isGradient: true,
+                  isGradient: _salonProfileProvider.hasThemeGradient,
                 ),
         ],
       ),

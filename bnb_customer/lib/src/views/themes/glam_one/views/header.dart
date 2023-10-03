@@ -67,7 +67,12 @@ class ThemeHeader extends ConsumerWidget {
         //   textAlign: TextAlign.center,
         // ),
         SizedBox(height: DeviceConstraints.getResponsiveSize(context, 40.h, 40.h, 40.h)),
-        getThemeButton(context, themeType, theme),
+        getThemeButton(
+          context,
+          themeType,
+          theme,
+          hasGradient: _salonProfileProvider.hasThemeGradient,
+        ),
 
         if (themeType != ThemeType.Barbershop) SizedBox(height: DeviceConstraints.getResponsiveSize(context, 100.h, 100.h, 150.h)),
         if (themeType != ThemeType.Barbershop)
@@ -118,7 +123,7 @@ Color titleHeaderColor(ThemeData theme, ThemeType themeType) {
   }
 }
 
-Widget getThemeButton(context, ThemeType themeType, ThemeData theme) {
+Widget getThemeButton(context, ThemeType themeType, ThemeData theme, {bool hasGradient = false}) {
   Widget squareButton = Row(
     crossAxisAlignment: CrossAxisAlignment.center,
     mainAxisAlignment: MainAxisAlignment.center,
@@ -150,7 +155,7 @@ Widget getThemeButton(context, ThemeType themeType, ThemeData theme) {
         height: 47.h,
         showSuffix: false,
         borderRadius: 3,
-        isGradient: true,
+        isGradient: hasGradient,
         hoveredColor: const Color(0XFF687830),
         onTap: () => const BookingDialogWidget222().show(context),
       );
@@ -166,7 +171,7 @@ Widget getThemeButton(context, ThemeType themeType, ThemeData theme) {
         height: 47.h,
         showSuffix: false,
         borderRadius: 3,
-        isGradient: true,
+        isGradient: hasGradient,
         hoveredColor: const Color(0XFF687830),
         onTap: () => const BookingDialogWidget222().show(context),
       );

@@ -61,6 +61,8 @@ class SalonProfileProvider with ChangeNotifier {
   final TextEditingController phoneController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
+  bool hasThemeGradient = false;
+
   Future<SalonModel?> init(context, salonId) async {
     try {
       loadingStatus = Status.loading;
@@ -68,6 +70,7 @@ class SalonProfileProvider with ChangeNotifier {
       // await Time().setTimeSlot(chosenSalon.timeSlotsInterval);
       themeSettings = await CustomerWebSettingsApi().getSalonTheme(salonId: salonId);
       themeType = getThemeTypeEnum(themeSettings?.theme?.id);
+      hasThemeGradient = themeSettings?.theme?.isGradient ?? false;
 
       await getSalonReviews(salonId: salonId);
       await getProductsData(context, salonId: salonId);
