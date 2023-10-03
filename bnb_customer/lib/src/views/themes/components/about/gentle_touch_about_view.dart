@@ -4,7 +4,7 @@ import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/booking_dialog_2.dart';
-import 'package:bbblient/src/views/themes/components/widgets/button.dart';
+import 'package:bbblient/src/views/themes/components/widgets/multiple_states_button.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -165,7 +165,7 @@ class _GentleTouchAboutUsState extends ConsumerState<GentleTouchAboutUs> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            SquareButton(
+                            MultipleStatesButton(
                               borderColor: Colors.transparent,
                               buttonColor: theme.colorScheme.secondary,
                               width: 180.sp,
@@ -340,7 +340,7 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SquareButton(
+                  MultipleStatesButton(
                     borderColor: Colors.transparent,
                     buttonColor: theme.colorScheme.secondary,
                     width: 180.sp,

@@ -1,4 +1,5 @@
 import 'package:bbblient/src/utils/extensions/exstension.dart';
+import 'package:bbblient/src/views/themes/components/widgets/multiple_states_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/booking_dialog_2.dart';
 import 'package:bbblient/src/views/themes/components/widgets/button.dart';
@@ -67,7 +68,7 @@ Widget bookNowButtonTheme(context, {required ThemeType themeType, required Theme
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SquareButton(
+          MultipleStatesButton(
             borderColor: Colors.transparent,
             buttonColor: const Color(0XFF687830),
             width: 180.sp,
@@ -88,7 +89,7 @@ Widget bookNowButtonTheme(context, {required ThemeType themeType, required Theme
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SquareButton(
+          MultipleStatesButton(
             borderColor: Colors.transparent,
             buttonColor: const Color(0XFF687830),
             width: 180.sp,

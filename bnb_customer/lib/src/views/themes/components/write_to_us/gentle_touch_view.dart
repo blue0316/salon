@@ -6,6 +6,7 @@ import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/themes/components/widgets/button.dart';
+import 'package:bbblient/src/views/themes/components/widgets/multiple_states_button.dart';
 import 'package:bbblient/src/views/themes/images.dart';
 import 'package:bbblient/src/views/themes/glam_one/views/profile/widgets/custom_text_form_field.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
@@ -506,7 +507,7 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
                     child: CircularProgressIndicator(color: theme.colorScheme.secondary),
                   ),
                 )
-              : SquareButton(
+              : MultipleStatesButton(
                   height: 50,
                   text: "Send Message".toTitleCase(),
                   onTap: () => submit(),

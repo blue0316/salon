@@ -264,9 +264,9 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
                     //       isScrollingNeeded: false,
                     //     ),
 
-                    // // ABOUT
-                    // if (displaySettings?.showAbout == true) SizedBox.fromSize(size: Size.zero, key: controller.about),
-                    // if (displaySettings?.showAbout == true) SalonAbout2(salonModel: chosenSalon),
+                    // ABOUT
+                    if (displaySettings?.showAbout == true) SizedBox.fromSize(size: Size.zero, key: controller.about),
+                    if (displaySettings?.showAbout == true) SalonAbout2(salonModel: chosenSalon),
 
                     // // SPONSORS
                     // if (displaySettings?.showBrands == true) SizedBox.fromSize(size: Size.zero, key: controller.sponsor),
@@ -276,14 +276,14 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
                     // if (displaySettings?.showPhotosOfWork == true) SizedBox.fromSize(size: Size.zero, key: controller.works),
                     // if (displaySettings?.showPhotosOfWork == true) SalonWorks(salonModel: chosenSalon),
 
-                    // // PRICE
-                    // if (displaySettings?.services.showServices == true) SizedBox.fromSize(size: Size.zero, key: controller.price),
-                    // if (displaySettings?.services.showServices == true)
-                    //   SalonPrice222(
-                    //     salonModel: chosenSalon,
-                    //     categories: _salonSearchProvider.categories,
-                    //     categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
-                    //   ),
+                    // PRICE
+                    if (displaySettings?.services.showServices == true) SizedBox.fromSize(size: Size.zero, key: controller.price),
+                    if (displaySettings?.services.showServices == true)
+                      SalonPrice222(
+                        salonModel: chosenSalon,
+                        categories: _salonSearchProvider.categories,
+                        categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
+                      ),
 
                     // // SHOP
                     // if (displaySettings?.product.showProduct == true) SizedBox.fromSize(size: Size.zero, key: controller.shop),
@@ -301,9 +301,9 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
                     // if (displaySettings?.reviews.showReviews == true) SizedBox.fromSize(size: Size.zero, key: controller.reviews),
                     // if (displaySettings?.reviews.showReviews == true) SalonReviews(salonModel: chosenSalon),
 
-                    // // WRITE TO US
-                    // if (displaySettings?.showRequestForm == true) SizedBox.fromSize(size: Size.zero, key: controller.writeToUs),
-                    // if (displaySettings?.showRequestForm == true) WriteToUs(salonModel: chosenSalon),
+                    // WRITE TO US
+                    if (displaySettings?.showRequestForm == true) SizedBox.fromSize(size: Size.zero, key: controller.writeToUs),
+                    if (displaySettings?.showRequestForm == true) WriteToUs(salonModel: chosenSalon),
 
                     // // CONTACT
                     // if (displaySettings?.showContact == true) SizedBox.fromSize(size: Size.zero, key: controller.contacts),

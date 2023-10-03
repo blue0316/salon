@@ -8,6 +8,7 @@ import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/booking_dialog_2.dart';
 import 'package:bbblient/src/views/themes/components/widgets/button.dart';
+import 'package:bbblient/src/views/themes/components/widgets/multiple_states_button.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/buttons.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:flutter/material.dart';
@@ -145,7 +146,7 @@ Widget getThemeButton(context, ThemeType themeType, ThemeData theme, {bool hasGr
       return squareButton;
 
     case ThemeType.GentleTouch:
-      return SquareButton(
+      return MultipleStatesButton(
         borderColor: Colors.transparent,
         buttonColor: theme.colorScheme.secondary,
         width: 180.sp,
@@ -156,12 +157,11 @@ Widget getThemeButton(context, ThemeType themeType, ThemeData theme, {bool hasGr
         showSuffix: false,
         borderRadius: 3,
         isGradient: hasGradient,
-        hoveredColor: const Color(0XFF687830),
         onTap: () => const BookingDialogWidget222().show(context),
       );
 
     case ThemeType.GentleTouchDark:
-      return SquareButton(
+      return MultipleStatesButton(
         borderColor: Colors.transparent,
         buttonColor: theme.colorScheme.secondary,
         width: 180.sp,
@@ -172,7 +172,6 @@ Widget getThemeButton(context, ThemeType themeType, ThemeData theme, {bool hasGr
         showSuffix: false,
         borderRadius: 3,
         isGradient: hasGradient,
-        hoveredColor: const Color(0XFF687830),
         onTap: () => const BookingDialogWidget222().show(context),
       );
 
