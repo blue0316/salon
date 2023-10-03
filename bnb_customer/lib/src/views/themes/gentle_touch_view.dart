@@ -330,13 +330,10 @@ class LandingBottom extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
     final bool isTab = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab);
 
     return SizedBox(
-      // height: 120.sp,
       width: double.infinity,
-      // color: Colors.amber,
       child: isTab ? const UniqueLandscapeLandingBottom() : const UniquePortraitLandingBottom(),
     );
   }
