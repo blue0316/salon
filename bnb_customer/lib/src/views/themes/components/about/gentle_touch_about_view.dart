@@ -171,7 +171,7 @@ class _GentleTouchAboutUsState extends ConsumerState<GentleTouchAboutUs> {
                               width: 180.sp,
                               text: (AppLocalizations.of(context)?.bookNow ?? "Book Now"),
                               weight: FontWeight.normal,
-                              textColor: const Color(0XFFFFFFFF),
+                              textColor: themeType == ThemeType.GentleTouch ? const Color(0XFFFFFFFF) : Colors.black,
                               height: 47.h,
                               showSuffix: false,
                               borderRadius: 2,
@@ -211,6 +211,7 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     final bool isSingleMaster = _salonProfileProvider.isSingleMaster;
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -346,7 +347,7 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
                     width: 180.sp,
                     text: (AppLocalizations.of(context)?.bookNow ?? "Book Now"),
                     weight: FontWeight.normal,
-                    textColor: const Color(0XFFFFFFFF),
+                    textColor: themeType == ThemeType.GentleTouch ? const Color(0XFFFFFFFF) : Colors.black,
                     height: 47.h,
                     showSuffix: false,
                     borderRadius: 3,

@@ -107,8 +107,8 @@ class _GentleTouchServiceTileState extends ConsumerState<GentleTouchServiceTile>
                           Expanded(
                             flex: 2,
                             child: Text(
-                              // '${widget.service.description}',
-                              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum.',
+                              '${widget.service.description}',
+                              // 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum.',
                               style: theme.textTheme.bodyLarge?.copyWith(
                                 color: serviceNameColor(themeType, theme),
                                 fontSize: 15.sp,

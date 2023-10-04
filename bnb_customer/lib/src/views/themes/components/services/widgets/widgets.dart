@@ -70,7 +70,7 @@ Widget bookNowButtonTheme(context, {required ThemeType themeType, required Theme
         children: [
           MultipleStatesButton(
             borderColor: Colors.transparent,
-            buttonColor: const Color(0XFF687830),
+            buttonColor: theme.colorScheme.secondary,
             width: 180.sp,
             text: (AppLocalizations.of(context)?.bookNow ?? "Book Now"),
             weight: FontWeight.normal,
@@ -91,11 +91,11 @@ Widget bookNowButtonTheme(context, {required ThemeType themeType, required Theme
         children: [
           MultipleStatesButton(
             borderColor: Colors.transparent,
-            buttonColor: const Color(0XFF687830),
+            buttonColor: theme.colorScheme.secondary,
             width: 180.sp,
             text: (AppLocalizations.of(context)?.bookNow ?? "Book Now"),
             weight: FontWeight.normal,
-            textColor: const Color(0XFFFFFFFF),
+            textColor: Colors.black,
             height: 47.h,
             showSuffix: false,
             borderRadius: 2,

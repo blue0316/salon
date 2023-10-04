@@ -167,7 +167,7 @@ Widget getThemeButton(context, ThemeType themeType, ThemeData theme, {bool hasGr
         width: 180.sp,
         text: (AppLocalizations.of(context)?.bookNow ?? "Book Now"),
         weight: FontWeight.normal,
-        textColor: const Color(0XFFFFFFFF),
+        textColor: Colors.black,
         height: 47.h,
         showSuffix: false,
         borderRadius: 3,
@@ -245,7 +245,7 @@ class GlamOneWrap extends ConsumerWidget {
                 ),
               ),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30.sp, vertical: (themeType == ThemeType.GentleTouch) ? 10.sp : vSpacing ?? 13.sp),
+          padding: EdgeInsets.symmetric(horizontal: 30.sp, vertical: (themeType == ThemeType.GentleTouch || themeType == ThemeType.GentleTouchDark) ? 10.sp : vSpacing ?? 13.sp),
           child: Center(
             child: Text(
               text.toTitleCase(),

@@ -112,7 +112,7 @@ class SalonProfileProvider with ChangeNotifier {
           return DefaultLandingTheme(showBooking: showBooking);
 
         case '2':
-          salonTheme = getGlamDataTheme(themeSettings?.theme?.colorCode);
+          salonTheme = getGentleTouchDarkTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.GentleTouchDark;
           notifyListeners();
           return GentleTouch(showBooking: showBooking);
