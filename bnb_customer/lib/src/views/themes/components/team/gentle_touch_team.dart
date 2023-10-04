@@ -180,7 +180,6 @@ class _GentleTouchTeamMemberState extends ConsumerState<GentleTouchTeamMember> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final _salonSearchProvider = ref.watch(salonSearchProvider);
     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
 
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
@@ -188,7 +187,7 @@ class _GentleTouchTeamMemberState extends ConsumerState<GentleTouchTeamMember> {
     ThemeType themeType = _salonProfileProvider.themeType;
 
     return Padding(
-      padding: const EdgeInsets.only(right: 20),
+      padding: const EdgeInsets.only(right: 20, top: 2, bottom: 2, left: 2),
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         onEnter: (event) => onEntered(true),
@@ -228,9 +227,14 @@ class _GentleTouchTeamMemberState extends ConsumerState<GentleTouchTeamMember> {
                   child: Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: (themeType == ThemeType.GentleTouch) ? Colors.white : Colors.black,
-                      border: Border.all(color: Colors.black, width: 0.4),
-                    ),
+                        color: (themeType == ThemeType.GentleTouch) ? Colors.white : Colors.black,
+                        border: Border(
+                          bottom: BorderSide(
+                            color: (themeType == ThemeType.GentleTouch) ? Colors.black : const Color(0XFF868686),
+                            width: 0.4,
+                          ),
+                        ) // Border.all(color: Colors.black, width: 0.4),
+                        ),
                     child: (widget.image != null && widget.image != '')
                         ? CachedImage(url: widget.image!, fit: BoxFit.cover)
                         : Image.asset(
@@ -347,40 +351,30 @@ class _GentleTouchTeamButtonState extends ConsumerState<GentleTouchTeamButton> {
       cursor: SystemMouseCursors.click,
       onEnter: (event) => onEntered(true),
       onExit: (event) => onEntered(false),
-      child: GestureDetector(
-        onTap: widget.onTap,
-        child: Container(
-          height: 40.h,
-          decoration: BoxDecoration(
-            color: !isHovered ? Colors.transparent : theme.colorScheme.secondary,
-            border: isHovered
-                ? null
-                : Border.all(
-                    color: (themeType == ThemeType.GentleTouch) ? Colors.black : const Color(0XFF868686),
-                    width: 0.8,
-                  ),
-            borderRadius: BorderRadius.circular(1.5),
-            // gradient: isHovered ? buttonGradient(themeType, theme) : null,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  widget.text,
-                  style: TextStyle(
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.w500,
-                    color: (themeType == ThemeType.GentleTouch) ? (!isHovered ? Colors.black : Colors.white) : Colors.white,
-                    fontFamily: "Inter-Light",
-                  ),
-                ),
-              ],
-            ),
+      child: ElevatedButton(
+        child: Text(
+          'Learn More',
+          style: TextStyle(
+            fontSize: 15.sp,
+            fontWeight: FontWeight.normal,
+            color: (themeType == ThemeType.GentleTouch) ? (!isHovered ? Colors.black : Colors.white) : (!isHovered ? Colors.white : Colors.black),
+            fontFamily: "Inter-Light",
           ),
         ),
+        style: ElevatedButton.styleFrom(
+          minimumSize: Size(150.h, 50.h),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(1.5),
+          ),
+          backgroundColor: !isHovered ? Colors.transparent : theme.colorScheme.secondary,
+          side: isHovered
+              ? null
+              : BorderSide(
+                  color: (themeType == ThemeType.GentleTouch) ? Colors.black : const Color(0XFF868686),
+                  width: 0.8,
+                ),
+        ),
+        onPressed: widget.onTap,
       ),
     );
   }

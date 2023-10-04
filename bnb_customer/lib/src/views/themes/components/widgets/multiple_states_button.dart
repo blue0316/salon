@@ -108,7 +108,7 @@ class _MultipleStatesButtonState extends ConsumerState<MultipleStatesButton> {
                     ),
                   ),
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: widget.vSpacing ?? 10, horizontal: 15),
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Text(
                     widget.text,
                     style: TextStyle(

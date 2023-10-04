@@ -1,5 +1,4 @@
 import 'package:bbblient/src/utils/extensions/exstension.dart';
-import 'package:bbblient/src/views/themes/components/widgets/button.dart';
 import 'package:bbblient/src/views/themes/images.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -117,7 +116,7 @@ class _GentleTouchShopCardState extends ConsumerState<GentleTouchShopCard> {
                             child: Text(
                               '${widget.product.productName}'.toUpperCase(),
                               style: theme.textTheme.bodyLarge?.copyWith(
-                                color: isHovered ? Colors.white : theme.primaryColorDark,
+                                color: isHovered ? (themeType == ThemeType.GentleTouch ? Colors.white : Colors.black) : theme.primaryColorDark,
                                 fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 16.sp),
                                 fontWeight: FontWeight.normal,
                               ),
@@ -131,7 +130,7 @@ class _GentleTouchShopCardState extends ConsumerState<GentleTouchShopCard> {
                       Text(
                         '\$${widget.product.clientPrice}',
                         style: theme.textTheme.bodyLarge?.copyWith(
-                          color: isHovered ? Colors.white : theme.primaryColorLight,
+                          color: isHovered ? (themeType == ThemeType.GentleTouch ? Colors.white : Colors.black) : theme.primaryColorLight,
                           fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 16.sp),
                           fontWeight: FontWeight.w600,
                         ),
@@ -151,7 +150,7 @@ class _GentleTouchShopCardState extends ConsumerState<GentleTouchShopCard> {
                         (widget.product.productDescription ?? '').toTitleCase(),
                         // 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
                         style: theme.textTheme.bodyLarge?.copyWith(
-                          color: theme.primaryColorDark,
+                          color: isHovered ? (themeType == ThemeType.GentleTouch ? Colors.white : Colors.black) : theme.primaryColorLight,
                           fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 14.sp, 14.sp),
                           fontWeight: FontWeight.normal,
                         ),
@@ -160,19 +159,9 @@ class _GentleTouchShopCardState extends ConsumerState<GentleTouchShopCard> {
                       ),
                       SizedBox(height: 5.sp),
                       Center(
-                        child: SquareButton(
+                        child: GentleTouchShopButton(
                           text: (AppLocalizations.of(context)?.contactUs ?? "Contact Us"),
-                          buttonColor: Colors.transparent,
-                          textColor: Colors.white,
-                          borderColor: Colors.white,
-                          textSize: 15.sp,
-                          showSuffix: false,
-                          weight: FontWeight.w500,
-                          buttonWidth: 0.8,
-                          borderRadius: 1.5,
-                          // vSpacing: 2,
-                          width: DeviceConstraints.getResponsiveSize(context, size / 1.5.sp, size / 2.3.sp, 70.w) / 2,
-                          height: 40.h,
+                          // width: DeviceConstraints.getResponsiveSize(context, size / 1.5.sp, size / 2.3.sp, 70.w) / 2,
                           onTap: () {
                             Scrollable.ensureVisible(
                               controller.contacts.currentContext!,
@@ -189,6 +178,65 @@ class _GentleTouchShopCardState extends ConsumerState<GentleTouchShopCard> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class GentleTouchShopButton extends ConsumerStatefulWidget {
+  final String text;
+  final VoidCallback onTap;
+  final bool isGradient;
+
+  const GentleTouchShopButton({
+    Key? key,
+    required this.text,
+    required this.onTap,
+    this.isGradient = false,
+  }) : super(key: key);
+
+  @override
+  ConsumerState<GentleTouchShopButton> createState() => _GentleTouchShopButtonState();
+}
+
+class _GentleTouchShopButtonState extends ConsumerState<GentleTouchShopButton> {
+  bool isHovered = false;
+
+  void onEntered(bool isHovered) => setState(() {
+        this.isHovered = isHovered;
+      });
+
+  @override
+  Widget build(BuildContext context) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+    ThemeType themeType = _salonProfileProvider.themeType;
+
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (event) => onEntered(true),
+      onExit: (event) => onEntered(false),
+      child: ElevatedButton(
+        child: Text(
+          widget.text,
+          style: TextStyle(
+            fontSize: 15.sp,
+            fontWeight: FontWeight.normal,
+            color: (themeType == ThemeType.GentleTouch) ? Colors.white : Colors.black, // (!isHovered ? Colors.black : Colors.white) : (!isHovered ? Colors.white : Colors.black),
+            fontFamily: "Inter-Light",
+          ),
+        ),
+        style: ElevatedButton.styleFrom(
+          minimumSize: Size(150.h, 50.h),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(1.5)),
+          backgroundColor: (themeType == ThemeType.GentleTouch) ? theme.colorScheme.secondary : Colors.white,
+          // backgroundColor: !isHovered ? Colors.transparent : theme.colorScheme.secondary,
+          side: BorderSide(
+            color: (themeType == ThemeType.GentleTouch) ? Colors.white : Colors.black,
+            width: 0.8,
+          ),
+        ),
+        onPressed: widget.onTap,
       ),
     );
   }

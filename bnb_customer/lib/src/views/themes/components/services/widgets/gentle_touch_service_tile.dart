@@ -142,21 +142,22 @@ class _GentleTouchServiceTileState extends ConsumerState<GentleTouchServiceTile>
                 ],
               ),
               if (isHovered && !isPortrait)
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: EdgeInsets.only(right: 50.w, top: 20.sp),
-                    child: SizedBox(
-                      height: 230.h,
-                      width: 220.sp,
-                      child: CachedImage(
-                        url: widget.service.servicePhoto ?? '',
-                        fit: BoxFit.cover,
-                        width: MediaQuery.of(context).size.width - 40.w,
+                if (widget.service.servicePhoto != null && widget.service.servicePhoto != '')
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: EdgeInsets.only(right: 50.w, top: 20.sp),
+                      child: SizedBox(
+                        height: 230.h,
+                        width: 220.sp,
+                        child: CachedImage(
+                          url: widget.service.servicePhoto ?? '',
+                          fit: BoxFit.cover,
+                          width: MediaQuery.of(context).size.width - 40.w,
+                        ),
                       ),
                     ),
                   ),
-                ),
             ],
           ),
         ),

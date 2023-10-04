@@ -182,12 +182,12 @@ class GentleTouchShopTab extends ConsumerWidget {
                 color: showTab ? (themeType == ThemeType.GentleTouch ? Colors.black : Colors.white) : Colors.transparent,
               ),
             ),
-            SizedBox(width: 30.sp),
+            SizedBox(width: 25.sp),
             Expanded(
               child: Text(
                 title,
                 style: theme.textTheme.displayMedium?.copyWith(
-                  fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 20.sp, 40.sp),
+                  fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 20.sp, 37.sp),
                 ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
