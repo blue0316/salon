@@ -25,9 +25,10 @@ import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class EnterNumber extends ConsumerStatefulWidget {
+  final String countryCodeName;
   final TabController tabController;
 
-  const EnterNumber({Key? key, required this.tabController}) : super(key: key);
+  const EnterNumber({Key? key, required this.tabController, required this.countryCodeName}) : super(key: key);
 
   @override
   ConsumerState<EnterNumber> createState() => _EnterNumberState();
@@ -94,7 +95,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                   _authProvider.updateAuthCountryCode(val?.dialCode ?? '');
                   // setState(() => countryCode = val?.dialCode ?? '');
                 },
-                initialSelection: 'UA',
+                initialSelection: widget.countryCodeName,
                 favorite: const ['+1', '+380'],
                 showCountryOnly: false,
                 showOnlyCountryWhenClosed: false,

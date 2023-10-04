@@ -190,6 +190,8 @@ Color? selectSlots(ThemeType themeType, ThemeData theme) {
       return Colors.black;
     case ThemeType.GentleTouch:
       return Colors.white;
+    case ThemeType.GentleTouchDark:
+      return Colors.black;
     case ThemeType.Glam:
       return Colors.white;
     case ThemeType.DefaultLight:
@@ -206,6 +208,10 @@ Color? currentDateTextColor(ThemeType themeType, ThemeData theme) {
       return Colors.white;
     case ThemeType.DefaultLight:
       return Colors.white;
+    case ThemeType.GentleTouch:
+      return Colors.white;
+    case ThemeType.GentleTouchDark:
+      return Colors.black;
 
     default:
       return theme.colorScheme.tertiary;
@@ -255,5 +261,15 @@ Color? dropdownBackgroundColor(ThemeType themeType, ThemeData theme) {
 
     default:
       return theme.dialogBackgroundColor;
+  }
+}
+
+Color? horizontalTimePickerColor(ThemeType themeType, ThemeData theme) {
+  switch (themeType) {
+    case ThemeType.GentleTouchDark:
+      return Colors.black;
+
+    default:
+      return Colors.white;
   }
 }

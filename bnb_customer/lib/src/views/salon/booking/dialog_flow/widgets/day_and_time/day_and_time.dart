@@ -604,7 +604,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                           style: theme.textTheme.bodyMedium?.copyWith(
                                             fontWeight: FontWeight.normal,
                                             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 18.sp, 18.sp),
-                                            color: _createAppointmentProvider.timeOfDayIndexForSlots == 0 ? Colors.white : theme.colorScheme.tertiary,
+                                            color: _createAppointmentProvider.timeOfDayIndexForSlots == 0 ? horizontalTimePickerColor(themeType, theme) : theme.colorScheme.tertiary,
                                             fontFamily: 'Inter-Medium',
                                           ),
                                         ),
@@ -636,7 +636,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                           style: theme.textTheme.bodyMedium?.copyWith(
                                             fontWeight: FontWeight.normal,
                                             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 18.sp, 18.sp),
-                                            color: _createAppointmentProvider.timeOfDayIndexForSlots == 1 ? Colors.white : theme.colorScheme.tertiary,
+                                            color: _createAppointmentProvider.timeOfDayIndexForSlots == 1 ? horizontalTimePickerColor(themeType, theme) : theme.colorScheme.tertiary,
                                             fontFamily: 'Inter-Medium',
                                           ),
                                         ),
@@ -669,7 +669,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                           style: theme.textTheme.bodyMedium?.copyWith(
                                             fontWeight: FontWeight.normal,
                                             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 18.sp, 18.sp),
-                                            color: _createAppointmentProvider.timeOfDayIndexForSlots == 2 ? Colors.white : theme.colorScheme.tertiary,
+                                            color: _createAppointmentProvider.timeOfDayIndexForSlots == 2 ? horizontalTimePickerColor(themeType, theme) : theme.colorScheme.tertiary,
                                             fontFamily: 'Inter-Medium',
                                           ),
                                         ),
@@ -920,7 +920,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                             style: theme.textTheme.bodyLarge!.copyWith(
                                               fontSize: 16.sp,
                                               fontWeight: FontWeight.normal,
-                                              color: selectSlots(themeType, theme),
+                                              color: themeType != ThemeType.GentleTouchDark ? selectSlots(themeType, theme) : Colors.white,
                                               fontFamily: 'Inter-Medium',
                                             ),
                                           ),
@@ -950,7 +950,8 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                 style: theme.textTheme.bodyLarge!.copyWith(
                                                   fontSize: 14.sp,
                                                   fontWeight: FontWeight.normal,
-                                                  color: selectSlots(themeType, theme)?.withOpacity(0.8),
+                                                  color: themeType != ThemeType.GentleTouchDark ? selectSlots(themeType, theme)?.withOpacity(0.8) : Colors.white,
+                                                  // color: selectSlots(themeType, theme)?.withOpacity(0.8),
                                                   fontFamily: 'Inter-Medium',
                                                 ),
                                               ),
@@ -960,7 +961,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                 child: CircleAvatar(
                                                   radius: 3.sp,
                                                   // backgroundColor: theme.primaryColor, //  Color.fromARGB(43, 74, 74, 74),
-                                                  backgroundColor: selectSlots(themeType, theme),
+                                                  backgroundColor: themeType != ThemeType.GentleTouchDark ? selectSlots(themeType, theme) : Colors.white,
                                                 ),
                                               ),
                                               SizedBox(width: 7.sp),
@@ -976,7 +977,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                 style: theme.textTheme.bodyLarge!.copyWith(
                                                   fontSize: 14.sp,
                                                   fontWeight: FontWeight.normal,
-                                                  color: selectSlots(themeType, theme)?.withOpacity(0.8),
+                                                  color: themeType != ThemeType.GentleTouchDark ? selectSlots(themeType, theme)?.withOpacity(0.8) : Colors.white,
                                                   fontFamily: 'Inter-Medium',
                                                 ),
                                               ),
@@ -996,7 +997,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                             style: theme.textTheme.bodyLarge!.copyWith(
                                               fontSize: 16.sp,
                                               fontWeight: FontWeight.normal,
-                                              color: selectSlots(themeType, theme),
+                                              color: themeType != ThemeType.GentleTouchDark ? selectSlots(themeType, theme) : Colors.white,
                                               letterSpacing: 0.5,
                                               fontFamily: 'Inter-Medium',
                                             ),
@@ -1009,7 +1010,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                             style: theme.textTheme.bodyLarge!.copyWith(
                                               fontSize: 14.sp,
                                               fontWeight: FontWeight.normal,
-                                              color: selectSlots(themeType, theme)?.withOpacity(0.7),
+                                              color: themeType != ThemeType.GentleTouchDark ? selectSlots(themeType, theme)?.withOpacity(0.7) : Colors.white,
                                               fontFamily: 'Inter-Medium',
                                             ),
                                           ),
@@ -1073,7 +1074,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                               //             : (service.isPriceStartAt)
                                               //                 ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}+"
                                               //                 : "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}",
-                                              color: selectSlots(themeType, theme),
+                                              color: themeType != ThemeType.GentleTouchDark ? selectSlots(themeType, theme) : Colors.white,
                                               fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 18.sp, 16.sp),
                                               priceFontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 18.sp, 16.sp),
                                             ),
