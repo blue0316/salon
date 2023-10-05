@@ -39,6 +39,23 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
   bool noVerificationSpinner = false;
 
   @override
+  void initState() {
+    super.initState();
+    findDialCode();
+  }
+
+  void findDialCode() {
+    for (Map<String, String> map in codes) {
+      if (map['code'] == widget.countryCodeName) {
+        setState(() {
+          countryCode = map['dial_code']!;
+        });
+        break;
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final AuthProvider _authProvider = ref.watch(authProvider);
