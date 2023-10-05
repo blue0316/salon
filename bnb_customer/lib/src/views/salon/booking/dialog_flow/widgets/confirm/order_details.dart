@@ -228,6 +228,12 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                           checkColor: Colors.white,
                           fillColor: MaterialStateProperty.all(themeType == ThemeType.GentleTouchDark ? Colors.black : theme.primaryColor),
                           value: acceptTerms,
+                          side: MaterialStateBorderSide.resolveWith(
+                            (states) => BorderSide(
+                              width: 1.0,
+                              color: themeType == ThemeType.GentleTouchDark ? Colors.white : theme.primaryColor,
+                            ),
+                          ),
                           onChanged: (value) {
                             setState(() {
                               acceptTerms = !acceptTerms;
