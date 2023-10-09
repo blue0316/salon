@@ -335,7 +335,7 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                                                       await AppointmentApi().updateMultipleAppointment(
                                                                         isSingleMaster: _appointmentProvider.isSingleMaster,
                                                                         appointmentModel: appointment,
-                                                                        appointmentSubStatus: ActiveAppointmentSubStatus.cancelledBySalon,
+                                                                        appointmentSubStatus: ActiveAppointmentSubStatus.cancelledByCustomer,
                                                                         appointmentStatus: AppointmentStatus.cancelled,
                                                                         salon: _appointmentProvider.salon!,
                                                                         salonMasters: _appointmentProvider.allMastersInSalon,
@@ -345,7 +345,7 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                                                       await AppointmentApi().updateMultipleAppointment(
                                                                         isSingleMaster: _appointmentProvider.isSingleMaster,
                                                                         appointmentModel: appointment,
-                                                                        appointmentSubStatus: ActiveAppointmentSubStatus.cancelledBySalon,
+                                                                        appointmentSubStatus: ActiveAppointmentSubStatus.cancelledByCustomer,
                                                                         appointmentStatus: AppointmentStatus.cancelled,
                                                                         salon: _appointmentProvider.salon!,
                                                                         salonMasters: _appointmentProvider.allMastersInSalon,
@@ -355,6 +355,21 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                                                   },
                                                                 ),
                                                               );
+                                                            } else {
+                                                              setState(() => _spinner = true);
+
+                                                              await AppointmentApi().updateMultipleAppointment(
+                                                                isSingleMaster: _appointmentProvider.isSingleMaster,
+                                                                appointmentModel: appointment,
+                                                                appointmentSubStatus: ActiveAppointmentSubStatus.cancelledByCustomer,
+                                                                appointmentStatus: AppointmentStatus.cancelled,
+                                                                salon: _appointmentProvider.salon!,
+                                                                salonMasters: _appointmentProvider.allMastersInSalon,
+                                                              );
+
+                                                              setState(() => _spinner = false);
+
+                                                              showToast(AppLocalizations.of(context)?.appointmentCancelledSuccessfully ?? 'Appointment cancelled succesfully');
                                                             }
                                                           },
                                                           isLoading: _spinner == true || _appointmentProvider.cancelAppointmentStatus == Status.loading || _appointmentProvider.createNoShowPolicyStatus == Status.loading,
