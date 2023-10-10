@@ -1,9 +1,8 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 Future<Map<String, dynamic>> getLatLongFromAddress(String address) async {
-  String geocodingKEY = dotenv.env['Geocoding_KEY']!;
+  String geocodingKEY = 'AIzaSyDBIXbOSTt8ApKNcxuvgSnnpo6k6pmFPxc'; // dotenv.env['Geocoding_KEY']!;
   Uri url = Uri.parse('https://maps.googleapis.com/maps/api/geocode/json?address=$address&key=$geocodingKEY');
 
   final response = await http.get(url);
