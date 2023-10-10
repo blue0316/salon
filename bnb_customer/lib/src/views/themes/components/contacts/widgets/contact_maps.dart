@@ -29,27 +29,19 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
   fetchLatAndLong() async {
     setState(() => _spinner = true);
 
-    if (widget.salonModel!.position?.geoPoint?.latitude == 0 || widget.salonModel!.position?.geoPoint?.longitude == 0) {
-      try {
-        Map<String, dynamic> location = await getLatLongFromAddress(
-          widget.salonModel!.address,
-        );
-        setState(() {
-          lat = location['lat'];
-          long = location['lng'];
-        });
-      } catch (e) {
-        debugPrint('Maps Error: $e');
+    try {
+      Map<String, dynamic> location = await getLatLongFromAddress(widget.salonModel!.address);
 
-        setState(() {
-          lat = 28.538336;
-          long = -81.379234;
-        });
-      }
-    } else {
       setState(() {
-        lat = widget.salonModel!.position?.geoPoint?.latitude ?? 28.538336;
-        long = widget.salonModel!.position?.geoPoint?.longitude ?? -81.379234;
+        lat = location['lat'];
+        long = location['lng'];
+      });
+    } catch (e) {
+      debugPrint('Maps Error: $e');
+
+      setState(() {
+        lat = 28.538336;
+        long = -81.379234;
       });
     }
 
@@ -58,11 +50,11 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
 
   @override
   Widget build(BuildContext context) {
-    // print('=======@@@@@================@@@@===========');
-    // print(widget.salonModel!.address);
-    // print(lat);
-    // print(long);
-    // print('=======@@@@@================@@@@===========');
+    print('=======@@@@@================@@@@===========');
+    print(widget.salonModel!.address);
+    print(lat);
+    print(long);
+    print('=======@@@@@================@@@@===========');
 
     ui.platformViewRegistry.registerViewFactory(htmlId, (int viewId) {
       final myLatlng = maps.LatLng(lat, long);
