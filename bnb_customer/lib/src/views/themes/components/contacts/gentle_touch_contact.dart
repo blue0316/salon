@@ -3,15 +3,16 @@ import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
-import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_about.dart';
+import 'package:bbblient/src/views/themes/icons.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'widgets/contact_maps.dart';
@@ -116,7 +117,8 @@ class GentleTouchContactView extends ConsumerWidget {
                   ),
                   GentleTouchContactCard(
                     isSocial: true,
-                    icon: Icons.soap_rounded,
+                    svg: ThemeIcons.socialContact,
+                    isSvg: true,
                     cardTitle: 'Social Media',
                     cardDesc: 'Discover more on social',
                     cardValue: '',
@@ -141,15 +143,17 @@ class GentleTouchContactView extends ConsumerWidget {
 }
 
 class GentleTouchContactCard extends ConsumerWidget {
-  final IconData icon;
+  final IconData? icon;
   final String cardTitle, cardDesc, cardValue;
-  final bool isSocial, isAddress;
+  final bool isSocial, isAddress, isSvg;
   final SalonModel? salon;
   final VoidCallback? onValueTap;
+  final String? svg;
 
   const GentleTouchContactCard({
     Key? key,
-    required this.icon,
+    this.icon,
+    this.svg,
     required this.cardTitle,
     required this.cardDesc,
     required this.cardValue,
@@ -157,6 +161,7 @@ class GentleTouchContactCard extends ConsumerWidget {
     this.isAddress = false,
     this.salon,
     this.onValueTap,
+    this.isSvg = false,
   }) : super(key: key);
 
   @override
@@ -182,10 +187,20 @@ class GentleTouchContactCard extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Icon(icon, size: 20.sp, color: const Color(0XFF868686)),
+                (!isSvg)
+                    ? Icon(
+                        icon,
+                        size: 20.sp,
+                        color: const Color(0XFF868686),
+                      )
+                    : SvgPicture.asset(
+                        svg!,
+                        height: 20.sp,
+                        color: const Color(0XFF868686),
+                      ),
                 SizedBox(width: 10.sp),
                 Text(
                   cardTitle,
@@ -259,16 +274,15 @@ class GentleTouchContactCard extends ConsumerWidget {
                     //     ),
                     //   ),
                     // ),
-                    // SizedBox(width: 5.sp),
-                    SocialLink2(
-                      icon: AppIcons.linkTikTok,
+                    // SizedBox(width: 5.sp)
+                    SocialIcon2(
+                      icon: FontAwesomeIcons.tiktok,
                       type: 'tiktok',
                       socialUrl: salon!.links?.tiktok,
                       color: const Color(0XFF868686),
                     ),
-                    // SizedBox(width: 5.sp),
-                    SocialLink2(
-                      icon: AppIcons.linkFacebook,
+                    SocialIcon2(
+                      icon: FontAwesomeIcons.facebookF,
                       type: 'facebook',
                       socialUrl: salon!.links?.facebook,
                       color: const Color(0XFF868686),
