@@ -3,14 +3,12 @@ import 'package:bbblient/src/controller/app_provider.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/analytics.dart';
 import 'package:bbblient/src/utils/utils.dart';
-import 'package:bbblient/src/views/home_page.dart';
-import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:bbblient/src/utils/notification/notifications.dart';
-import 'package:bbblient/src/views/onboarding/onboarding.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +26,8 @@ void main() async {
   ]);
   await Firebase.initializeApp();
   await initializeNotifications();
+  await dotenv.load();
+
   final el = html.window.document.getElementById('__ff-recaptcha-container');
   if (el != null) {
     el.style.visibility = 'hidden';
@@ -107,7 +107,7 @@ class _NavigatorPageState extends ConsumerState<NavigatorPage> {
 
   @override
   Widget build(BuildContext context) {
-    final AppProvider _appProvider = ref.watch(appProvider);
+    // final AppProvider _appProvider = ref.watch(appProvider);
     return const Material(
       color: AppTheme.white,
       child: SizedBox(),

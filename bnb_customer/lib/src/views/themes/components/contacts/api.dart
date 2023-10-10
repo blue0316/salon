@@ -1,21 +1,23 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 Future<Map<String, dynamic>> getLatLongFromAddress(String address) async {
-  Uri url = Uri.parse('https://nominatim.openstreetmap.org/search?format=json&q=$address');
+  String geocodingKEY = dotenv.env['Geocoding_KEY']!;
+  Uri url = Uri.parse('https://maps.googleapis.com/maps/api/geocode/json?address=$address&key=$geocodingKEY');
 
   final response = await http.get(url);
 
   if (response.statusCode == 200) {
-    List<dynamic> results = json.decode(response.body);
-    if (results.isNotEmpty) {
+    final Map<String, dynamic> data = json.decode(response.body);
+    if (data['status'] == 'OK') {
       Map<String, dynamic> location = {
-        'lat': double.parse(results[0]['lat']),
-        'lng': double.parse(results[0]['lon']),
+        'lat': data['results'][0]['geometry']['location']['lat'],
+        'lng': data['results'][0]['geometry']['location']['lng'],
       };
       return location;
     } else {
-      throw Exception('Address not found');
+      throw Exception('Error: ${data['status']}');
     }
   } else {
     throw Exception('Failed to load data');

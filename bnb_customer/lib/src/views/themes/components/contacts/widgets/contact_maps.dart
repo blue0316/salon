@@ -42,8 +42,8 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
         debugPrint('Maps Error: $e');
 
         setState(() {
-          lat = widget.salonModel!.position?.geoPoint?.latitude ?? 28.538336;
-          long = widget.salonModel!.position?.geoPoint?.longitude ?? -81.379234;
+          lat = 0; // 28.538336;
+          long = 0; // -81.379234;
         });
       }
     } else {
@@ -68,7 +68,7 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
       final myLatlng = maps.LatLng(lat, long);
 
       final mapOptions = maps.MapOptions()
-        ..zoom = 18
+        ..zoom = 17
         ..maxZoom = 20
         ..center = maps.LatLng(lat, long);
 
