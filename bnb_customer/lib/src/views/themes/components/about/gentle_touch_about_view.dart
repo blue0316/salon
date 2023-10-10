@@ -126,9 +126,10 @@ class _GentleTouchAboutUsState extends ConsumerState<GentleTouchAboutUs> {
                               child: Text(
                                 (widget.salonModel.salonName.isNotEmpty) ? widget.salonModel.salonName[0].toUpperCase() : '',
                                 style: theme.textTheme.displayLarge!.copyWith(
-                                  fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 80.sp, 100.sp),
-                                  color: Colors.white,
+                                  fontSize: DeviceConstraints.getResponsiveSize(context, 60.sp, 80.sp, 100.sp),
+                                  color: themeType == ThemeType.GentleTouch ? Colors.white : Colors.black,
                                   fontFamily: "Inter",
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
@@ -308,9 +309,10 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
                       child: Text(
                         (widget.salonModel.salonName.isNotEmpty) ? widget.salonModel.salonName[0].toUpperCase() : '',
                         style: theme.textTheme.displayLarge!.copyWith(
-                          fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 80.sp, 100.sp),
-                          color: Colors.white,
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 80.sp, 80.sp, 100.sp),
+                          color: themeType == ThemeType.GentleTouch ? Colors.white : Colors.black,
                           fontFamily: "Inter",
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),

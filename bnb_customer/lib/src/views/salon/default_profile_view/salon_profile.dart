@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:web_smooth_scroll/web_smooth_scroll.dart';
 import 'salon_all_works.dart';
 import 'salon_masters.dart';
 import 'widgets/header.dart';
@@ -174,50 +175,53 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
                           // Space(
                           //   factor: DeviceConstraints.getResponsiveSize(context, 2, 3, 5),
                           // ),
-                          ExpandablePageView(
-                            padEnds: false,
-                            key: const ValueKey("exp"),
-                            physics: const NeverScrollableScrollPhysics(),
-                            controller: _pageController,
-                            onPageChanged: (i) {
-                              setState(() {
-                                _activeTab = i;
-                              });
-                            },
-                            children: [
-                              if (_salonProfileProvider.hasLandingPage) const LandingView(),
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 30.w, 60.w),
-                                ),
-                                child: const SalonServices(),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 30.w, 60.w),
-                                ),
-                                child: SalonAbout(
-                                  salonModel: _salonProfileProvider.chosenSalon,
-                                ),
-                              ),
-                              if (!isSingleMaster)
+                          WebSmoothScroll(
+                            controller: _scrollController,
+                            child: ExpandablePageView(
+                              padEnds: false,
+                              key: const ValueKey("exp"),
+                              physics: const NeverScrollableScrollPhysics(),
+                              controller: _pageController,
+                              onPageChanged: (i) {
+                                setState(() {
+                                  _activeTab = i;
+                                });
+                              },
+                              children: [
+                                if (_salonProfileProvider.hasLandingPage) const LandingView(),
                                 Padding(
                                   padding: EdgeInsets.symmetric(
                                     horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 30.w, 60.w),
                                   ),
-                                  child: SalonMasters(
+                                  child: const SalonServices(),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 30.w, 60.w),
+                                  ),
+                                  child: SalonAbout(
                                     salonModel: _salonProfileProvider.chosenSalon,
                                   ),
                                 ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 30.w, 60.w),
+                                if (!isSingleMaster)
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 30.w, 60.w),
+                                    ),
+                                    child: SalonMasters(
+                                      salonModel: _salonProfileProvider.chosenSalon,
+                                    ),
+                                  ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 30.w, 60.w),
+                                  ),
+                                  child: SalonAllWorks(
+                                    salonModel: _salonProfileProvider.chosenSalon,
+                                  ),
                                 ),
-                                child: SalonAllWorks(
-                                  salonModel: _salonProfileProvider.chosenSalon,
-                                ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                           const Space(factor: 2),
                         ],
