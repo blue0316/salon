@@ -42,7 +42,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
   }
 
   getFeature(String s) {
-    debugPrint(widget.salonModel.ownerType);
+    // debugPrint(widget.salonModel.ownerType);
     if (widget.salonModel.ownerType == 'singleMaster') {
       for (Map registeredFeatures in masterFeatures) {
         if (registeredFeatures.containsKey(s)) {
@@ -61,7 +61,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
   }
 
   getFeatureUk(String s) {
-    debugPrint(widget.salonModel.ownerType);
+    // debugPrint(widget.salonModel.ownerType);
     for (Map registeredFeatures in ukMasterFeatures) {
       if (registeredFeatures.containsKey(s)) {
         return registeredFeatures[s];
@@ -241,7 +241,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                               onTap: () => showDialog<bool>(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    debugPrint(s);
+                                    // debugPrint(s);
                                     return ShowAdditionaFeatureInfo(_bnbProvider, s);
                                   }),
                               child: Container(

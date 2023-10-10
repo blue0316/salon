@@ -177,7 +177,7 @@ class Utils {
   //returns '' if it's null
   String getName(PersonalInfo? info) {
     if (info == null) {
-      debugPrint('personal info is null');
+      // debugPrint('personal info is null');
       return '';
     }
     return "${info.firstName ?? ''} ${info.lastName ?? ''}";
@@ -185,7 +185,7 @@ class Utils {
 
   String getNameMaster(PersonalInfoMaster? info) {
     if (info == null) {
-      debugPrint('personal info is null');
+      // debugPrint('personal info is null');
       return '';
     }
     return "${info.firstName ?? ''} ${info.lastName ?? ''}";

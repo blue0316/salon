@@ -32,7 +32,7 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
   int totalReviewsToShow = 3;
 
   getFeature(String s) {
-    // debugPrint(widget.salonModel.ownerType);
+    // // debugPrint(widget.salonModel.ownerType);
     // if (widget.salonModel.ownerType == 'singleMaster') {
     //   for (Map registeredFeatures in masterFeatures) {
     //     if (registeredFeatures.containsKey(s)) {
@@ -185,7 +185,7 @@ class SocialIcon2 extends ConsumerWidget {
       onTap: () async {
         Uri uri = Uri.parse(socialLinks(type, socialUrl ?? ''));
 
-        debugPrint("launching Url: $uri");
+        // debugPrint("launching Url: $uri");
 
         if (await canLaunchUrl(uri)) {
           await launchUrl(uri);
@@ -233,7 +233,7 @@ class SocialLink extends ConsumerWidget {
       onTap: () async {
         Uri uri = Uri.parse(socialLinks(type, socialUrl ?? ''));
 
-        debugPrint("launching Url: $uri");
+        // debugPrint("launching Url: $uri");
 
         if (await canLaunchUrl(uri)) {
           await launchUrl(uri);
@@ -299,7 +299,7 @@ class SocialLink2 extends ConsumerWidget {
       onTap: () async {
         Uri uri = Uri.parse(socialLinks(type, socialUrl ?? ''));
 
-        debugPrint("launching Url: $uri");
+        // debugPrint("launching Url: $uri");
 
         if (await canLaunchUrl(uri)) {
           await launchUrl(uri);

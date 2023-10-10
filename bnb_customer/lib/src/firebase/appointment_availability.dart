@@ -16,11 +16,11 @@ class AppointmentAvailability {
   PriceAndDurationModel getPriceAndDuration(ServiceModel? service, MasterModel master) {
     try {
       if (service != null && master != null && service.serviceId != null && master.servicesPriceAndDuration != null) {
-        debugPrint('master price${master.servicesPriceAndDuration![service.serviceId]!.price}');
+        // debugPrint('master price${master.servicesPriceAndDuration![service.serviceId]!.price}');
         return master.servicesPriceAndDuration![service.serviceId] ?? PriceAndDurationModel();
       }
     } catch (e) {
-      debugPrint('getPriceAndDuration() - ${e.toString()}');
+      // debugPrint('getPriceAndDuration() - ${e.toString()}');
     }
     return PriceAndDurationModel();
   }
@@ -39,7 +39,7 @@ class AppointmentAvailability {
   }) {
     try {
       DateTime currentTime = DateTime.now();
-      print(date.isSameDate(currentTime));
+      // print(date.isSameDate(currentTime));
       if (!date.isSameDate(currentTime) && !currentTime.isBefore(date)
           //   DateTime(currentTime.day,currentTime.year,currentTime.month)
 

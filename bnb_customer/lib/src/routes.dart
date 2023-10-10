@@ -167,11 +167,11 @@ final GoRouter router = GoRouter(
               if (id2 != "") {
                 repository.retrieveSalonMasterModel(state.queryParams['id2']!.toString());
                 salonMaster = repository.getCurrenMaster;
-                debugPrint(repository.getCurrenMaster);
+                // debugPrint(repository.getCurrenMaster);
               }
               return repository;
             });
-            debugPrint(salonMaster.toString());
+            // debugPrint(salonMaster.toString());
             return MaterialPage(
               key: state.pageKey,
               child: SalonPage(

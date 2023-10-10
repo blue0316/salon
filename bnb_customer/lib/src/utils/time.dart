@@ -84,7 +84,7 @@ class Time {
           return null;
       }
     } catch (e) {
-      debugPrint(e.toString());
+      // debugPrint(e.toString());
       return null;
     }
   }
@@ -286,7 +286,7 @@ class Time {
       }
       return "$hr:$min";
     } catch (e) {
-      debugPrint(e.toString());
+      // debugPrint(e.toString());
       return null;
     }
   }
@@ -306,7 +306,7 @@ class Time {
       }
       return "$appointment  - ${timeToString(stringToTime(appointment).addMinutes(appointmentDurationInMin))}";
     } catch (e) {
-      debugPrint(e.toString());
+      // debugPrint(e.toString());
       return null;
     }
   }
@@ -343,7 +343,7 @@ class Time {
         }
       }
     } catch (e) {
-      debugPrint(e.toString());
+      // debugPrint(e.toString());
       return false;
     }
   }
@@ -383,7 +383,7 @@ class Time {
     // try {
     //   return Jiffy(date).EEEE;
     // } catch (e) {
-    //   debugPrint(e.toString());
+    //   // debugPrint(e.toString());
     //   return '';
     // }
   }
@@ -410,7 +410,7 @@ class Time {
     try {
       return DateTime.parse(date);
     } catch (e) {
-      debugPrint(e.toString());
+      // debugPrint(e.toString());
       return null;
     }
   }
@@ -420,7 +420,7 @@ class Time {
       return Jiffy(date).yMMMEd;
       // DateFormat('EEE, d MMM yyyy').format(date);
     } catch (e) {
-      debugPrint(e.toString());
+      // debugPrint(e.toString());
       return '';
     }
   }
@@ -433,7 +433,7 @@ class Time {
     try {
       return Jiffy(date).yMMMEd;
     } catch (e) {
-      debugPrint(e.toString());
+      // debugPrint(e.toString());
       return '';
     }
   }
@@ -447,7 +447,7 @@ class Time {
       return _date.replaceAll('.', '');
       // return Jiffy(date).yMMMEd;
     } catch (e) {
-      debugPrint(e.toString());
+      // debugPrint(e.toString());
       return '';
     }
   }
@@ -461,7 +461,7 @@ class Time {
       return _date.replaceAll('.', '');
       // return Jiffy(date).yMMMEd;
     } catch (e) {
-      debugPrint(e.toString());
+      // debugPrint(e.toString());
       return '';
     }
   }
@@ -472,7 +472,7 @@ class Time {
       return Jiffy(date).format('dd.MM.yyyy');
       // DateFormat('dd.MM.yyyy').format(date);
     } catch (e) {
-      debugPrint(e.toString());
+      // debugPrint(e.toString());
       return '';
     }
   }
@@ -484,7 +484,7 @@ class Time {
     try {
       return DateFormat.Hm().format(dateTime);
     } catch (e) {
-      debugPrint(e.toString());
+      // debugPrint(e.toString());
       return '';
     }
   }

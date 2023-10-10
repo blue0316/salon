@@ -59,7 +59,7 @@ class PromotionServiceApi {
       // printIt(allPromotions);
       return allPromotions;
     } catch (e) {
-      debugPrint(e.toString());
+      // debugPrint(e.toString());
     }
     return [];
   }

@@ -352,8 +352,8 @@ class AppointmentProvider with ChangeNotifier {
 
     // print(response);
 
-    debugPrint('Response status: ${response.statusCode}');
-    debugPrint('Response body: ${response.body}');
+    // debugPrint('Response status: ${response.statusCode}');
+    // debugPrint('Response body: ${response.body}');
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       showTopSnackBar(

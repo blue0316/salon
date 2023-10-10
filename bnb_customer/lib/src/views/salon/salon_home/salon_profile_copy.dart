@@ -53,7 +53,7 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
     // _bnbProvider.changeLocale(locale: const Locale('uk'));
     final AppProvider _appProvider = ref.read(appProvider);
     super.initState();
-    debugPrint('==========');
+    // debugPrint('==========');
 
     _appProvider.selectSalonFirstRoute();
 

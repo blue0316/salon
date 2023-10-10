@@ -78,7 +78,7 @@ class SalonProfileProvider with ChangeNotifier {
       // await getSalonServices(salonId: salonId);
       loadingStatus = Status.success;
     } catch (e) {
-      debugPrint(e.toString());
+      // debugPrint(e.toString());
       loadingStatus = Status.failed;
     }
     notifyListeners();

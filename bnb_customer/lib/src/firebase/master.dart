@@ -22,7 +22,7 @@ class MastersApi {
       _masterMap['masterId'] = _response.id;
       return MasterModel.fromJson(_masterMap);
     } catch (e) {
-      debugPrint(e.toString());
+      // debugPrint(e.toString());
       return null;
     }
   }
@@ -36,7 +36,7 @@ class MastersApi {
         return MasterModel.fromJson(_temp as Map<String, dynamic>);
       }).toList();
     } catch (e) {
-      debugPrint(e.toString());
+      // debugPrint(e.toString());
       return null;
     }
   }
@@ -56,7 +56,7 @@ class MastersApi {
       }
       return masters;
     } catch (e) {
-      debugPrint(e.toString());
+      // debugPrint(e.toString());
       return [];
     }
   }
@@ -77,7 +77,7 @@ class MastersApi {
       }
       return masters;
     } catch (e) {
-      debugPrint(e.toString());
+      // debugPrint(e.toString());
       return [];
     }
   }
@@ -106,7 +106,7 @@ class MastersApi {
       });
       return 1;
     } catch (e) {
-      debugPrint(e.toString());
+      // debugPrint(e.toString());
       return 0;
     }
   }
@@ -141,7 +141,7 @@ class MastersApi {
 
       return null;
     } catch (e) {
-      debugPrint(e.toString());
+      // debugPrint(e.toString());
       return null;
     }
   }
@@ -181,7 +181,7 @@ class MastersApi {
         return MasterModel.fromJson(_temp as Map<String, dynamic>);
       }).toList();
     } catch (e) {
-      debugPrint(e.toString());
+      // debugPrint(e.toString());
       return null;
     }
   }

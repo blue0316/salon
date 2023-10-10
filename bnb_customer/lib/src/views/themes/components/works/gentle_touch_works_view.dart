@@ -313,45 +313,40 @@ class _TileState extends ConsumerState<Tile> {
       cursor: SystemMouseCursors.click,
       onEnter: (event) => onEntered(true),
       onExit: (event) => onEntered(false),
-      child: GestureDetector(
-        onTap: () {
-          debugPrint(widget.index.toString());
-        },
-        child: SizedBox(
-          // color: backgroundColor ?? Colors.blue,
-          height: widget.extent,
-          child: Column(
-            children: [
-              Expanded(
-                flex: 1,
-                child: CachedImage(
-                  url: widget.image,
-                  fit: BoxFit.cover,
-                  width: widget.width ?? MediaQuery.of(context).size.width / 3,
+      child: SizedBox(
+        // color: backgroundColor ?? Colors.blue,
+        height: widget.extent,
+        child: Column(
+          children: [
+            Expanded(
+              flex: 1,
+              child: CachedImage(
+                url: widget.image,
+                fit: BoxFit.cover,
+                width: widget.width ?? MediaQuery.of(context).size.width / 3,
+              ),
+            ),
+            if (isHovered && widget.description.isNotEmpty)
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                child: Text(
+                  widget.description,
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    color: theme.primaryColorDark,
+                    fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 14.sp, 14.sp),
+                    fontWeight: FontWeight.normal,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-              if (isHovered && widget.description.isNotEmpty)
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.sp),
-                  child: Text(
-                    widget.description,
-                    style: theme.textTheme.bodyLarge?.copyWith(
-                      color: theme.primaryColorDark,
-                      fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 14.sp, 14.sp),
-                      fontWeight: FontWeight.normal,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-            ],
-          ),
-          // Image.asset(
-          //   image,
-          //   fit: BoxFit.cover,
-          //   width: double.infinity,
-          // ),
+          ],
         ),
+        // Image.asset(
+        //   image,
+        //   fit: BoxFit.cover,
+        //   width: double.infinity,
+        // ),
       ),
     );
 

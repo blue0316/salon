@@ -104,14 +104,14 @@ class AddToCalendars extends ConsumerWidget {
                   endTime: formattedEndDateTime,
                 );
 
-                debugPrint(url);
+                // debugPrint(url);
                 // Launch URL
                 final parsedURL = Uri.parse(url);
                 if (await canLaunchUrl(parsedURL)) {
                   await launchUrl(parsedURL);
                 } else {
                   await launchUrl(parsedURL);
-                  debugPrint('didn\'t launch');
+                  // debugPrint('didn\'t launch');
                   showToast('Something went wrong, please try again');
                 }
               },

@@ -24,7 +24,7 @@ class TransactionApi {
 
       return _docRef.id;
     } catch (e) {
-      debugPrint('Error on createTransaction()- ${e.toString()}');
+      // debugPrint('Error on createTransaction()- ${e.toString()}');
       return null;
     }
   }
@@ -39,7 +39,7 @@ class TransactionApi {
           transactionModel = TransactionModel.fromJson(snap.data() as Map<String, dynamic>);
           transactionModel.transactionId = snap.id;
         } catch (e) {
-          debugPrint('Error on streamTransaction() - $e');
+          // debugPrint('Error on streamTransaction() - $e');
           rethrow;
         }
 

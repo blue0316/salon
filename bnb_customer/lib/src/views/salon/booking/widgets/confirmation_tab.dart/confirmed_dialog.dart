@@ -320,14 +320,14 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                               endTime: formattedEndDateTime,
                             );
 
-                            debugPrint(url);
+                            // debugPrint(url);
                             // Launch URL
                             final parsedURL = Uri.parse(url);
                             if (await canLaunchUrl(parsedURL)) {
                               await launchUrl(parsedURL);
                             } else {
                               await launchUrl(parsedURL);
-                              debugPrint('didn\'t launch');
+                              // debugPrint('didn\'t launch');
                               showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? 'Something went wrong, please try again');
                             }
                           },

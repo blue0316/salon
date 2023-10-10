@@ -19,7 +19,7 @@ class CreditCard extends StatefulWidget {
 class _CreditCardState extends State<CreditCard> {
   @override
   Widget build(BuildContext context) {
-    debugPrint(widget.name);
+    // debugPrint(widget.name);
     return AspectRatio(
       aspectRatio: cardRatio,
       child: Stack(

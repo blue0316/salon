@@ -568,7 +568,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                     return ListView.builder(
                       padding: const EdgeInsets.all(10.0),
                       itemBuilder: (context, index) {
-                        debugPrint(processedMessages[index].content);
+                        // debugPrint(processedMessages[index].content);
 
                         return buildItem(index, processedMessages[index]);
                       },

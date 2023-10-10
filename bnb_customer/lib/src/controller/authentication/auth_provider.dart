@@ -291,12 +291,12 @@ class AuthProvider with ChangeNotifier {
   }) async {
     String _phone = "$countryCode$phoneNumber";
     // print(_phone);
-    // debugPrint('#####################################');
+    // // debugPrint('#####################################');
 
-    // debugPrint(countryCode);
-    // debugPrint(phoneNumber);
-    // debugPrint(_phone);
-    // debugPrint('#####################################');
+    // // debugPrint(countryCode);
+    // // debugPrint(phoneNumber);
+    // // debugPrint(_phone);
+    // // debugPrint('#####################################');
 
     if (phoneNumber.length < 8 || phoneNumber.length > 10) {
       showToast(AppLocalizations.of(context)?.invalid_phone_number ?? 'Invalid phone No');
@@ -536,7 +536,7 @@ class AuthProvider with ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      debugPrint(e.toString());
+      // debugPrint(e.toString());
     }
   }
 
@@ -616,8 +616,8 @@ class AuthProvider with ChangeNotifier {
 
   createInitialCustomer({required BuildContext context}) async {
     String? fcmToken = await FCMTokenHandler.getFCMToken();
-    debugPrint("Sending phone Number");
-    debugPrint("$countryCode$phoneNumber");
+    // debugPrint("Sending phone Number");
+    // debugPrint("$countryCode$phoneNumber");
     CustomerModel _initialCustomer = CustomerModel(
       createdAt: DateTime.now(),
       favSalons: [],

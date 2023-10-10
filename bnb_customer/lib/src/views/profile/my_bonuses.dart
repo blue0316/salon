@@ -40,7 +40,7 @@ class _MyBonusesState extends ConsumerState<MyBonuses> {
   Widget build(BuildContext context) {
     final _bnbProvider = ref.watch(bnbProvider);
     final CreateAppointmentProvider _createAppointment = ref.watch(createAppointmentProvider);
-    debugPrint(_bnbProvider.bonuses.toString());
+    // debugPrint(_bnbProvider.bonuses.toString());
     final double padding = MediaQuery.of(context).size.height / 6;
     return Scaffold(
       appBar: AppBar(
@@ -111,8 +111,8 @@ class _MyBonusesState extends ConsumerState<MyBonuses> {
                             padding: const EdgeInsets.all(0),
                             itemBuilder: (context, index) {
                               final BonusModel bonus = _bnbProvider.bonuses[index];
-                              debugPrint(bonus.expiresAt.toString());
-                              debugPrint(bonus.expired.toString());
+                              // debugPrint(bonus.expiresAt.toString());
+                              // debugPrint(bonus.expired.toString());
                               if (bonus.validated == true && bonus.used == false) {
                                 return Stack(
                                   clipBehavior: Clip.none,

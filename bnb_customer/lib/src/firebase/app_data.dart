@@ -15,15 +15,14 @@ class AppData {
 
   Future<AppInitialization?> getAppInitialization() async {
     try {
-      DocumentSnapshot<Object?> _response =
-          await Collection.appData.doc('initialize').get();
+      DocumentSnapshot<Object?> _response = await Collection.appData.doc('initialize').get();
       if (_response.exists) {
         return AppInitialization.fromJson(_response.data());
       } else {
         return null;
       }
     } catch (e) {
-      debugPrint(e.toString());
+      // debugPrint(e.toString());
       return null;
     }
   }
@@ -31,14 +30,12 @@ class AppData {
   Future<List<BannerModel>> getBanners() async {
     List<BannerModel> _banners = [];
     try {
-      QuerySnapshot _response =
-          await Collection.appData.doc('0').collection('banners').get();
+      QuerySnapshot _response = await Collection.appData.doc('0').collection('banners').get();
       printIt('banners snapshot length =>${_response.docs.length}');
 
       for (QueryDocumentSnapshot doc in _response.docs) {
         try {
-          BannerModel _banner =
-              BannerModel.fromJson(doc.data() as Map<String, dynamic>);
+          BannerModel _banner = BannerModel.fromJson(doc.data() as Map<String, dynamic>);
           _banners.add(_banner);
           printIt(_banner.toJson());
         } catch (e) {
@@ -48,7 +45,7 @@ class AppData {
 
       return _banners;
     } catch (e) {
-      debugPrint(e.toString());
+      // debugPrint(e.toString());
       return [];
     }
   }

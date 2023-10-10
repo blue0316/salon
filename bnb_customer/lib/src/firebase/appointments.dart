@@ -34,7 +34,7 @@ class AppointmentApi {
         {'reviewed': true},
       );
     } catch (e) {
-      debugPrint(e.toString());
+      // debugPrint(e.toString());
       return;
     }
   }
@@ -67,12 +67,12 @@ class AppointmentApi {
     try {
       DocumentReference _docRef;
       if (appointment.appointmentId != null) {
-        print('entered here 1');
+        // print('entered here 1');
         //updates the existing appointment
 
         _docRef = Collection.appointments.doc(appointment.appointmentId);
       } else {
-        print('entered here 2');
+        // print('entered here 2');
         //creates a new appointment
         _docRef = Collection.appointments.doc();
       }
@@ -81,8 +81,8 @@ class AppointmentApi {
 
       return _docRef.id;
     } catch (e) {
-      debugPrint('error in making appointment');
-      debugPrint(e.toString());
+      // debugPrint('error in making appointment');
+      // debugPrint(e.toString());
       return null;
     }
   }
@@ -94,7 +94,7 @@ class AppointmentApi {
       await _docRef.set(appointment.toJson());
       return _docRef.id;
     } catch (e) {
-      debugPrint(e.toString());
+      // debugPrint(e.toString());
       return null;
     }
   }
@@ -135,7 +135,7 @@ class AppointmentApi {
       );
       return 'reviewed';
     } catch (e) {
-      debugPrint(e.toString());
+      // debugPrint(e.toString());
       return "Error";
     }
   }
@@ -204,7 +204,7 @@ class AppointmentApi {
         return "error";
       }
     } catch (e) {
-      debugPrint(e.toString());
+      // debugPrint(e.toString());
       return "error";
     }
   }
@@ -392,7 +392,7 @@ class AppointmentApi {
 
     List<MasterModel> masters = salonMasters.where((element) => appointmentModel.master!.id == element.masterId).toList();
 
-    // debugPrint('apptidetider ${appointmentModel.appointmentIdentifier}');
+    // // debugPrint('apptidetider ${appointmentModel.appointmentIdentifier}');
     // print('-----------------+++++++--------------');
     // print(salonMasters);
     // print('-----------------+++++++--------------');
@@ -482,7 +482,7 @@ class AppointmentApi {
       await Collection.appointments.doc(appointmentId).delete().onError((dynamic error, stackTrace) => status = Status.failed);
       return status;
     } catch (e) {
-      debugPrint(e.toString());
+      // debugPrint(e.toString());
       return null;
     }
   }
@@ -583,8 +583,8 @@ class AppointmentApi {
         return null;
       }
     } catch (e) {
-      debugPrint('error in making appointment');
-      debugPrint(e.toString());
+      // debugPrint('error in making appointment');
+      // debugPrint(e.toString());
       return null;
     }
   }

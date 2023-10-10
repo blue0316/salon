@@ -33,16 +33,16 @@ class ErrorCodes {
   }
 
   static String? getFirebaseErrorMessage(FirebaseAuthException e) {
-    debugPrint('==============');
-    debugPrint('Error code : ${e.code}');
-    debugPrint('Error message : ${e.message}');
+    // debugPrint('==============');
+    // debugPrint('Error code : ${e.code}');
+    // debugPrint('Error message : ${e.message}');
     String? error = getError(e.code);
     if (error != null) {
       return error;
     }
-    debugPrint('!!!!!!!!!!!!!!!!');
-    debugPrint('cannot find any custom relative message, so printing a default firebase message');
-    debugPrint('!!!!!!!!!!!!!!!!');
+    // debugPrint('!!!!!!!!!!!!!!!!');
+    // debugPrint('cannot find any custom relative message, so printing a default firebase message');
+    // debugPrint('!!!!!!!!!!!!!!!!');
 
     return e.message;
   }

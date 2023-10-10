@@ -471,7 +471,7 @@ class _ConfirmBookingState extends ConsumerState<ConfirmBooking> {
                                 child: InkWell(
                                     onTap: () async {
                                       Uri uri = Uri.parse("https://bowandbeautiful.com/privacy");
-                                      debugPrint("launchingUrl: $uri");
+                                      // debugPrint("launchingUrl: $uri");
                                       if (await canLaunchUrl(uri)) {
                                         await launchUrl(uri);
                                       }

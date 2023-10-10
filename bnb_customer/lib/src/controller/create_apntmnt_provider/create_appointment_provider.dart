@@ -567,8 +567,8 @@ class CreateAppointmentProvider with ChangeNotifier {
       // computes the ending time by comparing master and salon starting time [master and salon fused timing]
       return _time.getMinMaxTime(_salonEndTime, _masterEndTime, returnMaxTime: false);
     } catch (e) {
-      debugPrint('error while generating end time');
-      debugPrint(e.toString());
+      // debugPrint('error while generating end time');
+      // debugPrint(e.toString());
       return _time.stringToTime(masterEndTime!);
     }
   }
@@ -839,7 +839,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   //         priceAndDuration[master.masterId] = getPriceAndDuration(eachSelectedService, master);
   //       }
   //     }
-  //     debugPrint('total price? $totalPrice');
+  //     // debugPrint('total price? $totalPrice');
   //   });
   // }
 
@@ -857,7 +857,7 @@ class CreateAppointmentProvider with ChangeNotifier {
       totalPrice = 0;
       totalMaxPrice = 0;
       for (var eachSelectedService in selectedServicesList) {
-        print(eachSelectedService.serviceId);
+        // print(eachSelectedService.serviceId);
         if (eachSelectedService != null && master != null && eachSelectedService.serviceId != null && eachSelectedService.masterPriceAndDurationMap![master.masterId]?.price != null && eachSelectedService.masterPriceAndDurationMap![master.masterId]!.price!.isNotEmpty) {
           totalDuration += int.parse(eachSelectedService.priceAndDuration!.duration!);
           if (eachSelectedService.isPriceRange) {
@@ -894,7 +894,7 @@ class CreateAppointmentProvider with ChangeNotifier {
               totalMaxPrice += ((int.parse(convertToMinutes(eachSelectedService.priceAndDurationMax!.price!))));
             }
           }
-          print('total max price $totalMaxPrice  total price $totalPrice');
+          // print('total max price $totalMaxPrice  total price $totalPrice');
 
           master.servicesPriceAndDuration![eachSelectedService.serviceId]?.price = totalPrice.toString();
           master.servicesPriceAndDuration![eachSelectedService.serviceId]?.priceMax = totalMaxPrice.toString();
@@ -909,7 +909,7 @@ class CreateAppointmentProvider with ChangeNotifier {
           //   priceAndDuration[master.masterId]!.isFixedPrice=true;
           //
           // }
-          debugPrint('total price? $totalPrice');
+          // // debugPrint('total price? $totalPrice');
         }
       }
       //    print('total max price? $totalMaxPrice');
@@ -930,7 +930,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   //     totalMaxPrice = 0;
   //     notifyListeners();
   //     for (var eachSelectedService in totalSelectedSubItems) {
-  //       debugPrint(eachSelectedService.serviceId);
+  //       // debugPrint(eachSelectedService.serviceId);
   //       if (eachSelectedService != null && master != null && eachSelectedService.serviceId != null && eachSelectedService.masterPriceAndDurationMap![master.masterId]?.price != null && eachSelectedService.masterPriceAndDurationMap![master.masterId]!.price!.isNotEmpty) {
   //         totalDuration += int.parse(eachSelectedService.priceAndDuration!.duration!);
 
@@ -961,14 +961,14 @@ class CreateAppointmentProvider with ChangeNotifier {
   //             totalMaxPrice += ((int.parse(convertToMinutes(eachSelectedService.priceAndDurationMax!.price!))));
   //           }
   //         }
-  //         debugPrint('total max price $totalMaxPrice  total price $totalPrice');
+  //         // debugPrint('total max price $totalMaxPrice  total price $totalPrice');
 
   //         master.servicesPriceAndDuration![eachSelectedService.serviceId]?.price = totalPrice.toString();
   //         master.servicesPriceAndDuration![eachSelectedService.serviceId]?.priceMax = totalMaxPrice.toString();
   //         master.servicesPriceAndDuration![eachSelectedService.serviceId]?.duration = totalDuration.toString();
 
   //         priceAndDuration[master.masterId] = AppointmentAvailability().getPriceAndDuration(eachSelectedService, master);
-  //         debugPrint('total price? $totalPrice');
+  //         // debugPrint('total price? $totalPrice');
   //       }
   //     }
   //     //    print('total max price? $totalMaxPrice');
@@ -991,7 +991,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   PriceAndDurationModel getPriceAndDuration(ServiceModel? service, MasterModel master) {
     try {
       if (service != null && master != null && service.serviceId != null && master.servicesPriceAndDuration != null) {
-        debugPrint('master price${master.servicesPriceAndDuration![service.serviceId]!.price}');
+        // debugPrint('master price${master.servicesPriceAndDuration![service.serviceId]!.price}');
         return master.servicesPriceAndDuration![service.serviceId] ?? PriceAndDurationModel();
       }
     } catch (e) {
@@ -1060,7 +1060,7 @@ class CreateAppointmentProvider with ChangeNotifier {
       serviceDuration = totalDuration.toString();
       servicePrice = totalPrice.toString();
       serviceMaxPrice = totalMaxPrice.toString();
-      debugPrint('price $servicePrice durations $serviceDuration');
+      // debugPrint('price $servicePrice durations $serviceDuration');
     }
     notifyListeners();
   }
@@ -1102,7 +1102,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   //     //assign total calculated duration  and price of all looped services;
   //     serviceDuration = totalDuration.toString();
   //     servicePrice = totalPrice.toString();
-  //     debugPrint('price $servicePrice durations $serviceDuration');
+  //     // debugPrint('price $servicePrice durations $serviceDuration');
   //   }
   // }
 
@@ -1136,7 +1136,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   }
 
   onAppointmentChange(BuildContext context, MasterModel master, String? appointment, {DateTime? date}) {
-    debugPrint('On Appointment Change Function');
+    // debugPrint('On Appointment Change Function');
     // print(master.personalInfo?.firstName);
     isBlocked = false;
     isNotEnoughSlots = false;
@@ -2459,7 +2459,7 @@ class CreateAppointmentProvider with ChangeNotifier {
       } else {
         slotsStatus = Status.failed;
         notifyListeners();
-        debugPrint(allSlots.toString());
+        // debugPrint(allSlots.toString());
       }
       notifyListeners();
       index += 1;
@@ -2857,7 +2857,7 @@ class CreateAppointmentProvider with ChangeNotifier {
           divideSlotsForDay();
           // printIt("valid Slots $validSlots");
         } else {
-          debugPrint(allSlots.toString());
+          // debugPrint(allSlots.toString());
           slotsStatus = Status.failed;
           notifyListeners();
         }
@@ -2925,7 +2925,7 @@ class CreateAppointmentProvider with ChangeNotifier {
         } else {
           slotsStatus = Status.failed;
           notifyListeners();
-          debugPrint(allSlots.toString());
+          // debugPrint(allSlots.toString());
         }
       }
     } else {
@@ -3018,7 +3018,7 @@ class CreateAppointmentProvider with ChangeNotifier {
         return _masterAndSalonFusedTime;
       }
     } catch (e) {
-      debugPrint('error while generating start time');
+      // debugPrint('error while generating start time');
       (e);
       return _time.stringToTime(masterStartTime!);
     }
@@ -3059,15 +3059,15 @@ class CreateAppointmentProvider with ChangeNotifier {
           _now = _now.add(Duration(minutes: chosenSalon!.appointmentsLeadTime!));
         }
         TimeOfDay _currentTime = TimeOfDay(hour: _now.hour, minute: _now.minute);
-        debugPrint(TimeOfDay(hour: _now.hour, minute: _now.minute).toString());
-        debugPrint(_masterAndSalonFusedTime.toString());
+        // debugPrint(TimeOfDay(hour: _now.hour, minute: _now.minute).toString());
+        // debugPrint(_masterAndSalonFusedTime.toString());
         return _time.getMinMaxTime(_currentTime, _masterAndSalonFusedTime, returnMaxTime: true);
       } else {
         return _masterAndSalonFusedTime;
       }
     } catch (e) {
-      debugPrint('error while generating start time');
-      debugPrint(e.toString());
+      // debugPrint('error while generating start time');
+      // debugPrint(e.toString());
       return _time.stringToTime(masterStartTime!);
     }
   }
@@ -3989,20 +3989,20 @@ class CreateAppointmentProvider with ChangeNotifier {
     }
     // print('1111$isPriceFrom! $isPriceRange! $isPriceFixed');
     // final PriceAndDurationModel _priceAndDuration = priceAndDuration[chosenMaster?.masterId] ?? PriceAndDurationModel();
-    // debugPrint("Chosen Slots");
-    // debugPrint(selectedAppointmentSlot);
+    // // debugPrint("Chosen Slots");
+    // // debugPrint(selectedAppointmentSlot);
 
     TimeOfDay _startTime = Time().stringToTime(selectedAppointmentSlot!);
     //computing appointment end time in string
 
-    // debugPrint("_startTime");
-    debugPrint(_startTime.toString());
+    // // debugPrint("_startTime");
+    // debugPrint(_startTime.toString());
     TimeOfDay _endTime = _startTime.addMinutes(int.parse(_priceAndDuration.duration ?? 0 as String));
 
     final DateTime _start = Time().generateDateTimeFromString(chosenDay, selectedAppointmentSlot!);
 
-    // debugPrint("_start");
-    // debugPrint(_start.toString());
+    // // debugPrint("_start");
+    // // debugPrint(_start.toString());
 
     final DateTime _end = Time().generateDateTimeFromString(chosenDay, Time().timeToString(_endTime)!);
 
@@ -4125,22 +4125,22 @@ class CreateAppointmentProvider with ChangeNotifier {
       );
     }
 
-    debugPrint("Chosen Slots");
-    debugPrint(selectedAppointmentSlot);
+    // debugPrint("Chosen Slots");
+    // debugPrint(selectedAppointmentSlot);
 
     TimeOfDay _startTime = Time().stringToTime(selectedAppointmentSlot!);
     //computing appointment end time in string
 
-    debugPrint("_startTime");
-    debugPrint(_startTime.toString());
+    // debugPrint("_startTime");
+    // debugPrint(_startTime.toString());
     TimeOfDay _endTime = _startTime.addMinutes(
       int.parse(_priceAndDuration.duration!),
     );
 
     final DateTime _start = Time().generateDateTimeFromString(chosenDay, selectedAppointmentSlot!);
 
-    debugPrint("_start");
-    debugPrint(_start.toString());
+    // debugPrint("_start");
+    // debugPrint(_start.toString());
 
     final DateTime _end = Time().generateDateTimeFromString(
       chosenDay,
@@ -4233,20 +4233,20 @@ class CreateAppointmentProvider with ChangeNotifier {
     //handling appointment TIME & DURATION
     //////////////////////////////////////////////
     final PriceAndDurationModel _priceAndDuration = priceAndDuration[chosenMaster?.masterId] ?? PriceAndDurationModel();
-    debugPrint("Chosen Slots");
-    debugPrint(selectedAppointmentSlot);
+    // debugPrint("Chosen Slots");
+    // debugPrint(selectedAppointmentSlot);
 
     TimeOfDay _startTime = Time().stringToTime(selectedAppointmentSlot!);
     //computing appointment end time in string
 
-    debugPrint("_startTime");
-    debugPrint(_startTime.toString());
+    // debugPrint("_startTime");
+    // debugPrint(_startTime.toString());
     TimeOfDay _endTime = _startTime.addMinutes(int.parse(_priceAndDuration.duration!));
 
     final DateTime _start = Time().generateDateTimeFromString(chosenDay, selectedAppointmentSlot!);
 
-    debugPrint("_start");
-    debugPrint(_start.toString());
+    // debugPrint("_start");
+    // debugPrint(_start.toString());
 
     final DateTime _end = Time().generateDateTimeFromString(chosenDay, Time().timeToString(_endTime)!);
 
@@ -4377,22 +4377,22 @@ class CreateAppointmentProvider with ChangeNotifier {
       );
     }
 
-    debugPrint("Chosen Slots");
-    debugPrint(selectedAppointmentSlot);
+    // debugPrint("Chosen Slots");
+    // debugPrint(selectedAppointmentSlot);
 
     TimeOfDay _startTime = Time().stringToTime(selectedAppointmentSlot!);
     //computing appointment end time in string
 
-    debugPrint("_startTime");
-    debugPrint(_startTime.toString());
+    // debugPrint("_startTime");
+    // debugPrint(_startTime.toString());
     TimeOfDay _endTime = _startTime.addMinutes(
       int.parse(_priceAndDuration.duration ?? 0 as String),
     );
 
     final DateTime _start = Time().generateDateTimeFromString(chosenDay, selectedAppointmentSlot!);
 
-    debugPrint("_start");
-    debugPrint(_start.toString());
+    // debugPrint("_start");
+    // debugPrint(_start.toString());
     final DateTime _end = Time().generateDateTimeFromString(
       Time().generateDateTimeFromString(chosenDay, Time().timeToString(_endTime)!),
       Time().timeToString(_endTime)!,
@@ -4515,7 +4515,7 @@ class CreateAppointmentProvider with ChangeNotifier {
     await AppointmentApi().createUpdateAppointment(_appointment).then((value) async {
       //blocking master's time
 
-      debugPrint('is it getting here');
+      // debugPrint('is it getting here');
 
       // if it has processing time then it is complex
 
@@ -4720,11 +4720,11 @@ class CreateAppointmentProvider with ChangeNotifier {
     int endApptProcessingTime = 0;
     //this will hold highest appointment clean up time
     int cleanUpApptTime = 0;
-    // debugPrint('at zero before${chosenServices[0].preparationTime}');
+    // // debugPrint('at zero before${chosenServices[0].preparationTime}');
 
     //loop through each service and get highest prep time and cleanup time if there is any
     for (var selectedAvailableService in chosenServices) {
-      // debugPrint('at all before${chosenServices[chosenServices.indexOf(selectedAvailableService)].preparationTime}');
+      // // debugPrint('at all before${chosenServices[chosenServices.indexOf(selectedAvailableService)].preparationTime}');
       // If prep-time =null , cleantime is not null, then pre-time service as first service in the list.
       // also if the service prep time is greater than preparationTime variable then assign it to the preparationTime
       if (selectedAvailableService.preparationTime != null && selectedAvailableService.cleanUpTime == null) {
@@ -4777,16 +4777,16 @@ class CreateAppointmentProvider with ChangeNotifier {
       }
     }
 
-    // debugPrint('at zero after${chosenServices[0].preparationTime}');
+    // // debugPrint('at zero after${chosenServices[0].preparationTime}');
 
-    // debugPrint(' prep time $preparationTime');
-    // debugPrint('end processing time$endApptProcessingTime');
+    // // debugPrint(' prep time $preparationTime');
+    // // debugPrint('end processing time$endApptProcessingTime');
     _appointment.appointmentIdentifier = identifier;
 
     await AppointmentApi().createUpdateAppointment(_appointment).then((value) async {
       //blocking master's time
 
-      // debugPrint('is it getting here');
+      // // debugPrint('is it getting here');
       // block time normally if
       await AppointmentApi().blockMastersTime(
         master: chosenMaster!,
@@ -4932,7 +4932,7 @@ class CreateAppointmentProvider with ChangeNotifier {
     _appointment.appointmentIdentifier = identifier;
 
     await AppointmentApi().createUpdateAppointment(_appointment).then((value) async {
-      debugPrint('is it getting here');
+      // debugPrint('is it getting here');
 
       // if it has processing time then it is complex
 
@@ -5118,9 +5118,9 @@ class CreateAppointmentProvider with ChangeNotifier {
     int endApptProcessingTime = 0;
     //this will hold highest appointment clean up time
     int cleanUpApptTime = 0;
-    debugPrint('at zero before${chosenServices[0].preparationTime}');
+    // debugPrint('at zero before${chosenServices[0].preparationTime}');
     for (var selectedAvailableService in chosenServices) {
-      debugPrint('at all before${chosenServices[chosenServices.indexOf(selectedAvailableService)].preparationTime}');
+      // debugPrint('at all before${chosenServices[chosenServices.indexOf(selectedAvailableService)].preparationTime}');
       // If prep-time =null , cleantime is not null, then pre-time service as first service in the list.
       // also if the service prep time is greater than preparationTime variable then assign it to the preparationTime
       if (selectedAvailableService.preparationTime != null && selectedAvailableService.cleanUpTime == null) {
@@ -5173,15 +5173,15 @@ class CreateAppointmentProvider with ChangeNotifier {
       }
     }
 
-    debugPrint('at zero after${chosenServices[0].preparationTime}');
+    // debugPrint('at zero after${chosenServices[0].preparationTime}');
 
-    debugPrint(' prep time $preparationTime');
-    debugPrint('end processing time$endApptProcessingTime');
+    // debugPrint(' prep time $preparationTime');
+    // debugPrint('end processing time$endApptProcessingTime');
 
     await AppointmentApi().createUpdateAppointment(_appointment).then((value) async {
       //blocking master's time
 
-      debugPrint('is it getting here');
+      // debugPrint('is it getting here');
       // block time normally if
       if (masters!.isNotEmpty) {
         await AppointmentApi().blockMastersTime(
@@ -5312,11 +5312,11 @@ class CreateAppointmentProvider with ChangeNotifier {
   //   int endApptProcessingTime = 0;
   //   //this will hold highest appointment clean up time
   //   int cleanUpApptTime = 0;
-  //   debugPrint('at zero before${servicesList[0].preparationTime}');
+  //   // debugPrint('at zero before${servicesList[0].preparationTime}');
 
   //   //loop through each service and get highest prep time and cleanup time if there is any
   //   for (var selectedAvailableService in servicesList) {
-  //     debugPrint('at all before${servicesList[servicesList.indexOf(selectedAvailableService)].preparationTime}');
+  //     // debugPrint('at all before${servicesList[servicesList.indexOf(selectedAvailableService)].preparationTime}');
   //     // If prep-time =null , cleantime is not null, then pre-time service as first service in the list.
   //     // also if the service prep time is greater than preparationTime variable then assign it to the preparationTime
   //     if (selectedAvailableService.preparationTime != null && selectedAvailableService.cleanUpTime == null) {
@@ -5369,14 +5369,14 @@ class CreateAppointmentProvider with ChangeNotifier {
   //     }
   //   }
 
-  //   debugPrint('at zero after${servicesList[0].preparationTime}');
+  //   // debugPrint('at zero after${servicesList[0].preparationTime}');
 
-  //   debugPrint(' prep time $preparationTime');
-  //   debugPrint('end processing time$endApptProcessingTime');
+  //   // debugPrint(' prep time $preparationTime');
+  //   // debugPrint('end processing time$endApptProcessingTime');
   //   await AppointmentApi().createUpdateAppointment(appointment).then((value) async {
   //     //blocking master's time
 
-  //     debugPrint('is it getting here 2');
+  //     // debugPrint('is it getting here 2');
   //     // block time normally if
   //     if (isSingleMaster) {
   //       blockTime(
@@ -5491,20 +5491,20 @@ class CreateAppointmentProvider with ChangeNotifier {
     //handling appointment TIME & DURATION
     //////////////////////////////////////////////
     final PriceAndDurationModel _priceAndDuration = priceAndDuration[chosenMaster!.masterId] ?? PriceAndDurationModel();
-    debugPrint(type + " Chosen Slots");
-    debugPrint(AppointmentSlot);
+    // debugPrint(type + " Chosen Slots");
+    // debugPrint(AppointmentSlot);
 
     TimeOfDay _startTime = Time().stringToTime(AppointmentSlot!);
     //computing appointment end time in string
 
-    debugPrint("_startTime");
-    debugPrint(_startTime.toString());
+    // debugPrint("_startTime");
+    // debugPrint(_startTime.toString());
     TimeOfDay _endTime = _startTime.addMinutes(duration);
 
     final DateTime _start = Time().generateDateTimeFromString(chosenDay, AppointmentSlot);
 
-    debugPrint("_start");
-    debugPrint(_start.toString());
+    // debugPrint("_start");
+    // debugPrint(_start.toString());
 
     final DateTime _end = Time().generateDateTimeFromString(chosenDay, Time().timeToString(_endTime)!);
 
@@ -5593,20 +5593,20 @@ class CreateAppointmentProvider with ChangeNotifier {
     //handling appointment TIME & DURATION
     //////////////////////////////////////////////
     final PriceAndDurationModel _priceAndDuration = priceAndDuration[chosenMaster?.masterId] ?? PriceAndDurationModel();
-    debugPrint(type + " Chosen Slots");
-    debugPrint(AppointmentSlot);
+    // debugPrint(type + " Chosen Slots");
+    // debugPrint(AppointmentSlot);
 
     TimeOfDay _startTime = Time().stringToTime(AppointmentSlot!);
     //computing appointment end time in string
 
-    debugPrint("_startTime");
-    debugPrint(_startTime.toString());
+    // debugPrint("_startTime");
+    // debugPrint(_startTime.toString());
     TimeOfDay _endTime = _startTime.addMinutes(duration);
 
     final DateTime _start = Time().generateDateTimeFromString(chosenDay, AppointmentSlot);
 
-    debugPrint("_start");
-    debugPrint(_start.toString());
+    // debugPrint("_start");
+    // debugPrint(_start.toString());
 
     final DateTime _end = Time().generateDateTimeFromString(chosenDay, Time().timeToString(_endTime)!);
 
@@ -5715,20 +5715,20 @@ class CreateAppointmentProvider with ChangeNotifier {
   //   //handling appointment TIME & DURATION
   //   //////////////////////////////////////////////
   //   final PriceAndDurationModel _priceAndDuration = mastersPriceDurationMap[appointment.master?.id] ?? PriceAndDurationModel();
-  //   debugPrint(type + " Chosen Slots");
-  //   debugPrint(appointmentSlot);
+  //   // debugPrint(type + " Chosen Slots");
+  //   // debugPrint(appointmentSlot);
 
   //   TimeOfDay _startTime = Time().stringToTime(appointmentSlot!);
   //   //computing appointment end time in string
 
-  //   debugPrint("_startTime");
-  //   debugPrint(_startTime.toString());
+  //   // debugPrint("_startTime");
+  //   // debugPrint(_startTime.toString());
   //   TimeOfDay _endTime = _startTime.addMinutes(duration ?? 0);
 
   //   final DateTime _start = Time().generateDateTimeFromString(chosenDay, appointmentSlot);
 
-  //   debugPrint("_start");
-  //   debugPrint(_start.toString());
+  //   // debugPrint("_start");
+  //   // debugPrint(_start.toString());
 
   //   final DateTime _end = Time().generateDateTimeFromString(
   //     chosenDay,

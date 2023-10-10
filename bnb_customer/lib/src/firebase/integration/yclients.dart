@@ -96,7 +96,7 @@ class YClientsApi {
         if (_masters.success) return _masters.masters;
       }
     } catch (e) {
-      debugPrint('error while fetching companies');
+      // debugPrint('error while fetching companies');
       printIt(e);
     }
     //failed to fetch
@@ -109,7 +109,7 @@ class YClientsApi {
       await Collection.yClients.doc(yClients.id).set(yClients.toJson(), SetOptions(merge: true));
       return Status.success;
     } catch (e) {
-      debugPrint('error in setYClientData');
+      // debugPrint('error in setYClientData');
       printIt(e);
       return Status.failed;
     }
