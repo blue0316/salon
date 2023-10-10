@@ -42,8 +42,8 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
         debugPrint('Maps Error: $e');
 
         setState(() {
-          lat = 0; // 28.538336;
-          long = 0; // -81.379234;
+          lat = 28.538336;
+          long = -81.379234;
         });
       }
     } else {
