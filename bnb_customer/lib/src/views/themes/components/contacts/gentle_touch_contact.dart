@@ -105,10 +105,7 @@ class GentleTouchContactView extends ConsumerWidget {
                     cardDesc: salonModel.address,
                     cardValue: 'View On The Map',
                     onValueTap: () async {
-                      // String url = "https://maps.google.com/maps?q=${salonModel.position?.geoPoint?.latitude ?? 0},${salonModel.position?.geoPoint?.longitude ?? 0}&";
-                      String url = 'https://www.google.com/maps/search/?api=1&query=${Uri.encodeFull(salonModel.address)}';
-
-                      Uri uri = Uri.parse(url);
+                      Uri uri = Uri.parse('https://www.google.com/maps/search/?api=1&query=${Uri.encodeFull(salonModel.address)}');
 
                       if (await canLaunchUrl(uri)) {
                         await launchUrl(uri);

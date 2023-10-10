@@ -50,11 +50,11 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
 
   @override
   Widget build(BuildContext context) {
-    print('=======@@@@@================@@@@===========');
-    print(widget.salonModel!.address);
-    print(lat);
-    print(long);
-    print('=======@@@@@================@@@@===========');
+    // print('=======@@@@@================@@@@===========');
+    // print(widget.salonModel!.address);
+    // print(lat);
+    // print(long);
+    // print('=======@@@@@================@@@@===========');
 
     ui.platformViewRegistry.registerViewFactory(htmlId, (int viewId) {
       final myLatlng = maps.LatLng(lat, long);
