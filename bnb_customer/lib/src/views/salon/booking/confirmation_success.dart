@@ -4,6 +4,7 @@ import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/firebase/transaction.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/salon/booking/widgets/confirmation_tab.dart/confirmed_dialog.dart';
 import 'package:bbblient/src/views/salon/booking/widgets/confirmation_tab.dart/view_appointment_details.dart';
 import 'package:bbblient/src/views/widgets/buttons.dart';
@@ -146,7 +147,7 @@ class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
                         textAlign: TextAlign.center,
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.normal,
-                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                           color: theme.colorScheme.tertiary,
                         ),
                       ),
@@ -181,7 +182,7 @@ class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
                         textAlign: TextAlign.center,
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.normal,
-                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                           color: theme.colorScheme.tertiary,
                           fontFamily: 'Inter-Medium',
                         ),
@@ -195,9 +196,9 @@ class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
                           borderRadius: 60.sp,
                           color: theme.dialogBackgroundColor,
                           borderColor: theme.colorScheme.tertiary.withOpacity(0.6),
-                          label: AppLocalizations.of(context)?.viewDetails ?? 'View details',
+                          label: (AppLocalizations.of(context)?.viewDetails ?? 'View details').toCapitalized(),
                           fontWeight: FontWeight.w400,
-                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                           textColor: theme.colorScheme.tertiary,
                           onTap: () async {
                             // html.window.open("https://yogasm.firebaseapp.com/appointments?id=${appointment?.appointmentId}", "_self");
@@ -321,7 +322,7 @@ class _ConfirmationErrorState extends ConsumerState<ConfirmationError> {
                   textAlign: TextAlign.center,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.normal,
-                    fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                    fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                     color: theme.colorScheme.tertiary,
                     fontFamily: 'Inter-Medium',
                   ),
@@ -334,9 +335,9 @@ class _ConfirmationErrorState extends ConsumerState<ConfirmationError> {
                     borderRadius: 60.sp,
                     color: theme.dialogBackgroundColor,
                     borderColor: theme.colorScheme.tertiary.withOpacity(0.6),
-                    label: AppLocalizations.of(context)?.exit ?? 'Exit',
+                    label: (AppLocalizations.of(context)?.exit ?? 'Exit').toCapitalized(),
                     fontWeight: FontWeight.w400,
-                    fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                    fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                     textColor: theme.colorScheme.tertiary,
                     onTap: () async {
                       Navigator.pop(context);

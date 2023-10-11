@@ -246,9 +246,7 @@ class AuthProvider with ChangeNotifier {
             verificationFailed: (FirebaseAuthException exception) {
               if (exception.code == 'invalid-phone-number') {
                 errorMessage = exception.code;
-                print('the error is coming from here 22222');
-                showToast(AppLocalizations.of(context)?.invalid_phone_number ?? 'Invalid phone no !');
-                printIt('The provided phone number is not valid.');
+                showToast(AppLocalizations.of(context)?.somethingWentWrong ?? 'Something went wrong');
 
                 otpStatus == Status.failed;
                 notifyListeners();

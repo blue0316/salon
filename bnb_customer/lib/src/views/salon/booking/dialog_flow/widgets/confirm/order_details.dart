@@ -94,27 +94,6 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                     : (service.isPriceStartAt)
                                         ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}+"
                                         : "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}",
-                        // // NOT SINGLE MASTER
-                        // (!_salonProfileProvider.isSingleMaster)
-                        //     ? (service.isPriceRange)
-                        //         ? "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.chosenMaster!.originalServicesPriceAndDuration![service.serviceId]?.price ?? '0'}-${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.chosenMaster!.originalServicesPriceAndDurationMax![service.serviceId]?.price ?? '0'}"
-                        //         : (service.isPriceStartAt)
-                        //             ? "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.chosenMaster!.originalServicesPriceAndDuration![service.serviceId]?.price ?? '0'}+"
-                        //             : "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.chosenMaster!.originalServicesPriceAndDuration![service.serviceId]?.price ?? '0'}"
-
-                        //     // (!_salonProfileProvider.isSingleMaster)
-                        //     //     ? _createAppointmentProvider.isPriceFrom!
-                        //     //         ? "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster!.masterId]?.price ?? '-'} ${_createAppointmentProvider.isPriceFrom! ? "+" : ""}"
-                        //     //         : _createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster!.masterId]?.priceMax != '0'
-                        //     //             ? "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster!.masterId]?.price ?? '-'}-${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster!.masterId]?.priceMax ?? '-'}"
-                        //     //             : "${getCurrency(salonModel.countryCode!)}${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster!.masterId]?.price ?? '-'} ${_createAppointmentProvider.isPriceFrom! ? "+" : ""}"
-
-                        //     // SINGLE MASTER
-                        //     : (service.isPriceRange)
-                        //         ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}-${getCurrency(salonModel.countryCode!)}${service.priceAndDurationMax!.price ?? '0'}"
-                        //         : (service.isPriceStartAt)
-                        //             ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}+"
-                        //             : "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}",
                       ),
                     )
                     .toList(),
@@ -190,7 +169,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                         AppLocalizations.of(context)?.payNow ?? "Pay Now:",
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w600,
-                          fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 21.sp, 20.sp),
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 18.sp, 20.sp),
                           color: theme.colorScheme.tertiary,
                           fontFamily: 'Inter-Medium',
                         ),
@@ -203,7 +182,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                         // '\$${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '0'}',
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w600,
-                          fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 21.sp, 20.sp),
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 18.sp, 20.sp),
                           color: theme.colorScheme.tertiary,
                           fontFamily: 'Inter-Medium',
                         ),
@@ -251,7 +230,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                               AppLocalizations.of(context)?.understandAndAccept ?? "I understand and accept the ",
                               style: theme.textTheme.bodyMedium?.copyWith(
                                 fontWeight: FontWeight.normal,
-                                fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                                fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                                 color: theme.colorScheme.tertiary,
                                 fontFamily: 'Inter-Medium',
                               ),
@@ -265,7 +244,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                 style: theme.textTheme.bodyMedium?.copyWith(
                                   decoration: TextDecoration.underline,
                                   fontWeight: FontWeight.w500,
-                                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                                   color: theme.primaryColor,
                                   fontFamily: 'Inter-Medium',
                                 ),
@@ -301,7 +280,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                           AppLocalizations.of(context)?.importantInformation ?? "Important Information",
                           style: theme.textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.w500,
-                            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                             color: theme.colorScheme.tertiary,
                             fontFamily: 'Inter-Medium',
                           ),
@@ -314,7 +293,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                     (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy == true) ? 'You can cancel up to ${salonModel.cancellationAndNoShowPolicy.chargeWhenNoShow} before the appointment without any charge. Your deposit will be returned to your card within 2 business days' : 'To cancel or reschedule please contact ${salonModel.salonName}. You can cancel up to 24 hours before the appointment without any charge. You deposit will be returned to your card within 2 business days',
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w400,
-                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                       color: theme.colorScheme.tertiary.withOpacity(0.6),
                       fontFamily: 'Inter-Medium',
                     ),
@@ -475,12 +454,12 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                           },
                           color: dialogButtonColor(themeType, theme),
                           textColor: loaderColor(themeType),
-                          height: 60,
+                          height: 60.h,
                           label: (AppLocalizations.of(context)?.registerCard ?? 'Register Card').toCapitalized(), //  'Pay ${(deposit != 0) ? deposit : totalAmount}${getCurrency(salonModel.countryCode!)} deposit',
                           // isLoading: _createAppointmentProvider.bookAppointmentStatus == Status.loading,
                           isLoading: spinner,
                           loaderColor: loaderColor(themeType),
-                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                           suffixIcon: Icon(
                             Icons.arrow_forward_ios_rounded,
                             color: loaderColor(themeType),
@@ -571,8 +550,8 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                           },
                           color: dialogButtonColor(themeType, theme),
                           textColor: loaderColor(themeType),
-                          height: 60,
-                          label: AppLocalizations.of(context)?.book ?? 'Book',
+                          height: 60.h,
+                          label: (AppLocalizations.of(context)?.book ?? 'Book').toCapitalized(),
                           isLoading: _createAppointmentProvider.bookAppointmentStatus == Status.loading,
                           loaderColor: loaderColor(themeType),
                           fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),

@@ -102,12 +102,6 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                                     ..._createAppointmentProvider.categoriesAvailable,
                                   ];
 
-                                  // bool isServiceAddedBelogingToCategory = _createAppointmentProvider.isCategoryServiceAdded(
-                                  //   categoryModel: catList[index],
-                                  // );
-
-                                  // Color selectedColor = theme.primaryColor; // defaultTheme ? (Colors.grey[400]!) : theme.colorScheme.tertiary;
-
                                   return Padding(
                                     padding: EdgeInsets.only(
                                       right: DeviceConstraints.getResponsiveSize(context, 15.w, 10.w, 7.w),
@@ -127,28 +121,21 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                                             width: 1,
                                           ),
 
-                                          // isServiceAddedBelogingToCategory
-                                          //     ? null
-                                          //     : Border.all(
-                                          //         color: theme.colorScheme.tertiary, //defaultTheme ? Colors.black : Colors.white,
-                                          //         width: DeviceConstraints.getResponsiveSize(context, 1, 1, 1.4),
-                                          //       ),
-
                                           color: _activeTab == index ? theme.primaryColor : theme.dialogBackgroundColor,
                                           borderRadius: BorderRadius.circular(50),
                                         ),
                                         child: Center(
                                           child: Padding(
                                             padding: EdgeInsets.symmetric(
-                                              horizontal: DeviceConstraints.getResponsiveSize(context, 25.w, 15.w, 10.w),
+                                              horizontal: DeviceConstraints.getResponsiveSize(context, 20.w, 15.w, 10.w),
                                             ),
                                             child: Text(
                                               '${catList[index].translations[AppLocalizations.of(context)?.localeName ?? 'en'] ?? catList[index].translations['en']}'.toTitleCase(),
                                               style: theme.textTheme.bodyLarge!.copyWith(
                                                 color: _activeTab == index ? serviceTabCategoryColor(themeType) : theme.colorScheme.tertiary, //  isServiceAddedBelogingToCategory ? serviceTabCategoryColor(themeType) : theme.colorScheme.tertiary, //defaultTheme ? Colors.black : Colors.white,
-                                                // color: Colors.white, // _activeTab == index ? AppTheme.textBlack : AppTheme.lightGrey,
                                                 fontWeight: FontWeight.w400, // _activeTab == index ? FontWeight.w500 : FontWeight.w400,
                                                 fontFamily: 'Inter',
+                                                fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 17.sp),
                                               ),
                                             ),
                                           ),
@@ -206,7 +193,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                                                 style: theme.textTheme.bodyLarge!.copyWith(
                                                   fontWeight: FontWeight.w600,
                                                   // fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
-                                                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                                                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                                                   color: theme.colorScheme.tertiary, //defaultTheme ? AppTheme.textBlack : Colors.white,
                                                   fontFamily: 'Inter',
                                                 ),
@@ -326,8 +313,8 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                             color: _createAppointmentProvider.chosenServices.isEmpty ? theme.primaryColor.withOpacity(0.4) : theme.primaryColor, // defaultTheme ? Colors.black : theme.primaryColor,
                             borderColor: _createAppointmentProvider.chosenServices.isEmpty ? theme.primaryColor.withOpacity(0.4) : theme.primaryColor,
                             textColor: loaderColor(themeType),
-                            height: 60.sp,
-                            label: _createAppointmentProvider.chosenServices.isEmpty ? AppLocalizations.of(context)?.book ?? "Book" : '${AppLocalizations.of(context)?.book ?? "Book"} ${_createAppointmentProvider.chosenServices.length} ${AppLocalizations.of(context)?.services ?? "services"}',
+                            height: 60.h,
+                            label: (_createAppointmentProvider.chosenServices.isEmpty ? AppLocalizations.of(context)?.book ?? "Book" : '${AppLocalizations.of(context)?.book ?? "Book"} ${_createAppointmentProvider.chosenServices.length} ${AppLocalizations.of(context)?.services ?? "services"}').toTitleCase(),
                             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                             fontWeight: FontWeight.w500,
                             suffixIcon: Icon(
@@ -396,14 +383,6 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                                       color: _activeTab == index ? theme.primaryColor : const Color(0XFF4A4A4A),
                                       width: 1,
                                     ),
-
-                                    // isServiceAddedBelogingToCategory
-                                    //     ? null
-                                    //     : Border.all(
-                                    //         color: theme.colorScheme.tertiary, //defaultTheme ? Colors.black : Colors.white,
-                                    //         width: DeviceConstraints.getResponsiveSize(context, 1, 1, 1.4),
-                                    //       ),
-
                                     color: _activeTab == index ? theme.primaryColor : theme.dialogBackgroundColor,
                                     borderRadius: BorderRadius.circular(50),
                                   ),
@@ -415,10 +394,10 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                                       child: Text(
                                         '${catList[index].translations[AppLocalizations.of(context)?.localeName ?? 'en'] ?? catList[index].translations['en']}'.toTitleCase(),
                                         style: theme.textTheme.bodyLarge!.copyWith(
-                                          color: _activeTab == index ? serviceTabCategoryColor(themeType) : theme.colorScheme.tertiary, //  isServiceAddedBelogingToCategory ? serviceTabCategoryColor(themeType) : theme.colorScheme.tertiary, //defaultTheme ? Colors.black : Colors.white,
-                                          // color: Colors.white, // _activeTab == index ? AppTheme.textBlack : AppTheme.lightGrey,
+                                          color: _activeTab == index ? serviceTabCategoryColor(themeType) : theme.colorScheme.tertiary,
                                           fontWeight: FontWeight.w400, // _activeTab == index ? FontWeight.w500 : FontWeight.w400,
                                           fontFamily: 'Inter',
+                                          fontSize: DeviceConstraints.getResponsiveSize(context, 13.sp, 15.sp, 17.sp),
                                         ),
                                       ),
                                     ),
@@ -543,7 +522,7 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                             _createAppointmentProvider.getCategoryFromId(value) != null ? _createAppointmentProvider.getCategoryFromId(value)!.categoryName.toUpperCase() : AppLocalizations.of(context)?.others ?? "OTHERS",
                             style: theme.textTheme.bodyLarge!.copyWith(
                               fontWeight: FontWeight.w600,
-                              fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                              fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                               color: theme.colorScheme.tertiary.withOpacity(0.6),
                               fontFamily: 'Inter',
                             ),
@@ -579,8 +558,8 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                       color: _createAppointmentProvider.chosenServices.isEmpty ? theme.primaryColor.withOpacity(0.4) : theme.primaryColor, // defaultTheme ? Colors.black : theme.primaryColor,
                       borderColor: _createAppointmentProvider.chosenServices.isEmpty ? theme.primaryColor.withOpacity(0.4) : theme.primaryColor,
                       textColor: loaderColor(themeType),
-                      height: 60.sp,
-                      label: _createAppointmentProvider.chosenServices.isEmpty ? AppLocalizations.of(context)?.book ?? "Book" : '${AppLocalizations.of(context)?.book ?? "Book"} ${_createAppointmentProvider.chosenServices.length} ${AppLocalizations.of(context)?.services ?? "services"}',
+                      height: 60.h,
+                      label: (_createAppointmentProvider.chosenServices.isEmpty ? AppLocalizations.of(context)?.book ?? "Book" : '${AppLocalizations.of(context)?.book ?? "Book"} ${_createAppointmentProvider.chosenServices.length} ${AppLocalizations.of(context)?.services ?? "services"}').toTitleCase(),
                       fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
                       fontWeight: FontWeight.w500,
                       suffixIcon: Icon(

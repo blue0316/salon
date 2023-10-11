@@ -5,7 +5,6 @@ import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/firebase/customer.dart';
 import 'package:bbblient/src/models/customer/customer.dart';
 import 'package:bbblient/src/models/enums/status.dart';
-import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/colors.dart';
@@ -55,7 +54,6 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
     ThemeType themeType = _salonProfileProvider.themeType;
-    bool isLightTheme = (theme == AppTheme.customLightTheme);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,7 +63,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
           AppLocalizations.of(context)?.verificationSuccessful.toCapitalized() ?? 'Verification was successful!',
           style: theme.textTheme.bodyLarge!.copyWith(
             fontWeight: FontWeight.w500,
-            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
             color: theme.colorScheme.tertiary,
             fontFamily: 'Inter-Medium',
           ),
@@ -83,7 +81,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
                 AppLocalizations.of(context)?.firstName ?? 'First name',
                 style: theme.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w400,
-                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                   color: theme.colorScheme.tertiary.withOpacity(0.6),
                   fontFamily: 'Inter-Medium',
                 ),
@@ -97,7 +95,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
             },
             style: theme.textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.w500,
-              fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+              fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
               color: theme.colorScheme.tertiary,
               fontFamily: 'Inter-Medium',
             ),
@@ -115,7 +113,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
                 AppLocalizations.of(context)?.lastName.toCapitalized() ?? "Last Name",
                 style: theme.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w400,
-                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                   color: theme.colorScheme.tertiary.withOpacity(0.6),
                   fontFamily: 'Inter-Medium',
                 ),
@@ -129,7 +127,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
             },
             style: theme.textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.w500,
-              fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+              fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
               color: theme.colorScheme.tertiary,
               fontFamily: 'Inter-Medium',
             ),
@@ -147,7 +145,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
                 AppLocalizations.of(context)?.email.toCapitalized() ?? "Email",
                 style: theme.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w400,
-                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                   color: theme.colorScheme.tertiary.withOpacity(0.6),
                   fontFamily: 'Inter-Medium',
                 ),
@@ -162,7 +160,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
             },
             style: theme.textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.w500,
-              fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+              fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
               color: theme.colorScheme.tertiary,
               fontFamily: 'Inter-Medium',
             ),
@@ -191,8 +189,19 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
                 showCountryOnly: false,
                 showOnlyCountryWhenClosed: false,
                 alignLeft: false,
-                textStyle: TextStyle(color: theme.colorScheme.tertiary), // defaultTheme ? Colors.black : Colors.white),
+                textStyle: theme.textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.normal,
+                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
+                  color: theme.colorScheme.tertiary.withOpacity(0.6),
+                  fontFamily: 'Inter-Medium',
+                ),
                 showFlag: false,
+                dialogTextStyle: theme.textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.normal,
+                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
+                  color: theme.colorScheme.tertiary,
+                  fontFamily: 'Inter-Medium',
+                ),
               ),
               const SizedBox(width: 15),
               Expanded(
@@ -207,7 +216,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
                         AppLocalizations.of(context)?.phoneNumber.toCapitalized() ?? "Phone number",
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w400,
-                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                           color: theme.colorScheme.tertiary.withOpacity(0.6),
                           fontFamily: 'Inter-Medium',
                         ),
@@ -220,7 +229,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
                     },
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w500,
-                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                       color: theme.colorScheme.tertiary,
                       fontFamily: 'Inter-Medium',
                     ),
@@ -242,7 +251,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
                     //   AppLocalizations.of(context)?.pronounce ?? 'Pronounce',
                     //   style: theme.textTheme.bodyMedium?.copyWith(
                     //     fontWeight: FontWeight.w400,
-                    //     fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                    //     fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp,17.sp, 18.sp),
                     //     color: Colors.pink, // isLightTheme ? Colors.black : theme.colorScheme.tertiary.withOpacity(0.6),
                     //     fontFamily: 'Inter-Medium',
                     //   ),
@@ -261,7 +270,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
                           items,
                           style: theme.textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.w500,
-                            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                             color: theme.colorScheme.tertiary,
                             fontFamily: 'Inter-Medium',
                           ),
@@ -292,7 +301,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
                       AppLocalizations.of(context)?.pronounce ?? 'Pronounce',
                       style: theme.textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w400,
-                        fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                        fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                         color: theme.colorScheme.tertiary.withOpacity(0.6),
                         fontFamily: 'Inter-Medium',
                       ),
@@ -305,7 +314,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
                   },
                   style: theme.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w500,
-                    fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                    fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                     color: theme.colorScheme.tertiary,
                     fontFamily: 'Inter-Medium',
                   ),
@@ -400,8 +409,8 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
           },
           color: dialogButtonColor(themeType, theme),
           textColor: loaderColor(themeType),
-          height: 60,
-          label: AppLocalizations.of(context)?.confirmMyDetails ?? "Confirm my details",
+          height: 60.h,
+          label: (AppLocalizations.of(context)?.confirmMyDetails ?? "Confirm my details").toCapitalized(),
           isLoading: (_authProvider.updateCustomerPersonalInfoStatus == Status.loading) || loader,
           loaderColor: loaderColor(themeType),
           suffixIcon: Icon(
@@ -409,7 +418,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
             color: loaderColor(themeType),
             size: 18.sp,
           ),
-          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
         ),
       ],
     );

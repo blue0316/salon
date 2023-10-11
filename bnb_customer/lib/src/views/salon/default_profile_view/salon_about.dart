@@ -32,24 +32,35 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
   int totalReviewsToShow = 3;
 
   getFeature(String s) {
-    // // debugPrint(widget.salonModel.ownerType);
-    // if (widget.salonModel.ownerType == 'singleMaster') {
-    //   for (Map registeredFeatures in masterFeatures) {
-    //     if (registeredFeatures.containsKey(s)) {
-    //       return registeredFeatures[s];
-    //     } else {
-    //       return s;
-    //     }
-    //   }
-    // }
+    List<Map<String, String>> searchList = getFeaturesList(widget.salonModel.locale);
 
-    for (Map registeredFeatures in salonFeatures) {
+    for (Map registeredFeatures in searchList) {
       if (registeredFeatures.containsKey(s)) {
         return registeredFeatures[s];
       }
     }
 
     return s;
+  }
+
+  List<Map<String, String>> getFeaturesList(String locale) {
+    switch (locale) {
+      case 'uk':
+        return ukSalonFeatures;
+      case 'es':
+        return esSalonFeatures;
+      case 'fr':
+        return frSalonFeatures;
+      case 'pt':
+        return ptSalonFeatures;
+      case 'ro':
+        return roSalonFeatures;
+      case 'ar':
+        return arSalonFeatures;
+
+      default:
+        return salonFeatures;
+    }
   }
 
   @override

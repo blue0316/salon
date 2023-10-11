@@ -180,7 +180,7 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
                             child: TabBar(
                               controller: bookingTabController,
                               labelStyle: theme.tabBarTheme.labelStyle!.copyWith(
-                                fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                                fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 18.sp, 18.sp),
                                 fontWeight: FontWeight.normal,
                                 letterSpacing: 0.5,
                                 color: tabTitleColor(themeType, theme), //  isLightTheme ? Colors.black : Colors.white,

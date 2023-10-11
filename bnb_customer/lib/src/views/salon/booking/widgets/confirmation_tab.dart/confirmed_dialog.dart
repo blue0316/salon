@@ -72,7 +72,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
           horizontal: DeviceConstraints.getResponsiveSize(
             context,
             0,
-            mediaQuery.width / 6,
+            0,
             mediaQuery.width / 6,
           ),
           vertical: DeviceConstraints.getResponsiveSize(context, 0, 50.h, 50.h),
@@ -99,7 +99,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                         (AppLocalizations.of(context)?.appointmentDetails ?? 'appointment details').toUpperCase(),
                         // 'appointment details'.toUpperCase(),
                         style: theme.textTheme.bodyLarge!.copyWith(
-                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                           fontWeight: FontWeight.w500,
                           fontFamily: 'Inter-Medium',
                           color: theme.colorScheme.onBackground,
@@ -169,7 +169,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                             '${AppLocalizations.of(context)?.services ?? 'Services'}:',
                             style: theme.textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.normal,
-                              fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                              fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                               color: theme.colorScheme.tertiary.withOpacity(0.6),
                             ),
                             overflow: TextOverflow.ellipsis,
@@ -187,7 +187,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                                     service.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? service.translations?['en'],
                                     style: theme.textTheme.bodyMedium?.copyWith(
                                       fontWeight: FontWeight.w600,
-                                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                                       color: theme.colorScheme.tertiary,
                                     ),
                                   ),
@@ -238,7 +238,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                             '${AppLocalizations.of(context)?.total ?? 'Total'}:',
                             style: theme.textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w600,
-                              fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 21.sp, 20.sp),
+                              fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 18.sp, 20.sp),
                               color: theme.colorScheme.tertiary,
                             ),
                           ),
@@ -251,7 +251,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                             // '\$${_createAppointmentProvider.priceAndDuration[_createAppointmentProvider.chosenMaster?.masterId]?.price ?? '0'}',
                             style: theme.textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w600,
-                              fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 21.sp, 20.sp),
+                              fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 18.sp, 20.sp),
                               color: theme.colorScheme.tertiary,
                             ),
                           ),
@@ -364,10 +364,7 @@ class AddToCalendarButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
-    final _appointmentProvider = ref.watch(appointmentProvider);
-
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    ThemeType themeType = _appointmentProvider.themeType ?? ThemeType.DefaultLight;
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,

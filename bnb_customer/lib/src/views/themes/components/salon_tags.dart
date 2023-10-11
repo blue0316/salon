@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
-import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
@@ -89,67 +88,9 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
   }
 
   getFeature(String s) {
-    for (Map registeredFeatures in salonFeatures) {
-      if (registeredFeatures.containsKey(s)) {
-        return registeredFeatures[s];
-      }
-    }
+    List<Map<String, String>> searchList = getFeaturesList(widget.salonModel.locale);
 
-    return s;
-  }
-
-  getFeatureUk(String s) {
-    for (Map registeredFeatures in ukSalonFeatures) {
-      if (registeredFeatures.containsKey(s)) {
-        return registeredFeatures[s];
-      }
-    }
-
-    return s;
-  }
-
-  getFeatureEs(String s) {
-    for (Map registeredFeatures in esSalonFeatures) {
-      if (registeredFeatures.containsKey(s)) {
-        return registeredFeatures[s];
-      }
-    }
-
-    return s;
-  }
-
-  getFeatureFr(String s) {
-    for (Map registeredFeatures in frSalonFeatures) {
-      if (registeredFeatures.containsKey(s)) {
-        return registeredFeatures[s];
-      }
-    }
-
-    return s;
-  }
-
-  getFeaturePt(String s) {
-    for (Map registeredFeatures in ptSalonFeatures) {
-      if (registeredFeatures.containsKey(s)) {
-        return registeredFeatures[s];
-      }
-    }
-
-    return s;
-  }
-
-  getFeatureRo(String s) {
-    for (Map registeredFeatures in roSalonFeatures) {
-      if (registeredFeatures.containsKey(s)) {
-        return registeredFeatures[s];
-      }
-    }
-
-    return s;
-  }
-
-  getFeatureAr(String s) {
-    for (Map registeredFeatures in arSalonFeatures) {
+    for (Map registeredFeatures in searchList) {
       if (registeredFeatures.containsKey(s)) {
         return registeredFeatures[s];
       }
@@ -160,15 +101,11 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
 
   @override
   Widget build(BuildContext context) {
-    BnbProvider _bnbProvider = ref.read(bnbProvider);
-
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     ThemeType themeType = _salonProfileProvider.themeType;
 
-    pageController = PageController(
-      viewportFraction: DeviceConstraints.getResponsiveSize(context, 0.5, 0.4, 0.3),
-    );
+    pageController = PageController(viewportFraction: DeviceConstraints.getResponsiveSize(context, 0.5, 0.4, 0.3));
 
     List<String> aFeatured = [...widget.additionalFeatures, ...widget.additionalFeatures, ...widget.additionalFeatures];
 
@@ -189,18 +126,9 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
                 runSpacing: 15.sp,
                 children: widget.additionalFeatures
                     .map(
-                      // WILL REFACTOR LATER
                       (item) => GentleTouchTagItem(
-                          title: getTranslation(
-                        item,
-                        widget.salonModel.locale,
-                      )
-                          // (_bnbProvider.locale == const Locale('en'))
-                          //     ? getFeature(item)
-                          //     : (_bnbProvider.locale == const Locale('uk'))
-                          //         ? getFeatureUk(item)
-                          //         : item,
-                          ),
+                        title: getFeature(item),
+                      ),
                     )
                     .toList(),
               ),
@@ -246,13 +174,7 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
                                           Padding(
                                             padding: const EdgeInsets.symmetric(horizontal: 20),
                                             child: Text(
-                                              // TODO: HANDLE FOR OTHER LOCALIZATIONS
-                                              (_bnbProvider.locale == const Locale('en'))
-                                                  ? getFeature(item)
-                                                  : (_bnbProvider.locale == const Locale('uk'))
-                                                      ? getFeatureUk(item)
-                                                      : item,
-                                              //  convertLowerCamelCase(widget.additionalFeatures[item]),
+                                              getFeature(item),
                                               style: theme.textTheme.bodyLarge?.copyWith(
                                                 color: theme.dividerColor,
                                                 fontSize: 18.sp,
@@ -283,23 +205,23 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
           );
   }
 
-  getTranslation(String item, String locale) {
+  List<Map<String, String>> getFeaturesList(String locale) {
     switch (locale) {
       case 'uk':
-        return getFeatureUk(item);
+        return ukSalonFeatures;
       case 'es':
-        return getFeatureEs(item);
+        return esSalonFeatures;
       case 'fr':
-        return getFeatureUk(item);
+        return frSalonFeatures;
       case 'pt':
-        return getFeatureUk(item);
+        return ptSalonFeatures;
       case 'ro':
-        return getFeatureUk(item);
+        return roSalonFeatures;
       case 'ar':
-        return getFeatureAr(item);
+        return arSalonFeatures;
 
       default:
-        return getFeature(item);
+        return salonFeatures;
     }
   }
 }

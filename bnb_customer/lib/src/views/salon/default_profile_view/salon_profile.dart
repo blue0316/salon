@@ -34,7 +34,6 @@ class DefaultLandingTheme extends ConsumerStatefulWidget {
 class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
   int _activeTab = 0;
   final ScrollController _scrollController = ScrollController();
-  final ScrollController _scrollControllerSmooth = ScrollController();
   final PageController _pageController = PageController();
 
   @override
@@ -105,7 +104,7 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
                         color: theme.canvasColor,
 
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: DeviceConstraints.getResponsiveSize(context, 20.sp, 35.sp, 35.sp), vertical: 20.sp),
+                          padding: EdgeInsets.symmetric(horizontal: DeviceConstraints.getResponsiveSize(context, 5.sp, 25.sp, 35.sp), vertical: 20.sp),
                           child: ListView.separated(
                             itemCount: (!isSingleMaster) ? saloonDetailsTitles.length : masterDetailsTitles.length,
                             scrollDirection: Axis.horizontal,
@@ -115,7 +114,7 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
                             separatorBuilder: (_, index) => Padding(
                               padding: EdgeInsets.symmetric(
                                 vertical: 5,
-                                horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 10.w, 15.w),
+                                horizontal: DeviceConstraints.getResponsiveSize(context, 5.w, 10.w, 15.w),
                               ),
                               child: Container(
                                 width: 1.5,
@@ -147,12 +146,6 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
                                               : masterTitles(
                                                   AppLocalizations.of(context)?.localeName ?? 'en',
                                                 )[index])
-                                          // (AppLocalizations.of(context)?.localeName == 'uk')
-                                          //     ? saloonDetailsTitlesUK[index]
-                                          //     : saloonDetailsTitles[index]
-                                          // : (AppLocalizations.of(context)?.localeName == 'uk')
-                                          //     ? masterDetailsTitlesUk[index]
-                                          //     : masterDetailsTitles[index])
                                           .toUpperCase(),
                                       style: theme.textTheme.displayLarge!.copyWith(
                                         fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 16.sp, 18.sp),
@@ -383,16 +376,3 @@ List<String> masterTitles(String locale) {
       return masterDetailsTitles;
   }
 }
-
-
-//  FirebaseFirestore.instance.collection('salons').doc('wIivFKnshpgS2HjC6CWE').update(
-//     {
-//       'specializations': [
-//         'Hair styling',
-//         'Hair cut',
-//         'Hair Coloring',
-//         'Hair Care & Recovery',
-//         'Hair Extension',
-//       ],
-//     },
-//   );

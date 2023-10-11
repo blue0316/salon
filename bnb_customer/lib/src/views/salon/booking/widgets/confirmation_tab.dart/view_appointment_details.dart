@@ -67,7 +67,7 @@ class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetai
           horizontal: DeviceConstraints.getResponsiveSize(
             context,
             0,
-            mediaQuery.width / 6,
+            0,
             mediaQuery.width / 6,
           ),
           vertical: DeviceConstraints.getResponsiveSize(context, 0, 50.h, 50.h),
@@ -94,7 +94,7 @@ class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetai
                         child: Text(
                           (AppLocalizations.of(context)?.appointmentDetails ?? 'appointment details').toUpperCase(),
                           style: theme.textTheme.bodyLarge!.copyWith(
-                            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                             fontWeight: FontWeight.w500,
                             fontFamily: 'Inter-Medium',
                             color: theme.colorScheme.onBackground,
@@ -162,7 +162,7 @@ class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetai
                             '${AppLocalizations.of(context)?.services ?? 'Services'}:',
                             style: theme.textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.normal,
-                              fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                              fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                               color: theme.colorScheme.tertiary.withOpacity(0.6),
                             ),
                             overflow: TextOverflow.ellipsis,
@@ -180,7 +180,7 @@ class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetai
                                     service.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? service.translations?['en'] ?? '',
                                     style: theme.textTheme.bodyMedium?.copyWith(
                                       fontWeight: FontWeight.w600,
-                                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                                       color: theme.colorScheme.tertiary,
                                     ),
                                   ),
@@ -235,7 +235,7 @@ class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetai
                             '${AppLocalizations.of(context)?.total ?? 'Total'}:',
                             style: theme.textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w600,
-                              fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 21.sp, 20.sp),
+                              fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 18.sp, 20.sp),
                               color: theme.colorScheme.tertiary,
                             ),
                           ),
@@ -246,7 +246,7 @@ class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetai
                             '${getCurrency(_salonProfileProvider.chosenSalon.countryCode!)}${appointment.priceAndDuration.price}',
                             style: theme.textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w600,
-                              fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 21.sp, 20.sp),
+                              fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 18.sp, 20.sp),
                               color: theme.colorScheme.tertiary,
                             ),
                           ),

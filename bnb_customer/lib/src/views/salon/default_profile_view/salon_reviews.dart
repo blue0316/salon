@@ -34,13 +34,14 @@ class _ReviewSectionState extends ConsumerState<ReviewSection> {
   @override
   Widget build(BuildContext context) {
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+    final bool isTabDevice = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.landScape);
     final int reviewCount = widget.reviews.length;
     final _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool isLightTheme = (theme == AppTheme.customLightTheme);
 
-    return !isPortrait
+    return !isPortrait && !isTabDevice
         ? Expanded(
             flex: 0,
             child: Column(
@@ -129,7 +130,7 @@ class _ReviewSectionState extends ConsumerState<ReviewSection> {
                                     width: DeviceConstraints.getResponsiveSize(context, 150, 200, 200),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(50),
-                                      color: const Color(0XFF000000),
+                                      color: theme.primaryColor, // const Color(0XFF000000),
                                     ),
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(vertical: 10),
@@ -157,7 +158,7 @@ class _ReviewSectionState extends ConsumerState<ReviewSection> {
                                             Text(
                                               totalReviewsToShow == 3 ? AppLocalizations.of(context)?.moreReviews ?? "More reviews" : AppLocalizations.of(context)?.lessReviews ?? "Less Reviews",
                                               style: theme.textTheme.titleMedium!.copyWith(
-                                                fontSize: 12,
+                                                fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 16.sp, 20.sp),
                                                 color: Colors.white,
                                                 fontFamily: "Inter",
                                               ),
@@ -313,7 +314,7 @@ class _PortraitReviewViewState extends ConsumerState<PortraitReviewView> {
         children: [
           if (!widget.isFromMasterView)
             Text(
-              (AppLocalizations.of(context)?.reviews ?? "Reviews").toCapitalized(),
+              (AppLocalizations.of(context)?.reviews ?? "Reviews").trim().toCapitalized(),
               style: theme.textTheme.bodyLarge!.copyWith(
                 fontWeight: FontWeight.bold,
                 fontSize: 20.sp,
@@ -421,7 +422,7 @@ class _PortraitReviewViewState extends ConsumerState<PortraitReviewView> {
                                       Text(
                                         totalReviewsToShow == 3 ? AppLocalizations.of(context)?.moreReviews ?? "More reviews" : AppLocalizations.of(context)?.lessReviews ?? "Less Reviews",
                                         style: theme.textTheme.titleMedium!.copyWith(
-                                          fontSize: 12,
+                                          fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 16.sp, 20.sp),
                                           color: Colors.white,
                                           fontFamily: "Inter",
                                         ),

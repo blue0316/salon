@@ -76,7 +76,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
           AppLocalizations.of(context)?.confirmNumber ?? 'Confirm number',
           style: theme.textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.w500,
-            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
             color: theme.colorScheme.tertiary,
             fontFamily: 'Inter-Medium',
           ),
@@ -86,7 +86,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
           AppLocalizations.of(context)?.pleaseEnterPhoneNumber ?? 'Please enter your phone number',
           style: theme.textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.normal,
-            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
             color: theme.colorScheme.tertiary.withOpacity(0.6),
             fontFamily: 'Inter-Medium',
           ),
@@ -117,9 +117,20 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                 showCountryOnly: false,
                 showOnlyCountryWhenClosed: false,
                 alignLeft: false,
-                textStyle: TextStyle(color: theme.colorScheme.tertiary), // defaultTheme ? Colors.black : Colors.white),
+                textStyle: theme.textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.normal,
+                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
+                  color: theme.colorScheme.tertiary.withOpacity(0.6),
+                  fontFamily: 'Inter-Medium',
+                ),
                 showFlag: false,
                 padding: EdgeInsets.zero,
+                dialogTextStyle: theme.textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.normal,
+                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
+                  color: theme.colorScheme.tertiary,
+                  fontFamily: 'Inter-Medium',
+                ),
               ),
               const SizedBox(width: 15),
               Expanded(
@@ -136,26 +147,12 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                   },
                   style: theme.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w500,
-                    fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                    fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                     color: theme.colorScheme.tertiary,
                     fontFamily: 'Inter-Medium',
                   ),
                 ),
               ),
-              // Expanded(
-              //   child: BNBTextField(
-              //     controller: _authProvider.phoneNoController,
-              //     hint: AppLocalizations.of(context)?.phoneNumber.toCapitalized() ?? "Phone Number",
-              //     keyboardType: TextInputType.number,
-              //     vPadding: 0, // 20.h,
-              //     border: InputBorder.none,
-              //     textColor: theme.colorScheme.tertiary, //
-              //     onChanged: (val) {
-              //       _authProvider.phoneNumber = val;
-              //     },
-              //     textSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
-              //   ),
-              // ),
             ],
           ),
         ),
@@ -175,10 +172,10 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                     return;
                   }
 
-                  print('@@@#####*******************@@@@#####');
-                  print(_authProvider.countryCode);
-                  print(_authProvider.phoneNoController.text);
-                  print('@@@#####*******************@@@@#####');
+                  debugPrint('@@@#####*******************@@@@#####');
+                  debugPrint(_authProvider.countryCode);
+                  debugPrint(_authProvider.phoneNoController.text);
+                  debugPrint('@@@#####*******************@@@@#####');
 
                   showToast(
                     AppLocalizations.of(context)?.pleaseWait ?? "Please wait",
@@ -222,7 +219,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                           },
                         ); // , appointmentModel: appointment);
                       } else {
-                        showToast(AppLocalizations.of(context)?.invalid_phone_number ?? 'Invalid phone No');
+                        showToast(AppLocalizations.of(context)?.somethingWentWrong ?? 'Something went wrong');
                         return;
                       }
                     } else {
@@ -288,11 +285,9 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                 },
                 color: dialogButtonColor(themeType, theme),
                 textColor: loaderColor(themeType),
-                height: 60,
-
+                height: 60.h,
                 borderColor: theme.primaryColor,
-
-                label: AppLocalizations.of(context)?.sendACode ?? 'Send a code',
+                label: (AppLocalizations.of(context)?.sendACode ?? 'Send a code').toCapitalized(),
                 isLoading: (noVerificationSpinner == true) || _authProvider.otpStatus == Status.loading,
                 loaderColor: loaderColor(themeType), // defaultTheme ? Colors.white : Colors.black,
                 suffixIcon: Icon(

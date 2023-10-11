@@ -31,13 +31,14 @@ class _GentleTouchWriteToUsViewState extends ConsumerState<GentleTouchWriteToUsV
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+    final bool isTabDevice = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.landScape);
     ThemeType themeType = _salonProfileProvider.themeType;
 
     void submit() {
       _salonProfileProvider.sendEnquiryToSalon(context, salonId: widget.salonModel.salonId);
     }
 
-    return isPortrait
+    return isPortrait || isTabDevice
         ? PortraitView(salonModel: widget.salonModel)
         : SizedBox(
             height: 650.h,

@@ -55,7 +55,7 @@ class _VerifyOtpState extends ConsumerState<VerifyOtp> {
           AppLocalizations.of(context)?.confirmNumber ?? 'Confirm number',
           style: theme.textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.w500,
-            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
             color: theme.colorScheme.tertiary,
             fontFamily: 'Inter-Medium',
           ),
@@ -65,7 +65,7 @@ class _VerifyOtpState extends ConsumerState<VerifyOtp> {
           AppLocalizations.of(context)?.pleaseEnterVerificationCode ?? 'Please enter verification code that we just sent you',
           style: theme.textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.normal,
-            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
             color: theme.colorScheme.tertiary.withOpacity(0.6),
             fontFamily: 'Inter-Medium',
           ),
@@ -98,17 +98,17 @@ class _VerifyOtpState extends ConsumerState<VerifyOtp> {
                           text: AppLocalizations.of(context)?.didNotReceiveCode ?? 'Didn’t receive a code?',
                           style: theme.textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.normal,
-                            fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 18.sp, 16.sp),
+                            fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 17.sp, 18.sp),
                             color: theme.colorScheme.tertiary.withOpacity(0.6),
                             fontFamily: 'Inter-Medium',
                           ),
                         ),
                         const TextSpan(text: '   '),
                         TextSpan(
-                          text: AppLocalizations.of(context)?.resend.toCapitalized() ?? "Resend",
+                          text: (AppLocalizations.of(context)?.resend ?? "Resend").toCapitalized(),
                           style: theme.textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.normal,
-                            fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 18.sp, 16.sp),
+                            fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 17.sp, 18.sp),
                             decoration: TextDecoration.underline,
                             color: theme.primaryColor,
                             fontFamily: 'Inter-Medium',
@@ -207,8 +207,8 @@ class _VerifyOtpState extends ConsumerState<VerifyOtp> {
                 textColor: loaderColor(themeType),
                 borderColor: _auth.otp.length < 6 ? dialogButtonColor(themeType, theme)?.withOpacity(0.4) : dialogButtonColor(themeType, theme),
 
-                height: 60,
-                label: AppLocalizations.of(context)?.confirmNumber ?? 'Confirm number',
+                height: 60.h,
+                label: (AppLocalizations.of(context)?.confirmNumber ?? 'Confirm number').toCapitalized(),
                 isLoading: _auth.loginStatus == Status.loading,
                 loaderColor: loaderColor(themeType),
                 suffixIcon: Icon(
@@ -216,7 +216,7 @@ class _VerifyOtpState extends ConsumerState<VerifyOtp> {
                   color: loaderColor(themeType),
                   size: 18.sp,
                 ),
-                fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
               ),
             ],
           ),

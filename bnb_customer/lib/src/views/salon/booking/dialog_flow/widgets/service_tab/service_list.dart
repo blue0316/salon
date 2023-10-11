@@ -93,16 +93,13 @@ class ServiceCard extends ConsumerWidget {
       padding: EdgeInsets.symmetric(vertical: 7.h),
       child: Container(
         decoration: BoxDecoration(
-          color: disabled
-              ? const Color(0XFF4A4A4A)
-              // : isAdded
-              //     ? theme.primaryColor // selectedColor
-              : Colors.transparent,
+          color: disabled ? const Color(0XFF4A4A4A) : Colors.transparent,
           borderRadius: BorderRadius.circular(7),
           border: isAdded
               ? Border.all(width: 2, color: theme.primaryColor)
               : Border.all(
-                  width: 1, color: disabled ? const Color(0XFF4A4A4A) : const Color(0XFF4A4A4A), //  defaultTheme ? theme.primaryColor : const Color(0XFF1F1F21),
+                  width: 1,
+                  color: disabled ? const Color(0XFF4A4A4A) : const Color(0XFF4A4A4A),
                 ),
         ),
         child: Padding(
@@ -125,7 +122,7 @@ class ServiceCard extends ConsumerWidget {
                       service.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? service.translations?['en'] ?? '', // 'Eyebrow Tinting',
                       style: theme.textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w500,
-                        fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                        fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                         color: isAddedSelectedColor(themeType), // isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary,
                         fontFamily: 'Inter',
                       ),
@@ -142,7 +139,7 @@ class ServiceCard extends ConsumerWidget {
                             : "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}",
                     style: theme.textTheme.bodyLarge!.copyWith(
                       fontWeight: FontWeight.w500,
-                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                       color: isAddedSelectedColor(themeType), // isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
                       fontFamily: 'Inter',
                     ),
@@ -180,13 +177,9 @@ class ServiceCard extends ConsumerWidget {
                     child: Center(
                       child: FaIcon(
                         FontAwesomeIcons.clock,
-                        color: isAddedSelectedColor(themeType), //  isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary,
+                        color: isAddedSelectedColor(themeType),
                         size: 15.h,
                       ),
-                      // child: SvgPicture.asset(
-                      //   AppIcons.clockSVG,
-                      //   color: isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
-                      // ),
                     ),
                   ),
                   SizedBox(width: 6.sp),
@@ -195,8 +188,8 @@ class ServiceCard extends ConsumerWidget {
                           ? Text(
                               "${service.priceAndDuration!.duration} ${AppLocalizations.of(context)?.minutes ?? "minutes"}",
                               style: theme.textTheme.bodyLarge!.copyWith(
-                                fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                                color: isAddedSelectedColor(themeType), //  isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
+                                fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
+                                color: isAddedSelectedColor(themeType),
                                 fontFamily: 'Inter',
                               ),
                               overflow: TextOverflow.ellipsis,
@@ -205,8 +198,8 @@ class ServiceCard extends ConsumerWidget {
                           : Text(
                               "${service.priceAndDuration!.duration} ${AppLocalizations.of(context)?.minutes ?? "minutes"} - ${service.priceAndDurationMax!.duration} ${AppLocalizations.of(context)?.minutes ?? "minutes"}",
                               style: theme.textTheme.bodyLarge!.copyWith(
-                                fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                                color: isAddedSelectedColor(themeType), // isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
+                                fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
+                                color: isAddedSelectedColor(themeType),
                                 fontFamily: 'Inter',
                               ),
                               overflow: TextOverflow.ellipsis,
@@ -215,8 +208,8 @@ class ServiceCard extends ConsumerWidget {
                       : Text(
                           "${service.priceAndDuration!.duration} ${AppLocalizations.of(context)?.minutes ?? "minutes"}",
                           style: theme.textTheme.bodyLarge!.copyWith(
-                            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                            color: isAddedSelectedColor(themeType), // isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
+                            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
+                            color: isAddedSelectedColor(themeType),
                             fontFamily: 'Inter',
                           ),
                           overflow: TextOverflow.ellipsis,
@@ -289,14 +282,7 @@ class ServiceCard extends ConsumerWidget {
                                       ? selectMasterContainerColor(themeType, theme)
                                       : Colors.transparent, // theme.primaryColor : Colors.transparent,
                                   borderRadius: BorderRadius.circular(70),
-                                  // border: (_createAppointmentProvider.serviceAgainstMaster
-                                  //         .where(
-                                  //           (element) => element.service!.serviceId == service.serviceId && element.isRandom!,
-                                  //         )
-                                  //         .toList()
-                                  //         .isNotEmpty)
-                                  //     ? Border.all(color: Colors.white, width: 1.6)
-                                  //     : null, // ? null : Border.all(color: Colors.white, width: 1.6),
+
                                   border: Border.all(color: theme.dialogBackgroundColor, width: 1.2),
                                 ),
                                 child: Padding(
@@ -453,43 +439,3 @@ class ServiceCard extends ConsumerWidget {
     );
   }
 }
-
-
-
-  // Discount ?
-                  // Column(
-                  //   crossAxisAlignment: CrossAxisAlignment.start,
-                  //   mainAxisAlignment: MainAxisAlignment.start,
-                  //   children: [
-                  //     Text(
-                  //       service.isFixedPrice
-                  //           ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price}"
-                  //           : service.isPriceRange
-                  //               ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price} - ${getCurrency(salonModel.countryCode!)}${service.priceAndDurationMax!.price}"
-                  //               : "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price} - ${getCurrency(salonModel.countryCode!)}∞",
-                  //       style: theme.textTheme.bodyText1!.copyWith(
-                  //             fontWeight: FontWeight.w500,
-                  //             fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 25.sp, 30.sp),
-                  //             color: Colors.red,
-                  //           ),
-                  //       overflow: TextOverflow.visible,
-                  //       maxLines: 1,
-                  //     ),
-                  //     const SizedBox(height: 5),
-                  //     Text(
-                  //       service.isFixedPrice
-                  //           ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price}"
-                  //           : service.isPriceRange
-                  //               ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price} - ${getCurrency(salonModel.countryCode!)}${service.priceAndDurationMax!.price}"
-                  //               : "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price} - ${getCurrency(salonModel.countryCode!)}∞",
-                  //       style: theme.textTheme.bodyText1!.copyWith(
-                  //             fontWeight: FontWeight.w500,
-                  //             fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 20.sp, 25.sp),
-                  //             color: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
-                  //             decoration: TextDecoration.lineThrough,
-                  //           ),
-                  //       overflow: TextOverflow.visible,
-                  //       maxLines: 1,
-                  //     ),
-                  //   ],
-                  // ),

@@ -122,7 +122,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                     Text(
                       AppLocalizations.of(context)?.noMasterIsAvailableForSelectedServices ?? "No master is available for your selected services",
                       style: theme.textTheme.bodyLarge!.copyWith(
-                        fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                        fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                         color: theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,
                         fontFamily: 'Inter-Medium',
                       ),
@@ -139,9 +139,9 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                       color: dialogButtonColor(themeType, theme),
                       borderColor: theme.primaryColor,
                       textColor: loaderColor(themeType),
-                      height: 60,
-                      label: AppLocalizations.of(context)?.back ?? "Back",
-                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                      height: 60.h,
+                      label: (AppLocalizations.of(context)?.back ?? "Back").toCapitalized(),
+                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                     ),
                   ],
                 ),
@@ -153,31 +153,6 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                     child: ListView(
                       shrinkWrap: true,
                       children: [
-                        // InkWell(
-                        //   onTap: () {
-                        //     print('-----+++++-----');
-                        //     _createAppointmentProvider.checkForMastersOfferingChosenServices();
-
-                        //     for (MasterModel master in _createAppointmentProvider.mastersOfferingChosenServices) {
-                        //       print(master.personalInfo?.firstName);
-                        //     }
-                        //     // print(_createAppointmentProvider.chosenServices[0].serviceId);
-                        //     // print(selectedMaster?.masterId);
-
-                        //     // // print(_createAppointmentProvider.priceAndDuration);
-                        //     print('-----+++++-----');
-                        //     // print('price');
-                        //     // print(selectedMaster?.servicesPriceAndDuration?['nVqUIPr07PLneP8QW3wd']?.price);
-                        //     // print(selectedMaster?.servicesPriceAndDuration?['nVqUIPr07PLneP8QW3wd']?.durationinHr);
-                        //     // print(_createAppointmentProvider.priceAndDuration['IBe7FoipMcfj6J8epMOV']?.price);
-                        //     // print(selectedMaster?.servicesPriceAndDuration?['nVqUIPr07PLneP8QW3wd']?.price);
-                        //   },
-                        //   child: Container(
-                        //     height: 100,
-                        //     width: 400,
-                        //     color: Colors.blue,
-                        //   ),
-                        // ),
                         if (masterAndSalonPriceDifferent == true && !_salonProfileProvider.isSingleMaster)
                           Padding(
                             padding: EdgeInsets.only(bottom: 10.sp),
@@ -191,36 +166,21 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                   color: theme.colorScheme.tertiary.withOpacity(0.6),
                                 ),
                                 SizedBox(width: 10.sp),
-                                Text(
-                                  AppLocalizations.of(context)?.serviceProvidersChargeDifferentPrices ?? "Service providers charge different prices",
-                                  style: theme.textTheme.bodyMedium?.copyWith(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
-                                    color: theme.colorScheme.tertiary,
-                                    fontFamily: 'Inter-Medium',
+                                Flexible(
+                                  child: Text(
+                                    AppLocalizations.of(context)?.serviceProvidersChargeDifferentPrices ?? "Service providers charge different prices",
+                                    style: theme.textTheme.bodyMedium?.copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 18.sp, 18.sp),
+                                      color: theme.colorScheme.tertiary,
+                                      fontFamily: 'Inter-Medium',
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                        // Column(
-                        //   crossAxisAlignment: CrossAxisAlignment.start,
-                        //   mainAxisAlignment: MainAxisAlignment.start,
-                        //   children: _createAppointmentProvider.chosenServices
-                        //       .map(
-                        //         (service) => ServiceNameAndPrice(
-                        //           serviceName: service.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? service.translations?['en'].toString(),
-                        //           servicePrice: '${getCurrency(salonModel.countryCode!)}${service.masterPriceAndDurationMap?[selectedMaster?.masterId]?.price}',
 
-                        //           //  service.isFixedPrice
-                        //           //     ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price}"
-                        //           //     : service.isPriceRange
-                        //           //         ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price} - ${getCurrency(salonModel.countryCode!)}${service.priceAndDurationMax!.price}"
-                        //           //         : "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price} - ${getCurrency(salonModel.countryCode!)}∞",
-                        //         ),
-                        //       )
-                        //       .toList(),
-                        // ),
                         if (masterAndSalonPriceDifferent == true && !_salonProfileProvider.isSingleMaster) SizedBox(height: 20.sp),
                         if (masterAndSalonPriceDifferent == true && !_salonProfileProvider.isSingleMaster)
                           Container(
@@ -421,7 +381,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                               },
                               child: Icon(
                                 Icons.arrow_back_ios,
-                                size: 18.sp,
+                                size: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                                 color: theme.colorScheme.tertiary,
                               ),
                             ),
@@ -431,7 +391,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                               textAlign: TextAlign.left,
                               style: theme.textTheme.bodyMedium?.copyWith(
                                 fontWeight: FontWeight.normal,
-                                fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                                fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                                 color: theme.colorScheme.tertiary,
                                 fontFamily: 'Inter',
                               ),
@@ -448,7 +408,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                               },
                               child: Icon(
                                 Icons.arrow_forward_ios,
-                                size: 18.sp,
+                                size: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                                 color: theme.colorScheme.tertiary,
                               ),
                             ),
@@ -522,8 +482,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                             child: Text(
                                               '${itemValue.day}',
                                               style: TextStyle(
-                                                fontSize: 14,
-                                                // color: defaultLightTheme ? Colors.white : theme.colorScheme.tertiary,
+                                                fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 16.sp, 16.sp),
                                                 color: currentDateTextColor(themeType, theme),
                                                 fontFamily: 'Inter-Medium',
                                               ),
@@ -548,13 +507,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                             child: Text(
                                               '${itemValue.day}',
                                               style: TextStyle(
-                                                fontSize: 14,
-                                                // color: defaultLightTheme
-                                                //     ? (_createAppointmentProvider.checkIfMasterIsWorking(itemValue, isSingleMaster) ? const Color.fromARGB(255, 53, 53, 54) : Colors.white)
-                                                //     : selectSlots(
-                                                //         themeType,
-                                                //         theme,
-                                                //       ), // AppT
+                                                fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 16.sp, 16.sp),
                                                 color: notCurrentDateTextColor(themeType, theme),
                                                 fontFamily: 'Inter-Medium',
                                               ),
@@ -696,7 +649,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                 (AppLocalizations.of(context)?.unavailable ?? "Unavailable").toCapitalized(),
                                                 style: theme.textTheme.bodyMedium?.copyWith(
                                                   fontWeight: FontWeight.normal,
-                                                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                                                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 18.sp, 18.sp),
                                                   color: theme.primaryColor,
                                                   fontFamily: 'Inter-Medium',
                                                 ),
@@ -740,7 +693,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                         (AppLocalizations.of(context)?.unavailable ?? "Unavailable").toCapitalized(),
                                                         style: theme.textTheme.bodyMedium?.copyWith(
                                                           fontWeight: FontWeight.normal,
-                                                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                                                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 18.sp, 18.sp),
                                                           color: selectSlots(themeType, theme),
                                                           fontFamily: 'Inter-Medium',
                                                         ),
@@ -775,6 +728,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                             style: theme.textTheme.bodyLarge?.copyWith(
                                                               color: selectSlots(themeType, theme),
                                                               fontFamily: 'Inter-Medium',
+                                                              fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 16.sp, 16.sp),
                                                             ),
                                                           ),
                                                         ),
@@ -791,6 +745,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                                 style: theme.textTheme.bodyLarge?.copyWith(
                                                                   color: isLightTheme ? Colors.white : theme.colorScheme.tertiary,
                                                                   fontFamily: 'Inter-Medium',
+                                                                  fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 16.sp, 16.sp),
                                                                 ),
                                                               ),
                                                             ),
@@ -809,6 +764,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                                 style: theme.textTheme.bodyLarge?.copyWith(
                                                                   color: theme.colorScheme.tertiary,
                                                                   fontFamily: 'Inter-Medium',
+                                                                  fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 16.sp, 16.sp),
                                                                 ),
                                                               ),
                                                             ),
@@ -826,7 +782,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                                 (AppLocalizations.of(context)?.unavailable ?? "Unavailable").toCapitalized(),
                                                 style: theme.textTheme.bodyMedium?.copyWith(
                                                   fontWeight: FontWeight.normal,
-                                                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                                                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 18.sp, 18.sp),
                                                   color: theme.primaryColor,
                                                   fontFamily: 'Inter-Medium',
                                                 ),
@@ -1123,7 +1079,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                                               color: dialogButtonColor(themeType, theme),
                                               borderColor: theme.primaryColor,
                                               textColor: loaderColor(themeType),
-                                              height: 60,
+                                              height: 60.h,
                                               label: (AppLocalizations.of(context)?.selectAndConfirm ?? "Select & Confirm"),
                                               suffixIcon: Icon(
                                                 Icons.arrow_forward_ios_rounded,
@@ -1214,7 +1170,7 @@ class ServiceNameAndPrice extends ConsumerWidget {
               serviceName,
               style: theme.textTheme.bodyMedium?.copyWith(
                 fontWeight: weight ?? FontWeight.normal,
-                fontSize: fontSize ?? DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                fontSize: fontSize ?? DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                 color: (color != null)
                     ? color
                     : !notService
@@ -1232,7 +1188,7 @@ class ServiceNameAndPrice extends ConsumerWidget {
               servicePrice,
               style: theme.textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w600,
-                fontSize: priceFontSize ?? DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                fontSize: priceFontSize ?? DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                 color: color ?? theme.colorScheme.tertiary,
                 fontFamily: 'Inter-Medium',
               ),
@@ -1264,6 +1220,7 @@ class _ShowSlotsState extends ConsumerState<ShowSlots> {
   int remainingSlots = 0;
   String? preSelectedSlot;
 
+  @override
   initState() {
     initialize();
     super.initState();
@@ -1316,7 +1273,7 @@ class _ShowSlotsState extends ConsumerState<ShowSlots> {
                       (AppLocalizations.of(context)?.unavailable ?? "Unavailable").toCapitalized(),
                       style: theme.textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.normal,
-                        fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                        fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 18.sp, 18.sp),
                         color: theme.primaryColor,
                         fontFamily: 'Inter-Medium',
                       ),
@@ -1326,7 +1283,7 @@ class _ShowSlotsState extends ConsumerState<ShowSlots> {
                       (AppLocalizations.of(context)?.unavailable ?? "Unavailable").toCapitalized(),
                       style: theme.textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.normal,
-                        fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 20.sp, 18.sp),
+                        fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 18.sp, 18.sp),
                         color: theme.primaryColor,
                         fontFamily: 'Inter-Medium',
                       ),
@@ -1413,6 +1370,7 @@ class SlotWidget extends ConsumerWidget {
                   style: theme.textTheme.bodyLarge?.copyWith(
                     color: theme.colorScheme.tertiary,
                     fontFamily: 'Inter-Medium',
+                    fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 16.sp, 16.sp),
                   ),
                 ),
               ),
@@ -1429,6 +1387,7 @@ class SlotWidget extends ConsumerWidget {
                   style: theme.textTheme.bodyLarge?.copyWith(
                     color: isSelected ? selectSlots(themeType, theme) : theme.colorScheme.tertiary,
                     fontFamily: 'Inter-Medium',
+                    fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 16.sp, 16.sp),
                   ),
                 ),
               ),
