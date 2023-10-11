@@ -230,7 +230,7 @@ class CustomerReviewName extends ConsumerWidget {
             ),
             SizedBox(height: 5.sp),
             Text(
-              (review.choosenTags[0]).toTitleCase(),
+              (review.choosenTags.isNotEmpty) ? (review.choosenTags[0]).toTitleCase() : '',
               style: theme.textTheme.bodyMedium!.copyWith(
                 fontSize: 14.sp,
                 color: !isLightTheme ? const Color(0XFFB1B1B1) : const Color(0XFF373737),
