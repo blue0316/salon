@@ -147,7 +147,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
 
               ServiceNameAndPrice(
                 notService: true,
-                serviceName: AppLocalizations.of(context)?.total ?? "Total:",
+                serviceName: '${AppLocalizations.of(context)?.total ?? 'Total'}:',
                 // servicePrice: '${getCurrency(salonModel.countryCode!)}$totalAmount',
                 servicePrice:
                     // NOT SINGLE MASTER

@@ -45,7 +45,7 @@ class DateTimePrice extends ConsumerWidget {
                 value: appointment.appointmentTime,
               ),
               RowInfo(
-                title: '${AppLocalizations.of(context)?.total ?? 'Total'} ${AppLocalizations.of(context)?.price ?? 'Price'}'.toCapitalized(),
+                title: '${AppLocalizations.of(context)?.total ?? 'Total'} ${AppLocalizations.of(context)?.price ?? 'Price'}:'.toTitleCase(),
                 value: '${getCurrency(salonModel.countryCode!)} ${appointment.priceAndDuration.price}',
               ),
               // RowInfo(

@@ -66,6 +66,12 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
     setState(() {
       appointmentCompleted = appointment!.updates.contains('completed');
     });
+
+    // Change Language based on salon
+    String salonLocale = ref.read(appointmentProvider.notifier).salon!.locale;
+
+    final repository = ref.watch(bnbProvider);
+    repository.changeLocale(locale: Locale(salonLocale));
   }
 
   bool shouldShowConfirmButton(DateTime appointmentTime) {
@@ -137,21 +143,6 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    // InkWell(
-                                    //   onTap: () {
-                                    //     print('entered here 1');
-                                    //     final repository = ref.watch(bnbProvider);
-
-                                    //     repository.changeLocale(locale: const Locale('es'));
-
-                                    //     print('entered here 2');
-                                    //   },
-                                    //   child: Container(
-                                    //     height: 100,
-                                    //     width: 440,
-                                    //     color: Colors.brown,
-                                    //   ),
-                                    // ),
                                     const SizedBox(height: 30),
                                     Text(
                                       !appointmentCompleted ? AppLocalizations.of(context)?.appointmentConfirmation ?? 'Appointment Confirmation' : AppLocalizations.of(context)?.completedAppointment ?? 'Completed Appointment',

@@ -232,7 +232,7 @@ class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetai
                         Flexible(
                           flex: 1,
                           child: Text(
-                            AppLocalizations.of(context)?.total ?? 'Total:',
+                            '${AppLocalizations.of(context)?.total ?? 'Total'}:',
                             style: theme.textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w600,
                               fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 21.sp, 20.sp),
