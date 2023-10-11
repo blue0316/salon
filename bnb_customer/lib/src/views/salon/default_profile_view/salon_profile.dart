@@ -79,6 +79,7 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
 
             ListView(
               physics: const ClampingScrollPhysics(),
+              shrinkWrap: true,
               children: [
                 Header(
                   salonModel: _salonProfileProvider.chosenSalon,

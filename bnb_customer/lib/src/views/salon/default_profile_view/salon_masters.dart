@@ -58,7 +58,7 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
                           alignment: Alignment.center,
                           child: ListView.builder(
                             // padding: const EdgeInsets.symmetric(vertical: AppTheme.margin * 2),
-
+                            physics: const ClampingScrollPhysics(),
                             primary: false,
                             shrinkWrap: true,
                             itemCount: _salonSearchProvider.categories.length,
