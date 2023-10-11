@@ -302,6 +302,8 @@ class PortraitView extends ConsumerStatefulWidget {
 }
 
 class _PortraitViewState extends ConsumerState<PortraitView> {
+  FocusNode _focusNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
@@ -360,7 +362,7 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
                   child: Container(
                     color: themeType == ThemeType.GentleTouch ? const Color(0xFFF0E8DB) : const Color(0XFF1D1E20),
                     child: CustomTextFormField(
-                      focusNode: FocusNode(),
+                      focusNode: _focusNode,
                       controller: _salonProfileProvider.nameController,
                       contentPadding: 15.sp,
                       hintText: (AppLocalizations.of(context)?.firstName ?? "First name").toTitleCase(),

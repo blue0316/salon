@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html>
+  <style>
+    input, select, textarea {
+    touch-action: manipulation; /* This can help prevent double tap zoom */
+    }
+  </style>
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -25,6 +30,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
