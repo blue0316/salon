@@ -111,7 +111,7 @@ class GentleTouchContactView extends ConsumerWidget {
                       if (await canLaunchUrl(uri)) {
                         await launchUrl(uri);
                       } else {
-                        // showToast(AppLocalizations.of(context)?.couldNotLaunch ?? "Could not launch");
+                        showToast(AppLocalizations.of(context)?.couldNotLaunch ?? "Could not launch");
                       }
                     },
                   ),
