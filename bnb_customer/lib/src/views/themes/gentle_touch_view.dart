@@ -25,6 +25,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'components/team/team_member_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GentleTouch extends ConsumerStatefulWidget {
   static const route = '/gentle-touch';
@@ -136,7 +137,7 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           AppBarItem(
-                            title: 'About Us',
+                            title: AppLocalizations.of(context)?.aboutUs ?? 'About Us',
                             onTap: () {
                               Scrollable.ensureVisible(
                                 controller.about.currentContext!,
@@ -146,7 +147,7 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
                             },
                           ),
                           AppBarItem(
-                            title: 'Portfolio',
+                            title: AppLocalizations.of(context)?.portfolio ?? 'Portfolio',
                             onTap: () {
                               Scrollable.ensureVisible(
                                 controller.works.currentContext!,
@@ -156,7 +157,7 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
                             },
                           ),
                           AppBarItem(
-                            title: 'Services',
+                            title: AppLocalizations.of(context)?.services ?? 'Services',
                             onTap: () {
                               Scrollable.ensureVisible(
                                 controller.price.currentContext!,
@@ -166,7 +167,7 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
                             },
                           ),
                           AppBarItem(
-                            title: 'Products',
+                            title: AppLocalizations.of(context)?.products ?? 'Products',
                             onTap: () {
                               Scrollable.ensureVisible(
                                 controller.shop.currentContext!,
@@ -176,7 +177,7 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
                             },
                           ),
                           AppBarItem(
-                            title: 'Team',
+                            title: AppLocalizations.of(context)?.team ?? 'Team',
                             onTap: () {
                               Scrollable.ensureVisible(
                                 controller.team.currentContext!,
@@ -186,7 +187,7 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
                             },
                           ),
                           AppBarItem(
-                            title: 'Reviews',
+                            title: AppLocalizations.of(context)?.reviews ?? 'Reviews',
                             onTap: () {
                               Scrollable.ensureVisible(
                                 controller.reviews.currentContext!,
@@ -197,7 +198,7 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
                           ),
                           AppBarItem(
                             isLast: true,
-                            title: 'Contacts',
+                            title: AppLocalizations.of(context)?.contacts ?? 'Contacts',
                             onTap: () {
                               Scrollable.ensureVisible(
                                 controller.contacts.currentContext!,

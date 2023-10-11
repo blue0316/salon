@@ -100,7 +100,7 @@ class _GentleTouchDrawerState extends ConsumerState<GentleTouchDrawer> {
 
                 // SHOP
                 DrawerText(
-                  drawerText: 'Products'.toCapitalized(),
+                  drawerText: (AppLocalizations.of(context)?.products ?? 'Products').toCapitalized(),
                   onTap: () {
                     Navigator.pop(context);
                     Scrollable.ensureVisible(
@@ -113,7 +113,7 @@ class _GentleTouchDrawerState extends ConsumerState<GentleTouchDrawer> {
 
                 // TEAM
                 DrawerText(
-                  drawerText: 'Team'.toCapitalized(),
+                  drawerText: (AppLocalizations.of(context)?.team ?? 'Team').toCapitalized(),
                   onTap: () {
                     Navigator.pop(context);
                     Scrollable.ensureVisible(
