@@ -124,7 +124,7 @@ class _ReviewAppointmentsState extends ConsumerState<ReviewAppointments> {
                           SizedBox(
                             width: 289,
                             child: Text(
-                              'Thank you for your feedback!',
+                              AppLocalizations.of(context)?.thankYouFeedback ?? 'Thank you for your feedback!',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: confirmationTextColor(themeType, theme),
@@ -159,7 +159,7 @@ class _ReviewAppointmentsState extends ConsumerState<ReviewAppointments> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                  'Go Back',
+                                  AppLocalizations.of(context)?.goBack ?? 'Go Back',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: confirmationTextColor(themeType, theme),
@@ -216,7 +216,7 @@ class _ReviewAppointmentsState extends ConsumerState<ReviewAppointments> {
                 children: [
                   const SizedBox(height: 50),
                   Text(
-                    'Your Review',
+                    AppLocalizations.of(context)?.yourReview ?? 'Your Review',
                     style: theme.textTheme.bodyLarge!.copyWith(
                       fontWeight: FontWeight.w500,
                       fontSize: DeviceConstraints.getResponsiveSize(context, 23.sp, 25.sp, 30.sp),
@@ -226,7 +226,7 @@ class _ReviewAppointmentsState extends ConsumerState<ReviewAppointments> {
                   ),
                   SizedBox(height: 20.sp),
                   Text(
-                    '${widget.appointment.customer!.name} how was your experience at ${(_appointmentProvider.salon?.salonName ?? '').toUpperCase()}?',
+                    '${widget.appointment.customer!.name} ${AppLocalizations.of(context)?.howWasYourExperience ?? 'how was your experience at'} ${(_appointmentProvider.salon?.salonName ?? '').toUpperCase()}?',
                     style: theme.textTheme.bodyLarge!.copyWith(
                       fontWeight: FontWeight.normal,
                       fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 20.sp, 20.sp),
@@ -275,7 +275,7 @@ class _ReviewAppointmentsState extends ConsumerState<ReviewAppointments> {
                   SizedBox(height: 25.sp),
                   if (!ratingSelected)
                     Text(
-                      'select your star rating',
+                      AppLocalizations.of(context)?.selectYourStarRating ?? 'select your star rating',
                       style: theme.textTheme.bodyLarge!.copyWith(
                         fontWeight: FontWeight.normal,
                         fontSize: DeviceConstraints.getResponsiveSize(context, 17.sp, 20.sp, 20.sp),
@@ -345,7 +345,7 @@ class _ReviewAppointmentsState extends ConsumerState<ReviewAppointments> {
                             color: confirmationTextColor(themeType, theme),
                           ),
                           decoration: InputDecoration(
-                            hintText: 'Client Name',
+                            hintText: AppLocalizations.of(context)?.clientName ?? 'Client Name',
                             hintStyle: const TextStyle(fontFamily: 'Inter'),
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: textBorderColor(themeType, theme)),
@@ -379,7 +379,7 @@ class _ReviewAppointmentsState extends ConsumerState<ReviewAppointments> {
                             ),
                             const SizedBox(width: 5),
                             Text(
-                              'Post anonymously',
+                              AppLocalizations.of(context)?.postAnonymously ?? 'Post anonymously',
                               style: TextStyle(
                                 fontWeight: FontWeight.normal,
                                 fontSize: DeviceConstraints.getResponsiveSize(context, 17.sp, 19.sp, 20.sp),
@@ -391,7 +391,7 @@ class _ReviewAppointmentsState extends ConsumerState<ReviewAppointments> {
                         if (postAnonymously) SizedBox(height: 10.sp),
                         if (postAnonymously)
                           Text(
-                            '${(_appointmentProvider.salon?.salonName ?? '').toUpperCase()} can still see your name',
+                            '${(_appointmentProvider.salon?.salonName ?? '').toUpperCase()} ${AppLocalizations.of(context)?.canStillSeeYourName ?? 'can still see your name'}',
                             style: TextStyle(
                               fontWeight: FontWeight.normal,
                               fontSize: DeviceConstraints.getResponsiveSize(context, 17.sp, 19.sp, 20.sp),
@@ -407,7 +407,7 @@ class _ReviewAppointmentsState extends ConsumerState<ReviewAppointments> {
                             color: confirmationTextColor(themeType, theme),
                           ),
                           decoration: InputDecoration(
-                            hintText: 'Review comment',
+                            hintText: AppLocalizations.of(context)?.reviewComment ?? 'Review comment',
                             hintStyle: const TextStyle(fontFamily: 'Inter'),
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: textBorderColor(themeType, theme)),
@@ -474,7 +474,7 @@ class _ReviewAppointmentsState extends ConsumerState<ReviewAppointments> {
                           color: confirmButton(themeType, theme),
                           textColor: reviewButtonText(themeType),
                           height: 60.sp,
-                          label: 'Send Review',
+                          label: AppLocalizations.of(context)?.sendReview ?? 'Send Review',
                           fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 20.sp, 20.sp),
                           fontWeight: FontWeight.w600,
                           noBorder: true,

@@ -16,6 +16,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'portrait.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GentleTouchTeam extends ConsumerStatefulWidget {
   final SalonModel salonModel;
@@ -56,7 +57,7 @@ class _GentleTouchTeamState extends ConsumerState<GentleTouchTeam> {
           children: [
             Center(
               child: Text(
-                'Team'.toUpperCase(),
+                (AppLocalizations.of(context)?.team ?? 'Team').toUpperCase(),
                 style: theme.textTheme.displayMedium?.copyWith(
                   fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 50.sp, 60.sp),
                 ),
@@ -66,7 +67,7 @@ class _GentleTouchTeamState extends ConsumerState<GentleTouchTeam> {
             isPortrait
                 ? TeamPortraitView(
                     items: [
-                      'All',
+                      AppLocalizations.of(context)?.all ?? 'All',
                       ..._salonProfileProvider.tabs.keys.toList(),
                     ],
                   )
@@ -293,7 +294,7 @@ class _GentleTouchTeamMemberState extends ConsumerState<GentleTouchTeamMember> {
                           children: [
                             Center(
                               child: GentleTouchTeamButton(
-                                text: "  Learn More  ",
+                                text: "  ${AppLocalizations.of(context)?.learnMore ?? "Learn More"}  ",
                                 onTap: () {
                                   _salonProfileProvider.switchMasterView(
                                     index: _createAppointmentProvider.salonMasters.indexWhere(
@@ -353,7 +354,7 @@ class _GentleTouchTeamButtonState extends ConsumerState<GentleTouchTeamButton> {
       onExit: (event) => onEntered(false),
       child: ElevatedButton(
         child: Text(
-          'Learn More',
+          AppLocalizations.of(context)?.learnMore ?? 'Learn More',
           style: TextStyle(
             fontSize: 15.sp,
             fontWeight: FontWeight.normal,

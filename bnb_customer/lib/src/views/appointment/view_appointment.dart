@@ -139,7 +139,7 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                   children: [
                                     const SizedBox(height: 30),
                                     Text(
-                                      !appointmentCompleted ? AppLocalizations.of(context)?.appointmentConfirmation ?? 'Appointment Confirmation' : 'Completed Appointment',
+                                      !appointmentCompleted ? AppLocalizations.of(context)?.appointmentConfirmation ?? 'Appointment Confirmation' : AppLocalizations.of(context)?.completedAppointment ?? 'Completed Appointment',
                                       style: theme.textTheme.bodyLarge!.copyWith(
                                         fontWeight: FontWeight.w500,
                                         fontSize: DeviceConstraints.getResponsiveSize(context, 20.sp, 30.sp, 40.sp),

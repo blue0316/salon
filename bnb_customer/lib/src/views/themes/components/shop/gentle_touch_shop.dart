@@ -41,8 +41,7 @@ class _GentleTouchShopState extends ConsumerState<GentleTouchShop> {
         children: [
           Center(
             child: Text(
-              'Products'.toUpperCase(),
-              // (AppLocalizations.of(context)?.produc ?? 'Shop').toUpperCase(),
+              (AppLocalizations.of(context)?.products ?? 'Products').toUpperCase(),
               style: theme.textTheme.displayMedium?.copyWith(
                 fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 50.sp, 60.sp),
               ),
@@ -53,7 +52,7 @@ class _GentleTouchShopState extends ConsumerState<GentleTouchShop> {
               ? isPortrait
                   ? PortraitView(
                       items: [
-                        'All',
+                        AppLocalizations.of(context)?.all ?? 'All',
                         ..._salonProfileProvider.tabs.keys.toList(),
                       ],
                     )

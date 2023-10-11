@@ -9,6 +9,7 @@ import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Button extends ConsumerWidget {
   final String text;
@@ -116,14 +117,14 @@ class ViewOrReview extends ConsumerWidget {
           runSpacing: 10,
           children: [
             ViewOrReviewButton(
-              text: 'View Receipt',
+              text: AppLocalizations.of(context)?.viewReceipt ?? 'View Receipt',
               buttonColor: viewReceiptColor(themeType, theme),
               textColor: Colors.white,
               onTap: viewReceiptOnTap,
             ),
             (appointment.reviewed != true)
                 ? ViewOrReviewButton(
-                    text: 'Review Appointment',
+                    text: AppLocalizations.of(context)?.reviewAppointment ?? 'Review Appointment',
                     onTap: () {
                       Navigator.push(
                         context,
@@ -139,9 +140,9 @@ class ViewOrReview extends ConsumerWidget {
                     textColor: Colors.black,
                   )
                 : ViewOrReviewButton(
-                    text: 'Appointment Reviewed',
+                    text: AppLocalizations.of(context)?.appointmentReveiwed ?? 'Appointment Reviewed',
                     onTap: () {
-                      showToast('This appointment has been reviewed');
+                      showToast(AppLocalizations.of(context)?.appoinmentHasBeenReviewed ?? 'This appointment has been reviewed');
                     },
                     buttonColor: const Color.fromARGB(130, 157, 157, 157),
                     textColor: Colors.black,

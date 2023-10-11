@@ -100,7 +100,7 @@ class Header extends ConsumerWidget {
                                       fontSize: 13.sp,
                                       fontWeight: FontWeight.w400,
                                       color: valueColor(themeType, theme), // isLightTheme ? Colors.black : Colors.white,
-                                      fontFamily: 'Poppins',
+                                      fontFamily: 'Inter',
                                     ),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,

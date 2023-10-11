@@ -3,6 +3,7 @@ import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_about.dart';
 import 'package:bbblient/src/views/themes/icons.dart';
@@ -50,7 +51,7 @@ class GentleTouchContactView extends ConsumerWidget {
             width: !isPortrait ? MediaQuery.of(context).size.width / 1.8 : null,
             padding: isPortrait ? EdgeInsets.symmetric(horizontal: 15.w) : null,
             child: Text(
-              'Connect with us easily. Whether it\'s questions, collaborations, or just saying hello, we\'re here for you. Reach out via email, find us on social media, give us a call, or visit our address below.',
+              AppLocalizations.of(context)?.connectWithUsDesc ?? 'Connect with us easily. Whether it\'s questions, collaborations, or just saying hello, we\'re here for you. Reach out via email, find us on social media, give us a call, or visit our address below.',
               style: theme.textTheme.bodyLarge?.copyWith(
                 fontSize: DeviceConstraints.getResponsiveSize(context, 17.sp, 17.sp, 18.sp),
                 fontWeight: FontWeight.normal,
@@ -77,8 +78,8 @@ class GentleTouchContactView extends ConsumerWidget {
                 children: [
                   GentleTouchContactCard(
                     icon: Icons.message,
-                    cardTitle: 'Write To Us',
-                    cardDesc: 'Start a conversations via email',
+                    cardTitle: (AppLocalizations.of(context)?.writeToUsTitle ?? 'Write To Us').toTitleCase(),
+                    cardDesc: AppLocalizations.of(context)?.startConversation1 ?? 'Start a conversations via email',
                     cardValue: salonModel.email,
                     onValueTap: () {
                       final Uri emailLaunchUri = Uri(
@@ -91,8 +92,8 @@ class GentleTouchContactView extends ConsumerWidget {
                   ),
                   GentleTouchContactCard(
                     icon: Icons.call,
-                    cardTitle: 'Call Us',
-                    cardDesc: 'Today from 10 am to 7 pm',
+                    cardTitle: AppLocalizations.of(context)?.callUs ?? 'Call Us',
+                    cardDesc: AppLocalizations.of(context)?.callUsDesc ?? 'Today from 10 am to 7 pm',
                     cardValue: salonModel.phoneNumber,
                     onValueTap: () {
                       Utils().launchCaller(salonModel.phoneNumber.replaceAll("-", ""));
@@ -101,16 +102,16 @@ class GentleTouchContactView extends ConsumerWidget {
                   GentleTouchContactCard(
                     isAddress: true,
                     icon: Icons.location_pin,
-                    cardTitle: 'Visit Us',
+                    cardTitle: AppLocalizations.of(context)?.visitUs ?? 'Visit Us',
                     cardDesc: salonModel.address,
-                    cardValue: 'View On The Map',
+                    cardValue: (AppLocalizations.of(context)?.viewOnMap ?? 'View On The Map').toTitleCase(),
                     onValueTap: () async {
                       Uri uri = Uri.parse('https://www.google.com/maps/search/?api=1&query=${Uri.encodeFull(salonModel.address)}');
 
                       if (await canLaunchUrl(uri)) {
                         await launchUrl(uri);
                       } else {
-                        showToast("Could not launch");
+                        // showToast(AppLocalizations.of(context)?.couldNotLaunch ?? "Could not launch");
                       }
                     },
                   ),
@@ -118,8 +119,8 @@ class GentleTouchContactView extends ConsumerWidget {
                     isSocial: true,
                     svg: ThemeIcons.socialContact,
                     isSvg: true,
-                    cardTitle: 'Social Media',
-                    cardDesc: 'Discover more on social',
+                    cardTitle: AppLocalizations.of(context)?.socialMedia ?? 'Social Media',
+                    cardDesc: AppLocalizations.of(context)?.discoverMoreOnSocial ?? 'Discover more on social',
                     cardValue: '',
                     salon: salonModel,
                   ),

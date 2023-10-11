@@ -18,7 +18,12 @@ class ServiceDetailsSection extends ConsumerWidget {
   final ScrollController listViewController;
   final SalonModel? salon;
 
-  const ServiceDetailsSection({Key? key, required this.appointment, required this.listViewController, required this.salon}) : super(key: key);
+  const ServiceDetailsSection({
+    Key? key,
+    required this.appointment,
+    required this.listViewController,
+    required this.salon,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -53,7 +53,7 @@ class _GentleTouchWriteToUsViewState extends ConsumerState<GentleTouchWriteToUsV
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          'write to us'.toUpperCase(),
+                          (AppLocalizations.of(context)?.writeToUsTitle ?? 'write to us').toUpperCase(),
                           textAlign: TextAlign.center,
                           style: theme.textTheme.displayMedium?.copyWith(
                             fontWeight: FontWeight.w500,
@@ -62,7 +62,7 @@ class _GentleTouchWriteToUsViewState extends ConsumerState<GentleTouchWriteToUsV
                         ),
                         SizedBox(height: 5.sp),
                         Text(
-                          'Write to us and we will get back to you as soon as possible',
+                          AppLocalizations.of(context)?.writeToUsTitleDesc ?? 'Write to us and we will get back to you as soon as possible',
                           style: theme.textTheme.bodyLarge?.copyWith(
                             fontSize: 18.sp,
                             fontWeight: FontWeight.normal,
@@ -224,7 +224,7 @@ class _GentleTouchWriteToUsViewState extends ConsumerState<GentleTouchWriteToUsV
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              'Message'.toTitleCase(),
+                              (AppLocalizations.of(context)?.message ?? 'Message').toTitleCase(),
                               style: theme.textTheme.bodyLarge?.copyWith(
                                 fontSize: 15.sp,
                                 fontWeight: FontWeight.w600,
@@ -240,7 +240,7 @@ class _GentleTouchWriteToUsViewState extends ConsumerState<GentleTouchWriteToUsV
                                   focusNode: FocusNode(),
                                   // controller: _salonProfileProvider.requestController,
                                   contentPadding: 15.sp,
-                                  hintText: 'Write to us'.toCapitalized(),
+                                  hintText: (AppLocalizations.of(context)?.writeToUsTitle ?? 'Write to us').toCapitalized(),
                                   maxLines: 4,
                                 ),
                               ),
@@ -259,7 +259,7 @@ class _GentleTouchWriteToUsViewState extends ConsumerState<GentleTouchWriteToUsV
                               )
                             : SquareButton(
                                 height: 50,
-                                text: "Send Message".toTitleCase(),
+                                text: (AppLocalizations.of(context)?.sendMessage ?? "Send Message").toTitleCase(),
                                 onTap: () => submit(),
                                 buttonColor: theme.colorScheme.secondary,
                                 borderColor: theme.colorScheme.secondary,
@@ -322,7 +322,7 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
         children: [
           Center(
             child: Text(
-              'write to us'.toUpperCase(),
+              (AppLocalizations.of(context)?.writeToUsTitle ?? 'write to us').toUpperCase(),
               textAlign: TextAlign.center,
               style: theme.textTheme.displayMedium?.copyWith(
                 fontWeight: FontWeight.w500,
@@ -332,7 +332,7 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
           ),
           SizedBox(height: 5.sp),
           Text(
-            'Write to us and we will get back to you as soon as possible',
+            AppLocalizations.of(context)?.writeToUsTitleDesc ?? 'Write to us and we will get back to you as soon as possible',
             style: theme.textTheme.bodyLarge?.copyWith(
               fontSize: 20.sp,
               fontWeight: FontWeight.normal,
@@ -475,7 +475,7 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                'Message'.toTitleCase(),
+                (AppLocalizations.of(context)?.message ?? 'Message').toTitleCase(),
                 style: theme.textTheme.bodyLarge?.copyWith(
                   fontSize: 15.sp,
                   fontWeight: FontWeight.w600,
@@ -491,7 +491,7 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
                     focusNode: FocusNode(),
                     // controller: _salonProfileProvider.requestController,
                     contentPadding: 15.sp,
-                    hintText: 'Write to us'.toCapitalized(),
+                    hintText: (AppLocalizations.of(context)?.writeToUsTitle ?? 'Write to us').toCapitalized(),
                     maxLines: 4,
                   ),
                 ),
@@ -509,7 +509,7 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
                 )
               : MultipleStatesButton(
                   height: 50,
-                  text: "Send Message".toTitleCase(),
+                  text: (AppLocalizations.of(context)?.sendMessage ?? "Send Message").toTitleCase(),
                   onTap: () => submit(),
                   buttonColor: theme.colorScheme.secondary,
                   borderColor: theme.colorScheme.secondary,

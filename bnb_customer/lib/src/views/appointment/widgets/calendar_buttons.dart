@@ -15,6 +15,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'theme_colors.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddToCalendars extends ConsumerWidget {
   final AppointmentModel appointment;
@@ -43,7 +44,7 @@ class AddToCalendars extends ConsumerWidget {
           children: [
             CalendarButton(
               icon: AppIcons.appleLogoSvg,
-              text: 'Add to Apple Calendar',
+              text: AppLocalizations.of(context)?.addToAppleCalendar ?? 'Add to Apple Calendar',
               onTap: () async {
                 // Date
                 DateTime tempDate = DateTime.parse(appointment.appointmentDate);
@@ -78,7 +79,7 @@ class AddToCalendars extends ConsumerWidget {
             // const SizedBox(width: 10),
             CalendarButton(
               icon: AppIcons.coloredGoogleLogoPNG,
-              text: 'Add to Google Calendar',
+              text: AppLocalizations.of(context)?.addToGoogleCalendar ?? 'Add to Google Calendar',
               onTap: () async {
                 // Date
                 DateTime tempDate = DateTime.parse(appointment.appointmentDate);
@@ -98,8 +99,8 @@ class AddToCalendars extends ConsumerWidget {
 
                 // Create Event Template
                 final String url = AddToCalendar().getGoogleCalendarUrl(
-                  title: 'Appointment Confirmation',
-                  description: 'Appointment with ${appointment.master?.name} at ${appointment.salon.name}',
+                  title: AppLocalizations.of(context)?.appointmentConfirmation ?? 'Appointment Confirmation',
+                  description: '${AppLocalizations.of(context)?.appointmentWith ?? 'Appointment with'} ${appointment.master?.name} ${AppLocalizations.of(context)?.at ?? 'at'} ${appointment.salon.name}',
                   startTime: formattedStartDateTime,
                   endTime: formattedEndDateTime,
                 );
@@ -112,7 +113,7 @@ class AddToCalendars extends ConsumerWidget {
                 } else {
                   await launchUrl(parsedURL);
                   // debugPrint('didn\'t launch');
-                  showToast('Something went wrong, please try again');
+                  showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? 'Something went wrong, please try again');
                 }
               },
             ),

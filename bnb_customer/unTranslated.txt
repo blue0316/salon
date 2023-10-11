@@ -3,12 +3,16 @@
     "markAppointAsNoShowDialogue",
     "yourDetails",
     "timeAlreadyBooked",
-    "chooseAnotherSlot"
+    "chooseAnotherSlot",
+    "learnMore",
+    "completedAppointment",
+    "couldNotLaunch"
   ],
 
   "es": [
     "timeAlreadyBooked",
-    "chooseAnotherSlot"
+    "chooseAnotherSlot",
+    "couldNotLaunch"
   ],
 
   "fr": [
@@ -41,21 +45,26 @@
     "organizedWork",
     "comfortableSeat",
     "timeAlreadyBooked",
-    "chooseAnotherSlot"
+    "chooseAnotherSlot",
+    "couldNotLaunch"
   ],
 
   "pt": [
     "timeAlreadyBooked",
-    "chooseAnotherSlot"
+    "chooseAnotherSlot",
+    "message",
+    "couldNotLaunch"
   ],
 
   "ro": [
     "timeAlreadyBooked",
-    "chooseAnotherSlot"
+    "chooseAnotherSlot",
+    "couldNotLaunch"
   ],
 
   "uk": [
     "timeAlreadyBooked",
-    "chooseAnotherSlot"
+    "chooseAnotherSlot",
+    "couldNotLaunch"
   ]
 }
