@@ -5,14 +5,12 @@
     "timeAlreadyBooked",
     "chooseAnotherSlot",
     "learnMore",
-    "completedAppointment",
-    "couldNotLaunch"
+    "completedAppointment"
   ],
 
   "es": [
     "timeAlreadyBooked",
-    "chooseAnotherSlot",
-    "couldNotLaunch"
+    "chooseAnotherSlot"
   ],
 
   "fr": [
@@ -45,26 +43,22 @@
     "organizedWork",
     "comfortableSeat",
     "timeAlreadyBooked",
-    "chooseAnotherSlot",
-    "couldNotLaunch"
+    "chooseAnotherSlot"
   ],
 
   "pt": [
     "timeAlreadyBooked",
     "chooseAnotherSlot",
-    "message",
-    "couldNotLaunch"
+    "message"
   ],
 
   "ro": [
     "timeAlreadyBooked",
-    "chooseAnotherSlot",
-    "couldNotLaunch"
+    "chooseAnotherSlot"
   ],
 
   "uk": [
     "timeAlreadyBooked",
-    "chooseAnotherSlot",
-    "couldNotLaunch"
+    "chooseAnotherSlot"
   ]
 }

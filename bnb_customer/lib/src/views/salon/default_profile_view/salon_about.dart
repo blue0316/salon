@@ -55,6 +55,7 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
   @override
   Widget build(BuildContext context) {
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+    final bool isTabDevice = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.landScape);
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     bool isSingleMaster = _salonProfileProvider.isSingleMaster;
 
@@ -85,12 +86,12 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: isPortrait
+                  height: isPortrait || isTabDevice
                       ? null
                       : (widget.salonModel.description != '')
                           ? 400.h
                           : 200.h,
-                  child: isPortrait
+                  child: isPortrait || isTabDevice
                       ? PortraitAboutHeader(
                           salonModel: widget.salonModel,
                         )

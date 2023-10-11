@@ -97,7 +97,7 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
                   children: [
                     Padding(
                       padding: EdgeInsets.symmetric(
-                        horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 30.w, 60.w),
+                        horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 15.w, 60.w),
                       ),
                       child: Container(
                         height: 65.h,
@@ -105,7 +105,7 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
                         color: theme.canvasColor,
 
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 35.sp, vertical: 20.sp),
+                          padding: EdgeInsets.symmetric(horizontal: DeviceConstraints.getResponsiveSize(context, 20.sp, 35.sp, 35.sp), vertical: 20.sp),
                           child: ListView.separated(
                             itemCount: (!isSingleMaster) ? saloonDetailsTitles.length : masterDetailsTitles.length,
                             scrollDirection: Axis.horizontal,
@@ -115,7 +115,7 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
                             separatorBuilder: (_, index) => Padding(
                               padding: EdgeInsets.symmetric(
                                 vertical: 5,
-                                horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 15.w, 15.w),
+                                horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 10.w, 15.w),
                               ),
                               child: Container(
                                 width: 1.5,
@@ -188,13 +188,13 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
                         if (_salonProfileProvider.hasLandingPage) const LandingView(),
                         Padding(
                           padding: EdgeInsets.symmetric(
-                            horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 30.w, 60.w),
+                            horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 10.w, 60.w),
                           ),
                           child: const SalonServices(),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(
-                            horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 30.w, 60.w),
+                            horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 10.w, 60.w),
                           ),
                           child: SalonAbout(
                             salonModel: _salonProfileProvider.chosenSalon,
@@ -203,7 +203,7 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
                         if (!isSingleMaster)
                           Padding(
                             padding: EdgeInsets.symmetric(
-                              horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 30.w, 60.w),
+                              horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 10.w, 60.w),
                             ),
                             child: SalonMasters(
                               salonModel: _salonProfileProvider.chosenSalon,
@@ -211,7 +211,7 @@ class _DefaultLandingThemeState extends ConsumerState<DefaultLandingTheme> {
                           ),
                         Padding(
                           padding: EdgeInsets.symmetric(
-                            horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 30.w, 60.w),
+                            horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 10.w, 60.w),
                           ),
                           child: SalonAllWorks(
                             salonModel: _salonProfileProvider.chosenSalon,

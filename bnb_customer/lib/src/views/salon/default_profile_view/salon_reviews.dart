@@ -49,7 +49,7 @@ class _ReviewSectionState extends ConsumerState<ReviewSection> {
               children: [
                 if (!widget.isFromMasterView)
                   Text(
-                    (AppLocalizations.of(context)?.reviews ?? "Reviews").toCapitalized(),
+                    (AppLocalizations.of(context)?.reviews ?? "Reviews").trim().toCapitalized(),
                     style: theme.textTheme.bodyLarge!.copyWith(
                       fontWeight: FontWeight.bold,
                       fontSize: 20.sp,

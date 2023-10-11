@@ -101,6 +101,24 @@
       // Service workers not supported. Just drop the <script> tag.
       loadMainDartJs();
     }
+
+    function is_iPad_iPhone() { // see https://stackoverflow.com/a/58064481
+      var ua = navigator.userAgent;
+      ua = ua.toLowerCase();
+      var rslt = ua.includes('(ipad;') || ua.includes('(iphone;') ||
+        // iOS 13 has ON by default in Settings -> Safari -> Request Desktop Website -> All websites
+        ua.includes('(macintosh;') && navigator.maxTouchPoints > 1;
+      return rslt;
+    }
+
+    // iOS iframe fix: https://github.com/flutter/flutter/issues/65786#issuecomment-698534321
+    if (is_iPad_iPhone()) document.addEventListener('touchstart', {});
+
+    // iOS double-tap zoom prevention: https://stackoverflow.com/a/71393919/714136
+    if (is_iPad_iPhone())
+      document.addEventListener('dblclick', function(event) {
+        event.preventDefault();
+      }, { passive: false });
   </script>
 
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>

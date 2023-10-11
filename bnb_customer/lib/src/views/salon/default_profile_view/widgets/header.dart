@@ -34,7 +34,7 @@ class Header extends ConsumerWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(
             vertical: 10,
-            horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 20.w, 30.w),
+            horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 15.w, 30.w),
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,

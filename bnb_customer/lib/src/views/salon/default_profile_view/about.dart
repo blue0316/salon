@@ -323,8 +323,8 @@ class _PortraitAboutHeaderState extends ConsumerState<PortraitAboutHeader> {
                         return GestureDetector(
                           onTap: () => _controller.animateToPage(entry.key),
                           child: Container(
-                            width: _current == entry.key ? 7 : 4,
-                            height: _current == entry.key ? 7 : 4,
+                            width: _current == entry.key ? DeviceConstraints.getResponsiveSize(context, 7, 10, 7) : DeviceConstraints.getResponsiveSize(context, 5, 8, 5),
+                            height: _current == entry.key ? DeviceConstraints.getResponsiveSize(context, 7, 10, 7) : DeviceConstraints.getResponsiveSize(context, 5, 8, 5),
                             margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
