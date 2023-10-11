@@ -108,6 +108,56 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
     return s;
   }
 
+  getFeatureEs(String s) {
+    for (Map registeredFeatures in esSalonFeatures) {
+      if (registeredFeatures.containsKey(s)) {
+        return registeredFeatures[s];
+      }
+    }
+
+    return s;
+  }
+
+  getFeatureFr(String s) {
+    for (Map registeredFeatures in frSalonFeatures) {
+      if (registeredFeatures.containsKey(s)) {
+        return registeredFeatures[s];
+      }
+    }
+
+    return s;
+  }
+
+  getFeaturePt(String s) {
+    for (Map registeredFeatures in ptSalonFeatures) {
+      if (registeredFeatures.containsKey(s)) {
+        return registeredFeatures[s];
+      }
+    }
+
+    return s;
+  }
+
+  getFeatureRo(String s) {
+    for (Map registeredFeatures in roSalonFeatures) {
+      if (registeredFeatures.containsKey(s)) {
+        return registeredFeatures[s];
+      }
+    }
+
+    return s;
+  }
+
+  getFeatureAr(String s) {
+    for (Map registeredFeatures in arSalonFeatures) {
+      if (registeredFeatures.containsKey(s)) {
+        return registeredFeatures[s];
+      }
+    }
+
+    return s;
+  }
+
   @override
   Widget build(BuildContext context) {
     BnbProvider _bnbProvider = ref.read(bnbProvider);
@@ -139,13 +189,18 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
                 runSpacing: 15.sp,
                 children: widget.additionalFeatures
                     .map(
+                      // WILL REFACTOR LATER
                       (item) => GentleTouchTagItem(
-                        title: (_bnbProvider.locale == const Locale('en'))
-                            ? getFeature(item)
-                            : (_bnbProvider.locale == const Locale('uk'))
-                                ? getFeatureUk(item)
-                                : item,
-                      ),
+                          title: getTranslation(
+                        item,
+                        widget.salonModel.locale,
+                      )
+                          // (_bnbProvider.locale == const Locale('en'))
+                          //     ? getFeature(item)
+                          //     : (_bnbProvider.locale == const Locale('uk'))
+                          //         ? getFeatureUk(item)
+                          //         : item,
+                          ),
                     )
                     .toList(),
               ),
@@ -226,6 +281,26 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
               ],
             ),
           );
+  }
+
+  getTranslation(String item, String locale) {
+    switch (locale) {
+      case 'uk':
+        return getFeatureUk(item);
+      case 'es':
+        return getFeatureEs(item);
+      case 'fr':
+        return getFeatureUk(item);
+      case 'pt':
+        return getFeatureUk(item);
+      case 'ro':
+        return getFeatureUk(item);
+      case 'ar':
+        return getFeatureAr(item);
+
+      default:
+        return getFeature(item);
+    }
   }
 }
 
