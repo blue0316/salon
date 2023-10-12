@@ -444,7 +444,7 @@ class _DayAndTimeState extends ConsumerState<DayAndTime> {
                             return Column(
                               children: [
                                 Text(
-                                  DateFormat("EE").format(itemValue).toUpperCase(),
+                                  getDayTranslation(context, DateFormat("EE").format(itemValue).toUpperCase()),
                                   style: theme.textTheme.bodyLarge?.copyWith(
                                     color: theme.colorScheme.tertiary,
                                     fontFamily: 'Inter',
@@ -1409,4 +1409,18 @@ String getTotalTime(String? appointmentTime) {
     return '$totalMinutes mins';
   }
   return '$totalHours hours $totalMinutes mins';
+}
+
+String getDayTranslation(context, item) {
+  Map<String, String> dayTranslation = {
+    'MON': AppLocalizations.of(context)?.monShort ?? 'MON',
+    'TUE': AppLocalizations.of(context)?.tueShort ?? 'TUE',
+    'WED': AppLocalizations.of(context)?.wedShort ?? 'WED',
+    'THU': AppLocalizations.of(context)?.thuShort ?? 'THU',
+    'FRI': AppLocalizations.of(context)?.friShort ?? 'FRI',
+    'SAT': AppLocalizations.of(context)?.satShort ?? 'SAT',
+    'SUN': AppLocalizations.of(context)?.sunShort ?? 'SUN',
+  };
+
+  return (dayTranslation[item] ?? '').toUpperCase();
 }

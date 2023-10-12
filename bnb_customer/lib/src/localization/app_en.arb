@@ -924,5 +924,19 @@
     "appointmentReveiwed" : "Appointment Reviewed",
     "appoinmentHasBeenReviewed" : "This appointment has been reviewed",
     "appointmentWith" : "Appointment with",
-    "couldNotLaunch" : "Could not launch"  
+    "couldNotLaunch" : "Could not launch",
+    "termsAndConditions": "Terms & Conditions",
+    "privacyAndPolicy": "Privacy Policy",
+    "poweredBy": "Powered by ",
+    "monShort": "MON",
+    "tueShort": "TUE",
+    "wedShort": "WED",
+    "thuShort": "THU",
+    "friShort": "FRI",
+    "satShort": "SAT",
+    "sunShort": "SUN",
+    "toCancel1": "You can cancel up to",
+  "toCancel2": "before the appointment without any charge. Your deposit will be returned to your card within 2 business days",
+  "toCancel3": "To cancel or reschedule please contact",
+  "toCancel4": "You can cancel up to 24 hours before the appointment without any charge. You deposit will be returned to your card within 2 business days"
 }

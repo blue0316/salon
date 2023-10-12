@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:js' as js;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PortraitLandingBottom extends ConsumerWidget {
   const PortraitLandingBottom({Key? key}) : super(key: key);
@@ -38,7 +39,7 @@ class PortraitLandingBottom extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Terms & Conditions',
+                AppLocalizations.of(context)?.termsAndConditions ?? 'Terms & Conditions',
                 style: theme.textTheme.titleSmall!.copyWith(
                   fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 16.sp),
                   fontWeight: FontWeight.w400,
@@ -48,7 +49,7 @@ class PortraitLandingBottom extends ConsumerWidget {
               ),
               // const Spacer(),
               Text(
-                'Privacy Policy',
+                AppLocalizations.of(context)?.privacyAndPolicy ?? 'Privacy Policy',
                 style: theme.textTheme.titleSmall!.copyWith(
                   fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 16.sp),
                   fontWeight: FontWeight.w400,
@@ -69,7 +70,7 @@ class PortraitLandingBottom extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Powered by ',
+                AppLocalizations.of(context)?.poweredBy ?? 'Powered by ',
                 style: theme.textTheme.titleSmall!.copyWith(
                   fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 16.sp),
                   fontWeight: FontWeight.w400,
@@ -138,7 +139,7 @@ class LandscapeLandingBottom extends ConsumerWidget {
               Row(
                 children: [
                   Text(
-                    'Terms & Conditions',
+                    AppLocalizations.of(context)?.termsAndConditions ?? 'Terms & Conditions',
                     style: theme.textTheme.titleSmall!.copyWith(
                       fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 16.sp),
                       fontWeight: FontWeight.w400,
@@ -148,7 +149,7 @@ class LandscapeLandingBottom extends ConsumerWidget {
                   ),
                   SizedBox(width: 40.sp),
                   Text(
-                    'Privacy Policy',
+                    AppLocalizations.of(context)?.privacyAndPolicy ?? 'Privacy Policy',
                     style: theme.textTheme.titleSmall!.copyWith(
                       fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 16.sp),
                       fontWeight: FontWeight.w400,
@@ -163,7 +164,7 @@ class LandscapeLandingBottom extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Powered by ',
+                    AppLocalizations.of(context)?.poweredBy ?? 'Powered by ',
                     style: theme.textTheme.titleSmall!.copyWith(
                       fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 16.sp),
                       fontWeight: FontWeight.w400,

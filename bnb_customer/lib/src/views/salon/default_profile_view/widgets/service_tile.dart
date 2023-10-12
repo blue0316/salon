@@ -103,7 +103,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
                       child: Text(
-                        '${widget.services.length} ${AppLocalizations.of(context)?.services ?? 'Services'}',
+                        (widget.services.length > 1) ? '${widget.services.length} ${AppLocalizations.of(context)?.services ?? 'Services'}' : '${widget.services.length} ${AppLocalizations.of(context)?.service ?? 'Service'}',
                         style: theme.textTheme.titleSmall!.copyWith(
                           fontSize: DeviceConstraints.getResponsiveSize(context, 13.sp, 13.sp, 15.sp),
                           color: theme.primaryColor,

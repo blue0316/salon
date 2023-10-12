@@ -290,7 +290,9 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                   ),
                   SizedBox(height: 10.sp),
                   Text(
-                    (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy == true) ? 'You can cancel up to ${salonModel.cancellationAndNoShowPolicy.chargeWhenNoShow} before the appointment without any charge. Your deposit will be returned to your card within 2 business days' : 'To cancel or reschedule please contact ${salonModel.salonName}. You can cancel up to 24 hours before the appointment without any charge. You deposit will be returned to your card within 2 business days',
+                    (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy == true)
+                        ? '${AppLocalizations.of(context)?.toCancel1 ?? 'You can cancel up to'} ${salonModel.cancellationAndNoShowPolicy.chargeWhenNoShow} ${AppLocalizations.of(context)?.toCancel2 ?? 'before the appointment without any charge. Your deposit will be returned to your card within 2 business days'}'
+                        : '${AppLocalizations.of(context)?.toCancel3 ?? 'To cancel or reschedule please contact'} ${salonModel.salonName}. ${AppLocalizations.of(context)?.toCancel4 ?? 'You can cancel up to 24 hours before the appointment without any charge. You deposit will be returned to your card within 2 business days'}',
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w400,
                       fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),

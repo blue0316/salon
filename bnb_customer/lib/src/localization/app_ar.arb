@@ -915,5 +915,19 @@
      "appointmentReveiwed" : "تمت مراجعة الموعد",
      "appoinmentHasBeenReviewed" : "تمت مراجعة هذا الموعد",
      "appointmentWith" : "موعد مع",
-     "couldNotLaunch": "تعذر التشغيل"
+     "couldNotLaunch": "تعذر التشغيل",
+     "termsAndConditions": "الشروط والأحكام",
+     "privacyAndPolicy": "سياسة الخصوصية",
+     "poweredBy": "مدعوم من ",
+     "monShort": "MON",
+    "tueShort": "TUE",
+    "wedShort": "WED",
+    "thuShort": "THU",
+    "friShort": "FRI",
+    "satShort": "SAT",
+    "sunShort": "SUN",
+    "toCancel1": "يمكنك إلغاء ما يصل إلى",
+   "toCancel2": "قبل الموعد بدون أي رسوم. سيتم إرجاع مبلغ التأمين الخاص بك إلى بطاقتك خلال يومي عمل",
+   "toCancel3": "للإلغاء أو إعادة الجدولة يرجى الاتصال",
+   "toCancel4": "يمكنك الإلغاء قبل 24 ساعة من الموعد دون أي رسوم. سيتم إرجاع الوديعة التي قمت بها إلى بطاقتك خلال يومي عمل"
 }
