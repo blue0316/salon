@@ -136,77 +136,84 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          AppBarItem(
-                            title: AppLocalizations.of(context)?.aboutUs ?? 'About Us',
-                            onTap: () {
-                              Scrollable.ensureVisible(
-                                controller.about.currentContext!,
-                                duration: const Duration(seconds: 2),
-                                curve: Curves.ease,
-                              );
-                            },
-                          ),
-                          AppBarItem(
-                            title: AppLocalizations.of(context)?.portfolio ?? 'Portfolio',
-                            onTap: () {
-                              Scrollable.ensureVisible(
-                                controller.works.currentContext!,
-                                duration: const Duration(seconds: 2),
-                                curve: Curves.ease,
-                              );
-                            },
-                          ),
-                          AppBarItem(
-                            title: AppLocalizations.of(context)?.services ?? 'Services',
-                            onTap: () {
-                              Scrollable.ensureVisible(
-                                controller.price.currentContext!,
-                                duration: const Duration(seconds: 2),
-                                curve: Curves.ease,
-                              );
-                            },
-                          ),
-                          AppBarItem(
-                            title: AppLocalizations.of(context)?.products ?? 'Products',
-                            onTap: () {
-                              Scrollable.ensureVisible(
-                                controller.shop.currentContext!,
-                                duration: const Duration(seconds: 2),
-                                curve: Curves.ease,
-                              );
-                            },
-                          ),
-                          AppBarItem(
-                            title: AppLocalizations.of(context)?.team ?? 'Team',
-                            onTap: () {
-                              Scrollable.ensureVisible(
-                                controller.team.currentContext!,
-                                duration: const Duration(seconds: 2),
-                                curve: Curves.ease,
-                              );
-                            },
-                          ),
-                          AppBarItem(
-                            title: AppLocalizations.of(context)?.reviews ?? 'Reviews',
-                            onTap: () {
-                              Scrollable.ensureVisible(
-                                controller.reviews.currentContext!,
-                                duration: const Duration(seconds: 2),
-                                curve: Curves.ease,
-                              );
-                            },
-                          ),
-                          AppBarItem(
-                            isLast: true,
-                            title: AppLocalizations.of(context)?.contacts ?? 'Contacts',
-                            onTap: () {
-                              Scrollable.ensureVisible(
-                                controller.contacts.currentContext!,
-                                duration: const Duration(seconds: 2),
-                                curve: Curves.ease,
-                              );
-                            },
-                          ),
+                          if (displaySettings?.showAbout == true)
+                            AppBarItem(
+                              title: AppLocalizations.of(context)?.aboutUs ?? 'About Us',
+                              onTap: () {
+                                Scrollable.ensureVisible(
+                                  controller.about.currentContext!,
+                                  duration: const Duration(seconds: 2),
+                                  curve: Curves.ease,
+                                );
+                              },
+                            ),
+                          if (displaySettings?.showPhotosOfWork == true)
+                            AppBarItem(
+                              title: AppLocalizations.of(context)?.portfolio ?? 'Portfolio',
+                              onTap: () {
+                                Scrollable.ensureVisible(
+                                  controller.works.currentContext!,
+                                  duration: const Duration(seconds: 2),
+                                  curve: Curves.ease,
+                                );
+                              },
+                            ),
+                          if (displaySettings?.services.showServices == true)
+                            AppBarItem(
+                              title: AppLocalizations.of(context)?.services ?? 'Services',
+                              onTap: () {
+                                Scrollable.ensureVisible(
+                                  controller.price.currentContext!,
+                                  duration: const Duration(seconds: 2),
+                                  curve: Curves.ease,
+                                );
+                              },
+                            ),
+                          if (displaySettings?.product.showProduct == true)
+                            AppBarItem(
+                              title: AppLocalizations.of(context)?.products ?? 'Products',
+                              onTap: () {
+                                Scrollable.ensureVisible(
+                                  controller.shop.currentContext!,
+                                  duration: const Duration(seconds: 2),
+                                  curve: Curves.ease,
+                                );
+                              },
+                            ),
+                          if (displaySettings?.showTeam == true)
+                            AppBarItem(
+                              title: AppLocalizations.of(context)?.team ?? 'Team',
+                              onTap: () {
+                                Scrollable.ensureVisible(
+                                  controller.team.currentContext!,
+                                  duration: const Duration(seconds: 2),
+                                  curve: Curves.ease,
+                                );
+                              },
+                            ),
+                          if (displaySettings?.reviews.showReviews == true)
+                            AppBarItem(
+                              title: AppLocalizations.of(context)?.reviews ?? 'Reviews',
+                              onTap: () {
+                                Scrollable.ensureVisible(
+                                  controller.reviews.currentContext!,
+                                  duration: const Duration(seconds: 2),
+                                  curve: Curves.ease,
+                                );
+                              },
+                            ),
+                          if (displaySettings?.showContact == true)
+                            AppBarItem(
+                              isLast: true,
+                              title: AppLocalizations.of(context)?.contacts ?? 'Contacts',
+                              onTap: () {
+                                Scrollable.ensureVisible(
+                                  controller.contacts.currentContext!,
+                                  duration: const Duration(seconds: 2),
+                                  curve: Curves.ease,
+                                );
+                              },
+                            ),
                         ],
                       ),
                     ),

@@ -1,4 +1,5 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/models/customer_web_settings.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
@@ -23,8 +24,8 @@ class _GentleTouchDrawerState extends ConsumerState<GentleTouchDrawer> {
     final controller = ref.watch(themeController);
 
     final _salonProfileProvider = ref.watch(salonProfileProvider);
-    // final ThemeData theme = _salonProfileProvider.salonTheme;
     ThemeType themeType = _salonProfileProvider.themeType;
+    final DisplaySettings? displaySettings = _salonProfileProvider.themeSettings?.displaySettings;
 
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
     final bool isSingleMaster = _salonProfileProvider.isSingleMaster;
@@ -55,100 +56,107 @@ class _GentleTouchDrawerState extends ConsumerState<GentleTouchDrawer> {
                 SizedBox(height: 25.h),
 
                 // ABOUT US
-                DrawerText(
-                  drawerText: isSingleMaster
-                      ? (AppLocalizations.of(
-                            context,
-                          )?.aboutMe ??
-                          'About Me')
-                      : (AppLocalizations.of(context)?.aboutUs ?? 'About Us').toCapitalized(),
-                  onTap: () {
-                    Navigator.pop(context);
-                    Scrollable.ensureVisible(
-                      controller.about.currentContext!,
-                      duration: const Duration(seconds: 2),
-                      curve: Curves.ease,
-                    );
-                  },
-                ),
+                if (displaySettings?.showAbout == true)
+                  DrawerText(
+                    drawerText: isSingleMaster
+                        ? (AppLocalizations.of(
+                              context,
+                            )?.aboutMe ??
+                            'About Me')
+                        : (AppLocalizations.of(context)?.aboutUs ?? 'About Us').toCapitalized(),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Scrollable.ensureVisible(
+                        controller.about.currentContext!,
+                        duration: const Duration(seconds: 2),
+                        curve: Curves.ease,
+                      );
+                    },
+                  ),
 
                 // OUR WORKS
-                DrawerText(
-                  drawerText: (AppLocalizations.of(context)?.portfolio ?? 'portfolio').toCapitalized(),
-                  onTap: () {
-                    Navigator.pop(context);
-                    Scrollable.ensureVisible(
-                      controller.works.currentContext!,
-                      duration: const Duration(seconds: 2),
-                      curve: Curves.ease,
-                    );
-                  },
-                ),
+                if (displaySettings?.showPhotosOfWork == true)
+                  DrawerText(
+                    drawerText: (AppLocalizations.of(context)?.portfolio ?? 'portfolio').toCapitalized(),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Scrollable.ensureVisible(
+                        controller.works.currentContext!,
+                        duration: const Duration(seconds: 2),
+                        curve: Curves.ease,
+                      );
+                    },
+                  ),
 
                 // OUR PRICE
-                DrawerText(
-                  drawerText: (AppLocalizations.of(context)?.services ?? 'services').toCapitalized(),
-                  onTap: () {
-                    Navigator.pop(context);
-                    Scrollable.ensureVisible(
-                      controller.price.currentContext!,
-                      duration: const Duration(seconds: 2),
-                      curve: Curves.ease,
-                    );
-                  },
-                ),
+                if (displaySettings?.services.showServices == true)
+                  DrawerText(
+                    drawerText: (AppLocalizations.of(context)?.services ?? 'services').toCapitalized(),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Scrollable.ensureVisible(
+                        controller.price.currentContext!,
+                        duration: const Duration(seconds: 2),
+                        curve: Curves.ease,
+                      );
+                    },
+                  ),
 
                 // SHOP
-                DrawerText(
-                  drawerText: (AppLocalizations.of(context)?.products ?? 'Products').toCapitalized(),
-                  onTap: () {
-                    Navigator.pop(context);
-                    Scrollable.ensureVisible(
-                      controller.shop.currentContext!,
-                      duration: const Duration(seconds: 2),
-                      curve: Curves.ease,
-                    );
-                  },
-                ),
+                if (displaySettings?.product.showProduct == true)
+                  DrawerText(
+                    drawerText: (AppLocalizations.of(context)?.products ?? 'Products').toCapitalized(),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Scrollable.ensureVisible(
+                        controller.shop.currentContext!,
+                        duration: const Duration(seconds: 2),
+                        curve: Curves.ease,
+                      );
+                    },
+                  ),
 
                 // TEAM
-                DrawerText(
-                  drawerText: (AppLocalizations.of(context)?.team ?? 'Team').toCapitalized(),
-                  onTap: () {
-                    Navigator.pop(context);
-                    Scrollable.ensureVisible(
-                      controller.team.currentContext!,
-                      duration: const Duration(seconds: 2),
-                      curve: Curves.ease,
-                    );
-                  },
-                ),
+                if (displaySettings?.showTeam == true)
+                  DrawerText(
+                    drawerText: (AppLocalizations.of(context)?.team ?? 'Team').toCapitalized(),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Scrollable.ensureVisible(
+                        controller.team.currentContext!,
+                        duration: const Duration(seconds: 2),
+                        curve: Curves.ease,
+                      );
+                    },
+                  ),
 
                 // REVIEWS
-                DrawerText(
-                  drawerText: (AppLocalizations.of(context)?.reviews ?? 'Reviews').toCapitalized(),
-                  onTap: () {
-                    Navigator.pop(context);
-                    Scrollable.ensureVisible(
-                      controller.reviews.currentContext!,
-                      duration: const Duration(seconds: 2),
-                      curve: Curves.ease,
-                    );
-                  },
-                ),
+                if (displaySettings?.reviews.showReviews == true)
+                  DrawerText(
+                    drawerText: (AppLocalizations.of(context)?.reviews ?? 'Reviews').toCapitalized(),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Scrollable.ensureVisible(
+                        controller.reviews.currentContext!,
+                        duration: const Duration(seconds: 2),
+                        curve: Curves.ease,
+                      );
+                    },
+                  ),
 
                 // CONTACTS
-                DrawerText(
-                  drawerText: (AppLocalizations.of(context)?.contacts ?? 'Contacts').toCapitalized(),
-                  onTap: () {
-                    Navigator.pop(context);
-                    Scrollable.ensureVisible(
-                      controller.contacts.currentContext!,
-                      duration: const Duration(seconds: 2),
-                      curve: Curves.ease,
-                    );
-                  },
-                ),
+                if (displaySettings?.showContact == true)
+                  DrawerText(
+                    drawerText: (AppLocalizations.of(context)?.contacts ?? 'Contacts').toCapitalized(),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Scrollable.ensureVisible(
+                        controller.contacts.currentContext!,
+                        duration: const Duration(seconds: 2),
+                        curve: Curves.ease,
+                      );
+                    },
+                  ),
 
                 DrawerText(
                   drawerText: (AppLocalizations.of(context)?.bookNow ?? "Book Now").toCapitalized(),
