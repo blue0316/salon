@@ -29,14 +29,14 @@ BoxDecoration servicesTabBarTheme(ThemeType themeType, ThemeData theme) {
     case ThemeType.GentleTouch:
       return BoxDecoration(
         border: Border(
-          bottom: BorderSide(width: 1.5, color: theme.colorScheme.secondary),
+          bottom: BorderSide(width: 2, color: theme.colorScheme.secondary),
         ),
       );
 
     case ThemeType.GentleTouchDark:
       return BoxDecoration(
         border: Border(
-          bottom: BorderSide(width: 1.5, color: theme.colorScheme.secondary),
+          bottom: BorderSide(width: 2, color: theme.colorScheme.secondary),
         ),
       );
 

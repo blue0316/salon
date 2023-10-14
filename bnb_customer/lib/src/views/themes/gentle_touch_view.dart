@@ -21,6 +21,7 @@ import 'package:bbblient/src/views/themes/components/works/salon_works.dart';
 import 'package:bbblient/src/views/themes/components/write_to_us/write_to_us.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/themes/utils/unique_landing_bottom.dart';
+import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -72,7 +73,7 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
         resizeToAvoidBottomInset: false,
         drawer: const ThemeDrawer(),
         appBar: AppBar(
-          backgroundColor: themeType == ThemeType.GentleTouch ? Colors.white : Colors.black,
+          backgroundColor: theme.colorScheme.background, //  themeType == ThemeType.GentleTouch ? Colors.white : Colors.black,
           automaticallyImplyLeading: false,
           toolbarHeight: 70.h,
           actions: [
@@ -99,7 +100,7 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
           title: Container(
             height: 70.h,
             decoration: BoxDecoration(
-              color: themeType == ThemeType.GentleTouch ? Colors.white : Colors.black,
+              color: theme.colorScheme.background, // themeType == ThemeType.GentleTouch ? Colors.white : Colors.black,
               border: themeType == ThemeType.GentleTouch
                   ? Border(
                       bottom: BorderSide(color: Colors.grey[200]!, width: 0.6),
@@ -114,16 +115,22 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
                   padding: EdgeInsets.only(left: isTab ? 30.w : 5.w),
                   child: SizedBox(
                     height: 70.h,
+                    width: 80.h,
                     child: Center(
-                      child: Text(
-                        chosenSalon.salonName.initials,
-                        style: theme.textTheme.displayLarge!.copyWith(
-                          fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 50.sp, 50.sp),
-                          color: themeType == ThemeType.GentleTouch ? Colors.black : Colors.white,
-                          fontFamily: "VASQUZ",
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                      child: (chosenSalon.salonLogo.isNotEmpty)
+                          ? CachedImage(
+                              url: chosenSalon.salonLogo,
+                              fit: BoxFit.cover,
+                            )
+                          : Text(
+                              chosenSalon.salonName.initials,
+                              style: theme.textTheme.displayLarge!.copyWith(
+                                fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 50.sp, 50.sp),
+                                color: themeType == ThemeType.GentleTouch ? Colors.black : Colors.white,
+                                fontFamily: "VASQUZ",
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
                     ),
                   ),
                 ),

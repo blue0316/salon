@@ -245,72 +245,55 @@ class GentleTouchContactCard extends ConsumerWidget {
                   alignment: WrapAlignment.start,
                   crossAxisAlignment: WrapCrossAlignment.start,
                   children: [
-                    SocialIcon2(
-                      icon: FontAwesomeIcons.instagram,
-                      type: 'insta',
-                      socialUrl: salon!.links?.instagram,
-                      color: const Color(0XFF868686),
-                    ),
-                    // GestureDetector(
-                    //   onTap: () async {
-                    //     Uri uri = Uri.parse(socialLinks('insta', salon!.links?.instagram ?? ''));
-
-                    //     if (await canLaunchUrl(uri)) {
-                    //       await launchUrl(uri);
-                    //     } else {
-                    //       showToast("Social Link is not available");
-                    //     }
-                    //   },
-                    //   child: FittedBox(
-                    //     child: Padding(
-                    //       padding: EdgeInsets.only(right: 10.sp),
-                    //       child: Center(
-                    //         child: SvgPicture.asset(
-                    //           ThemeIcons.gentleInsta1,
-                    //           height: 25.h,
-                    //           color: Colors.red,
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    // SizedBox(width: 5.sp)
-                    SocialIcon2(
-                      icon: FontAwesomeIcons.tiktok,
-                      type: 'tiktok',
-                      socialUrl: salon!.links?.tiktok,
-                      color: const Color(0XFF868686),
-                    ),
-                    SocialIcon2(
-                      icon: FontAwesomeIcons.facebookF,
-                      type: 'facebook',
-                      socialUrl: salon!.links?.facebook,
-                      color: const Color(0XFF868686),
-                    ),
-                    SocialIcon2(
-                      icon: FontAwesomeIcons.globe,
-                      type: 'website',
-                      socialUrl: salon!.links?.website,
-                      color: const Color(0XFF868686),
-                    ),
-                    SocialIcon2(
-                      icon: FontAwesomeIcons.twitter,
-                      type: 'twitter',
-                      socialUrl: salon!.links?.twitter,
-                      color: const Color(0XFF868686),
-                    ),
-                    SocialIcon2(
-                      icon: FontAwesomeIcons.pinterest,
-                      type: 'pinterest',
-                      socialUrl: salon!.links?.pinterest,
-                      color: const Color(0XFF868686),
-                    ),
-                    SocialIcon2(
-                      icon: FontAwesomeIcons.yelp,
-                      type: 'yelp',
-                      socialUrl: salon!.links?.yelp,
-                      color: const Color(0XFF868686),
-                    ),
+                    if (salon!.links?.instagram != null && salon!.links!.instagram.isNotEmpty)
+                      SocialIcon2(
+                        icon: FontAwesomeIcons.instagram,
+                        type: 'insta',
+                        socialUrl: salon!.links?.instagram,
+                        color: const Color(0XFF868686),
+                      ),
+                    if (salon!.links?.tiktok != null && salon!.links!.tiktok.isNotEmpty)
+                      SocialIcon2(
+                        icon: FontAwesomeIcons.tiktok,
+                        type: 'tiktok',
+                        socialUrl: salon!.links?.tiktok,
+                        color: const Color(0XFF868686),
+                      ),
+                    if (salon!.links?.facebook != null && salon!.links!.facebook.isNotEmpty)
+                      SocialIcon2(
+                        icon: FontAwesomeIcons.facebookF,
+                        type: 'facebook',
+                        socialUrl: salon!.links?.facebook,
+                        color: const Color(0XFF868686),
+                      ),
+                    if (salon!.links?.website != null && salon!.links!.website.isNotEmpty)
+                      SocialIcon2(
+                        icon: FontAwesomeIcons.globe,
+                        type: 'website',
+                        socialUrl: salon!.links?.website,
+                        color: const Color(0XFF868686),
+                      ),
+                    if (salon!.links?.twitter != null && salon!.links!.twitter.isNotEmpty)
+                      SocialIcon2(
+                        icon: FontAwesomeIcons.twitter,
+                        type: 'twitter',
+                        socialUrl: salon!.links?.twitter,
+                        color: const Color(0XFF868686),
+                      ),
+                    if (salon!.links?.pinterest != null && salon!.links!.pinterest.isNotEmpty)
+                      SocialIcon2(
+                        icon: FontAwesomeIcons.pinterest,
+                        type: 'pinterest',
+                        socialUrl: salon!.links?.pinterest,
+                        color: const Color(0XFF868686),
+                      ),
+                    if (salon!.links?.yelp != null && salon!.links!.yelp.isNotEmpty)
+                      SocialIcon2(
+                        icon: FontAwesomeIcons.yelp,
+                        type: 'yelp',
+                        socialUrl: salon!.links?.yelp,
+                        color: const Color(0XFF868686),
+                      ),
                   ],
                 ),
               ),

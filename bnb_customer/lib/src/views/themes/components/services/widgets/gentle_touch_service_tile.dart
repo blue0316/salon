@@ -73,6 +73,7 @@ class _GentleTouchServiceTileState extends ConsumerState<GentleTouchServiceTile>
                               style: theme.textTheme.bodyLarge?.copyWith(
                                 color: serviceNameColor(themeType, theme),
                                 fontSize: 20.sp,
+                                fontWeight: FontWeight.normal,
                               ),
                             ),
                             if (_createAppointmentProvider.isAdded(serviceModel: widget.service))
@@ -92,6 +93,7 @@ class _GentleTouchServiceTileState extends ConsumerState<GentleTouchServiceTile>
                         style: theme.textTheme.bodyLarge?.copyWith(
                           color: priceColor(themeType, theme), // (themeType == ThemeType.GentleTouch) ? Colors.black : Colors.white,
                           fontSize: 20.sp,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ],
