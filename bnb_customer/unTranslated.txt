@@ -14,36 +14,8 @@
   ],
 
   "fr": [
-    "ukrainian",
-    "youSureWeMightSuggestYouVariants",
-    "noSalonsNearby",
-    "noSalonsNearbyTryDifferentLocation",
-    "cancelledBy",
-    "missed",
-    "salon",
-    "status",
-    "typeYourMessage",
-    "results",
-    "nearby",
-    "appointmentInAfewtaps",
-    "quicklyChooseFromWide",
     "choosebyServicesPriceDistanceRating",
-    "viewAllDetailsAboutService",
-    "seeSalonNearYou",
-    "viewAllTheTopSalons",
-    "chooseMasterSalonBasedOnRealReview",
-    "weHaveHonestReviews",
-    "dontEverMissNotif",
-    "followUs",
-    "totalReviews",
-    "averageRating",
-    "noPhotosAvailable",
-    "portfolio",
-    "serviceDetails",
-    "organizedWork",
-    "comfortableSeat",
-    "timeAlreadyBooked",
-    "chooseAnotherSlot"
+    "organizedWork"
   ],
 
   "pt": [
