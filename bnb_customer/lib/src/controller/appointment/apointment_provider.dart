@@ -311,13 +311,13 @@ class AppointmentProvider with ChangeNotifier {
           return themeType;
 
         case '7':
-          salonTheme = getGlamMinimalLightTheme(themeSettings?.theme?.colorCode);
+          salonTheme = getGlamMinimalLightTheme();
           themeType = ThemeType.GlamMinimalLight;
           notifyListeners();
           return themeType;
 
         case '8':
-          salonTheme = getGlamMinimalDarkTheme(themeSettings?.theme?.colorCode);
+          salonTheme = getGlamMinimalDarkTheme();
           themeType = ThemeType.GlamMinimalDark;
           notifyListeners();
           return themeType;

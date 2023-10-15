@@ -33,8 +33,10 @@ class SalonSearchProvider with ChangeNotifier {
   List<SalonModel> recommendedSalons = []; // todo recommendation logic
   List<SalonModel> salonsSearched = []; // for showing search results
   List<SalonModel> salonsForServicesSearched = []; // for showing search results
-  List<SalonModel> filteredSalons = []; // after applying filters look at end functions
-  List<SalonModel> filteredSalonsResult = []; // after applying filters look at end functions
+  List<SalonModel> filteredSalons =
+      []; // after applying filters look at end functions
+  List<SalonModel> filteredSalonsResult =
+      []; // after applying filters look at end functions
   List<SalonModel> salonsUnfiltered = []; // raw salons
   List<MasterModel> masters = [];
   List<MasterModel> filteredmasters = [];
@@ -51,10 +53,29 @@ class SalonSearchProvider with ChangeNotifier {
   String? selectedCategoryId;
   Status loadingStatus = Status.loading;
 
+  List<ServiceModel> allSalonServices = [];
+
+  getAllSalonServices(_createAppointmentProvider) {
+    print(_createAppointmentProvider.categoryServicesMap);
+    allSalonServices.clear();
+    for (var cat in categories) {
+      if (_createAppointmentProvider
+                  .categoryServicesMap[cat.categoryId.toString()] !=
+              null &&
+          _createAppointmentProvider
+              .categoryServicesMap[cat.categoryId.toString()]!.isNotEmpty) {
+        allSalonServices.addAll(_createAppointmentProvider
+            .categoryServicesMap[cat.categoryId.toString()]);
+      }
+    }
+    print('all$allSalonServices');
+  }
+
   Future<List<CategoryModel>?> init(salonId) async {
     // try {
     categories.clear();
-    List<CategoryModel> allCategories = await CategoryServicesApi().getCategories();
+    List<CategoryModel> allCategories =
+        await CategoryServicesApi().getCategories();
     categories = await CategoryServicesApi().getCategories();
     notifyListeners();
     loadingStatus = Status.success;
@@ -142,7 +163,8 @@ class SalonSearchProvider with ChangeNotifier {
     status = Status.loading;
     notifyListeners();
     salons.clear();
-    salonsUnfiltered = await SalonApi().getSalons(position: tempCenter, radius: searchRadius);
+    salonsUnfiltered =
+        await SalonApi().getSalons(position: tempCenter, radius: searchRadius);
     // printIt('got saloons');
     _refreshList();
 
@@ -165,7 +187,8 @@ class SalonSearchProvider with ChangeNotifier {
     bool addDaria = true;
 
     // Add Daria's salon to nearby on homepage
-    SalonModel? dariaSalon = await SalonApi().getSalonFromId('Q9tHZc8qzVrxoIcvozI7');
+    SalonModel? dariaSalon =
+        await SalonApi().getSalonFromId('Q9tHZc8qzVrxoIcvozI7');
 
     for (SalonModel salon in nearbySalons) {
       if (salon.salonId == dariaSalon?.salonId) {
@@ -182,14 +205,16 @@ class SalonSearchProvider with ChangeNotifier {
   }
 
   Future loadSalonsSlowly() async {
-    nearbySalons = await SalonApi().getSalons(position: tempCenter, radius: searchRadius);
+    nearbySalons =
+        await SalonApi().getSalons(position: tempCenter, radius: searchRadius);
 
     notifyListeners();
   }
 
   Future loadSalonsResult({required String text}) async {
     resultLoading = true;
-    List<SalonModel>? _salons = await SalonApi().getSalonsForSearch(searchText: text);
+    List<SalonModel>? _salons =
+        await SalonApi().getSalonsForSearch(searchText: text);
     salonsSearched.clear();
     if (_salons != null) {
       if (_salons.isNotEmpty) {
@@ -209,12 +234,14 @@ class SalonSearchProvider with ChangeNotifier {
   Future loadServices({required String text}) async {
     servicesLoading = true;
     salonsForServicesSearched.clear();
-    List<ServiceModel> _services = await CategoryServicesApi().getServicesByName(searchText: text);
+    List<ServiceModel> _services =
+        await CategoryServicesApi().getServicesByName(searchText: text);
     if (_services.isNotEmpty) {
       if (_services.isNotEmpty) {
         servicesSearched.addAll(_services);
         List<String?> _salonId = [for (var s in _services) s.salonId];
-        List<SalonModel> _salons = await SalonApi().getSalonFromIdListOnce(salonIds: _salonId);
+        List<SalonModel> _salons =
+            await SalonApi().getSalonFromIdListOnce(salonIds: _salonId);
         salonsForServicesSearched.addAll(_salons);
         computeDistanceFromCenterAll(salonsForServicesSearched);
 
@@ -231,7 +258,8 @@ class SalonSearchProvider with ChangeNotifier {
   Future loadMasters({required String text}) async {
     printIt('pre ${masters.length}}');
     masters.clear();
-    List<MasterModel>? _masters = await MastersApi().getMasterFromName(text: text);
+    List<MasterModel>? _masters =
+        await MastersApi().getMasterFromName(text: text);
     if (_masters != null) {
       if (_masters.isNotEmpty) {
         masters.addAll(_masters);
@@ -244,7 +272,8 @@ class SalonSearchProvider with ChangeNotifier {
 
   Future loadAllCategories() async {
     categories.clear();
-    List<CategoryModel> allCategories = await CategoryServicesApi().getCategories();
+    List<CategoryModel> allCategories =
+        await CategoryServicesApi().getCategories();
     categories = await CategoryServicesApi().getCategories();
     notifyListeners();
 
@@ -254,7 +283,8 @@ class SalonSearchProvider with ChangeNotifier {
   //load all sub categories
   Future loadAllSubCategories() async {
     subCategories.clear();
-    List<SubCategoryModel> allSubCategories = await CategoryServicesApi().getSubCategories();
+    List<SubCategoryModel> allSubCategories =
+        await CategoryServicesApi().getSubCategories();
     subCategories = await CategoryServicesApi().getSubCategories();
 
     notifyListeners();
@@ -296,8 +326,11 @@ class SalonSearchProvider with ChangeNotifier {
   }
 
   addPosition() async {
-    GeoFirePoint myLocation = Geoflutterfire().point(latitude: tempCenter.latitude, longitude: tempCenter.longitude);
-    Position myPosition = Position(geoHash: myLocation.hash, geoPoint: GeoPoint(myLocation.latitude, myLocation.longitude));
+    GeoFirePoint myLocation = Geoflutterfire()
+        .point(latitude: tempCenter.latitude, longitude: tempCenter.longitude);
+    Position myPosition = Position(
+        geoHash: myLocation.hash,
+        geoPoint: GeoPoint(myLocation.latitude, myLocation.longitude));
     await CustomerApi().addCustomerLocation(newPosition: myPosition);
   }
 
@@ -314,13 +347,16 @@ class SalonSearchProvider with ChangeNotifier {
       );
       for (SalonModel _salon in salons) {
         try {
-          final double _distance = _center.distance(lat: _salon.position!.geoPoint!.latitude, lng: _salon.position!.geoPoint!.longitude);
+          final double _distance = _center.distance(
+              lat: _salon.position!.geoPoint!.latitude,
+              lng: _salon.position!.geoPoint!.longitude);
 
           // print(tempCenter.latitude);
           // print(tempCenter.longitude);
 
           //round of to 1 digit after decimal
-          _salon.distanceFromCenter = double.parse((_distance).toStringAsFixed(1));
+          _salon.distanceFromCenter =
+              double.parse((_distance).toStringAsFixed(1));
           notifyListeners();
         } catch (e) {
           printIt(e);
@@ -335,7 +371,8 @@ class SalonSearchProvider with ChangeNotifier {
   Future<SalonModel?> getSalonWithDistance({required String salonId}) async {
     try {
       if (salons.indexWhere((element) => element.salonId == salonId) != -1) {
-        return salons[salons.indexWhere((element) => element.salonId == salonId)];
+        return salons[
+            salons.indexWhere((element) => element.salonId == salonId)];
       } else {
         final GeoFirePoint _center = Geoflutterfire().point(
           latitude: tempCenter.latitude,
@@ -343,8 +380,11 @@ class SalonSearchProvider with ChangeNotifier {
         );
         SalonModel? _salon = await SalonApi().getSalonFromId(salonId);
         if (_salon != null) {
-          final double _distance = _center.distance(lat: _salon.position!.geoPoint!.latitude, lng: _salon.position!.geoPoint!.longitude);
-          _salon.distanceFromCenter = double.parse((_distance).toStringAsFixed(1));
+          final double _distance = _center.distance(
+              lat: _salon.position!.geoPoint!.latitude,
+              lng: _salon.position!.geoPoint!.longitude);
+          _salon.distanceFromCenter =
+              double.parse((_distance).toStringAsFixed(1));
           return _salon;
         } else {
           return null;
@@ -406,7 +446,8 @@ class SalonSearchProvider with ChangeNotifier {
       rating.add(i);
     }
     if (hasRadiusChanged) {
-      salonsUnfiltered = await SalonApi().getSalons(position: tempCenter, radius: searchRadius);
+      salonsUnfiltered = await SalonApi()
+          .getSalons(position: tempCenter, radius: searchRadius);
       // printIt("unfiltered salons ${salonsUnfiltered.length}");
     }
     hasRadiusChanged = false;
@@ -422,7 +463,9 @@ class SalonSearchProvider with ChangeNotifier {
     filteredSalons = salonsUnfiltered;
     // printIt('salons filtered length = ${filteredSalons.length}');
     if (selectedCategoryId != null) {
-      filteredSalons = filteredSalons.where((element) => element.categoryId.contains(selectedCategoryId)).toList();
+      filteredSalons = filteredSalons
+          .where((element) => element.categoryId.contains(selectedCategoryId))
+          .toList();
       // printIt('salons filtered length = ${filteredSalons.length}');
       notifyListeners();
     }
@@ -443,7 +486,8 @@ class SalonSearchProvider with ChangeNotifier {
 
   _filterServiceSpecialist() {
     if (serviceSpecialist != ServiceSpecialist.all) {
-      filteredSalons.removeWhere((element) => element.ownerType != serviceSpecialist);
+      filteredSalons
+          .removeWhere((element) => element.ownerType != serviceSpecialist);
       notifyListeners();
     }
   }

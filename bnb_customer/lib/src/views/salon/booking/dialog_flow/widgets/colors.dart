@@ -212,6 +212,9 @@ Color? currentDateTextColor(ThemeType themeType, ThemeData theme) {
       return Colors.white;
     case ThemeType.GentleTouchDark:
       return Colors.black;
+    case ThemeType.GlamMinimalDark:
+      return Colors.black;
+      
 
     default:
       return theme.colorScheme.tertiary;
@@ -267,6 +270,8 @@ Color? dropdownBackgroundColor(ThemeType themeType, ThemeData theme) {
 Color? horizontalTimePickerColor(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
     case ThemeType.GentleTouchDark:
+      return Colors.black;
+      case ThemeType.GlamMinimalDark:
       return Colors.black;
 
     default:

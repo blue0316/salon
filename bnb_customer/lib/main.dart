@@ -17,6 +17,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:html' as html;
 import 'src/routes.dart';
+import 'src/views/themes/glam_minimal/glam_minimal_entry.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -110,7 +111,7 @@ class _NavigatorPageState extends ConsumerState<NavigatorPage> {
     // final AppProvider _appProvider = ref.watch(appProvider);
     return const Material(
       color: AppTheme.white,
-      child: SizedBox(),
+      child:SizedBox()
       // child: Loader(
       //   status: _appProvider.appStatus,
       //   child: _appProvider.isFirstTime ? const OnBoarding() : const HomePage(),
