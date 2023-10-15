@@ -24,6 +24,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:collection/collection.dart';
 
+import '../../views/themes/glam_minimal/glam_minimal_desktop.dart';
 import '../../views/themes/glam_minimal/glam_minimal_phone.dart';
 
 // todo make salons and masters profile responsiblity here from salonSearchProvider
@@ -93,6 +94,66 @@ class SalonProfileProvider with ChangeNotifier {
     }
     notifyListeners();
     return chosenSalon;
+  }
+
+  Widget currentWidget = const MenuSection();
+
+  changeCurrentWidget(Widget widget) {
+    currentWidget = widget;
+    notifyListeners();
+  }
+
+  bool isShowMenuDesktop = false;
+  bool isShowMenuMobile = false;
+
+  changeShowMenu(value) {
+    isShowMenuDesktop = value;
+    notifyListeners();
+  }
+
+  changeShowMenuMobile(value) {
+    isShowMenuMobile = value;
+    notifyListeners();
+  }
+
+  getWidgetForDesktop(value) {
+    switch (value) {
+      case 'menu':
+        currentWidget = const MenuSection();
+        notifyListeners();
+        break;
+      case 'masters':
+        currentWidget = const DesktopMastersView();
+        notifyListeners();
+        break;
+      default:
+        currentWidget = const MenuSection();
+        notifyListeners();
+        break;
+    }
+  }
+
+  getWidgetForMobile(value) {
+    switch (value) {
+      case 'menu':
+        currentWidget = const MenuSection();
+        notifyListeners();
+        break;
+      case 'masters':
+        currentWidget = const MastersView();
+        notifyListeners();
+        break;
+      default:
+        currentWidget = const MenuSection();
+        notifyListeners();
+        break;
+    }
+  }
+
+  MasterModel? selectedViewMasterModel;
+  changeSelectedMasterView(newMaster) {
+    selectedViewMasterModel = newMaster;
+    notifyListeners();
   }
 
   void switchMasterView({int index = 0}) {
@@ -170,6 +231,18 @@ class SalonProfileProvider with ChangeNotifier {
           notifyListeners();
           return const GlamMinimalEntry();
 
+          case '12':
+          salonTheme = getGlamMinimalLightTheme();
+          //http://localhost:51401/home/salon?id=yUm0tTznu5NCtEhKVClr&back=false&locale=en
+          themeType = ThemeType.GlamMinimalLight;
+
+          notifyListeners();
+          return const GlamMinimalEntry();
+          case '13':
+          salonTheme = getGlamMinimalDarkTheme();
+          themeType = ThemeType.GlamMinimalDark;
+          notifyListeners();
+          return const GlamMinimalEntry();
         //  break;
       }
 
@@ -258,16 +331,16 @@ class SalonProfileProvider with ChangeNotifier {
 
   void sendEnquiryToSalonCityMuse(BuildContext context,
       {required String salonId}) async {
-    if (firstNameController.text.isNotEmpty && lastNameController.text.isNotEmpty ) {
+    if (firstNameController.text.isNotEmpty &&
+        lastNameController.text.isNotEmpty) {
       nameController.text =
           '${firstNameController.text} ${lastNameController.text}';
     }
-    
+
     if (nameController.text == '' ||
         phoneController.text == '' ||
         requestController.text == '' ||
-        emailController.text == ''
-       ) {
+        emailController.text == '') {
       showToast(AppLocalizations.of(context)?.emptyFields ??
           "Fields cannot be empty, please fill required fields");
       return;

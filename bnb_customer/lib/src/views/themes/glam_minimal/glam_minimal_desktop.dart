@@ -273,11 +273,11 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
         //backgroundColor: Colors.white,
       ),
       backgroundColor: _salonProfileProvider.salonTheme.scaffoldBackgroundColor,
-      body: isShowMenu
+      body: _salonProfileProvider.isShowMenuDesktop
           ? Container(
               width: double.infinity,
               color: _salonProfileProvider.salonTheme.scaffoldBackgroundColor,
-              child: currentWidget)
+              child: _salonProfileProvider.currentWidget)
           : SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -952,7 +952,8 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                       height: 600,
                       //width: 1000,
                       child: Builder(builder: (context) {
-                        selectedProduct = _salonProfileProvider.allProducts[_selectedProductIndex];
+                        selectedProduct = _salonProfileProvider
+                            .allProducts[_selectedProductIndex];
                         if (_currentProductIndex == 0) {
                           return Padding(
                             padding:
@@ -1041,7 +1042,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
-                                        height: 423,
+                                        height: 350,
                                         child: ListView.builder(
                                             scrollDirection: Axis.horizontal,
                                             itemCount: _salonProfileProvider
@@ -1050,17 +1051,14 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                             itemBuilder: (context, index) {
                                               return GestureDetector(
                                                 onTap: () {
-                                                  
                                                   setState(() {
                                                     selectedProduct =
                                                         _salonProfileProvider
                                                             .allProducts[index];
-                                                            _selectedProductIndex = index;
+                                                    _selectedProductIndex =
+                                                        index;
                                                   });
-                                                  setState(() {
-                                                    
-                                                  });
-                                                 
+                                                  setState(() {});
                                                 },
                                                 child: Padding(
                                                   padding:
@@ -1163,7 +1161,8 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                                                         .center,
                                                                 style: GoogleFonts
                                                                     .openSans(
-                                                                  //      color: const Color(0xFF868686),
+                                                                  color: const Color(
+                                                                      0xFF868686),
                                                                   fontSize: 18,
                                                                   //    fontFamily: 'Open Sans',
                                                                   fontWeight:
@@ -1182,6 +1181,31 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                               );
                                             }),
                                       ),
+                                      SliderTheme(
+                                        data: SliderThemeData(
+                                          thumbShape: RoundSliderThumbShape(
+                                            enabledThumbRadius: 1,
+                                          ),
+                                          overlayColor: Color(0x29eb1555),
+                                          activeTrackColor: Color(0xff868686),
+                                          inactiveTrackColor: Color(0xffCACACA),
+                                          thumbColor: Colors.white,
+                                        ),
+                                        child: Slider(
+                                            value: _selectedProductIndex
+                                                .toDouble(),
+                                            thumbColor: Colors.transparent,
+                                            //overlayColor: ,
+                                            min: 0.0,
+                                            max: _salonProfileProvider
+                                                .allProducts.length
+                                                .toDouble(),
+                                            onChanged: (value1) {
+                                              // setState(() {
+                                              //   value = value1;
+                                              // });
+                                            }),
+                                      ),
                                       Padding(
                                         padding:
                                             const EdgeInsets.only(left: 38.0),
@@ -1192,15 +1216,17 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  selectedProduct!
-                                                          .productDescription ??
-                                                      '',style: GoogleFonts.openSans(fontSize: 15,color: _salonProfileProvider
-                                                .salonTheme
-                                                .textTheme
-                                                .titleSmall!
-                                                .color,//height:1.5
-                                                )
-                                                ),
+                                                    selectedProduct!
+                                                            .productDescription ??
+                                                        '',
+                                                    style: GoogleFonts.openSans(
+                                                      fontSize: 15,
+                                                      color: _salonProfileProvider
+                                                          .salonTheme
+                                                          .textTheme
+                                                          .titleSmall!
+                                                          .color, //height:1.5
+                                                    )),
                                                 SvgPicture.asset(
                                                     'assets/arrow.svg'),
                                               ],
@@ -1301,7 +1327,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
-                                        height: 423,
+                                        height: 350,
                                         child: ListView.builder(
                                             scrollDirection: Axis.horizontal,
                                             itemCount: _salonProfileProvider
@@ -1317,7 +1343,8 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                                                     .tabs[
                                                                 currentSelectedEntry]![
                                                             index];
-                                                             _selectedProductIndex = index;
+                                                    _selectedProductIndex =
+                                                        index;
                                                   });
                                                 },
                                                 child: Padding(
@@ -1446,6 +1473,31 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                               );
                                             }),
                                       ),
+                                      SliderTheme(
+                                        data: SliderThemeData(
+                                          thumbShape: RoundSliderThumbShape(
+                                            enabledThumbRadius: 1,
+                                          ),
+                                          overlayColor: Color(0x29eb1555),
+                                          activeTrackColor: Color(0xff868686),
+                                          inactiveTrackColor: Color(0xffCACACA),
+                                          thumbColor: Colors.white,
+                                        ),
+                                        child: Slider(
+                                            value: _selectedProductIndex
+                                                .toDouble(),
+                                            thumbColor: Colors.transparent,
+                                            //overlayColor: ,
+                                            min: 0.0,
+                                            max: _salonProfileProvider
+                                                .allProducts.length
+                                                .toDouble(),
+                                            onChanged: (value1) {
+                                              // setState(() {
+                                              //   value = value1;
+                                              // });
+                                            }),
+                                      ),
                                       Padding(
                                         padding:
                                             const EdgeInsets.only(left: 38.0),
@@ -1456,11 +1508,17 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  _salonProfileProvider
-                                                          .allProducts[0]
-                                                          .productDescription ??
-                                                      '',
-                                                ),
+                                                    selectedProduct!
+                                                            .productDescription ??
+                                                        '',
+                                                    style: GoogleFonts.openSans(
+                                                      fontSize: 15,
+                                                      color: _salonProfileProvider
+                                                          .salonTheme
+                                                          .textTheme
+                                                          .titleSmall!
+                                                          .color, //height:1.5
+                                                    )),
                                                 SvgPicture.asset(
                                                     'assets/arrow.svg'),
                                               ],
@@ -2288,65 +2346,74 @@ class CityMuseServiceTab extends StatelessWidget {
   }
 }
 
-class TeamWidget extends StatelessWidget {
+class TeamWidget extends ConsumerWidget {
   final MasterModel? masterModel;
   const TeamWidget({super.key, this.masterModel});
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-          child: Center(
-              child:(masterModel!.profilePicUrl != null && masterModel!.profilePicUrl != '')? CachedImage(
-                                                          url:
-                '${masterModel!.profilePicUrl}',
-                                                        width: 381,
-                                                        height: 400,
-            fit: BoxFit.fitWidth,
-                                                        ):Image.asset(
-                            ThemeImages.noTeamMember ,
-                           
-                                                        width: 381, height: 400,
-            fit: BoxFit.fitWidth,
-                          ),
-              
-          ),
-        ),
-        const Gap(10),
-        Padding(
-          padding: const EdgeInsets.only(left: 10.0, right: 8.0),
-          child: Text(
-            '${masterModel?.personalInfo?.firstName} ${masterModel?.personalInfo?.lastName}'
-                .toUpperCase(),
-            textAlign: TextAlign.center,
-            style: GoogleFonts.openSans(
-              color: const Color(0xFFE980B2),
-              fontSize: 20,
-              // fontFamily: 'Open Sans',
-              fontWeight: FontWeight.w600,
-              height: 0,
+  Widget build(BuildContext contex, ref) {
+    final salonProfile = ref.watch(salonProfileProvider);
+    return GestureDetector(
+      onTap: () {
+        salonProfile.changeShowMenu(true);
+        salonProfile.getWidgetForDesktop("masters");
+        salonProfile.changeSelectedMasterView(masterModel);
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+            child: Center(
+              child: (masterModel!.profilePicUrl != null &&
+                      masterModel!.profilePicUrl != '')
+                  ? CachedImage(
+                      url: '${masterModel!.profilePicUrl}',
+                      width: 381,
+                      height: 400,
+                      fit: BoxFit.fitWidth,
+                    )
+                  : Image.asset(
+                      ThemeImages.noTeamMember,
+                      width: 381,
+                      height: 400,
+                      fit: BoxFit.fitWidth,
+                    ),
             ),
           ),
-        ),
-        if (masterModel?.title != null)
+          const Gap(10),
           Padding(
             padding: const EdgeInsets.only(left: 10.0, right: 8.0),
             child: Text(
-              '${masterModel?.title}',
+              '${masterModel?.personalInfo?.firstName} ${masterModel?.personalInfo?.lastName}'
+                  .toUpperCase(),
               textAlign: TextAlign.center,
               style: GoogleFonts.openSans(
-                color: const Color(0xff868686),
-                fontSize: 16,
-                //fontFamily: 'Open Sans',
-                fontWeight: FontWeight.w500,
+                color: const Color(0xFFE980B2),
+                fontSize: 20,
+                // fontFamily: 'Open Sans',
+                fontWeight: FontWeight.w600,
                 height: 0,
               ),
             ),
           ),
-      ],
+          if (masterModel?.title != null)
+            Padding(
+              padding: const EdgeInsets.only(left: 10.0, right: 8.0),
+              child: Text(
+                '${masterModel?.title}',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.openSans(
+                  color: const Color(0xff868686),
+                  fontSize: 16,
+                  //fontFamily: 'Open Sans',
+                  fontWeight: FontWeight.w500,
+                  height: 0,
+                ),
+              ),
+            ),
+        ],
+      ),
     );
   }
 }
@@ -2667,8 +2734,9 @@ class _DesktopMastersViewState extends ConsumerState<DesktopMastersView> {
   @override
   Widget build(BuildContext context) {
     final theme = ref.watch(salonProfileProvider).salonTheme;
+     final salonProvider = ref.watch(salonProfileProvider);
     return Padding(
-      padding: const EdgeInsets.only(left: 18.0, right: 18),
+      padding: const EdgeInsets.only(left: 18.0, ),
       child: SizedBox(
         // height: 1000,
 
@@ -2692,11 +2760,11 @@ class _DesktopMastersViewState extends ConsumerState<DesktopMastersView> {
                             GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  isShowMenu = false;
+                                  salonProvider.changeShowMenu(false);
                                   // getWidget("menu");
                                 });
                                 setState(() {
-                                  isShowMenu = false;
+                                   salonProvider.changeShowMenu(false);
                                 });
                               },
                               child: SizedBox(
@@ -2717,13 +2785,14 @@ class _DesktopMastersViewState extends ConsumerState<DesktopMastersView> {
                             ),
                             const Gap(40),
                             Text(
-                              'ALLISON GOUSE',
+                              '${salonProvider.selectedViewMasterModel?.personalInfo?.firstName} ${salonProvider.selectedViewMasterModel?.personalInfo?.lastName}',
                               style: GoogleFonts.openSans(
                                   color: theme.textTheme.displaySmall!.color,
                                   fontSize: 40),
                             ),
+                             if (salonProvider.selectedViewMasterModel?.title != null)
                             Text(
-                              'Eyebrow Specialist',
+                              '${salonProvider.selectedViewMasterModel?.title}',
                               style: GoogleFonts.openSans(
                                   color: const Color(0xff868686), fontSize: 20),
                             ),
@@ -2732,7 +2801,7 @@ class _DesktopMastersViewState extends ConsumerState<DesktopMastersView> {
                             SizedBox(
                               //width: 500,
                               child: Text(
-                                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum. Maecenas eget condimentum velit, sit amet feugiat lectus. Maecenas eget condimentum velit, sit amet feugiat lectus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum. Maecenas eget condimentum velit, sit amet feugiat lectus. Maecenas eget condimentum velit, sit amet feugiat lectus.',
+                                '${salonProvider.selectedViewMasterModel?.personalInfo?.description}',
                                 maxLines: 500,
                                 textAlign: TextAlign.start,
                                 style: GoogleFonts.openSans(
@@ -2789,9 +2858,9 @@ class _DesktopMastersViewState extends ConsumerState<DesktopMastersView> {
                             child: Column(
                               children: [
                                 Expanded(
-                                    child: Image.asset(
-                                  'assets/test_assets/master.png',
-                                  width: double.infinity,
+                                    child:CachedImage(
+                      url: '${salonProvider.selectedViewMasterModel!.profilePicUrl}',
+                                  width: MediaQuery.of(context).size.width/2,
                                   fit: BoxFit.fitWidth,
                                 )),
                                 const Gap(20),
@@ -2914,19 +2983,5 @@ class _DesktopMastersViewState extends ConsumerState<DesktopMastersView> {
         ),
       ),
     );
-  }
-}
-
-getWidget(value) {
-  switch (value) {
-    case 'menu':
-      currentWidget = const MenuSection();
-      break;
-    case 'masters':
-      currentWidget = const DesktopMastersView();
-      break;
-    default:
-      currentWidget = const MenuSection();
-      break;
   }
 }
