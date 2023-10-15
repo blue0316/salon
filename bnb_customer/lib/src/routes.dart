@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_web_libraries_in_flutter, unused_local_variable
 
+import 'dart:io';
+
 import 'package:bbblient/main.dart';
 import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
 import 'package:bbblient/src/loadingLink.dart';
@@ -7,6 +9,8 @@ import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/views/appointment/view_appointment.dart';
 import 'package:bbblient/src/views/payment/payment.dart';
 import 'package:bbblient/src/views/policy/policy.dart';
+import 'package:bbblient/src/views/policy/cookies.dart';
+import 'package:bbblient/src/views/policy/terms_condition.dart';
 import 'package:bbblient/src/views/policy/testes.dart';
 import 'package:bbblient/src/views/salon/salon_home/salon_profile_copy.dart';
 import 'package:bot_toast/bot_toast.dart';
@@ -108,17 +112,45 @@ final GoRouter router = GoRouter(
       ),
     ),
 
+    /// Cookies
+    GoRoute(
+      path: Cookies.route,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const Cookies(),
+      ),
+    ),
+
+    /// terms and Condition
+    GoRoute(
+      path: TermsCondition.route,
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const TermsCondition(),
+      ),
+    ),
+
     /// payment
     GoRoute(
       path: Payment.route,
       name: Payment.route,
       pageBuilder: (context, state) {
-        final String? amount = state.queryParams['amount'] == null ? "325.56" : state.queryParams['amount'] as String;
-        final String? currency = state.queryParams['currency'] == null ? "USD" : state.queryParams['currency'] as String;
+        final String? amount = state.queryParams['amount'] == null
+            ? "325.56"
+            : state.queryParams['amount'] as String;
+        final String? currency = state.queryParams['currency'] == null
+            ? "USD"
+            : state.queryParams['currency'] as String;
         DateTime timeNow = DateTime.now();
-        final String? transactionId = state.queryParams['transactionId'] == null ? "${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}AT" : state.queryParams['transactionId'] as String;
-        final String? terminalId = state.queryParams['terminalId'] == null ? "5363001" : state.queryParams['terminalId'] as String;
-        final bool? isDeposit = state.queryParams['isDeposit'] == null ? true : state.queryParams['isDeposit'] as bool;
+        final String? transactionId = state.queryParams['transactionId'] == null
+            ? "${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}AT"
+            : state.queryParams['transactionId'] as String;
+        final String? terminalId = state.queryParams['terminalId'] == null
+            ? "5363001"
+            : state.queryParams['terminalId'] as String;
+        final bool? isDeposit = state.queryParams['isDeposit'] == null
+            ? true
+            : state.queryParams['isDeposit'] as bool;
         return MaterialPage(
           key: state.pageKey,
           child: Payment(
@@ -162,10 +194,12 @@ final GoRouter router = GoRouter(
               // use ref to obtain other providers
               final repository = ref.watch(bnbProvider);
 
-              repository.changeLocale(locale: Locale(state.queryParams['locale']!.toString()));
+              repository.changeLocale(
+                  locale: Locale(state.queryParams['locale']!.toString()));
 
               if (id2 != "") {
-                repository.retrieveSalonMasterModel(state.queryParams['id2']!.toString());
+                repository.retrieveSalonMasterModel(
+                    state.queryParams['id2']!.toString());
                 salonMaster = repository.getCurrenMaster;
                 // debugPrint(repository.getCurrenMaster);
               }
@@ -230,7 +264,9 @@ class ErrorScreen extends StatelessWidget {
   final String? error;
   final Color? backgroundColor, textColor;
 
-  const ErrorScreen({Key? key, this.error, this.backgroundColor, this.textColor}) : super(key: key);
+  const ErrorScreen(
+      {Key? key, this.error, this.backgroundColor, this.textColor})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
