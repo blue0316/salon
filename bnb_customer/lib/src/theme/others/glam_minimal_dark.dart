@@ -194,6 +194,7 @@ class GlamMinimalDark {
     fontWeight: FontWeight.w500,
   );
   static Color primaryColor1 = Colors.white;
+    static Color accentColor = Color(0xfff4dfe9);
   
   static const Color lightBlack = Color(0xff1E2D3D);
 static final darkTheme = ThemeData(
@@ -267,7 +268,7 @@ static final darkTheme = ThemeData(
     brightness: Brightness.dark,
   ).copyWith(
       secondaryContainer: const Color(0xFF8e8e8e),
-      secondary: Colors.black,
+      secondary: accentColor,
       primaryContainer: const Color(0xff653B50),
       tertiaryContainer: const Color(0xff616161),
       outline: const Color(0xff313132),

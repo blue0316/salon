@@ -188,28 +188,27 @@ class GlamMinimalLight {
   //     ],
   //   ),
   //);
-static const Color textBlack = Color(0xff0E141E);
+  static const Color textBlack = Color(0xff0E141E);
   static const Color lightBlack = Color(0xff1E2D3D);
   static const Color redishPink = Color(0xffff006e);
   static const Color creamBrownLight = Color(0xffE3AF7B);
   static const Color lightGrey = Color(0xff89959F);
 
-   static Color primaryColor1 = Colors.black;
-  static Color accentColor = Colors.black;
+  static Color primaryColor1 = Colors.black;
+  static Color accentColor = const Color(0xfff4dfe9);
 
-   static final TextStyle bodyText1 = TextStyle(
+  static final TextStyle bodyText1 = TextStyle(
     fontFamily: "Poppins",
     fontSize: 16.sp,
     fontWeight: FontWeight.w500,
   );
-  
+
   static Color themeBackgroundColor = const Color(0XFFFAF6F0); // Colo
-static final lightTheme = ThemeData(
-  backgroundColor: Colors.white,
-   primaryColor: primaryColor1,
+  static final lightTheme = ThemeData(
+    primaryColor: primaryColor1,
     primaryColorDark: primaryColor1,
     primaryColorLight: primaryColor1,
-  //  scaffoldBackgroundColor: Colors.black,
+    //  scaffoldBackgroundColor: Colors.black,
     textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
     tabBarTheme: TabBarTheme(
       unselectedLabelColor: primaryColor1,
@@ -226,49 +225,66 @@ static final lightTheme = ThemeData(
     dialogBackgroundColor: Colors.white,
 
     cardColor: Colors.black,
-  //primarySwatch: Colors.blue,
-  brightness: Brightness.light,
-  inputDecorationTheme: InputDecorationTheme(
-    filled: true,
-    fillColor: const Color(0xffededed),
-    border: OutlineInputBorder(
-      borderSide: BorderSide(
-        color: const Color(0xff9A9A9A).withOpacity(0.15),
+    //primarySwatch: Colors.blue,
+    brightness: Brightness.light,
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: const Color(0xffededed),
+      border: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: const Color(0xff9A9A9A).withOpacity(0.15),
+        ),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: const Color(0xff9A9A9A).withOpacity(0.15),
+        ),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: const Color(0xff9A9A9A).withOpacity(0.15),
+        ),
       ),
     ),
-    enabledBorder: OutlineInputBorder(
-      borderSide: BorderSide(
-        color: const Color(0xff9A9A9A).withOpacity(0.15),
-      ),
-    ),
-    focusedBorder: OutlineInputBorder(
-      borderSide: BorderSide(
-        color: const Color(0xff9A9A9A).withOpacity(0.15),
-      ),
-    ),
-  ),
-  scaffoldBackgroundColor: Colors.white,
-  dividerColor: const Color(0xff9f9f9f),
-  appBarTheme: AppBarTheme(
-    color: Colors.white, // Background color of the app bar
-    toolbarTextStyle: TextTheme(
-      titleSmall: GoogleFonts.openSans(
-        color: Colors.black, // Text color of the app bar title
+    scaffoldBackgroundColor: Colors.white,
+    dividerColor: const Color(0xff9f9f9f),
+    appBarTheme: AppBarTheme(
+      color: Colors.white, // Background color of the app bar
+      toolbarTextStyle: TextTheme(
+        titleSmall: GoogleFonts.openSans(
+          color: Colors.black, // Text color of the app bar title
 //  fontSize: 20, // Text size of the app bar title
-      ),
-      titleLarge: GoogleFonts.openSans(
-        color: Colors.black, // Text color of the app bar title
+        ),
+        titleLarge: GoogleFonts.openSans(
+          color: Colors.black, // Text color of the app bar title
 //  fontSize: 20, // Text size of the app bar title
-      ),
-    ).bodyMedium,
-    titleTextStyle: TextTheme(
-      titleLarge: GoogleFonts.openSans(
-        color: Colors.black, // Text color of the app bar title
-        //fontSize: 20, // Text size of the app bar title
-      ),
-    ).titleLarge,
-  ),
-  colorScheme: ColorScheme(
+        ),
+      ).bodyMedium,
+      titleTextStyle: TextTheme(
+        titleLarge: GoogleFonts.openSans(
+          color: Colors.black, // Text color of the app bar title
+          //fontSize: 20, // Text size of the app bar title
+        ),
+      ).titleLarge,
+    ),
+    textTheme: TextTheme(
+        bodyMedium: GoogleFonts.openSans(color: const Color(0xff868686)),
+        bodyLarge: GoogleFonts.openSans(color: Colors.white),
+        headlineMedium: GoogleFonts.openSans(color: Colors.black),
+        displaySmall: GoogleFonts.openSans(
+          color: const Color(0xff0d0d0e),
+        ),
+        displayMedium: GoogleFonts.openSans(color: const Color(0xffEA80B2)),
+        displayLarge: GoogleFonts.openSans(
+          color: const Color(0xffd9d9d9d),
+        ),
+        titleSmall: GoogleFonts.openSans(color: const Color(0xff282828)),
+        // titleMedium: TextStyle(color:Color(0x26101010)),
+        // titleLarge: TextStyle(color:Color(0x7F101010)),
+        headlineSmall: GoogleFonts.openSans(color: const Color(0xff282828))
+        // Define text color
+        ),
+    colorScheme: ColorScheme(
       primary: (Colors.pink[900])!,
       secondary: accentColor, // Color of title text on cards
       onSecondaryContainer: Colors.black, // Color of sub text on cards
@@ -287,30 +303,14 @@ static final lightTheme = ThemeData(
       onError: redishPink,
       brightness: Brightness.light,
       outlineVariant: Colors.black, // Color of divider on appbar
-    ).copyWith(
-      secondary: Colors.black,
-      primaryContainer: const Color(0xffF4dFE9),
-      outline: const Color(0x26101010),
-      outlineVariant: const Color(0x7F101010)),
-  textTheme: TextTheme(
-      bodyMedium: GoogleFonts.openSans(color: const Color(0xff868686)),
-      bodyLarge: GoogleFonts.openSans(color: Colors.white),
-      headlineMedium: GoogleFonts.openSans(color: Colors.black),
-      displaySmall: GoogleFonts.openSans(
-        color: const Color(0xff0d0d0e),
-      ),
-      displayMedium: GoogleFonts.openSans(color: const Color(0xffEA80B2)),
-      displayLarge: GoogleFonts.openSans(
-        color: const Color(0xffd9d9d9d),
-      ),
-      titleSmall: GoogleFonts.openSans(color: const Color(0xff282828)),
-      // titleMedium: TextStyle(color:Color(0x26101010)),
-      // titleLarge: TextStyle(color:Color(0x7F101010)),
-      headlineSmall: GoogleFonts.openSans(color: const Color(0xff282828))
-      // Define text color
-      ),
-  // Define other light theme properties
-);
-
-
+    )
+        .copyWith(
+            secondary: Colors.black,
+            secondaryContainer: const Color(0xffd9d9d9),
+            primaryContainer: const Color(0xffF4dFE9),
+            outline: const Color(0x26101010),
+            outlineVariant: const Color(0x7F101010))
+        .copyWith(background: Colors.white),
+    // Define other light theme properties
+  );
 }

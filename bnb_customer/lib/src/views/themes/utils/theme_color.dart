@@ -215,59 +215,60 @@ ThemeData getGentleTouchTheme(String? colorCode) {
 }
 
 // Theme 7 - GLAM MINIMAL LIGHT
-ThemeData getGlamMinimalLightTheme() {
-  // switch (colorCode) {
-  //   case null: // 'FFC692':
-  //    // GlamMinimalLight.themeBackgroundColor = Colors.white;
+ThemeData getGlamMinimalLightTheme(String? colorCode) {
+  switch (colorCode) {
+    case null: // 'FFC692':
+     // GlamMinimalLight.themeBackgroundColor = Colors.white;
 
-  //     return GlamMinimalLight.lightTheme;
+      return GlamMinimalLight.lightTheme;
 
-  //   // case 'FFC692':
-  //   //   return GlamOneTheme.glamOneTheme;
+    // case 'FFC692':
+    //   return GlamOneTheme.glamOneTheme;
 
-  //   default:
-  //     if (colorCode != null) {
-  //       try {
-  //         // Decode color from string
-  //         String valueString = colorCode.split('(0x')[1].split(')')[0];
-  //         int value = int.parse(valueString, radix: 16);
+    default:
+      if (colorCode != null) {
+        try {
+          // Decode color from string
+          String valueString = colorCode.split('(0x')[1].split(')')[0];
+          int value = int.parse(valueString, radix: 16);
 
-  //         GlamMinimalLight.themeBackgroundColor = Color(value);
-  //       } catch (e) {
-  //         GlamMinimalLight.themeBackgroundColor = Colors.white;
-  //       }
-  //     }
+          GlamMinimalLight.accentColor = Color(value);
+        } catch (e) {
+          
+          GlamMinimalLight.accentColor = Color(0xfff4dfe9);
+        }
+      }
 
-  //      return GlamMinimalLight.lightTheme;
-  // }
-     return GlamMinimalLight.lightTheme;
+       return GlamMinimalLight.lightTheme;
+  }
+   
 }
 
 // Theme 8 - GLAM MINIMAL DARK
-ThemeData getGlamMinimalDarkTheme() {
-  // switch (colorCode) {
-  //   case null: // 'FFC692':
-  //     GlamMinimalDark.primaryColor1 = Colors.white;
+ThemeData getGlamMinimalDarkTheme(String? colorCode) {
+  switch (colorCode) {
+    case null: // 'FFC692':
+      GlamMinimalDark.primaryColor1 = Colors.white;
 
-  //     return GlamMinimalDark.mainTheme;
+      return GlamMinimalDark.darkTheme;
 
-  //   // case 'FFC692':
-  //   //   return GlamOneTheme.glamOneTheme;
+    // case 'FFC692':
+    //   return GlamOneTheme.glamOneTheme;
 
-  //   default:
-  //     if (colorCode != null) {
-  //       try {
-  //         // Decode color from string
-  //         String valueString = colorCode.split('(0x')[1].split(')')[0];
-  //         int value = int.parse(valueString, radix: 16);
+    default:
+      if (colorCode != null) {
+        try {
+          // Decode color from string
+          String valueString = colorCode.split('(0x')[1].split(')')[0];
+          int value = int.parse(valueString, radix: 16);
 
-  //         GlamMinimalDark.primaryColor1 = Color(value);
-  //       } catch (e) {
-  //         GlamMinimalDark.primaryColor1 = Colors.white;
-  //       }
-  //     }
+          GlamMinimalDark.accentColor = Color(value);
+        } catch (e) {
+          GlamMinimalDark.accentColor= Color(0xfff4dfe9);
+        }
+      }
 
-  //     return GlamMinimalDark.mainTheme;
-  //}
-   return GlamMinimalDark.darkTheme;
+      return GlamMinimalDark.darkTheme;
+  }
+  // return GlamMinimalDark.darkTheme;
 }

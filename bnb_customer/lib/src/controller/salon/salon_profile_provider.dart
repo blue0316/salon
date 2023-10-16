@@ -156,6 +156,19 @@ class SalonProfileProvider with ChangeNotifier {
     notifyListeners();
   }
 
+
+  String extractFirstLetters(String sentence) {
+  List<String> words = sentence.split(' ');
+  String firstLetters = '';
+
+  for (String word in words) {
+    if (word.isNotEmpty) {
+      firstLetters += word[0];
+    }
+  }
+
+  return firstLetters;
+}
   void switchMasterView({int index = 0}) {
     showMasterView = !showMasterView;
     showMasterAtIndex = index;
@@ -164,8 +177,10 @@ class SalonProfileProvider with ChangeNotifier {
 
   Widget getTheme(bool showBooking) {
     if (availableThemes.contains(themeSettings?.theme?.id)) {
+      
       // If theme number is not in this set, it means that's a default theme
       switch (themeSettings?.theme?.id) {
+       
         case '1':
           salonTheme = getDefaultDarkTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.DefaultDark;
@@ -217,7 +232,7 @@ class SalonProfileProvider with ChangeNotifier {
           return GentleTouch(showBooking: showBooking);
 
         case '7':
-          salonTheme = getGlamMinimalLightTheme();
+          salonTheme = getGlamMinimalLightTheme(themeSettings?.theme?.colorCode);
           //http://localhost:51401/home/salon?id=yUm0tTznu5NCtEhKVClr&back=false&locale=en
           themeType = ThemeType.GlamMinimalLight;
 
@@ -226,25 +241,14 @@ class SalonProfileProvider with ChangeNotifier {
         // break;
 
         case '8':
-          salonTheme = getGlamMinimalDarkTheme();
+          salonTheme = getGlamMinimalDarkTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.GlamMinimalDark;
           notifyListeners();
           return const GlamMinimalEntry();
 
-          case '12':
-          salonTheme = getGlamMinimalLightTheme();
-          //http://localhost:51401/home/salon?id=yUm0tTznu5NCtEhKVClr&back=false&locale=en
-          themeType = ThemeType.GlamMinimalLight;
-
-          notifyListeners();
-          return const GlamMinimalEntry();
-          case '13':
-          salonTheme = getGlamMinimalDarkTheme();
-          themeType = ThemeType.GlamMinimalDark;
-          notifyListeners();
-          return const GlamMinimalEntry();
+         
         //  break;
-          break;
+          
 
         case '10':
           salonTheme = getGentleTouchTheme(themeSettings?.theme?.colorCode);
@@ -259,6 +263,18 @@ class SalonProfileProvider with ChangeNotifier {
 
           notifyListeners();
           return GentleTouch(showBooking: showBooking);
+        case '12':
+          salonTheme = getGlamMinimalLightTheme(themeSettings?.theme?.colorCode);
+          //http://localhost:51401/home/salon?id=yUm0tTznu5NCtEhKVClr&back=false&locale=en
+          themeType = ThemeType.GlamMinimalLight;
+
+          notifyListeners();
+          return const GlamMinimalEntry();
+        case '13':
+          salonTheme = getGlamMinimalDarkTheme(themeSettings?.theme?.colorCode);
+          themeType = ThemeType.GlamMinimalDark;
+          notifyListeners();
+          return const GlamMinimalEntry();
       }
 
       return GlamOneScreen(showBooking: showBooking); // New Themes Base Widget
@@ -466,5 +482,7 @@ Set availableThemes = {
   '6', // Glam Light
   '66', // Glam Light New Design
   '7', // Glam Minimal Light
-  '8', // Glam Minimal Dark
+  '8',
+  '12',
+  '13' // Glam Minimal Dark
 };

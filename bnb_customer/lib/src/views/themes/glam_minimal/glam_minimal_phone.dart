@@ -37,7 +37,7 @@ class GlamMinimalPhone extends ConsumerStatefulWidget {
 }
 
 class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
-  int _currentIndex = 0;
+  final int _currentIndex = 0;
   int _currentProductIndex = 0;
   int _currentProductImageIndex = 0;
   int _currentServiceIndex = 0;
@@ -54,7 +54,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
   final PageController _pageController = PageController();
 
   int currentIndex = 0;
-    int currentServiceIndex = 0;
+  int currentServiceIndex = 0;
   int currentReviewIndex = 0;
   bool isExpanded = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -105,6 +105,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final _salonSearchProvider = ref.watch(salonSearchProvider);
     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
+    final controller = ref.watch(themeController);
 
     final SalonModel chosenSalon = _salonProfileProvider.chosenSalon;
     final DisplaySettings? displaySettings =
@@ -118,14 +119,20 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
       appBar: AppBar(
         backgroundColor:
             _salonProfileProvider.salonTheme.appBarTheme.backgroundColor,
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SvgPicture.asset(
-            "assets/test_assets/logo.svg",
-            color: _salonProfileProvider
-                .salonTheme.appBarTheme.titleTextStyle!.color,
-          ),
-        ),
+        leading: chosenSalon.salonLogo.isEmpty
+            ? const SizedBox()
+            : SizedBox(
+                child: CachedImage(
+                url: chosenSalon.salonLogo,
+              )),
+        //       Padding(
+        //   padding: const EdgeInsets.all(8.0),
+        //   child: SvgPicture.asset(
+        //     "assets/test_assets/logo.svg",
+        //     color: _salonProfileProvider
+        //         .salonTheme.appBarTheme.titleTextStyle!.color,
+        //   ),
+        // ),
         actions: [
           GestureDetector(
             onTap: () {
@@ -189,7 +196,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                   fontSize: 46,
                                   //     fontFamily: 'Open Sans',
                                   fontWeight: FontWeight.w600,
-                                  height: 0,
+                                  height: 1,
                                 ),
                               ),
                             ),
@@ -238,8 +245,20 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                       const BookingDialogWidget222().show(context);
                     },
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 12.0, right: 12),
-                      child: SvgPicture.asset('assets/test_assets/arrow.svg'),
+                      padding: const EdgeInsets.only(left: 20.0, right: 12),
+                      child: Row(
+                        children: [
+                          Text('BOOK NOW',
+                              style: GoogleFonts.openSans(
+                                  color: _salonProfileProvider
+                                      .salonTheme.colorScheme.secondary,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700)),
+                                  Gap(10),
+                          Image.asset('assets/test_assets/book_arrow.png', height: 24, width: 24, color: _salonProfileProvider
+                                      .salonTheme.colorScheme.secondary,),
+                        ],
+                      ),
                     ),
                   ),
                   const Gap(18),
@@ -281,6 +300,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                   Gap(100.h),
                   if (chosenSalon.description.isNotEmpty &&
                       displaySettings!.showAbout) ...[
+                    SizedBox.fromSize(size: Size.zero, key: controller.about),
                     Padding(
                       padding: const EdgeInsets.only(left: 18.0, right: 8.0),
                       child: Text(
@@ -296,6 +316,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                         ),
                       ),
                     ),
+                    Gap(20),
                     Padding(
                       padding: const EdgeInsets.only(left: 18.0, right: 18.0),
                       child: SizedBox(
@@ -361,6 +382,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                   if (chosenSalon.photosOfWorks != null &&
                       chosenSalon.photosOfWorks!.isNotEmpty &&
                       displaySettings!.showPhotosOfWork) ...[
+                    SizedBox.fromSize(size: Size.zero, key: controller.works),
                     const Gap(120),
                     Padding(
                       padding: const EdgeInsets.only(left: 18.0, right: 8.0),
@@ -497,6 +519,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                   ],
 
                   if (displaySettings!.services.showServices) ...[
+                    SizedBox.fromSize(size: Size.zero, key: controller.price),
                     Padding(
                       padding: const EdgeInsets.only(left: 18.0, right: 8.0),
                       child: Text(
@@ -559,10 +582,11 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
 
                                 decoration: BoxDecoration(
                                   border: _currentServiceIndex == index
-                                      ? const BorderDirectional(
+                                      ?  BorderDirectional(
                                           bottom: BorderSide(
                                               width: 2,
-                                              color: Color(0xFFE980B2)),
+                                           color: _salonProfileProvider
+                                      .salonTheme.colorScheme.secondary,),
                                         )
                                       : null,
                                 ),
@@ -596,18 +620,18 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                           width: double.infinity,
                           child: Builder(builder: (_) {
                             print('currentServiceIndex $_currentServiceIndex');
-                            
+
                             if (_currentServiceIndex == 0) {
                               List<ServiceModel> allServiceList = [];
                               for (List<ServiceModel> serviceList
                                   in _createAppointmentProvider
                                       .servicesAvailable) {
-                                        
                                 allServiceList.addAll(serviceList);
                               }
-                               final List<bool> isMenuVisible = List.generate(allServiceList.length, (index) => false);
+                              final List<bool> isMenuVisible = List.generate(
+                                  allServiceList.length, (index) => false);
                               return ListView.builder(
-                               // physics: NeverScrollableScrollPhysics(),
+                                // physics: NeverScrollableScrollPhysics(),
                                 scrollDirection: Axis.vertical,
                                 controller: _pageController,
                                 itemCount: allServiceList.length,
@@ -618,7 +642,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                         onTap: () {
                                           setState(() {
                                             isExpanded = !isExpanded;
-                                             // isMenuVisible[index] = !isMenuVisible[index];
+                                            // isMenuVisible[index] = !isMenuVisible[index];
                                           });
                                         },
                                         child: Padding(
@@ -629,7 +653,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                             child: Row(
                                               children: [
                                                 SizedBox(
-                                                  width:100,
+                                                  width: 100,
                                                   child: Text(
                                                     allServiceList[index]
                                                                 .translations?[
@@ -640,7 +664,9 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                                         allServiceList[index]
                                                                 .translations?[
                                                             'en'] ??
-                                                        '',overflow: TextOverflow.ellipsis,
+                                                        '',
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                     style: GoogleFonts.openSans(
                                                       color:
                                                           _salonProfileProvider
@@ -659,8 +685,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                                 Container(
                                                   width: 24,
                                                   height: 24,
-                                                  clipBehavior:
-                                                      Clip.antiAlias,
+                                                  clipBehavior: Clip.antiAlias,
                                                   decoration:
                                                       const BoxDecoration(),
                                                   child: SvgPicture.asset(
@@ -677,26 +702,24 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                                           : "${getCurrency(chosenSalon.countryCode!)}${allServiceList[index].priceAndDuration!.price ?? '0'}",
                                                   textAlign: TextAlign.right,
                                                   style: GoogleFonts.openSans(
-                                                    color:
-                                                        _salonProfileProvider
-                                                            .salonTheme
-                                                            .textTheme
-                                                            .displaySmall!
-                                                            .color,
+                                                    color: _salonProfileProvider
+                                                        .salonTheme
+                                                        .textTheme
+                                                        .displaySmall!
+                                                        .color,
                                                     fontSize: 18,
                                                     // fontFamily: 'Open Sans',
-                                                    fontWeight:
-                                                        FontWeight.w500,
+                                                    fontWeight: FontWeight.w500,
                                                     height: 0,
                                                   ),
                                                 ),
                                               ],
                                             ),
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                                 border: Border(
                                                     bottom: BorderSide(
-                                                        color:
-                                                            Color(0xff9f9f9f)))),
+                                                        color: Color(
+                                                            0xff9f9f9f)))),
                                           ),
                                         ),
                                       ),
@@ -753,7 +776,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                                 SvgPicture.asset(
                                                     "assets/test_assets/arrow_up.svg"),
                                                 //  Spacer(),
-                                                Gap(20),
+                                                const Gap(20),
                                                 Text(
                                                   (allServiceList[index]
                                                           .isPriceRange)
@@ -764,16 +787,14 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                                           : "${getCurrency(chosenSalon.countryCode!)}${allServiceList[index].priceAndDuration!.price ?? '0'}",
                                                   textAlign: TextAlign.right,
                                                   style: GoogleFonts.openSans(
-                                                    color:
-                                                        _salonProfileProvider
-                                                            .salonTheme
-                                                            .textTheme
-                                                            .displaySmall!
-                                                            .color,
+                                                    color: _salonProfileProvider
+                                                        .salonTheme
+                                                        .textTheme
+                                                        .displaySmall!
+                                                        .color,
                                                     fontSize: 15,
                                                     // fontFamily: 'Open Sans',
-                                                    fontWeight:
-                                                        FontWeight.w500,
+                                                    fontWeight: FontWeight.w500,
                                                     height: 0,
                                                   ),
                                                 ),
@@ -792,8 +813,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                                       '',
                                                   style: GoogleFonts.openSans(
                                                     fontSize: 16,
-                                                    fontWeight:
-                                                        FontWeight.w400,
+                                                    fontWeight: FontWeight.w400,
                                                     //color: const Color(0xff282828)
                                                   )),
                                             )
@@ -828,192 +848,202 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                     controller: _pageController,
                                     itemCount: serviceList.length,
                                     itemBuilder: (context, index) {
-                                      
                                       return Column(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            isExpanded = !isExpanded;
-                                          });
-
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 12.0, right: 12),
-                                          child: Container(
-                                            height: 50,
-                                            child: Row(
-                                              children: [
-                                                Text(
-                                                  serviceList[index]
-                                                            .translations?[
-                                                        AppLocalizations.of(
-                                                                    context)
-                                                                ?.localeName ??
-                                                            'en'] ??
-                                                    serviceList[index]
-                                                        .translations?['en'] ??
-                                                    '',overflow: TextOverflow.ellipsis,
-                                                  style: GoogleFonts.openSans(
-                                                    color:
-                                                        _salonProfileProvider
-                                                            .salonTheme
-                                                            .textTheme
-                                                            .displaySmall!
-                                                            .color,
-                                                    fontSize: 18,
-                                                    //   fontFamily: 'Open Sans',
-                                                    fontWeight:
-                                                        FontWeight.w500,
-                                                    height: 0,
-                                                  ),
-                                                ),
-                                                Container(
-                                                  width: 24,
-                                                  height: 24,
-                                                  clipBehavior:
-                                                      Clip.antiAlias,
-                                                  decoration:
-                                                      const BoxDecoration(),
-                                                  child: SvgPicture.asset(
-                                                      "assets/test_assets/arrow_down.svg"),
-                                                ),
-                                                const Spacer(),
-                                                Text(
-                                                (serviceList[index].isPriceRange)
-                                                ? "${getCurrency(chosenSalon.countryCode!)}${serviceList[index].priceAndDuration!.price ?? '0'}-${getCurrency(chosenSalon.countryCode!)}${serviceList[index].priceAndDurationMax!.price ?? '0'}"
-                                                : (serviceList[index]
-                                                        .isPriceStartAt)
-                                                    ? "${getCurrency(chosenSalon.countryCode!)}${serviceList[index].priceAndDuration!.price ?? '0'}+"
-                                                    : "${getCurrency(chosenSalon.countryCode!)}${serviceList[index].priceAndDuration!.price ?? '0'}",
-                                                  textAlign: TextAlign.right,
-                                                  style: GoogleFonts.openSans(
-                                                    color:
-                                                        _salonProfileProvider
-                                                            .salonTheme
-                                                            .textTheme
-                                                            .displaySmall!
-                                                            .color,
-                                                    fontSize: 18,
-                                                    // fontFamily: 'Open Sans',
-                                                    fontWeight:
-                                                        FontWeight.w500,
-                                                    height: 0,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            decoration: BoxDecoration(
-                                                border: Border(
-                                                    bottom: BorderSide(
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                isExpanded = !isExpanded;
+                                              });
+                                            },
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 12.0, right: 12),
+                                              child: Container(
+                                                height: 50,
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      serviceList[index]
+                                                                  .translations?[
+                                                              AppLocalizations.of(
+                                                                          context)
+                                                                      ?.localeName ??
+                                                                  'en'] ??
+                                                          serviceList[index]
+                                                                  .translations?[
+                                                              'en'] ??
+                                                          '',
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style:
+                                                          GoogleFonts.openSans(
                                                         color:
-                                                            Color(0xff9f9f9f)))),
+                                                            _salonProfileProvider
+                                                                .salonTheme
+                                                                .textTheme
+                                                                .displaySmall!
+                                                                .color,
+                                                        fontSize: 18,
+                                                        //   fontFamily: 'Open Sans',
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        height: 0,
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      width: 24,
+                                                      height: 24,
+                                                      clipBehavior:
+                                                          Clip.antiAlias,
+                                                      decoration:
+                                                          const BoxDecoration(),
+                                                      child: SvgPicture.asset(
+                                                          "assets/test_assets/arrow_down.svg"),
+                                                    ),
+                                                    const Spacer(),
+                                                    Text(
+                                                      (serviceList[index]
+                                                              .isPriceRange)
+                                                          ? "${getCurrency(chosenSalon.countryCode!)}${serviceList[index].priceAndDuration!.price ?? '0'}-${getCurrency(chosenSalon.countryCode!)}${serviceList[index].priceAndDurationMax!.price ?? '0'}"
+                                                          : (serviceList[index]
+                                                                  .isPriceStartAt)
+                                                              ? "${getCurrency(chosenSalon.countryCode!)}${serviceList[index].priceAndDuration!.price ?? '0'}+"
+                                                              : "${getCurrency(chosenSalon.countryCode!)}${serviceList[index].priceAndDuration!.price ?? '0'}",
+                                                      textAlign:
+                                                          TextAlign.right,
+                                                      style:
+                                                          GoogleFonts.openSans(
+                                                        color:
+                                                            _salonProfileProvider
+                                                                .salonTheme
+                                                                .textTheme
+                                                                .displaySmall!
+                                                                .color,
+                                                        fontSize: 18,
+                                                        // fontFamily: 'Open Sans',
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        height: 0,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                decoration: const BoxDecoration(
+                                                    border: Border(
+                                                        bottom: BorderSide(
+                                                            color: Color(
+                                                                0xff9f9f9f)))),
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                      Visibility(
-                                        visible: isExpanded,
-                                        child: Column(
-                                          children: [
-                                            Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                          Visibility(
+                                            visible: isExpanded,
+                                            child: Column(
                                               children: [
-                                                Expanded(
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 12.0,
-                                                            right: 12),
-                                                    child: SizedBox(
-                                                      //  width: 180,
-                                                      child: Text(
-                                                        serviceList[index]
-                                                            .translations?[
-                                                        AppLocalizations.of(
-                                                                    context)
-                                                                ?.localeName ??
-                                                            'en'] ??
-                                                    serviceList[index]
-                                                        .translations?['en'] ??
-                                                    '',
-                                                        style: GoogleFonts
-                                                            .openSans(
-                                                          color:
-                                                              _salonProfileProvider
+                                                Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Expanded(
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                left: 12.0,
+                                                                right: 12),
+                                                        child: SizedBox(
+                                                          //  width: 180,
+                                                          child: Text(
+                                                            serviceList[index]
+                                                                        .translations?[
+                                                                    AppLocalizations.of(context)
+                                                                            ?.localeName ??
+                                                                        'en'] ??
+                                                                serviceList[index]
+                                                                        .translations?[
+                                                                    'en'] ??
+                                                                '',
+                                                            style: GoogleFonts
+                                                                .openSans(
+                                                              color: _salonProfileProvider
                                                                   .salonTheme
                                                                   .textTheme
                                                                   .displaySmall!
                                                                   .color,
-                                                          fontSize: 18,
-                                                          //   fontFamily: 'Open Sans',
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          height: 0,
+                                                              fontSize: 18,
+                                                              //   fontFamily: 'Open Sans',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              height: 0,
+                                                            ),
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
-                                                  ),
+                                                    // const SizedBox(width: 6),
+                                                    SvgPicture.asset(
+                                                        "assets/test_assets/arrow_up.svg"),
+                                                    //  Spacer(),
+                                                    const Gap(20),
+                                                    Text(
+                                                      (serviceList[index]
+                                                              .isPriceRange)
+                                                          ? "${getCurrency(chosenSalon.countryCode!)}${serviceList[index].priceAndDuration!.price ?? '0'}-${getCurrency(chosenSalon.countryCode!)}${serviceList[index].priceAndDurationMax!.price ?? '0'}"
+                                                          : (serviceList[index]
+                                                                  .isPriceStartAt)
+                                                              ? "${getCurrency(chosenSalon.countryCode!)}${serviceList[index].priceAndDuration!.price ?? '0'}+"
+                                                              : "${getCurrency(chosenSalon.countryCode!)}${serviceList[index].priceAndDuration!.price ?? '0'}",
+                                                      textAlign:
+                                                          TextAlign.right,
+                                                      style:
+                                                          GoogleFonts.openSans(
+                                                        color:
+                                                            _salonProfileProvider
+                                                                .salonTheme
+                                                                .textTheme
+                                                                .displaySmall!
+                                                                .color,
+                                                        fontSize: 15,
+                                                        // fontFamily: 'Open Sans',
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        height: 0,
+                                                      ),
+                                                    ),
+                                                    const Gap(10),
+                                                  ],
                                                 ),
-                                                // const SizedBox(width: 6),
-                                                SvgPicture.asset(
-                                                    "assets/test_assets/arrow_up.svg"),
-                                                //  Spacer(),
-                                                Gap(20),
-                                                Text(
-                                                 (serviceList[index].isPriceRange)
-                                                ? "${getCurrency(chosenSalon.countryCode!)}${serviceList[index].priceAndDuration!.price ?? '0'}-${getCurrency(chosenSalon.countryCode!)}${serviceList[index].priceAndDurationMax!.price ?? '0'}"
-                                                : (serviceList[index]
-                                                        .isPriceStartAt)
-                                                    ? "${getCurrency(chosenSalon.countryCode!)}${serviceList[index].priceAndDuration!.price ?? '0'}+"
-                                                    : "${getCurrency(chosenSalon.countryCode!)}${serviceList[index].priceAndDuration!.price ?? '0'}",
-                                                  textAlign: TextAlign.right,
-                                                  style: GoogleFonts.openSans(
-                                                    color:
-                                                        _salonProfileProvider
-                                                            .salonTheme
-                                                            .textTheme
-                                                            .displaySmall!
-                                                            .color,
-                                                    fontSize: 15,
-                                                    // fontFamily: 'Open Sans',
-                                                    fontWeight:
-                                                        FontWeight.w500,
-                                                    height: 0,
-                                                  ),
-                                                ),
-                                                const Gap(10),
+                                                // const Gap(10),
+                                                // Image.asset("assets/hair.png"),
+                                                // const Gap(10),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 12.0,
+                                                          right: 12),
+                                                  child: Text(
+                                                      serviceList[index]
+                                                              .description ??
+                                                          '',
+                                                      style:
+                                                          GoogleFonts.openSans(
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        //color: const Color(0xff282828)
+                                                      )),
+                                                )
                                               ],
                                             ),
-                                            // const Gap(10),
-                                            // Image.asset("assets/hair.png"),
-                                            // const Gap(10),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 12.0, right: 12),
-                                              child: Text(
-                                                  serviceList[index]
-                                                          .description ??
-                                                      '',
-                                                  style: GoogleFonts.openSans(
-                                                    fontSize: 16,
-                                                    fontWeight:
-                                                        FontWeight.w400,
-                                                    //color: const Color(0xff282828)
-                                                  )),
-                                            )
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  );
-                                      
-                                      
-                                      
+                                          )
+                                        ],
+                                      );
                                     },
                                     // onPageChanged: (index) {
                                     //   setState(() {
@@ -1034,17 +1064,30 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                         const BookingDialogWidget222().show(context);
                       },
                       child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 12.0, right: 12),
-                          child:
-                              SvgPicture.asset('assets/test_assets/arrow.svg'),
-                        ),
+                        child:  Padding(
+                      padding: const EdgeInsets.only(left: 20.0, right: 12),
+                      child: Row(
+                        children: [
+                          Text('BOOK NOW',
+                              style: GoogleFonts.openSans(
+                                  color: _salonProfileProvider
+                                      .salonTheme.colorScheme.secondary,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700)),
+                                  Gap(10),
+                          Image.asset('assets/test_assets/book_arrow.png', height: 24, width: 24, color: _salonProfileProvider
+                                      .salonTheme.colorScheme.secondary,),
+                        ],
+                      ),
+                    ),
                       ),
                     ),
                     const Gap(120),
                   ],
 
-                  if (displaySettings.product.showProduct &&  _salonProfileProvider.allProducts.isNotEmpty) ...[
+                  if (displaySettings.product.showProduct &&
+                      _salonProfileProvider.allProducts.isNotEmpty) ...[
+                    SizedBox.fromSize(size: Size.zero, key: controller.shop),
                     Padding(
                       padding: const EdgeInsets.only(left: 18.0, right: 8.0),
                       child: Text(
@@ -1135,13 +1178,14 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
 
                                 decoration: BoxDecoration(
                                   border: _currentProductIndex == index
-                                      ? const BorderDirectional(
+                                      ?  BorderDirectional(
                                           // left: BorderSide(color: Color(0xFFE980B2)),
                                           // top: BorderSide(color: Color(0xFFE980B2)),
                                           //  right: BorderSide(color: Color(0xFFE980B2)),
                                           bottom: BorderSide(
                                               width: 2,
-                                              color: Color(0xFFE980B2)),
+                                              color: _salonProfileProvider
+                                      .salonTheme.colorScheme.secondary,),
                                         )
                                       : null,
                                 ),
@@ -1520,6 +1564,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
 
                   if (displaySettings.showTeam &&
                       _createAppointmentProvider.salonMasters.isNotEmpty) ...[
+                    SizedBox.fromSize(size: Size.zero, key: controller.team),
                     Padding(
                       padding: const EdgeInsets.only(left: 18.0, right: 8.0),
                       child: Text(
@@ -1539,6 +1584,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                     CarouselSlider.builder(
                       options: CarouselOptions(
                         height: 515,
+                        scrollPhysics: const ClampingScrollPhysics(),
                         aspectRatio: 16 / 9,
                         viewportFraction: 1,
                         initialPage: 0,
@@ -1576,28 +1622,35 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              (_createAppointmentProvider.salonMasters[index].profilePicUrl != null && _createAppointmentProvider.salonMasters[index].profilePicUrl != '')
-                        ?  Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10.0, right: 10.0),
-                                  child: Center(
-                                      child: CachedImage(
-                                    url:
-                                        '${_createAppointmentProvider.salonMasters[index].profilePicUrl}',
-                                    width: size.width / 1.1,
-                                    fit: BoxFit.fitWidth,
+                              (_createAppointmentProvider.salonMasters[index]
+                                              .profilePicUrl !=
+                                          null &&
+                                      _createAppointmentProvider
+                                              .salonMasters[index]
+                                              .profilePicUrl !=
+                                          '')
+                                  ? Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 10.0, right: 10.0),
+                                        child: Center(
+                                            child: CachedImage(
+                                          url:
+                                              '${_createAppointmentProvider.salonMasters[index].profilePicUrl}',
+                                          width: size.width / 1.1,
+                                          fit: BoxFit.fitWidth,
 
-                                    //height: 450,
-                                  )),
-                                ),
-                              )
-
-                        : Image.asset(
-                            _salonProfileProvider.themeType == ThemeType.GlamMinimalLight ? ThemeImages.noTeamMember : ThemeImages.noTeamMemberDark,
-                            fit: BoxFit.cover,
-                          ),
-                             
+                                          //height: 450,
+                                        )),
+                                      ),
+                                    )
+                                  : Image.asset(
+                                      _salonProfileProvider.themeType ==
+                                              ThemeType.GlamMinimalLight
+                                          ? ThemeImages.noTeamMember
+                                          : ThemeImages.noTeamMemberDark,
+                                      fit: BoxFit.cover,
+                                    ),
                               const Gap(16),
                               Row(
                                 children: [
@@ -1608,7 +1661,8 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                       '${_createAppointmentProvider.salonMasters[index].personalInfo?.firstName} ${_createAppointmentProvider.salonMasters[index].personalInfo?.lastName}',
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.openSans(
-                                        color: const Color(0xFFE980B2),
+                                        color:  _salonProfileProvider
+                                      .salonTheme.colorScheme.secondary,
                                         fontSize: 20,
                                         // fontFamily: 'Open Sans',
                                         fontWeight: FontWeight.w600,
@@ -1649,6 +1703,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                   ],
                   if (_salonProfileProvider.salonReviews.isNotEmpty &&
                       displaySettings.reviews.showReviews) ...[
+                    SizedBox.fromSize(size: Size.zero, key: controller.reviews),
                     const Gap(130),
                     Padding(
                       padding: const EdgeInsets.only(left: 18.0, right: 8.0),
@@ -1671,7 +1726,9 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                       child: Row(
                         children: [
                           Text(
-                            getTotalRatings(_salonProfileProvider.salonReviews),
+                            getTotalRatings(_salonProfileProvider.salonReviews)
+                                .toStringAsFixed(1)
+                                .toString(),
                             textAlign: TextAlign.center,
                             style: GoogleFonts.openSans(
                               color: _salonProfileProvider
@@ -1683,7 +1740,8 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                             ),
                           ),
                           RatingBar.builder(
-                            initialRating: 0, // reviewStars ?? 5,
+                            initialRating: getTotalRatings(_salonProfileProvider
+                                .salonReviews), // reviewStars ?? 5,
                             minRating: 0,
                             direction: Axis.horizontal,
                             allowHalfRating: false,
@@ -1698,8 +1756,9 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                 child: Container(
                                   width: 18,
                                   height: 18,
-                                  decoration: const ShapeDecoration(
-                                    color: Color(0xFFE980B2),
+                                  decoration:  ShapeDecoration(
+                                    color: _salonProfileProvider
+                                      .salonTheme.colorScheme.secondary,
                                     shape: StarBorder(
                                       points: 5,
                                       innerRadiusRatio: 0.38,
@@ -1747,12 +1806,15 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                               const EdgeInsets.only(left: 18.0, right: 18.0),
                           child: Container(
                             width: double.infinity,
-                            height: 263,
+                            height: 163,
                             padding: const EdgeInsets.all(20),
-                            decoration: const ShapeDecoration(
+                            decoration:  ShapeDecoration(
                               shape: RoundedRectangleBorder(
                                 side: BorderSide(
-                                    width: 1, color: Color(0xFFE980B2)),
+                                    width: 1, color: _salonProfileProvider
+                                      .salonTheme.colorScheme.secondary,
+                                  //  Color(0xFFE980B2)
+                                    ),
                               ),
                             ),
                             child: Column(
@@ -1773,104 +1835,49 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                         _salonProfileProvider
                                             .salonReviews[index].customerName,
                                         textAlign: TextAlign.center,
-                                        style: const TextStyle(
-                                          color: Color(0xFFE980B2),
+                                        style:  GoogleFonts.openSans(
+                                          color: _salonProfileProvider
+                                      .salonTheme.colorScheme.secondary,
+                                          //Color(0xFFE980B2),
                                           fontSize: 20,
-                                          fontFamily: 'Open Sans',
+                                         // fontFamily: 'Open Sans',
                                           fontWeight: FontWeight.w600,
                                           height: 0,
                                         ),
                                       ),
                                       const SizedBox(width: 36),
-                                      Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            width: 18,
-                                            height: 18,
-                                            decoration: const ShapeDecoration(
-                                              color: Color(0xFFE980B2),
-                                              shape: StarBorder(
-                                                points: 5,
-                                                innerRadiusRatio: 0.38,
-                                                pointRounding: 0.70,
-                                                valleyRounding: 0,
-                                                rotation: 0,
-                                                squash: 0,
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(width: 3),
-                                          Container(
-                                            width: 18,
-                                            height: 18,
-                                            decoration: const ShapeDecoration(
-                                              color: Color(0xFFE980B2),
-                                              shape: StarBorder(
-                                                points: 5,
-                                                innerRadiusRatio: 0.38,
-                                                pointRounding: 0.70,
-                                                valleyRounding: 0,
-                                                rotation: 0,
-                                                squash: 0,
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(width: 3),
-                                          Container(
-                                            width: 18,
-                                            height: 18,
-                                            decoration: const ShapeDecoration(
-                                              color: Color(0xFFE980B2),
-                                              shape: StarBorder(
-                                                points: 5,
-                                                innerRadiusRatio: 0.38,
-                                                pointRounding: 0.70,
-                                                valleyRounding: 0,
-                                                rotation: 0,
-                                                squash: 0,
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(width: 3),
-                                          Container(
-                                            width: 18,
-                                            height: 18,
-                                            decoration: const ShapeDecoration(
-                                              color: Color(0xFFE980B2),
-                                              shape: StarBorder(
-                                                points: 5,
-                                                innerRadiusRatio: 0.38,
-                                                pointRounding: 0.70,
-                                                valleyRounding: 0,
-                                                rotation: 0,
-                                                squash: 0,
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(width: 3),
-                                          Container(
-                                            width: 18,
-                                            height: 18,
-                                            decoration: const ShapeDecoration(
-                                              color: Color(0xFFE980B2),
-                                              shape: StarBorder(
-                                                points: 5,
-                                                innerRadiusRatio: 0.38,
-                                                pointRounding: 0.70,
-                                                valleyRounding: 0,
-                                                rotation: 0,
-                                                squash: 0,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                         RatingBar.builder(
+                initialRating:_salonProfileProvider.salonReviews[index].rating, // reviewStars ?? 5,
+                minRating: 0,
+                direction: Axis.horizontal,
+                allowHalfRating: false,
+                itemSize: 15,
+                itemCount: 5,
+                updateOnDrag: true,
+                unratedColor: Colors.grey,
+                onRatingUpdate: (rating) {},
+                itemBuilder: (context, _) {
+                  return Padding(
+                    padding: const EdgeInsets.all(3.0),
+                    child: Container(
+                      width: 18,
+                      height: 18,
+                      decoration: const ShapeDecoration(
+                        color: Color(0xFFE980B2),
+                        shape: StarBorder(
+                          points: 5,
+                          innerRadiusRatio: 0.38,
+                          pointRounding: 0.70,
+                          valleyRounding: 0,
+                          rotation: 0,
+                          squash: 0,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+                                     ],
                                   ),
                                 ),
                                 const SizedBox(height: 14),
@@ -1880,7 +1887,9 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                     _salonProfileProvider
                                         .salonReviews[index].review,
                                     style: GoogleFonts.openSans(
-                                      color: const Color(0xFFE980B2),
+                                      color:  _salonProfileProvider
+                                      .salonTheme.colorScheme.secondary,
+                                      //Color(0xFFE980B2),
                                       fontSize: 16,
                                       //  fontFamily: 'Open Sans',
                                       fontWeight: FontWeight.w500,
@@ -1936,6 +1945,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                       ),
                     ),
                   ),
+                  const Gap(20),
                   Padding(
                     padding: const EdgeInsets.only(left: 18.0, right: 18.0),
                     child: SizedBox(
@@ -2130,7 +2140,8 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 40, vertical: 13),
                                 decoration: ShapeDecoration(
-                                  color: const Color(0xFFE980B2),
+                                  color: _salonProfileProvider.salonTheme.colorScheme.secondary,
+                                  //Color(0xFFE980B2),
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(2)),
                                 ),
@@ -2141,6 +2152,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                   children: [
                                     Container(
                                       padding: const EdgeInsets.only(right: 8),
+                                     // color: _salonProfileProvider.salonTheme.colorScheme.secondary,
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment:
@@ -2174,96 +2186,101 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                           ),
                   ),
                   const Gap(120),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 18.0, right: 18.0),
-                    child: Text(
-                      (AppLocalizations.of(context)?.contacts ?? 'Contacts')
-                          .toUpperCase(),
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.openSans(
-                        color: _salonProfileProvider
-                            .salonTheme.textTheme.displaySmall!.color,
-                        fontSize: 40,
-                        //  fontFamily: 'Open Sans',
-                        fontWeight: FontWeight.w600,
-                        height: 0,
+                  if (displaySettings.showContact) ...[
+                    SizedBox.fromSize(
+                        size: Size.zero, key: controller.contacts),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+                      child: Text(
+                        (AppLocalizations.of(context)?.contacts ?? 'Contacts')
+                            .toUpperCase(),
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.openSans(
+                          color: _salonProfileProvider
+                              .salonTheme.textTheme.displaySmall!.color,
+                          fontSize: 40,
+                          //  fontFamily: 'Open Sans',
+                          fontWeight: FontWeight.w600,
+                          height: 0,
+                        ),
                       ),
                     ),
-                  ),
-                  const Gap(30),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 18.0, right: 18.0),
-                    child: Text(
-                      "Connect with us easily. Whether it's questions, collaborations, or just saying hello, we're here for you. Reach out via email, find us on social media, give us a call, or visit our address below.",
-                      style: GoogleFonts.openSans(
-                        color: _salonProfileProvider
-                            .salonTheme.textTheme.titleSmall!.color,
-                        fontSize: 16,
-                        //  fontFamily: 'Open Sans',
-                        fontWeight: FontWeight.w400,
-                        height: 1.5,
-                        letterSpacing: 0.16,
+                    const Gap(30),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+                      child: Text(
+                        "Connect with us easily. Whether it's questions, collaborations, or just saying hello, we're here for you. Reach out via email, find us on social media, give us a call, or visit our address below.",
+                        style: GoogleFonts.openSans(
+                          color: _salonProfileProvider
+                              .salonTheme.textTheme.titleSmall!.color,
+                          fontSize: 16,
+                          //  fontFamily: 'Open Sans',
+                          fontWeight: FontWeight.w400,
+                          height: 1.5,
+                          letterSpacing: 0.16,
+                        ),
                       ),
                     ),
-                  ),
-                  const Gap(52),
-                  ContactCard(
-                    contactTitle: 'Write To Us',
-                    contactAsset: 'message.svg',
-                    contactDescription: 'Start a conversations via email',
-                    contactInfo: chosenSalon.email,
-                    contactAction: () async {
-                      final Uri emailLaunchUri = Uri(
-                        scheme: 'mailto',
-                        path: chosenSalon.email,
-                        queryParameters: {'subject': 'Contact'},
-                      );
-                      launchUrl(emailLaunchUri);
-                    },
-                  ),
-                  const Gap(24),
-                  if (chosenSalon.phoneNumber.isNotEmpty)
+                    const Gap(52),
                     ContactCard(
-                      contactTitle: 'Call Us',
-                      contactAsset: 'call.svg',
-                      contactDescription: 'Today from 10 am to 7 pm',
-                      contactAction: () {
-                        Utils().launchCaller(
-                            chosenSalon.phoneNumber.replaceAll("-", ""));
+                      contactTitle: 'Write To Us',
+                      contactAsset: 'message.svg',
+                      contactDescription: 'Start a conversations via email',
+                      contactInfo: chosenSalon.email,
+                      contactAction: () async {
+                        final Uri emailLaunchUri = Uri(
+                          scheme: 'mailto',
+                          path: chosenSalon.email,
+                          queryParameters: {'subject': 'Contact'},
+                        );
+                        launchUrl(emailLaunchUri);
                       },
-                      contactInfo: chosenSalon.phoneNumber,
                     ),
-                  const Gap(24),
-                  ContactCard(
-                    contactTitle: 'Visit Us',
-                    contactAsset: 'location.svg',
-                    contactDescription: chosenSalon.address,
-                    contactInfo: 'View on The Map',
-                    contactAction: () async {
-                      Uri uri = Uri.parse(
-                          'https://www.google.com/maps/search/?api=1&query=${Uri.encodeFull(chosenSalon.address)}');
+                    const Gap(24),
+                    if (chosenSalon.phoneNumber.isNotEmpty)
+                      ContactCard(
+                        contactTitle: 'Call Us',
+                        contactAsset: 'call.svg',
+                        contactDescription: 'Today from 10 am to 7 pm',
+                        contactAction: () {
+                          Utils().launchCaller(
+                              chosenSalon.phoneNumber.replaceAll("-", ""));
+                        },
+                        contactInfo: chosenSalon.phoneNumber,
+                      ),
+                    const Gap(24),
+                    ContactCard(
+                      contactTitle: 'Visit Us',
+                      contactAsset: 'location.svg',
+                      contactDescription: chosenSalon.address,
+                      contactInfo: 'View on The Map',
+                      contactAction: () async {
+                        Uri uri = Uri.parse(
+                            'https://www.google.com/maps/search/?api=1&query=${Uri.encodeFull(chosenSalon.address)}');
 
-                      if (await canLaunchUrl(uri)) {
-                        await launchUrl(uri);
-                      } else {
-                        showToast(
-                            AppLocalizations.of(context)?.couldNotLaunch ??
-                                "Could not launch");
-                      }
-                    },
-                  ),
-                  const Gap(24),
-                  const ContactCard(
-                    contactTitle: 'Social Media',
-                    contactAsset: 'social_media.svg',
-                    contactDescription: 'Salon address',
-                    contactInfo: '',
-                    contactAssetList: [
-                      'instagram.svg',
-                      'tiktok.svg',
-                      'facebook.svg'
-                    ],
-                  ),
+                        if (await canLaunchUrl(uri)) {
+                          await launchUrl(uri);
+                        } else {
+                          showToast(
+                              AppLocalizations.of(context)?.couldNotLaunch ??
+                                  "Could not launch");
+                        }
+                      },
+                    ),
+                    const Gap(24),
+                    const ContactCard(
+                      contactTitle: 'Social Media',
+                      contactAsset: 'social_media.svg',
+                      contactDescription: 'Salon address',
+                      contactInfo: '',
+                      contactAssetList: [
+                        'instagram.svg',
+                        'tiktok.svg',
+                        'facebook.svg'
+                      ],
+                    ),
+                  ],
+
                   const Gap(20),
                   // Padding(
                   //   padding: const EdgeInsets.only(left: 18.0, right: 18.0),
@@ -2327,7 +2344,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                   const SizedBox(height: 12),
                   Center(
                     child: RichText(
-                      text: const TextSpan(
+                      text: TextSpan(
                         text: ' ',
                         //  style: DefaultTextStyle.of(context).style,
                         children: <TextSpan>[
@@ -2338,9 +2355,10 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                               )),
                           TextSpan(
                               text: ' Powered by Glamiris!',
-                              style: TextStyle(
+                              style: GoogleFonts.openSans(
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xFFE980B2),
+                                 color: _salonProfileProvider.salonTheme.colorScheme.secondary,
+                                // Color(0xFFE980B2),
                               )),
                         ],
                       ),
@@ -2369,7 +2387,7 @@ class FeaturesCheck extends ConsumerWidget {
         width: double.infinity,
         height: 40,
         decoration: BoxDecoration(
-          color: theme.colorScheme.primaryContainer,
+          color:   theme.colorScheme.secondary,
         ),
         child: Column(
           children: [
@@ -2636,13 +2654,15 @@ class ContactCard extends ConsumerWidget {
   }
 }
 
-class MenuSection extends StatelessWidget {
+class MenuSection extends ConsumerWidget {
   const MenuSection({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    final controller = ref.watch(themeController);
+    final salonProvider = ref.watch(salonProfileProvider);
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: SingleChildScrollView(
@@ -2652,29 +2672,78 @@ class MenuSection extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Gap(50),
-              const AppBarMenu(
-                title: 'About Us',
+              AppBarMenu(
+                title: AppLocalizations.of(context)?.aboutUs ?? 'About Us',
+                action: () {
+                  salonProvider.changeShowMenuMobile(false);
+                  Scrollable.ensureVisible(
+                    controller.about.currentContext!,
+                    duration: const Duration(seconds: 2),
+                    curve: Curves.ease,
+                  );
+                },
               ),
               const Gap(20),
-              const AppBarMenu(
-                title: 'Portfolio',
+              AppBarMenu(
+                title: AppLocalizations.of(context)?.portfolio ?? 'Portfolio',
+                action: () {
+                  salonProvider.changeShowMenuMobile(false);
+                  Scrollable.ensureVisible(
+                    controller.works.currentContext!,
+                    duration: const Duration(seconds: 2),
+                    curve: Curves.ease,
+                  );
+                },
               ),
               const Gap(20),
-              const AppBarMenu(
-                title: 'Services',
+              AppBarMenu(
+                  title: AppLocalizations.of(context)?.services ?? 'Services',
+                  action: () {
+                    salonProvider.changeShowMenuMobile(false);
+                    Scrollable.ensureVisible(
+                      controller.price.currentContext!,
+                      duration: const Duration(seconds: 2),
+                      curve: Curves.ease,
+                    );
+                  }),
+              const Gap(20),
+              AppBarMenu(
+                title: AppLocalizations.of(context)?.products ?? 'Products',
+                action: () {
+                  salonProvider.changeShowMenuMobile(false);
+                  Scrollable.ensureVisible(
+                    controller.shop.currentContext!,
+                    duration: const Duration(seconds: 2),
+                    curve: Curves.ease,
+                  );
+                },
               ),
               const Gap(20),
-              const AppBarMenu(
-                title: 'Products',
+              AppBarMenu(
+                title: (AppLocalizations.of(context)?.team ?? 'Team'),
+                action: () {
+                  salonProvider.changeShowMenuMobile(false);
+                  Scrollable.ensureVisible(
+                    controller.team.currentContext!,
+                    duration: const Duration(seconds: 2),
+                    curve: Curves.ease,
+                  );
+                },
               ),
-              const Gap(20),
-              AppBarMenu(title: (AppLocalizations.of(context)?.team ?? 'Team')),
               const Gap(20),
               AppBarMenu(
                   title: (AppLocalizations.of(context)?.reviews ?? 'Reviews')),
               const Gap(20),
-              const AppBarMenu(
+              AppBarMenu(
                 title: 'Contacts',
+                action: () {
+                  salonProvider.changeShowMenuMobile(false);
+                  Scrollable.ensureVisible(
+                    controller.contacts.currentContext!,
+                    duration: const Duration(seconds: 2),
+                    curve: Curves.ease,
+                  );
+                },
               ),
               const Gap(20),
               const AppBarMenu(
@@ -2769,20 +2838,26 @@ class _MastersViewState extends ConsumerState<MastersView> {
                   height: 373,
                   child: Column(
                     children: [
-                      
-                      (salonProvider.selectedViewMasterModel!.profilePicUrl != null && salonProvider.selectedViewMasterModel!.profilePicUrl != '')
-                        ?Expanded(
-                          child: CachedImage(
-                        url:
-                            '${salonProvider.selectedViewMasterModel!.profilePicUrl}',
-                        width: MediaQuery.of(context).size.width / 0.8,
-                        fit: BoxFit.fitWidth,
-                      )): Image.asset(
-                            salonProvider.themeType == ThemeType.GlamMinimalLight  ? ThemeImages.noTeamMember : ThemeImages.noTeamMemberDark,
-                            width: MediaQuery.of(context).size.width / 0.8,
-                        fit: BoxFit.fitWidth,
-                          ),
-                     
+                      (salonProvider.selectedViewMasterModel!.profilePicUrl !=
+                                  null &&
+                              salonProvider
+                                      .selectedViewMasterModel!.profilePicUrl !=
+                                  '')
+                          ? Expanded(
+                              child: CachedImage(
+                              url:
+                                  '${salonProvider.selectedViewMasterModel!.profilePicUrl}',
+                              width: MediaQuery.of(context).size.width / 0.8,
+                              fit: BoxFit.fitWidth,
+                            ))
+                          : Image.asset(
+                              salonProvider.themeType ==
+                                      ThemeType.GlamMinimalLight
+                                  ? ThemeImages.noTeamMember
+                                  : ThemeImages.noTeamMemberDark,
+                              width: MediaQuery.of(context).size.width / 0.8,
+                              fit: BoxFit.fitWidth,
+                            ),
                       const Gap(20),
                       Center(
                         child: Row(
@@ -2921,21 +2996,26 @@ class _MastersViewState extends ConsumerState<MastersView> {
 
 class AppBarMenu extends ConsumerWidget {
   final String? title;
-  const AppBarMenu({super.key, this.title = 'About Us'});
+  final Function()? action;
+  const AppBarMenu({super.key, this.title = 'About Us', this.action});
 
   @override
   Widget build(BuildContext context, ref) {
     final theme = ref.watch(salonProfileProvider).salonTheme;
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Text(
-        '$title',
-        style: GoogleFonts.openSans(color: theme.textTheme.displaySmall!.color),
+    return GestureDetector(
+      onTap: action,
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.only(bottom: 8),
+        child: Text(
+          '$title',
+          style:
+              GoogleFonts.openSans(color: theme.textTheme.displaySmall!.color),
+        ),
+        decoration: const BoxDecoration(
+            border:
+                Border(bottom: BorderSide(color: Color(0xff9f9f9f), width: 1))),
       ),
-      decoration: const BoxDecoration(
-          border:
-              Border(bottom: BorderSide(color: Color(0xff9f9f9f), width: 1))),
     );
   }
 }
