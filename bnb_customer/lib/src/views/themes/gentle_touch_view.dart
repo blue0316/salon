@@ -115,7 +115,7 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
                   padding: EdgeInsets.only(left: isTab ? 30.w : 5.w),
                   child: SizedBox(
                     height: 70.h,
-                    width: 80.h,
+                    width: 100.h,
                     child: Center(
                       child: (chosenSalon.salonLogo.isNotEmpty)
                           ? CachedImage(
@@ -123,7 +123,7 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
                               fit: BoxFit.cover,
                             )
                           : Text(
-                              chosenSalon.salonName.initials,
+                              (chosenSalon.salonName.initials.length >= 2) ? chosenSalon.salonName.initials.substring(0, 2) : chosenSalon.salonName.initials,
                               style: theme.textTheme.displayLarge!.copyWith(
                                 fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 50.sp, 50.sp),
                                 color: themeType == ThemeType.GentleTouch ? Colors.black : Colors.white,
