@@ -154,19 +154,19 @@ class SalonProfileProvider with ChangeNotifier {
     notifyListeners();
   }
 
-
   String extractFirstLetters(String sentence) {
-  List<String> words = sentence.split(' ');
-  String firstLetters = '';
+    List<String> words = sentence.split(' ');
+    String firstLetters = '';
 
-  for (String word in words) {
-    if (word.isNotEmpty) {
-      firstLetters += word[0];
+    for (String word in words) {
+      if (word.isNotEmpty) {
+        firstLetters += word[0];
+      }
     }
+
+    return firstLetters;
   }
 
-  return firstLetters;
-}
   void switchMasterView({int index = 0}) {
     showMasterView = !showMasterView;
     showMasterAtIndex = index;
@@ -175,10 +175,8 @@ class SalonProfileProvider with ChangeNotifier {
 
   Widget getTheme(bool showBooking) {
     if (availableThemes.contains(themeSettings?.theme?.id)) {
-      
       // If theme number is not in this set, it means that's a default theme
       switch (themeSettings?.theme?.id) {
-       
         case '1':
           salonTheme = getDefaultDarkTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.DefaultDark;
@@ -244,9 +242,7 @@ class SalonProfileProvider with ChangeNotifier {
           notifyListeners();
           return const GlamMinimalEntry();
 
-         
         //  break;
-          
 
         case '10':
           salonTheme = getGentleTouchTheme(themeSettings?.theme?.colorCode);
@@ -455,12 +451,9 @@ Set availableThemes = {
   '6', // Glam Light
   '66', // Glam Light New Design
   '7', // Glam Minimal Light
-  '8',
-  '12',
-  '13' // Glam Minimal Dark
   '8', // Glam Minimal Dark
   '10', // Gentle Touch Light
   '11', // Gentle Touch Dark
-
-   // City Muse Dark
+  '12', // City Muse Light
+  '13', // City Muse Dark
 };
