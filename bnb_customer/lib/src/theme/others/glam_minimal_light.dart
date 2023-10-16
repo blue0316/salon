@@ -305,7 +305,7 @@ class GlamMinimalLight {
       outlineVariant: Colors.black, // Color of divider on appbar
     )
         .copyWith(
-            secondary: Colors.black,
+            secondary: accentColor,
             secondaryContainer: const Color(0xffd9d9d9),
             primaryContainer: const Color(0xffF4dFE9),
             outline: const Color(0x26101010),

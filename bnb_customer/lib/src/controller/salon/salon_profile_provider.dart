@@ -462,5 +462,5 @@ Set availableThemes = {
   '10', // Gentle Touch Light
   '11', // Gentle Touch Dark
 
-  '13', // City Muse Dark
+   // City Muse Dark
 };

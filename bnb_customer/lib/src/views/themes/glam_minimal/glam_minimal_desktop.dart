@@ -1167,14 +1167,14 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                                           ),
                                                         )
                                                       ] else ...[
-                                                        Center(
-                                                            child: CachedImage(
-                                                          url:
-                                                              '${_salonProfileProvider.allProducts[index].productImageUrlList![0]}',
-                                                          width: 285,
-                                                          height: 285,
-                                                          fit: BoxFit.cover,
-                                                        )),
+                                                        // Center(
+                                                        //     child: CachedImage(
+                                                        //   url:
+                                                        //       '${_salonProfileProvider.allProducts[index].productImageUrlList![0]}',
+                                                        //   width: 285,
+                                                        //   height: 285,
+                                                        //   fit: BoxFit.cover,
+                                                        // )),
                                                       ],
                                                       const Gap(10),
                                                       Padding(
@@ -1286,6 +1286,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                                           .titleSmall!
                                                           .color, //height:1.5
                                                     )),
+                                                    Gap(40),
                                                 Row(
                                                   children: [
                                                     Text('BOOK NOW',

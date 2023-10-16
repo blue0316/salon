@@ -1,8 +1,8 @@
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/theme/others/barbershop.dart';
-import 'package:bbblient/src/theme/others/glam_barbershop.dart';
-import 'package:bbblient/src/theme/others/gentle_touch_dark.dart';
 import 'package:bbblient/src/theme/others/gentle_touch.dart';
+import 'package:bbblient/src/theme/others/gentle_touch_dark.dart';
+import 'package:bbblient/src/theme/others/glam_barbershop.dart';
 import 'package:bbblient/src/theme/others/glam_minimal_dark.dart';
 import 'package:bbblient/src/theme/others/glam_minimal_light.dart';
 import 'package:bbblient/src/theme/others/glam_one.dart';
@@ -218,7 +218,7 @@ ThemeData getGentleTouchTheme(String? colorCode) {
 ThemeData getGlamMinimalLightTheme(String? colorCode) {
   switch (colorCode) {
     case null: // 'FFC692':
-     // GlamMinimalLight.themeBackgroundColor = Colors.white;
+      // GlamMinimalLight.themeBackgroundColor = Colors.white;
 
       return GlamMinimalLight.lightTheme;
 
@@ -233,15 +233,14 @@ ThemeData getGlamMinimalLightTheme(String? colorCode) {
           int value = int.parse(valueString, radix: 16);
 
           GlamMinimalLight.accentColor = Color(value);
+         
         } catch (e) {
-          
-          GlamMinimalLight.accentColor = Color(0xfff4dfe9);
+          GlamMinimalLight.accentColor = const Color(0xfff4dfe9);
         }
       }
 
-       return GlamMinimalLight.lightTheme;
+      return GlamMinimalLight.lightTheme;
   }
-   
 }
 
 // Theme 8 - GLAM MINIMAL DARK
@@ -264,7 +263,7 @@ ThemeData getGlamMinimalDarkTheme(String? colorCode) {
 
           GlamMinimalDark.accentColor = Color(value);
         } catch (e) {
-          GlamMinimalDark.accentColor= Color(0xfff4dfe9);
+          GlamMinimalDark.accentColor = const Color(0xfff4dfe9);
         }
       }
 
