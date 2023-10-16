@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'dart:ui' as ui;
 
 class ThemeHeader extends ConsumerWidget {
   final SalonModel salonModel;
@@ -87,6 +88,7 @@ class ThemeHeader extends ConsumerWidget {
               direction: Axis.horizontal,
               alignment: WrapAlignment.center,
               children: _salonProfileProvider.chosenSalon.specializations!
+                  .take(8)
                   .map(
                     (item) => GlamOneWrap(text: item),
                   )
@@ -231,6 +233,33 @@ class GlamOneWrap extends ConsumerWidget {
     ThemeType themeType = _salonProfileProvider.themeType;
 
     return FittedBox(
+      //     child: Container(
+      //   height: 70,
+      //   width: 120,
+      //   decoration: ShapeDecoration(
+      //     shape: RoundedRectangleBorder(
+      //       side: const BorderSide(width: 1, color: Color(0xFFA5A5A5)),
+      //       borderRadius: BorderRadius.circular(2),
+      //     ),
+      //     color: const Color(0XFF868686), // .withOpacity(0.5),
+      //     image: DecorationImage(
+      //       image: AssetImage('assets/images/image.png'),
+      //       fit: BoxFit.cover,
+      //     ),
+      //   ),
+      //   child: BackdropFilter(
+      //     filter: ui.ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+      //     child: Padding(
+      //       padding: EdgeInsets.symmetric(horizontal: 30.sp, vertical: (themeType == ThemeType.GentleTouch || themeType == ThemeType.GentleTouchDark) ? 10.sp : vSpacing ?? 13.sp),
+      //       child: Text(
+      //         text.toTitleCase(),
+      //         style: theme.textTheme.bodyLarge!.copyWith(color: Colors.white),
+      //         textAlign: TextAlign.center,
+      //       ),
+      //     ),
+      //   ),
+      // )
+
       child: Container(
         decoration: (themeType != ThemeType.GentleTouch && themeType != ThemeType.GentleTouchDark)
             ? BoxDecoration(

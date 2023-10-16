@@ -31,7 +31,7 @@ class UniquePortraitLandingBottom extends ConsumerWidget {
         SizedBox(height: 18.sp),
         Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: DeviceConstraints.getResponsiveSize(context, 100.sp, 30.sp, 20.sp),
+            horizontal: DeviceConstraints.getResponsiveSize(context, 20.sp, 30.sp, 20.sp),
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,

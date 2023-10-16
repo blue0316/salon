@@ -26,6 +26,8 @@ import '../../salon/widgets/additional featured.dart';
 import '../../widgets/image.dart';
 import '../../widgets/widgets.dart';
 import '../components/contacts/widgets/contact_maps.dart';
+import '../images.dart';
+import '../utils/theme_type.dart';
 
 class GlamMinimalPhone extends ConsumerStatefulWidget {
   const GlamMinimalPhone({super.key});
@@ -616,7 +618,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                         onTap: () {
                                           setState(() {
                                             isExpanded = !isExpanded;
-                                              isMenuVisible[index] = !isMenuVisible[index];
+                                             // isMenuVisible[index] = !isMenuVisible[index];
                                           });
                                         },
                                         child: Padding(
@@ -1574,7 +1576,8 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Expanded(
+                              (_createAppointmentProvider.salonMasters[index].profilePicUrl != null && _createAppointmentProvider.salonMasters[index].profilePicUrl != '')
+                        ?  Expanded(
                                 child: Padding(
                                   padding: const EdgeInsets.only(
                                       left: 10.0, right: 10.0),
@@ -1588,7 +1591,13 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                     //height: 450,
                                   )),
                                 ),
-                              ),
+                              )
+
+                        : Image.asset(
+                            _salonProfileProvider.themeType == ThemeType.GlamMinimalLight ? ThemeImages.noTeamMember : ThemeImages.noTeamMemberDark,
+                            fit: BoxFit.cover,
+                          ),
+                             
                               const Gap(16),
                               Row(
                                 children: [
@@ -2760,13 +2769,20 @@ class _MastersViewState extends ConsumerState<MastersView> {
                   height: 373,
                   child: Column(
                     children: [
-                      Expanded(
+                      
+                      (salonProvider.selectedViewMasterModel!.profilePicUrl != null && salonProvider.selectedViewMasterModel!.profilePicUrl != '')
+                        ?Expanded(
                           child: CachedImage(
                         url:
                             '${salonProvider.selectedViewMasterModel!.profilePicUrl}',
                         width: MediaQuery.of(context).size.width / 0.8,
                         fit: BoxFit.fitWidth,
-                      )),
+                      )): Image.asset(
+                            salonProvider.themeType == ThemeType.GlamMinimalLight  ? ThemeImages.noTeamMember : ThemeImages.noTeamMemberDark,
+                            width: MediaQuery.of(context).size.width / 0.8,
+                        fit: BoxFit.fitWidth,
+                          ),
+                     
                       const Gap(20),
                       Center(
                         child: Row(

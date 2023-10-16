@@ -199,7 +199,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
                 dialogTextStyle: theme.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.normal,
                   fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
-                  color: theme.colorScheme.tertiary,
+                  color: Colors.black,
                   fontFamily: 'Inter-Medium',
                 ),
               ),

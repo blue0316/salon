@@ -276,18 +276,19 @@ class _GentleTouchTeamMemberState extends ConsumerState<GentleTouchTeamMember> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          (widget.master.personalInfo?.description ?? '').toTitleCase(),
-                          style: theme.textTheme.bodyLarge?.copyWith(
-                            color: (themeType == ThemeType.GentleTouch) ? Colors.black : Colors.white,
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.normal,
-                            fontFamily: 'Inter-Light',
+                        if (widget.master.personalInfo?.description != null && widget.master.personalInfo!.description!.isNotEmpty)
+                          Text(
+                            (widget.master.personalInfo?.description ?? '').toTitleCase(),
+                            style: theme.textTheme.bodyLarge?.copyWith(
+                              color: (themeType == ThemeType.GentleTouch) ? Colors.black : Colors.white,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Inter-Light',
+                            ),
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        SizedBox(height: 15.sp),
+                        if (widget.master.personalInfo?.description != null && widget.master.personalInfo!.description!.isNotEmpty) SizedBox(height: 15.sp),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -347,6 +348,7 @@ class _GentleTouchTeamButtonState extends ConsumerState<GentleTouchTeamButton> {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     ThemeType themeType = _salonProfileProvider.themeType;
+    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
@@ -364,10 +366,13 @@ class _GentleTouchTeamButtonState extends ConsumerState<GentleTouchTeamButton> {
         ),
         style: ElevatedButton.styleFrom(
           minimumSize: Size(150.h, 50.h),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(1.5),
-          ),
-          backgroundColor: !isHovered ? Colors.transparent : theme.colorScheme.secondary,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(1.5)),
+          backgroundColor: isPortrait
+              ? Colors.white
+              : !isHovered
+                  ? Colors.transparent
+                  : theme.colorScheme.secondary,
+          shadowColor: Colors.transparent,
           side: isHovered
               ? null
               : BorderSide(

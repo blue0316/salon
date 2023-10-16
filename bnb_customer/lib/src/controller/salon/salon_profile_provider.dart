@@ -244,6 +244,21 @@ class SalonProfileProvider with ChangeNotifier {
           notifyListeners();
           return const GlamMinimalEntry();
         //  break;
+          break;
+
+        case '10':
+          salonTheme = getGentleTouchTheme(themeSettings?.theme?.colorCode);
+          themeType = ThemeType.GentleTouch;
+
+          notifyListeners();
+          return GentleTouch(showBooking: showBooking);
+
+        case '11':
+          salonTheme = getGentleTouchDarkTheme(themeSettings?.theme?.colorCode);
+          themeType = ThemeType.GentleTouchDark;
+
+          notifyListeners();
+          return GentleTouch(showBooking: showBooking);
       }
 
       return GlamOneScreen(showBooking: showBooking); // New Themes Base Widget

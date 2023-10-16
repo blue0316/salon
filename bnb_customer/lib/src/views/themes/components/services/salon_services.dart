@@ -121,7 +121,7 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
                           tabs: _createAppointmentProvider.categoriesAvailable
                               .map(
                                 (item) => Tab(
-                                  text: item.categoryName.toTitleCase(),
+                                  text: ('${item.translations[AppLocalizations.of(context)?.localeName ?? 'en'] ?? item.categoryName}').toTitleCase(), //  .categoryName.toTitleCase(),
                                   // height: 20,
                                 ),
                               )

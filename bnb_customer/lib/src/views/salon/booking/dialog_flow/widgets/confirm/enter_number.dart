@@ -120,7 +120,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                 textStyle: theme.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.normal,
                   fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
-                  color: theme.colorScheme.tertiary.withOpacity(0.6),
+                  color: theme.colorScheme.tertiary,
                   fontFamily: 'Inter-Medium',
                 ),
                 showFlag: false,
@@ -128,7 +128,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                 dialogTextStyle: theme.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.normal,
                   fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
-                  color: theme.colorScheme.tertiary,
+                  color: Colors.black,
                   fontFamily: 'Inter-Medium',
                 ),
               ),
