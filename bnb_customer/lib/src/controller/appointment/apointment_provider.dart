@@ -321,6 +321,33 @@ class AppointmentProvider with ChangeNotifier {
           themeType = ThemeType.GlamMinimalDark;
           notifyListeners();
           return themeType;
+
+        case '10':
+          salonTheme = getGentleTouchTheme(themeSettings?.theme?.colorCode);
+          themeType = ThemeType.GentleTouch;
+
+          notifyListeners();
+          return themeType;
+
+        case '11':
+          salonTheme = getGentleTouchDarkTheme(themeSettings?.theme?.colorCode);
+          themeType = ThemeType.GentleTouchDark;
+
+          notifyListeners();
+          return themeType;
+
+        case '12':
+          salonTheme = getGlamMinimalLightTheme(themeSettings?.theme?.colorCode);
+          themeType = ThemeType.GlamMinimalLight;
+
+          notifyListeners();
+          return themeType;
+
+        case '13':
+          salonTheme = getGlamMinimalDarkTheme(themeSettings?.theme?.colorCode);
+          themeType = ThemeType.GlamMinimalDark;
+          notifyListeners();
+          return themeType;
       }
     } else {
       salonTheme = getDefaultLightTheme(themeSettings?.theme?.colorCode);
