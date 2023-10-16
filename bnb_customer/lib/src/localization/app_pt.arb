@@ -930,5 +930,8 @@
     "toCancel1": "Você pode cancelar até",
    "toCancel2": "antes da consulta sem nenhum custo. Seu depósito será devolvido ao seu cartão em até 2 dias úteis",
    "toCancel3": "Para cancelar ou reagendar entre em contato",
-   "toCancel4": "Você pode cancelar até 24 horas antes do agendamento sem nenhum custo. O depósito será devolvido ao seu cartão em até 2 dias úteis"
+   "toCancel4": "Você pode cancelar até 24 horas antes do agendamento sem nenhum custo. O depósito será devolvido ao seu cartão em até 2 dias úteis",
+   "timeAlreadyBooked": "Este horário já está bloqueado por outro compromisso",
+   "chooseAnotherSlot": "Os slots se sobrepõem ao horário reservado do salão, escolha outro slot",
+   "message": "Mensagem"
 }
