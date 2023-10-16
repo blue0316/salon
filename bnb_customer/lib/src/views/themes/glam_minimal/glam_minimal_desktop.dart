@@ -138,19 +138,24 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
             children: [
               const Gap(50),
               chosenSalon.salonLogo.isEmpty
-                  ? const SizedBox()
+                  ? Text(chosenSalon.salonName.initials,
+                      style: TextStyle(
+                          fontFamily: "VASQUZ",
+                          color: _salonProfileProvider
+                              .salonTheme.appBarTheme.titleTextStyle!.color,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14))
+                  //  const SizedBox()
                   // Text(_salonProfileProvider.extractFirstLetters(chosenSalon.salonName,),  style: GoogleFonts.openSans(color: _salonProfileProvider
                   //       .salonTheme.appBarTheme.titleTextStyle!.color,fontWeight: FontWeight.bold, fontSize: 14))
                   : SizedBox(
                       child: CircleAvatar(
                       radius: 20,
-                      
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: CachedImage(
                           url: chosenSalon.salonLogo,
                           fit: BoxFit.fitHeight,
-                          
                         ),
                       ),
                     ))
@@ -1108,6 +1113,11 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                                 .allProducts.length,
                                             shrinkWrap: true,
                                             itemBuilder: (context, index) {
+                                              // print(
+                                              //     'all products ${_salonProfileProvider.allProducts[index].productImageUrlList![0]}');
+                                              // print(
+                                              //     'all products ${_salonProfileProvider.allProducts[index].productImageUrlList}');
+
                                               return GestureDetector(
                                                 onTap: () {
                                                   setState(() {
@@ -1146,35 +1156,70 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                                               .productImageUrlList![
                                                                   0]!
                                                               .isEmpty) ...[
-                                                        SizedBox(
-                                                          width: 285,
-                                                          height: 285,
-                                                          child: Text(
-                                                            AppLocalizations.of(
-                                                                        context)
-                                                                    ?.photoNA ??
-                                                                'Photo N/A',
-                                                            style: GoogleFonts
-                                                                .openSans(
-                                                              //   color: const Color(0xFF0D0D0E),
-                                                              fontSize: 18,
-                                                              // fontFamily: 'Open Sans',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              height: 0,
+                                                        Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            SizedBox(
+                                                              width: 285,
+                                                              height: 285,
+                                                              child: Text(
+                                                                AppLocalizations.of(
+                                                                            context)
+                                                                        ?.photoNA ??
+                                                                    'Photo N/A',
+                                                                style: GoogleFonts
+                                                                    .openSans(
+                                                                  //   color: const Color(0xFF0D0D0E),
+                                                                  fontSize: 18,
+                                                                  // fontFamily: 'Open Sans',
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  height: 0,
+                                                                ),
+                                                              ),
                                                             ),
-                                                          ),
+                                                          ],
                                                         )
                                                       ] else ...[
-                                                        // Center(
-                                                        //     child: CachedImage(
-                                                        //   url:
-                                                        //       '${_salonProfileProvider.allProducts[index].productImageUrlList![0]}',
-                                                        //   width: 285,
-                                                        //   height: 285,
-                                                        //   fit: BoxFit.cover,
-                                                        // )),
+                                                        _salonProfileProvider
+                                                                    .allProducts[
+                                                                        index]
+                                                                    .productImageUrlList ==
+                                                                null
+                                                            ? SizedBox(
+                                                                width: 285,
+                                                                height: 285,
+                                                                child: Text(
+                                                                  AppLocalizations.of(
+                                                                              context)
+                                                                          ?.photoNA ??
+                                                                      'Photo N/A',
+                                                                  style: GoogleFonts
+                                                                      .openSans(
+                                                                    //   color: const Color(0xFF0D0D0E),
+                                                                    fontSize:
+                                                                        18,
+                                                                    // fontFamily: 'Open Sans',
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    height: 0,
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            : Center(
+                                                                child:
+                                                                    CachedImage(
+                                                                url:
+                                                                    '${_salonProfileProvider.allProducts[index].productImageUrlList![0]}',
+                                                                width: 285,
+                                                                height: 285,
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              )),
                                                       ],
                                                       const Gap(10),
                                                       Padding(
@@ -1195,7 +1240,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                                                         .allProducts[
                                                                             index]
                                                                         .productName ??
-                                                                    '',
+                                                                    ''.toCapitalized(),
                                                                 textAlign:
                                                                     TextAlign
                                                                         .center,
@@ -1277,7 +1322,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                                 Text(
                                                     selectedProduct!
                                                             .productDescription ??
-                                                        '',
+                                                        ''.toCapitalized(),
                                                     style: GoogleFonts.openSans(
                                                       fontSize: 15,
                                                       color: _salonProfileProvider
@@ -1286,7 +1331,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                                           .titleSmall!
                                                           .color, //height:1.5
                                                     )),
-                                                    Gap(40),
+                                                const Gap(40),
                                                 Row(
                                                   children: [
                                                     Text('BOOK NOW',
@@ -1513,7 +1558,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                                                             ?[
                                                                             index]
                                                                         .productName ??
-                                                                    '',
+                                                                    ''.toCapitalized(),
                                                                 textAlign:
                                                                     TextAlign
                                                                         .center,
@@ -1594,7 +1639,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                                 Text(
                                                     selectedProduct!
                                                             .productDescription ??
-                                                        '',
+                                                        ''. toCapitalized(),
                                                     style: GoogleFonts.openSans(
                                                       fontSize: 15,
                                                       color: _salonProfileProvider
@@ -1607,7 +1652,30 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                                     'assets/arrow.svg'),
                                               ],
                                             )),
-                                      )
+                                      ),
+                                      const Gap(40),
+                                      Row(
+                                        children: [
+                                          Text('BOOK NOW',
+                                              style: GoogleFonts.openSans(
+                                                  color: _salonProfileProvider
+                                                      .salonTheme
+                                                      .colorScheme
+                                                      .secondary,
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w700)),
+                                          const Gap(10),
+                                          Image.asset(
+                                            'assets/test_assets/book_arrow.png',
+                                            height: 24,
+                                            width: 24,
+                                            color: _salonProfileProvider
+                                                .salonTheme
+                                                .colorScheme
+                                                .secondary,
+                                          ),
+                                        ],
+                                      ),
                                     ],
                                   ),
                                 )

@@ -120,7 +120,13 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
         backgroundColor:
             _salonProfileProvider.salonTheme.appBarTheme.backgroundColor,
         leading: chosenSalon.salonLogo.isEmpty
-            ? const SizedBox()
+            ? Text(chosenSalon.salonName.initials,
+                style: TextStyle(
+                    fontFamily: "VASQUZ",
+                    color: _salonProfileProvider
+                        .salonTheme.appBarTheme.titleTextStyle!.color,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14))
             : SizedBox(
                 child: CachedImage(
                 url: chosenSalon.salonLogo,
@@ -254,9 +260,14 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                       .salonTheme.colorScheme.secondary,
                                   fontSize: 18,
                                   fontWeight: FontWeight.w700)),
-                                  Gap(10),
-                          Image.asset('assets/test_assets/book_arrow.png', height: 24, width: 24, color: _salonProfileProvider
-                                      .salonTheme.colorScheme.secondary,),
+                          const Gap(10),
+                          Image.asset(
+                            'assets/test_assets/book_arrow.png',
+                            height: 24,
+                            width: 24,
+                            color: _salonProfileProvider
+                                .salonTheme.colorScheme.secondary,
+                          ),
                         ],
                       ),
                     ),
@@ -316,7 +327,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                         ),
                       ),
                     ),
-                    Gap(20),
+                    const Gap(20),
                     Padding(
                       padding: const EdgeInsets.only(left: 18.0, right: 18.0),
                       child: SizedBox(
@@ -582,11 +593,14 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
 
                                 decoration: BoxDecoration(
                                   border: _currentServiceIndex == index
-                                      ?  BorderDirectional(
+                                      ? BorderDirectional(
                                           bottom: BorderSide(
-                                              width: 2,
-                                           color: _salonProfileProvider
-                                      .salonTheme.colorScheme.secondary,),
+                                            width: 2,
+                                            color: _salonProfileProvider
+                                                .salonTheme
+                                                .colorScheme
+                                                .secondary,
+                                          ),
                                         )
                                       : null,
                                 ),
@@ -1064,22 +1078,27 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                         const BookingDialogWidget222().show(context);
                       },
                       child: Center(
-                        child:  Padding(
-                      padding: const EdgeInsets.only(left: 20.0, right: 12),
-                      child: Row(
-                        children: [
-                          Text('BOOK NOW',
-                              style: GoogleFonts.openSans(
-                                  color: _salonProfileProvider
-                                      .salonTheme.colorScheme.secondary,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700)),
-                                  Gap(10),
-                          Image.asset('assets/test_assets/book_arrow.png', height: 24, width: 24, color: _salonProfileProvider
-                                      .salonTheme.colorScheme.secondary,),
-                        ],
-                      ),
-                    ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 20.0, right: 12),
+                          child: Row(
+                            children: [
+                              Text('BOOK NOW',
+                                  style: GoogleFonts.openSans(
+                                      color: _salonProfileProvider
+                                          .salonTheme.colorScheme.secondary,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700)),
+                              const Gap(10),
+                              Image.asset(
+                                'assets/test_assets/book_arrow.png',
+                                height: 24,
+                                width: 24,
+                                color: _salonProfileProvider
+                                    .salonTheme.colorScheme.secondary,
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                     const Gap(120),
@@ -1178,14 +1197,17 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
 
                                 decoration: BoxDecoration(
                                   border: _currentProductIndex == index
-                                      ?  BorderDirectional(
+                                      ? BorderDirectional(
                                           // left: BorderSide(color: Color(0xFFE980B2)),
                                           // top: BorderSide(color: Color(0xFFE980B2)),
                                           //  right: BorderSide(color: Color(0xFFE980B2)),
                                           bottom: BorderSide(
-                                              width: 2,
-                                              color: _salonProfileProvider
-                                      .salonTheme.colorScheme.secondary,),
+                                            width: 2,
+                                            color: _salonProfileProvider
+                                                .salonTheme
+                                                .colorScheme
+                                                .secondary,
+                                          ),
                                         )
                                       : null,
                                 ),
@@ -1661,8 +1683,8 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                       '${_createAppointmentProvider.salonMasters[index].personalInfo?.firstName} ${_createAppointmentProvider.salonMasters[index].personalInfo?.lastName}',
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.openSans(
-                                        color:  _salonProfileProvider
-                                      .salonTheme.colorScheme.secondary,
+                                        color: _salonProfileProvider
+                                            .salonTheme.colorScheme.secondary,
                                         fontSize: 20,
                                         // fontFamily: 'Open Sans',
                                         fontWeight: FontWeight.w600,
@@ -1756,10 +1778,10 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                 child: Container(
                                   width: 18,
                                   height: 18,
-                                  decoration:  ShapeDecoration(
+                                  decoration: ShapeDecoration(
                                     color: _salonProfileProvider
-                                      .salonTheme.colorScheme.secondary,
-                                    shape: StarBorder(
+                                        .salonTheme.colorScheme.secondary,
+                                    shape: const StarBorder(
                                       points: 5,
                                       innerRadiusRatio: 0.38,
                                       pointRounding: 0.70,
@@ -1808,13 +1830,14 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                             width: double.infinity,
                             height: 163,
                             padding: const EdgeInsets.all(20),
-                            decoration:  ShapeDecoration(
+                            decoration: ShapeDecoration(
                               shape: RoundedRectangleBorder(
                                 side: BorderSide(
-                                    width: 1, color: _salonProfileProvider
+                                  width: 1,
+                                  color: _salonProfileProvider
                                       .salonTheme.colorScheme.secondary,
                                   //  Color(0xFFE980B2)
-                                    ),
+                                ),
                               ),
                             ),
                             child: Column(
@@ -1835,49 +1858,51 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                         _salonProfileProvider
                                             .salonReviews[index].customerName,
                                         textAlign: TextAlign.center,
-                                        style:  GoogleFonts.openSans(
+                                        style: GoogleFonts.openSans(
                                           color: _salonProfileProvider
-                                      .salonTheme.colorScheme.secondary,
+                                              .salonTheme.colorScheme.secondary,
                                           //Color(0xFFE980B2),
                                           fontSize: 20,
-                                         // fontFamily: 'Open Sans',
+                                          // fontFamily: 'Open Sans',
                                           fontWeight: FontWeight.w600,
                                           height: 0,
                                         ),
                                       ),
                                       const SizedBox(width: 36),
-                                         RatingBar.builder(
-                initialRating:_salonProfileProvider.salonReviews[index].rating, // reviewStars ?? 5,
-                minRating: 0,
-                direction: Axis.horizontal,
-                allowHalfRating: false,
-                itemSize: 15,
-                itemCount: 5,
-                updateOnDrag: true,
-                unratedColor: Colors.grey,
-                onRatingUpdate: (rating) {},
-                itemBuilder: (context, _) {
-                  return Padding(
-                    padding: const EdgeInsets.all(3.0),
-                    child: Container(
-                      width: 18,
-                      height: 18,
-                      decoration: const ShapeDecoration(
-                        color: Color(0xFFE980B2),
-                        shape: StarBorder(
-                          points: 5,
-                          innerRadiusRatio: 0.38,
-                          pointRounding: 0.70,
-                          valleyRounding: 0,
-                          rotation: 0,
-                          squash: 0,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-                                     ],
+                                      RatingBar.builder(
+                                        initialRating: _salonProfileProvider
+                                            .salonReviews[index]
+                                            .rating, // reviewStars ?? 5,
+                                        minRating: 0,
+                                        direction: Axis.horizontal,
+                                        allowHalfRating: false,
+                                        itemSize: 15,
+                                        itemCount: 5,
+                                        updateOnDrag: true,
+                                        unratedColor: Colors.grey,
+                                        onRatingUpdate: (rating) {},
+                                        itemBuilder: (context, _) {
+                                          return Padding(
+                                            padding: const EdgeInsets.all(3.0),
+                                            child: Container(
+                                              width: 18,
+                                              height: 18,
+                                              decoration: const ShapeDecoration(
+                                                color: Color(0xFFE980B2),
+                                                shape: StarBorder(
+                                                  points: 5,
+                                                  innerRadiusRatio: 0.38,
+                                                  pointRounding: 0.70,
+                                                  valleyRounding: 0,
+                                                  rotation: 0,
+                                                  squash: 0,
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ],
                                   ),
                                 ),
                                 const SizedBox(height: 14),
@@ -1887,8 +1912,8 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                     _salonProfileProvider
                                         .salonReviews[index].review,
                                     style: GoogleFonts.openSans(
-                                      color:  _salonProfileProvider
-                                      .salonTheme.colorScheme.secondary,
+                                      color: _salonProfileProvider
+                                          .salonTheme.colorScheme.secondary,
                                       //Color(0xFFE980B2),
                                       fontSize: 16,
                                       //  fontFamily: 'Open Sans',
@@ -2140,7 +2165,8 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 40, vertical: 13),
                                 decoration: ShapeDecoration(
-                                  color: _salonProfileProvider.salonTheme.colorScheme.secondary,
+                                  color: _salonProfileProvider
+                                      .salonTheme.colorScheme.secondary,
                                   //Color(0xFFE980B2),
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(2)),
@@ -2152,7 +2178,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                   children: [
                                     Container(
                                       padding: const EdgeInsets.only(right: 8),
-                                     // color: _salonProfileProvider.salonTheme.colorScheme.secondary,
+                                      // color: _salonProfileProvider.salonTheme.colorScheme.secondary,
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment:
@@ -2348,7 +2374,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                         text: ' ',
                         //  style: DefaultTextStyle.of(context).style,
                         children: <TextSpan>[
-                          TextSpan(
+                          const TextSpan(
                               text: '© 2023 Glamiris.',
                               style: TextStyle(
                                 color: Color(0xFF585858),
@@ -2357,7 +2383,8 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                               text: ' Powered by Glamiris!',
                               style: GoogleFonts.openSans(
                                 fontWeight: FontWeight.bold,
-                                 color: _salonProfileProvider.salonTheme.colorScheme.secondary,
+                                color: _salonProfileProvider
+                                    .salonTheme.colorScheme.secondary,
                                 // Color(0xFFE980B2),
                               )),
                         ],
@@ -2387,7 +2414,7 @@ class FeaturesCheck extends ConsumerWidget {
         width: double.infinity,
         height: 40,
         decoration: BoxDecoration(
-          color:   theme.colorScheme.secondary,
+          color: theme.colorScheme.secondary,
         ),
         child: Column(
           children: [
@@ -2597,13 +2624,13 @@ class ContactCard extends ConsumerWidget {
                       fontSize: descriptionFontSize,
                       // fontFamily: 'Inter',
                       fontWeight: FontWeight.w400,
-                      height: 0.09,
+                      height: 1,
                     ),
                   ),
                 ),
               ],
             ),
-            if (contactInfo != '') const SizedBox(height: 30),
+            if (contactInfo != '') const SizedBox(height: 20),
             if (contactInfo != '')
               GestureDetector(
                 onTap: contactAction,
