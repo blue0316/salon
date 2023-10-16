@@ -9,28 +9,11 @@
   ],
 
   "es": [
-    "timeAlreadyBooked",
-    "chooseAnotherSlot"
+    "washYourFHands"
   ],
 
   "fr": [
     "choosebyServicesPriceDistanceRating",
     "organizedWork"
-  ],
-
-  "pt": [
-    "timeAlreadyBooked",
-    "chooseAnotherSlot",
-    "message"
-  ],
-
-  "ro": [
-    "timeAlreadyBooked",
-    "chooseAnotherSlot"
-  ],
-
-  "uk": [
-    "timeAlreadyBooked",
-    "chooseAnotherSlot"
   ]
 }

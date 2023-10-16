@@ -932,5 +932,7 @@
     "toCancel1": "Puteți anula până la",
    "toCancel2": "înainte de programare fără nicio taxă. Depozitul dumneavoastră va fi returnat pe cardul dumneavoastră în termen de 2 zile lucrătoare",
    "toCancel3": "Pentru a anula sau reprograma, vă rugăm să contactați",
-   "toCancel4": "Puteți anula cu până la 24 de ore înainte de programare fără nicio taxă. Depozitul va fi returnat pe cardul dumneavoastră în termen de 2 zile lucrătoare"
+   "toCancel4": "Puteți anula cu până la 24 de ore înainte de programare fără nicio taxă. Depozitul va fi returnat pe cardul dumneavoastră în termen de 2 zile lucrătoare",
+   "timeAlreadyBooked": "Această oră este deja blocată de altă întâlnire",
+   "chooseAnotherSlot": "Sloturile se suprapun cu ora rezervată de salon, alegeți alt slot"
 }
