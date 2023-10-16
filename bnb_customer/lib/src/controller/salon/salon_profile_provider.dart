@@ -438,8 +438,8 @@ Set availableThemes = {
   '66', // Glam Light New Design
   '7', // Glam Minimal Light
   '8', // Glam Minimal Dark
-  '10',
-  '11',
-  '12',
-  '13',
+  '10', // Gentle Touch Light
+  '11', // Gentle Touch Dark
+  '12', // City Muse Light
+  '13', // City Muse Dark
 };
