@@ -1,5 +1,5 @@
-import 'package:bbblient/src/views/themes/glam_minimal/glam_minimal_desktop.dart';
-import 'package:bbblient/src/views/themes/glam_minimal/glam_minimal_phone.dart';
+import 'package:bbblient/src/views/themes/city_muse/city_muse_desktop/city_muse_desktop.dart';
+import 'package:bbblient/src/views/themes/city_muse/city_muse_mobile/city_muse_mobile.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 

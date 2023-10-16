@@ -5,31 +5,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marquee/marquee.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../controller/all_providers/all_providers.dart';
-import '../../../models/cat_sub_service/category_service.dart';
-import '../../../models/cat_sub_service/services_model.dart';
-import '../../../models/customer_web_settings.dart';
-import '../../../models/enums/status.dart';
-import '../../../models/products.dart';
-import '../../../models/review.dart';
-import '../../../models/salon_master/master.dart';
-import '../../../models/salon_master/salon.dart';
-import '../../../utils/currency/currency.dart';
-import '../../../utils/icons.dart';
-import '../../../utils/utils.dart';
-import '../../salon/booking/dialog_flow/booking_dialog_2.dart';
-import '../../salon/widgets/additional featured.dart';
-import '../../widgets/image.dart';
-import '../../widgets/widgets.dart';
-import '../components/contacts/widgets/contact_maps.dart';
-import '../images.dart';
-import 'glam_minimal_phone.dart';
+import '../../../../controller/all_providers/all_providers.dart';
+import '../../../../models/cat_sub_service/category_service.dart';
+import '../../../../models/cat_sub_service/services_model.dart';
+import '../../../../models/customer_web_settings.dart';
+import '../../../../models/enums/status.dart';
+import '../../../../models/products.dart';
+import '../../../../models/review.dart';
+import '../../../../models/salon_master/master.dart';
+import '../../../../models/salon_master/salon.dart';
+import '../../../../utils/currency/currency.dart';
+import '../../../../utils/icons.dart';
+import '../../../../utils/utils.dart';
+import '../../../salon/booking/dialog_flow/booking_dialog_2.dart';
+import '../../../salon/widgets/additional featured.dart';
+import '../../../widgets/image.dart';
+import '../../../widgets/widgets.dart';
+import '../../components/contacts/widgets/contact_maps.dart';
+import '../../images.dart';
+import '../city_muse_mobile/city_muse_mobile.dart';
 
 class GlamMinimalDesktop extends ConsumerStatefulWidget {
   const GlamMinimalDesktop({super.key});
@@ -138,13 +139,22 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
             children: [
               const Gap(50),
               chosenSalon.salonLogo.isEmpty
-                  ? Text(chosenSalon.salonName.initials,
-                      style: TextStyle(
-                          fontFamily: "VASQUZ",
-                          color: _salonProfileProvider
-                              .salonTheme.appBarTheme.titleTextStyle!.color,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14))
+                  ? Padding(
+                      padding: EdgeInsets.only(left: 5.w),
+                      child: SizedBox(
+                        height: 70.h,
+                        width: 100.h,
+                        child: Center(
+                          child: Text(chosenSalon.salonName.initials,
+                              style: TextStyle(
+                                  fontFamily: "VASQUZ",
+                                  color: _salonProfileProvider.salonTheme
+                                      .appBarTheme.titleTextStyle!.color,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18)),
+                        ),
+                      ),
+                    )
                   //  const SizedBox()
                   // Text(_salonProfileProvider.extractFirstLetters(chosenSalon.salonName,),  style: GoogleFonts.openSans(color: _salonProfileProvider
                   //       .salonTheme.appBarTheme.titleTextStyle!.color,fontWeight: FontWeight.bold, fontSize: 14))
@@ -853,7 +863,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                         ),
                       ),
                     ),
-                    const Gap(20),
+                    const Gap(40),
                     Center(
                       child: GestureDetector(
                         onTap: () {
@@ -1075,6 +1085,11 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                                   '',
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.openSans(
+                                                color: _salonProfileProvider
+                                                    .salonTheme
+                                                    .textTheme
+                                                    .displaySmall!
+                                                    .color,
                                                 //   color: const Color(0xFF0D0D0E),
                                                 fontSize: 18,
                                                 // fontFamily: 'Open Sans',
@@ -1246,6 +1261,11 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                                                         .center,
                                                                 style: GoogleFonts
                                                                     .openSans(
+                                                                  color: _salonProfileProvider
+                                                                      .salonTheme
+                                                                      .textTheme
+                                                                      .displaySmall!
+                                                                      .color,
                                                                   //   color: const Color(0xFF0D0D0E),
                                                                   fontSize: 18,
                                                                   // fontFamily: 'Open Sans',
@@ -1639,7 +1659,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                                 Text(
                                                     selectedProduct!
                                                             .productDescription ??
-                                                        ''. toCapitalized(),
+                                                        ''.toCapitalized(),
                                                     style: GoogleFonts.openSans(
                                                       fontSize: 15,
                                                       color: _salonProfileProvider
