@@ -902,6 +902,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                         padding: const EdgeInsets.only(left: 20.0, right: 12),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text('BOOK NOW',
                                 style: GoogleFonts.openSans(
