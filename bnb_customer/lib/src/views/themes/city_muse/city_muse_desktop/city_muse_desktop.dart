@@ -1736,9 +1736,9 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                         child: ListView.builder(
                           itemBuilder: (context, index) {
                             return TeamWidget(
-                              masterModel: _createAppointmentProvider
-                                  .salonMasters[index],
-                            );
+                                masterModel: _createAppointmentProvider
+                                    .salonMasters[index],
+                                index: index);
                           },
                           itemCount:
                               _createAppointmentProvider.salonMasters.length,
@@ -2546,7 +2546,8 @@ class CityMuseServiceTab extends StatelessWidget {
 
 class TeamWidget extends ConsumerWidget {
   final MasterModel? masterModel;
-  const TeamWidget({super.key, this.masterModel});
+  final int index;
+  const TeamWidget({super.key, this.masterModel, required this.index});
 
   @override
   Widget build(BuildContext contex, ref) {
@@ -2555,6 +2556,7 @@ class TeamWidget extends ConsumerWidget {
       onTap: () {
         salonProfile.changeShowMenu(true);
         salonProfile.getWidgetForDesktop("masters");
+        salonProfile.changeCurrentIndex(index);
         salonProfile.changeSelectedMasterView(masterModel);
       },
       child: Column(

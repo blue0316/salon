@@ -19,6 +19,7 @@ import '../../../../models/cat_sub_service/services_model.dart';
 import '../../../../models/customer_web_settings.dart';
 import '../../../../models/enums/status.dart';
 import '../../../../models/products.dart';
+import '../../../../models/salon_master/master.dart';
 import '../../../../models/salon_master/salon.dart';
 import '../../../../utils/icons.dart';
 import '../../../../utils/utils.dart';
@@ -1252,6 +1253,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
 
                             _salonProfileProvider.changeSelectedMasterView(
                                 _createAppointmentProvider.salonMasters[index]);
+                            _salonProfileProvider.changeCurrentIndex(index);
                           });
                         },
                         child: Column(
@@ -2444,6 +2446,9 @@ class _MastersViewState extends ConsumerState<MastersView> {
   Widget build(BuildContext context) {
     final theme = ref.watch(salonProfileProvider).salonTheme;
     final salonProvider = ref.watch(salonProfileProvider);
+    final _createAppointmentProvider = ref.watch(createAppointmentProvider);
+    MasterModel master = _createAppointmentProvider
+        .salonMasters[salonProvider.currentMasterIndex];
     return Container(
       child: Padding(
         padding: const EdgeInsets.only(left: 18.0, right: 18),
@@ -2475,7 +2480,7 @@ class _MastersViewState extends ConsumerState<MastersView> {
               ),
               const Gap(20),
               Text(
-                '${salonProvider.selectedViewMasterModel?.personalInfo?.firstName} ${salonProvider.selectedViewMasterModel?.personalInfo?.lastName}',
+                '${master.personalInfo?.firstName} ${master.personalInfo?.lastName}',
                 style: GoogleFonts.openSans(
                     color: theme.textTheme.displaySmall!.color,
                     fontSize: 40,
@@ -2483,7 +2488,7 @@ class _MastersViewState extends ConsumerState<MastersView> {
               ),
               if (salonProvider.selectedViewMasterModel?.title != null)
                 Text(
-                  '${salonProvider.selectedViewMasterModel?.title}',
+                  '${master.title}',
                   style: GoogleFonts.openSans(
                       color: const Color(0xff868686), fontSize: 20),
                 ),
@@ -2505,8 +2510,7 @@ class _MastersViewState extends ConsumerState<MastersView> {
                                   '')
                           ? Expanded(
                               child: CachedImage(
-                              url:
-                                  '${salonProvider.selectedViewMasterModel!.profilePicUrl}',
+                              url: '${master.profilePicUrl}',
                               width: MediaQuery.of(context).size.width / 0.8,
                               fit: BoxFit.fitWidth,
                             ))
@@ -2556,7 +2560,7 @@ class _MastersViewState extends ConsumerState<MastersView> {
                   )),
               const Gap(30),
               Text(
-                '${salonProvider.selectedViewMasterModel?.personalInfo?.description}',
+                '${master.personalInfo?.description}',
                 textAlign: TextAlign.start,
                 style: GoogleFonts.openSans(
                   letterSpacing: 1,
@@ -2569,19 +2573,40 @@ class _MastersViewState extends ConsumerState<MastersView> {
                 height: 50,
                 child: Row(
                   children: [
-                    SvgPicture.asset('assets/test_assets/arrow_back.svg'),
-                    Text(
-                      ' Previous specialist',
-                      style:
-                          GoogleFonts.openSans(color: const Color(0xffb4b4b4)),
+                    GestureDetector(
+                      onTap: () {
+                        salonProvider.navigateToPrevious(
+                            _createAppointmentProvider.salonMasters);
+                      },
+                      child: Row(
+                        children: [
+                          SvgPicture.asset('assets/test_assets/arrow_back.svg'),
+                          Text(
+                            ' Previous specialist',
+                            style: GoogleFonts.openSans(
+                                color: const Color(0xffb4b4b4)),
+                          ),
+                        ],
+                      ),
                     ),
                     const Spacer(),
-                    Text(
-                      ' Next specialist',
-                      style:
-                          GoogleFonts.openSans(color: const Color(0xffb4b4b4)),
+                    GestureDetector(
+                        onTap: () {
+                        salonProvider.navigateToNext(
+                            _createAppointmentProvider.salonMasters);
+                      },
+                      child: Row(
+                        children: [
+                          Text(
+                            ' Next specialist',
+                            style: GoogleFonts.openSans(
+                                color: const Color(0xffb4b4b4)),
+                          ),
+                          SvgPicture.asset(
+                              'assets/test_assets/arrow_forward.svg'),
+                        ],
+                      ),
                     ),
-                    SvgPicture.asset('assets/test_assets/arrow_forward.svg'),
                   ],
                 ),
               ),

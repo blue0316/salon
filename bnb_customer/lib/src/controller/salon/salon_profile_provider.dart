@@ -133,6 +133,45 @@ class SalonProfileProvider with ChangeNotifier {
     }
   }
 
+  int currentMasterIndex = 0;
+
+  void navigateToPrevious(List<MasterModel> salonMasters) {
+    int prevIndex = currentMasterIndex - 1;
+    if (prevIndex >= 0) {
+      print('prev index is $currentMasterIndex');
+      currentMasterIndex = prevIndex;
+      notifyListeners();
+    }
+
+    notifyListeners();
+    // if (previousIndex >= 0) {
+    //   Navigator.pushReplacement(
+    //     context,
+    //     MaterialPageRoute(
+    //       builder: (context) => TextPage(
+    //         textItems: textItems,
+    //         currentIndex: previousIndex,
+    //       ),
+    //     ),
+    //   );
+    // }
+  }
+
+  void navigateToNext(List<MasterModel> salonMasters) {
+    int nextIndex = currentMasterIndex + 1;
+    if (nextIndex < salonMasters.length) {
+      currentMasterIndex = nextIndex;
+      print('next index is $currentMasterIndex');
+      notifyListeners();
+    }
+
+    notifyListeners();
+  }
+
+  changeCurrentIndex(indexVal) {
+    currentMasterIndex = indexVal;
+  }
+
   getWidgetForMobile(value) {
     switch (value) {
       case 'menu':
