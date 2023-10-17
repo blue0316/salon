@@ -1,7 +1,7 @@
 import 'package:bbblient/src/utils/extensions/exstension.dart';
-import 'package:bbblient/src/views/themes/city_muse/city_muse_desktop/city_muse_desktop.dart';
 import 'package:bbblient/src/views/themes/city_muse/city_muse_mobile/products.dart';
 import 'package:bbblient/src/views/themes/city_muse/city_muse_mobile/service_widget.dart';
+import 'package:bbblient/src/views/themes/city_muse/city_muse_mobile/specialization_box.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -30,6 +30,10 @@ import '../../../widgets/widgets.dart';
 import '../../components/contacts/widgets/contact_maps.dart';
 import '../../images.dart';
 import '../../utils/theme_type.dart';
+import '../city_muse_desktop/app_bar.dart';
+import '../utils.dart';
+import 'contact_card.dart';
+import 'features_check.dart';
 
 class GlamMinimalPhone extends ConsumerStatefulWidget {
   const GlamMinimalPhone({super.key});
@@ -1500,9 +1504,13 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                           child: Container(
                                             width: 18,
                                             height: 18,
-                                            decoration: const ShapeDecoration(
-                                              color: Color(0xFFE980B2),
-                                              shape: StarBorder(
+                                            decoration: ShapeDecoration(
+                                              color: _salonProfileProvider
+                                                  .salonTheme
+                                                  .colorScheme
+                                                  .secondary,
+                                              //Color(0xFFE980B2),
+                                              shape: const StarBorder(
                                                 points: 5,
                                                 innerRadiusRatio: 0.38,
                                                 pointRounding: 0.70,
@@ -1623,18 +1631,8 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                     height: 44,
                     child: TextField(
                       controller: _salonProfileProvider.nameController,
-                      decoration: InputDecoration(
-                          hintText: 'Full Name',
-                          filled: _salonProfileProvider
-                              .salonTheme.inputDecorationTheme.filled,
-                          fillColor: _salonProfileProvider
-                              .salonTheme.inputDecorationTheme.fillColor,
-                          border: _salonProfileProvider
-                              .salonTheme.inputDecorationTheme.border,
-                          enabledBorder: _salonProfileProvider
-                              .salonTheme.inputDecorationTheme.enabledBorder,
-                          focusedBorder: _salonProfileProvider
-                              .salonTheme.inputDecorationTheme.focusedBorder),
+                      decoration:
+                          textFieldStyle("Full Name", _salonProfileProvider),
                     ),
                   ),
                 ),
@@ -1661,17 +1659,8 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                     height: 44,
                     child: TextField(
                       controller: _salonProfileProvider.phoneController,
-                      decoration: InputDecoration(
-                          hintText: 'Phone',
-                          filled: true,
-                          fillColor: _salonProfileProvider
-                              .salonTheme.inputDecorationTheme.fillColor,
-                          border: _salonProfileProvider
-                              .salonTheme.inputDecorationTheme.border,
-                          enabledBorder: _salonProfileProvider
-                              .salonTheme.inputDecorationTheme.enabledBorder,
-                          focusedBorder: _salonProfileProvider
-                              .salonTheme.inputDecorationTheme.focusedBorder),
+                      decoration:
+                          textFieldStyle("Phone", _salonProfileProvider),
                     ),
                   ),
                 ),
@@ -1698,17 +1687,8 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                     height: 44,
                     child: TextField(
                       controller: _salonProfileProvider.emailController,
-                      decoration: InputDecoration(
-                          hintText: 'Email',
-                          filled: true,
-                          fillColor: _salonProfileProvider
-                              .salonTheme.inputDecorationTheme.fillColor,
-                          border: _salonProfileProvider
-                              .salonTheme.inputDecorationTheme.border,
-                          enabledBorder: _salonProfileProvider
-                              .salonTheme.inputDecorationTheme.enabledBorder,
-                          focusedBorder: _salonProfileProvider
-                              .salonTheme.inputDecorationTheme.focusedBorder),
+                      decoration:
+                          textFieldStyle("Email", _salonProfileProvider),
                     ),
                   ),
                 ),
@@ -1738,17 +1718,8 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                       maxLength: 8,
                       minLines: 7,
                       maxLines: 8,
-                      decoration: InputDecoration(
-                          hintText: 'Write to us',
-                          filled: true,
-                          fillColor: _salonProfileProvider
-                              .salonTheme.inputDecorationTheme.fillColor,
-                          border: _salonProfileProvider
-                              .salonTheme.inputDecorationTheme.border,
-                          enabledBorder: _salonProfileProvider
-                              .salonTheme.inputDecorationTheme.enabledBorder,
-                          focusedBorder: _salonProfileProvider
-                              .salonTheme.inputDecorationTheme.focusedBorder),
+                      decoration:
+                          textFieldStyle("Write to Us", _salonProfileProvider),
                     ),
                   ),
                 ),
@@ -1758,13 +1729,13 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                         salonId: chosenSalon.salonId);
                   },
                   child: _salonProfileProvider.enquiryStatus == Status.loading
-                      ? const Center(
+                      ? Center(
                           child: SizedBox(
                             height: 30,
                             width: 30,
                             child: CircularProgressIndicator(
-                              color: Color(0xFFE980B2),
-                            ),
+                                color: _salonProfileProvider
+                                    .salonTheme.colorScheme.secondary),
                           ),
                         )
                       : Padding(
@@ -1798,13 +1769,13 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
-                                        const Text(
+                                        Text(
                                           'SEND MESSAGE',
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(
+                                          style: GoogleFonts.openSans(
                                             color: Colors.white,
                                             fontSize: 16,
-                                            fontFamily: 'Open Sans',
+                                            //  fontFamily: 'Open Sans',
                                             fontWeight: FontWeight.w700,
                                             height: 0,
                                           ),
@@ -1859,7 +1830,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                     ),
                   ),
                   const Gap(52),
-                  ContactCard(
+                  CityMuseContactCard(
                     contactTitle: 'Write To Us',
                     contactAsset: 'message.svg',
                     contactDescription: 'Start a conversations via email',
@@ -1875,7 +1846,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                   ),
                   const Gap(24),
                   if (chosenSalon.phoneNumber.isNotEmpty)
-                    ContactCard(
+                    CityMuseContactCard(
                       contactTitle: 'Call Us',
                       contactAsset: 'call.svg',
                       contactDescription: 'Today from 10 am to 7 pm',
@@ -1886,7 +1857,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                       contactInfo: chosenSalon.phoneNumber,
                     ),
                   const Gap(24),
-                  ContactCard(
+                  CityMuseContactCard(
                     contactTitle: 'Visit Us',
                     contactAsset: 'location.svg',
                     contactDescription: chosenSalon.address,
@@ -1905,7 +1876,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                     },
                   ),
                   const Gap(24),
-                  const ContactCard(
+                  const CityMuseContactCard(
                     contactTitle: 'Social Media',
                     contactAsset: 'social_media.svg',
                     contactDescription: 'Salon address',
@@ -2009,416 +1980,6 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
   }
 }
 
-class FeaturesCheck extends ConsumerWidget {
-  final String? title;
-  const FeaturesCheck({Key? key, this.title}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, ref) {
-    final theme = ref.watch(salonProfileProvider).salonTheme;
-    return SizedBox(
-      width: double.infinity,
-      height: 70,
-      //MediaQuery.of(context).size.width * (8/30),
-      child: Container(
-        width: double.infinity,
-        height: 40,
-        decoration: BoxDecoration(
-          color: theme.colorScheme.secondary,
-        ),
-        child: Column(
-          children: [
-            const Gap(30),
-            Padding(
-              padding:
-                  const EdgeInsets.only(left: 18.0, right: 8.0, bottom: 10),
-              child: SizedBox(
-                height: 30,
-                width: double.infinity,
-                child: Row(
-                  // mainAxisSize: MainAxisSize.min,
-                  // mainAxisAlignment: MainAxisAlignment.start,
-                  // crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset("assets/test_assets/check.svg"),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Text(
-                        '$title',
-                        style: GoogleFonts.openSans(
-                          color: theme.textTheme.displaySmall!.color,
-                          fontSize: 18,
-                          // fontFamily: 'Open Sans',
-                          fontWeight: FontWeight.w600,
-                          height: 0,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class DesktopFeaturesCheck extends ConsumerWidget {
-  final String? title;
-  const DesktopFeaturesCheck({super.key, this.title});
-
-  @override
-  Widget build(BuildContext context, ref) {
-    final theme = ref.watch(salonProfileProvider).salonTheme;
-    return IntrinsicWidth(
-      child: SizedBox(
-        //  width: 250,
-        height: 70,
-        //MediaQuery.of(context).size.width * (8/30),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 18.0, right: 8.0, bottom: 10),
-          child: Row(
-            // mainAxisSize: MainAxisSize.min,
-            // mainAxisAlignment: MainAxisAlignment.start,
-            // crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SvgPicture.asset("assets/test_assets/check.svg"),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  '$title',
-                  style: GoogleFonts.openSans(
-                    color: theme.textTheme.displaySmall!.color,
-                    fontSize: 18,
-                    // fontFamily: 'Open Sans',
-                    fontWeight: FontWeight.w600,
-                    height: 0,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class SpecializationBox extends ConsumerWidget {
-  final String? name;
-  const SpecializationBox({Key? key, this.name}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, ref) {
-    final theme = ref.watch(salonProfileProvider).salonTheme;
-    return IntrinsicWidth(
-      child: Container(
-        //  width: 95,
-        height: 38,
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-        decoration: ShapeDecoration(
-          shape: RoundedRectangleBorder(
-            side: BorderSide(
-              width: 1,
-              color: theme.colorScheme.secondaryContainer,
-            ),
-          ),
-        ),
-        child: Center(
-          child: Text(
-            name ?? '',
-            textAlign: TextAlign.center,
-            style: GoogleFonts.openSans(
-              color: theme.textTheme.displaySmall!.color,
-              fontSize: 14,
-              //   fontFamily: 'Open Sans',
-              fontWeight: FontWeight.w400,
-              height: 0,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class ContactCard extends ConsumerWidget {
-  final String? contactTitle;
-  final String? contactDescription;
-  final String? contactAsset;
-  final List? contactAssetList;
-  final String? contactInfo;
-  final double width;
-  final double titleFontSize;
-  final double descriptionFontSize;
-  final double infoFontSize;
-  final Function()? contactAction;
-  const ContactCard(
-      {Key? key,
-      this.contactAsset,
-      this.titleFontSize = 16,
-      this.infoFontSize = 14,
-      this.descriptionFontSize = 14,
-      this.width = double.infinity,
-      this.contactAssetList,
-      this.contactDescription,
-      this.contactInfo,
-      this.contactAction,
-      this.contactTitle})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context, ref) {
-    final theme = ref.watch(salonProfileProvider).salonTheme;
-    return Padding(
-      padding: const EdgeInsets.only(left: 18.0, right: 18.0),
-      child: Container(
-        width: width,
-        height: 142,
-        padding: const EdgeInsets.only(
-          top: 16,
-          left: 16,
-          right: 16,
-          bottom: 14,
-        ),
-        decoration: ShapeDecoration(
-          shape: RoundedRectangleBorder(
-            side: BorderSide(
-              width: 0.5,
-              color: theme.textTheme.displayLarge!.color!,
-            ),
-          ),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset(
-                      'assets/test_assets/$contactAsset',
-                      height: 20,
-                      width: 20,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      '$contactTitle',
-                      style: GoogleFonts.openSans(
-                        color: theme.textTheme.headlineSmall!.color,
-                        fontSize: titleFontSize,
-                        // fontFamily: 'Inter',
-                        fontWeight: FontWeight.w600,
-                        height: 0,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                SizedBox(
-                  width: double.infinity,
-                  child: Text(
-                    '$contactDescription',
-                    style: GoogleFonts.openSans(
-                      color: theme.textTheme.headlineSmall!.color,
-                      fontSize: descriptionFontSize,
-                      // fontFamily: 'Inter',
-                      fontWeight: FontWeight.w400,
-                      height: 1,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            if (contactInfo != '') const SizedBox(height: 20),
-            if (contactInfo != '')
-              GestureDetector(
-                onTap: contactAction,
-                child: IntrinsicWidth(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '$contactInfo',
-                        style: GoogleFonts.openSans(
-                          // decorationThickness: 2, // Optional: specify underline thickness
-
-                          //decoration: TextDecoration.underline,
-                          color: theme.textTheme.headlineSmall!.color,
-                          fontSize: infoFontSize,
-                          //  fontFamily: 'Inter',
-                          fontWeight: FontWeight.w600,
-                          //   textDecoration: TextDecoration.underline,
-                          height: 0,
-                        ),
-                      ),
-                      Container(
-                        height: 1.5,
-                        color: theme.textTheme.headlineSmall!.color,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            const Gap(10),
-            if (contactAssetList != null && contactAssetList!.isNotEmpty)
-              SizedBox(
-                height: 50,
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    itemCount: contactAssetList!.length,
-                    itemBuilder: (context, index) => Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: SvgPicture.asset(
-                              'assets/test_assets/${contactAssetList![index]}'),
-                        )),
-              )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class MenuSection extends ConsumerWidget {
-  const MenuSection({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context, ref) {
-    final controller = ref.watch(themeController);
-    final salonProvider = ref.watch(salonProfileProvider);
-    final _createAppointmentProvider = ref.watch(createAppointmentProvider);
-    final DisplaySettings? displaySettings =
-        salonProvider.themeSettings?.displaySettings;
-    final SalonModel chosenSalon = salonProvider.chosenSalon;
-    return Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: SingleChildScrollView(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Gap(50),
-              if (chosenSalon.description.isNotEmpty &&
-                  displaySettings!.showAbout)
-                AppBarMenu(
-                  title: AppLocalizations.of(context)?.aboutUs ?? 'About Us',
-                  action: () {
-                    salonProvider.changeShowMenuMobile(false);
-                    Scrollable.ensureVisible(
-                      controller.about.currentContext!,
-                      duration: const Duration(seconds: 2),
-                      curve: Curves.ease,
-                    );
-                  },
-                ),
-              if (chosenSalon.photosOfWorks != null &&
-                  chosenSalon.photosOfWorks!.isNotEmpty &&
-                  displaySettings!.showPhotosOfWork) ...[
-                const Gap(20),
-                AppBarMenu(
-                  title: AppLocalizations.of(context)?.portfolio ?? 'Portfolio',
-                  action: () {
-                    salonProvider.changeShowMenuMobile(false);
-                    Scrollable.ensureVisible(
-                      controller.works.currentContext!,
-                      duration: const Duration(seconds: 2),
-                      curve: Curves.ease,
-                    );
-                  },
-                ),
-              ],
-              if (displaySettings!.services.showServices) ...[
-                const Gap(20),
-                AppBarMenu(
-                    title: AppLocalizations.of(context)?.services ?? 'Services',
-                    action: () {
-                      salonProvider.changeShowMenuMobile(false);
-                      Scrollable.ensureVisible(
-                        controller.price.currentContext!,
-                        duration: const Duration(seconds: 2),
-                        curve: Curves.ease,
-                      );
-                    }),
-              ],
-              if (displaySettings.product.showProduct &&
-                  salonProvider.allProducts.isNotEmpty) ...[
-                const Gap(20),
-                AppBarMenu(
-                  title: AppLocalizations.of(context)?.products ?? 'Products',
-                  action: () {
-                    salonProvider.changeShowMenuMobile(false);
-                    Scrollable.ensureVisible(
-                      controller.shop.currentContext!,
-                      duration: const Duration(seconds: 2),
-                      curve: Curves.ease,
-                    );
-                  },
-                ),
-              ],
-              if (displaySettings.showTeam &&
-                  _createAppointmentProvider.salonMasters.isNotEmpty) ...[
-                const Gap(20),
-                AppBarMenu(
-                  title: (AppLocalizations.of(context)?.team ?? 'Team'),
-                  action: () {
-                    salonProvider.changeShowMenuMobile(false);
-                    Scrollable.ensureVisible(
-                      controller.team.currentContext!,
-                      duration: const Duration(seconds: 2),
-                      curve: Curves.ease,
-                    );
-                  },
-                ),
-              ],
-              if (salonProvider.salonReviews.isNotEmpty &&
-                  displaySettings.reviews.showReviews) ...[
-                const Gap(20),
-                AppBarMenu(
-                    title:
-                        (AppLocalizations.of(context)?.reviews ?? 'Reviews')),
-                const Gap(20),
-                AppBarMenu(
-                  title: 'Contacts',
-                  action: () {
-                    salonProvider.changeShowMenuMobile(false);
-                    Scrollable.ensureVisible(
-                      controller.contacts.currentContext!,
-                      duration: const Duration(seconds: 2),
-                      curve: Curves.ease,
-                    );
-                  },
-                ),
-              ],
-              const Gap(20),
-              AppBarMenu(
-                title: 'Book now',
-                action: () {
-                  salonProvider.changeShowMenuMobile(false);
-                },
-              ),
-              const Spacer(),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 // getWidget(value) {
 //   switch (value) {
@@ -2433,274 +1994,3 @@ class MenuSection extends ConsumerWidget {
 //       break;
 //   }
 // }
-
-class MastersView extends ConsumerStatefulWidget {
-  const MastersView({Key? key}) : super(key: key);
-
-  @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _MastersViewState();
-}
-
-class _MastersViewState extends ConsumerState<MastersView> {
-  @override
-  Widget build(BuildContext context) {
-    final theme = ref.watch(salonProfileProvider).salonTheme;
-    final salonProvider = ref.watch(salonProfileProvider);
-    final _createAppointmentProvider = ref.watch(createAppointmentProvider);
-    MasterModel master = _createAppointmentProvider
-        .salonMasters[salonProvider.currentMasterIndex];
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.only(left: 18.0, right: 18),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Gap(30),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    salonProvider.changeShowMenuMobile(false);
-                    // getWidget("menu");
-                  });
-                  setState(() {
-                    salonProvider.changeShowMenuMobile(false);
-                  });
-                },
-                child: Row(
-                  children: [
-                    SvgPicture.asset('assets/test_assets/arrow_back.svg'),
-                    Text(
-                      ' Back to the main page',
-                      style:
-                          GoogleFonts.openSans(color: const Color(0xffb4b4b4)),
-                    )
-                  ],
-                ),
-              ),
-              const Gap(20),
-              Text(
-                '${master.personalInfo?.firstName} ${master.personalInfo?.lastName}',
-                style: GoogleFonts.openSans(
-                    color: theme.textTheme.displaySmall!.color,
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold),
-              ),
-              if (salonProvider.selectedViewMasterModel?.title != null)
-                Text(
-                  '${master.title}',
-                  style: GoogleFonts.openSans(
-                      color: const Color(0xff868686), fontSize: 20),
-                ),
-              const Gap(30),
-              Container(
-                  decoration: const BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(color: Color(0xff868686)),
-                          right: BorderSide(color: Color(0xff868686)),
-                          left: BorderSide(color: Color(0xff868686)))),
-                  width: double.infinity,
-                  height: 373,
-                  child: Column(
-                    children: [
-                      (salonProvider.selectedViewMasterModel!.profilePicUrl !=
-                                  null &&
-                              salonProvider
-                                      .selectedViewMasterModel!.profilePicUrl !=
-                                  '')
-                          ? Expanded(
-                              child: CachedImage(
-                              url: '${master.profilePicUrl}',
-                              width: MediaQuery.of(context).size.width / 0.8,
-                              fit: BoxFit.fitWidth,
-                            ))
-                          : Image.asset(
-                              salonProvider.themeType ==
-                                      ThemeType.GlamMinimalLight
-                                  ? ThemeImages.noTeamMember
-                                  : ThemeImages.noTeamMemberDark,
-                              width: MediaQuery.of(context).size.width / 0.8,
-                              fit: BoxFit.fitWidth,
-                            ),
-                      const Gap(20),
-                      Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              'assets/test_assets/instagram.svg',
-                              height: 30,
-                              width: 30,
-                            ),
-                            SvgPicture.asset(
-                              'assets/test_assets/facebook.svg',
-                              height: 30,
-                              width: 30,
-                            ),
-                            SvgPicture.asset(
-                              'assets/test_assets/pinterest.svg',
-                              height: 30,
-                              width: 30,
-                            ),
-                            SvgPicture.asset(
-                              'assets/test_assets/tiktok.svg',
-                              height: 30,
-                              width: 30,
-                            ),
-                            SvgPicture.asset(
-                              'assets/test_assets/twitter.svg',
-                              height: 30,
-                              width: 30,
-                            ),
-                          ],
-                        ),
-                      ),
-                      const Gap(20),
-                    ],
-                  )),
-              const Gap(30),
-              Text(
-                '${master.personalInfo?.description}',
-                textAlign: TextAlign.start,
-                style: GoogleFonts.openSans(
-                  letterSpacing: 1,
-                  height: 2,
-                  color: theme.textTheme.titleSmall!.color,
-                ),
-              ),
-              const Gap(30),
-              SizedBox(
-                height: 50,
-                child: Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        salonProvider.navigateToPrevious(
-                            _createAppointmentProvider.salonMasters);
-                      },
-                      child: Row(
-                        children: [
-                          SvgPicture.asset('assets/test_assets/arrow_back.svg'),
-                          Text(
-                            ' Previous specialist',
-                            style: GoogleFonts.openSans(
-                                color: const Color(0xffb4b4b4)),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const Spacer(),
-                    GestureDetector(
-                        onTap: () {
-                        salonProvider.navigateToNext(
-                            _createAppointmentProvider.salonMasters);
-                      },
-                      child: Row(
-                        children: [
-                          Text(
-                            ' Next specialist',
-                            style: GoogleFonts.openSans(
-                                color: const Color(0xffb4b4b4)),
-                          ),
-                          SvgPicture.asset(
-                              'assets/test_assets/arrow_forward.svg'),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const Gap(30),
-              Container(
-                  height: 1,
-                  width: double.infinity,
-                  color: const Color(0xFFB8B2A6)),
-              const Gap(30),
-              Center(
-                child: Container(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Terms & Conditions',
-                        style: GoogleFonts.inter(
-                          color: const Color(0xFF585858),
-                          fontSize: 13,
-                          //fontFamily: 'Onest',
-                          fontWeight: FontWeight.w400,
-                          height: 0.08,
-                        ),
-                      ),
-                      const SizedBox(width: 22),
-                      Text(
-                        'Privacy Policy',
-                        style: GoogleFonts.inter(
-                          color: const Color(0xFF585858),
-                          fontSize: 13,
-                          //   fontFamily: 'Onest',
-                          fontWeight: FontWeight.w400,
-                          height: 0.08,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 12),
-              Center(
-                child: RichText(
-                  text: const TextSpan(
-                    text: ' ',
-                    //  style: DefaultTextStyle.of(context).style,
-                    children: <TextSpan>[
-                      TextSpan(
-                          text: '© 2023 Glamiris.',
-                          style: TextStyle(
-                            color: Color(0xFF585858),
-                          )),
-                      TextSpan(
-                          text: ' Powered by Glamiris!',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFFE980B2),
-                          )),
-                    ],
-                  ),
-                ),
-              ),
-              const Gap(30),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class AppBarMenu extends ConsumerWidget {
-  final String? title;
-  final Function()? action;
-  const AppBarMenu({super.key, this.title = 'About Us', this.action});
-
-  @override
-  Widget build(BuildContext context, ref) {
-    final theme = ref.watch(salonProfileProvider).salonTheme;
-    return GestureDetector(
-      onTap: action,
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.only(bottom: 8),
-        child: Text(
-          '$title',
-          style:
-              GoogleFonts.openSans(color: theme.textTheme.displaySmall!.color),
-        ),
-        decoration: const BoxDecoration(
-            border:
-                Border(bottom: BorderSide(color: Color(0xff9f9f9f), width: 1))),
-      ),
-    );
-  }
-}

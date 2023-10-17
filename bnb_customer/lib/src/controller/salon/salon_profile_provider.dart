@@ -24,8 +24,9 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../views/themes/city_muse/city_muse_desktop/city_muse_desktop.dart';
-import '../../views/themes/city_muse/city_muse_mobile/city_muse_mobile.dart';
+import '../../views/themes/city_muse/city_muse_desktop/masters_view.dart';
+import '../../views/themes/city_muse/city_muse_mobile/masters_view.dart';
+import '../../views/themes/city_muse/city_muse_mobile/mobile_menu_section.dart';
 
 // todo make salons and masters profile responsiblity here from salonSearchProvider
 class SalonProfileProvider with ChangeNotifier {
@@ -135,10 +136,9 @@ class SalonProfileProvider with ChangeNotifier {
 
   int currentMasterIndex = 0;
 
-  void navigateToPrevious(List<MasterModel> salonMasters) {
+  void navigateToPreviousMaster(List<MasterModel> salonMasters) {
     int prevIndex = currentMasterIndex - 1;
     if (prevIndex >= 0) {
-      print('prev index is $currentMasterIndex');
       currentMasterIndex = prevIndex;
       notifyListeners();
     }
@@ -157,11 +157,11 @@ class SalonProfileProvider with ChangeNotifier {
     // }
   }
 
-  void navigateToNext(List<MasterModel> salonMasters) {
+  void navigateToNextMaster(List<MasterModel> salonMasters) {
     int nextIndex = currentMasterIndex + 1;
     if (nextIndex < salonMasters.length) {
       currentMasterIndex = nextIndex;
-      print('next index is $currentMasterIndex');
+
       notifyListeners();
     }
 
@@ -271,7 +271,7 @@ class SalonProfileProvider with ChangeNotifier {
         case '7':
           salonTheme =
               getGlamMinimalLightTheme(themeSettings?.theme?.colorCode);
-          //http://localhost:51401/home/salon?id=yUm0tTznu5NCtEhKVClr&back=false&locale=en
+          //http://localhost:51401/home/salon?id=snyyGYxB2ug8a4TGOOAs&back=false&locale=en
           themeType = ThemeType.GlamMinimalLight;
 
           notifyListeners();

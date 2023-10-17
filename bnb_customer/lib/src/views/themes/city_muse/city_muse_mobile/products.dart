@@ -75,8 +75,7 @@ class AllProductWidget extends StatelessWidget {
               ),
               const Spacer(),
               Text(
-                '${getCurrency(chosenSalon.countryCode!)}${_salonProfileProvider.allProducts[index].clientPrice}' ??
-                    '',
+                '${getCurrency(chosenSalon.countryCode!)}${_salonProfileProvider.allProducts[index].clientPrice}' ,
                 textAlign: TextAlign.center,
                 style: GoogleFonts.openSans(
                   //      color: const Color(0xFF868686),
@@ -195,8 +194,8 @@ class CityMuseProductTile extends StatelessWidget {
                                           ),
                                           const Spacer(),
                                           Text(
-                                            '${getCurrency(chosenSalon.countryCode!)}${salonProfileProvider.tabs[currentSelectedEntry]?[index].clientPrice}' ??
-                                                '',
+                                            '${getCurrency(chosenSalon.countryCode!)}${salonProfileProvider.tabs[currentSelectedEntry]?[index].clientPrice}'
+                                          ,
                                             textAlign: TextAlign.center,
                                             style: GoogleFonts.openSans(
                                               //      color: const Color(0xFF868686),
