@@ -4,13 +4,16 @@ import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
+import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/booking_dialog_2.dart';
+import 'package:bbblient/src/views/themes/icons.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'drawer.dart';
 
 class GentleTouchDrawer extends ConsumerStatefulWidget {
@@ -191,6 +194,23 @@ class _GentleTouchDrawerState extends ConsumerState<GentleTouchDrawer> {
                     Navigator.pop(context);
                     const BookingDialogWidget222().show(context);
                   },
+                ),
+                SizedBox(height: 10.sp),
+
+                Text(
+                  'Powered by',
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    fontSize: 12.sp,
+                    letterSpacing: 0,
+                    color: const Color(0XFF9F9F9F),
+                    fontFamily: 'Inter-Light',
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                SizedBox(height: 10.sp),
+
+                SvgPicture.asset(
+                  themeType == ThemeType.GentleTouch ? ThemeIcons.glamirisLogoLight : ThemeIcons.glamirisLogoDark,
                 ),
               ],
             ),

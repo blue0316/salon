@@ -35,5 +35,10 @@ class ThemeIcons {
   static const String quote = 'assets/themes/glam_one/svg/review_quote.svg';
 
   static const String quote2 = 'assets/themes/glam_one/svg/review_quote_2.svg';
+
   static const String socialContact = 'assets/themes/glam_one/svg/social_contact.svg';
+
+  static const String glamirisLogoLight = 'assets/themes/glam_one/svg/glamiris_logo_light.svg';
+
+  static const String glamirisLogoDark = 'assets/themes/glam_one/svg/glamiris_logo_dark.svg';
 }

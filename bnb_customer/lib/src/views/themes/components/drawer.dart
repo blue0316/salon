@@ -227,7 +227,7 @@ class _DrawerTextState extends ConsumerState<DrawerText> {
           onTap: widget.onTap,
           child: Padding(
             padding: EdgeInsets.symmetric(
-              vertical: (themeType != ThemeType.GentleTouch && themeType != ThemeType.GentleTouchDark) ? DeviceConstraints.getResponsiveSize(context, 20.h, 15.h, 15.h) : 15.h,
+              vertical: (themeType != ThemeType.GentleTouch && themeType != ThemeType.GentleTouchDark) ? DeviceConstraints.getResponsiveSize(context, 20.h, 15.h, 15.h) : 10.h,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
