@@ -264,7 +264,7 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
             ? SingleChildScrollView(
                 child: Column(
                   children: [
-                    // SizedBox.fromSize(size: Size.zero, key: controller.landing),
+                    SizedBox.fromSize(size: Size.zero, key: controller.landing),
                     const LandingHeader(),
 
                     // TAGS
