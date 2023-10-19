@@ -139,45 +139,45 @@ class GentleTouchDarkTheme {
     // color: primaryColor1,
   );
   static final TextStyle bodyText1 = TextStyle(
-    fontFamily: "Inter",
+    fontFamily: "Poppins",
     fontSize: 16.sp,
     fontWeight: FontWeight.w500,
     // color: primaryColor1,
   );
   static final TextStyle bodyText2 = TextStyle(
-    fontFamily: "Inter",
+    fontFamily: "Poppins",
     fontSize: 14.sp,
     fontWeight: FontWeight.w400,
     // color: primaryColor1,
   );
   static final TextStyle subTitle1 = TextStyle(
-    fontFamily: "Inter",
+    fontFamily: "Poppins",
     fontSize: 16.sp,
     fontWeight: FontWeight.w600,
     // color: primaryColor1,
   );
   static final TextStyle appointmentSubtitle = TextStyle(
-    fontFamily: "Inter",
+    fontFamily: "Poppins",
     fontSize: 14.sp,
     fontWeight: FontWeight.w600,
     // color: primaryColor1,
   );
   static const TextStyle calTextStyle = TextStyle(
-    fontFamily: "Inter",
+    fontFamily: "Poppins",
     fontSize: 14,
     // color: primaryColor1,
     fontWeight: FontWeight.w500,
   );
 
   static const TextStyle calTextStyle2 = TextStyle(
-    fontFamily: "Inter",
+    fontFamily: "Poppins",
     fontSize: 14,
     // color: primaryColor1,
     fontWeight: FontWeight.w500,
   );
 
   static const TextStyle appointmentTitleStyle = TextStyle(
-    fontFamily: "Inter",
+    fontFamily: "Poppins",
     fontSize: 14,
     // color: primaryColor1,
     fontWeight: FontWeight.w500,
@@ -185,7 +185,7 @@ class GentleTouchDarkTheme {
 
   // Sub Text under a Section Title
   static final TextStyle subTitle2 = TextStyle(
-    fontFamily: "Inter",
+    fontFamily: "Poppins",
     fontSize: 17.5.sp,
     fontWeight: FontWeight.w400,
     // color: Colors.black,
