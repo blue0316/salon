@@ -117,11 +117,13 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                                         decoration: BoxDecoration(
                                           // color: isServiceAddedBelogingToCategory ? selectedColor : Colors.transparent,
                                           border: Border.all(
-                                            color: _activeTab == index ? theme.primaryColor : const Color(0XFF4A4A4A),
+                                            color: _activeTab == index ? theme.colorScheme.secondary : const Color(0XFF4A4A4A),
+                                            // color: _activeTab == index ? theme.primaryColor : const Color(0XFF4A4A4A),
                                             width: 1,
                                           ),
 
-                                          color: _activeTab == index ? theme.primaryColor : theme.dialogBackgroundColor,
+                                          color: _activeTab == index ? theme.colorScheme.secondary : theme.dialogBackgroundColor,
+                                          // color: _activeTab == index ? theme.primaryColor : theme.dialogBackgroundColor,
                                           borderRadius: BorderRadius.circular(50),
                                         ),
                                         child: Center(
@@ -310,8 +312,9 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                               _createAppointmentProvider.changeBookingFlowIndex();
                               widget.tabController.animateTo(1);
                             },
-                            color: _createAppointmentProvider.chosenServices.isEmpty ? theme.primaryColor.withOpacity(0.4) : theme.primaryColor, // defaultTheme ? Colors.black : theme.primaryColor,
-                            borderColor: _createAppointmentProvider.chosenServices.isEmpty ? theme.primaryColor.withOpacity(0.4) : theme.primaryColor,
+                            // color: _createAppointmentProvider.chosenServices.isEmpty ? theme.primaryColor.withOpacity(0.4) : theme.primaryColor, // defaultTheme ? Colors.black : theme.primaryColor,
+                            color: _createAppointmentProvider.chosenServices.isEmpty ? theme.colorScheme.secondary.withOpacity(0.4) : theme.colorScheme.secondary, // defaultTheme ? Colors.black : theme.primaryColor,
+                            borderColor: _createAppointmentProvider.chosenServices.isEmpty ? theme.colorScheme.secondary.withOpacity(0.4) : theme.colorScheme.secondary,
                             textColor: loaderColor(themeType),
                             height: 60.h,
                             label: (_createAppointmentProvider.chosenServices.isEmpty ? AppLocalizations.of(context)?.book ?? "Book" : '${AppLocalizations.of(context)?.book ?? "Book"} ${_createAppointmentProvider.chosenServices.length} ${AppLocalizations.of(context)?.services ?? "services"}').toTitleCase(),
@@ -380,10 +383,12 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                                   decoration: BoxDecoration(
                                     // color: isServiceAddedBelogingToCategory ? selectedColor : Colors.transparent,
                                     border: Border.all(
-                                      color: _activeTab == index ? theme.primaryColor : const Color(0XFF4A4A4A),
+                                      color: _activeTab == index ? theme.colorScheme.secondary : const Color(0XFF4A4A4A),
+                                      // color: _activeTab == index ? theme.primaryColor : const Color(0XFF4A4A4A),
                                       width: 1,
                                     ),
-                                    color: _activeTab == index ? theme.primaryColor : theme.dialogBackgroundColor,
+                                    color: _activeTab == index ? theme.colorScheme.secondary : theme.dialogBackgroundColor,
+                                    // color: _activeTab == index ? theme.primaryColor : theme.dialogBackgroundColor,
                                     borderRadius: BorderRadius.circular(50),
                                   ),
                                   child: Center(
@@ -555,8 +560,9 @@ class _ServiceTabState extends ConsumerState<ServiceTab> {
                         _createAppointmentProvider.changeBookingFlowIndex();
                         widget.tabController.animateTo(1);
                       },
-                      color: _createAppointmentProvider.chosenServices.isEmpty ? theme.primaryColor.withOpacity(0.4) : theme.primaryColor, // defaultTheme ? Colors.black : theme.primaryColor,
-                      borderColor: _createAppointmentProvider.chosenServices.isEmpty ? theme.primaryColor.withOpacity(0.4) : theme.primaryColor,
+                      // color: _createAppointmentProvider.chosenServices.isEmpty ? theme.primaryColor.withOpacity(0.4) : theme.primaryColor, // defaultTheme ? Colors.black : theme.primaryColor,
+                      color: _createAppointmentProvider.chosenServices.isEmpty ? theme.colorScheme.secondary.withOpacity(0.4) : theme.colorScheme.secondary, // defaultTheme ? Colors.black : theme.primaryColor,
+                      borderColor: _createAppointmentProvider.chosenServices.isEmpty ? theme.colorScheme.secondary.withOpacity(0.4) : theme.colorScheme.secondary,
                       textColor: loaderColor(themeType),
                       height: 60.h,
                       label: (_createAppointmentProvider.chosenServices.isEmpty ? AppLocalizations.of(context)?.book ?? "Book" : '${AppLocalizations.of(context)?.book ?? "Book"} ${_createAppointmentProvider.chosenServices.length} ${AppLocalizations.of(context)?.services ?? "services"}').toTitleCase(),

@@ -102,17 +102,17 @@ Color? unSelectedMasterColor(ThemeType themeType) {
 
 Color? dialogButtonColor(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
-    case ThemeType.GlamMinimalLight:
-      return theme.primaryColor;
-    case ThemeType.GlamMinimalDark:
-      return theme.primaryColor;
-    case ThemeType.GentleTouch:
-      return theme.primaryColor;
+    // case ThemeType.GlamMinimalLight:
+    //   return theme.primaryColor;
+    // case ThemeType.GlamMinimalDark:
+    //   return theme.primaryColor;
+    // case ThemeType.GentleTouch:
+    //   return theme.primaryColor;
     case ThemeType.Barbershop:
       return theme.primaryColor;
 
     default:
-      return theme.primaryColor;
+      return theme.colorScheme.secondary;
   }
 }
 
@@ -214,7 +214,6 @@ Color? currentDateTextColor(ThemeType themeType, ThemeData theme) {
       return Colors.black;
     case ThemeType.GlamMinimalDark:
       return Colors.black;
-      
 
     default:
       return theme.colorScheme.tertiary;
@@ -271,7 +270,7 @@ Color? horizontalTimePickerColor(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
     case ThemeType.GentleTouchDark:
       return Colors.black;
-      case ThemeType.GlamMinimalDark:
+    case ThemeType.GlamMinimalDark:
       return Colors.black;
 
     default:

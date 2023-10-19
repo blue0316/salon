@@ -99,7 +99,7 @@ class ServiceCard extends ConsumerWidget {
           color: disabled ? const Color(0XFF4A4A4A) : Colors.transparent,
           borderRadius: BorderRadius.circular(7),
           border: isAdded
-              ? Border.all(width: 2, color: theme.primaryColor)
+              ? Border.all(width: 2, color: theme.colorScheme.secondary) //  theme.primaryColor)
               : Border.all(
                   width: 1,
                   color: disabled ? const Color(0XFF4A4A4A) : const Color(0XFF4A4A4A),

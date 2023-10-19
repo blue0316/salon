@@ -455,6 +455,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                             }
                           },
                           color: dialogButtonColor(themeType, theme),
+                          borderColor: dialogButtonColor(themeType, theme),
                           textColor: loaderColor(themeType),
                           height: 60.h,
                           label: (AppLocalizations.of(context)?.registerCard ?? 'Register Card').toCapitalized(), //  'Pay ${(deposit != 0) ? deposit : totalAmount}${getCurrency(salonModel.countryCode!)} deposit',
@@ -551,6 +552,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                             }
                           },
                           color: dialogButtonColor(themeType, theme),
+                          borderColor: dialogButtonColor(themeType, theme),
                           textColor: loaderColor(themeType),
                           height: 60.h,
                           label: (AppLocalizations.of(context)?.book ?? 'Book').toCapitalized(),

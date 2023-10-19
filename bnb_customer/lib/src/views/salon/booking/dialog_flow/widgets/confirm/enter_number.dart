@@ -286,7 +286,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                 color: dialogButtonColor(themeType, theme),
                 textColor: loaderColor(themeType),
                 height: 60.h,
-                borderColor: theme.primaryColor,
+                borderColor: dialogButtonColor(themeType, theme),
                 label: (AppLocalizations.of(context)?.sendACode ?? 'Send a code').toCapitalized(),
                 isLoading: (noVerificationSpinner == true) || _authProvider.otpStatus == Status.loading,
                 loaderColor: loaderColor(themeType), // defaultTheme ? Colors.white : Colors.black,

@@ -73,6 +73,7 @@ class _GentleTouchServiceTileState extends ConsumerState<GentleTouchServiceTile>
                           ),
                         ),
                       ),
+                      SizedBox(width: 12.sp),
                       Text(
                         widget.service.isFixedPrice ? "${getCurrency(salonModel.countryCode!)}${widget.service.priceAndDuration!.price}" : "${getCurrency(salonModel.countryCode!)}${widget.service.priceAndDuration!.price} - ${getCurrency(salonModel.countryCode!)}${widget.service.priceAndDurationMax!.price}",
                         style: theme.textTheme.bodyLarge?.copyWith(
