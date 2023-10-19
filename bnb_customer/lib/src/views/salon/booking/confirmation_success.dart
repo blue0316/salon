@@ -198,14 +198,12 @@ class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
                         child: DefaultButton(
                           height: 60.sp,
                           borderRadius: 60.sp,
-                          // color: theme.dialogBackgroundColor,
-                          // borderColor: theme.colorScheme.tertiary.withOpacity(0.6),
                           color: dialogButtonColor(themeType, theme),
                           borderColor: dialogButtonColor(themeType, theme),
                           label: (AppLocalizations.of(context)?.viewDetails ?? 'View details').toCapitalized(),
+                          textColor: loaderColor(themeType),
                           fontWeight: FontWeight.w400,
                           fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
-                          textColor: theme.colorScheme.tertiary,
                           onTap: () async {
                             // html.window.open("https://yogasm.firebaseapp.com/appointments?id=${appointment?.appointmentId}", "_self");
 
@@ -264,6 +262,7 @@ class _ConfirmationErrorState extends ConsumerState<ConfirmationError> {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
@@ -344,7 +343,7 @@ class _ConfirmationErrorState extends ConsumerState<ConfirmationError> {
                     label: (AppLocalizations.of(context)?.exit ?? 'Exit').toCapitalized(),
                     fontWeight: FontWeight.w400,
                     fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
-                    textColor: theme.colorScheme.tertiary,
+                    textColor: loaderColor(themeType),
                     onTap: () async {
                       Navigator.pop(context);
                     },
