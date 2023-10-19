@@ -263,7 +263,7 @@ class AppTheme {
     ),
     colorScheme: ColorScheme(
       primary: creamBrown,
-      secondary: creamBrownLight,
+      secondary: primaryLightThemeColor,
       surface: primaryLightThemeColor,
       background: primaryLightThemeColor,
       error: redishPink,
@@ -323,9 +323,9 @@ class AppTheme {
       elevation: 1.2,
     ),
     inputDecorationTheme: InputDecorationTheme(hintStyle: hintStyle),
-    colorScheme: const ColorScheme(
+    colorScheme: ColorScheme(
       primary: creamBrown,
-      secondary: creamBrownLight,
+      secondary: darkPrimaryThemeColor,
       surface: primaryDarkBackgroundThemeColor,
       background: primaryDarkBackgroundThemeColor,
       error: redishPink,
