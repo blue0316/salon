@@ -65,6 +65,7 @@ class AddToCalendars extends ConsumerWidget {
                   appointmentId: appointmentID,
                   startTime: start.toIso8601String(),
                   endTime: end.toIso8601String(),
+                  salon: _appointmentProvider.salon!,
                 );
 
                 // // Convert to YYYYMMDDTHHMMSSZ

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bbblient/src/controller/home/salon_search_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/firebase/appointments.dart';
@@ -28,6 +30,8 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:http/http.dart' as http;
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'dart:js' as js;
 
 class AppointmentProvider with ChangeNotifier {
   static final DateTime _today = Time().getDate();
@@ -358,7 +362,14 @@ class AppointmentProvider with ChangeNotifier {
     return null;
   }
 
-  void addToAppleCalendar(context, {required AppointmentModel appointment, required String appointmentId, required String startTime, required String endTime}) async {
+  void addToAppleCalendar(
+    context, {
+    required AppointmentModel appointment,
+    required String appointmentId,
+    required String startTime,
+    required String endTime,
+    SalonModel? salon,
+  }) async {
     appleCalendarStatus = Status.loading;
     notifyListeners();
     var url = Uri.parse('https://us-central1-bowandbeautiful-3372d.cloudfunctions.net/calendar-appleCalendar');
@@ -366,23 +377,46 @@ class AppointmentProvider with ChangeNotifier {
       "starttime": startTime,
       "endtime": endTime,
       "salonName": appointment.salon.name,
-      "email": appointment.customer?.email ?? '',
-      "address": appointment.salon.address,
+      "email": (appointment.customer?.email ?? '').toString(),
+      "address": appointment.salon.address.toString(),
       "salonPhone": appointment.salon.phoneNo,
       "appointmentId": appointmentId,
-      "locale": "en",
+      "locale": salon?.locale ?? '',
     };
-
-    // print(body);
 
     var response = await http.post(url, body: body);
 
     // print(response);
 
-    // debugPrint('Response status: ${response.statusCode}');
-    // debugPrint('Response body: ${response.body}');
+    debugPrint('Response: $response');
+    debugPrint('Response status: ${response.statusCode}');
+    debugPrint('Response body: ${response.body}');
 
     if (response.statusCode == 200 || response.statusCode == 201) {
+      // final Map<String, dynamic> parsedResponse = json.decode(response.body);
+      // Uri uri = Uri.parse(parsedResponse["message"]);
+
+      // js.context.callMethod('open', [parsedResponse["message"]]);
+
+      // try {
+      //   launchUrl(uri);
+      // } catch (err) {
+      //   print('----');
+      //   print(err);
+      //   print('----');
+      // }
+
+      // webcal://storage.googleapis.com/bowandbeautiful-3372d.appspot.com/invites%2F84hWagCdUAURP6BUwNLC
+
+      // _launchWebcal() async {
+      //   const url = 'webcal://example.com/path-to-calendar.ics';
+      //   if (await canLaunchUrl(url)) {
+      //     await launchUrl(url);
+      //   } else {
+      //     throw 'Could not launch $url';
+      //   }
+      // }
+
       showTopSnackBar(
         context,
         CustomSnackBar.success(
