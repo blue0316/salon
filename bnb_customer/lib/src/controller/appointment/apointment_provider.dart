@@ -393,10 +393,10 @@ class AppointmentProvider with ChangeNotifier {
     debugPrint('Response body: ${response.body}');
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-      // final Map<String, dynamic> parsedResponse = json.decode(response.body);
-      // Uri uri = Uri.parse(parsedResponse["message"]);
+      final Map<String, dynamic> parsedResponse = json.decode(response.body);
+      // Uri uri = Uri.parse('calshow:');
 
-      // js.context.callMethod('open', [parsedResponse["message"]]);
+      js.context.callMethod('open', [parsedResponse["message"]]);
 
       // try {
       //   launchUrl(uri);
@@ -407,6 +407,7 @@ class AppointmentProvider with ChangeNotifier {
       // }
 
       // webcal://storage.googleapis.com/bowandbeautiful-3372d.appspot.com/invites%2F84hWagCdUAURP6BUwNLC
+      // calshow:www.storage.googleapis.com/bowandbeautiful-3372d.appspot.com/invites%2F84hWagCdUAURP6BUwNLC
 
       // _launchWebcal() async {
       //   const url = 'webcal://example.com/path-to-calendar.ics';
