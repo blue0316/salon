@@ -171,7 +171,7 @@ class _GentleTouchWriteToUsViewState extends ConsumerState<GentleTouchWriteToUsV
                                         color: themeType == ThemeType.GentleTouch ? const Color(0xFFF0E8DB) : const Color(0XFF1D1E20),
                                         child: CustomTextFormField(
                                           focusNode: FocusNode(),
-                                          controller: _salonProfileProvider.requestController,
+                                          controller: _salonProfileProvider.emailController,
                                           contentPadding: 15.sp,
                                           hintText: (AppLocalizations.of(context)?.email ?? "email").toTitleCase(),
 
@@ -239,7 +239,7 @@ class _GentleTouchWriteToUsViewState extends ConsumerState<GentleTouchWriteToUsV
                                 color: themeType == ThemeType.GentleTouch ? const Color(0xFFF0E8DB) : const Color(0XFF1D1E20),
                                 child: CustomTextFormField(
                                   focusNode: FocusNode(),
-                                  // controller: _salonProfileProvider.requestController,
+                                  controller: _salonProfileProvider.requestController,
                                   contentPadding: 15.sp,
                                   hintText: (AppLocalizations.of(context)?.writeToUsTitle ?? 'Write to us').toCapitalized(),
                                   maxLines: 4,
@@ -429,7 +429,7 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
                     color: themeType == ThemeType.GentleTouch ? const Color(0xFFF0E8DB) : const Color(0XFF1D1E20),
                     child: CustomTextFormField(
                       focusNode: FocusNode(),
-                      controller: _salonProfileProvider.requestController,
+                      controller: _salonProfileProvider.emailController,
                       contentPadding: 15.sp,
                       hintText: (AppLocalizations.of(context)?.email ?? "email").toTitleCase(),
 
@@ -492,7 +492,7 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
                   color: themeType == ThemeType.GentleTouch ? const Color(0xFFF0E8DB) : const Color(0XFF1D1E20),
                   child: CustomTextFormField(
                     focusNode: FocusNode(),
-                    // controller: _salonProfileProvider.requestController,
+                    controller: _salonProfileProvider.requestController,
                     contentPadding: 15.sp,
                     hintText: (AppLocalizations.of(context)?.writeToUsTitle ?? 'Write to us').toCapitalized(),
                     maxLines: 4,
