@@ -403,7 +403,10 @@ class AppointmentProvider with ChangeNotifier {
         Uri uri = Uri.parse(launchDownloadLink);
 
         if (await canLaunchUrl(uri)) {
-          await launchUrl(uri);
+          await launchUrl(
+            uri,
+            webOnlyWindowName: '_self',
+          );
         } else {
           showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? 'Something went wrong, please try again');
         }
