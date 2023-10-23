@@ -382,16 +382,16 @@ class AppointmentProvider with ChangeNotifier {
       "address": appointment.salon.address.toString(),
       "salonPhone": appointment.salon.phoneNo,
       "appointmentId": appointmentId,
-      "locale": salon?.locale ?? '',
+      "locale": salon?.locale ?? 'en',
     };
 
     var response = await http.post(url, body: body);
 
-    // print(response);
-
-    // debugPrint('Response: $response');
-    // debugPrint('Response status: ${response.statusCode}');
-    // debugPrint('Response body: ${response.body}');
+    debugPrint(body.toString());
+    debugPrint('----------');
+    debugPrint('Response: $response');
+    debugPrint('Response status: ${response.statusCode}');
+    debugPrint('Response body: ${response.body}');
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       final Map<String, dynamic> parsedResponse = json.decode(response.body);
