@@ -389,27 +389,24 @@ class AppointmentProvider with ChangeNotifier {
 
     // print(response);
 
-    debugPrint('Response: $response');
-    debugPrint('Response status: ${response.statusCode}');
-    debugPrint('Response body: ${response.body}');
+    // debugPrint('Response: $response');
+    // debugPrint('Response status: ${response.statusCode}');
+    // debugPrint('Response body: ${response.body}');
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       final Map<String, dynamic> parsedResponse = json.decode(response.body);
 
-      js.context.callMethod('open', [parsedResponse["message"]]);
+      js.context.callMethod('open', [parsedResponse["message"], '_self']);
 
       if ((parsedResponse["message"]).toString().length >= 9) {
-        String launchDownloadLink = (parsedResponse["message"]).toString().substring('webcal://'.length);
-        // Uri uri = Uri.parse(launchDownloadLink);
+        String launchDownloadLink = 'https://${(parsedResponse["message"]).toString().substring('webcal://'.length)}';
+        Uri uri = Uri.parse(launchDownloadLink);
 
-        js.context.callMethod('open', [launchDownloadLink]);
-
-        // if (await canLaunchUrl(uri)) {
-        //   await launchUrl(uri);
-        //   print('her');
-        // } else {
-        //   showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? 'Something went wrong, please try again');
-        // }
+        if (await canLaunchUrl(uri)) {
+          await launchUrl(uri);
+        } else {
+          showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? 'Something went wrong, please try again');
+        }
       }
 
       // webcal://storage.googleapis.com/bowandbeautiful-3372d.appspot.com/invites%2F84hWagCdUAURP6BUwNLC
