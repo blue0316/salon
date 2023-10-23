@@ -32,6 +32,7 @@ import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:js' as js;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AppointmentProvider with ChangeNotifier {
   static final DateTime _today = Time().getDate();
@@ -394,34 +395,29 @@ class AppointmentProvider with ChangeNotifier {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       final Map<String, dynamic> parsedResponse = json.decode(response.body);
-      // Uri uri = Uri.parse('calshow:');
 
       js.context.callMethod('open', [parsedResponse["message"]]);
 
-      // try {
-      //   launchUrl(uri);
-      // } catch (err) {
-      //   print('----');
-      //   print(err);
-      //   print('----');
-      // }
+      if ((parsedResponse["message"]).toString().length >= 9) {
+        String launchDownloadLink = (parsedResponse["message"]).toString().substring('webcal://'.length);
+        // Uri uri = Uri.parse(launchDownloadLink);
+
+        js.context.callMethod('open', [launchDownloadLink]);
+
+        // if (await canLaunchUrl(uri)) {
+        //   await launchUrl(uri);
+        //   print('her');
+        // } else {
+        //   showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? 'Something went wrong, please try again');
+        // }
+      }
 
       // webcal://storage.googleapis.com/bowandbeautiful-3372d.appspot.com/invites%2F84hWagCdUAURP6BUwNLC
-      // calshow:www.storage.googleapis.com/bowandbeautiful-3372d.appspot.com/invites%2F84hWagCdUAURP6BUwNLC
-
-      // _launchWebcal() async {
-      //   const url = 'webcal://example.com/path-to-calendar.ics';
-      //   if (await canLaunchUrl(url)) {
-      //     await launchUrl(url);
-      //   } else {
-      //     throw 'Could not launch $url';
-      //   }
-      // }
 
       showTopSnackBar(
         context,
         CustomSnackBar.success(
-          message: "Invite successfully sent to your email",
+          message: "Invite successfully created, please check your downloads",
           backgroundColor: AppTheme.creamBrown,
           textStyle: AppTheme.customLightTheme.textTheme.bodyLarge!.copyWith(
             fontSize: 20.sp,
