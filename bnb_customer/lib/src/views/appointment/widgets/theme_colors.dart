@@ -167,7 +167,8 @@ Color transparentLoaderColor(ThemeType themeType, ThemeData theme) {
       return Colors.black;
 
     default:
-      return theme.primaryColor;
+      return Colors.purple; // theme.colorScheme.tertiary;
+    // theme.primaryColor;
   }
 }
 
