@@ -236,14 +236,14 @@ class AppointmentProvider with ChangeNotifier {
       await AppointmentApi().updateMultipleAppointment(
         isSingleMaster: isSingleMaster,
         appointmentModel: appointment,
-        appointmentSubStatus: ActiveAppointmentSubStatus.cancelledBySalon,
+        appointmentSubStatus: ActiveAppointmentSubStatus.cancelledByCustomer,
         appointmentStatus: AppointmentStatus.cancelled,
         salon: salon,
         salonMasters: salonMasters,
       );
 
       // SHOW TOAST
-      showToast('YOUR APPOINTMENT HAS BEEN CANCELLED');
+      showToast('Appointment cancelled succesfully');
 
       // REFRESH SCREEN
       callback!();

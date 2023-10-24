@@ -213,32 +213,33 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                                 appointment: appointment,
                                                 listViewController: serviceController,
                                               ),
-                                              if (_appointmentProvider.salon?.cancellationAndNoShowPolicy.allowOnlineCancellation == false)
-                                                Row(
-                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: [
-                                                    Icon(
-                                                      Icons.info_outline_rounded,
-                                                      size: 50.sp,
-                                                      color: theme.colorScheme.tertiary.withOpacity(0.6),
-                                                    ),
-                                                    SizedBox(width: 10.sp),
-                                                    Flexible(
-                                                      child: Text(
-                                                        '${AppLocalizations.of(context)?.cancelNote1 ?? 'Please note that to cancel you have to contact'}  ${_appointmentProvider.salon?.salonName.toUpperCase()}. ${AppLocalizations.of(context)?.cancelNote2 ?? 'Online cancelation is not available at the moment.'}',
-                                                        // 'Please note that to cancel you have to contact ${_appointmentProvider.salon?.salonName}. Online cancelation is not available at the moment. ',
-                                                        style: theme.textTheme.bodyMedium?.copyWith(
-                                                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 18.sp),
-                                                          fontWeight: FontWeight.w400,
-                                                          fontFamily: 'Inter',
-                                                          color: theme.colorScheme.onBackground,
-                                                        ),
-                                                        textAlign: TextAlign.start,
+                                              if (_appointmentProvider.salon!.countryCode == 'US')
+                                                if (_appointmentProvider.salon?.cancellationAndNoShowPolicy.allowOnlineCancellation == false)
+                                                  Row(
+                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Icon(
+                                                        Icons.info_outline_rounded,
+                                                        size: 50.sp,
+                                                        color: theme.colorScheme.tertiary.withOpacity(0.6),
                                                       ),
-                                                    ),
-                                                  ],
-                                                ),
+                                                      SizedBox(width: 10.sp),
+                                                      Flexible(
+                                                        child: Text(
+                                                          '${AppLocalizations.of(context)?.cancelNote1 ?? 'Please note that to cancel you have to contact'}  ${_appointmentProvider.salon?.salonName.toUpperCase()}. ${AppLocalizations.of(context)?.cancelNote2 ?? 'Online cancelation is not available at the moment.'}',
+                                                          // 'Please note that to cancel you have to contact ${_appointmentProvider.salon?.salonName}. Online cancelation is not available at the moment. ',
+                                                          style: theme.textTheme.bodyMedium?.copyWith(
+                                                            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 18.sp),
+                                                            fontWeight: FontWeight.w400,
+                                                            fontFamily: 'Inter',
+                                                            color: theme.colorScheme.onBackground,
+                                                          ),
+                                                          textAlign: TextAlign.start,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
                                               if (!appointmentCompleted)
                                                 Wrap(
                                                   direction: Axis.horizontal,
@@ -247,142 +248,181 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                                   spacing: 10,
                                                   runSpacing: 10,
                                                   children: [
-                                                    if (_appointmentProvider.salon?.cancellationAndNoShowPolicy.allowOnlineCancellation == true)
-                                                      if (appointment?.status != AppointmentStatus.cancelled)
-                                                        Button(
-                                                          text: AppLocalizations.of(context)?.cancelAppointment ?? 'Cancel Appointment',
-                                                          // onTap: (_appointmentProvider.salon?.cancellationAndNoShowPolicy.allowOnlineCancellation == false)
-                                                          //     ? () {}
-                                                          //     : () => _appointmentProvider.cancelAppointment(
-                                                          //           isSingleMaster: _appointmentProvider.isSingleMaster,
-                                                          //           appointmentID: appointmentDocId,
-                                                          //           appointment: appointment!,
-                                                          //           salon: _appointmentProvider.salon!,
-                                                          //           salonMasters: _appointmentProvider.allMastersInSalon,
-                                                          //           callback: () {
-                                                          //             fetchDetails();
-                                                          //           },
-                                                          //         ),
-                                                          onTap: () async {
-                                                            DateTime now = DateTime.now();
-                                                            Duration diff = appointment!.appointmentStartTime!.difference(now);
-                                                            int hourDiff = diff.inHours;
-                                                            double charge = 0;
-                                                            double payableAmount = 0.0;
-                                                            bool isRefund = false;
-                                                            CancellationNoShowPolicy? policy;
-                                                            List<CancellationPolicy?>? validPolicy;
+                                                    // US CHECK
+                                                    if (_appointmentProvider.salon!.countryCode == 'US') ...[
+                                                      if (_appointmentProvider.salon?.cancellationAndNoShowPolicy.allowOnlineCancellation == true)
+                                                        if (appointment?.status != AppointmentStatus.cancelled)
+                                                          Button(
+                                                            text: AppLocalizations.of(context)?.cancelAppointment ?? 'Cancel Appointment',
+                                                            // onTap: (_appointmentProvider.salon?.cancellationAndNoShowPolicy.allowOnlineCancellation == false)
+                                                            //     ? () {}
+                                                            //     : () => _appointmentProvider.cancelAppointment(
+                                                            //           isSingleMaster: _appointmentProvider.isSingleMaster,
+                                                            //           appointmentID: appointmentDocId,
+                                                            //           appointment: appointment!,
+                                                            //           salon: _appointmentProvider.salon!,
+                                                            //           salonMasters: _appointmentProvider.allMastersInSalon,
+                                                            //           callback: () {
+                                                            //             fetchDetails();
+                                                            //           },
+                                                            //         ),
+                                                            onTap: () async {
+                                                              DateTime now = DateTime.now();
+                                                              Duration diff = appointment!.appointmentStartTime!.difference(now);
+                                                              int hourDiff = diff.inHours;
+                                                              double charge = 0;
+                                                              double payableAmount = 0.0;
+                                                              bool isRefund = false;
+                                                              CancellationNoShowPolicy? policy;
+                                                              List<CancellationPolicy?>? validPolicy;
 
-                                                            if (_appointmentProvider.salon!.cancellationAndNoShowPolicy != null && _appointmentProvider.salon!.cancellationAndNoShowPolicy.chargeWhenCancelledBool! && appointment!.transactionId != null && appointment!.transactionId!.isNotEmpty) {
-                                                              if (_appointmentProvider.salon!.cancellationAndNoShowPolicy.cancellationPolicies != null && _appointmentProvider.salon!.cancellationAndNoShowPolicy.cancellationPolicies!.isNotEmpty) {
-                                                                validPolicy = _appointmentProvider.salon!.cancellationAndNoShowPolicy.cancellationPolicies!
-                                                                    .where(
-                                                                      (element) => int.parse(element!.from!) <= hourDiff && hourDiff <= int.parse(element.to!),
-                                                                    )
-                                                                    .toList();
-                                                                if (validPolicy.isNotEmpty) {
-                                                                  charge = appointment!.priceAndDuration.priceMax != null
-                                                                      ? int.parse(appointment!.priceAndDuration.priceMax!) *
-                                                                          (int.parse(
-                                                                                validPolicy.first!.percentage!,
-                                                                              ) /
-                                                                              100)
-                                                                      : int.parse(appointment!.priceAndDuration.price!) *
-                                                                          (int.parse(
-                                                                                validPolicy.first!.percentage!,
-                                                                              ) /
-                                                                              100);
+                                                              if (_appointmentProvider.salon!.cancellationAndNoShowPolicy != null && _appointmentProvider.salon!.cancellationAndNoShowPolicy.chargeWhenCancelledBool! && appointment!.transactionId != null && appointment!.transactionId!.isNotEmpty) {
+                                                                if (_appointmentProvider.salon!.cancellationAndNoShowPolicy.cancellationPolicies != null && _appointmentProvider.salon!.cancellationAndNoShowPolicy.cancellationPolicies!.isNotEmpty) {
+                                                                  validPolicy = _appointmentProvider.salon!.cancellationAndNoShowPolicy.cancellationPolicies!
+                                                                      .where(
+                                                                        (element) => int.parse(element!.from!) <= hourDiff && hourDiff <= int.parse(element.to!),
+                                                                      )
+                                                                      .toList();
+                                                                  if (validPolicy.isNotEmpty) {
+                                                                    charge = appointment!.priceAndDuration.priceMax != null
+                                                                        ? int.parse(appointment!.priceAndDuration.priceMax!) *
+                                                                            (int.parse(
+                                                                                  validPolicy.first!.percentage!,
+                                                                                ) /
+                                                                                100)
+                                                                        : int.parse(appointment!.priceAndDuration.price!) *
+                                                                            (int.parse(
+                                                                                  validPolicy.first!.percentage!,
+                                                                                ) /
+                                                                                100);
+                                                                  }
                                                                 }
-                                                              }
 
-                                                              setState(() => _spinner = true);
-                                                              TransactionModel? transaction = await TransactionApi().getTransaction(appointment!.transactionId!.first);
+                                                                setState(() => _spinner = true);
+                                                                TransactionModel? transaction = await TransactionApi().getTransaction(appointment!.transactionId!.first);
 
-                                                              setState(() => _spinner = false);
+                                                                setState(() => _spinner = false);
 
-                                                              if (double.parse(_appointmentProvider.totalDeposit) > charge) {
-                                                                isRefund = true;
-                                                                payableAmount = double.parse(_appointmentProvider.totalDeposit) - charge;
+                                                                if (double.parse(_appointmentProvider.totalDeposit) > charge) {
+                                                                  isRefund = true;
+                                                                  payableAmount = double.parse(_appointmentProvider.totalDeposit) - charge;
+                                                                } else {
+                                                                  payableAmount = charge - double.parse(_appointmentProvider.totalDeposit);
+                                                                }
+
+                                                                policy = CancellationNoShowPolicy(
+                                                                  appointmentId: widget.appointmentDocId,
+                                                                  customerId: appointment!.customer!.id,
+                                                                  salonId: appointment!.salon.id,
+                                                                  paymentType: isRefund ? CancellationNoShowPaymentType.refund : CancellationNoShowPaymentType.charge,
+                                                                  type: CancellationNoShowType.cancellation,
+                                                                  status: "pending",
+                                                                  paymentInfo: CancellationPaymentInfo(
+                                                                    cancellationFee: charge.toStringAsFixed(2),
+                                                                    deposit: _appointmentProvider.totalDeposit,
+                                                                    payableAmount: payableAmount.toStringAsFixed(2),
+                                                                  ),
+                                                                  paymentMethod: CancellationPaymentMethod(
+                                                                    cardNumber: transaction!.cardNumber,
+                                                                    cardReference: transaction.cardReference,
+                                                                  ),
+                                                                );
+
+                                                                showMyDialog(
+                                                                  context,
+                                                                  bgColor: scaffoldBGColor(themeType, theme),
+                                                                  child: DeleteClientNewTheme(
+                                                                    title: _appointmentProvider.salon!.cancellationAndNoShowPolicy != null && _appointmentProvider.salon!.cancellationAndNoShowPolicy.chargeWhenCancelledBool! && appointment!.transactionId != null && appointment!.transactionId!.isNotEmpty
+                                                                        ? (AppLocalizations.of(context)?.cancelAppointmentDialogue ?? "Are you sure you want to cancel this appointment?")
+                                                                        : AppLocalizations.of(context)?.cancelAppointmentDialogue ?? "Do you want to mark appointment like “No-show”?",
+                                                                    desc: "${getCurrency(_appointmentProvider.salon!.countryCode!)}${payableAmount.toStringAsFixed(2)} ${AppLocalizations.of(context)?.willBe ?? "will be"} ${isRefund ? AppLocalizations.of(context)?.refunded ?? "refunded" : AppLocalizations.of(context)?.charged ?? "charged"} ${AppLocalizations.of(context)?.asCancellationFee ?? "as Cancellation & No-show protection fee"}",
+                                                                    delete: 'tr(Keys.yes)',
+                                                                    cancel: 'tr(Keys.no)',
+                                                                    onDelete: () async {
+                                                                      if (_appointmentProvider.salon!.cancellationAndNoShowPolicy != null && _appointmentProvider.salon!.cancellationAndNoShowPolicy.chargeWhenCancelledBool! && appointment!.transactionId != null && appointment!.transactionId!.isNotEmpty) {
+                                                                        await _appointmentProvider.createNoShowPolicy(policy: policy);
+                                                                        await AppointmentApi().updateMultipleAppointment(
+                                                                          isSingleMaster: _appointmentProvider.isSingleMaster,
+                                                                          appointmentModel: appointment,
+                                                                          appointmentSubStatus: ActiveAppointmentSubStatus.cancelledByCustomer,
+                                                                          appointmentStatus: AppointmentStatus.cancelled,
+                                                                          salon: _appointmentProvider.salon!,
+                                                                          salonMasters: _appointmentProvider.allMastersInSalon,
+                                                                        );
+                                                                        showToast(AppLocalizations.of(context)?.appointmentCancelledSuccessfully ?? 'Appointment cancelled succesfully');
+                                                                      } else {
+                                                                        await AppointmentApi().updateMultipleAppointment(
+                                                                          isSingleMaster: _appointmentProvider.isSingleMaster,
+                                                                          appointmentModel: appointment,
+                                                                          appointmentSubStatus: ActiveAppointmentSubStatus.cancelledByCustomer,
+                                                                          appointmentStatus: AppointmentStatus.cancelled,
+                                                                          salon: _appointmentProvider.salon!,
+                                                                          salonMasters: _appointmentProvider.allMastersInSalon,
+                                                                        );
+                                                                        showToast(AppLocalizations.of(context)?.appointmentCancelledSuccessfully ?? 'Appointment cancelled succesfully');
+                                                                      }
+                                                                    },
+                                                                  ),
+                                                                );
                                                               } else {
-                                                                payableAmount = charge - double.parse(_appointmentProvider.totalDeposit);
+                                                                setState(() => _spinner = true);
+
+                                                                await AppointmentApi().updateMultipleAppointment(
+                                                                  isSingleMaster: _appointmentProvider.isSingleMaster,
+                                                                  appointmentModel: appointment,
+                                                                  appointmentSubStatus: ActiveAppointmentSubStatus.cancelledByCustomer,
+                                                                  appointmentStatus: AppointmentStatus.cancelled,
+                                                                  salon: _appointmentProvider.salon!,
+                                                                  salonMasters: _appointmentProvider.allMastersInSalon,
+                                                                );
+
+                                                                setState(() => _spinner = false);
+
+                                                                showToast(AppLocalizations.of(context)?.appointmentCancelledSuccessfully ?? 'Appointment cancelled succesfully');
                                                               }
-
-                                                              policy = CancellationNoShowPolicy(
-                                                                appointmentId: widget.appointmentDocId,
-                                                                customerId: appointment!.customer!.id,
-                                                                salonId: appointment!.salon.id,
-                                                                paymentType: isRefund ? CancellationNoShowPaymentType.refund : CancellationNoShowPaymentType.charge,
-                                                                type: CancellationNoShowType.cancellation,
-                                                                status: "pending",
-                                                                paymentInfo: CancellationPaymentInfo(
-                                                                  cancellationFee: charge.toStringAsFixed(2),
-                                                                  deposit: _appointmentProvider.totalDeposit,
-                                                                  payableAmount: payableAmount.toStringAsFixed(2),
-                                                                ),
-                                                                paymentMethod: CancellationPaymentMethod(
-                                                                  cardNumber: transaction!.cardNumber,
-                                                                  cardReference: transaction.cardReference,
-                                                                ),
-                                                              );
-
-                                                              showMyDialog(
-                                                                context,
-                                                                bgColor: scaffoldBGColor(themeType, theme),
-                                                                child: DeleteClientNewTheme(
-                                                                  title: _appointmentProvider.salon!.cancellationAndNoShowPolicy != null && _appointmentProvider.salon!.cancellationAndNoShowPolicy.chargeWhenCancelledBool! && appointment!.transactionId != null && appointment!.transactionId!.isNotEmpty
-                                                                      ? (AppLocalizations.of(context)?.cancelAppointmentDialogue ?? "Are you sure you want to cancel this appointment?")
-                                                                      : AppLocalizations.of(context)?.cancelAppointmentDialogue ?? "Do you want to mark appointment like “No-show”?",
-                                                                  desc: "${getCurrency(_appointmentProvider.salon!.countryCode!)}${payableAmount.toStringAsFixed(2)} ${AppLocalizations.of(context)?.willBe ?? "will be"} ${isRefund ? AppLocalizations.of(context)?.refunded ?? "refunded" : AppLocalizations.of(context)?.charged ?? "charged"} ${AppLocalizations.of(context)?.asCancellationFee ?? "as Cancellation & No-show protection fee"}",
-                                                                  delete: 'tr(Keys.yes)',
-                                                                  cancel: 'tr(Keys.no)',
-                                                                  onDelete: () async {
-                                                                    if (_appointmentProvider.salon!.cancellationAndNoShowPolicy != null && _appointmentProvider.salon!.cancellationAndNoShowPolicy.chargeWhenCancelledBool! && appointment!.transactionId != null && appointment!.transactionId!.isNotEmpty) {
-                                                                      await _appointmentProvider.createNoShowPolicy(policy: policy);
-                                                                      await AppointmentApi().updateMultipleAppointment(
-                                                                        isSingleMaster: _appointmentProvider.isSingleMaster,
-                                                                        appointmentModel: appointment,
-                                                                        appointmentSubStatus: ActiveAppointmentSubStatus.cancelledByCustomer,
-                                                                        appointmentStatus: AppointmentStatus.cancelled,
-                                                                        salon: _appointmentProvider.salon!,
-                                                                        salonMasters: _appointmentProvider.allMastersInSalon,
-                                                                      );
-                                                                      showToast(AppLocalizations.of(context)?.appointmentCancelledSuccessfully ?? 'Appointment cancelled succesfully');
-                                                                    } else {
-                                                                      await AppointmentApi().updateMultipleAppointment(
-                                                                        isSingleMaster: _appointmentProvider.isSingleMaster,
-                                                                        appointmentModel: appointment,
-                                                                        appointmentSubStatus: ActiveAppointmentSubStatus.cancelledByCustomer,
-                                                                        appointmentStatus: AppointmentStatus.cancelled,
-                                                                        salon: _appointmentProvider.salon!,
-                                                                        salonMasters: _appointmentProvider.allMastersInSalon,
-                                                                      );
-                                                                      showToast(AppLocalizations.of(context)?.appointmentCancelledSuccessfully ?? 'Appointment cancelled succesfully');
-                                                                    }
+                                                            },
+                                                            isLoading: _spinner == true || _appointmentProvider.cancelAppointmentStatus == Status.loading || _appointmentProvider.createNoShowPolicyStatus == Status.loading,
+                                                            loaderColor: transparentLoaderColor(themeType, theme),
+                                                            borderColor: theme.primaryColor.withOpacity(0.6),
+                                                            textColor: borderColor(themeType, theme),
+                                                          ),
+                                                    ],
+                                                    // NOT US CHECK
+                                                    if (_appointmentProvider.salon!.countryCode != 'US') ...[
+                                                      Button(
+                                                        text: AppLocalizations.of(context)?.cancelAppointment ?? 'Cancel Appointment',
+                                                        onTap: () async {
+                                                          showMyDialog(
+                                                            context,
+                                                            bgColor: scaffoldBGColor(themeType, theme),
+                                                            child: DeleteClientNewTheme(
+                                                              title: (AppLocalizations.of(context)?.cancelAppointmentDialogue ?? "Are you sure you want to cancel this appointment?"),
+                                                              desc: "",
+                                                              delete: 'tr(Keys.yes)',
+                                                              cancel: 'tr(Keys.no)',
+                                                              onDelete: () async {
+                                                                _appointmentProvider.cancelAppointment(
+                                                                  isSingleMaster: _appointmentProvider.isSingleMaster,
+                                                                  appointmentID: appointment!.appointmentId!,
+                                                                  appointment: appointment!,
+                                                                  salon: _appointmentProvider.salon!,
+                                                                  salonMasters: _appointmentProvider.allMastersInSalon,
+                                                                  callback: () {
+                                                                    fetchDetails();
                                                                   },
-                                                                ),
-                                                              );
-                                                            } else {
-                                                              setState(() => _spinner = true);
+                                                                );
 
-                                                              await AppointmentApi().updateMultipleAppointment(
-                                                                isSingleMaster: _appointmentProvider.isSingleMaster,
-                                                                appointmentModel: appointment,
-                                                                appointmentSubStatus: ActiveAppointmentSubStatus.cancelledByCustomer,
-                                                                appointmentStatus: AppointmentStatus.cancelled,
-                                                                salon: _appointmentProvider.salon!,
-                                                                salonMasters: _appointmentProvider.allMastersInSalon,
-                                                              );
-
-                                                              setState(() => _spinner = false);
-
-                                                              showToast(AppLocalizations.of(context)?.appointmentCancelledSuccessfully ?? 'Appointment cancelled succesfully');
-                                                            }
-                                                          },
-                                                          isLoading: _spinner == true || _appointmentProvider.cancelAppointmentStatus == Status.loading || _appointmentProvider.createNoShowPolicyStatus == Status.loading,
-                                                          loaderColor: transparentLoaderColor(themeType, theme),
-                                                          borderColor: theme.primaryColor.withOpacity(0.6),
-                                                          textColor: borderColor(themeType, theme),
-                                                        ),
+                                                                showToast(AppLocalizations.of(context)?.appointmentCancelledSuccessfully ?? 'Appointment cancelled succesfully');
+                                                              },
+                                                            ),
+                                                          );
+                                                        },
+                                                        isLoading: _spinner == true || _appointmentProvider.cancelAppointmentStatus == Status.loading || _appointmentProvider.createNoShowPolicyStatus == Status.loading,
+                                                        loaderColor: transparentLoaderColor(themeType, theme),
+                                                        borderColor: theme.primaryColor.withOpacity(0.6),
+                                                        textColor: borderColor(themeType, theme),
+                                                      ),
+                                                    ],
                                                     const SizedBox(width: 20),
                                                     if (appointment?.subStatus != ActiveAppointmentSubStatus.confirmed && shouldShowConfirmButton(appointment!.appointmentStartTime!))
                                                       Button(
