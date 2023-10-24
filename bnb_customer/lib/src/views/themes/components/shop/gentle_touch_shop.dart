@@ -351,89 +351,100 @@ class ProductPortraitItemCard extends ConsumerWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: Container(
-        decoration: BoxDecoration(
-          color: (themeType == ThemeType.GentleTouch) ? Colors.white : Colors.black,
-          border: Border.all(color: (themeType == ThemeType.GentleTouch) ? Colors.black : Colors.white),
+      child: GestureDetector(
+        onTap: () => showDialog<bool>(
+          context: context,
+          builder: (BuildContext context) => ShowFullDesc(product: product),
         ),
-        // color: backgroundColor ?? Colors.blue,
-        child: Column(
-          children: [
-            Expanded(
-              flex: 1,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: (themeType == ThemeType.GentleTouch) ? Colors.white : Colors.black,
-                  border: const Border(bottom: BorderSide(color: Colors.black, width: 0.3)),
-                ),
-                // height: 300.h,
-                // width: DeviceConstraints.getResponsiveSize(
-                //   context,
-                //   size / 1.5.sp,
-                //   size / 2.3.sp,
-                //   70.w,
-                // ),
+        child: Container(
+          decoration: BoxDecoration(
+            color: (themeType == ThemeType.GentleTouch) ? Colors.white : Colors.black,
+            // border: Border.all(color: (themeType == ThemeType.GentleTouch) ? Colors.black : Colors.white),
+          ),
+          // color: backgroundColor ?? Colors.blue,
+          child: Column(
+            children: [
+              Expanded(
+                flex: 1,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: (themeType == ThemeType.GentleTouch) ? Colors.white : Colors.black,
+                    border: const Border(bottom: BorderSide(color: Colors.black, width: 0.3)),
+                  ),
+                  // height: 300.h,
+                  // width: DeviceConstraints.getResponsiveSize(
+                  //   context,
+                  //   size / 1.5.sp,
+                  //   size / 2.3.sp,
+                  //   70.w,
+                  // ),
 
-                child: (product.productImageUrlList!.isNotEmpty)
-                    ? CachedImage(
-                        url: '${product.productImageUrlList![0]}',
-                        fit: BoxFit.cover,
-                        width: MediaQuery.of(context).size.width - 20 - 40.w,
-                      )
-                    : Image.asset(
-                        ThemeImages.noProduct,
-                        fit: BoxFit.cover,
-                        width: MediaQuery.of(context).size.width - 20 - 40.w,
-                      ),
+                  child: (product.productImageUrlList!.isNotEmpty)
+                      ? CachedImage(
+                          url: '${product.productImageUrlList![0]}',
+                          fit: BoxFit.cover,
+                          width: MediaQuery.of(context).size.width - 20 - 40.w,
+                        )
+                      : Image.asset(
+                          ThemeImages.noProduct,
+                          fit: BoxFit.fitHeight,
+                          width: MediaQuery.of(context).size.width - 20 - 40.w,
+                        ),
+                ),
               ),
-            ),
-            // SizedBox(height: 10.sp),
-            Expanded(
-              flex: 0,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.sp),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: SizedBox(
-                        height: 40.sp,
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            '${product.productName}'.toUpperCase(),
-                            style: theme.textTheme.bodyLarge?.copyWith(
-                              color: theme.primaryColorDark,
-                              fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 16.sp),
-                              fontWeight: FontWeight.normal,
+              // SizedBox(height: 10.sp),
+              Expanded(
+                flex: 0,
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: (themeType == ThemeType.GentleTouch) ? Colors.black : Colors.white),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: SizedBox(
+                            height: 40.sp,
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                '${product.productName}'.toUpperCase(),
+                                style: theme.textTheme.bodyLarge?.copyWith(
+                                  color: theme.primaryColorDark,
+                                  fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 16.sp),
+                                  fontWeight: FontWeight.normal,
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                      ),
+                        // Spacer(),
+                        Text(
+                          '\$${product.clientPrice}',
+                          style: theme.textTheme.bodyLarge?.copyWith(
+                            color: theme.primaryColorLight,
+                            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 16.sp),
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
                     ),
-                    // Spacer(),
-                    Text(
-                      '\$${product.clientPrice}',
-                      style: theme.textTheme.bodyLarge?.copyWith(
-                        color: theme.primaryColorLight,
-                        fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 16.sp),
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
+          // Image.asset(
+          //   image,
+          //   fit: BoxFit.cover,
+          //   width: double.infinity,
+          // ),
         ),
-        // Image.asset(
-        //   image,
-        //   fit: BoxFit.cover,
-        //   width: double.infinity,
-        // ),
       ),
     );
   }
