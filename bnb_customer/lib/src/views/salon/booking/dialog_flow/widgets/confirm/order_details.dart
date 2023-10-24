@@ -192,7 +192,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                 ),
               ),
 
-              if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy == true)
+              if (salonModel.countryCode == 'US' && salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy == true)
                 Padding(
                   padding: EdgeInsets.only(top: 10.sp),
                   child: Row(
@@ -309,7 +309,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
 
               Column(
                 children: [
-                  (deposit != 0 || salonModel.cancellationAndNoShowPolicy.chargeWhenNoShowBool == true || salonModel.cancellationAndNoShowPolicy.chargeWhenCancelledBool == true)
+                  (salonModel.countryCode == 'US' && (deposit != 0 || salonModel.cancellationAndNoShowPolicy.chargeWhenNoShowBool == true || salonModel.cancellationAndNoShowPolicy.chargeWhenCancelledBool == true))
                       ? DefaultButton(
                           borderRadius: 60,
                           onTap: () async {
@@ -455,6 +455,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                             }
                           },
                           color: dialogButtonColor(themeType, theme),
+                          borderColor: dialogButtonColor(themeType, theme),
                           textColor: loaderColor(themeType),
                           height: 60.h,
                           label: (AppLocalizations.of(context)?.registerCard ?? 'Register Card').toCapitalized(), //  'Pay ${(deposit != 0) ? deposit : totalAmount}${getCurrency(salonModel.countryCode!)} deposit',
@@ -471,7 +472,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                       : DefaultButton(
                           borderRadius: 60,
                           onTap: () async {
-                            if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy == true) {
+                            if (salonModel.countryCode == 'US' && salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy == true) {
                               if (!acceptTerms) {
                                 // Terms Checkbox is unchecked
 
@@ -551,6 +552,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                             }
                           },
                           color: dialogButtonColor(themeType, theme),
+                          borderColor: dialogButtonColor(themeType, theme),
                           textColor: loaderColor(themeType),
                           height: 60.h,
                           label: (AppLocalizations.of(context)?.book ?? 'Book').toCapitalized(),

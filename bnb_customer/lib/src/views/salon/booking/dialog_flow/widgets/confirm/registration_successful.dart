@@ -408,6 +408,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
             }
           },
           color: dialogButtonColor(themeType, theme),
+          borderColor: dialogButtonColor(themeType, theme),
           textColor: loaderColor(themeType),
           height: 60.h,
           label: (AppLocalizations.of(context)?.confirmMyDetails ?? "Confirm my details").toCapitalized(),

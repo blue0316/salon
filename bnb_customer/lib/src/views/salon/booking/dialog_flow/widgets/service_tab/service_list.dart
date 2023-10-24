@@ -1,5 +1,6 @@
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
+import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
@@ -9,6 +10,7 @@ import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/utils/time.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/colors.dart';
+import 'package:bbblient/src/views/salon/widgets/service_expension_tile.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
@@ -88,6 +90,7 @@ class ServiceCard extends ConsumerWidget {
     final ThemeData theme = _salonProfileProvider.salonTheme;
     List<MasterModel> theMasters = _createAppointmentProvider.getMasterProvidingService(service);
     ThemeType themeType = _salonProfileProvider.themeType;
+    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 7.h),
@@ -96,7 +99,7 @@ class ServiceCard extends ConsumerWidget {
           color: disabled ? const Color(0XFF4A4A4A) : Colors.transparent,
           borderRadius: BorderRadius.circular(7),
           border: isAdded
-              ? Border.all(width: 2, color: theme.primaryColor)
+              ? Border.all(width: 2, color: theme.colorScheme.secondary) //  theme.primaryColor)
               : Border.all(
                   width: 1,
                   color: disabled ? const Color(0XFF4A4A4A) : const Color(0XFF4A4A4A),
@@ -237,15 +240,23 @@ class ServiceCard extends ConsumerWidget {
                             ),
                           ),
                           decoration: const BoxDecoration(color: Color(0XFF0D0C0C)),
-                          child: SizedBox(
-                            height: DeviceConstraints.getResponsiveSize(context, 20, 25, 28),
-                            width: DeviceConstraints.getResponsiveSize(context, 20, 25, 28),
-                            child: Center(
-                              child: SvgPicture.asset(
-                                AppIcons.informationSVG,
-                                height: DeviceConstraints.getResponsiveSize(context, 20, 25, 28),
-                                width: DeviceConstraints.getResponsiveSize(context, 20, 25, 28),
-                                color: isAddedSelectedColor(themeType), //  isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
+                          child: GestureDetector(
+                            onTap: isPortrait
+                                ? () => showDialog<bool>(
+                                      context: context,
+                                      builder: (BuildContext context) => ShowServiceInfo(service),
+                                    )
+                                : null,
+                            child: SizedBox(
+                              height: DeviceConstraints.getResponsiveSize(context, 20, 25, 28),
+                              width: DeviceConstraints.getResponsiveSize(context, 20, 25, 28),
+                              child: Center(
+                                child: SvgPicture.asset(
+                                  AppIcons.informationSVG,
+                                  height: DeviceConstraints.getResponsiveSize(context, 20, 25, 28),
+                                  width: DeviceConstraints.getResponsiveSize(context, 20, 25, 28),
+                                  color: isAddedSelectedColor(themeType), //  isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
+                                ),
                               ),
                             ),
                           ),

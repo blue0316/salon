@@ -240,7 +240,7 @@ class _GentleTouchTeamMemberState extends ConsumerState<GentleTouchTeamMember> {
                         ? CachedImage(url: widget.image!, fit: BoxFit.cover)
                         : Image.asset(
                             themeType == ThemeType.GentleTouch ? ThemeImages.noTeamMember : ThemeImages.noTeamMemberDark,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.fitHeight,
                           ),
                   ),
                 ),
@@ -360,7 +360,11 @@ class _GentleTouchTeamButtonState extends ConsumerState<GentleTouchTeamButton> {
           style: TextStyle(
             fontSize: 15.sp,
             fontWeight: FontWeight.normal,
-            color: (themeType == ThemeType.GentleTouch) ? (!isHovered ? Colors.black : Colors.white) : (!isHovered ? Colors.white : Colors.black),
+            color: !isPortrait
+                ? (themeType == ThemeType.GentleTouch)
+                    ? (!isHovered ? Colors.black : Colors.white)
+                    : (!isHovered ? Colors.white : Colors.black)
+                : Colors.black,
             fontFamily: "Inter-Light",
           ),
         ),

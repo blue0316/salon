@@ -216,10 +216,11 @@ ThemeData getGentleTouchTheme(String? colorCode) {
 
 // Theme 7 - GLAM MINIMAL LIGHT
 ThemeData getGlamMinimalLightTheme(String? colorCode) {
+  print('color code $colorCode');
   switch (colorCode) {
     case null: // 'FFC692':
       // GlamMinimalLight.themeBackgroundColor = Colors.white;
-
+      GlamMinimalLight.accentColor = const Color(0xfff4dfe9);
       return GlamMinimalLight.lightTheme;
 
     // case 'FFC692':
@@ -233,7 +234,6 @@ ThemeData getGlamMinimalLightTheme(String? colorCode) {
           int value = int.parse(valueString, radix: 16);
 
           GlamMinimalLight.accentColor = Color(value);
-         
         } catch (e) {
           GlamMinimalLight.accentColor = const Color(0xfff4dfe9);
         }

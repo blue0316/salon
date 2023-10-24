@@ -302,7 +302,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                           height: height,
                           //color: Colors.white,
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Gap(175),
                               SizedBox(
@@ -311,7 +311,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Expanded(
                                       child: Padding(
@@ -360,21 +360,25 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                               if (chosenSalon.specializations != null &&
                                   chosenSalon.specializations!.isNotEmpty &&
                                   displaySettings.showSpecialization)
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 80.0, right: 30),
-                                  child: Wrap(
-                                      //verticalDirection: VerticalDirection.up,
-                                      alignment: WrapAlignment.start,
-                                      runSpacing: 7,
-                                      spacing: 10,
-                                      children: chosenSalon.specializations!
-                                          .map(
-                                            (e) => SpecializationBox(
-                                              name: e.toString(),
-                                            ),
-                                          )
-                                          .toList()),
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 113.0, right: 30),
+                                      child: Wrap(
+                                          //verticalDirection: VerticalDirection.up,
+                                          alignment: WrapAlignment.start,
+                                          runSpacing: 7,
+                                          spacing: 10,
+                                          children: chosenSalon.specializations!
+                                              .map(
+                                                (e) => SpecializationBox(
+                                                  name: e.toString(),
+                                                ),
+                                              )
+                                              .toList()),
+                                    ),
+                                  ],
                                 ),
                               const Gap(50),
                               GestureDetector(
@@ -383,8 +387,11 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.only(
-                                      left: 120.0, right: 12),
+                                      left: 113.0, right: 12),
                                   child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    // mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text('BOOK NOW',
                                           style: GoogleFonts.openSans(

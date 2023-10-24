@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:js' as js;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UniquePortraitLandingBottom extends ConsumerWidget {
   const UniquePortraitLandingBottom({Key? key}) : super(key: key);
@@ -38,9 +39,9 @@ class UniquePortraitLandingBottom extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Terms & Conditions',
+                AppLocalizations.of(context)?.termsAndConditions ?? 'Terms & Conditions',
                 style: theme.textTheme.titleSmall!.copyWith(
-                  fontSize: 18.sp,
+                  fontSize: 17.sp,
                   fontWeight: FontWeight.w400,
                   color: const Color(0XFF585858),
                 ),
@@ -48,9 +49,9 @@ class UniquePortraitLandingBottom extends ConsumerWidget {
               ),
               // const Spacer(),
               Text(
-                'Privacy Policy',
+                AppLocalizations.of(context)?.privacyAndPolicy ?? 'Privacy Policy',
                 style: theme.textTheme.titleSmall!.copyWith(
-                  fontSize: 18.sp,
+                  fontSize: 17.sp,
                   fontWeight: FontWeight.w400,
                   color: const Color(0XFF585858),
                 ),
@@ -69,15 +70,15 @@ class UniquePortraitLandingBottom extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                '© 2023 Glamiris.  ',
+                '© 2023 Glamiris.',
                 style: theme.textTheme.titleSmall!.copyWith(
-                  fontSize: 18.sp,
+                  fontSize: 17.sp,
                   fontWeight: FontWeight.w400,
-                  color: const Color(0XFF908D8D),
+                  color: const Color(0XFF868686),
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(width: 2.sp),
+              SizedBox(width: 5.sp),
               MouseRegion(
                 cursor: SystemMouseCursors.click,
                 child: GestureDetector(
@@ -85,12 +86,11 @@ class UniquePortraitLandingBottom extends ConsumerWidget {
                     js.context.callMethod('open', ['https://www.glamiris.com/']);
                   },
                   child: Text(
-                    'Powered by GlamIris',
+                    '${AppLocalizations.of(context)?.poweredBy ?? 'Powered by '}Glamiris',
                     style: theme.textTheme.titleSmall!.copyWith(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 17.sp,
+                      fontWeight: FontWeight.w400,
                       color: theme.colorScheme.secondary,
-                      decoration: TextDecoration.underline,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -138,9 +138,9 @@ class UniqueLandscapeLandingBottom extends ConsumerWidget {
               Row(
                 children: [
                   Text(
-                    'Terms & Conditions',
+                    AppLocalizations.of(context)?.termsAndConditions ?? 'Terms & Conditions',
                     style: theme.textTheme.titleSmall!.copyWith(
-                      fontSize: 18.sp,
+                      fontSize: 17.sp,
                       fontWeight: FontWeight.w400,
                       color: const Color(0XFF908D8D),
                     ),
@@ -148,9 +148,9 @@ class UniqueLandscapeLandingBottom extends ConsumerWidget {
                   ),
                   SizedBox(width: 40.sp),
                   Text(
-                    'Privacy Policy',
+                    AppLocalizations.of(context)?.privacyAndPolicy ?? 'Privacy Policy',
                     style: theme.textTheme.titleSmall!.copyWith(
-                      fontSize: 18.sp,
+                      fontSize: 17.sp,
                       fontWeight: FontWeight.w400,
                       color: const Color(0XFF908D8D),
                     ),
@@ -163,15 +163,15 @@ class UniqueLandscapeLandingBottom extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    '© 2023 Glamiris.  ',
+                    '© 2023 Glamiris.',
                     style: theme.textTheme.titleSmall!.copyWith(
-                      fontSize: 18.sp,
+                      fontSize: 17.sp,
                       fontWeight: FontWeight.w400,
-                      color: const Color(0XFF908D8D),
+                      color: const Color(0XFF868686),
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(width: 2.sp),
+                  SizedBox(width: 5.sp),
                   MouseRegion(
                     cursor: SystemMouseCursors.click,
                     child: GestureDetector(
@@ -179,12 +179,11 @@ class UniqueLandscapeLandingBottom extends ConsumerWidget {
                         js.context.callMethod('open', ['https://www.glamiris.com/']);
                       },
                       child: Text(
-                        'Powered by GlamIris',
+                        '${AppLocalizations.of(context)?.poweredBy ?? 'Powered by '}Glamiris',
                         style: theme.textTheme.titleSmall!.copyWith(
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w500,
+                          fontSize: 17.sp,
+                          fontWeight: FontWeight.w400,
                           color: theme.colorScheme.secondary,
-                          decoration: TextDecoration.underline,
                         ),
                         textAlign: TextAlign.center,
                       ),

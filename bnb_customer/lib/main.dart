@@ -3,6 +3,7 @@ import 'package:bbblient/src/controller/app_provider.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/analytics.dart';
 import 'package:bbblient/src/utils/utils.dart';
+import 'package:bbblient/src/views/home/home_iframe.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -71,7 +72,7 @@ class MyApp extends ConsumerWidget {
           return _bnbProvider.getLocale;
         },
         locale: _bnbProvider.getLocale,
-        title: 'bnb',
+        title: 'Glamiris',
         theme: AppTheme.mainTheme,
 
         builder: BotToastInit(),
@@ -111,11 +112,7 @@ class _NavigatorPageState extends ConsumerState<NavigatorPage> {
     // final AppProvider _appProvider = ref.watch(appProvider);
     return const Material(
       color: AppTheme.white,
-      child:SizedBox()
-      // child: Loader(
-      //   status: _appProvider.appStatus,
-      //   child: _appProvider.isFirstTime ? const OnBoarding() : const HomePage(),
-      // ),
+      child: HomeIframe(),
     );
   }
 }

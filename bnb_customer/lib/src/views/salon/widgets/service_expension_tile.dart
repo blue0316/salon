@@ -8,7 +8,10 @@ import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/currency/currency.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/utils/translation.dart';
+import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/colors.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:translator/translator.dart' as trans;
 import 'package:bbblient/src/views/widgets/widgets.dart';
@@ -392,19 +395,23 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
   }
 }
 
-class ShowServiceInfo extends StatelessWidget {
+class ShowServiceInfo extends ConsumerWidget {
   final ServiceModel service;
   const ShowServiceInfo(this.service, {Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+    ThemeType themeType = _salonProfileProvider.themeType;
+
     return AlertDialog(
         contentPadding: EdgeInsets.zero,
         shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
         content: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            color: AppTheme.lightBlack,
+            color: theme.dialogBackgroundColor, // const Color(0XFF0D0C0C),
           ),
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -414,28 +421,36 @@ class ShowServiceInfo extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Flexible(
-                    child: Text(
-                      Translation.getServiceName(service: service, langCode: AppLocalizations.of(context)?.localeName ?? 'en'),
-                      style: const TextStyle(color: AppTheme.white3),
-                    ),
-                  ),
+                  // Flexible(
+                  //   child: Text(
+                  //     Translation.getServiceName(service: service, langCode: AppLocalizations.of(context)?.localeName ?? 'en'),
+                  //     style: TextStyle(
+                  //       color: isAddedSelectedColor(themeType), //  AppTheme.white3,
+                  //     ),
+                  //   ),
+                  // ),
+                  const SizedBox.shrink(),
                   GestureDetector(
                     onTap: () => Navigator.of(context).pop(),
-                    child: const Icon(
+                    child: Icon(
                       Icons.clear_rounded,
                       size: 22,
-                      color: AppTheme.white3,
+                      color: isAddedSelectedColor(themeType), // AppTheme.white3,
                     ),
                   )
                 ],
               ),
-              const Space(),
+              // const Space(),
+              SizedBox(height: 20.sp),
               Text(
-                (service.description == null || service.description == "")
-                    ? "Опис відсутній" //means no description available
-                    : service.description!,
-                style: const TextStyle(color: AppTheme.white3, fontWeight: FontWeight.w400),
+                // (service.description == null || service.description == "")
+                //     ? "Опис відсутній" //means no description available
+                //     :
+                (service.description ?? '').toTitleCase(),
+                style: TextStyle(
+                  color: isAddedSelectedColor(themeType), //  AppTheme.white3,
+                  fontWeight: FontWeight.w400,
+                ),
               )
             ],
           ),

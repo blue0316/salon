@@ -281,6 +281,7 @@ class _ViewAppointmentDetailsState<T> extends ConsumerState<ViewAppointmentDetai
                               appointmentId: appointment.appointmentId!,
                               startTime: start.toIso8601String(),
                               endTime: end.toIso8601String(),
+                              salon: _salonProfileProvider.chosenSalon,
                             );
                           },
                           isLoading: _appointmentProvider.appleCalendarStatus == Status.loading,

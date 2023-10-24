@@ -32,7 +32,7 @@ class _GentleTouchServiceTileState extends ConsumerState<GentleTouchServiceTile>
 
   @override
   Widget build(BuildContext context) {
-    final _createAppointmentProvider = ref.watch(createAppointmentProvider);
+    // final _createAppointmentProvider = ref.watch(createAppointmentProvider);
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     SalonModel salonModel = _salonProfileProvider.chosenSalon;
 
@@ -59,35 +59,21 @@ class _GentleTouchServiceTileState extends ConsumerState<GentleTouchServiceTile>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              (themeType != ThemeType.GentleTouch)
-                                  ? '${widget.service.translations?[AppLocalizations.of(
-                                            context,
-                                          )?.localeName ?? 'en'] ?? widget.service.translations?['en']}'
-                                      .toUpperCase()
-                                  : '${widget.service.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? widget.service.translations?['en']}'.toTitleCase(),
-                              style: theme.textTheme.bodyLarge?.copyWith(
-                                color: serviceNameColor(themeType, theme),
-                                fontSize: 20.sp,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                            if (_createAppointmentProvider.isAdded(serviceModel: widget.service))
-                              SizedBox(
-                                width: DeviceConstraints.getResponsiveSize(context, 5, 5, 30),
-                              ),
-                            Icon(
-                              Icons.check,
-                              size: 20.sp,
-                              color: _createAppointmentProvider.isAdded(serviceModel: widget.service) ? serviceNameColor(themeType, theme) : Colors.transparent,
-                            ),
-                          ],
+                        child: Text(
+                          (themeType != ThemeType.GentleTouch)
+                              ? '${widget.service.translations?[AppLocalizations.of(
+                                        context,
+                                      )?.localeName ?? 'en'] ?? widget.service.translations?['en']}'
+                                  .toUpperCase()
+                              : '${widget.service.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? widget.service.translations?['en']}'.toTitleCase(),
+                          style: theme.textTheme.bodyLarge?.copyWith(
+                            color: serviceNameColor(themeType, theme),
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
                       ),
+                      SizedBox(width: 12.sp),
                       Text(
                         widget.service.isFixedPrice ? "${getCurrency(salonModel.countryCode!)}${widget.service.priceAndDuration!.price}" : "${getCurrency(salonModel.countryCode!)}${widget.service.priceAndDuration!.price} - ${getCurrency(salonModel.countryCode!)}${widget.service.priceAndDurationMax!.price}",
                         style: theme.textTheme.bodyLarge?.copyWith(

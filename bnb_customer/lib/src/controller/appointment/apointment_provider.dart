@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bbblient/src/controller/home/salon_search_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/firebase/appointments.dart';
@@ -28,6 +30,9 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:http/http.dart' as http;
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'dart:js' as js;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AppointmentProvider with ChangeNotifier {
   static final DateTime _today = Time().getDate();
@@ -231,14 +236,14 @@ class AppointmentProvider with ChangeNotifier {
       await AppointmentApi().updateMultipleAppointment(
         isSingleMaster: isSingleMaster,
         appointmentModel: appointment,
-        appointmentSubStatus: ActiveAppointmentSubStatus.cancelledBySalon,
+        appointmentSubStatus: ActiveAppointmentSubStatus.cancelledByCustomer,
         appointmentStatus: AppointmentStatus.cancelled,
         salon: salon,
         salonMasters: salonMasters,
       );
 
       // SHOW TOAST
-      showToast('YOUR APPOINTMENT HAS BEEN CANCELLED');
+      showToast('Appointment cancelled succesfully');
 
       // REFRESH SCREEN
       callback!();
@@ -358,7 +363,14 @@ class AppointmentProvider with ChangeNotifier {
     return null;
   }
 
-  void addToAppleCalendar(context, {required AppointmentModel appointment, required String appointmentId, required String startTime, required String endTime}) async {
+  void addToAppleCalendar(
+    context, {
+    required AppointmentModel appointment,
+    required String appointmentId,
+    required String startTime,
+    required String endTime,
+    SalonModel? salon,
+  }) async {
     appleCalendarStatus = Status.loading;
     notifyListeners();
     var url = Uri.parse('https://us-central1-bowandbeautiful-3372d.cloudfunctions.net/calendar-appleCalendar');
@@ -366,27 +378,46 @@ class AppointmentProvider with ChangeNotifier {
       "starttime": startTime,
       "endtime": endTime,
       "salonName": appointment.salon.name,
-      "email": appointment.customer?.email ?? '',
-      "address": appointment.salon.address,
+      "email": (appointment.customer?.email ?? '').toString(),
+      "address": appointment.salon.address.toString(),
       "salonPhone": appointment.salon.phoneNo,
       "appointmentId": appointmentId,
-      "locale": "en",
+      "locale": salon?.locale ?? 'en',
     };
-
-    // print(body);
 
     var response = await http.post(url, body: body);
 
-    // print(response);
-
-    // debugPrint('Response status: ${response.statusCode}');
-    // debugPrint('Response body: ${response.body}');
+    debugPrint(body.toString());
+    debugPrint('----------');
+    debugPrint('Response: $response');
+    debugPrint('Response status: ${response.statusCode}');
+    debugPrint('Response body: ${response.body}');
 
     if (response.statusCode == 200 || response.statusCode == 201) {
+      final Map<String, dynamic> parsedResponse = json.decode(response.body);
+
+      js.context.callMethod('open', [parsedResponse["message"], '_self']);
+
+      if ((parsedResponse["message"]).toString().length >= 9) {
+        String launchDownloadLink = 'https://${(parsedResponse["message"]).toString().substring('webcal://'.length)}';
+        Uri uri = Uri.parse(launchDownloadLink);
+
+        if (await canLaunchUrl(uri)) {
+          await launchUrl(
+            uri,
+            webOnlyWindowName: '_self',
+          );
+        } else {
+          showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? 'Something went wrong, please try again');
+        }
+      }
+
+      // webcal://storage.googleapis.com/bowandbeautiful-3372d.appspot.com/invites%2F84hWagCdUAURP6BUwNLC
+
       showTopSnackBar(
         context,
         CustomSnackBar.success(
-          message: "Invite successfully sent to your email",
+          message: "Invite successfully created, please check your downloads",
           backgroundColor: AppTheme.creamBrown,
           textStyle: AppTheme.customLightTheme.textTheme.bodyLarge!.copyWith(
             fontSize: 20.sp,

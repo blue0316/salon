@@ -295,6 +295,8 @@ class _TileState extends ConsumerState<Tile> {
   Widget build(BuildContext context) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    ThemeType themeType = _salonProfileProvider.themeType;
+
     // final child = Container(
     //   color: backgroundColor ?? Colors.blue,
     //   height: extent,
@@ -314,7 +316,6 @@ class _TileState extends ConsumerState<Tile> {
       onEnter: (event) => onEntered(true),
       onExit: (event) => onEntered(false),
       child: SizedBox(
-        // color: backgroundColor ?? Colors.blue,
         height: widget.extent,
         child: Column(
           children: [
@@ -327,17 +328,29 @@ class _TileState extends ConsumerState<Tile> {
               ),
             ),
             if (isHovered && widget.description.isNotEmpty)
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.sp),
-                child: Text(
-                  widget.description,
-                  style: theme.textTheme.bodyLarge?.copyWith(
-                    color: theme.primaryColorDark,
-                    fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 14.sp, 14.sp),
-                    fontWeight: FontWeight.normal,
+              Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: themeType == ThemeType.GentleTouch ? Colors.black : Colors.white,
+                    width: 0.3,
                   ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                  child: Center(
+                    child: Text(
+                      widget.description,
+                      style: theme.textTheme.bodyLarge?.copyWith(
+                        color: theme.primaryColorDark,
+                        fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 14.sp, 14.sp),
+                        fontWeight: FontWeight.normal,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                 ),
               ),
           ],

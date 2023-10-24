@@ -7,6 +7,7 @@ import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/salon/booking/widgets/confirmation_tab.dart/confirmed_dialog.dart';
 import 'package:bbblient/src/views/salon/booking/widgets/confirmation_tab.dart/view_appointment_details.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,6 +16,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'dialog_flow/widgets/colors.dart';
 
 class ConfirmationSuccess<T> extends ConsumerStatefulWidget {
   static const route = "/confirmation";
@@ -66,6 +69,7 @@ class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
@@ -194,12 +198,12 @@ class _ConfirmationSuccessState extends ConsumerState<ConfirmationSuccess> {
                         child: DefaultButton(
                           height: 60.sp,
                           borderRadius: 60.sp,
-                          color: theme.dialogBackgroundColor,
-                          borderColor: theme.colorScheme.tertiary.withOpacity(0.6),
+                          color: dialogButtonColor(themeType, theme),
+                          borderColor: dialogButtonColor(themeType, theme),
                           label: (AppLocalizations.of(context)?.viewDetails ?? 'View details').toCapitalized(),
+                          textColor: loaderColor(themeType),
                           fontWeight: FontWeight.w400,
                           fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
-                          textColor: theme.colorScheme.tertiary,
                           onTap: () async {
                             // html.window.open("https://yogasm.firebaseapp.com/appointments?id=${appointment?.appointmentId}", "_self");
 
@@ -258,6 +262,7 @@ class _ConfirmationErrorState extends ConsumerState<ConfirmationError> {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
@@ -338,7 +343,7 @@ class _ConfirmationErrorState extends ConsumerState<ConfirmationError> {
                     label: (AppLocalizations.of(context)?.exit ?? 'Exit').toCapitalized(),
                     fontWeight: FontWeight.w400,
                     fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
-                    textColor: theme.colorScheme.tertiary,
+                    textColor: loaderColor(themeType),
                     onTap: () async {
                       Navigator.pop(context);
                     },
