@@ -2006,14 +2006,15 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                       infoFontSize: screenSize.width * 0.008,
                                       contactTitle: 'Social Media',
                                       contactAsset: 'social_media.svg',
-                                      contactDescription: 'Salon address',
+                                      contactDescription: 'Discover more on social',
                                       contactInfo: '',
-                                      contactAssetList:  [
-                                        if (chosenSalon.links?.instagram != '' &&chosenSalon.links?.instagram != null)
-                                        'instagram.svg',
-                                        'tiktok.svg',
-                                        'facebook.svg'
-                                      ],
+                                      contactAssetList: true,
+                                      // contactAssetList:  [
+                                      //   if (chosenSalon.links?.instagram != '' &&chosenSalon.links?.instagram != null)
+                                      //   'instagram.svg',
+                                      //   'tiktok.svg',
+                                      //   'facebook.svg'
+                                      // ],
                                     ),
                                   ],
                                 ),
