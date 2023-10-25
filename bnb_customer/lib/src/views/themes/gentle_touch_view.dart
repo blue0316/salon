@@ -143,7 +143,7 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          if (displaySettings?.showAbout == true)
+                          if (chosenSalon.description.isNotEmpty && displaySettings?.showAbout == true)
                             AppBarItem(
                               title: AppLocalizations.of(context)?.aboutUs ?? 'About Us',
                               onTap: () {
@@ -154,7 +154,7 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
                                 );
                               },
                             ),
-                          if (displaySettings?.showPhotosOfWork == true)
+                          if (chosenSalon.photosOfWorks != null && chosenSalon.photosOfWorks!.isNotEmpty && displaySettings?.showPhotosOfWork == true)
                             AppBarItem(
                               title: AppLocalizations.of(context)?.portfolio ?? 'Portfolio',
                               onTap: () {
@@ -176,7 +176,7 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
                                 );
                               },
                             ),
-                          if (displaySettings?.product.showProduct == true)
+                          if (_salonProfileProvider.allProducts.isNotEmpty && displaySettings?.product.showProduct == true)
                             AppBarItem(
                               title: AppLocalizations.of(context)?.products ?? 'Products',
                               onTap: () {
@@ -187,7 +187,7 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
                                 );
                               },
                             ),
-                          if (displaySettings?.showTeam == true)
+                          if (_createAppointmentProvider.salonMasters.isNotEmpty && displaySettings?.showTeam == true)
                             AppBarItem(
                               title: AppLocalizations.of(context)?.team ?? 'Team',
                               onTap: () {
@@ -198,7 +198,7 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
                                 );
                               },
                             ),
-                          if (displaySettings?.reviews.showReviews == true)
+                          if (_salonProfileProvider.salonReviews.isNotEmpty && displaySettings?.reviews.showReviews == true)
                             AppBarItem(
                               title: AppLocalizations.of(context)?.reviews ?? 'Reviews',
                               onTap: () {
