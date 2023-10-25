@@ -3,6 +3,7 @@
 import 'package:bbblient/src/views/themes/glam_one/core/utils/color_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 // FORMERLY BARBERSHOP THEME
 // Theme 4 ThemeData
@@ -61,8 +62,8 @@ class VintageCraftTheme {
       bodyLarge: bodyText1.copyWith(color: primaryColor1),
       bodyMedium: bodyText2.copyWith(color: primaryColor1),
       //text-field style
-      titleMedium: subTitle1.copyWith(color: primaryColor1),
-      titleSmall: subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
+      // titleMedium: subTitle1.copyWith(color: primaryColor1),
+      // titleSmall: subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
     ),
     dividerColor: Colors.white,
 
@@ -94,75 +95,44 @@ class VintageCraftTheme {
     hoverColor: lightGrey,
   );
 
-  static final TextStyle headLine1 = TextStyle(
-    fontFamily: "UNDERRATED",
+  static final TextStyle headLine1 = GoogleFonts.playfairDisplay(
+    // fontFamily: "UNDERRATED",
     fontSize: 100.sp,
     fontWeight: FontWeight.w600,
   );
-  static final TextStyle headLine2 = TextStyle(
-    fontFamily: "UNDERRATED",
+
+  static final TextStyle headLine2 = GoogleFonts.playfairDisplay(
+    // fontFamily: "UNDERRATED",
     fontSize: 50.sp,
     fontWeight: FontWeight.w500,
   );
 
-  static final TextStyle headLine3 = TextStyle(
-    fontFamily: "UNDERRATED",
+  static final TextStyle headLine3 = GoogleFonts.playfairDisplay(
+    // fontFamily: "UNDERRATED",
     fontSize: 30.sp,
     fontWeight: FontWeight.w500,
   );
-  static final TextStyle headLine4 = TextStyle(
-    fontFamily: "UNDERRATED",
+  static final TextStyle headLine4 = GoogleFonts.playfairDisplay(
+    // fontFamily: "UNDERRATED",
     fontSize: 16.sp,
     fontWeight: FontWeight.w500,
   );
-  static final TextStyle headLine5 = TextStyle(
-    fontFamily: "UNDERRATED",
+  static final TextStyle headLine5 = GoogleFonts.playfairDisplay(
+    // fontFamily: "UNDERRATED",
     fontSize: 16.sp,
     fontWeight: FontWeight.w500,
   );
-  static final TextStyle bodyText1 = TextStyle(
-    fontFamily: "Poppins",
+
+  static final TextStyle bodyText1 = GoogleFonts.openSans(
+    // fontFamily: "Poppins",
     fontSize: 16.sp,
     fontWeight: FontWeight.w500,
   );
-  static final TextStyle bodyText2 = TextStyle(
-    fontFamily: "Poppins",
+
+  static final TextStyle bodyText2 = GoogleFonts.openSans(
+    // fontFamily: "Poppins",
     fontSize: 14.sp,
     fontWeight: FontWeight.w400,
-  );
-  static final TextStyle subTitle1 = TextStyle(
-    fontFamily: "Poppins",
-    fontSize: 16.sp,
-    fontWeight: FontWeight.w600,
-  );
-  static final TextStyle appointmentSubtitle = TextStyle(
-    fontFamily: "Poppins",
-    fontSize: 14.sp,
-    fontWeight: FontWeight.w600,
-  );
-  static const TextStyle calTextStyle = TextStyle(
-    fontFamily: "Poppins",
-    fontSize: 14,
-    fontWeight: FontWeight.w500,
-  );
-
-  static const TextStyle calTextStyle2 = TextStyle(
-    fontFamily: "Poppins",
-    fontSize: 14,
-    fontWeight: FontWeight.w500,
-  );
-
-  static const TextStyle appointmentTitleStyle = TextStyle(
-    fontFamily: "Poppins",
-    fontSize: 14,
-    fontWeight: FontWeight.w500,
-  );
-
-  static final TextStyle subTitle2 = TextStyle(
-    fontFamily: "Poppins",
-    fontSize: 17.5.sp,
-    fontWeight: FontWeight.w400,
-    color: Colors.white,
   );
 
   static const BoxDecoration orangeGradient = BoxDecoration(
