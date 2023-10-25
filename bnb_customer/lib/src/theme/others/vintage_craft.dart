@@ -3,16 +3,10 @@
 import 'package:bbblient/src/views/themes/glam_one/core/utils/color_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'accents/barbershop/accent_C17150.dart';
-import 'accents/barbershop/accent_D5824C.dart';
-import 'accents/barbershop/accent_E3824F.dart';
-import 'accents/barbershop/accent_E3A681.dart';
-import 'accents/barbershop/accent_E4954A.dart';
-import 'accents/barbershop/accent_F89F54.dart';
-import 'accents/barbershop/accent_FABD64.dart';
 
+// FORMERLY BARBERSHOP THEME
 // Theme 4 ThemeData
-class BarbershopTheme {
+class VintageCraftTheme {
   static Color themeBackgroundColor = ColorConstant.black900;
 
   static const Color textBlack = Color(0xff0E141E);
@@ -99,27 +93,6 @@ class BarbershopTheme {
     splashColor: lightGrey,
     hoverColor: lightGrey,
   );
-
-  // Accent Color E3824F
-  static final ThemeData AccentE3824F = accentE3824F;
-
-  // Accent Color D5824C
-  static final ThemeData AccentD5824C = accentD5824C;
-
-  // Accent Color FABD64
-  static final ThemeData AccentFABD64 = accentFABD64;
-
-  // Accent Color E3A681
-  static final ThemeData AccentE3A681 = accentE3A681;
-
-  // Accent Color F89F54
-  static final ThemeData AccentF89F54 = accentF89F54;
-
-  // Accent Color C17150
-  static final ThemeData AccentC17150 = accentC17150;
-
-  // Accent Color E4954A
-  static final ThemeData AccentE4954A = accentE4954A;
 
   static final TextStyle headLine1 = TextStyle(
     fontFamily: "UNDERRATED",
