@@ -18,7 +18,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:web_smooth_scroll/web_smooth_scroll.dart';
 import 'salon_all_works.dart';
 import 'salon_masters.dart';
 import 'widgets/header.dart';

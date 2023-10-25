@@ -1,7 +1,7 @@
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/promotions/promotion_service.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/prev_and_next.dart';
-import 'package:bbblient/src/views/themes/glam_one/master_profile/unique_master_profile.dart';
+import 'package:bbblient/src/views/themes/glam_one/core/utils/header_height.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

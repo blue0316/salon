@@ -1,11 +1,9 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
-import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
-import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/booking_dialog_2.dart';
 import 'package:bbblient/src/views/themes/components/widgets/button.dart';
 import 'package:bbblient/src/views/themes/components/widgets/multiple_states_button.dart';
@@ -19,9 +17,8 @@ import 'dart:ui' as ui;
 
 class ThemeHeader extends ConsumerWidget {
   final SalonModel salonModel;
-  final MasterModel? masterModel;
 
-  const ThemeHeader({Key? key, required this.salonModel, this.masterModel}) : super(key: key);
+  const ThemeHeader({Key? key, required this.salonModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -38,28 +35,19 @@ class ThemeHeader extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         const SizedBox(height: 20),
-        (masterModel == null)
-            ? Padding(
-                padding: EdgeInsets.symmetric(horizontal: !isTab ? 15.w : 0),
-                child: Text(
-                  (salonModel.salonName).toUpperCase(),
-                  style: theme.textTheme.displayMedium?.copyWith(
-                    letterSpacing: 0.5,
-                    fontSize: DeviceConstraints.getResponsiveSize(context, (themeType == ThemeType.GentleTouch || themeType == ThemeType.GentleTouchDark) ? 70.sp : 50.sp, 75.sp, 85.sp),
-                    color: titleHeaderColor(theme, themeType),
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              )
-            : Text(
-                Utils().getNameMaster(masterModel?.personalInfo).toUpperCase(),
-                style: theme.textTheme.displayLarge?.copyWith(
-                  letterSpacing: 0.5,
-                  fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 75.sp, 85.sp),
-                  color: titleHeaderColor(theme, themeType),
-                ),
-                textAlign: TextAlign.center,
-              ),
+
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: !isTab ? 15.w : 0),
+          child: Text(
+            (salonModel.salonName).toUpperCase(),
+            style: theme.textTheme.displayMedium?.copyWith(
+              letterSpacing: 0.5,
+              fontSize: DeviceConstraints.getResponsiveSize(context, (themeType == ThemeType.GentleTouch || themeType == ThemeType.GentleTouchDark) ? 70.sp : 50.sp, 75.sp, 85.sp),
+              color: titleHeaderColor(theme, themeType),
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
         // if (isPortrait) const SizedBox(height: 20),
         // Text(
         //   "Beauty Salon",
