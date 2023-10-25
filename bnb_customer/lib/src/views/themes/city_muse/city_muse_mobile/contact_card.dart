@@ -141,7 +141,7 @@ class CityMuseContactCard extends ConsumerWidget {
                  const Gap(10),
           
             Row(children: [
-              if(chosenSalon.links!.facebook != null &&  chosenSalon.links!.facebook.isNotEmpty)
+              if(chosenSalon.links?.facebook != null &&  chosenSalon.links!.facebook.isNotEmpty)
                GestureDetector(
                  onTap: () async {
         Uri uri = Uri.parse(socialLinks('facebook',chosenSalon.links!.facebook  ?? ''));
@@ -160,7 +160,7 @@ class CityMuseContactCard extends ConsumerWidget {
                ),
                Gap(4.0),
 
-                               if(chosenSalon.links!.instagram != null &&  chosenSalon.links!.instagram.isNotEmpty)
+                               if(chosenSalon.links?.instagram != null &&  chosenSalon.links!.instagram.isNotEmpty)
                GestureDetector(
                 onTap: () async {
         Uri uri = Uri.parse(socialLinks('instagram',chosenSalon.links!.instagram  ?? ''));
@@ -177,7 +177,7 @@ class CityMuseContactCard extends ConsumerWidget {
                  child: SvgPicture.asset(
                                 'assets/test_assets/instagram.svg'),
                ),  Gap(4.0),
-                               if(chosenSalon.links!.tiktok != null &&  chosenSalon.links!.tiktok.isNotEmpty)
+                               if(chosenSalon.links?.tiktok != null &&  chosenSalon.links!.tiktok.isNotEmpty)
                GestureDetector(
                 onTap: () async {
         Uri uri = Uri.parse(socialLinks('tiktok',chosenSalon.links!.tiktok ?? ''));

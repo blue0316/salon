@@ -215,7 +215,7 @@ ThemeData getGentleTouchTheme(String? colorCode) {
 }
 
 // Theme 7 - GLAM MINIMAL LIGHT
-ThemeData getGlamMinimalLightTheme(String? colorCode) {
+ThemeData getCityMuseLightTheme(String? colorCode) {
   print('color code $colorCode');
   switch (colorCode) {
     case null: // 'FFC692':
@@ -244,7 +244,7 @@ ThemeData getGlamMinimalLightTheme(String? colorCode) {
 }
 
 // Theme 8 - GLAM MINIMAL DARK
-ThemeData getGlamMinimalDarkTheme(String? colorCode) {
+ThemeData getCityMuseDarkTheme(String? colorCode) {
   switch (colorCode) {
     case null: // 'FFC692':
       GlamMinimalDark.primaryColor1 = Colors.white;

@@ -35,7 +35,8 @@ class SalonProfileProvider with ChangeNotifier {
 
   late SalonModel chosenSalon;
 
-  List<MasterModel> allMastersInSalon = []; // To check if the salon is single master or not
+  List<MasterModel> allMastersInSalon =
+      []; // To check if the salon is single master or not
   List<ReviewModel> salonReviews = [];
   List<ReviewModel> masterReviews = [];
 
@@ -77,7 +78,8 @@ class SalonProfileProvider with ChangeNotifier {
       loadingStatus = Status.loading;
       chosenSalon = (await _salonApi.getSalonFromId(salonId))!;
       // await Time().setTimeSlot(chosenSalon.timeSlotsInterval);
-      themeSettings = await CustomerWebSettingsApi().getSalonTheme(salonId: salonId);
+      themeSettings =
+          await CustomerWebSettingsApi().getSalonTheme(salonId: salonId);
       themeType = getThemeTypeEnum(themeSettings?.theme?.id);
       hasThemeGradient = themeSettings?.theme?.isGradient ?? false;
 
@@ -267,19 +269,19 @@ class SalonProfileProvider with ChangeNotifier {
           return GentleTouch(showBooking: showBooking);
 
         case '7':
-          salonTheme = getGlamMinimalLightTheme(themeSettings?.theme?.colorCode);
+          salonTheme = getCityMuseLightTheme(themeSettings?.theme?.colorCode);
           //http://localhost:51401/home/salon?id=snyyGYxB2ug8a4TGOOAs&back=false&locale=en
           themeType = ThemeType.GlamMinimalLight;
 
           notifyListeners();
-          return const GlamMinimalEntry();
+          return const CityMuseEntry();
         // break;
 
         case '8':
-          salonTheme = getGlamMinimalDarkTheme(themeSettings?.theme?.colorCode);
+          salonTheme = getCityMuseDarkTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.GlamMinimalDark;
           notifyListeners();
-          return const GlamMinimalEntry();
+          return const CityMuseEntry();
 
         //  break;
 
@@ -297,17 +299,17 @@ class SalonProfileProvider with ChangeNotifier {
           notifyListeners();
           return GentleTouch(showBooking: showBooking);
         case '12':
-          salonTheme = getGlamMinimalLightTheme(themeSettings?.theme?.colorCode);
+          salonTheme = getCityMuseLightTheme(themeSettings?.theme?.colorCode);
           //http://localhost:51401/home/salon?id=yUm0tTznu5NCtEhKVClr&back=false&locale=en
           themeType = ThemeType.GlamMinimalLight;
 
           notifyListeners();
-          return const GlamMinimalEntry();
+          return const CityMuseEntry();
         case '13':
-          salonTheme = getGlamMinimalDarkTheme(themeSettings?.theme?.colorCode);
+          salonTheme = getCityMuseDarkTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.GlamMinimalDark;
           notifyListeners();
-          return const GlamMinimalEntry();
+          return const CityMuseEntry();
       }
 
       return GlamOneScreen(showBooking: showBooking); // New Themes Base Widget
@@ -318,7 +320,8 @@ class SalonProfileProvider with ChangeNotifier {
 
       notifyListeners();
 
-      return DefaultLandingTheme(showBooking: showBooking); // Default landing theme
+      return DefaultLandingTheme(
+          showBooking: showBooking); // Default landing theme
     }
   }
 
@@ -344,9 +347,13 @@ class SalonProfileProvider with ChangeNotifier {
   }
 
   // Send Enquiry to Firebase
-  void sendEnquiryToSalon(BuildContext context, {required String salonId}) async {
-    if (nameController.text == '' || phoneController.text == '' || requestController.text == '') {
-      showToast(AppLocalizations.of(context)?.emptyFields ?? "Fields cannot be empty, please fill required fields");
+  void sendEnquiryToSalon(BuildContext context,
+      {required String salonId}) async {
+    if (nameController.text == '' ||
+        phoneController.text == '' ||
+        requestController.text == '') {
+      showToast(AppLocalizations.of(context)?.emptyFields ??
+          "Fields cannot be empty, please fill required fields");
       return;
     }
 
@@ -371,15 +378,19 @@ class SalonProfileProvider with ChangeNotifier {
         showToast('Your Enquiry has been sent');
       } else {
         enquiryStatus = Status.failed;
-        showToast(AppLocalizations.of(context)?.errorOccurred ?? "Something went wrong, please try again");
+        showToast(AppLocalizations.of(context)?.errorOccurred ??
+            "Something went wrong, please try again");
       }
-      Future.delayed(const Duration(milliseconds: 100), () => notifyListeners());
+      Future.delayed(
+          const Duration(milliseconds: 100), () => notifyListeners());
     } catch (e) {
       enquiryStatus = Status.failed;
-      Future.delayed(const Duration(milliseconds: 100), () => notifyListeners());
+      Future.delayed(
+          const Duration(milliseconds: 100), () => notifyListeners());
 
       // printIt('Error on sendEnquiryToSalon() - ${e.toString()}');
-      showToast(AppLocalizations.of(context)?.errorOccurred ?? "Something went wrong, please try again");
+      showToast(AppLocalizations.of(context)?.errorOccurred ??
+          "Something went wrong, please try again");
       return null;
     }
   }
@@ -390,13 +401,20 @@ class SalonProfileProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void sendEnquiryToSalonCityMuse(BuildContext context, {required String salonId}) async {
-    if (firstNameController.text.isNotEmpty && lastNameController.text.isNotEmpty) {
-      nameController.text = '${firstNameController.text} ${lastNameController.text}';
+  void sendEnquiryToSalonCityMuse(BuildContext context,
+      {required String salonId}) async {
+    if (firstNameController.text.isNotEmpty &&
+        lastNameController.text.isNotEmpty) {
+      nameController.text =
+          '${firstNameController.text} ${lastNameController.text}';
     }
 
-    if (nameController.text == '' || phoneController.text == '' || requestController.text == '' || emailController.text == '') {
-      showToast(AppLocalizations.of(context)?.emptyFields ?? "Fields cannot be empty, please fill required fields");
+    if (nameController.text == '' ||
+        phoneController.text == '' ||
+        requestController.text == '' ||
+        emailController.text == '') {
+      showToast(AppLocalizations.of(context)?.emptyFields ??
+          "Fields cannot be empty, please fill required fields");
       return;
     }
 
@@ -426,15 +444,19 @@ class SalonProfileProvider with ChangeNotifier {
         phoneController.clear();
       } else {
         enquiryStatus = Status.failed;
-        showToast(AppLocalizations.of(context)?.errorOccurred ?? "Something went wrong, please try again");
+        showToast(AppLocalizations.of(context)?.errorOccurred ??
+            "Something went wrong, please try again");
       }
-      Future.delayed(const Duration(milliseconds: 100), () => notifyListeners());
+      Future.delayed(
+          const Duration(milliseconds: 100), () => notifyListeners());
     } catch (e) {
       enquiryStatus = Status.failed;
-      Future.delayed(const Duration(milliseconds: 100), () => notifyListeners());
+      Future.delayed(
+          const Duration(milliseconds: 100), () => notifyListeners());
 
       // printIt('Error on sendEnquiryToSalon() - ${e.toString()}');
-      showToast(AppLocalizations.of(context)?.errorOccurred ?? "Something went wrong, please try again");
+      showToast(AppLocalizations.of(context)?.errorOccurred ??
+          "Something went wrong, please try again");
       return null;
     }
   }
@@ -445,10 +467,12 @@ class SalonProfileProvider with ChangeNotifier {
     tabs.clear();
 
     // Get all brands
-    allProductBrands = await ProductsApi().getAllProductBrands(salonId: salonId);
+    allProductBrands =
+        await ProductsApi().getAllProductBrands(salonId: salonId);
 
     // Get Salon Product Categories
-    allProductCategories = await ProductsApi().getAllProductCategory(salonId: salonId);
+    allProductCategories =
+        await ProductsApi().getAllProductCategory(salonId: salonId);
 
     // Get Salon Products
     allProducts = await ProductsApi().getSalonProducts(salonId: salonId);
@@ -461,7 +485,10 @@ class SalonProfileProvider with ChangeNotifier {
         );
 
         if (found != null) {
-          String? translation = found.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? found.translations?['en'] ?? '';
+          String? translation = found.translations?[
+                  AppLocalizations.of(context)?.localeName ?? 'en'] ??
+              found.translations?['en'] ??
+              '';
 
           if (translation != null) {
             // Doing this because if loaleName (e.g 'en') doesn't exist in translations map, it throws null

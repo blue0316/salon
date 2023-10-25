@@ -275,107 +275,242 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
         backgroundColor:
             _salonProfileProvider.salonTheme.appBarTheme.backgroundColor,
         actions: [
-          SingleChildScrollView(
-            child: Row(
-              children: [
+          // Padding(
+          //   padding: const EdgeInsets.only(top:13.0),
+          //   child: Text('about' ,style: TextStyle( color:Colors.black),),
+          // ),
+          // Text('about'),Text('about'),Text('about'),Text('about'),Text('about'),
+          // Spacer(),
+          // Container(
+          //   child: Row(
+          //     children: [
+
                 if (chosenSalon.description.isNotEmpty &&
-                    displaySettings!.showAbout)
-                  AppBarMenu(
-                    title: AppLocalizations.of(context)?.aboutUs ?? 'About Us',
-                    action: () {
-                      Scrollable.ensureVisible(
+                    displaySettings!.showAbout)...[
+              GestureDetector(
+              onTap:(){
+                         Scrollable.ensureVisible(
                         controller.about.currentContext!,
                         duration: const Duration(seconds: 2),
                         curve: Curves.ease,
                       );
-                    },
-                  ),
-                if (chosenSalon.photosOfWorks != null &&
+              },
+               child: Padding(
+                         padding: const EdgeInsets.only(top:16.0),
+                         child: Text( AppLocalizations.of(context)?.aboutUs ?? 'About Us' , style:
+                GoogleFonts.openSans(color:_salonProfileProvider.salonTheme.textTheme.displaySmall!.color),),
+                       ),
+             ),
+                SizedBox(width: 40,),
+                    ],
+                 if (chosenSalon.photosOfWorks != null &&
                     chosenSalon.photosOfWorks!.isNotEmpty &&
-                    displaySettings!.showPhotosOfWork) ...[
-                  const Gap(32),
-                  AppBarMenu(
-                    title:
-                        AppLocalizations.of(context)?.portfolio ?? 'Portfolio',
-                    action: () {
-                      Scrollable.ensureVisible(
+                    displaySettings!.showPhotosOfWork) ...[ 
+                       GestureDetector(
+            onTap: (){
+                        Scrollable.ensureVisible(
                         controller.works.currentContext!,
                         duration: const Duration(seconds: 2),
                         curve: Curves.ease,
                       );
-                    },
-                  ),
-                ],
-                if (displaySettings!.services.showServices) ...[
-                  const Gap(32),
-                  AppBarMenu(
-                    title: AppLocalizations.of(context)?.services ?? 'Services',
-                    action: () {
-                      Scrollable.ensureVisible(
+            },
+             child: Padding(
+              padding: const EdgeInsets.only(top:16.0),
+              child: Text( AppLocalizations.of(context)?.portfolio ?? 'Portfolio', style:
+                GoogleFonts.openSans(color:_salonProfileProvider.salonTheme.textTheme.displaySmall!.color),),
+                     ),
+           ), SizedBox(width: 40,),
+                    ],
+                        if (displaySettings!.services.showServices) ...[
+                           GestureDetector(
+            onTap: (){
+                       Scrollable.ensureVisible(
                         controller.price.currentContext!,
                         duration: const Duration(seconds: 2),
                         curve: Curves.ease,
                       );
-                    },
-                  ),
-                ],
-                if (displaySettings.product.showProduct &&
+            },
+             child: Padding(
+              padding: const EdgeInsets.only(top:16.0),
+              child: Text(AppLocalizations.of(context)?.services ?? 'Services',style:
+                GoogleFonts.openSans(color: _salonProfileProvider.salonTheme.textTheme.displaySmall!.color),),
+                     ),
+           ), SizedBox(width: 40,),
+                        ],
+         
+              if (displaySettings.product.showProduct &&
                     _salonProfileProvider.allProducts.isNotEmpty) ...[
-                  const Gap(32),
-                  AppBarMenu(
-                    title: AppLocalizations.of(context)?.products ?? 'Products',
-                    action: () {
-                      Scrollable.ensureVisible(
+                       GestureDetector(
+            onTap: (){
+                       Scrollable.ensureVisible(
                         controller.shop.currentContext!,
                         duration: const Duration(seconds: 2),
                         curve: Curves.ease,
                       );
-                    },
-                  ),
-                ],
-                if (displaySettings.showTeam &&
+            },
+             child: Padding(
+              padding: const EdgeInsets.only(top:16.0),
+              child: Text( AppLocalizations.of(context)?.products ?? 'Products', style:
+                GoogleFonts.openSans(color:_salonProfileProvider.salonTheme.textTheme.displaySmall!.color),),
+                     ),
+           ), SizedBox(width: 40,),
+                    ],
+              if (displaySettings.showTeam &&
                     _createAppointmentProvider.salonMasters.isNotEmpty) ...[
-                  const Gap(32),
-                  AppBarMenu(
-                    title: AppLocalizations.of(context)?.team ?? 'Team',
-                    action: () {
-                      Scrollable.ensureVisible(
+                        GestureDetector(
+            onTap: (){
+                       Scrollable.ensureVisible(
                         controller.team.currentContext!,
                         duration: const Duration(seconds: 2),
                         curve: Curves.ease,
                       );
-                    },
-                  ),
-                ],
-                if (_salonProfileProvider.salonReviews.isNotEmpty &&
-                    displaySettings.reviews.showReviews) ...[
-                  const Gap(32),
-                  AppBarMenu(
-                    title: AppLocalizations.of(context)?.reviews ?? 'Reviews',
-                    action: () {
-                      Scrollable.ensureVisible(
+            },
+             child: Padding(
+              padding: const EdgeInsets.only(top:16.0),
+              child: Text(AppLocalizations.of(context)?.team ?? 'Team', style:
+                GoogleFonts.openSans(color: _salonProfileProvider.salonTheme.textTheme.displaySmall!.color),),
+                     ),
+           ), SizedBox(width: 40,),
+                    ],
+         
+               
+                  if (_salonProfileProvider.salonReviews.isNotEmpty &&
+                    displaySettings!.reviews.showReviews) ...[
+                  GestureDetector(
+                  onTap: (){
+                               Scrollable.ensureVisible(
                         controller.reviews.currentContext!,
                         duration: const Duration(seconds: 2),
                         curve: Curves.ease,
                       );
                     },
+                   child: Padding(
+                            padding: const EdgeInsets.only(top:16.0),
+                            child: Text( AppLocalizations.of(context)?.reviews ?? 'Reviews', style:
+                              GoogleFonts.openSans(color: _salonProfileProvider.salonTheme.textTheme.displaySmall!.color),),
+                          ),
                   ),
-                ],
-                const Gap(32),
-                AppBarMenu(
-                  title: AppLocalizations.of(context)?.contacts ?? 'Contacts',
-                  action: () {
-                    Scrollable.ensureVisible(
+                    SizedBox(width: 40,),
+                    ],
+                    if(displaySettings.showContact)...[
+   GestureDetector(
+                  onTap: (){
+                           Scrollable.ensureVisible(
                       controller.contacts.currentContext!,
                       duration: const Duration(seconds: 2),
                       curve: Curves.ease,
                     );
                   },
+                  child: Padding(
+                            padding: const EdgeInsets.only(top:16.0),
+                            child: Text( AppLocalizations.of(context)?.contacts ?? 'Contacts', style:
+                              GoogleFonts.openSans(color: _salonProfileProvider.salonTheme.textTheme.displaySmall!.color),),
+                          ),
                 ),
-                const Gap(62),
-              ],
-            ),
-          ),
+           SizedBox(width: 40,),
+                    ],
+               
+             
+                //
+                // if (chosenSalon.description.isNotEmpty &&
+                //     displaySettings!.showAbout)
+              //     AppBarMenu(
+              //       title: AppLocalizations.of(context)?.aboutUs ?? 'About Us',
+              //       action: () {
+                      // Scrollable.ensureVisible(
+                      //   controller.about.currentContext!,
+                      //   duration: const Duration(seconds: 2),
+                      //   curve: Curves.ease,
+                      // );
+              //       },
+              //     ),
+                // if (chosenSalon.photosOfWorks != null &&
+                //     chosenSalon.photosOfWorks!.isNotEmpty &&
+                //     displaySettings!.showPhotosOfWork) ...[
+              //   //  const Gap(32),
+              //     AppBarMenu(
+              //       title:
+              //           AppLocalizations.of(context)?.portfolio ?? 'Portfolio',
+              //       action: () {
+                      // Scrollable.ensureVisible(
+                      //   controller.works.currentContext!,
+                      //   duration: const Duration(seconds: 2),
+                      //   curve: Curves.ease,
+                      // );
+              //       },
+              //     ),
+              //   ],
+                // if (displaySettings!.services.showServices) ...[
+              //    // const Gap(32),
+              //     AppBarMenu(
+              //       title: AppLocalizations.of(context)?.services ?? 'Services',
+              //       action: () {
+                      // Scrollable.ensureVisible(
+                      //   controller.price.currentContext!,
+                      //   duration: const Duration(seconds: 2),
+                      //   curve: Curves.ease,
+                      // );
+              //       },
+              //     ),
+              //   ],
+                // if (displaySettings.product.showProduct &&
+                //     _salonProfileProvider.allProducts.isNotEmpty) ...[
+              //  //   const Gap(32),
+              //     AppBarMenu(
+              //       title: AppLocalizations.of(context)?.products ?? 'Products',
+              //       action: () {
+                      // Scrollable.ensureVisible(
+                      //   controller.shop.currentContext!,
+                      //   duration: const Duration(seconds: 2),
+                      //   curve: Curves.ease,
+                      // );
+              //       },
+              //     ),
+              //   ],
+                // if (displaySettings.showTeam &&
+                //     _createAppointmentProvider.salonMasters.isNotEmpty) ...[
+              // //    const Gap(32),
+              //     AppBarMenu(
+              //       title: AppLocalizations.of(context)?.team ?? 'Team',
+              //       action: () {
+                      // Scrollable.ensureVisible(
+                      //   controller.team.currentContext!,
+                      //   duration: const Duration(seconds: 2),
+                      //   curve: Curves.ease,
+                      // );
+              //       },
+              //     ),
+              //   ],
+                // if (_salonProfileProvider.salonReviews.isNotEmpty &&
+                //     displaySettings.reviews.showReviews) 
+              // ...[
+              //   //  const Gap(32),
+              //     AppBarMenu(
+              //       title: AppLocalizations.of(context)?.reviews ?? 'Reviews',
+              //       action: () {
+                      // Scrollable.ensureVisible(
+                      //   controller.reviews.currentContext!,
+                      //   duration: const Duration(seconds: 2),
+                      //   curve: Curves.ease,
+                      // );
+              //       },
+              //     ),
+              //   ],
+              //  // const Gap(32),
+              //   AppBarMenu(
+              //     title: AppLocalizations.of(context)?.contacts ?? 'Contacts',
+              //     action: () {
+                    // Scrollable.ensureVisible(
+                    //   controller.contacts.currentContext!,
+                    //   duration: const Duration(seconds: 2),
+                    //   curve: Curves.ease,
+                    // );
+              //     },
+              //   ),
+               // const Gap(62),
+             // ],
+            //),
+         // ),
         ],
         //backgroundColor: Colors.white,
       ),
@@ -453,26 +588,24 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                               const Gap(50),
                               if (chosenSalon.specializations != null &&
                                   chosenSalon.specializations!.isNotEmpty &&
-                                  displaySettings.showSpecialization)
-                                Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 113.0, right: 30),
-                                      child: Wrap(
-                                          //verticalDirection: VerticalDirection.up,
-                                          alignment: WrapAlignment.start,
-                                          runSpacing: 7,
-                                          spacing: 10,
-                                          children: chosenSalon.specializations!
-                                              .map(
-                                                (e) => SpecializationBox(
-                                                  name: e.toString(),
-                                                ),
-                                              )
-                                              .toList()),
-                                    ),
-                                  ],
+                                  displaySettings!.showSpecialization)
+                                Padding(
+                                  // padding: const EdgeInsets.only(
+                                  //     left: 113.0, right: 30),
+                                     padding: const EdgeInsets.only(left: 20.0),
+                                  child: Wrap(
+                                      //verticalDirection: VerticalDirection.up,
+                                      alignment: WrapAlignment.start,
+                                      runSpacing: 7,
+                                      spacing: 10,
+                                      
+                                      children: chosenSalon.specializations!
+                                          .map(
+                                            (e) => SpecializationBox(
+                                              name: e.toString(),
+                                            ),
+                                          )
+                                          .toList()),
                                 ),
                               const Gap(50),
                               GestureDetector(
@@ -530,7 +663,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                     ],
                   ),
                   if (chosenSalon.additionalFeatures.isNotEmpty &&
-                      displaySettings.showFeatures)
+                      displaySettings!.showFeatures)
                     IntrinsicHeight(
                       child: Container(
                           width: double.infinity,
@@ -555,7 +688,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                     ),
                   const Gap(100),
                   if (chosenSalon.description.isNotEmpty &&
-                      displaySettings.showAbout)
+                      displaySettings!.showAbout)
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -675,7 +808,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                   const Gap(100),
                   if (chosenSalon.photosOfWorks != null &&
                       chosenSalon.photosOfWorks!.isNotEmpty &&
-                      displaySettings.showPhotosOfWork) ...[
+                      displaySettings!.showPhotosOfWork) ...[
                     SizedBox.fromSize(size: Size.zero, key: controller.works),
                     Padding(
                       padding: const EdgeInsets.only(
@@ -715,7 +848,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                     const Gap(100),
                   ],
                   SizedBox.fromSize(size: Size.zero, key: controller.price),
-                  if (displaySettings.services.showServices) ...[
+                  if (displaySettings!.services.showServices) ...[
                     Padding(
                       padding: const EdgeInsets.only(
                         left: 100.0,
@@ -940,7 +1073,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                         ),
                       ),
                     ),
-                     const Gap(20),
+                    const Gap(20),
                     Padding(
                       padding: const EdgeInsets.only(left: 100.0, right: 8.0),
                       child: SizedBox(
@@ -1201,7 +1334,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                                     selectedProduct!
                                                             .productDescription ??
                                                         ''.toCapitalized(),
-                                                        softWrap: true,
+                                                    softWrap: true,
                                                     style: GoogleFonts.openSans(
                                                       fontSize: 15,
                                                       color: _salonProfileProvider
@@ -1520,7 +1653,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                   height: 0,
                                 ),
                               ),
-                               const Gap(20),
+                              const Gap(20),
                               Padding(
                                 padding: const EdgeInsets.only(
                                     left: 10.0, right: 18.0),
@@ -2006,7 +2139,8 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                       infoFontSize: screenSize.width * 0.008,
                                       contactTitle: 'Social Media',
                                       contactAsset: 'social_media.svg',
-                                      contactDescription: 'Discover more on social',
+                                      contactDescription:
+                                          'Discover more on social',
                                       contactInfo: '',
                                       contactAssetList: true,
                                       // contactAssetList:  [
