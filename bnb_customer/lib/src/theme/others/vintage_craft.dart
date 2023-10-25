@@ -16,32 +16,32 @@ class VintageCraftTheme {
   static const Color creamBrownLight = Color(0xffE3AF7B);
   static const Color lightGrey = Color(0xff89959F);
 
-  // MAIN COLORS 1
-  static Color primaryColor1 = const Color(0XFFDDC686);
+  static Color primaryColor1 = Colors.white;
+  static Color accentColor = const Color(0XFFDDC686);
 
   // Main Theme 1
   static final ThemeData mainTheme = ThemeData(
     primaryColor: primaryColor1,
     primaryColorDark: primaryColor1,
     primaryColorLight: Colors.white,
-    scaffoldBackgroundColor: Colors.black,
+    scaffoldBackgroundColor: const Color(0XFF0D0D0E),
     textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
     tabBarTheme: TabBarTheme(
       unselectedLabelColor: Colors.white,
-      labelColor: Colors.black,
-      labelStyle: bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.w600),
+      labelColor: const Color(0XFF0D0D0E),
+      labelStyle: bodyText1.copyWith(color: const Color(0XFF0D0D0E), fontWeight: FontWeight.w600),
       indicator: BoxDecoration(borderRadius: BorderRadius.circular(50), color: primaryColor1),
     ),
 
-    dialogBackgroundColor: Colors.black,
+    dialogBackgroundColor: const Color(0XFF0D0D0E),
     cardColor: Colors.black,
     colorScheme: ColorScheme(
       primary: (Colors.pink[900])!,
-      secondary: primaryColor1, // Color of title text on cards
+      secondary: accentColor,
       onSecondaryContainer: Colors.white, // Color of sub text on cards
 
       surface: Colors.white,
-      background: const Color(0XFF0A0A0A),
+      background: const Color(0XFF0D0D0E),
       error: redishPink,
       onPrimary: (Colors.green[900])!,
       onSecondary: creamBrownLight,
@@ -133,17 +133,5 @@ class VintageCraftTheme {
     // fontFamily: "Poppins",
     fontSize: 14.sp,
     fontWeight: FontWeight.w400,
-  );
-
-  static const BoxDecoration orangeGradient = BoxDecoration(
-    gradient: LinearGradient(
-      begin: Alignment(-1.03, 0),
-      end: Alignment(1.84, 1),
-      colors: [
-        Color(0xfff48b72),
-        Color(0x00ffda92),
-        Color(0x00c18fff),
-      ],
-    ),
   );
 }

@@ -231,7 +231,7 @@ ThemeData getCityMuseDarkTheme(String? colorCode) {
 ThemeData getVintageCraftTheme(String? colorCode) {
   switch (colorCode) {
     case null:
-      VintageCraftTheme.primaryColor1 = const Color(0XFFDDC686);
+      VintageCraftTheme.accentColor = const Color(0XFFDAA642);
 
       return VintageCraftTheme.mainTheme;
 
@@ -242,9 +242,9 @@ ThemeData getVintageCraftTheme(String? colorCode) {
           String valueString = colorCode.split('(0x')[1].split(')')[0];
           int value = int.parse(valueString, radix: 16);
 
-          VintageCraftTheme.primaryColor1 = Color(value);
+          VintageCraftTheme.accentColor = Color(value);
         } catch (e) {
-          VintageCraftTheme.primaryColor1 = const Color(0XFFDDC686);
+          VintageCraftTheme.accentColor = const Color(0XFFDAA642);
         }
       }
 
