@@ -592,7 +592,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                 Padding(
                                   // padding: const EdgeInsets.only(
                                   //     left: 113.0, right: 30),
-                                     padding: const EdgeInsets.only(left: 20.0),
+                                     padding: const EdgeInsets.only(left: 113.0,right: 20),
                                   child: Wrap(
                                       //verticalDirection: VerticalDirection.up,
                                       alignment: WrapAlignment.start,
