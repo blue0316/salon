@@ -8,9 +8,9 @@ import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ServiceTile extends ConsumerStatefulWidget {
   final ServiceModel service;
@@ -31,7 +31,8 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
   @override
   Widget build(BuildContext context) {
     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     SalonModel salonModel = _salonProfileProvider.chosenSalon;
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
@@ -63,7 +64,8 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                         context,
                                       )?.localeName ?? 'en'] ?? widget.service.translations?['en']}'
                                   .toUpperCase()
-                              : '${widget.service.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? widget.service.translations?['en']}'.toTitleCase(),
+                              : '${widget.service.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? widget.service.translations?['en']}'
+                                  .toTitleCase(),
                           style: theme.textTheme.bodyLarge?.copyWith(
                             color: serviceNameColor(themeType, theme),
                             fontSize: 20.sp,
@@ -72,7 +74,9 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                         if (_createAppointmentProvider.isAdded(
                           serviceModel: widget.service,
                         ))
-                          SizedBox(width: DeviceConstraints.getResponsiveSize(context, 5, 5, 30)),
+                          SizedBox(
+                              width: DeviceConstraints.getResponsiveSize(
+                                  context, 5, 5, 30)),
                         Icon(
                           Icons.check,
                           size: 20.sp,
@@ -86,17 +90,22 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                     ),
                   ),
                   Text(
-                    widget.service.isFixedPrice ? "${getCurrency(salonModel.countryCode!)}${widget.service.priceAndDuration!.price}" : "${getCurrency(salonModel.countryCode!)}${widget.service.priceAndDuration!.price} - ${getCurrency(salonModel.countryCode!)}${widget.service.priceAndDurationMax!.price}",
+                    widget.service.isFixedPrice
+                        ? "${getCurrency(salonModel.countryCode!)}${widget.service.priceAndDuration!.price}"
+                        : "${getCurrency(salonModel.countryCode!)}${widget.service.priceAndDuration!.price} - ${getCurrency(salonModel.countryCode!)}${widget.service.priceAndDurationMax!.price}",
                     // service.isFixedPrice ? "${service.priceAndDuration!.price}${Keys.uah}" : "${service.priceAndDuration!.price}${Keys.uah} - ${service.priceAndDurationMax!.price}${Keys.uah}",
                     style: theme.textTheme.bodyLarge?.copyWith(
-                      color: priceColor(themeType, theme), // (themeType == ThemeType.GentleTouch) ? Colors.black : Colors.white,
+                      color: priceColor(themeType,
+                          theme), // (themeType == ThemeType.GentleTouch) ? Colors.black : Colors.white,
                       fontSize: 20.sp,
                     ),
                   ),
                 ],
               ),
               const SizedBox(height: 10),
-              if (isHovered && (widget.service.description != null && widget.service.description != ''))
+              if (isHovered &&
+                  (widget.service.description != null &&
+                      widget.service.description != ''))
                 Padding(
                   padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp),
                   child: Row(
@@ -135,7 +144,9 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                   ),
                 ),
               Divider(
-                color: (themeType != ThemeType.GentleTouch) ? theme.primaryColor : const Color(0XFF9F9F9F),
+                color: (themeType != ThemeType.GentleTouch)
+                    ? theme.primaryColor
+                    : const Color(0XFF9F9F9F),
                 thickness: 1,
               ),
             ],

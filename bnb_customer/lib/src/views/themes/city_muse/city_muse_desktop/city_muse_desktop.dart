@@ -36,6 +36,96 @@ import 'features_check.dart';
 import 'product_slider_indicator.dart';
 import 'smaller_product_section.dart';
 
+class GlamMinimalSalonWorks extends ConsumerStatefulWidget {
+  final PhotosOfWorks photosOfWork;
+  const GlamMinimalSalonWorks({super.key, required this.photosOfWork});
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _GlamMinimalSalonWorksState();
+}
+
+class _GlamMinimalSalonWorksState extends ConsumerState<GlamMinimalSalonWorks> {
+  bool isHovered = false;
+
+  void onEntered(bool isHovered) => setState(() {
+        this.isHovered = isHovered;
+      });
+  @override
+  Widget build(BuildContext context) {
+    final _salonProfileProvider = ref.watch(salonProfileProvider);
+    final size = MediaQuery.of(context).size;
+    return MouseRegion(
+      onEnter: (event) => onEntered(true),
+      onExit: (event) => onEntered(false),
+      // onEnter: (_) => _onEnter(
+      //     chosenSalon.photosOfWorks!.indexOf(e)),
+      // onExit: (_) {
+      //   _onExit(chosenSalon.photosOfWorks!.indexOf(e));
+      //   setState(() {
+      //     isHovered = false;
+      //   });
+      // },
+      child: Container(
+        width: 339,
+        height: 398,
+
+        //clipBehavior: Clip.antiAlias,
+        child: Column(
+          children: [
+            CachedImage(
+              url: widget.photosOfWork.image.toString(),
+              width: size.width / 1.2,
+              fit: BoxFit.fitWidth,
+              height: 296,
+            ),
+            if (isHovered)
+              Visibility(
+                visible: isHovered,
+                child: Container(
+                  height: 100,
+                  width: double.infinity,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
+                  decoration: isHovered
+                      ? const ShapeDecoration(
+                          color: Colors.white,
+                          //               _salonProfileProvider
+                          // .salonTheme.scaffoldBackgroundColor,
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 0.5,
+                                color: Color.fromARGB(255, 135, 66, 66)),
+                          ),
+                        )
+                      : null,
+                  child: Text(
+                    widget.photosOfWork.description.toString(),
+                    style: GoogleFonts.openSans(
+                      color: _salonProfileProvider
+                          .salonTheme.textTheme.displaySmall!.color,
+                      fontSize: 14,
+                      //  fontFamily: 'Onest',
+                      fontWeight: FontWeight.w400,
+                      height: 1.5,
+                      letterSpacing: 0.16,
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
+
+        decoration: BoxDecoration(
+          color: isHovered ? Colors.white : null,
+          //   image: DecorationImage(
+          //     image:
+          // ),
+        ),
+      ),
+    );
+  }
+}
+
 class GlamMinimalDesktop extends ConsumerStatefulWidget {
   const GlamMinimalDesktop({super.key});
   @override
@@ -121,6 +211,10 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
         .getAllSalonServices(ref.read(createAppointmentProvider));
     // ref.read(createAppointmentProvider);
   }
+
+  void onEntered(bool isHovered) => setState(() {
+        this.isHovered = isHovered;
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -610,76 +704,11 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                           runSpacing: 7,
                           spacing: 10,
                           children: chosenSalon.photosOfWorks!.map((e) {
-                            bool isHovered =
-                                chosenSalon.photosOfWorks!.indexOf(e) ==
-                                    hoveredIndex;
-                            return MouseRegion(
-                              onEnter: (_) => _onEnter(
-                                  chosenSalon.photosOfWorks!.indexOf(e)),
-                              onExit: (_) {
-                                _onExit(chosenSalon.photosOfWorks!.indexOf(e));
-                                setState(() {
-                                  isHovered = false;
-                                });
-                              },
-                              child: Container(
-                                width: 339,
-                                height: 300,
-
-                                //clipBehavior: Clip.antiAlias,
-                                child: Column(
-                                  children: [
-                                    CachedImage(
-                                      url: e.image.toString(),
-                                      width: size.width / 1.2,
-                                      fit: BoxFit.fitWidth,
-                                      height: 296,
-                                    ),
-                                    //       Visibility(
-                                    //         visible: isHovered,
-                                    //         child: Container(
-
-                                    //         //  height: 200,
-                                    //           width: double.infinity,
-                                    //           padding: const EdgeInsets.symmetric(
-                                    //               horizontal: 14, vertical: 16),
-                                    //           decoration:  ShapeDecoration(
-                                    //              color:Colors.white,
-                                    // //               _salonProfileProvider
-                                    // // .salonTheme.scaffoldBackgroundColor,
-                                    //             shape: RoundedRectangleBorder(
-
-                                    //               side: BorderSide(
-                                    //                   width: 0.5,
-                                    //                   color: Color(0xFF282828)),
-                                    //             ),
-                                    //           ),
-                                    //           child: Expanded(
-                                    //             child: Text(
-                                    //               e.description.toString(),
-                                    //               style: GoogleFonts.openSans(
-                                    //                color: _salonProfileProvider
-                                    // .salonTheme.textTheme.displaySmall!.color,
-                                    //                 fontSize: 14,
-                                    //                 //  fontFamily: 'Onest',
-                                    //                 fontWeight: FontWeight.w400,
-                                    //                 height: 1.5,
-                                    //                 letterSpacing: 0.16,
-                                    //               ),
-                                    //             ),
-                                    //           ),
-                                    //         ),
-                                    //       ),
-                                  ],
-                                ),
-
-                                decoration: const BoxDecoration(
-                                    //color:Colors.white,
-                                    //   image: DecorationImage(
-                                    //     image:
-                                    // ),
-                                    ),
-                              ),
+                            // bool isHovered =
+                            //     chosenSalon.photosOfWorks!.indexOf(e) ==
+                            //         hoveredIndex;
+                            return GlamMinimalSalonWorks(
+                              photosOfWork: e,
                             );
                           }).toList()),
                     ),
@@ -911,6 +940,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                         ),
                       ),
                     ),
+                     const Gap(20),
                     Padding(
                       padding: const EdgeInsets.only(left: 100.0, right: 8.0),
                       child: SizedBox(
@@ -1065,7 +1095,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                           height: 530,
                                         )),
                                       ],
-                                      const Gap(10),
+                                      const Gap(20),
                                       Padding(
                                         padding: const EdgeInsets.only(
                                             left: 5.0, right: 8.0),
@@ -1095,6 +1125,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                               '${getCurrency(chosenSalon.countryCode!)}${selectedProduct!.clientPrice ?? ''}',
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.openSans(
+                                                color: const Color(0xFF868686),
                                                 //      color: const Color(0xFF868686),
                                                 fontSize: 18,
                                                 //    fontFamily: 'Open Sans',
@@ -1161,7 +1192,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                         padding:
                                             const EdgeInsets.only(left: 38.0),
                                         child: SizedBox(
-                                            width: 488,
+                                            width: double.infinity,
                                             child: Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
@@ -1170,6 +1201,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                                     selectedProduct!
                                                             .productDescription ??
                                                         ''.toCapitalized(),
+                                                        softWrap: true,
                                                     style: GoogleFonts.openSans(
                                                       fontSize: 15,
                                                       color: _salonProfileProvider
@@ -1178,7 +1210,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                                           .titleSmall!
                                                           .color, //height:1.5
                                                     )),
-                                                const Gap(40),
+                                                const Gap(30),
                                                 Row(
                                                   children: [
                                                     Text('BOOK NOW',
@@ -1488,6 +1520,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                   height: 0,
                                 ),
                               ),
+                               const Gap(20),
                               Padding(
                                 padding: const EdgeInsets.only(
                                     left: 10.0, right: 18.0),
@@ -1975,7 +2008,8 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                       contactAsset: 'social_media.svg',
                                       contactDescription: 'Salon address',
                                       contactInfo: '',
-                                      contactAssetList: const [
+                                      contactAssetList:  [
+                                        if (chosenSalon.links?.instagram != '' &&chosenSalon.links?.instagram != null)
                                         'instagram.svg',
                                         'tiktok.svg',
                                         'facebook.svg'

@@ -29,6 +29,7 @@ class CityMuseDesktopSmallerProductWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (product.productImageUrlList == null ||
               product.productImageUrlList!.isEmpty ||
@@ -81,36 +82,45 @@ class CityMuseDesktopSmallerProductWidget extends StatelessWidget {
           ],
           const Gap(10),
           Padding(
-            padding: const EdgeInsets.only(left: 24.0, right: 24.0),
+            padding: const EdgeInsets.only( right: 24.0),
             child: SizedBox(
               width: 285,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    product.productName ?? ''.toCapitalized(),
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.openSans(
-                      color: _salonProfileProvider
-                          .salonTheme.textTheme.displaySmall!.color,
-                      //   color: const Color(0xFF0D0D0E),
-                      fontSize: 18,
-                      // fontFamily: 'Open Sans',
-                      fontWeight: FontWeight.w600,
-                      height: 0,
+                  SizedBox(
+                    width: 200,
+                    child: Text(
+                      product.productName ?? ''.toCapitalized(),
+                      textAlign: TextAlign.start,
+                      softWrap: true,
+                      style: GoogleFonts.openSans(
+                        color: _salonProfileProvider
+                            .salonTheme.textTheme.displaySmall!.color,
+                        //   color: const Color(0xFF0D0D0E),
+                        fontSize: 18,
+                        // fontFamily: 'Open Sans',
+                        fontWeight: FontWeight.w600,
+
+                        height: 1,
+                      ),
                     ),
                   ),
                   // Gap(170),
                   // const Spacer(),
-                  Text(
-                    '${getCurrency(chosenSalon.countryCode!)}${product.clientPrice}' ,
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.openSans(
-                      color: const Color(0xFF868686),
-                      fontSize: 18,
-                      //    fontFamily: 'Open Sans',
-                      fontWeight: FontWeight.w600,
-                      height: 0,
+                  Padding(
+                    padding: const EdgeInsets.only(top:10.0),
+                    child: Text(
+                      '${getCurrency(chosenSalon.countryCode!)}${product.clientPrice}',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.openSans(
+                        color: const Color(0xFF868686),
+                        fontSize: 18,
+                        //    fontFamily: 'Open Sans',
+                        fontWeight: FontWeight.w600,
+                        height: 0,
+                      ),
                     ),
                   )
                 ],
