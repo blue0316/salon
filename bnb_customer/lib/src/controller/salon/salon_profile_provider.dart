@@ -57,6 +57,13 @@ class SalonProfileProvider with ChangeNotifier {
   int showMasterAtIndex = 0;
   bool hasLandingPage = false;
 
+  bool isPortfolioHovered = false;
+
+  changeHoveredPortfolio(bool value) {
+    isPortfolioHovered = value;
+    notifyListeners();
+  }
+
   ThemeType themeType = ThemeType.DefaultLight;
 
   Status enquiryStatus = Status.init;

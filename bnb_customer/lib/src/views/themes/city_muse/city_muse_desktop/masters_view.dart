@@ -181,10 +181,10 @@ class _DesktopMastersViewState extends ConsumerState<DesktopMastersView> {
                                 const Gap(20),
                                 Center(
                                   child:   Row(children: [
-              if(master.links!.facebook != null &&  master.links!.facebook.isNotEmpty)
+              if(master.links?.facebook != null &&  master.links!.facebook.isNotEmpty)
                GestureDetector(
                  onTap: () async {
-        Uri uri = Uri.parse(socialLinks('facebook',master.links!.facebook  ?? ''));
+        Uri uri = Uri.parse(socialLinks('facebook',master.links?.facebook  ?? ''));
 
         // debugPrint("launching Url: $uri");
 
@@ -200,10 +200,10 @@ class _DesktopMastersViewState extends ConsumerState<DesktopMastersView> {
                ),
                Gap(4.0),
 
-                               if(master.links!.instagram != null &&  master.links!.instagram.isNotEmpty)
+                               if(master.links?.instagram != null &&  master.links!.instagram.isNotEmpty)
                GestureDetector(
                 onTap: () async {
-        Uri uri = Uri.parse(socialLinks('instagram',master.links!.instagram  ?? ''));
+        Uri uri = Uri.parse(socialLinks('instagram',master.links?.instagram  ?? ''));
 
         // debugPrint("launching Url: $uri");
 
@@ -217,10 +217,10 @@ class _DesktopMastersViewState extends ConsumerState<DesktopMastersView> {
                  child: SvgPicture.asset(
                                 'assets/test_assets/instagram.svg'),
                ),  Gap(4.0),
-                               if(master.links!.tiktok != null &&  master.links!.tiktok.isNotEmpty)
+                               if(master.links?.tiktok != null &&  master.links!.tiktok.isNotEmpty)
                GestureDetector(
                 onTap: () async {
-        Uri uri = Uri.parse(socialLinks('tiktok',master.links!.tiktok ?? ''));
+        Uri uri = Uri.parse(socialLinks('tiktok',master.links?.tiktok ?? ''));
 
         // debugPrint("launching Url: $uri");
 
@@ -240,10 +240,10 @@ class _DesktopMastersViewState extends ConsumerState<DesktopMastersView> {
                                 const Gap(20),
                               ],
                             )),
-                            if(master.links!.twitter != null &&  master.links!.twitter.isNotEmpty)
+                            if(master.links?.twitter != null &&  master.links!.twitter.isNotEmpty)
                GestureDetector(
                 onTap: () async {
-        Uri uri = Uri.parse(socialLinks('twitter',master.links!.twitter  ?? ''));
+        Uri uri = Uri.parse(socialLinks('twitter',master.links?.twitter  ?? ''));
 
         // debugPrint("launching Url: $uri");
 

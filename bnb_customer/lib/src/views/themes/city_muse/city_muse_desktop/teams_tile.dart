@@ -28,6 +28,7 @@ class TeamWidget extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          
           Padding(
             padding: const EdgeInsets.only(left: 10.0, right: 10.0),
             child: Center(
@@ -47,7 +48,7 @@ class TeamWidget extends ConsumerWidget {
                     ),
             ),
           ),
-          const Gap(10),
+          const Gap(20),
           Padding(
             padding: const EdgeInsets.only(left: 10.0, right: 8.0),
             child: Text(
@@ -65,6 +66,7 @@ class TeamWidget extends ConsumerWidget {
               ),
             ),
           ),
+           const Gap(10),
           if (masterModel?.title != null)
             Padding(
               padding: const EdgeInsets.only(left: 10.0, right: 8.0),
@@ -76,7 +78,7 @@ class TeamWidget extends ConsumerWidget {
                   fontSize: 16,
                   //fontFamily: 'Open Sans',
                   fontWeight: FontWeight.w500,
-                  height: 0,
+                  height: 1,
                 ),
               ),
             ),
