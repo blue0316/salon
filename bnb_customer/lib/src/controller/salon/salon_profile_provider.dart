@@ -301,14 +301,14 @@ class SalonProfileProvider with ChangeNotifier {
           themeType = ThemeType.GlamMinimalLight;
 
           notifyListeners();
-          return const GlamMinimalEntry();
+          return const CityMuseEntry();
 
         case '13':
           salonTheme = getCityMuseDarkTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.GlamMinimalDark;
 
           notifyListeners();
-          return const GlamMinimalEntry();
+          return const CityMuseEntry();
 
         case '789':
           salonTheme = getVintageCraftTheme(themeSettings?.theme?.colorCode);
