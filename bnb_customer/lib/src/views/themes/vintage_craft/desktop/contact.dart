@@ -44,16 +44,15 @@ class VintageSalonContact extends ConsumerWidget {
             ),
             SizedBox(width: 30.w),
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
+              child: ListView(
+                // crossAxisAlignment: CrossAxisAlignment.start,
+                // mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
                     (AppLocalizations.of(context)?.contacts ?? 'Contacts').toTitleCase(),
                     style: theme.textTheme.displayMedium!.copyWith(
                       fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 50.sp, 50.sp),
                     ),
-                    textAlign: TextAlign.center,
                   ),
                   SizedBox(height: 20.sp),
                   Text(
@@ -63,8 +62,8 @@ class VintageSalonContact extends ConsumerWidget {
                       fontWeight: FontWeight.normal,
                     ),
                   ),
-                  // SizedBox(height: 20.sp),
-                  const Spacer(),
+                  SizedBox(height: 30.sp),
+                  // const Spacer(),
                   Wrap(
                     direction: Axis.horizontal,
                     alignment: WrapAlignment.spaceBetween,
