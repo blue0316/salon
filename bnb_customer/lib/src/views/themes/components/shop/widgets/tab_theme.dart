@@ -9,13 +9,13 @@ BoxDecoration shopTabBarTheme(ThemeType themeType, ThemeData theme) {
           bottom: BorderSide(width: 1.5, color: theme.primaryColorDark),
         ),
       );
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return BoxDecoration(
         border: Border(
           bottom: BorderSide(width: 1.5, color: theme.primaryColorDark),
         ),
       );
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return BoxDecoration(
         border: Border(
           bottom: BorderSide(width: 1.5, color: theme.primaryColorDark),

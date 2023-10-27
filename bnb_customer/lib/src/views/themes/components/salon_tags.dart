@@ -88,7 +88,8 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
   }
 
   getFeature(String s) {
-    List<Map<String, String>> searchList = getFeaturesList(widget.salonModel.locale);
+    List<Map<String, String>> searchList =
+        getFeaturesList(widget.salonModel.locale);
 
     for (Map registeredFeatures in searchList) {
       if (registeredFeatures.containsKey(s)) {
@@ -101,19 +102,29 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
 
   @override
   Widget build(BuildContext context) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     ThemeType themeType = _salonProfileProvider.themeType;
 
-    pageController = PageController(viewportFraction: DeviceConstraints.getResponsiveSize(context, 0.5, 0.4, 0.3));
+    pageController = PageController(
+        viewportFraction:
+            DeviceConstraints.getResponsiveSize(context, 0.5, 0.4, 0.3));
 
-    List<String> aFeatured = [...widget.additionalFeatures, ...widget.additionalFeatures, ...widget.additionalFeatures];
+    List<String> aFeatured = [
+      ...widget.additionalFeatures,
+      ...widget.additionalFeatures,
+      ...widget.additionalFeatures
+    ];
 
-    return (themeType == ThemeType.GentleTouch || themeType == ThemeType.GentleTouchDark)
+    return (themeType == ThemeType.GentleTouch ||
+            themeType == ThemeType.GentleTouchDark)
         ? Padding(
             padding: EdgeInsets.only(
-              left: DeviceConstraints.getResponsiveSize(context, 10.w, 10.w, 30.w),
-              right: DeviceConstraints.getResponsiveSize(context, 10.w, 10.w, 30.w),
+              left: DeviceConstraints.getResponsiveSize(
+                  context, 10.w, 10.w, 30.w),
+              right: DeviceConstraints.getResponsiveSize(
+                  context, 10.w, 10.w, 30.w),
               top: 100.h,
               bottom: 50.h,
             ),
@@ -168,14 +179,18 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
                                 children: aFeatured
                                     .map(
                                       (item) => Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 20),
                                             child: Text(
                                               getFeature(item),
-                                              style: theme.textTheme.bodyLarge?.copyWith(
+                                              style: theme.textTheme.bodyLarge
+                                                  ?.copyWith(
                                                 color: theme.dividerColor,
                                                 fontSize: 18.sp,
                                                 fontFamily: 'Inter-Medium',
@@ -185,7 +200,8 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
                                           Container(
                                             height: 8.h,
                                             width: 8.h,
-                                            decoration: tagSeperator(themeType, theme),
+                                            decoration:
+                                                tagSeperator(themeType, theme),
                                           ),
                                         ],
                                       ),
@@ -233,10 +249,13 @@ class GentleTouchTagItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
-    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+    final bool isPortrait =
+        (DeviceConstraints.getDeviceType(MediaQuery.of(context)) ==
+            DeviceScreenType.portrait);
 
     return SizedBox(
       width: isPortrait ? (MediaQuery.of(context).size.width - 20.w) : 350.h,
@@ -268,14 +287,14 @@ class GentleTouchTagItem extends ConsumerWidget {
 
 BoxDecoration tagSeperator(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(color: theme.dividerColor),
         color: Colors.transparent,
       );
 
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(color: theme.dividerColor),

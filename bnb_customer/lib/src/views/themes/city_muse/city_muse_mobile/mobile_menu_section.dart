@@ -6,6 +6,7 @@ import 'package:gap/gap.dart';
 import '../../../../controller/all_providers/all_providers.dart';
 import '../../../../models/customer_web_settings.dart';
 import '../../../../models/salon_master/salon.dart';
+import '../../utils/theme_type.dart';
 import '../city_muse_desktop/app_bar.dart';
 
 class MenuSection extends ConsumerWidget {
@@ -28,6 +29,7 @@ class MenuSection extends ConsumerWidget {
           height: MediaQuery.of(context).size.height,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Gap(50),
               if (chosenSalon.description.isNotEmpty &&
@@ -128,6 +130,13 @@ class MenuSection extends ConsumerWidget {
                   salonProvider.changeShowMenuMobile(false);
                 },
               ),
+              const Gap(20),
+              Image.asset(
+                  salonProvider.themeType == ThemeType.CityMuseLight
+                      ? "assets/test_assets/logo_dark.png"
+                      : "assets/test_assets/logo_light.png",
+                  height: 29,
+                  width: 78),
               const Spacer(),
             ],
           ),

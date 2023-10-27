@@ -23,7 +23,8 @@ class _SalonReviewsState extends ConsumerState<SalonReviews> {
 
   @override
   Widget build(BuildContext context) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
 
     ThemeType themeType = _salonProfileProvider.themeType;
 
@@ -36,12 +37,15 @@ class _SalonReviewsState extends ConsumerState<SalonReviews> {
   }
 }
 
-Widget reviewsSectionTheme(context, {required ThemeType themeType, required SalonModel salon, required CarouselController controller}) {
+Widget reviewsSectionTheme(context,
+    {required ThemeType themeType,
+    required SalonModel salon,
+    required CarouselController controller}) {
   switch (themeType) {
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return MinimalReviewView(salonModel: salon, controller: controller);
 
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return MinimalReviewView(salonModel: salon, controller: controller);
 
     case ThemeType.GentleTouch:

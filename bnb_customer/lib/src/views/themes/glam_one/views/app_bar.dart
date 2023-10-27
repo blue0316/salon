@@ -10,6 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import 'profile/widgets/minimal_app_bar.dart';
 
 class ThemeAppBar extends ConsumerWidget {
@@ -24,7 +25,8 @@ class ThemeAppBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     ThemeType themeType = _salonProfileProvider.themeType;
 
     return appBarTheme(themeType, salonModel, isSalonMaster);
@@ -33,13 +35,14 @@ class ThemeAppBar extends ConsumerWidget {
 
 Widget appBarTheme(ThemeType themeType, SalonModel salon, bool isSalonMaster) {
   switch (themeType) {
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return MinimalAppBar(salonModel: salon, isSalonMaster: isSalonMaster);
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return MinimalAppBar(salonModel: salon, isSalonMaster: isSalonMaster);
 
     default:
-      return DefaultAppBarTheme(salonModel: salon, isSalonMaster: isSalonMaster);
+      return DefaultAppBarTheme(
+          salonModel: salon, isSalonMaster: isSalonMaster);
   }
 }
 
@@ -61,7 +64,8 @@ class Socials extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     return MouseRegion(

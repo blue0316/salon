@@ -6,6 +6,7 @@ import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'default_view.dart';
 import 'gentle_touch_view.dart';
 import 'minimal_view.dart';
@@ -22,7 +23,8 @@ class WriteToUs extends ConsumerStatefulWidget {
 class _WriteToUsState extends ConsumerState<WriteToUs> {
   @override
   Widget build(BuildContext context) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     ThemeType themeType = _salonProfileProvider.themeType;
@@ -40,21 +42,23 @@ class _WriteToUsState extends ConsumerState<WriteToUs> {
 
 Widget writeToUsTheme(context, ThemeType themeType, SalonModel salon) {
   switch (themeType) {
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return Padding(
         padding: EdgeInsets.only(
           left: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
-          top: DeviceConstraints.getResponsiveSize(context, 100.h, 120.h, 140.h),
+          top:
+              DeviceConstraints.getResponsiveSize(context, 100.h, 120.h, 140.h),
           // bottom: DeviceConstraints.getResponsiveSize(context, 100.h, 120.h, 140.h), // 120,
         ),
         child: MinimalWriteToUsView(salonModel: salon),
       );
 
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return Padding(
         padding: EdgeInsets.only(
           left: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
-          top: DeviceConstraints.getResponsiveSize(context, 100.h, 120.h, 140.h),
+          top:
+              DeviceConstraints.getResponsiveSize(context, 100.h, 120.h, 140.h),
           // bottom: DeviceConstraints.getResponsiveSize(context, 100.h, 120.h, 140.h), // 120,
         ),
         child: MinimalWriteToUsView(salonModel: salon),
@@ -64,7 +68,8 @@ Widget writeToUsTheme(context, ThemeType themeType, SalonModel salon) {
       return Padding(
         padding: EdgeInsets.only(
           left: DeviceConstraints.getResponsiveSize(context, 10.w, 10.w, 30.w),
-          top: DeviceConstraints.getResponsiveSize(context, 100.h, 120.h, 140.h),
+          top:
+              DeviceConstraints.getResponsiveSize(context, 100.h, 120.h, 140.h),
           // bottom: DeviceConstraints.getResponsiveSize(context, 100.h, 120.h, 140.h), // 120,
         ),
         child: GentleTouchWriteToUsView(salonModel: salon),
@@ -74,7 +79,8 @@ Widget writeToUsTheme(context, ThemeType themeType, SalonModel salon) {
       return Padding(
         padding: EdgeInsets.only(
           left: DeviceConstraints.getResponsiveSize(context, 10.w, 10.w, 30.w),
-          top: DeviceConstraints.getResponsiveSize(context, 100.h, 120.h, 140.h),
+          top:
+              DeviceConstraints.getResponsiveSize(context, 100.h, 120.h, 140.h),
           // bottom: DeviceConstraints.getResponsiveSize(context, 100.h, 120.h, 140.h), // 120,
         ),
         child: GentleTouchWriteToUsView(salonModel: salon),
@@ -85,8 +91,10 @@ Widget writeToUsTheme(context, ThemeType themeType, SalonModel salon) {
         padding: EdgeInsets.only(
           left: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
           right: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
-          top: DeviceConstraints.getResponsiveSize(context, 100.h, 120.h, 140.h), // 120,
-          bottom: DeviceConstraints.getResponsiveSize(context, 100.h, 120.h, 140.h), // 120,
+          top: DeviceConstraints.getResponsiveSize(
+              context, 100.h, 120.h, 140.h), // 120,
+          bottom: DeviceConstraints.getResponsiveSize(
+              context, 100.h, 120.h, 140.h), // 120,
           // vertical: DeviceConstraints.getResponsiveSize(context, 100.h, 120.h, 140.h), // 120,
         ),
         child: DefaultWriteToUsView(salonModel: salon),

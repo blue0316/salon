@@ -8,16 +8,19 @@ import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/service_tab
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'widgets/day_and_time/day_and_time.dart';
 
 class BookingDialogWidget222<T> extends ConsumerStatefulWidget {
   final bool master;
   final MasterModel? masterModel;
 
-  const BookingDialogWidget222({Key? key, this.master = false, this.masterModel}) : super(key: key);
+  const BookingDialogWidget222(
+      {Key? key, this.master = false, this.masterModel})
+      : super(key: key);
 
   Future<void> show(BuildContext context) async {
     await showDialog<T>(
@@ -27,10 +30,13 @@ class BookingDialogWidget222<T> extends ConsumerStatefulWidget {
   }
 
   @override
-  ConsumerState<BookingDialogWidget222<T>> createState() => _BookingDialogWidget222State<T>();
+  ConsumerState<BookingDialogWidget222<T>> createState() =>
+      _BookingDialogWidget222State<T>();
 }
 
-class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget222<T>> with SingleTickerProviderStateMixin {
+class _BookingDialogWidget222State<T>
+    extends ConsumerState<BookingDialogWidget222<T>>
+    with SingleTickerProviderStateMixin {
   TabController? bookingTabController;
   late CreateAppointmentProvider createAppointment11;
 
@@ -45,7 +51,8 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
     createAppointment11 = ref.read(createAppointmentProvider);
     if (createAppointment11.chosenMaster != null) {
       Future.delayed(const Duration(milliseconds: 300), () {
-        createAppointment11.chooseMaster(masterModel: createAppointment11.chosenMaster!, context: context);
+        createAppointment11.chooseMaster(
+            masterModel: createAppointment11.chosenMaster!, context: context);
       });
     }
   }
@@ -59,8 +66,10 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context).size;
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
-    final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
+    final CreateAppointmentProvider _createAppointmentProvider =
+        ref.watch(createAppointmentProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
@@ -81,7 +90,8 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
         ),
         child: SizedBox(
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10), // , horizontal: 5),
+            padding:
+                const EdgeInsets.symmetric(vertical: 10), // , horizontal: 5),
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Column(
@@ -94,40 +104,58 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
                     children: [
                       GestureDetector(
                         onTap: () {
-                          if (_createAppointmentProvider.confirmationPageIndex != null) {
+                          if (_createAppointmentProvider
+                                  .confirmationPageIndex !=
+                              null) {
                             // START OF CONFIRMATION PAGE VIEW
-                            if (_createAppointmentProvider.confirmationPageIndex == 0) {
-                              bookingTabController?.animateTo(_createAppointmentProvider.bookingFlowPageIndex - 1);
-                              _createAppointmentProvider.changeBookingFlowIndex(decrease: true);
+                            if (_createAppointmentProvider
+                                    .confirmationPageIndex ==
+                                0) {
+                              bookingTabController?.animateTo(
+                                  _createAppointmentProvider
+                                          .bookingFlowPageIndex -
+                                      1);
+                              _createAppointmentProvider.changeBookingFlowIndex(
+                                  decrease: true);
 
                               return;
                             }
 
                             /// VERIFY OTP PAGE
-                            if (_createAppointmentProvider.confirmationPageIndex! > 0) {
+                            if (_createAppointmentProvider
+                                    .confirmationPageIndex! >
+                                0) {
                               _createAppointmentProvider.nextPageView(0);
 
                               return;
                             }
 
-                            _createAppointmentProvider.nextPageView(_createAppointmentProvider.confirmationPageIndex! - 1);
+                            _createAppointmentProvider.nextPageView(
+                                _createAppointmentProvider
+                                        .confirmationPageIndex! -
+                                    1);
 
                             return;
                           }
 
-                          if (_createAppointmentProvider.bookingFlowPageIndex == 0) {
+                          if (_createAppointmentProvider.bookingFlowPageIndex ==
+                              0) {
                             Navigator.pop(context);
                             return;
                           }
-                          bookingTabController?.animateTo(_createAppointmentProvider.bookingFlowPageIndex - 1);
-                          _createAppointmentProvider.changeBookingFlowIndex(decrease: true);
+                          bookingTabController?.animateTo(
+                              _createAppointmentProvider.bookingFlowPageIndex -
+                                  1);
+                          _createAppointmentProvider.changeBookingFlowIndex(
+                              decrease: true);
                         },
                         child: Padding(
                           padding: EdgeInsets.only(left: 20.sp),
                           child: Icon(
                             Icons.arrow_back_ios_rounded,
                             color: theme.colorScheme.tertiary.withOpacity(0.6),
-                            size: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                            size: DeviceConstraints.getResponsiveSize(
+                                context, 20.sp, 20.sp, 20.sp),
                           ),
                         ),
                       ),
@@ -135,9 +163,12 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
                       GestureDetector(
                         // onTap: () => const ThankYou().show(context),
                         child: Text(
-                          (AppLocalizations.of(context)?.onlineBooking ?? 'ONLINE BOOKING').toUpperCase(),
+                          (AppLocalizations.of(context)?.onlineBooking ??
+                                  'ONLINE BOOKING')
+                              .toUpperCase(),
                           style: theme.textTheme.bodyLarge?.copyWith(
-                            fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 18.sp, 20.sp),
+                            fontSize: DeviceConstraints.getResponsiveSize(
+                                context, 18.sp, 18.sp, 20.sp),
                             fontWeight: FontWeight.w500,
                             fontFamily: 'Inter-Medium',
                             color: theme.colorScheme.onBackground,
@@ -155,7 +186,8 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
                           child: Icon(
                             Icons.close_rounded,
                             color: theme.colorScheme.tertiary.withOpacity(0.6),
-                            size: DeviceConstraints.getResponsiveSize(context, 20.sp, 22.sp, 24.sp),
+                            size: DeviceConstraints.getResponsiveSize(
+                                context, 20.sp, 22.sp, 24.sp),
                           ),
                         ),
                       ),
@@ -175,30 +207,41 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
                         mediaQuery.width / 2.7,
                       ),
                       child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 6.sp, horizontal: 10.sp),
+                        padding: EdgeInsets.symmetric(
+                            vertical: 6.sp, horizontal: 10.sp),
                         child: Center(
                           child: IgnorePointer(
                             child: TabBar(
                               controller: bookingTabController,
-                              labelStyle: theme.tabBarTheme.labelStyle!.copyWith(
-                                fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 18.sp, 18.sp),
+                              labelStyle:
+                                  theme.tabBarTheme.labelStyle!.copyWith(
+                                fontSize: DeviceConstraints.getResponsiveSize(
+                                    context, 16.sp, 18.sp, 18.sp),
                                 fontWeight: FontWeight.normal,
                                 letterSpacing: 0.5,
-                                color: tabTitleColor(themeType, theme), //  isLightTheme ? Colors.black : Colors.white,
+                                color: tabTitleColor(themeType,
+                                    theme), //  isLightTheme ? Colors.black : Colors.white,
                                 fontFamily: 'Inter',
                               ),
-                              labelColor: tabTitleColor(themeType, theme), // isLightTheme ? Colors.black : Colors.white,
+                              labelColor: tabTitleColor(themeType,
+                                  theme), // isLightTheme ? Colors.black : Colors.white,
                               indicatorColor: theme.primaryColor,
                               indicatorSize: TabBarIndicatorSize.label,
                               tabs: [
                                 Tab(
-                                  text: AppLocalizations.of(context)?.services ?? 'Services',
+                                  text:
+                                      AppLocalizations.of(context)?.services ??
+                                          'Services',
                                 ),
                                 Tab(
-                                  text: AppLocalizations.of(context)?.dayAndTime ?? 'Day & Time',
+                                  text: AppLocalizations.of(context)
+                                          ?.dayAndTime ??
+                                      'Day & Time',
                                 ),
                                 Tab(
-                                  text: AppLocalizations.of(context)?.registration_line16 ?? 'Confirm',
+                                  text: AppLocalizations.of(context)
+                                          ?.registration_line16 ??
+                                      'Confirm',
                                 ),
                               ],
                             ),
@@ -228,7 +271,8 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
                           DayAndTime(tabController: bookingTabController!),
 
                           // Confirm
-                          Confirmation(bookingTabController: bookingTabController!),
+                          Confirmation(
+                              bookingTabController: bookingTabController!),
                         ],
                       ),
                     ),
@@ -245,9 +289,9 @@ class _BookingDialogWidget222State<T> extends ConsumerState<BookingDialogWidget2
 
 Color? tabTitleColor(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return Colors.black;
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return Colors.white;
     case ThemeType.GentleTouch:
       return Colors.black;

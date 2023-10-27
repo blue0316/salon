@@ -125,7 +125,7 @@ class _ServiceExpansionTileState extends ConsumerState<ServiceExpansionTile> {
                                       'en'] ??
                               widget.serviceModel[widget.index]
                                   .translations?['en'] ??
-                              '',
+                              ''.split(" ")[0],
                           style: GoogleFonts.openSans(
                             color: widget.salonProfileProvider.salonTheme
                                 .textTheme.displaySmall!.color,
@@ -243,6 +243,7 @@ class _ServiceExpansionTileState extends ConsumerState<ServiceExpansionTile> {
                         widget.serviceModel[widget.index].description ?? '',
                         style: GoogleFonts.openSans(
                           fontSize: 16,
+                          height: 1,
                           fontWeight: FontWeight.w400,
                           //color: const Color(0xff282828)
                         )),
@@ -412,7 +413,7 @@ class _ExpandableWidgetState extends ConsumerState<ExpandableWidget> {
                         fontSize: 18,
                         //   fontFamily: 'Open Sans',
                         fontWeight: FontWeight.w500,
-                        height: 0,
+                        height: 1,
                       ),
                     ),
                   ),

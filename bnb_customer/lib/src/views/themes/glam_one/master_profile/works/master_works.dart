@@ -16,7 +16,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class MasterWorksUnique extends ConsumerStatefulWidget {
   final MasterModel masterModel;
 
-  const MasterWorksUnique({Key? key, required this.masterModel}) : super(key: key);
+  const MasterWorksUnique({Key? key, required this.masterModel})
+      : super(key: key);
 
   @override
   ConsumerState<MasterWorksUnique> createState() => _MasterWorksUniqueState();
@@ -25,7 +26,8 @@ class MasterWorksUnique extends ConsumerStatefulWidget {
 class _MasterWorksUniqueState extends ConsumerState<MasterWorksUnique> {
   @override
   Widget build(BuildContext context) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     ThemeType themeType = _salonProfileProvider.themeType;
@@ -33,11 +35,12 @@ class _MasterWorksUniqueState extends ConsumerState<MasterWorksUnique> {
   }
 }
 
-Widget worksThemeView(ThemeType themeType, ThemeData theme, MasterModel master) {
+Widget worksThemeView(
+    ThemeType themeType, ThemeData theme, MasterModel master) {
   switch (themeType) {
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return MinimalWorksView(masterModel: master);
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return MinimalWorksView(masterModel: master);
 
     default:
@@ -49,11 +52,14 @@ class OurWorksButton extends ConsumerWidget {
   final VoidCallback backOnTap;
   final VoidCallback forwardOnTap;
 
-  const OurWorksButton({Key? key, required this.backOnTap, required this.forwardOnTap}) : super(key: key);
+  const OurWorksButton(
+      {Key? key, required this.backOnTap, required this.forwardOnTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     final ThemeType themeType = _salonProfileProvider.themeType;
@@ -64,30 +70,43 @@ class OurWorksButton extends ConsumerWidget {
         children: [
           GestureDetector(
             onTap: backOnTap,
-            child: (themeType != ThemeType.GlamBarbershop && themeType != ThemeType.Barbershop)
+            child: (themeType != ThemeType.GlamBarbershop &&
+                    themeType != ThemeType.Barbershop)
                 ? SvgPicture.asset(
                     ThemeIcons.leftArrow,
-                    color: (themeType == ThemeType.Glam || themeType == ThemeType.GentleTouchDark) ? Colors.black : theme.primaryColor,
-                    height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                    color: (themeType == ThemeType.Glam ||
+                            themeType == ThemeType.GentleTouchDark)
+                        ? Colors.black
+                        : theme.primaryColor,
+                    height: DeviceConstraints.getResponsiveSize(
+                        context, 30.sp, 40.sp, 50.sp),
                   )
                 : Icon(
                     Icons.arrow_back,
-                    size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                    size: DeviceConstraints.getResponsiveSize(
+                        context, 30.sp, 40.sp, 50.sp),
                     color: Colors.white,
                   ),
           ),
-          SizedBox(width: DeviceConstraints.getResponsiveSize(context, 15, 30, 40)),
+          SizedBox(
+              width: DeviceConstraints.getResponsiveSize(context, 15, 30, 40)),
           GestureDetector(
             onTap: forwardOnTap,
-            child: (themeType != ThemeType.GlamBarbershop && themeType != ThemeType.Barbershop)
+            child: (themeType != ThemeType.GlamBarbershop &&
+                    themeType != ThemeType.Barbershop)
                 ? SvgPicture.asset(
                     ThemeIcons.rightArrow,
-                    color: (themeType == ThemeType.Glam || themeType == ThemeType.GentleTouchDark) ? Colors.black : theme.primaryColor,
-                    height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                    color: (themeType == ThemeType.Glam ||
+                            themeType == ThemeType.GentleTouchDark)
+                        ? Colors.black
+                        : theme.primaryColor,
+                    height: DeviceConstraints.getResponsiveSize(
+                        context, 30.sp, 40.sp, 50.sp),
                   )
                 : Icon(
                     Icons.arrow_forward,
-                    size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                    size: DeviceConstraints.getResponsiveSize(
+                        context, 30.sp, 40.sp, 50.sp),
                     color: theme.primaryColor,
                   ),
           ),

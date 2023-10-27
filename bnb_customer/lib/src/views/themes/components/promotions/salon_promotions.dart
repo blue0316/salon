@@ -9,13 +9,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+
 import 'barbershop_promotions/barbershop_view.dart';
 import 'default_view.dart';
 import 'minimal_promotions/minimal_promotions_view.dart';
 
 class SalonPromotions extends ConsumerStatefulWidget {
   final List<PromotionModel> salonPromotionsList;
-  const SalonPromotions({Key? key, required this.salonPromotionsList}) : super(key: key);
+  const SalonPromotions({Key? key, required this.salonPromotionsList})
+      : super(key: key);
 
   @override
   ConsumerState<SalonPromotions> createState() => _SalonPromotionsState();
@@ -24,7 +26,8 @@ class SalonPromotions extends ConsumerStatefulWidget {
 class _SalonPromotionsState extends ConsumerState<SalonPromotions> {
   @override
   Widget build(BuildContext context) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
 
     ThemeType themeType = _salonProfileProvider.themeType;
 
@@ -45,7 +48,8 @@ class _SalonPromotionsState extends ConsumerState<SalonPromotions> {
   }
 }
 
-Widget promotionTheme(ThemeType themeType, List<PromotionModel> salonPromotionsList) {
+Widget promotionTheme(
+    ThemeType themeType, List<PromotionModel> salonPromotionsList) {
   switch (themeType) {
     case ThemeType.Barbershop:
       return BarbershopPromotions(salonPromotionsList: salonPromotionsList);
@@ -53,10 +57,10 @@ Widget promotionTheme(ThemeType themeType, List<PromotionModel> salonPromotionsL
     case ThemeType.GentleTouch:
       return GlamLightPromotions(salonPromotionsList: salonPromotionsList);
 
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return MiniamlPromotionView(salonPromotionsList: salonPromotionsList);
 
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return MiniamlPromotionView(salonPromotionsList: salonPromotionsList);
 
     default:
@@ -68,11 +72,14 @@ class PrevAndNext extends ConsumerWidget {
   final VoidCallback backOnTap;
   final VoidCallback forwardOnTap;
 
-  const PrevAndNext({Key? key, required this.backOnTap, required this.forwardOnTap}) : super(key: key);
+  const PrevAndNext(
+      {Key? key, required this.backOnTap, required this.forwardOnTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     final ThemeType themeType = _salonProfileProvider.themeType;
 
@@ -85,27 +92,32 @@ class PrevAndNext extends ConsumerWidget {
             child: (themeType != ThemeType.GlamBarbershop)
                 ? SvgPicture.asset(
                     ThemeIcons.leftArrow,
-                    height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                    height: DeviceConstraints.getResponsiveSize(
+                        context, 30.sp, 40.sp, 50.sp),
                     color: theme.primaryColorLight,
                   )
                 : Icon(
                     Icons.arrow_back,
-                    size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                    size: DeviceConstraints.getResponsiveSize(
+                        context, 30.sp, 40.sp, 50.sp),
                     color: Colors.white,
                   ),
           ),
-          SizedBox(width: DeviceConstraints.getResponsiveSize(context, 15, 30, 40)),
+          SizedBox(
+              width: DeviceConstraints.getResponsiveSize(context, 15, 30, 40)),
           GestureDetector(
             onTap: forwardOnTap,
             child: (themeType != ThemeType.GlamBarbershop)
                 ? SvgPicture.asset(
                     ThemeIcons.rightArrow,
-                    height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                    height: DeviceConstraints.getResponsiveSize(
+                        context, 30.sp, 40.sp, 50.sp),
                     color: theme.primaryColor,
                   )
                 : Icon(
                     Icons.arrow_forward,
-                    size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                    size: DeviceConstraints.getResponsiveSize(
+                        context, 30.sp, 40.sp, 50.sp),
                     color: theme.primaryColor,
                   ),
           ),

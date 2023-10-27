@@ -6,10 +6,10 @@ import 'package:bbblient/src/views/themes/glam_one/views/app_bar.dart';
 import 'package:bbblient/src/views/themes/icons.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ContactSection extends ConsumerWidget {
@@ -19,7 +19,8 @@ class ContactSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     ThemeType themeType = _salonProfileProvider.themeType;
 
@@ -28,22 +29,31 @@ class ContactSection extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
-          (themeType == ThemeType.GlamMinimalLight || themeType == ThemeType.GlamMinimalDark) ? AppLocalizations.of(context)?.contacts ?? 'Contacts' : (AppLocalizations.of(context)?.contacts ?? 'Contacts').toUpperCase(),
+          (themeType == ThemeType.CityMuseLight ||
+                  themeType == ThemeType.CityMuseDark)
+              ? AppLocalizations.of(context)?.contacts ?? 'Contacts'
+              : (AppLocalizations.of(context)?.contacts ?? 'Contacts')
+                  .toUpperCase(),
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.left,
           style: theme.textTheme.bodyLarge?.copyWith(
-            fontSize: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
+            fontSize: DeviceConstraints.getResponsiveSize(
+                context, 26.sp, 26.sp, 20.sp),
           ),
         ),
         const SizedBox(height: 10),
         if (salonModel.phoneNumber != '')
           ContactCard(
-            icon: (themeType == ThemeType.GlamMinimalLight) ? ThemeIcons.minimalPhone : ThemeIcons.phone,
+            icon: (themeType == ThemeType.CityMuseLight)
+                ? ThemeIcons.minimalPhone
+                : ThemeIcons.phone,
             value: salonModel.phoneNumber,
           ),
         if (salonModel.email != '')
           ContactCard(
-            icon: (themeType == ThemeType.GlamMinimalLight) ? ThemeIcons.minimalMail : ThemeIcons.mail,
+            icon: (themeType == ThemeType.CityMuseLight)
+                ? ThemeIcons.minimalMail
+                : ThemeIcons.mail,
             value: salonModel.email,
           ),
       ],
@@ -53,11 +63,13 @@ class ContactSection extends ConsumerWidget {
 
 class ContactCard extends ConsumerWidget {
   final String icon, value;
-  const ContactCard({Key? key, required this.icon, required this.value}) : super(key: key);
+  const ContactCard({Key? key, required this.icon, required this.value})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     ThemeType themeType = _salonProfileProvider.themeType;
 
@@ -70,12 +82,14 @@ class ContactCard extends ConsumerWidget {
           (icon != 'ThemeIcons.minimalLocation')
               ? SvgPicture.asset(
                   icon,
-                  height: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                  height: DeviceConstraints.getResponsiveSize(
+                      context, 20.sp, 20.sp, 20.sp),
                   color: theme.primaryColorDark,
                 )
               : FaIcon(
                   FontAwesomeIcons.locationDot,
-                  size: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
+                  size: DeviceConstraints.getResponsiveSize(
+                      context, 20.sp, 20.sp, 20.sp),
                   color: theme.primaryColorDark,
                 ),
           const SizedBox(width: 15),
@@ -83,7 +97,8 @@ class ContactCard extends ConsumerWidget {
             child: Text(
               value,
               style: theme.textTheme.bodyLarge?.copyWith(
-                color: iconColor(themeType), // (themeType == ThemeType.GentleTouch) ? Colors.black : Colors.white,
+                color: iconColor(
+                    themeType), // (themeType == ThemeType.GentleTouch) ? Colors.black : Colors.white,
                 fontSize: 20.sp,
                 fontWeight: FontWeight.w500,
               ),
@@ -97,10 +112,10 @@ class ContactCard extends ConsumerWidget {
 
 Color iconColor(ThemeType themeType) {
   switch (themeType) {
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return Colors.black;
 
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return Colors.white;
 
     default:
@@ -115,7 +130,8 @@ class VisitUs extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     ThemeType themeType = _salonProfileProvider.themeType;
 
@@ -125,17 +141,24 @@ class VisitUs extends ConsumerWidget {
       children: [
         Text(
           // "VISIT US",
-          (themeType == ThemeType.GlamMinimalLight || themeType == ThemeType.GlamMinimalDark) ? AppLocalizations.of(context)?.visit ?? 'Visit' : (AppLocalizations.of(context)?.visit ?? 'Visit').toUpperCase(),
+          (themeType == ThemeType.CityMuseLight ||
+                  themeType == ThemeType.CityMuseDark)
+              ? AppLocalizations.of(context)?.visit ?? 'Visit'
+              : (AppLocalizations.of(context)?.visit ?? 'Visit').toUpperCase(),
 
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.left,
           style: theme.textTheme.bodyLarge?.copyWith(
-            fontSize: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
+            fontSize: DeviceConstraints.getResponsiveSize(
+                context, 26.sp, 26.sp, 20.sp),
           ),
         ),
         const SizedBox(height: 10),
         ContactCard(
-          icon: (themeType == ThemeType.GlamMinimalLight || themeType == ThemeType.GlamMinimalDark) ? 'ThemeIcons.minimalLocation' : ThemeIcons.location,
+          icon: (themeType == ThemeType.CityMuseLight ||
+                  themeType == ThemeType.CityMuseDark)
+              ? 'ThemeIcons.minimalLocation'
+              : ThemeIcons.location,
           value: salonModel.address,
         ),
       ],
@@ -150,7 +173,8 @@ class SocialNetwork extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     ThemeType themeType = _salonProfileProvider.themeType;
 
@@ -160,7 +184,8 @@ class SocialNetwork extends ConsumerWidget {
       children: [
         Text(
           // "SOCIAL NETWORK",
-          (themeType == ThemeType.GlamMinimalLight || themeType == ThemeType.GlamMinimalDark)
+          (themeType == ThemeType.CityMuseLight ||
+                  themeType == ThemeType.CityMuseDark)
               ? AppLocalizations.of(context)?.socialNetwork ?? 'Social Network'
               : (AppLocalizations.of(
                         context,
@@ -171,7 +196,8 @@ class SocialNetwork extends ConsumerWidget {
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.left,
           style: theme.textTheme.bodyLarge?.copyWith(
-            fontSize: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 20.sp),
+            fontSize: DeviceConstraints.getResponsiveSize(
+                context, 26.sp, 26.sp, 20.sp),
           ),
         ),
         const SizedBox(height: 10),
@@ -181,25 +207,38 @@ class SocialNetwork extends ConsumerWidget {
           children: [
             Socials(
               type: 'insta',
-              socialIcon: (themeType == ThemeType.GlamMinimalLight) ? 'ThemeIcons.minimalInstagram' : ThemeIcons.insta,
+              socialIcon: (themeType == ThemeType.CityMuseLight)
+                  ? 'ThemeIcons.minimalInstagram'
+                  : ThemeIcons.insta,
               socialUrl: salonModel.links?.instagram,
-              height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 26.sp),
+              height: DeviceConstraints.getResponsiveSize(
+                  context, 26.sp, 26.sp, 26.sp),
               color: theme.primaryColorDark,
             ),
             SizedBox(width: 37.sp),
             Socials(
-              type: (themeType == ThemeType.GlamMinimalLight) ? 'facebook' : 'tiktok',
-              socialIcon: (themeType == ThemeType.GlamMinimalLight) ? ThemeIcons.minimalFacebook : ThemeIcons.tiktok,
-              socialUrl: (themeType == ThemeType.GlamMinimalLight) ? salonModel.links?.facebook : salonModel.links?.tiktok,
-              height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 26.sp),
+              type: (themeType == ThemeType.CityMuseLight)
+                  ? 'facebook'
+                  : 'tiktok',
+              socialIcon: (themeType == ThemeType.CityMuseLight)
+                  ? ThemeIcons.minimalFacebook
+                  : ThemeIcons.tiktok,
+              socialUrl: (themeType == ThemeType.CityMuseLight)
+                  ? salonModel.links?.facebook
+                  : salonModel.links?.tiktok,
+              height: DeviceConstraints.getResponsiveSize(
+                  context, 26.sp, 26.sp, 26.sp),
               color: theme.primaryColorDark,
             ),
             SizedBox(width: 37.sp),
             Socials(
               type: 'whatsapp',
-              socialIcon: (themeType == ThemeType.GlamMinimalLight) ? ThemeIcons.whatsapp : ThemeIcons.whatsapp,
+              socialIcon: (themeType == ThemeType.CityMuseLight)
+                  ? ThemeIcons.whatsapp
+                  : ThemeIcons.whatsapp,
               socialUrl: salonModel.phoneNumber,
-              height: DeviceConstraints.getResponsiveSize(context, 26.sp, 26.sp, 26.sp),
+              height: DeviceConstraints.getResponsiveSize(
+                  context, 26.sp, 26.sp, 26.sp),
               color: theme.primaryColorDark,
             ),
           ],

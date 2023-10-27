@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 
 Color? dialogLabelColorTheme(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return Colors.white;
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return Colors.black;
 
     default:
@@ -18,9 +18,9 @@ Color? dialogLabelColorTheme(ThemeType themeType, ThemeData theme) {
 
 Color? isAddedSelectedColor(ThemeType themeType) {
   switch (themeType) {
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return Colors.black;
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return Colors.white;
     case ThemeType.GentleTouch:
       return Colors.black;
@@ -36,9 +36,9 @@ Color? isAddedSelectedColor(ThemeType themeType) {
 
 Color? serviceTabCategoryColor(ThemeType themeType) {
   switch (themeType) {
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return Colors.white;
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return Colors.black;
     case ThemeType.GentleTouch:
       return Colors.white;
@@ -52,9 +52,9 @@ Color? serviceTabCategoryColor(ThemeType themeType) {
 
 Color loaderColor(ThemeType themeType) {
   switch (themeType) {
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return Colors.white;
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return Colors.black;
     case ThemeType.GentleTouch:
       return Colors.white;
@@ -70,9 +70,9 @@ Color loaderColor(ThemeType themeType) {
 
 Color selectMasterColor(ThemeType themeType) {
   switch (themeType) {
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return Colors.black;
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return Colors.white;
     case ThemeType.GentleTouch:
       return Colors.black;
@@ -86,9 +86,9 @@ Color selectMasterColor(ThemeType themeType) {
 
 Color? unSelectedMasterColor(ThemeType themeType) {
   switch (themeType) {
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return Colors.white;
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return Colors.black;
     case ThemeType.GentleTouch:
       return Colors.black;
@@ -118,9 +118,9 @@ Color? dialogButtonColor(ThemeType themeType, ThemeData theme) {
 
 Color? dialogBackButtonColor(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return Colors.white;
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return Colors.transparent;
     case ThemeType.GentleTouch:
       return theme.dialogBackgroundColor;
@@ -132,9 +132,9 @@ Color? dialogBackButtonColor(ThemeType themeType, ThemeData theme) {
 
 Color dialogTextColor(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return theme.primaryColor;
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return Colors.black;
     case ThemeType.GentleTouch:
       return theme.primaryColor;
@@ -148,9 +148,9 @@ Color dialogTextColor(ThemeType themeType, ThemeData theme) {
 
 Color selectTimeSlot(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return theme.primaryColor;
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return AppTheme.creamBrown;
 
     default:
@@ -160,9 +160,9 @@ Color selectTimeSlot(ThemeType themeType, ThemeData theme) {
 
 Color selectedServiceCardOnDayAndTime(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return theme.primaryColor;
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return theme.primaryColor;
     case ThemeType.GentleTouch:
       return theme.primaryColor.withOpacity(0.5);
@@ -184,9 +184,9 @@ Color selectMasterContainerColor(ThemeType themeType, ThemeData theme) {
 
 Color? selectSlots(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return Colors.white;
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return Colors.black;
     case ThemeType.GentleTouch:
       return Colors.white;
@@ -204,7 +204,7 @@ Color? selectSlots(ThemeType themeType, ThemeData theme) {
 
 Color? currentDateTextColor(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return Colors.white;
     case ThemeType.DefaultLight:
       return Colors.white;
@@ -212,7 +212,7 @@ Color? currentDateTextColor(ThemeType themeType, ThemeData theme) {
       return Colors.white;
     case ThemeType.GentleTouchDark:
       return Colors.black;
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return Colors.black;
 
     default:
@@ -222,7 +222,7 @@ Color? currentDateTextColor(ThemeType themeType, ThemeData theme) {
 
 Color? slotsBoxColorAvailableAndSelected(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return Colors.white;
 
     default:
@@ -232,9 +232,9 @@ Color? slotsBoxColorAvailableAndSelected(ThemeType themeType, ThemeData theme) {
 
 Color? notCurrentDateTextColor(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return Colors.black;
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return Colors.white;
     case ThemeType.GentleTouch:
       return Colors.black;
@@ -270,7 +270,7 @@ Color? horizontalTimePickerColor(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
     case ThemeType.GentleTouchDark:
       return Colors.black;
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return Colors.black;
 
     default:

@@ -19,43 +19,49 @@ class ThemeHeaderImage extends ConsumerWidget {
     ThemeType themeType = _salonProfileProvider.themeType;
 
     return SizedBox(
-      height: getThemeHeaderHeight(context, themeType), // DeviceConstraints.getResponsiveSize(context, 1000.h, 1000.h, 1000.h),
+      height: getThemeHeaderHeight(context,
+          themeType), // DeviceConstraints.getResponsiveSize(context, 1000.h, 1000.h, 1000.h),
       width: double.infinity,
-      child: background(themeType, _salonProfileProvider.chosenSalon, _salonProfileProvider),
+      child: background(
+          themeType, _salonProfileProvider.chosenSalon, _salonProfileProvider),
     );
   }
 }
 
-Widget background(ThemeType themeType, SalonModel salon, SalonProfileProvider salonProfileProvider) {
+Widget background(ThemeType themeType, SalonModel salon,
+    SalonProfileProvider salonProfileProvider) {
   switch (themeType) {
     case ThemeType.Barbershop:
       return const GradientBackground();
 
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return const FilteredAssetImage(
         image: ThemeImages.minimalBackground,
         opacity: 0.5,
       );
 
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return const DefaultImageBG(image: ThemeImages.minimalBackground);
 
     case ThemeType.GentleTouch:
-      return (salonProfileProvider.themeSettings?.backgroundImage != null && salonProfileProvider.themeSettings?.backgroundImage != '')
+      return (salonProfileProvider.themeSettings?.backgroundImage != null &&
+              salonProfileProvider.themeSettings?.backgroundImage != '')
           ? BackgroundImageExists(
               salonProfileProvider: salonProfileProvider,
             )
           : const DefaultImageBG(image: ThemeImages.glamLightNaturalHue);
 
     case ThemeType.GentleTouchDark:
-      return (salonProfileProvider.themeSettings?.backgroundImage != null && salonProfileProvider.themeSettings?.backgroundImage != '')
+      return (salonProfileProvider.themeSettings?.backgroundImage != null &&
+              salonProfileProvider.themeSettings?.backgroundImage != '')
           ? BackgroundImageExists(
               salonProfileProvider: salonProfileProvider,
             )
           : const FilteredAssetImage(image: ThemeImages.darkGentleTouch);
 
     default:
-      return (salonProfileProvider.themeSettings?.backgroundImage != null && salonProfileProvider.themeSettings?.backgroundImage != '')
+      return (salonProfileProvider.themeSettings?.backgroundImage != null &&
+              salonProfileProvider.themeSettings?.backgroundImage != '')
           ? FilteredImage(
               salonProfileProvider: salonProfileProvider,
             )
@@ -69,7 +75,10 @@ class GradientBackground extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Image.asset(
-      (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab) ? ThemeImages.gradientBG : ThemeImages.longGradientBG,
+      (DeviceConstraints.getDeviceType(MediaQuery.of(context)) ==
+              DeviceScreenType.tab)
+          ? ThemeImages.gradientBG
+          : ThemeImages.longGradientBG,
       fit: BoxFit.cover,
     );
   }
@@ -86,7 +95,8 @@ class DefaultImageBG extends StatelessWidget {
 }
 
 class FilteredImage extends StatelessWidget {
-  const FilteredImage({Key? key, required SalonProfileProvider salonProfileProvider})
+  const FilteredImage(
+      {Key? key, required SalonProfileProvider salonProfileProvider})
       : _salonProfileProvider = salonProfileProvider,
         super(key: key);
 
@@ -95,7 +105,8 @@ class FilteredImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColorFiltered(
-      colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.dstATop),
+      colorFilter:
+          ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.dstATop),
       child: CachedImage(
         url: _salonProfileProvider.themeSettings!.backgroundImage!,
         fit: BoxFit.cover,
@@ -108,19 +119,22 @@ class FilteredAssetImage extends StatelessWidget {
   final String image;
   final double? opacity;
 
-  const FilteredAssetImage({Key? key, required this.image, this.opacity}) : super(key: key);
+  const FilteredAssetImage({Key? key, required this.image, this.opacity})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ColorFiltered(
-      colorFilter: ColorFilter.mode(Colors.black.withOpacity(opacity ?? 0.3), BlendMode.dstATop),
+      colorFilter: ColorFilter.mode(
+          Colors.black.withOpacity(opacity ?? 0.3), BlendMode.dstATop),
       child: Image.asset(image, fit: BoxFit.cover),
     );
   }
 }
 
 class BackgroundImageExists extends StatelessWidget {
-  const BackgroundImageExists({Key? key, required SalonProfileProvider salonProfileProvider})
+  const BackgroundImageExists(
+      {Key? key, required SalonProfileProvider salonProfileProvider})
       : _salonProfileProvider = salonProfileProvider,
         super(key: key);
 

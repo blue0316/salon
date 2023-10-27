@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
@@ -8,6 +7,8 @@ import '../../../../controller/all_providers/all_providers.dart';
 import '../../../../models/salon_master/master.dart';
 import '../../../widgets/image.dart';
 import '../../images.dart';
+import '../../utils/theme_type.dart';
+import 'city_muse_desktop.dart';
 
 class TeamWidget extends ConsumerWidget {
   final MasterModel? masterModel;
@@ -28,7 +29,6 @@ class TeamWidget extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          
           Padding(
             padding: const EdgeInsets.only(left: 10.0, right: 10.0),
             child: Center(
@@ -41,7 +41,8 @@ class TeamWidget extends ConsumerWidget {
                       fit: BoxFit.fitWidth,
                     )
                   : Image.asset(
-                      ThemeImages.noTeamMember,
+                     salonProfile.themeType == ThemeType.CityMuseLight?ThemeImages.noTeamMemberLightCityMuse:ThemeImages.noTeamMemberDarkCityMuse,
+                     //ThemeImages.noTeamMember,
                       width: 381,
                       height: 400,
                       fit: BoxFit.fitWidth,
@@ -56,17 +57,20 @@ class TeamWidget extends ConsumerWidget {
                   .toUpperCase(),
               textAlign: TextAlign.center,
               style: GoogleFonts.openSans(
-                color: salonProfile.salonTheme.colorScheme.secondary,
+                color: salonProfile.isHovered
+                    ? increaseBrightness(
+                        salonProfile.salonTheme.colorScheme.secondary, 10)
+                    : salonProfile.salonTheme.colorScheme.secondary,
                 // color:
                 // const Color(0xFFE980B2),
                 fontSize: 20,
-                // fontFamily: 'Open Sans',
+                // fontFamily: 'Open Sans',ss
                 fontWeight: FontWeight.w600,
                 height: 0,
               ),
             ),
           ),
-           const Gap(10),
+          const Gap(10),
           if (masterModel?.title != null)
             Padding(
               padding: const EdgeInsets.only(left: 10.0, right: 8.0),

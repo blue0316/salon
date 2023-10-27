@@ -19,7 +19,6 @@ import '../../../../models/cat_sub_service/services_model.dart';
 import '../../../../models/customer_web_settings.dart';
 import '../../../../models/enums/status.dart';
 import '../../../../models/products.dart';
-import '../../../../models/salon_master/master.dart';
 import '../../../../models/salon_master/salon.dart';
 import '../../../../utils/icons.dart';
 import '../../../../utils/utils.dart';
@@ -30,7 +29,6 @@ import '../../../widgets/widgets.dart';
 import '../../components/contacts/widgets/contact_maps.dart';
 import '../../images.dart';
 import '../../utils/theme_type.dart';
-import '../city_muse_desktop/app_bar.dart';
 import '../utils.dart';
 import 'contact_card.dart';
 import 'features_check.dart';
@@ -147,9 +145,19 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
             //     padding: const EdgeInsets.only(top: 8.0),
             //     child:
             //   )
-            : CachedImage(
-                url: chosenSalon.salonLogo,
-              ),
+            : SizedBox(
+                width: 40,
+                child: CircleAvatar(
+                  radius: 15,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(30),
+                    child: CachedImage(
+                      width: 100,
+                      url: chosenSalon.salonLogo,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                )),
         //       Padding(
         //   padding: const EdgeInsets.all(8.0),
         //   child: SvgPicture.asset(
@@ -299,7 +307,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                         fit: BoxFit.fitWidth,
                       )
                     : Image.asset(
-                        AppIcons.photoSlider,
+                        AppIcons.cityMuseBackground,
                         width: size.width,
                         fit: BoxFit.fitWidth,
                       ),
@@ -497,7 +505,11 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                                 .description
                                                 .toString(),
                                             style: GoogleFonts.openSans(
-                                              //  color: const Color(0xFF282828),
+                                              color: _salonProfileProvider
+                                                  .salonTheme
+                                                  .textTheme
+                                                  .displaySmall!
+                                                  .color,
                                               fontSize: 16,
                                               //  fontFamily: 'Onest',
                                               fontWeight: FontWeight.w400,
@@ -548,7 +560,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                     child: Text(
                       (AppLocalizations.of(context)?.services ?? 'SERVICES')
                           .toUpperCase(),
-                           textAlign: TextAlign.start,
+                      textAlign: TextAlign.start,
                       style: GoogleFonts.openSans(
                         color: _salonProfileProvider
                             .salonTheme.textTheme.displaySmall!.color,
@@ -939,7 +951,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                     child: Text(
                       (AppLocalizations.of(context)?.products ?? 'PRODUCTS')
                           .toUpperCase(),
-                           textAlign: TextAlign.start,
+                      textAlign: TextAlign.start,
                       style: GoogleFonts.openSans(
                         color: _salonProfileProvider
                             .salonTheme.textTheme.displaySmall!.color,
@@ -1213,7 +1225,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                     child: Text(
                       (AppLocalizations.of(context)?.team ?? 'TEAM')
                           .toUpperCase(),
-                           textAlign: TextAlign.start,
+                      textAlign: TextAlign.start,
                       style: GoogleFonts.openSans(
                         color: _salonProfileProvider
                             .salonTheme.textTheme.displaySmall!.color,
@@ -1289,7 +1301,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                   )
                                 : Image.asset(
                                     _salonProfileProvider.themeType ==
-                                            ThemeType.GlamMinimalLight
+                                            ThemeType.CityMuseLight
                                         ? ThemeImages.noTeamMember
                                         : ThemeImages.noTeamMemberDark,
                                     fit: BoxFit.cover,
@@ -1314,7 +1326,10 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                   ),
                                 ),
                                 SvgPicture.asset(
-                                    "assets/test_assets/arrow_side.svg"),
+                                  "assets/test_assets/arrow_side.svg",
+                                  color: _salonProfileProvider
+                                      .salonTheme.colorScheme.secondary,
+                                ),
                               ],
                             ),
                             if (_createAppointmentProvider
@@ -1353,7 +1368,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                     child: Text(
                       (AppLocalizations.of(context)?.reviews ?? 'Reviews')
                           .toUpperCase(),
-                           textAlign: TextAlign.start,
+                      textAlign: TextAlign.start,
                       style: GoogleFonts.openSans(
                         color: _salonProfileProvider
                             .salonTheme.textTheme.displaySmall!.color,
@@ -1583,7 +1598,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                     width: 339,
                     child: Text(
                       'WRITE TO US',
-                       textAlign: TextAlign.start,
+                      textAlign: TextAlign.start,
                       style: GoogleFonts.openSans(
                         color: _salonProfileProvider
                             .salonTheme.textTheme.displaySmall!.color,
@@ -1634,6 +1649,10 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                   child: SizedBox(
                     height: 44,
                     child: TextField(
+                      style: GoogleFonts.openSans(
+                        color: _salonProfileProvider
+                            .salonTheme.textTheme.displaySmall!.color,
+                      ),
                       controller: _salonProfileProvider.nameController,
                       decoration:
                           textFieldStyle("Full Name", _salonProfileProvider),
@@ -1662,6 +1681,10 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                   child: SizedBox(
                     height: 44,
                     child: TextField(
+                      style: GoogleFonts.openSans(
+                        color: _salonProfileProvider
+                            .salonTheme.textTheme.displaySmall!.color,
+                      ),
                       controller: _salonProfileProvider.phoneController,
                       decoration:
                           textFieldStyle("Phone", _salonProfileProvider),
@@ -1690,6 +1713,10 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                   child: SizedBox(
                     height: 44,
                     child: TextField(
+                      style: GoogleFonts.openSans(
+                        color: _salonProfileProvider
+                            .salonTheme.textTheme.displaySmall!.color,
+                      ),
                       controller: _salonProfileProvider.emailController,
                       decoration:
                           textFieldStyle("Email", _salonProfileProvider),
@@ -1718,10 +1745,14 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                   child: SizedBox(
                     height: 200,
                     child: TextField(
+                      style: GoogleFonts.openSans(
+                        color: _salonProfileProvider
+                            .salonTheme.textTheme.displaySmall!.color,
+                      ),
                       controller: _salonProfileProvider.requestController,
-                      maxLength: 8,
-                      minLines: 7,
-                      maxLines: 8,
+                      // maxLength: 0,
+                      // minLines: 0,
+                      maxLines: 10,
                       decoration:
                           textFieldStyle("Write to Us", _salonProfileProvider),
                     ),

@@ -162,7 +162,7 @@ Color priceColor(ThemeType themeType, ThemeData theme) {
     case ThemeType.GentleTouch:
       return Colors.black;
 
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return Colors.black;
 
     default:
@@ -175,7 +175,7 @@ Color serviceNameColor(ThemeType themeType, ThemeData theme) {
     case ThemeType.GentleTouch:
       return Colors.black;
 
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return Colors.black;
 
     case ThemeType.GlamBarbershop:

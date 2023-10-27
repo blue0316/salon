@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
 import 'default_works_view.dart';
 import 'gentle_touch_works_view.dart';
 import 'minimal_works_view.dart';
@@ -24,7 +25,8 @@ class SalonWorks extends ConsumerStatefulWidget {
 class _SalonWorksState extends ConsumerState<SalonWorks> {
   @override
   Widget build(BuildContext context) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     ThemeType themeType = _salonProfileProvider.themeType;
@@ -34,9 +36,9 @@ class _SalonWorksState extends ConsumerState<SalonWorks> {
 
 Widget worksThemeView(ThemeType themeType, ThemeData theme, SalonModel salon) {
   switch (themeType) {
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return MinimalWorksView(salonModel: salon);
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return MinimalWorksView(salonModel: salon);
     case ThemeType.GentleTouch:
       return GentleTouchWorksView(salonModel: salon);
@@ -52,11 +54,14 @@ class OurWorksButton extends ConsumerWidget {
   final VoidCallback backOnTap;
   final VoidCallback forwardOnTap;
 
-  const OurWorksButton({Key? key, required this.backOnTap, required this.forwardOnTap}) : super(key: key);
+  const OurWorksButton(
+      {Key? key, required this.backOnTap, required this.forwardOnTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     final ThemeType themeType = _salonProfileProvider.themeType;
@@ -67,30 +72,43 @@ class OurWorksButton extends ConsumerWidget {
         children: [
           GestureDetector(
             onTap: backOnTap,
-            child: (themeType != ThemeType.GlamBarbershop && themeType != ThemeType.Barbershop)
+            child: (themeType != ThemeType.GlamBarbershop &&
+                    themeType != ThemeType.Barbershop)
                 ? SvgPicture.asset(
                     ThemeIcons.leftArrow,
-                    color: (themeType == ThemeType.Glam || themeType == ThemeType.GentleTouchDark) ? Colors.black : theme.primaryColor,
-                    height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                    color: (themeType == ThemeType.Glam ||
+                            themeType == ThemeType.GentleTouchDark)
+                        ? Colors.black
+                        : theme.primaryColor,
+                    height: DeviceConstraints.getResponsiveSize(
+                        context, 30.sp, 40.sp, 50.sp),
                   )
                 : Icon(
                     Icons.arrow_back,
-                    size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                    size: DeviceConstraints.getResponsiveSize(
+                        context, 30.sp, 40.sp, 50.sp),
                     color: Colors.white,
                   ),
           ),
-          SizedBox(width: DeviceConstraints.getResponsiveSize(context, 15, 30, 40)),
+          SizedBox(
+              width: DeviceConstraints.getResponsiveSize(context, 15, 30, 40)),
           GestureDetector(
             onTap: forwardOnTap,
-            child: (themeType != ThemeType.GlamBarbershop && themeType != ThemeType.Barbershop)
+            child: (themeType != ThemeType.GlamBarbershop &&
+                    themeType != ThemeType.Barbershop)
                 ? SvgPicture.asset(
                     ThemeIcons.rightArrow,
-                    color: (themeType == ThemeType.Glam || themeType == ThemeType.GentleTouchDark) ? Colors.black : theme.primaryColor,
-                    height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                    color: (themeType == ThemeType.Glam ||
+                            themeType == ThemeType.GentleTouchDark)
+                        ? Colors.black
+                        : theme.primaryColor,
+                    height: DeviceConstraints.getResponsiveSize(
+                        context, 30.sp, 40.sp, 50.sp),
                   )
                 : Icon(
                     Icons.arrow_forward,
-                    size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+                    size: DeviceConstraints.getResponsiveSize(
+                        context, 30.sp, 40.sp, 50.sp),
                     color: theme.primaryColor,
                   ),
           ),

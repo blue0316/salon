@@ -7,9 +7,9 @@ import 'package:bbblient/src/views/appointment/reviews/appointment_review.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Button extends ConsumerWidget {
   final String text;
@@ -30,10 +30,13 @@ class Button extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+    final bool isPortrait =
+        (DeviceConstraints.getDeviceType(MediaQuery.of(context)) ==
+            DeviceScreenType.portrait);
 
     final _appointmentProvider = ref.watch(appointmentProvider);
-    ThemeData theme = _appointmentProvider.salonTheme ?? AppTheme.customLightTheme;
+    ThemeData theme =
+        _appointmentProvider.salonTheme ?? AppTheme.customLightTheme;
 
     bool isLightTheme = (theme == AppTheme.customLightTheme);
 
@@ -58,7 +61,8 @@ class Button extends ConsumerWidget {
                     child: SizedBox(
                       height: 25,
                       width: 25,
-                      child: CircularProgressIndicator(color: loaderColor ?? Colors.white),
+                      child: CircularProgressIndicator(
+                          color: loaderColor ?? Colors.white),
                     ),
                   )
                 : Row(
@@ -103,8 +107,10 @@ class ViewOrReview extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final _appointmentProvider = ref.watch(appointmentProvider);
-    ThemeData theme = _appointmentProvider.salonTheme ?? AppTheme.customLightTheme;
-    ThemeType themeType = _appointmentProvider.themeType ?? ThemeType.DefaultLight;
+    ThemeData theme =
+        _appointmentProvider.salonTheme ?? AppTheme.customLightTheme;
+    ThemeType themeType =
+        _appointmentProvider.themeType ?? ThemeType.DefaultLight;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
@@ -124,7 +130,8 @@ class ViewOrReview extends ConsumerWidget {
             ),
             (appointment.reviewed != true)
                 ? ViewOrReviewButton(
-                    text: AppLocalizations.of(context)?.reviewAppointment ?? 'Review Appointment',
+                    text: AppLocalizations.of(context)?.reviewAppointment ??
+                        'Review Appointment',
                     onTap: () {
                       Navigator.push(
                         context,
@@ -140,9 +147,12 @@ class ViewOrReview extends ConsumerWidget {
                     textColor: Colors.black,
                   )
                 : ViewOrReviewButton(
-                    text: AppLocalizations.of(context)?.appointmentReveiwed ?? 'Appointment Reviewed',
+                    text: AppLocalizations.of(context)?.appointmentReveiwed ??
+                        'Appointment Reviewed',
                     onTap: () {
-                      showToast(AppLocalizations.of(context)?.appoinmentHasBeenReviewed ?? 'This appointment has been reviewed');
+                      showToast(AppLocalizations.of(context)
+                              ?.appoinmentHasBeenReviewed ??
+                          'This appointment has been reviewed');
                     },
                     buttonColor: const Color.fromARGB(130, 157, 157, 157),
                     textColor: Colors.black,
@@ -173,9 +183,13 @@ class ViewOrReviewButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final _appointmentProvider = ref.watch(appointmentProvider);
-    ThemeData theme = _appointmentProvider.salonTheme ?? AppTheme.customLightTheme;
-    ThemeType themeType = _appointmentProvider.themeType ?? ThemeType.DefaultLight;
-    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+    ThemeData theme =
+        _appointmentProvider.salonTheme ?? AppTheme.customLightTheme;
+    ThemeType themeType =
+        _appointmentProvider.themeType ?? ThemeType.DefaultLight;
+    final bool isPortrait =
+        (DeviceConstraints.getDeviceType(MediaQuery.of(context)) ==
+            DeviceScreenType.portrait);
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
@@ -195,7 +209,8 @@ class ViewOrReviewButton extends ConsumerWidget {
                     child: SizedBox(
                       height: 25,
                       width: 25,
-                      child: CircularProgressIndicator(color: loaderColor ?? Colors.white),
+                      child: CircularProgressIndicator(
+                          color: loaderColor ?? Colors.white),
                     ),
                   )
                 : Row(
@@ -208,7 +223,8 @@ class ViewOrReviewButton extends ConsumerWidget {
                         style: theme.textTheme.bodyLarge?.copyWith(
                           color: textColor,
                           fontWeight: FontWeight.w500,
-                          fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 18.sp, 20.sp),
+                          fontSize: DeviceConstraints.getResponsiveSize(
+                              context, 16.sp, 18.sp, 20.sp),
                         ),
                       ),
                     ],
@@ -226,7 +242,7 @@ Color viewReceiptColor(ThemeType themeType, ThemeData theme) {
       return const Color(0XFF000000).withOpacity(0.6);
     case ThemeType.GentleTouch:
       return const Color(0XFF000000).withOpacity(0.6);
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return const Color(0XFF000000).withOpacity(0.6);
 
     default:
@@ -240,7 +256,7 @@ Color borderColor2(ThemeType themeType, ThemeData theme) {
       return Colors.transparent;
     case ThemeType.GentleTouch:
       return Colors.transparent;
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return Colors.transparent;
 
     default:

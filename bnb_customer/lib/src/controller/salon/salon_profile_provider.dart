@@ -278,7 +278,7 @@ class SalonProfileProvider with ChangeNotifier {
         case '7':
           salonTheme = getCityMuseLightTheme(themeSettings?.theme?.colorCode);
           //http://localhost:51401/home/salon?id=snyyGYxB2ug8a4TGOOAs&back=false&locale=en
-          themeType = ThemeType.GlamMinimalLight;
+          themeType = ThemeType.CityMuseLight;
 
           notifyListeners();
           return const CityMuseEntry();
@@ -286,7 +286,7 @@ class SalonProfileProvider with ChangeNotifier {
 
         case '8':
           salonTheme = getCityMuseDarkTheme(themeSettings?.theme?.colorCode);
-          themeType = ThemeType.GlamMinimalDark;
+          themeType = ThemeType.CityMuseDark;
           notifyListeners();
           return const CityMuseEntry();
 
@@ -308,13 +308,13 @@ class SalonProfileProvider with ChangeNotifier {
         case '12':
           salonTheme = getCityMuseLightTheme(themeSettings?.theme?.colorCode);
           //http://localhost:51401/home/salon?id=yUm0tTznu5NCtEhKVClr&back=false&locale=en
-          themeType = ThemeType.GlamMinimalLight;
+          themeType = ThemeType.CityMuseLight;
 
           notifyListeners();
           return const CityMuseEntry();
         case '13':
           salonTheme = getCityMuseDarkTheme(themeSettings?.theme?.colorCode);
-          themeType = ThemeType.GlamMinimalDark;
+          themeType = ThemeType.CityMuseDark;
           notifyListeners();
           return const CityMuseEntry();
       }

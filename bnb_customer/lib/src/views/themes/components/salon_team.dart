@@ -12,9 +12,9 @@ import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SalonTeam extends ConsumerWidget {
   final SalonModel salonModel;
@@ -27,7 +27,8 @@ class SalonTeam extends ConsumerWidget {
     // final _salonSearchProvider = ref.watch(salonSearchProvider);
     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
 
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     ThemeType themeType = _salonProfileProvider.themeType;
@@ -35,15 +36,18 @@ class SalonTeam extends ConsumerWidget {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: (themeType == ThemeType.GentleTouchDark) ? null : theme.cardColor,
+        color:
+            (themeType == ThemeType.GentleTouchDark) ? null : theme.cardColor,
         gradient: themeGradient(themeType, theme),
       ),
       child: Padding(
         padding: EdgeInsets.only(
           left: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 30.w),
           right: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 30.w),
-          top: 100, // DeviceConstraints.getResponsiveSize(context, 140.h, 180.h, 200.h),
-          bottom: 60, // DeviceConstraints.getResponsiveSize(context, 140.h, 180.h, 200.h),
+          top:
+              100, // DeviceConstraints.getResponsiveSize(context, 140.h, 180.h, 200.h),
+          bottom:
+              60, // DeviceConstraints.getResponsiveSize(context, 140.h, 180.h, 200.h),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -51,10 +55,12 @@ class SalonTeam extends ConsumerWidget {
           children: [
             Center(
               child: Text(
-                (AppLocalizations.of(context)?.ourTeam ?? 'Our Team').toUpperCase(),
+                (AppLocalizations.of(context)?.ourTeam ?? 'Our Team')
+                    .toUpperCase(),
                 style: theme.textTheme.displayMedium?.copyWith(
                   color: theme.colorScheme.secondary,
-                  fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 60.sp),
+                  fontSize: DeviceConstraints.getResponsiveSize(
+                      context, 30.sp, 40.sp, 60.sp),
                 ),
               ),
             ),
@@ -62,7 +68,8 @@ class SalonTeam extends ConsumerWidget {
             Center(
               child: Container(
                 // color: Colors.yellow,
-                height: size.height * 0.4, // DeviceConstraints.getResponsiveSize(context, 230.h, 230.h, 210.h),
+                height: size.height *
+                    0.4, // DeviceConstraints.getResponsiveSize(context, 230.h, 230.h, 210.h),
                 alignment: Alignment.center,
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
@@ -75,7 +82,8 @@ class SalonTeam extends ConsumerWidget {
                   itemCount: _createAppointmentProvider.salonMasters.length,
                   itemBuilder: (context, index) {
                     // Get All Salon Masters
-                    List<MasterModel> _filteredMasters = _createAppointmentProvider.salonMasters;
+                    List<MasterModel> _filteredMasters =
+                        _createAppointmentProvider.salonMasters;
 
                     // // Find Master Service
                     // // a master might have multiple services (but I just picked the first index to show on landing page)
@@ -107,7 +115,8 @@ class SalonTeam extends ConsumerWidget {
 
                     if (_filteredMasters.isNotEmpty) {
                       return TeamMember(
-                        name: Utils().getNameMaster(_filteredMasters[index].personalInfo),
+                        name: Utils().getNameMaster(
+                            _filteredMasters[index].personalInfo),
                         masterTitle: _filteredMasters[index].title,
 
                         // services: masterCategories,
@@ -148,7 +157,8 @@ class TeamMember extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final _salonSearchProvider = ref.watch(salonSearchProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
@@ -242,9 +252,9 @@ Widget avatar(ThemeType themeType, String? image) {
   switch (themeType) {
     case ThemeType.Barbershop:
       return RectangleTeamAvatar(image: image);
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return RectangleTeamAvatar(image: image);
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return RectangleTeamAvatar(image: image);
 
     default:
@@ -259,7 +269,8 @@ class CircularTeamAvatar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
 
     ThemeType themeType = _salonProfileProvider.themeType;
 
@@ -269,7 +280,9 @@ class CircularTeamAvatar extends ConsumerWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: AppTheme.white, // coolGrey,
-        border: (themeType == ThemeType.GentleTouch) ? Border.all(color: Colors.black) : null,
+        border: (themeType == ThemeType.GentleTouch)
+            ? Border.all(color: Colors.black)
+            : null,
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(100.sp),

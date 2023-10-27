@@ -12,23 +12,26 @@ import 'package:bbblient/src/views/themes/components/widgets/multiple_states_but
 import 'package:bbblient/src/views/themes/glam_one/core/utils/buttons.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'dart:ui' as ui;
 
 class ThemeHeader extends ConsumerWidget {
   final SalonModel salonModel;
   final MasterModel? masterModel;
 
-  const ThemeHeader({Key? key, required this.salonModel, this.masterModel}) : super(key: key);
+  const ThemeHeader({Key? key, required this.salonModel, this.masterModel})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
-    final bool isTab = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab);
+    final bool isTab =
+        (DeviceConstraints.getDeviceType(MediaQuery.of(context)) ==
+            DeviceScreenType.tab);
 
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     // final _createAppointmentProvider = ref.watch(createAppointmentProvider);
     final ThemeType themeType = _salonProfileProvider.themeType;
@@ -45,7 +48,14 @@ class ThemeHeader extends ConsumerWidget {
                   (salonModel.salonName).toUpperCase(),
                   style: theme.textTheme.displayMedium?.copyWith(
                     letterSpacing: 0.5,
-                    fontSize: DeviceConstraints.getResponsiveSize(context, (themeType == ThemeType.GentleTouch || themeType == ThemeType.GentleTouchDark) ? 70.sp : 50.sp, 75.sp, 85.sp),
+                    fontSize: DeviceConstraints.getResponsiveSize(
+                        context,
+                        (themeType == ThemeType.GentleTouch ||
+                                themeType == ThemeType.GentleTouchDark)
+                            ? 70.sp
+                            : 50.sp,
+                        75.sp,
+                        85.sp),
                     color: titleHeaderColor(theme, themeType),
                   ),
                   textAlign: TextAlign.center,
@@ -55,7 +65,8 @@ class ThemeHeader extends ConsumerWidget {
                 Utils().getNameMaster(masterModel?.personalInfo).toUpperCase(),
                 style: theme.textTheme.displayLarge?.copyWith(
                   letterSpacing: 0.5,
-                  fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 75.sp, 85.sp),
+                  fontSize: DeviceConstraints.getResponsiveSize(
+                      context, 50.sp, 75.sp, 85.sp),
                   color: titleHeaderColor(theme, themeType),
                 ),
                 textAlign: TextAlign.center,
@@ -68,7 +79,9 @@ class ThemeHeader extends ConsumerWidget {
         //   ),
         //   textAlign: TextAlign.center,
         // ),
-        SizedBox(height: DeviceConstraints.getResponsiveSize(context, 40.h, 40.h, 40.h)),
+        SizedBox(
+            height:
+                DeviceConstraints.getResponsiveSize(context, 40.h, 40.h, 40.h)),
         getThemeButton(
           context,
           themeType,
@@ -76,15 +89,21 @@ class ThemeHeader extends ConsumerWidget {
           hasGradient: _salonProfileProvider.hasThemeGradient,
         ),
 
-        if (themeType != ThemeType.Barbershop) SizedBox(height: DeviceConstraints.getResponsiveSize(context, 100.h, 100.h, 150.h)),
+        if (themeType != ThemeType.Barbershop)
+          SizedBox(
+              height: DeviceConstraints.getResponsiveSize(
+                  context, 100.h, 100.h, 150.h)),
         if (themeType != ThemeType.Barbershop)
           Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: DeviceConstraints.getResponsiveSize(context, 10.w, 10.w, 50.w),
+              horizontal: DeviceConstraints.getResponsiveSize(
+                  context, 10.w, 10.w, 50.w),
             ),
             child: Wrap(
-              spacing: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 10.w),
-              runSpacing: DeviceConstraints.getResponsiveSize(context, 10.h, 20.w, 10.w),
+              spacing: DeviceConstraints.getResponsiveSize(
+                  context, 20.w, 20.w, 10.w),
+              runSpacing: DeviceConstraints.getResponsiveSize(
+                  context, 10.h, 20.w, 10.w),
               direction: Axis.horizontal,
               alignment: WrapAlignment.center,
               children: _salonProfileProvider.chosenSalon.specializations!
@@ -109,10 +128,10 @@ class ThemeHeader extends ConsumerWidget {
 
 Color titleHeaderColor(ThemeData theme, ThemeType themeType) {
   switch (themeType) {
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return Colors.white;
 
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return Colors.white;
 
     case ThemeType.GentleTouch:
@@ -126,13 +145,15 @@ Color titleHeaderColor(ThemeData theme, ThemeType themeType) {
   }
 }
 
-Widget getThemeButton(context, ThemeType themeType, ThemeData theme, {bool hasGradient = false}) {
+Widget getThemeButton(context, ThemeType themeType, ThemeData theme,
+    {bool hasGradient = false}) {
   Widget squareButton = Row(
     crossAxisAlignment: CrossAxisAlignment.center,
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       SquareButton(
-        text: (AppLocalizations.of(context)?.bookNow ?? "Book Now").toUpperCase(),
+        text:
+            (AppLocalizations.of(context)?.bookNow ?? "Book Now").toUpperCase(),
         height: 60.h,
         // width: DeviceConstraints.getResponsiveSize(context, 200.h, 220.h, 220.h),
         onTap: () => const BookingDialogWidget222().show(context),
@@ -177,12 +198,13 @@ Widget getThemeButton(context, ThemeType themeType, ThemeData theme, {bool hasGr
         onTap: () => const BookingDialogWidget222().show(context),
       );
 
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return SquareButton(
         borderColor: Colors.transparent,
         buttonColor: const Color(0XFF000000),
         width: 180.sp,
-        text: (AppLocalizations.of(context)?.bookNow ?? "Book Now").toUpperCase(),
+        text:
+            (AppLocalizations.of(context)?.bookNow ?? "Book Now").toUpperCase(),
         weight: FontWeight.normal,
         textColor: const Color(0XFFFFFFFF),
         height: 60.h,
@@ -190,12 +212,13 @@ Widget getThemeButton(context, ThemeType themeType, ThemeData theme, {bool hasGr
         onTap: () => const BookingDialogWidget222().show(context),
       );
 
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return SquareButton(
         borderColor: Colors.transparent,
         buttonColor: const Color(0XFFFFFFFF),
         width: 180.sp,
-        text: (AppLocalizations.of(context)?.bookNow ?? "Book Now").toUpperCase(),
+        text:
+            (AppLocalizations.of(context)?.bookNow ?? "Book Now").toUpperCase(),
         weight: FontWeight.normal,
         textColor: const Color(0XFF000000),
         height: 60.h,
@@ -227,7 +250,8 @@ class GlamOneWrap extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     ThemeType themeType = _salonProfileProvider.themeType;
@@ -261,9 +285,12 @@ class GlamOneWrap extends ConsumerWidget {
       // )
 
       child: Container(
-        decoration: (themeType != ThemeType.GentleTouch && themeType != ThemeType.GentleTouchDark)
+        decoration: (themeType != ThemeType.GentleTouch &&
+                themeType != ThemeType.GentleTouchDark)
             ? BoxDecoration(
-                border: showBorder ? Border.all(color: Colors.white, width: 1) : null,
+                border: showBorder
+                    ? Border.all(color: Colors.white, width: 1)
+                    : null,
                 color: color,
               )
             : ShapeDecoration(
@@ -274,7 +301,12 @@ class GlamOneWrap extends ConsumerWidget {
                 ),
               ),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30.sp, vertical: (themeType == ThemeType.GentleTouch || themeType == ThemeType.GentleTouchDark) ? 10.sp : vSpacing ?? 13.sp),
+          padding: EdgeInsets.symmetric(
+              horizontal: 30.sp,
+              vertical: (themeType == ThemeType.GentleTouch ||
+                      themeType == ThemeType.GentleTouchDark)
+                  ? 10.sp
+                  : vSpacing ?? 13.sp),
           child: Center(
             child: Text(
               text.toTitleCase(),

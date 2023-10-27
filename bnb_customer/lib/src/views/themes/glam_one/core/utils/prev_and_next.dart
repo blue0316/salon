@@ -28,7 +28,8 @@ class PrevAndNextButtons extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     ThemeType themeType = _salonProfileProvider.themeType;
@@ -59,7 +60,9 @@ class PrevAndNextButtons extends ConsumerWidget {
             //         color: Colors.white,
             //       ),
           ),
-          SizedBox(width: DeviceConstraints.getResponsiveSize(context, 15.sp, 30.sp, 40.sp)),
+          SizedBox(
+              width: DeviceConstraints.getResponsiveSize(
+                  context, 15.sp, 30.sp, 40.sp)),
           GestureDetector(
             onTap: forwardOnTap,
             child: themeRightIcon(
@@ -87,7 +90,11 @@ class PrevAndNextButtons extends ConsumerWidget {
   }
 }
 
-Widget themeLeftIcon(context, {required ThemeType themeType, required ThemeData theme, Color? backColor, double? fontSize}) {
+Widget themeLeftIcon(context,
+    {required ThemeType themeType,
+    required ThemeData theme,
+    Color? backColor,
+    double? fontSize}) {
   switch (themeType) {
     case ThemeType.GlamBarbershop:
       return Icon(
@@ -100,7 +107,8 @@ Widget themeLeftIcon(context, {required ThemeType themeType, required ThemeData 
         String.fromCharCode(Icons.arrow_back.codePoint),
         style: TextStyle(
           inherit: false,
-          fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+          fontSize:
+              DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
           color: Colors.white,
           fontWeight: FontWeight.w100,
           fontFamily: Icons.arrow_back.fontFamily,
@@ -111,13 +119,13 @@ Widget themeLeftIcon(context, {required ThemeType themeType, required ThemeData 
     //   size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
     //   color: Colors.white,
     // );
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return Icon(
         Icons.arrow_back,
         size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
         color: const Color(0XFFB3B3B3),
       );
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return Icon(
         Icons.arrow_back,
         size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
@@ -128,26 +136,33 @@ Widget themeLeftIcon(context, {required ThemeType themeType, required ThemeData 
       return SvgPicture.asset(
         ThemeIcons.glamLightLeftArrow,
         color: backColor ?? theme.primaryColor,
-        height: fontSize ?? DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+        height: fontSize ??
+            DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
       );
 
     case ThemeType.GentleTouchDark:
       return SvgPicture.asset(
         ThemeIcons.glamLightLeftArrow,
         color: backColor ?? theme.primaryColor,
-        height: fontSize ?? DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+        height: fontSize ??
+            DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
       );
 
     default:
       return SvgPicture.asset(
         ThemeIcons.leftArrow,
         color: backColor ?? theme.primaryColor,
-        height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+        height:
+            DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
       );
   }
 }
 
-Widget themeRightIcon(context, {required ThemeType themeType, required ThemeData theme, Color? forwardColor, double? fontSize}) {
+Widget themeRightIcon(context,
+    {required ThemeType themeType,
+    required ThemeData theme,
+    Color? forwardColor,
+    double? fontSize}) {
   switch (themeType) {
     case ThemeType.GlamBarbershop:
       return Icon(
@@ -160,7 +175,8 @@ Widget themeRightIcon(context, {required ThemeType themeType, required ThemeData
         String.fromCharCode(Icons.arrow_forward.codePoint),
         style: TextStyle(
           inherit: false,
-          fontSize: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+          fontSize:
+              DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
           color: theme.primaryColor,
           fontWeight: FontWeight.w100,
           fontFamily: Icons.arrow_forward.fontFamily,
@@ -173,13 +189,13 @@ Widget themeRightIcon(context, {required ThemeType themeType, required ThemeData
     // color: theme.primaryColor,
 
     // );
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return Icon(
         Icons.arrow_forward,
         size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
         color: Colors.white,
       );
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return Icon(
         Icons.arrow_forward,
         size: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
@@ -190,21 +206,24 @@ Widget themeRightIcon(context, {required ThemeType themeType, required ThemeData
       return SvgPicture.asset(
         ThemeIcons.glamLightRightArrow,
         color: forwardColor ?? theme.primaryColor,
-        height: fontSize ?? DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+        height: fontSize ??
+            DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
       );
 
     case ThemeType.GentleTouchDark:
       return SvgPicture.asset(
         ThemeIcons.glamLightRightArrow,
         color: forwardColor ?? theme.primaryColor,
-        height: fontSize ?? DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+        height: fontSize ??
+            DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
       );
 
     default:
       return SvgPicture.asset(
         ThemeIcons.rightArrow,
         color: forwardColor ?? theme.primaryColor,
-        height: DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
+        height:
+            DeviceConstraints.getResponsiveSize(context, 30.sp, 40.sp, 50.sp),
       );
   }
 }

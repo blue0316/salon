@@ -4,6 +4,7 @@ import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'barbershop_about_view.dart';
 import 'default_about_view.dart';
 import 'gentle_touch_about_view.dart';
@@ -21,7 +22,8 @@ class SalonAbout2 extends ConsumerStatefulWidget {
 class _SalonAbout2State extends ConsumerState<SalonAbout2> {
   @override
   Widget build(BuildContext context) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
 
     ThemeType themeType = _salonProfileProvider.themeType;
 
@@ -40,10 +42,10 @@ Widget aboutTheme(ThemeType themeType, SalonModel salonModel) {
     case ThemeType.GentleTouchDark:
       return GentleTouchAboutUs(salonModel: salonModel);
 
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return MinimalAboutView(salonModel: salonModel);
 
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return MinimalAboutView(salonModel: salonModel);
 
     default:

@@ -10,6 +10,8 @@ import '../../../../controller/all_providers/all_providers.dart';
 import '../../../../models/salon_master/master.dart';
 import '../../../widgets/widgets.dart';
 import '../../glam_one/views/app_bar.dart';
+import '../../images.dart';
+import '../../utils/theme_type.dart';
 
 class DesktopMastersView extends ConsumerStatefulWidget {
   const DesktopMastersView({Key? key}) : super(key: key);
@@ -172,91 +174,125 @@ class _DesktopMastersViewState extends ConsumerState<DesktopMastersView> {
                             height: MediaQuery.of(context).size.height / 1.5,
                             child: Column(
                               children: [
-                                Expanded(
-                                    child: CachedImage(
-                                  url: '${master.profilePicUrl}',
-                                  width: MediaQuery.of(context).size.width / 2,
-                                  fit: BoxFit.fitWidth,
-                                )),
+                                (master.profilePicUrl != null &&
+                                        master.profilePicUrl != '')
+                                    ? Expanded(
+                                        child: CachedImage(
+                                        url: '${master.profilePicUrl}',
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2,
+                                        fit: BoxFit.fitWidth,
+                                      ))
+                                    : Expanded(
+                                      child: Image.asset(
+                                          salonProvider.themeType ==
+                                                  ThemeType.CityMuseLight
+                                              ? ThemeImages
+                                                  .noTeamMemberLightCityMuse
+                                              : ThemeImages
+                                                  .noTeamMemberDarkCityMuse,
+                                          //ThemeImages.noTeamMember,
+                                          width:
+                                              MediaQuery.of(context).size.width /
+                                                  2,
+                                          // height: 400,
+                                          fit: BoxFit.fitWidth,
+                                          height: 200,
+                                        ),
+                                    ),
                                 const Gap(20),
                                 Center(
-                                  child:   Row(children: [
-              if(master.links?.facebook != null &&  master.links!.facebook.isNotEmpty)
-               GestureDetector(
-                 onTap: () async {
-        Uri uri = Uri.parse(socialLinks('facebook',master.links?.facebook  ?? ''));
+                                    child: Row(
+                                  children: [
+                                    if (master.links?.facebook != null &&
+                                        master.links!.facebook.isNotEmpty)
+                                      GestureDetector(
+                                        onTap: () async {
+                                          Uri uri = Uri.parse(socialLinks(
+                                              'facebook',
+                                              master.links?.facebook ?? ''));
 
-        // debugPrint("launching Url: $uri");
+                                          // debugPrint("launching Url: $uri");
 
-        if (await canLaunchUrl(uri)) {
-          await launchUrl(uri);
-        } else {
-          showToast("Social Link is not available");
-        }
-      },
+                                          if (await canLaunchUrl(uri)) {
+                                            await launchUrl(uri);
+                                          } else {
+                                            showToast(
+                                                "Social Link is not available");
+                                          }
+                                        },
+                                        child: SvgPicture.asset(
+                                            'assets/test_assets/facebook.svg'),
+                                      ),
+                                    const Gap(4.0),
+                                    if (master.links?.instagram != null &&
+                                        master.links!.instagram.isNotEmpty)
+                                      GestureDetector(
+                                        onTap: () async {
+                                          Uri uri = Uri.parse(socialLinks(
+                                              'instagram',
+                                              master.links?.instagram ?? ''));
 
-                 child: SvgPicture.asset(
-                                'assets/test_assets/facebook.svg'),
-               ),
-               Gap(4.0),
+                                          // debugPrint("launching Url: $uri");
 
-                               if(master.links?.instagram != null &&  master.links!.instagram.isNotEmpty)
-               GestureDetector(
-                onTap: () async {
-        Uri uri = Uri.parse(socialLinks('instagram',master.links?.instagram  ?? ''));
+                                          if (await canLaunchUrl(uri)) {
+                                            await launchUrl(uri);
+                                          } else {
+                                            showToast(
+                                                "Social Link is not available");
+                                          }
+                                        },
+                                        child: SvgPicture.asset(
+                                            'assets/test_assets/instagram.svg'),
+                                      ),
+                                    const Gap(4.0),
+                                    if (master.links?.tiktok != null &&
+                                        master.links!.tiktok.isNotEmpty)
+                                      GestureDetector(
+                                        onTap: () async {
+                                          Uri uri = Uri.parse(socialLinks(
+                                              'tiktok',
+                                              master.links?.tiktok ?? ''));
 
-        // debugPrint("launching Url: $uri");
+                                          // debugPrint("launching Url: $uri");
 
-        if (await canLaunchUrl(uri)) {
-          await launchUrl(uri);
-        } else {
-          showToast("Social Link is not available");
-        }
-      },
+                                          if (await canLaunchUrl(uri)) {
+                                            await launchUrl(uri);
+                                          } else {
+                                            showToast(
+                                                "Social Link is not available");
+                                          }
+                                        },
+                                        child: SvgPicture.asset(
+                                            'assets/test_assets/tiktok.svg'),
+                                      ),
+                                    const Gap(4.0),
+                                     if (master.links?.twitter != null &&
+                            master.links!.twitter.isNotEmpty)
+                          GestureDetector(
+                            onTap: () async {
+                              Uri uri = Uri.parse(socialLinks(
+                                  'twitter', master.links?.twitter ?? ''));
 
-                 child: SvgPicture.asset(
-                                'assets/test_assets/instagram.svg'),
-               ),  Gap(4.0),
-                               if(master.links?.tiktok != null &&  master.links!.tiktok.isNotEmpty)
-               GestureDetector(
-                onTap: () async {
-        Uri uri = Uri.parse(socialLinks('tiktok',master.links?.tiktok ?? ''));
+                              // debugPrint("launching Url: $uri");
 
-        // debugPrint("launching Url: $uri");
-
-        if (await canLaunchUrl(uri)) {
-          await launchUrl(uri);
-        } else {
-          showToast("Social Link is not available");
-        }
-      },
-
-                 child: SvgPicture.asset(
-                                'assets/test_assets/tiktok.svg'),
-               ),  Gap(4.0)
-                        
-            ],)
-                                ),
+                              if (await canLaunchUrl(uri)) {
+                                await launchUrl(uri);
+                              } else {
+                                showToast("Social Link is not available");
+                              }
+                            },
+                            child: SvgPicture.asset(
+                                'assets/test_assets/twitter.svg'),
+                          ),
+                                  ],
+                                )),
                                 const Gap(20),
                               ],
                             )),
-                            if(master.links?.twitter != null &&  master.links!.twitter.isNotEmpty)
-               GestureDetector(
-                onTap: () async {
-        Uri uri = Uri.parse(socialLinks('twitter',master.links?.twitter  ?? ''));
-
-        // debugPrint("launching Url: $uri");
-
-        if (await canLaunchUrl(uri)) {
-          await launchUrl(uri);
-        } else {
-          showToast("Social Link is not available");
-        }
-      },
-
-                 child: SvgPicture.asset(
-                                'assets/test_assets/twitter.svg'),
-               ),  Gap(4.0),
+                       
+                        const Gap(4.0),
                       ],
                     ),
                   )

@@ -9,16 +9,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+
 import 'default_review_view.dart';
 import 'minimal_review.dart';
 
 class MasterReviewsUnique extends ConsumerStatefulWidget {
   final MasterModel masterModel;
 
-  const MasterReviewsUnique({Key? key, required this.masterModel}) : super(key: key);
+  const MasterReviewsUnique({Key? key, required this.masterModel})
+      : super(key: key);
 
   @override
-  ConsumerState<MasterReviewsUnique> createState() => _MasterReviewsUniqueState();
+  ConsumerState<MasterReviewsUnique> createState() =>
+      _MasterReviewsUniqueState();
 }
 
 class _MasterReviewsUniqueState extends ConsumerState<MasterReviewsUnique> {
@@ -26,7 +29,8 @@ class _MasterReviewsUniqueState extends ConsumerState<MasterReviewsUnique> {
 
   @override
   Widget build(BuildContext context) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
 
     ThemeType themeType = _salonProfileProvider.themeType;
 
@@ -39,17 +43,22 @@ class _MasterReviewsUniqueState extends ConsumerState<MasterReviewsUnique> {
   }
 }
 
-Widget reviewsSectionTheme(context, {required ThemeType themeType, required MasterModel master, required CarouselController controller}) {
+Widget reviewsSectionTheme(context,
+    {required ThemeType themeType,
+    required MasterModel master,
+    required CarouselController controller}) {
   switch (themeType) {
     case ThemeType.GentleTouch:
       return Stack(
         children: [
           Positioned(
             bottom: 20,
-            right: DeviceConstraints.getResponsiveSize(context, -50, -150, -150),
+            right:
+                DeviceConstraints.getResponsiveSize(context, -50, -150, -150),
             child: SizedBox(
               height: 350.h,
-              width: DeviceConstraints.getResponsiveSize(context, 300.w, 300.w, 200.w),
+              width: DeviceConstraints.getResponsiveSize(
+                  context, 300.w, 300.w, 200.w),
               child: SvgPicture.asset(ThemeImages.glamLightEllipse),
             ),
           ),
@@ -57,10 +66,10 @@ Widget reviewsSectionTheme(context, {required ThemeType themeType, required Mast
         ],
       );
 
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return MinimalReviewView(masterModel: master, controller: controller);
 
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return MinimalReviewView(masterModel: master, controller: controller);
 
     default:

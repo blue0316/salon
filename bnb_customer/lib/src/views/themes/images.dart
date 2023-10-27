@@ -67,6 +67,10 @@ class ThemeImages {
   static const noPhotos = 'assets/themes/glam_one/images/no_works.png';
 
   static const noTeamMember = 'assets/themes/glam_one/images/empty_team_member.png';
+   static const noTeamMemberLightCityMuse ='assets/test_assets/team_member_light.png';
+    static const noTeamMemberDarkCityMuse ='assets/test_assets/team_member_dark.png';
+     static const noProductLightCityMuse = 'assets/test_assets/product_light.png';
+      static const noProductDarkCityMuse = 'assets/test_assets/product_dark.png';
 
   static const noTeamMemberDark = 'assets/themes/glam_one/images/empty_team_member_dark.png';
 

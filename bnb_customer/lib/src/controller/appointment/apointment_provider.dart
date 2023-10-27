@@ -333,13 +333,13 @@ class AppointmentProvider with ChangeNotifier {
 
         case '7':
           salonTheme = getCityMuseLightTheme(themeSettings?.theme?.colorCode);
-          themeType = ThemeType.GlamMinimalLight;
+          themeType = ThemeType.CityMuseLight;
           notifyListeners();
           return themeType;
 
         case '8':
           salonTheme = getCityMuseDarkTheme(themeSettings?.theme?.colorCode);
-          themeType = ThemeType.GlamMinimalDark;
+          themeType = ThemeType.CityMuseDark;
           notifyListeners();
           return themeType;
 
@@ -359,14 +359,14 @@ class AppointmentProvider with ChangeNotifier {
 
         case '12':
           salonTheme = getCityMuseLightTheme(themeSettings?.theme?.colorCode);
-          themeType = ThemeType.GlamMinimalLight;
+          themeType = ThemeType.CityMuseLight;
 
           notifyListeners();
           return themeType;
 
         case '13':
           salonTheme = getCityMuseDarkTheme(themeSettings?.theme?.colorCode);
-          themeType = ThemeType.GlamMinimalDark;
+          themeType = ThemeType.CityMuseDark;
           notifyListeners();
           return themeType;
       }

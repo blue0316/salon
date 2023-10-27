@@ -9,7 +9,7 @@ Color? headerColor(ThemeType themeType, ThemeData theme) {
       return const Color(0XFF202020);
     case ThemeType.GentleTouch:
       return const Color(0XFFFFFFFF);
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return const Color(0XFFFFFFFF);
     default:
       return const Color(0XFF202020);
@@ -34,7 +34,7 @@ Color? valueColor(ThemeType themeType, ThemeData theme) {
       return Colors.black;
     case ThemeType.GentleTouch:
       return Colors.black;
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return Colors.black;
 
     default:
@@ -44,7 +44,7 @@ Color? valueColor(ThemeType themeType, ThemeData theme) {
 
 Color? chooseReviewTag(ThemeType themeType, ThemeData theme) {
   switch (themeType) {
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return Colors.black;
 
     default:
@@ -71,9 +71,9 @@ Color? confirmButton(ThemeType themeType, ThemeData theme) {
 
 Color buttonTextColor(ThemeType themeType) {
   switch (themeType) {
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return Colors.white;
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return Colors.black;
     case ThemeType.GentleTouch:
       return Colors.white;
@@ -93,7 +93,7 @@ Color borderColor(ThemeType themeType, ThemeData theme) {
       return Colors.black;
     case ThemeType.GentleTouch:
       return Colors.black;
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return Colors.black;
 
     default:
@@ -107,7 +107,7 @@ Color textBorderColor(ThemeType themeType, ThemeData theme) {
       return const Color(0XFFACACAC);
     case ThemeType.GentleTouch:
       return Colors.black;
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return Colors.black;
 
     default:
@@ -121,7 +121,7 @@ Color confirmationTextColor(ThemeType themeType, ThemeData theme) {
       return Colors.black;
     case ThemeType.GentleTouch:
       return Colors.black;
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return Colors.black;
 
     default:
@@ -135,7 +135,7 @@ Color boxColor(ThemeType themeType, ThemeData theme) {
       return const Color(0XFFFFFFFF);
     case ThemeType.GentleTouch:
       return const Color(0XFFFFFFFF);
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return const Color(0XFFFFFFFF);
 
     default:
@@ -149,7 +149,7 @@ Color scaffoldBGColor(ThemeType themeType, ThemeData theme) {
       return const Color(0XFFEFEFEF);
     case ThemeType.GentleTouch:
       return const Color(0XFFEFEFEF);
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return const Color(0XFFEFEFEF);
 
     default:
@@ -163,7 +163,7 @@ Color transparentLoaderColor(ThemeType themeType, ThemeData theme) {
       return Colors.black;
     case ThemeType.GentleTouch:
       return Colors.black;
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return Colors.black;
 
     default:
@@ -178,7 +178,7 @@ Color loaderColor(ThemeType themeType, ThemeData theme) {
       return Colors.white;
     case ThemeType.GentleTouch:
       return Colors.white;
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return Colors.white;
 
     default:
@@ -188,9 +188,9 @@ Color loaderColor(ThemeType themeType, ThemeData theme) {
 
 Color reviewButtonText(ThemeType themeType) {
   switch (themeType) {
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return Colors.white;
-    case ThemeType.GlamMinimalDark:
+    case ThemeType.CityMuseDark:
       return Colors.black;
     case ThemeType.GentleTouch:
       return Colors.white;
@@ -210,7 +210,7 @@ Color feedbackBGColor(ThemeType themeType, ThemeData theme) {
       return Colors.white;
     case ThemeType.GentleTouch:
       return Colors.white;
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return Colors.white;
 
     default:

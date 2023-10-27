@@ -4,9 +4,9 @@ import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ServiceTile extends ConsumerWidget {
   final ServiceModel service;
@@ -16,7 +16,8 @@ class ServiceTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
     ThemeType themeType = _salonProfileProvider.themeType;
@@ -38,7 +39,11 @@ class ServiceTile extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        (service.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? service.translations?['en']).toUpperCase(),
+                        (service.translations?[
+                                    AppLocalizations.of(context)?.localeName ??
+                                        'en'] ??
+                                service.translations?['en'])
+                            .toUpperCase(),
                         style: theme.textTheme.bodyLarge?.copyWith(
                           color: serviceNameColor(themeType, theme),
                           fontSize: 20.sp,
@@ -47,7 +52,9 @@ class ServiceTile extends ConsumerWidget {
                       if (_createAppointmentProvider.isAdded(
                         serviceModel: service,
                       ))
-                        SizedBox(width: DeviceConstraints.getResponsiveSize(context, 5, 5, 30)),
+                        SizedBox(
+                            width: DeviceConstraints.getResponsiveSize(
+                                context, 5, 5, 30)),
                       Icon(
                         Icons.check,
                         size: 20.sp,
@@ -61,10 +68,13 @@ class ServiceTile extends ConsumerWidget {
                   ),
                 ),
                 Text(
-                  service.isFixedPrice ? "\$${service.priceAndDuration!.price}" : "\$${service.priceAndDuration!.price} - \$${service.priceAndDurationMax!.price}",
+                  service.isFixedPrice
+                      ? "\$${service.priceAndDuration!.price}"
+                      : "\$${service.priceAndDuration!.price} - \$${service.priceAndDurationMax!.price}",
                   // service.isFixedPrice ? "${service.priceAndDuration!.price}${Keys.uah}" : "${service.priceAndDuration!.price}${Keys.uah} - ${service.priceAndDurationMax!.price}${Keys.uah}",
                   style: theme.textTheme.bodyLarge?.copyWith(
-                    color: priceColor(themeType, theme), // (themeType == ThemeType.GentleTouch) ? Colors.black : Colors.white,
+                    color: priceColor(themeType,
+                        theme), // (themeType == ThemeType.GentleTouch) ? Colors.black : Colors.white,
                     fontSize: 20.sp,
                   ),
                 ),
@@ -87,7 +97,7 @@ Color priceColor(ThemeType themeType, ThemeData theme) {
     case ThemeType.GentleTouch:
       return Colors.black;
 
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return Colors.black;
 
     default:
@@ -100,7 +110,7 @@ Color serviceNameColor(ThemeType themeType, ThemeData theme) {
     case ThemeType.GentleTouch:
       return Colors.black;
 
-    case ThemeType.GlamMinimalLight:
+    case ThemeType.CityMuseLight:
       return Colors.black;
 
     case ThemeType.GlamBarbershop:

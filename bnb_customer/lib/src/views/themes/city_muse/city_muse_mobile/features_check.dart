@@ -1,6 +1,7 @@
 
 
 
+import 'package:bbblient/src/views/themes/city_muse/city_muse_desktop/city_muse_desktop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -24,7 +25,7 @@ class FeaturesCheck extends ConsumerWidget {
         width: double.infinity,
         height: 40,
         decoration: BoxDecoration(
-          color: theme.colorScheme.secondary,
+          color:increaseBrightness( theme.colorScheme.secondary,40)
         ),
         child: Column(
           children: [
@@ -40,7 +41,7 @@ class FeaturesCheck extends ConsumerWidget {
                   // mainAxisAlignment: MainAxisAlignment.start,
                   // crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SvgPicture.asset("assets/test_assets/check.svg"),
+                    SvgPicture.asset("assets/test_assets/check.svg", color:theme.colorScheme.secondary),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
