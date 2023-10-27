@@ -1,8 +1,7 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../controller/salon/salon_profile_provider.dart';
 import '../../../../models/cat_sub_service/services_model.dart';
 import '../../../../models/salon_master/salon.dart';
@@ -22,6 +21,7 @@ class CityMuseServiceTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('locale name ${AppLocalizations.of(context)?.localeName}');
     return Padding(
       padding: const EdgeInsets.only(left: 100.0, right: 100.0),
       child: Container(

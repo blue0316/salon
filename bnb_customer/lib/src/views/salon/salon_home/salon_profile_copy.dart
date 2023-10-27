@@ -93,23 +93,23 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
     _createAppointmentProvider.cle();
 
     // Change Language based on salon
-    // String salonLocale = _salonProfileProvider.chosenSalon.locale;
-    // repository.changeLocale(locale: Locale(salonLocale));
+    String salonLocale = _salonProfileProvider.chosenSalon.locale;
+    repository.changeLocale(locale: Locale(salonLocale));
 
     // ---------- GET BROWSER LANGUAGE ----------
-    String browserLanguage = html.window.navigator.language;
+    // String browserLanguage = html.window.navigator.language;
 
-    if (browserLanguage.isNotEmpty && browserLanguage.length >= 2) {
-      String browserLocale = browserLanguage.substring(0, 2);
+    // if (browserLanguage.isNotEmpty && browserLanguage.length >= 2) {
+    //   String browserLocale = browserLanguage.substring(0, 2);
 
-      if (availableLocales.contains(browserLocale)) {
-        repository.changeLocale(locale: Locale(browserLocale));
-      } else {
-        repository.changeLocale(locale: const Locale('en'));
-      }
-    } else {
-      repository.changeLocale(locale: const Locale('en'));
-    }
+    //   if (availableLocales.contains(browserLocale)) {
+    //     repository.changeLocale(locale: Locale(browserLocale));
+    //   } else {
+    //     repository.changeLocale(locale: const Locale('en'));
+    //   }
+    // } else {
+    //   repository.changeLocale(locale: const Locale('en'));
+    // }
 
     if (widget.switchSalon) {
       _createAppointmentProvider.setSalon(
