@@ -124,7 +124,7 @@ class _GentleTouchShopCardState extends ConsumerState<GentleTouchShopCard> {
                               child: Text(
                                 '${widget.product.productName}'.toUpperCase(),
                                 style: theme.textTheme.bodyLarge?.copyWith(
-                                  color: isHovered ? (themeType == ThemeType.GentleTouch ? Colors.white : Colors.black) : theme.primaryColorDark,
+                                  color: isHovered ? (themeType == ThemeType.GentleTouch || themeType == ThemeType.VintageCraft ? Colors.white : Colors.black) : theme.primaryColorDark,
                                   fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 16.sp),
                                   fontWeight: FontWeight.normal,
                                 ),
@@ -138,7 +138,7 @@ class _GentleTouchShopCardState extends ConsumerState<GentleTouchShopCard> {
                         Text(
                           '\$${widget.product.clientPrice}',
                           style: theme.textTheme.bodyLarge?.copyWith(
-                            color: isHovered ? (themeType == ThemeType.GentleTouch ? Colors.white : Colors.black) : theme.primaryColorLight,
+                            color: isHovered ? (themeType == ThemeType.GentleTouch || themeType == ThemeType.VintageCraft ? Colors.white : Colors.black) : theme.primaryColorLight,
                             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 16.sp),
                             fontWeight: FontWeight.w600,
                           ),
@@ -158,7 +158,7 @@ class _GentleTouchShopCardState extends ConsumerState<GentleTouchShopCard> {
                           (widget.product.productDescription ?? '').toTitleCase(),
                           // 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
                           style: theme.textTheme.bodyLarge?.copyWith(
-                            color: isHovered ? (themeType == ThemeType.GentleTouch ? Colors.white : Colors.black) : theme.primaryColorLight,
+                            color: isHovered ? (themeType == ThemeType.GentleTouch || themeType == ThemeType.VintageCraft ? Colors.white : Colors.black) : theme.primaryColorLight,
                             fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 14.sp, 14.sp),
                             fontWeight: FontWeight.normal,
                           ),
@@ -231,17 +231,17 @@ class _GentleTouchShopButtonState extends ConsumerState<GentleTouchShopButton> {
           style: TextStyle(
             fontSize: 15.sp,
             fontWeight: FontWeight.normal,
-            color: (themeType == ThemeType.GentleTouch) ? Colors.white : Colors.black, // (!isHovered ? Colors.black : Colors.white) : (!isHovered ? Colors.white : Colors.black),
+            color: (themeType == ThemeType.GentleTouch || themeType == ThemeType.VintageCraft) ? Colors.white : Colors.black, // (!isHovered ? Colors.black : Colors.white) : (!isHovered ? Colors.white : Colors.black),
             fontFamily: "Inter-Light",
           ),
         ),
         style: ElevatedButton.styleFrom(
           minimumSize: Size(150.h, 50.h),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(1.5)),
-          backgroundColor: (themeType == ThemeType.GentleTouch) ? theme.colorScheme.secondary : Colors.white,
+          backgroundColor: (themeType == ThemeType.GentleTouch || themeType == ThemeType.VintageCraft) ? theme.colorScheme.secondary : Colors.white,
           // backgroundColor: !isHovered ? Colors.transparent : theme.colorScheme.secondary,
           side: BorderSide(
-            color: (themeType == ThemeType.GentleTouch) ? Colors.white : Colors.black,
+            color: (themeType == ThemeType.GentleTouch || themeType == ThemeType.VintageCraft) ? Colors.white : Colors.black,
             width: 0.8,
           ),
         ),

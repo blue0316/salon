@@ -18,7 +18,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:html' as html;
 import 'src/routes.dart';
-import 'src/views/themes/glam_minimal/glam_minimal_entry.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -116,4 +115,5 @@ class _NavigatorPageState extends ConsumerState<NavigatorPage> {
     );
   }
 }
-// 
+
+Set availableLocales = {'ar', 'en', 'es', 'fr', 'pt', 'ro', 'uk'};

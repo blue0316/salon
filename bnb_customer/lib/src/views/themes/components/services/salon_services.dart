@@ -62,23 +62,32 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
         padding: EdgeInsets.only(
           left: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
           right: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
-          top: DeviceConstraints.getResponsiveSize(context, 90.h, 100.h, 120.h),
+          top: (themeType == ThemeType.VintageCraft) ? 30.h : DeviceConstraints.getResponsiveSize(context, 90.h, 100.h, 120.h),
           bottom: DeviceConstraints.getResponsiveSize(context, 20, 20, 10),
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text(
-              (themeType == ThemeType.GentleTouch || themeType == ThemeType.GentleTouchDark)
-                  ? (AppLocalizations.of(context)?.itemsOfServices ?? 'services').toUpperCase()
-                  : isSingleMaster
-                      ? (AppLocalizations.of(context)?.price ?? 'Price')
-                      : (AppLocalizations.of(context)?.ourPrice ?? 'Our Price').toUpperCase(),
-              style: theme.textTheme.displayMedium?.copyWith(
-                fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 50.sp, 60.sp),
-              ),
-            ),
+            (themeType == ThemeType.VintageCraft)
+                ? Text(
+                    (AppLocalizations.of(context)?.itemsOfServices ?? 'services').toTitleCase(),
+                    style: theme.textTheme.displayMedium?.copyWith(
+                      fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 50.sp, 60.sp),
+                    ),
+                  )
+                : Center(
+                    child: Text(
+                      (themeType == ThemeType.GentleTouch || themeType == ThemeType.GentleTouchDark)
+                          ? (AppLocalizations.of(context)?.itemsOfServices ?? 'services').toUpperCase()
+                          : isSingleMaster
+                              ? (AppLocalizations.of(context)?.price ?? 'Price')
+                              : (AppLocalizations.of(context)?.ourPrice ?? 'Our Price').toUpperCase(),
+                      style: theme.textTheme.displayMedium?.copyWith(
+                        fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 50.sp, 60.sp),
+                      ),
+                    ),
+                  ),
             const SizedBox(height: 50),
             (_createAppointmentProvider.categoriesAvailable.isNotEmpty)
                 ? Expanded(
@@ -116,7 +125,7 @@ class _SalonPrice222State extends ConsumerState<SalonPrice222> with SingleTicker
                           // ),
                           isScrollable: true,
                           labelPadding: EdgeInsets.symmetric(
-                            horizontal: (themeType == ThemeType.GentleTouch || themeType == ThemeType.GentleTouchDark) ? 15.sp : 50,
+                            horizontal: (themeType == ThemeType.GentleTouch || themeType == ThemeType.GentleTouchDark || themeType == ThemeType.VintageCraft) ? 15.sp : 50,
                           ),
                           tabs: _createAppointmentProvider.categoriesAvailable
                               .map(
@@ -178,7 +187,7 @@ class ServiceAndPrice extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          if (themeType != ThemeType.GentleTouch && themeType != ThemeType.GentleTouchDark)
+          if (themeType != ThemeType.GentleTouch && themeType != ThemeType.GentleTouchDark && themeType != ThemeType.VintageCraft)
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -209,7 +218,7 @@ class ServiceAndPrice extends ConsumerWidget {
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 final ServiceModel service = listOfServices[index];
-                return (themeType == ThemeType.GentleTouch || themeType == ThemeType.GentleTouchDark)
+                return (themeType == ThemeType.GentleTouch || themeType == ThemeType.GentleTouchDark || themeType == ThemeType.VintageCraft)
                     ? GentleTouchServiceTile(
                         service: service,
                       )

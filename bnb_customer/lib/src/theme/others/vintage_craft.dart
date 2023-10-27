@@ -28,9 +28,8 @@ class VintageCraftTheme {
     textSelectionTheme: const TextSelectionThemeData(cursorColor: lightBlack),
     tabBarTheme: TabBarTheme(
       unselectedLabelColor: Colors.white,
-      labelColor: const Color(0XFF0D0D0E),
-      labelStyle: bodyText1.copyWith(color: const Color(0XFF0D0D0E), fontWeight: FontWeight.w600),
-      indicator: BoxDecoration(borderRadius: BorderRadius.circular(50), color: primaryColor1),
+      labelColor: accentColor,
+      labelStyle: bodyText1.copyWith(color: accentColor, fontWeight: FontWeight.w500),
     ),
 
     dialogBackgroundColor: const Color(0XFF0D0D0E),
@@ -65,22 +64,25 @@ class VintageCraftTheme {
       // titleMedium: subTitle1.copyWith(color: primaryColor1),
       // titleSmall: subTitle2.copyWith(color: Colors.black), // Sub text under a section title in a section container
     ),
-    dividerColor: Colors.white,
+    dividerColor: const Color(0XFF616161),
 
     inputDecorationTheme: InputDecorationTheme(
-      labelStyle: bodyText1.copyWith(color: Colors.white),
-      border: const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.white, width: 1),
+      labelStyle: bodyText1.copyWith(color: const Color(0XFF9A9A9A)),
+      border: OutlineInputBorder(
+        borderSide: const BorderSide(color: Color(0XFF1D1E20), width: 1),
+        borderRadius: BorderRadius.circular(5),
       ),
-      enabledBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.white, width: 1),
+      enabledBorder: OutlineInputBorder(
+        borderSide: const BorderSide(color: Color(0XFF1D1E20), width: 1),
+        borderRadius: BorderRadius.circular(5),
       ),
-      focusedBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.white, width: 1),
+      focusedBorder: OutlineInputBorder(
+        borderSide: const BorderSide(color: Color(0XFF1D1E20), width: 1),
+        borderRadius: BorderRadius.circular(5),
       ),
-      hintStyle: bodyText1.copyWith(color: Colors.white),
+      hintStyle: bodyText1.copyWith(color: const Color(0XFF9A9A9A)),
     ),
-    hintColor: Colors.white,
+    hintColor: const Color(0XFF8A8A8A),
     unselectedWidgetColor: Colors.grey[700], // Color for not valid time slot container
     highlightColor: primaryColor1,
     // Stop

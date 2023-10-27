@@ -38,16 +38,13 @@ class _SalonReviewsState extends ConsumerState<SalonReviews> {
 
 Widget reviewsSectionTheme(context, {required ThemeType themeType, required SalonModel salon, required CarouselController controller}) {
   switch (themeType) {
-    case ThemeType.GlamMinimalLight:
-      return MinimalReviewView(salonModel: salon, controller: controller);
-
-    case ThemeType.GlamMinimalDark:
-      return MinimalReviewView(salonModel: salon, controller: controller);
-
     case ThemeType.GentleTouch:
       return GentleTouchReviewView(salonModel: salon, controller: controller);
 
     case ThemeType.GentleTouchDark:
+      return GentleTouchReviewView(salonModel: salon, controller: controller);
+
+    case ThemeType.VintageCraft:
       return GentleTouchReviewView(salonModel: salon, controller: controller);
 
     default:

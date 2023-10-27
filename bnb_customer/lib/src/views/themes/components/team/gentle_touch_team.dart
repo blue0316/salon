@@ -9,6 +9,7 @@ import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/prev_and_next.dart';
 import 'package:bbblient/src/views/themes/images.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
+import 'package:bbblient/src/views/themes/vintage_craft/desktop/team.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,7 @@ class _GentleTouchTeamState extends ConsumerState<GentleTouchTeam> {
     final ThemeData theme = _salonProfileProvider.salonTheme;
     final bool isTab = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab);
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     return SizedBox(
       width: double.infinity,
@@ -52,17 +54,70 @@ class _GentleTouchTeamState extends ConsumerState<GentleTouchTeam> {
           bottom: DeviceConstraints.getResponsiveSize(context, 140.h, 180.h, 200.h),
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: themeType != ThemeType.VintageCraft ? CrossAxisAlignment.center : CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Center(
-              child: Text(
-                (AppLocalizations.of(context)?.team ?? 'Team').toUpperCase(),
-                style: theme.textTheme.displayMedium?.copyWith(
-                  fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 50.sp, 60.sp),
-                ),
-              ),
-            ),
+            themeType != ThemeType.VintageCraft
+                ? Text(
+                    (AppLocalizations.of(context)?.team ?? 'Team').toUpperCase(),
+                    style: theme.textTheme.displayMedium?.copyWith(
+                      fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 50.sp, 60.sp),
+                    ),
+                  )
+                : Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        (AppLocalizations.of(context)?.team ?? 'Team').toTitleCase(),
+                        style: theme.textTheme.displayMedium?.copyWith(
+                          fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 50.sp, 60.sp),
+                        ),
+                      ),
+                      if (!isPortrait)
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: PrevAndNextButtons(
+                            backOnTap: isTab
+                                ? () {
+                                    if (tabInitial < 3) return;
+                                    setState(() {
+                                      tabInitial -= 3;
+                                    });
+
+                                    itemScrollController.jumpTo(index: tabInitial);
+
+                                    // => controller!.previousPage()
+                                  }
+                                : () {
+                                    if (portraitInitial < 1) return;
+                                    setState(() {
+                                      portraitInitial -= 1;
+                                    });
+
+                                    itemScrollController.jumpTo(index: portraitInitial);
+                                  },
+                            forwardOnTap: isTab
+                                ? () {
+                                    itemScrollController.jumpTo(index: tabInitial);
+
+                                    setState(() {
+                                      tabInitial += 3;
+                                    });
+                                    //  => controller!.nextPage()
+                                  }
+                                : () {
+                                    itemScrollController.jumpTo(index: portraitInitial);
+                                    setState(() {
+                                      portraitInitial += 1;
+                                    });
+                                  },
+                            leftFontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 18.sp),
+                            rightFontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 18.sp),
+                          ),
+                        ),
+                    ],
+                  ),
             Space(factor: isPortrait ? 2 : 3),
             isPortrait
                 ? TeamPortraitView(
@@ -84,14 +139,21 @@ class _GentleTouchTeamState extends ConsumerState<GentleTouchTeam> {
                           List<MasterModel> _filteredMasters = _createAppointmentProvider.salonMasters;
 
                           if (_filteredMasters.isNotEmpty) {
-                            return GentleTouchTeamMember(
-                              name: Utils().getNameMaster(_filteredMasters[index].personalInfo),
-                              masterTitle: _filteredMasters[index].title ?? '',
+                            return themeType != ThemeType.VintageCraft
+                                ? GentleTouchTeamMember(
+                                    name: Utils().getNameMaster(_filteredMasters[index].personalInfo),
+                                    masterTitle: _filteredMasters[index].title ?? '',
 
-                              // services: masterCategories,
-                              image: _filteredMasters[index].profilePicUrl,
-                              master: _filteredMasters[index],
-                            );
+                                    // services: masterCategories,
+                                    image: _filteredMasters[index].profilePicUrl,
+                                    master: _filteredMasters[index],
+                                  )
+                                : VintageCraftTeamMember(
+                                    name: Utils().getNameMaster(_filteredMasters[index].personalInfo),
+                                    masterTitle: _filteredMasters[index].title ?? '',
+                                    image: _filteredMasters[index].profilePicUrl,
+                                    master: _filteredMasters[index],
+                                  );
                           } else {
                             return const SizedBox();
                           }
@@ -103,7 +165,7 @@ class _GentleTouchTeamState extends ConsumerState<GentleTouchTeam> {
                     ),
                   ),
             if (!isPortrait) SizedBox(height: 20.sp),
-            if (!isPortrait)
+            if (!isPortrait && themeType != ThemeType.VintageCraft)
               Align(
                 alignment: Alignment.centerRight,
                 child: PrevAndNextButtons(

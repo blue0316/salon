@@ -30,7 +30,7 @@ Widget headerTheme(ThemeType themeType, SalonModel salon) {
       return GentleTouchHeader(chosenSalon: salon);
 
     case ThemeType.VintageCraft:
-      return VintageHeader(chosenSalon: salon);
+      return VintageHeader(salonModel: salon);
 
     default:
       return DefaultLandingHeaderView(chosenSalon: salon);

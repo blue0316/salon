@@ -64,11 +64,10 @@ class _GoogleMapsState extends ConsumerState<GoogleMaps> {
         ..maxZoom = 20
         ..center = maps.LatLng(lat, long);
 
-      final elem = DivElement()
-        ..id = htmlId
-        ..style.width = "100%"
-        ..style.height = "100%"
-        ..style.border = 'none';
+      final elem = DivElement()..id = htmlId;
+      // ..style.width = "100%"
+      // ..style.height = "100%"
+      // ..style.border = 'none';
 
       final map = maps.GMap(elem, mapOptions);
 

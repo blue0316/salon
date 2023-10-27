@@ -104,7 +104,7 @@ class _SalonSponsorsState extends ConsumerState<SalonSponsors> {
       padding: const EdgeInsets.symmetric(vertical: 50),
       child: Column(
         children: [
-          Divider(color: theme.dividerColor, thickness: 2),
+          Divider(color: theme.dividerColor, thickness: 1),
           (_salonProfileProvider.allProductBrands.isEmpty)
               ? Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
@@ -208,7 +208,7 @@ class _SalonSponsorsState extends ConsumerState<SalonSponsors> {
                   //   }),
                   // ),
                 ),
-          Divider(color: theme.dividerColor, thickness: 2),
+          Divider(color: theme.dividerColor, thickness: 1),
         ],
       ),
     );

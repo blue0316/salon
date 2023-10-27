@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
-
+import 'dart:html' as html;
 import 'dart:async';
+import 'package:bbblient/main.dart';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/app_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
@@ -91,16 +92,24 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
 
     _createAppointmentProvider.cle();
 
-    // repository.changeLocale(locale: Locale(widget.locale));
-
     // Change Language based on salon
-    String salonLocale = _salonProfileProvider.chosenSalon.locale;
+    // String salonLocale = _salonProfileProvider.chosenSalon.locale;
+    // repository.changeLocale(locale: Locale(salonLocale));
 
-    // print('@@@@#####_______+++++++++@@@@@@@******');
-    // print(widget.locale);
-    // print(salonLocale);
-    // print('@@@@#####_______+++++++++@@@@@@@******');
-    repository.changeLocale(locale: Locale(salonLocale));
+    // ---------- GET BROWSER LANGUAGE ----------
+    String browserLanguage = html.window.navigator.language;
+
+    if (browserLanguage.isNotEmpty && browserLanguage.length >= 2) {
+      String browserLocale = browserLanguage.substring(0, 2);
+
+      if (availableLocales.contains(browserLocale)) {
+        repository.changeLocale(locale: Locale(browserLocale));
+      } else {
+        repository.changeLocale(locale: const Locale('en'));
+      }
+    } else {
+      repository.changeLocale(locale: const Locale('en'));
+    }
 
     if (widget.switchSalon) {
       _createAppointmentProvider.setSalon(

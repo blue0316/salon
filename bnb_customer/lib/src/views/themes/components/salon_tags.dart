@@ -88,7 +88,9 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
   }
 
   getFeature(String s) {
-    List<Map<String, String>> searchList = getFeaturesList(widget.salonModel.locale);
+    final repository = ref.watch(bnbProvider);
+
+    List<Map<String, String>> searchList = getFeaturesList(repository.locale.toString());
 
     for (Map registeredFeatures in searchList) {
       if (registeredFeatures.containsKey(s)) {
@@ -109,7 +111,7 @@ class _SalonTagsState extends ConsumerState<SalonTags> {
 
     List<String> aFeatured = [...widget.additionalFeatures, ...widget.additionalFeatures, ...widget.additionalFeatures];
 
-    return (themeType == ThemeType.GentleTouch || themeType == ThemeType.GentleTouchDark)
+    return (themeType == ThemeType.GentleTouch || themeType == ThemeType.GentleTouchDark || themeType == ThemeType.VintageCraft)
         ? Padding(
             padding: EdgeInsets.only(
               left: DeviceConstraints.getResponsiveSize(context, 10.w, 10.w, 30.w),

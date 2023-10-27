@@ -8,7 +8,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'default_view.dart';
 import 'gentle_touch_view.dart';
-import 'minimal_view.dart';
 
 class WriteToUs extends ConsumerStatefulWidget {
   final SalonModel salonModel;
@@ -40,26 +39,6 @@ class _WriteToUsState extends ConsumerState<WriteToUs> {
 
 Widget writeToUsTheme(context, ThemeType themeType, SalonModel salon) {
   switch (themeType) {
-    case ThemeType.GlamMinimalLight:
-      return Padding(
-        padding: EdgeInsets.only(
-          left: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
-          top: DeviceConstraints.getResponsiveSize(context, 100.h, 120.h, 140.h),
-          // bottom: DeviceConstraints.getResponsiveSize(context, 100.h, 120.h, 140.h), // 120,
-        ),
-        child: MinimalWriteToUsView(salonModel: salon),
-      );
-
-    case ThemeType.GlamMinimalDark:
-      return Padding(
-        padding: EdgeInsets.only(
-          left: DeviceConstraints.getResponsiveSize(context, 20.w, 20.w, 50.w),
-          top: DeviceConstraints.getResponsiveSize(context, 100.h, 120.h, 140.h),
-          // bottom: DeviceConstraints.getResponsiveSize(context, 100.h, 120.h, 140.h), // 120,
-        ),
-        child: MinimalWriteToUsView(salonModel: salon),
-      );
-
     case ThemeType.GentleTouch:
       return Padding(
         padding: EdgeInsets.only(
@@ -76,6 +55,16 @@ Widget writeToUsTheme(context, ThemeType themeType, SalonModel salon) {
           left: DeviceConstraints.getResponsiveSize(context, 10.w, 10.w, 30.w),
           top: DeviceConstraints.getResponsiveSize(context, 100.h, 120.h, 140.h),
           // bottom: DeviceConstraints.getResponsiveSize(context, 100.h, 120.h, 140.h), // 120,
+        ),
+        child: GentleTouchWriteToUsView(salonModel: salon),
+      );
+
+    case ThemeType.VintageCraft:
+      return Padding(
+        padding: EdgeInsets.only(
+          left: DeviceConstraints.getResponsiveSize(context, 10.w, 10.w, 30.w),
+          right: DeviceConstraints.getResponsiveSize(context, 10.w, 10.w, 30.w),
+          top: DeviceConstraints.getResponsiveSize(context, 100.h, 120.h, 140.h),
         ),
         child: GentleTouchWriteToUsView(salonModel: salon),
       );

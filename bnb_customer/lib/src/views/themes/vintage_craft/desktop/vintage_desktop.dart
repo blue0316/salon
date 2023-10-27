@@ -9,15 +9,13 @@ import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/booking_dialog_2.dart';
 import 'package:bbblient/src/views/themes/components/drawer.dart';
 import 'package:bbblient/src/views/themes/components/header/landing_header.dart';
-import 'package:bbblient/src/views/themes/components/about/salon_about.dart';
-import 'package:bbblient/src/views/themes/components/contacts/salon_contact.dart';
 import 'package:bbblient/src/views/themes/components/reviews/salon_reviews.dart';
 import 'package:bbblient/src/views/themes/components/services/salon_services.dart';
 import 'package:bbblient/src/views/themes/components/shop/salon_shop.dart';
 import 'package:bbblient/src/views/themes/components/salon_sponsors.dart';
-import 'package:bbblient/src/views/themes/components/salon_tags.dart';
-import 'package:bbblient/src/views/themes/components/works/salon_works.dart';
+import 'package:bbblient/src/views/themes/components/team/gentle_touch_team.dart';
 import 'package:bbblient/src/views/themes/components/write_to_us/write_to_us.dart';
+import 'package:bbblient/src/views/themes/icons.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/themes/utils/unique_landing_bottom.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
@@ -25,7 +23,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import '../widgets/tags.dart';
+import 'about.dart';
+import 'contact.dart';
 import 'master_view.dart';
+import 'works.dart';
 
 class VintageCraftDesktop extends ConsumerStatefulWidget {
   static const route = '/vintage-touch';
@@ -114,7 +117,7 @@ class _VintageCraftDesktopState extends ConsumerState<VintageCraftDesktop> {
                       children: [
                         if (chosenSalon.description.isNotEmpty && displaySettings?.showAbout == true)
                           AppBarItem(
-                            title: AppLocalizations.of(context)?.aboutUs ?? 'About Us',
+                            title: (AppLocalizations.of(context)?.aboutUs ?? 'About Us').toTitleCase(),
                             onTap: () {
                               Scrollable.ensureVisible(
                                 controller.about.currentContext!,
@@ -125,7 +128,7 @@ class _VintageCraftDesktopState extends ConsumerState<VintageCraftDesktop> {
                           ),
                         if (chosenSalon.photosOfWorks != null && chosenSalon.photosOfWorks!.isNotEmpty && displaySettings?.showPhotosOfWork == true)
                           AppBarItem(
-                            title: AppLocalizations.of(context)?.portfolio ?? 'Portfolio',
+                            title: (AppLocalizations.of(context)?.portfolio ?? 'Portfolio').toTitleCase(),
                             onTap: () {
                               Scrollable.ensureVisible(
                                 controller.works.currentContext!,
@@ -136,7 +139,7 @@ class _VintageCraftDesktopState extends ConsumerState<VintageCraftDesktop> {
                           ),
                         if (displaySettings?.services.showServices == true)
                           AppBarItem(
-                            title: AppLocalizations.of(context)?.services ?? 'Services',
+                            title: (AppLocalizations.of(context)?.services ?? 'Services').toTitleCase(),
                             onTap: () {
                               Scrollable.ensureVisible(
                                 controller.price.currentContext!,
@@ -147,7 +150,7 @@ class _VintageCraftDesktopState extends ConsumerState<VintageCraftDesktop> {
                           ),
                         if (_salonProfileProvider.allProducts.isNotEmpty && displaySettings?.product.showProduct == true)
                           AppBarItem(
-                            title: AppLocalizations.of(context)?.products ?? 'Products',
+                            title: (AppLocalizations.of(context)?.products ?? 'Products').toTitleCase(),
                             onTap: () {
                               Scrollable.ensureVisible(
                                 controller.shop.currentContext!,
@@ -158,7 +161,7 @@ class _VintageCraftDesktopState extends ConsumerState<VintageCraftDesktop> {
                           ),
                         if (_createAppointmentProvider.salonMasters.isNotEmpty && displaySettings?.showTeam == true)
                           AppBarItem(
-                            title: AppLocalizations.of(context)?.team ?? 'Team',
+                            title: (AppLocalizations.of(context)?.team ?? 'Team').toTitleCase(),
                             onTap: () {
                               Scrollable.ensureVisible(
                                 controller.team.currentContext!,
@@ -169,7 +172,7 @@ class _VintageCraftDesktopState extends ConsumerState<VintageCraftDesktop> {
                           ),
                         if (_salonProfileProvider.salonReviews.isNotEmpty && displaySettings?.reviews.showReviews == true)
                           AppBarItem(
-                            title: AppLocalizations.of(context)?.reviews ?? 'Reviews',
+                            title: (AppLocalizations.of(context)?.reviews ?? 'Reviews').toTitleCase(),
                             onTap: () {
                               Scrollable.ensureVisible(
                                 controller.reviews.currentContext!,
@@ -181,7 +184,7 @@ class _VintageCraftDesktopState extends ConsumerState<VintageCraftDesktop> {
                         if (displaySettings?.showContact == true)
                           AppBarItem(
                             isLast: true,
-                            title: AppLocalizations.of(context)?.contacts ?? 'Contacts',
+                            title: (AppLocalizations.of(context)?.contacts ?? 'Contacts').toTitleCase(),
                             onTap: () {
                               Scrollable.ensureVisible(
                                 controller.contacts.currentContext!,
@@ -235,60 +238,77 @@ class _VintageCraftDesktopState extends ConsumerState<VintageCraftDesktop> {
                     SizedBox.fromSize(size: Size.zero, key: controller.landing),
                     const LandingHeader(),
 
-                    // // TAGS
-                    // // if (displaySettings?.showFeatures == true) SizedBox.fromSize(size: Size.zero, key: controller.tags),
-                    // if (displaySettings?.showFeatures == true)
-                    //   if (chosenSalon.additionalFeatures.isNotEmpty)
-                    //     SalonTags(
-                    //       salonModel: chosenSalon,
-                    //       additionalFeatures: chosenSalon.additionalFeatures,
-                    //       isScrollingNeeded: false,
-                    //     ),
+                    // TAGS
+                    if (displaySettings?.showFeatures == true) SizedBox.fromSize(size: Size.zero, key: controller.tags),
+                    if (displaySettings?.showFeatures == true)
+                      if (chosenSalon.additionalFeatures.isNotEmpty)
+                        VintageTags(
+                          salonModel: chosenSalon,
+                          additionalFeatures: chosenSalon.additionalFeatures,
+                        ),
 
-                    // // ABOUT
-                    // if (displaySettings?.showAbout == true) SizedBox.fromSize(size: Size.zero, key: controller.about),
-                    // if (displaySettings?.showAbout == true) SalonAbout2(salonModel: chosenSalon),
+                    // ABOUT
+                    if (displaySettings?.showAbout == true) SizedBox.fromSize(size: Size.zero, key: controller.about),
+                    if (displaySettings?.showAbout == true) VintageAboutUs(salonModel: chosenSalon),
 
-                    // // SPONSORS
-                    // // if (displaySettings?.showBrands == true) SizedBox.fromSize(size: Size.zero, key: controller.sponsor),
-                    // if (displaySettings?.showBrands == true) const SalonSponsors(),
+                    // SPONSORS
+                    if (displaySettings?.showBrands == true) SizedBox.fromSize(size: Size.zero, key: controller.sponsor),
+                    if (displaySettings?.showBrands == true) const SalonSponsors(),
 
-                    // // WORKS
-                    // if (displaySettings?.showPhotosOfWork == true) SizedBox.fromSize(size: Size.zero, key: controller.works),
-                    // if (displaySettings?.showPhotosOfWork == true) SalonWorks(salonModel: chosenSalon),
+                    // WORKS
+                    if (displaySettings?.showPhotosOfWork == true) SizedBox.fromSize(size: Size.zero, key: controller.works),
+                    if (displaySettings?.showPhotosOfWork == true)
+                      ClipRRect(
+                        child: VintageWorks(salonModel: chosenSalon),
+                      ),
 
-                    // // PRICE
-                    // if (displaySettings?.services.showServices == true) SizedBox.fromSize(size: Size.zero, key: controller.price),
-                    // if (displaySettings?.services.showServices == true)
-                    //   SalonPrice222(
-                    //     salonModel: chosenSalon,
-                    //     categories: _salonSearchProvider.categories,
-                    //     categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
-                    //   ),
+                    // PRICE
+                    if (displaySettings?.services.showServices == true) SizedBox.fromSize(size: Size.zero, key: controller.price),
+                    if (displaySettings?.services.showServices == true)
+                      SalonPrice222(
+                        salonModel: chosenSalon,
+                        categories: _salonSearchProvider.categories,
+                        categoryServicesMapNAWA: _createAppointmentProvider.categoryServicesMap,
+                      ),
 
-                    // // SHOP
-                    // if (displaySettings?.product.showProduct == true) SizedBox.fromSize(size: Size.zero, key: controller.shop),
-                    // if (displaySettings?.product.showProduct == true) const SalonShop(),
+                    // SHOP
+                    if (displaySettings?.product.showProduct == true) SizedBox.fromSize(size: Size.zero, key: controller.shop),
+                    if (displaySettings?.product.showProduct == true) const SalonShop(),
 
-                    // // TEAM
-                    // if (displaySettings?.showTeam == true) SizedBox.fromSize(size: Size.zero, key: controller.team),
-                    // if (displaySettings?.showTeam == true)
-                    //   if (!_salonProfileProvider.isSingleMaster)
-                    //     VintageCraftDesktopTeam(
-                    //       salonModel: chosenSalon,
-                    //     ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 50.w, right: 50.w, top: 0.sp),
+                      child: SizedBox(
+                        height: 50.sp,
+                        width: double.infinity,
+                        child: SvgPicture.asset(ThemeIcons.vintageCutter, fit: BoxFit.fitWidth),
+                      ),
+                    ),
 
-                    // // REVIEWS
-                    // if (displaySettings?.reviews.showReviews == true) SizedBox.fromSize(size: Size.zero, key: controller.reviews),
-                    // if (displaySettings?.reviews.showReviews == true) SalonReviews(salonModel: chosenSalon),
+                    // TEAM
+                    if (displaySettings?.showTeam == true) SizedBox.fromSize(size: Size.zero, key: controller.team),
+                    if (displaySettings?.showTeam == true)
+                      if (!_salonProfileProvider.isSingleMaster)
+                        GentleTouchTeam(
+                          salonModel: chosenSalon,
+                        ),
 
-                    // // WRITE TO US
-                    // if (displaySettings?.showRequestForm == true) SizedBox.fromSize(size: Size.zero, key: controller.writeToUs),
-                    // if (displaySettings?.showRequestForm == true) WriteToUs(salonModel: chosenSalon),
+                    // REVIEWS
+                    if (displaySettings?.reviews.showReviews == true) SizedBox.fromSize(size: Size.zero, key: controller.reviews),
+                    if (displaySettings?.reviews.showReviews == true) SalonReviews(salonModel: chosenSalon),
 
-                    // // CONTACT
-                    // if (displaySettings?.showContact == true) SizedBox.fromSize(size: Size.zero, key: controller.contacts),
-                    // if (displaySettings?.showContact == true) SalonContact(salonModel: chosenSalon),
+                    // WRITE TO US
+                    if (displaySettings?.showRequestForm == true) SizedBox.fromSize(size: Size.zero, key: controller.writeToUs),
+                    if (displaySettings?.showRequestForm == true) WriteToUs(salonModel: chosenSalon),
+
+                    // CONTACT
+                    if (displaySettings?.showContact == true) SizedBox.fromSize(size: Size.zero, key: controller.contacts),
+                    if (displaySettings?.showContact == true)
+                      ClipRRect(
+                        child: VintageSalonContact(salonModel: chosenSalon),
+                      ),
+
+                    // //  // // WORKING HOURS
+                    // // //   // if (displaySettings?.showContact == true) VintageHours(salonModel: chosenSalon),
 
                     // BOTTOM
                     Padding(

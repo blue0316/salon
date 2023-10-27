@@ -10,6 +10,8 @@ class CachedImage extends StatelessWidget {
   final int? cacheWidth;
   final BoxFit? fit;
   final Widget Function(BuildContext, ImageProvider<Object>)? imageBuilder;
+  final BlendMode? colorBlendMode;
+  final Color? color;
 
   const CachedImage({
     Key? key,
@@ -21,6 +23,8 @@ class CachedImage extends StatelessWidget {
     this.errorWidget,
     this.fit,
     this.imageBuilder,
+    this.color,
+    this.colorBlendMode,
   }) : super(key: key);
 
   @override
@@ -43,6 +47,8 @@ class CachedImage extends StatelessWidget {
       imageBuilder: imageBuilder,
       placeholder: placeHolder,
       memCacheWidth: _cachedWidth,
+      color: color,
+      colorBlendMode: colorBlendMode,
     );
   }
 }
