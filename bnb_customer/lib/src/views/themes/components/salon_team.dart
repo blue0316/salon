@@ -7,7 +7,6 @@ import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/utils/utils.dart';
-import 'package:bbblient/src/views/themes/glam_one/master_profile/unique_master_profile.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
@@ -171,16 +170,16 @@ class TeamMember extends ConsumerWidget {
           masterModel: master,
           categories: _salonSearchProvider.categories,
         );
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => UniqueMasterProfile(
-              // salonModel: salonModel,
-              masterModel: master,
-              // categories: const [],
-            ),
-          ),
-        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => UniqueMasterProfile(
+        //       // salonModel: salonModel,
+        //       masterModel: master,
+        //       // categories: const [],
+        //     ),
+        //   ),
+        // );
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

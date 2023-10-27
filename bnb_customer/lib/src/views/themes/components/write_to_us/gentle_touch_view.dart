@@ -54,7 +54,7 @@ class _GentleTouchWriteToUsViewState extends ConsumerState<GentleTouchWriteToUsV
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          (AppLocalizations.of(context)?.writeToUsTitle ?? 'write to us').toUpperCase(),
+                          themeType != ThemeType.VintageCraft ? (AppLocalizations.of(context)?.writeToUsTitle ?? 'write to us').toUpperCase() : (AppLocalizations.of(context)?.writeToUsTitle ?? 'write to us').toTitleCase(),
                           textAlign: TextAlign.center,
                           style: theme.textTheme.displayMedium?.copyWith(
                             fontWeight: FontWeight.w500,
@@ -264,7 +264,7 @@ class _GentleTouchWriteToUsViewState extends ConsumerState<GentleTouchWriteToUsV
                                 onTap: () => submit(),
                                 buttonColor: theme.colorScheme.secondary,
                                 borderColor: theme.colorScheme.secondary,
-                                textColor: themeType == ThemeType.GentleTouch ? const Color(0XFFFFFFFF) : Colors.black,
+                                textColor: (themeType == ThemeType.GentleTouch || themeType == ThemeType.VintageCraft) ? const Color(0XFFFFFFFF) : Colors.black,
                                 weight: FontWeight.w500,
                                 borderRadius: 2,
                                 showSuffix: false,
@@ -281,9 +281,15 @@ class _GentleTouchWriteToUsViewState extends ConsumerState<GentleTouchWriteToUsV
                         ? CachedImage(
                             url: _salonProfileProvider.themeSettings!.backgroundImage!,
                             fit: BoxFit.cover,
+                            color: themeType == ThemeType.VintageCraft ? Colors.grey[850] : null,
+                            colorBlendMode: themeType == ThemeType.VintageCraft ? BlendMode.saturation : null,
                           )
                         : Image.asset(
-                            themeType == ThemeType.GentleTouch ? ThemeImages.glamLightNaturalHue : ThemeImages.darkGentleTouch, // gentleTouchWrite,
+                            themeType == ThemeType.VintageCraft
+                                ? ThemeImages.vintageWriteToUs
+                                : themeType == ThemeType.GentleTouch
+                                    ? ThemeImages.glamLightNaturalHue
+                                    : ThemeImages.darkGentleTouch, // gentleTouchWrite,
                             fit: BoxFit.cover,
                           ),
                   ),
@@ -303,7 +309,7 @@ class PortraitView extends ConsumerStatefulWidget {
 }
 
 class _PortraitViewState extends ConsumerState<PortraitView> {
-  FocusNode _focusNode = FocusNode();
+  final FocusNode _focusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -353,7 +359,7 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
                   (AppLocalizations.of(context)?.firstName ?? "First name").toTitleCase(),
                   style: theme.textTheme.bodyLarge?.copyWith(
                     fontSize: 15.sp,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                     fontFamily: 'Inter',
                   ),
                 ),
@@ -386,7 +392,7 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
                   (AppLocalizations.of(context)?.lastName ?? "Last name").toTitleCase(),
                   style: theme.textTheme.bodyLarge?.copyWith(
                     fontSize: 15.sp,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                     fontFamily: 'Inter',
                   ),
                 ),
@@ -418,7 +424,7 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
                   (AppLocalizations.of(context)?.email ?? "email").toTitleCase(),
                   style: theme.textTheme.bodyLarge?.copyWith(
                     fontSize: 15.sp,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                     fontFamily: 'Inter',
                   ),
                 ),
@@ -451,7 +457,7 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
                   (AppLocalizations.of(context)?.phone ?? "phone").toTitleCase(),
                   style: theme.textTheme.bodyLarge?.copyWith(
                     fontSize: 15.sp,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                     fontFamily: 'Inter',
                   ),
                 ),
@@ -481,7 +487,7 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
                 (AppLocalizations.of(context)?.message ?? 'Message').toTitleCase(),
                 style: theme.textTheme.bodyLarge?.copyWith(
                   fontSize: 15.sp,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w500,
                   fontFamily: 'Inter',
                 ),
               ),
@@ -516,7 +522,7 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
                   onTap: () => submit(),
                   buttonColor: theme.colorScheme.secondary,
                   borderColor: theme.colorScheme.secondary,
-                  textColor: themeType == ThemeType.GentleTouch ? const Color(0XFFFFFFFF) : Colors.black,
+                  textColor: (themeType == ThemeType.GentleTouch || themeType == ThemeType.VintageCraft) ? const Color(0XFFFFFFFF) : Colors.black,
                   weight: FontWeight.w500,
                   borderRadius: 2,
                   showSuffix: false,

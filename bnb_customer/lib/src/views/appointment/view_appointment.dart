@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'dart:html';
+import 'package:bbblient/main.dart';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/firebase/appointments.dart';
 import 'package:bbblient/src/firebase/transaction.dart';
@@ -29,6 +30,7 @@ import 'widgets/calendar_buttons.dart';
 import 'widgets/date_time_price.dart';
 import 'widgets/theme_colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'dart:html' as html;
 
 class AppointmentViewDetails extends ConsumerStatefulWidget {
   static const route = "/appointments";
@@ -68,10 +70,24 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
     });
 
     // Change Language based on salon
-    String salonLocale = ref.read(appointmentProvider.notifier).salon!.locale;
-
+    // String salonLocale = ref.read(appointmentProvider.notifier).salon!.locale;
     final repository = ref.watch(bnbProvider);
-    repository.changeLocale(locale: Locale(salonLocale));
+    // repository.changeLocale(locale: Locale(salonLocale));
+
+    // ---------- GET BROWSER LANGUAGE ----------
+    String browserLanguage = html.window.navigator.language;
+
+    if (browserLanguage.isNotEmpty && browserLanguage.length >= 2) {
+      String browserLocale = browserLanguage.substring(0, 2);
+
+      if (availableLocales.contains(browserLocale)) {
+        repository.changeLocale(locale: Locale(browserLocale));
+      } else {
+        repository.changeLocale(locale: const Locale('en'));
+      }
+    } else {
+      repository.changeLocale(locale: const Locale('en'));
+    }
   }
 
   bool shouldShowConfirmButton(DateTime appointmentTime) {

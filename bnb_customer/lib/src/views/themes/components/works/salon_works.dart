@@ -11,7 +11,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'default_works_view.dart';
 import 'gentle_touch_works_view.dart';
-import 'minimal_works_view.dart';
 
 class SalonWorks extends ConsumerStatefulWidget {
   final SalonModel salonModel;
@@ -36,10 +35,6 @@ class _SalonWorksState extends ConsumerState<SalonWorks> {
 
 Widget worksThemeView(ThemeType themeType, ThemeData theme, SalonModel salon) {
   switch (themeType) {
-    case ThemeType.CityMuseDark:
-      return MinimalWorksView(salonModel: salon);
-    case ThemeType.CityMuseLight:
-      return MinimalWorksView(salonModel: salon);
     case ThemeType.GentleTouch:
       return GentleTouchWorksView(salonModel: salon);
     case ThemeType.GentleTouchDark:

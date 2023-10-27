@@ -3,6 +3,7 @@ import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/products.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/prev_and_next.dart';
 import 'package:bbblient/src/views/themes/images.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
@@ -29,6 +30,7 @@ class _GentleTouchShopState extends ConsumerState<GentleTouchShop> {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     return Padding(
       padding: EdgeInsets.only(
@@ -38,13 +40,12 @@ class _GentleTouchShopState extends ConsumerState<GentleTouchShop> {
         bottom: 50,
       ),
       child: Column(
+        crossAxisAlignment: themeType == ThemeType.VintageCraft ? CrossAxisAlignment.start : CrossAxisAlignment.center,
         children: [
-          Center(
-            child: Text(
-              (AppLocalizations.of(context)?.products ?? 'Products').toUpperCase(),
-              style: theme.textTheme.displayMedium?.copyWith(
-                fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 50.sp, 60.sp),
-              ),
+          Text(
+            themeType == ThemeType.VintageCraft ? (AppLocalizations.of(context)?.products ?? 'Products').toTitleCase() : (AppLocalizations.of(context)?.products ?? 'Products').toUpperCase(),
+            style: theme.textTheme.displayMedium?.copyWith(
+              fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 50.sp, 60.sp),
             ),
           ),
           _salonProfileProvider.allProducts.isNotEmpty ? SizedBox(height: 60.sp) : const SizedBox(height: 50),
@@ -118,19 +119,19 @@ class _GentleTouchShopState extends ConsumerState<GentleTouchShop> {
                               ],
                             ),
                           ),
-                          SizedBox(height: 15.sp),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              PrevAndNextButtons(
-                                backOnTap: () {},
-                                forwardOnTap: () {},
-                                leftFontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 18.sp),
-                                rightFontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 18.sp),
-                              ),
-                            ],
-                          ),
+                          // SizedBox(height: 15.sp),
+                          // Row(
+                          //   crossAxisAlignment: CrossAxisAlignment.end,
+                          //   mainAxisAlignment: MainAxisAlignment.end,
+                          //   children: [
+                          //     PrevAndNextButtons(
+                          //       backOnTap: () {},
+                          //       forwardOnTap: () {},
+                          //       leftFontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 18.sp),
+                          //       rightFontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 18.sp),
+                          //     ),
+                          //   ],
+                          // ),
                         ],
                       ),
                     )
@@ -184,7 +185,7 @@ class GentleTouchShopTab extends ConsumerWidget {
             SizedBox(width: 25.sp),
             Expanded(
               child: Text(
-                title,
+                themeType == ThemeType.VintageCraft ? title.toTitleCase() : title.toUpperCase(),
                 style: theme.textTheme.displayMedium?.copyWith(
                   fontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 20.sp, 37.sp),
                 ),

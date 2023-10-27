@@ -24,7 +24,8 @@ class DesktopFeaturesCheck extends ConsumerWidget {
             // mainAxisAlignment: MainAxisAlignment.start,
             // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SvgPicture.asset("assets/test_assets/check.svg"),
+              SvgPicture.asset("assets/test_assets/check.svg",
+                  color: theme.colorScheme.secondary),
               const SizedBox(width: 12),
               Expanded(
                 child: Text(

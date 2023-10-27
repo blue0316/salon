@@ -19,6 +19,7 @@ import 'package:bbblient/src/views/themes/glam_minimal/glam_minimal_entry.dart';
 import 'package:bbblient/src/views/themes/glam_one/glam_one.dart';
 import 'package:bbblient/src/views/themes/utils/theme_color.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
+import 'package:bbblient/src/views/themes/vintage_craft/vintage_main.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -35,8 +36,7 @@ class SalonProfileProvider with ChangeNotifier {
 
   late SalonModel chosenSalon;
 
-  List<MasterModel> allMastersInSalon =
-      []; // To check if the salon is single master or not
+  List<MasterModel> allMastersInSalon = []; // To check if the salon is single master or not
   List<ReviewModel> salonReviews = [];
   List<ReviewModel> masterReviews = [];
 
@@ -85,8 +85,7 @@ class SalonProfileProvider with ChangeNotifier {
       loadingStatus = Status.loading;
       chosenSalon = (await _salonApi.getSalonFromId(salonId))!;
       // await Time().setTimeSlot(chosenSalon.timeSlotsInterval);
-      themeSettings =
-          await CustomerWebSettingsApi().getSalonTheme(salonId: salonId);
+      themeSettings = await CustomerWebSettingsApi().getSalonTheme(salonId: salonId);
       themeType = getThemeTypeEnum(themeSettings?.theme?.id);
       hasThemeGradient = themeSettings?.theme?.isGradient ?? false;
 
@@ -241,56 +240,53 @@ class SalonProfileProvider with ChangeNotifier {
 
           return DefaultLandingTheme(showBooking: showBooking);
 
-        case '2':
-          salonTheme = getGentleTouchDarkTheme(themeSettings?.theme?.colorCode);
-          themeType = ThemeType.GentleTouchDark;
-          notifyListeners();
-          return GentleTouch(showBooking: showBooking);
+        // case '2':
+        //   salonTheme = getGentleTouchDarkTheme(themeSettings?.theme?.colorCode);
+        //   themeType = ThemeType.GentleTouchDark;
+        //   notifyListeners();
+        //   return GentleTouch(showBooking: showBooking);
 
-        case '3':
-          salonTheme = getGlamBarbershopTheme(themeSettings?.theme?.colorCode);
-          themeType = ThemeType.GlamBarbershop;
+        // case '3':
+        //   salonTheme = getGlamBarbershopTheme(themeSettings?.theme?.colorCode);
+        //   themeType = ThemeType.GlamBarbershop;
 
-          notifyListeners();
-          break;
+        //   notifyListeners();
+        //   break;
 
-        case '4': // Gentle Touch Dark
-          salonTheme = getGentleTouchDarkTheme(themeSettings?.theme?.colorCode);
-          themeType = ThemeType.GentleTouchDark;
+        // case '4': // Gentle Touch Dark
+        //   salonTheme = getGentleTouchDarkTheme(themeSettings?.theme?.colorCode);
+        //   themeType = ThemeType.GentleTouchDark;
 
-          notifyListeners();
-          return GentleTouch(showBooking: showBooking);
+        //   notifyListeners();
+        //   return GentleTouch(showBooking: showBooking);
 
-        case '5':
-          salonTheme = getBarbershopTheme(themeSettings?.theme?.colorCode);
-          themeType = ThemeType.Barbershop;
+        // case '5':
+        //   salonTheme = getBarbershopTheme(themeSettings?.theme?.colorCode);
+        //   themeType = ThemeType.Barbershop;
 
-          notifyListeners();
-          break;
+        //   notifyListeners();
+        //   break;
 
-        case '6':
-          salonTheme = getGentleTouchTheme(themeSettings?.theme?.colorCode);
-          themeType = ThemeType.GentleTouch;
+        // case '6':
+        //   salonTheme = getGentleTouchTheme(themeSettings?.theme?.colorCode);
+        //   themeType = ThemeType.GentleTouch;
 
-          notifyListeners();
-          return GentleTouch(showBooking: showBooking);
+        //   notifyListeners();
+        //   return GentleTouch(showBooking: showBooking);
 
-        case '7':
-          salonTheme = getCityMuseLightTheme(themeSettings?.theme?.colorCode);
-          //http://localhost:51401/home/salon?id=snyyGYxB2ug8a4TGOOAs&back=false&locale=en
-          themeType = ThemeType.CityMuseLight;
+        // case '7':
+        //   salonTheme = getGlamMinimalLightTheme(themeSettings?.theme?.colorCode);
+        //   //http://localhost:51401/home/salon?id=snyyGYxB2ug8a4TGOOAs&back=false&locale=en
+        //   themeType = ThemeType.GlamMinimalLight;
 
-          notifyListeners();
-          return const CityMuseEntry();
-        // break;
+        //   notifyListeners();
+        //   return const GlamMinimalEntry();
 
-        case '8':
-          salonTheme = getCityMuseDarkTheme(themeSettings?.theme?.colorCode);
-          themeType = ThemeType.CityMuseDark;
-          notifyListeners();
-          return const CityMuseEntry();
-
-        //  break;
+        // case '8':
+        //   salonTheme = getGlamMinimalDarkTheme(themeSettings?.theme?.colorCode);
+        //   themeType = ThemeType.GlamMinimalDark;
+        //   notifyListeners();
+        //   return const GlamMinimalEntry();
 
         case '10':
           salonTheme = getGentleTouchTheme(themeSettings?.theme?.colorCode);
@@ -305,6 +301,7 @@ class SalonProfileProvider with ChangeNotifier {
 
           notifyListeners();
           return GentleTouch(showBooking: showBooking);
+
         case '12':
           salonTheme = getCityMuseLightTheme(themeSettings?.theme?.colorCode);
           //http://localhost:51401/home/salon?id=yUm0tTznu5NCtEhKVClr&back=false&locale=en
@@ -312,11 +309,20 @@ class SalonProfileProvider with ChangeNotifier {
 
           notifyListeners();
           return const CityMuseEntry();
+
         case '13':
           salonTheme = getCityMuseDarkTheme(themeSettings?.theme?.colorCode);
           themeType = ThemeType.CityMuseDark;
+
           notifyListeners();
           return const CityMuseEntry();
+
+        case '789':
+          salonTheme = getVintageCraftTheme(themeSettings?.theme?.colorCode);
+          themeType = ThemeType.VintageCraft;
+
+          notifyListeners();
+          return const VintageCraft();
       }
 
       return GlamOneScreen(showBooking: showBooking); // New Themes Base Widget
@@ -327,8 +333,7 @@ class SalonProfileProvider with ChangeNotifier {
 
       notifyListeners();
 
-      return DefaultLandingTheme(
-          showBooking: showBooking); // Default landing theme
+      return DefaultLandingTheme(showBooking: showBooking); // Default landing theme
     }
   }
 
@@ -354,13 +359,9 @@ class SalonProfileProvider with ChangeNotifier {
   }
 
   // Send Enquiry to Firebase
-  void sendEnquiryToSalon(BuildContext context,
-      {required String salonId}) async {
-    if (nameController.text == '' ||
-        phoneController.text == '' ||
-        requestController.text == '') {
-      showToast(AppLocalizations.of(context)?.emptyFields ??
-          "Fields cannot be empty, please fill required fields");
+  void sendEnquiryToSalon(BuildContext context, {required String salonId}) async {
+    if (nameController.text == '' || phoneController.text == '' || requestController.text == '') {
+      showToast(AppLocalizations.of(context)?.emptyFields ?? "Fields cannot be empty, please fill required fields");
       return;
     }
 
@@ -385,19 +386,15 @@ class SalonProfileProvider with ChangeNotifier {
         showToast('Your Enquiry has been sent');
       } else {
         enquiryStatus = Status.failed;
-        showToast(AppLocalizations.of(context)?.errorOccurred ??
-            "Something went wrong, please try again");
+        showToast(AppLocalizations.of(context)?.errorOccurred ?? "Something went wrong, please try again");
       }
-      Future.delayed(
-          const Duration(milliseconds: 100), () => notifyListeners());
+      Future.delayed(const Duration(milliseconds: 100), () => notifyListeners());
     } catch (e) {
       enquiryStatus = Status.failed;
-      Future.delayed(
-          const Duration(milliseconds: 100), () => notifyListeners());
+      Future.delayed(const Duration(milliseconds: 100), () => notifyListeners());
 
       // printIt('Error on sendEnquiryToSalon() - ${e.toString()}');
-      showToast(AppLocalizations.of(context)?.errorOccurred ??
-          "Something went wrong, please try again");
+      showToast(AppLocalizations.of(context)?.errorOccurred ?? "Something went wrong, please try again");
       return null;
     }
   }
@@ -408,20 +405,13 @@ class SalonProfileProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void sendEnquiryToSalonCityMuse(BuildContext context,
-      {required String salonId}) async {
-    if (firstNameController.text.isNotEmpty &&
-        lastNameController.text.isNotEmpty) {
-      nameController.text =
-          '${firstNameController.text} ${lastNameController.text}';
+  void sendEnquiryToSalonCityMuse(BuildContext context, {required String salonId}) async {
+    if (firstNameController.text.isNotEmpty && lastNameController.text.isNotEmpty) {
+      nameController.text = '${firstNameController.text} ${lastNameController.text}';
     }
 
-    if (nameController.text == '' ||
-        phoneController.text == '' ||
-        requestController.text == '' ||
-        emailController.text == '') {
-      showToast(AppLocalizations.of(context)?.emptyFields ??
-          "Fields cannot be empty, please fill required fields");
+    if (nameController.text == '' || phoneController.text == '' || requestController.text == '' || emailController.text == '') {
+      showToast(AppLocalizations.of(context)?.emptyFields ?? "Fields cannot be empty, please fill required fields");
       return;
     }
 
@@ -451,19 +441,15 @@ class SalonProfileProvider with ChangeNotifier {
         phoneController.clear();
       } else {
         enquiryStatus = Status.failed;
-        showToast(AppLocalizations.of(context)?.errorOccurred ??
-            "Something went wrong, please try again");
+        showToast(AppLocalizations.of(context)?.errorOccurred ?? "Something went wrong, please try again");
       }
-      Future.delayed(
-          const Duration(milliseconds: 100), () => notifyListeners());
+      Future.delayed(const Duration(milliseconds: 100), () => notifyListeners());
     } catch (e) {
       enquiryStatus = Status.failed;
-      Future.delayed(
-          const Duration(milliseconds: 100), () => notifyListeners());
+      Future.delayed(const Duration(milliseconds: 100), () => notifyListeners());
 
       // printIt('Error on sendEnquiryToSalon() - ${e.toString()}');
-      showToast(AppLocalizations.of(context)?.errorOccurred ??
-          "Something went wrong, please try again");
+      showToast(AppLocalizations.of(context)?.errorOccurred ?? "Something went wrong, please try again");
       return null;
     }
   }
@@ -474,12 +460,10 @@ class SalonProfileProvider with ChangeNotifier {
     tabs.clear();
 
     // Get all brands
-    allProductBrands =
-        await ProductsApi().getAllProductBrands(salonId: salonId);
+    allProductBrands = await ProductsApi().getAllProductBrands(salonId: salonId);
 
     // Get Salon Product Categories
-    allProductCategories =
-        await ProductsApi().getAllProductCategory(salonId: salonId);
+    allProductCategories = await ProductsApi().getAllProductCategory(salonId: salonId);
 
     // Get Salon Products
     allProducts = await ProductsApi().getSalonProducts(salonId: salonId);
@@ -492,10 +476,7 @@ class SalonProfileProvider with ChangeNotifier {
         );
 
         if (found != null) {
-          String? translation = found.translations?[
-                  AppLocalizations.of(context)?.localeName ?? 'en'] ??
-              found.translations?['en'] ??
-              '';
+          String? translation = found.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? found.translations?['en'] ?? '';
 
           if (translation != null) {
             // Doing this because if loaleName (e.g 'en') doesn't exist in translations map, it throws null
@@ -523,16 +504,17 @@ class SalonProfileProvider with ChangeNotifier {
 Set availableThemes = {
   '0', // DefaultLight
   '1', // DefaultDark
-  '2', // Glam
-  '3', // Glam Barbershop
-  '4', // Glam Gradient
-  '5', // Barbershop
-  '6', // Glam Light
-  '66', // Glam Light New Design
-  '7', // Glam Minimal Light
-  '8', // Glam Minimal Dark
+  // '2', // Glam
+  // '3', // Glam Barbershop
+  // '4', // Glam Gradient
+  // '5', // Barbershop
+  // '6', // Glam Light
+  // '66', // Glam Light New Design
+  // '7', // Glam Minimal Light
+  // '8', // Glam Minimal Dark
   '10', // Gentle Touch Light
   '11', // Gentle Touch Dark
   '12', // City Muse Light
   '13', // City Muse Dark
+  '789', // Vintage Craft
 };

@@ -1,7 +1,7 @@
 // Theme 4 - Barbershop Promotions
 
 import 'package:bbblient/src/models/promotions/promotion_service.dart';
-import 'package:bbblient/src/views/themes/glam_one/master_profile/unique_master_profile.dart';
+import 'package:bbblient/src/views/themes/glam_one/core/utils/header_height.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -31,7 +31,7 @@ class _BarbershopPromotionsState extends ConsumerState<BarbershopPromotions> {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
 
-    List<PromotionModel> ls = [...widget.salonPromotionsList, ...widget.salonPromotionsList];
+    // List<PromotionModel> ls = [...widget.salonPromotionsList, ...widget.salonPromotionsList];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

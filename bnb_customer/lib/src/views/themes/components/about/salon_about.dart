@@ -8,7 +8,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'barbershop_about_view.dart';
 import 'default_about_view.dart';
 import 'gentle_touch_about_view.dart';
-import 'minimal_about_view.dart';
 
 class SalonAbout2 extends ConsumerStatefulWidget {
   final SalonModel salonModel;
@@ -41,12 +40,6 @@ Widget aboutTheme(ThemeType themeType, SalonModel salonModel) {
 
     case ThemeType.GentleTouchDark:
       return GentleTouchAboutUs(salonModel: salonModel);
-
-    case ThemeType.CityMuseDark:
-      return MinimalAboutView(salonModel: salonModel);
-
-    case ThemeType.CityMuseLight:
-      return MinimalAboutView(salonModel: salonModel);
 
     default:
       return DefaultAboutView(salonModel: salonModel);

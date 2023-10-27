@@ -42,16 +42,13 @@ Widget reviewsSectionTheme(context,
     required SalonModel salon,
     required CarouselController controller}) {
   switch (themeType) {
-    case ThemeType.CityMuseLight:
-      return MinimalReviewView(salonModel: salon, controller: controller);
-
-    case ThemeType.CityMuseDark:
-      return MinimalReviewView(salonModel: salon, controller: controller);
-
     case ThemeType.GentleTouch:
       return GentleTouchReviewView(salonModel: salon, controller: controller);
 
     case ThemeType.GentleTouchDark:
+      return GentleTouchReviewView(salonModel: salon, controller: controller);
+
+    case ThemeType.VintageCraft:
       return GentleTouchReviewView(salonModel: salon, controller: controller);
 
     default:

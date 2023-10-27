@@ -3,6 +3,7 @@ import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/review.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
+import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/themes/components/widgets/button.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/prev_and_next.dart';
 import 'package:bbblient/src/views/themes/icons.dart';
@@ -38,15 +39,15 @@ class _GentleTouchReviewViewState extends ConsumerState<GentleTouchReviewView> {
     ThemeType themeType = _salonProfileProvider.themeType;
 
     return Container(
-      // color: theme.colorScheme.secondary.withOpacity(0.2),
       decoration: BoxDecoration(
-        gradient: buttonGradient(themeType, theme, opacity: 0.3),
+        color: themeType == ThemeType.VintageCraft ? theme.colorScheme.secondary.withOpacity(0.65) : null,
+        gradient: themeType != ThemeType.VintageCraft ? buttonGradient(themeType, theme, opacity: 0.3) : null,
       ),
       child: Padding(
         padding: EdgeInsets.only(
           left: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
           right: DeviceConstraints.getResponsiveSize(context, 20.w, 50.w, 50.w),
-          top: 70.h, // DeviceConstraints.getResponsiveSize(context, 140.h, 180.h, 200.h),s
+          top: 60.h, // DeviceConstraints.getResponsiveSize(context, 140.h, 180.h, 200.h),s
           bottom: 80.h, // DeviceConstraints.getResponsiveSize(context, 140.h, 180.h, 200.h),
         ),
         child: (_salonProfileProvider.salonReviews.isNotEmpty)
@@ -55,7 +56,7 @@ class _GentleTouchReviewViewState extends ConsumerState<GentleTouchReviewView> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    (AppLocalizations.of(context)?.reviews ?? 'Reviews').toUpperCase(),
+                    themeType != ThemeType.VintageCraft ? (AppLocalizations.of(context)?.reviews ?? 'Reviews').toUpperCase() : (AppLocalizations.of(context)?.reviews ?? 'Reviews').toTitleCase(),
                     style: theme.textTheme.displayMedium?.copyWith(
                       fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 50.sp, 60.sp),
                     ),
@@ -147,6 +148,7 @@ class GentleTouchReviewCard extends ConsumerWidget {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+    ThemeType themeType = _salonProfileProvider.themeType;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -161,7 +163,7 @@ class GentleTouchReviewCard extends ConsumerWidget {
           itemSize: isPortrait ? 20 : 15,
           itemCount: 5,
           updateOnDrag: true,
-          unratedColor: Colors.black,
+          unratedColor: themeType == ThemeType.VintageCraft ? Colors.white : Colors.black,
           onRatingUpdate: (rating) {},
           itemBuilder: (context, _) {
             return Icon(Icons.star, color: theme.colorScheme.secondary);
@@ -177,7 +179,10 @@ class GentleTouchReviewCard extends ConsumerWidget {
                 height: 100.h,
                 width: 80.h,
                 child: Center(
-                  child: SvgPicture.asset(ThemeIcons.quote),
+                  child: SvgPicture.asset(
+                    ThemeIcons.quote,
+                    color: themeType == ThemeType.VintageCraft ? Colors.white : null,
+                  ),
                 ),
               ),
             Flexible(
@@ -199,7 +204,10 @@ class GentleTouchReviewCard extends ConsumerWidget {
               SizedBox(
                 height: 100.h,
                 width: 80.h,
-                child: SvgPicture.asset(ThemeIcons.quote2),
+                child: SvgPicture.asset(
+                  ThemeIcons.quote2,
+                  color: themeType == ThemeType.VintageCraft ? Colors.white : null,
+                ),
               ),
           ],
         ),

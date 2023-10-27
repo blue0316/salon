@@ -53,14 +53,17 @@ class _GentleTouchServiceTileState extends ConsumerState<GentleTouchServiceTile>
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  if (isHovered) SizedBox(height: 60.sp),
+                  if (isHovered && widget.service.description != null && widget.service.description != '' && (widget.service.servicePhoto != null || widget.service.servicePhoto != ''))
+                    SizedBox(
+                      height: 60.sp,
+                    ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible(
                         child: Text(
-                          (themeType != ThemeType.GentleTouch)
+                          (themeType != ThemeType.GentleTouch && themeType != ThemeType.GentleTouchDark && themeType != ThemeType.VintageCraft)
                               ? '${widget.service.translations?[AppLocalizations.of(
                                         context,
                                       )?.localeName ?? 'en'] ?? widget.service.translations?['en']}'
@@ -136,6 +139,7 @@ class _GentleTouchServiceTileState extends ConsumerState<GentleTouchServiceTile>
                     child: Padding(
                       padding: EdgeInsets.only(right: 50.w, top: 20.sp),
                       child: SizedBox(
+                        // color: Colors.blue,
                         height: 230.h,
                         width: 220.sp,
                         child: CachedImage(

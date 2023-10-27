@@ -71,22 +71,16 @@ class AppointmentProvider with ChangeNotifier {
 
   init() {
     selectedDayAppointments.clear();
-    getEventsForDay(selectedDay)
-        .forEach((element) => selectedDayAppointments.add(element));
-    selectedDayAppointments.sort(
-        (a, b) => a.appointmentStartTime!.compareTo(b.appointmentStartTime!));
+    getEventsForDay(selectedDay).forEach((element) => selectedDayAppointments.add(element));
+    selectedDayAppointments.sort((a, b) => a.appointmentStartTime!.compareTo(b.appointmentStartTime!));
     notifyListeners();
   }
 
-  loadAppointments(
-      {required String customerId,
-      required SalonSearchProvider salonSearchProvider}) {
+  loadAppointments({required String customerId, required SalonSearchProvider salonSearchProvider}) {
     if (appointments.isEmpty) {
       appointmentStatus = Status.loading;
       appointments = [];
-      AppointmentApi()
-          .listenAppointments(customerId: customerId)
-          .listen((event) async {
+      AppointmentApi().listenAppointments(customerId: customerId).listen((event) async {
         appointmentStatus = Status.loading;
         appointments.clear();
         for (AppointmentModel e in event) {
@@ -108,10 +102,8 @@ class AppointmentProvider with ChangeNotifier {
     if (!isSameDay(selectedDay, _selectedDay)) {
       selectedDay = _selectedDay;
       selectedDayAppointments.clear();
-      getEventsForDay(selectedDay)
-          .forEach((element) => selectedDayAppointments.add(element));
-      selectedDayAppointments.sort(
-          (a, b) => a.appointmentStartTime!.compareTo(b.appointmentStartTime!));
+      getEventsForDay(selectedDay).forEach((element) => selectedDayAppointments.add(element));
+      selectedDayAppointments.sort((a, b) => a.appointmentStartTime!.compareTo(b.appointmentStartTime!));
       notifyListeners();
     }
   }
@@ -123,8 +115,7 @@ class AppointmentProvider with ChangeNotifier {
       // // printIt(appointment.appointmentId);
       // // printIt(appointment.appointmentDate);
       if (appointmentMap[appointment.appointmentDate] == null) {
-        DateTime? _dateTime =
-            Time().getDateFromStr(appointment.appointmentDate);
+        DateTime? _dateTime = Time().getDateFromStr(appointment.appointmentDate);
         if (_dateTime != null) {
           if (appointmentMap[_dateTime] != null) {
             appointmentMap[_dateTime]?.add(appointment);
@@ -143,9 +134,7 @@ class AppointmentProvider with ChangeNotifier {
   List<AppointmentModel> getEventsForDay(DateTime _date) {
     DateTime date = Time().getDate(date: _date);
     // // printIt(appointmentMap[date]);
-    if (appointmentMap.containsKey(date) &&
-        appointmentMap[date] != null &&
-        appointmentMap[date]!.isNotEmpty) {
+    if (appointmentMap.containsKey(date) && appointmentMap[date] != null && appointmentMap[date]!.isNotEmpty) {
       // // printIt(appointmentMap[date]);
       return appointmentMap[date] ?? [];
     } else {
@@ -153,13 +142,11 @@ class AppointmentProvider with ChangeNotifier {
     }
   }
 
-  Future<AppointmentModel?> fetchAppointment(
-      {required String appointmentID}) async {
+  Future<AppointmentModel?> fetchAppointment({required String appointmentID}) async {
     appointmentStatus = Status.loading;
     notifyListeners();
     try {
-      DocumentSnapshot appointmentDoc =
-          await Collection.appointments.doc(appointmentID).get();
+      DocumentSnapshot appointmentDoc = await Collection.appointments.doc(appointmentID).get();
 
       if (!appointmentDoc.exists) {
         appointmentStatus = Status.init;
@@ -167,8 +154,7 @@ class AppointmentProvider with ChangeNotifier {
         return null;
       }
 
-      Map<String, dynamic> _temp =
-          appointmentDoc.data() as Map<String, dynamic>;
+      Map<String, dynamic> _temp = appointmentDoc.data() as Map<String, dynamic>;
       AppointmentModel appointment = AppointmentModel.fromJson(_temp);
 
       // Get Salon
@@ -198,8 +184,7 @@ class AppointmentProvider with ChangeNotifier {
     return null;
   }
 
-  void updateAppointmentSubStatus(
-      {required String appointmentID, Function? callback}) async {
+  void updateAppointmentSubStatus({required String appointmentID, Function? callback}) async {
     updateSubStatus = Status.loading;
     notifyListeners();
     try {
@@ -275,8 +260,7 @@ class AppointmentProvider with ChangeNotifier {
   void getCategoryDetails(String categoryId) async {}
 
   Future<ThemeType?> getSalonTheme(salonId) async {
-    CustomerWebSettings? themeSettings =
-        await CustomerWebSettingsApi().getSalonTheme(salonId: salonId);
+    CustomerWebSettings? themeSettings = await CustomerWebSettingsApi().getSalonTheme(salonId: salonId);
 
     return getTheme(themeSettings);
   }
@@ -305,31 +289,31 @@ class AppointmentProvider with ChangeNotifier {
           notifyListeners();
           return themeType;
 
-        case '3':
-          salonTheme = getGlamBarbershopTheme(themeSettings?.theme?.colorCode);
-          themeType = ThemeType.GlamBarbershop;
+        // case '3':
+        //   salonTheme = getGlamBarbershopTheme(themeSettings?.theme?.colorCode);
+        //   themeType = ThemeType.GlamBarbershop;
 
-          notifyListeners();
-          return themeType;
+        //   notifyListeners();
+        //   return themeType;
 
-        case '4':
-          salonTheme = getGentleTouchDarkTheme(themeSettings?.theme?.colorCode);
-          themeType = ThemeType.GentleTouchDark;
+        // case '4':
+        //   salonTheme = getGentleTouchDarkTheme(themeSettings?.theme?.colorCode);
+        //   themeType = ThemeType.GentleTouchDark;
 
-          notifyListeners();
-          return themeType;
+        //   notifyListeners();
+        //   return themeType;
 
-        case '5':
-          salonTheme = getBarbershopTheme(themeSettings?.theme?.colorCode);
-          themeType = ThemeType.Barbershop;
-          notifyListeners();
-          return themeType;
+        // case '5':
+        //   salonTheme = getVintageCraftTheme(themeSettings?.theme?.colorCode);
+        //   themeType = ThemeType.Barbershop;
+        //   notifyListeners();
+        //   return themeType;
 
-        case '6':
-          salonTheme = getGentleTouchTheme(themeSettings?.theme?.colorCode);
-          themeType = ThemeType.GentleTouch;
-          notifyListeners();
-          return themeType;
+        // case '6':
+        //   salonTheme = getGentleTouchTheme(themeSettings?.theme?.colorCode);
+        //   themeType = ThemeType.GentleTouch;
+        //   notifyListeners();
+        //   return themeType;
 
         case '7':
           salonTheme = getCityMuseLightTheme(themeSettings?.theme?.colorCode);
@@ -369,6 +353,13 @@ class AppointmentProvider with ChangeNotifier {
           themeType = ThemeType.CityMuseDark;
           notifyListeners();
           return themeType;
+
+        case '789':
+          salonTheme = getVintageCraftTheme(themeSettings?.theme?.colorCode);
+          themeType = ThemeType.VintageCraft;
+
+          notifyListeners();
+          return themeType;
       }
     } else {
       salonTheme = getDefaultLightTheme(themeSettings?.theme?.colorCode);
@@ -389,8 +380,7 @@ class AppointmentProvider with ChangeNotifier {
   }) async {
     appleCalendarStatus = Status.loading;
     notifyListeners();
-    var url = Uri.parse(
-        'https://us-central1-bowandbeautiful-3372d.cloudfunctions.net/calendar-appleCalendar');
+    var url = Uri.parse('https://us-central1-bowandbeautiful-3372d.cloudfunctions.net/calendar-appleCalendar');
     final Map<String, String> body = {
       "starttime": startTime,
       "endtime": endTime,
@@ -416,8 +406,7 @@ class AppointmentProvider with ChangeNotifier {
       js.context.callMethod('open', [parsedResponse["message"], '_self']);
 
       if ((parsedResponse["message"]).toString().length >= 9) {
-        String launchDownloadLink =
-            'https://${(parsedResponse["message"]).toString().substring('webcal://'.length)}';
+        String launchDownloadLink = 'https://${(parsedResponse["message"]).toString().substring('webcal://'.length)}';
         Uri uri = Uri.parse(launchDownloadLink);
 
         if (await canLaunchUrl(uri)) {
@@ -426,9 +415,7 @@ class AppointmentProvider with ChangeNotifier {
             webOnlyWindowName: '_self',
           );
         } else {
-          showToast(
-              AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ??
-                  'Something went wrong, please try again');
+          showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? 'Something went wrong, please try again');
         }
       }
 
@@ -468,13 +455,11 @@ class AppointmentProvider with ChangeNotifier {
 
     int total = 0;
 
-    List<ServiceModel> salonServices =
-        await CategoryServicesApi().getSalonServices(salonId: salon!.salonId);
+    List<ServiceModel> salonServices = await CategoryServicesApi().getSalonServices(salonId: salon!.salonId);
 
     for (var service in appointment.services) {
       for (var salonService in salonServices) {
-        if (service.serviceId == salonService.serviceId &&
-            salonService.hasDeposit!) {
+        if (service.serviceId == salonService.serviceId && salonService.hasDeposit!) {
           total += int.parse(salonService.deposit!);
         }
       }

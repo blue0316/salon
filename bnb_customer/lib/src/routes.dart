@@ -184,12 +184,12 @@ final GoRouter router = GoRouter(
               // use ref to obtain other providers
               final repository = ref.watch(bnbProvider);
 
-              repository.changeLocale(locale: Locale(state.queryParams['locale']!.toString()));
+              // repository.changeLocale(locale: Locale(state.queryParams['locale']!.toString()));
 
               if (id2 != "") {
                 repository.retrieveSalonMasterModel(state.queryParams['id2']!.toString());
                 salonMaster = repository.getCurrenMaster;
-                // debugPrint(repository.getCurrenMaster);
+                // debugPrint(repository.getCurrenMaster);k
               }
               return repository;
             });

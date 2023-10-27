@@ -5,7 +5,8 @@ import 'package:bbblient/src/models/promotions/promotion_service.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/views/themes/components/widgets/button.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/prev_and_next.dart';
-import 'package:bbblient/src/views/themes/glam_one/master_profile/unique_master_profile.dart';
+import 'package:bbblient/src/views/themes/glam_one/core/utils/header_height.dart';
+
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:flutter/material.dart';

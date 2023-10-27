@@ -2,7 +2,8 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
-import 'package:bbblient/src/views/themes/glam_one/master_profile/unique_master_profile.dart';
+import 'package:bbblient/src/views/themes/glam_one/core/utils/header_height.dart';
+
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';

@@ -133,12 +133,17 @@ class FilteredAssetImage extends StatelessWidget {
 }
 
 class BackgroundImageExists extends StatelessWidget {
-  const BackgroundImageExists(
-      {Key? key, required SalonProfileProvider salonProfileProvider})
-      : _salonProfileProvider = salonProfileProvider,
+  const BackgroundImageExists({
+    Key? key,
+    required SalonProfileProvider salonProfileProvider,
+    this.color,
+    this.colorBlendMode,
+  })  : _salonProfileProvider = salonProfileProvider,
         super(key: key);
 
   final SalonProfileProvider _salonProfileProvider;
+  final BlendMode? colorBlendMode;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {

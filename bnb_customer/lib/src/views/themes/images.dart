@@ -79,4 +79,8 @@ class ThemeImages {
   static const noProductDark = 'assets/themes/glam_one/images/empty_product_dark.png';
 
   static const gentleTouchWrite = 'assets/themes/glam_one/images/gentle_touch_write.png';
+
+  static const vintageHeader = 'assets/themes/glam_one/images/vintage.png';
+
+  static const vintageWriteToUs = 'assets/themes/glam_one/images/vintage_write.png';
 }

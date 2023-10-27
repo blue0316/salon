@@ -41,4 +41,6 @@ class ThemeIcons {
   static const String glamirisLogoLight = 'assets/themes/glam_one/svg/glamiris_logo_light.svg';
 
   static const String glamirisLogoDark = 'assets/themes/glam_one/svg/glamiris_logo_dark.svg';
+
+  static const String vintageCutter = 'assets/themes/glam_one/svg/vintage_cutter.svg';
 }

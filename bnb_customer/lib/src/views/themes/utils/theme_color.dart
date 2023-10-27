@@ -1,5 +1,5 @@
 import 'package:bbblient/src/theme/app_main_theme.dart';
-import 'package:bbblient/src/theme/others/barbershop.dart';
+import 'package:bbblient/src/theme/others/vintage_craft.dart';
 import 'package:bbblient/src/theme/others/gentle_touch.dart';
 import 'package:bbblient/src/theme/others/gentle_touch_dark.dart';
 import 'package:bbblient/src/theme/others/glam_barbershop.dart';
@@ -100,7 +100,7 @@ ThemeData getGlamDataTheme(String? colorCode) {
 }
 
 // Theme 3 - GLAM BARBERSHOP
-ThemeData getGlamBarbershopTheme(String? colorCode) {
+ThemeData getGlamVintageCraftTheme(String? colorCode) {
   switch (colorCode) {
     case null:
       GlamBarberShopTheme.primaryColor1 = const Color(0XFFDDC686);
@@ -143,51 +143,6 @@ ThemeData getGentleTouchDarkTheme(String? colorCode) {
         }
       }
       return GentleTouchDarkTheme.mainTheme;
-  }
-}
-
-// Theme 5 - BARBERSHOP
-ThemeData getBarbershopTheme(String? colorCode) {
-  switch (colorCode) {
-    case null:
-      BarbershopTheme.primaryColor1 = const Color(0XFFDDC686);
-
-      return BarbershopTheme.mainTheme;
-    case 'E3824F':
-      return BarbershopTheme.AccentE3824F;
-
-    case 'D5824C':
-      return BarbershopTheme.AccentD5824C;
-
-    case 'FABD64':
-      return BarbershopTheme.AccentFABD64;
-
-    case 'E3A681':
-      return BarbershopTheme.AccentE3A681;
-
-    case 'F89F54':
-      return BarbershopTheme.AccentF89F54;
-
-    case 'C17150':
-      return BarbershopTheme.AccentC17150;
-
-    case 'E4954A':
-      return BarbershopTheme.AccentE4954A;
-
-    default:
-      if (colorCode != null) {
-        try {
-          // Decode color from string
-          String valueString = colorCode.split('(0x')[1].split(')')[0];
-          int value = int.parse(valueString, radix: 16);
-
-          BarbershopTheme.primaryColor1 = Color(value);
-        } catch (e) {
-          BarbershopTheme.primaryColor1 = const Color(0XFFDDC686);
-        }
-      }
-
-      return BarbershopTheme.mainTheme;
   }
 }
 
@@ -270,4 +225,29 @@ ThemeData getCityMuseDarkTheme(String? colorCode) {
       return GlamMinimalDark.darkTheme;
   }
   // return GlamMinimalDark.darkTheme;
+}
+
+// Theme - VINTAGE CRAFT
+ThemeData getVintageCraftTheme(String? colorCode) {
+  switch (colorCode) {
+    case null:
+      VintageCraftTheme.accentColor = const Color(0XFFDAA642);
+
+      return VintageCraftTheme.mainTheme;
+
+    default:
+      if (colorCode != null) {
+        try {
+          // Decode color from string
+          String valueString = colorCode.split('(0x')[1].split(')')[0];
+          int value = int.parse(valueString, radix: 16);
+
+          VintageCraftTheme.accentColor = Color(value);
+        } catch (e) {
+          VintageCraftTheme.accentColor = const Color(0XFFDAA642);
+        }
+      }
+
+      return VintageCraftTheme.mainTheme;
+  }
 }

@@ -223,7 +223,6 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
   void onEnteredTab(bool isHovered) => setState(() {
         isTabHovered = isHovered;
       });
-  
 
   @override
   Widget build(BuildContext context) {
@@ -740,8 +739,10 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                         width: double.infinity,
                         height: 482,
                         decoration: BoxDecoration(
-                            color:increaseBrightness( _salonProfileProvider.salonTheme.colorScheme.secondary,40)
-                        ),
+                            color: increaseBrightness(
+                                _salonProfileProvider
+                                    .salonTheme.colorScheme.secondary,
+                                40)),
                         child: Column(
                           children: [
                             const Gap(100),
@@ -1098,7 +1099,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                 ..._createAppointmentProvider
                                     .categoriesAvailable,
                               ];
-                               bool isHovered2 = index == hoveredIndex;
+                              bool isHovered2 = index == hoveredIndex;
 
                               return GestureDetector(
                                 onTap: () {
@@ -1115,19 +1116,18 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                   });
                                 },
                                 child: MouseRegion(
-
                                   //  onEnter: (event) => setState(() {
                                   //   isTabHovered = true;
                                   // }),
                                   // onExit: (event) => setState(() {
                                   //   isTabHovered = false;
                                   // }),
-                                    onEnter: (_) => _onEnter(index),
-                                    onExit: (_) => _onExit(index),
+                                  onEnter: (_) => _onEnter(index),
+                                  onExit: (_) => _onExit(index),
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 20),
-                                
+
                                     decoration: BoxDecoration(
                                       border: _currentIndex == index
                                           ? BorderDirectional(
@@ -1150,8 +1150,10 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                             .toTitleCase(),
                                         style: GoogleFonts.openSans(
                                             color: _currentIndex == index
-                                                ? _salonProfileProvider.salonTheme
-                                                    .colorScheme.secondary
+                                                ? _salonProfileProvider
+                                                    .salonTheme
+                                                    .colorScheme
+                                                    .secondary
                                                 : isHovered2
                                                     ? _salonProfileProvider
                                                         .salonTheme
@@ -1163,11 +1165,10 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                                         .bodyMedium!
                                                         .color,
                                             fontSize: 16,
-                                            fontWeight:
-                                                _currentIndex == index
-                                                    ? FontWeight.w600
-                                                    : null
-                                
+                                            fontWeight: _currentIndex == index
+                                                ? FontWeight.w600
+                                                : null
+
                                             // _currentIndex == index
                                             //     ? Colors.white
                                             //     : Colors.black, // Change the text color
@@ -1362,7 +1363,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                   )
                                   .toList(),
                             ];
-                               bool isHovered2 = index == hoveredIndex;
+                            bool isHovered2 = index == hoveredIndex;
 
                             return GestureDetector(
                               onTap: () {
@@ -1405,8 +1406,8 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                 ),
                                 //Change the tab's color
                                 child: MouseRegion(
-                                   onEnter: (_) => _onEnter(index),
-                                    onExit: (_) => _onExit(index),
+                                  onEnter: (_) => _onEnter(index),
+                                  onExit: (_) => _onExit(index),
                                   child: Center(
                                     child: Text(
                                       '${catList[index].translations![AppLocalizations.of(context)?.localeName ?? 'en'] ?? catList[index].translations!['en']}'
@@ -1943,8 +1944,10 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                         child: ListView.builder(
                           itemBuilder: (context, index) {
                             return MouseRegion(
-                              onEnter: (event) =>  _salonProfileProvider.setIsHovered(true),
-                               onExit: (event) =>  _salonProfileProvider.setIsHovered(false),
+                              onEnter: (event) =>
+                                  _salonProfileProvider.setIsHovered(true),
+                              onExit: (event) =>
+                                  _salonProfileProvider.setIsHovered(false),
                               child: TeamWidget(
                                   masterModel: _createAppointmentProvider
                                       .salonMasters[index],
@@ -2284,28 +2287,21 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                                             2)),
                                               ),
                                               child: Row(
-                                                mainAxisSize:
-                                                    MainAxisSize.min,
+                                                mainAxisSize: MainAxisSize.min,
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .center,
+                                                    MainAxisAlignment.center,
                                                 crossAxisAlignment:
-                                                    CrossAxisAlignment
-                                                        .center,
+                                                    CrossAxisAlignment.center,
                                                 children: [
                                                   const Text(
                                                     'SEND MESSAGE',
-                                                    textAlign: TextAlign
-                                                        .center,
+                                                    textAlign: TextAlign.center,
                                                     style: TextStyle(
-                                                      color:
-                                                          Colors.white,
+                                                      color: Colors.white,
                                                       fontSize: 16,
-                                                      fontFamily:
-                                                          'Open Sans',
+                                                      fontFamily: 'Open Sans',
                                                       fontWeight:
-                                                          FontWeight
-                                                              .w700,
+                                                          FontWeight.w700,
                                                       height: 0,
                                                     ),
                                                   ),
@@ -2613,10 +2609,9 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
   }
 }
 
-
 Color increaseBrightness(Color color, double percent) {
-    final hslColor = HSLColor.fromColor(color);
-    final newLightness = (hslColor.lightness + (percent / 100)).clamp(0.0, 1.0);
-    final newColor = hslColor.withLightness(newLightness);
-    return newColor.toColor();
-  }
+  final hslColor = HSLColor.fromColor(color);
+  final newLightness = (hslColor.lightness + (percent / 100)).clamp(0.0, 1.0);
+  final newColor = hslColor.withLightness(newLightness);
+  return newColor.toColor();
+}

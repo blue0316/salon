@@ -41,7 +41,7 @@ class DefaultLandingHeaderView extends ConsumerWidget {
                   children: [
                     ThemeAppBar(salonModel: chosenSalon),
                     (themeType == ThemeType.Barbershop) ? SizedBox(height: 170.sp) : const SizedBox(height: 100),
-                    ThemeHeader(salonModel: chosenSalon, masterModel: masterModel),
+                    ThemeHeader(salonModel: chosenSalon),
                   ],
                 ),
               ),

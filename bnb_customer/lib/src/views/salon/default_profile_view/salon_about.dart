@@ -32,7 +32,9 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
   int totalReviewsToShow = 3;
 
   getFeature(String s) {
-    List<Map<String, String>> searchList = getFeaturesList(widget.salonModel.locale);
+    final repository = ref.watch(bnbProvider);
+
+    List<Map<String, String>> searchList = getFeaturesList(repository.locale.toString());
 
     for (Map registeredFeatures in searchList) {
       if (registeredFeatures.containsKey(s)) {
