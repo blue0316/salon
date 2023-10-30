@@ -560,6 +560,18 @@ class SalonProfileProvider with ChangeNotifier {
     isHovered = value;
     notifyListeners();
   }
+
+     int teamHoveredIndex = -1;
+
+  void onEnterTeamMember(int index) {
+   teamHoveredIndex = index;
+    notifyListeners();
+  }
+
+  void onExitTeamMember(int index) {
+   teamHoveredIndex = -1;
+    notifyListeners();
+  }
 }
 
 Set availableThemes = {

@@ -8,7 +8,6 @@ import '../../../../models/salon_master/master.dart';
 import '../../../widgets/image.dart';
 import '../../images.dart';
 import '../../utils/theme_type.dart';
-import 'city_muse_desktop.dart';
 
 class TeamWidget extends ConsumerWidget {
   final MasterModel? masterModel;
@@ -41,8 +40,10 @@ class TeamWidget extends ConsumerWidget {
                       fit: BoxFit.fitWidth,
                     )
                   : Image.asset(
-                     salonProfile.themeType == ThemeType.CityMuseLight?ThemeImages.noTeamMemberLightCityMuse:ThemeImages.noTeamMemberDarkCityMuse,
-                     //ThemeImages.noTeamMember,
+                      salonProfile.themeType == ThemeType.CityMuseLight
+                          ? ThemeImages.noTeamMemberLightCityMuse
+                          : ThemeImages.noTeamMemberDarkCityMuse,
+                      //ThemeImages.noTeamMember,
                       width: 381,
                       height: 400,
                       fit: BoxFit.fitWidth,
@@ -52,22 +53,31 @@ class TeamWidget extends ConsumerWidget {
           const Gap(20),
           Padding(
             padding: const EdgeInsets.only(left: 10.0, right: 8.0),
-            child: Text(
-              '${masterModel?.personalInfo?.firstName} ${masterModel?.personalInfo?.lastName}'
-                  .toUpperCase(),
-              textAlign: TextAlign.center,
-              style: GoogleFonts.openSans(
-                color: salonProfile.isHovered
-                    ? increaseBrightness(
-                        salonProfile.salonTheme.colorScheme.secondary, 10)
-                    : salonProfile.salonTheme.colorScheme.secondary,
-                // color:
-                // const Color(0xFFE980B2),
-                fontSize: 20,
-                // fontFamily: 'Open Sans',ss
-                fontWeight: FontWeight.w600,
-                height: 0,
-              ),
+            child: Row(
+              children: [
+                Text(
+                  '${masterModel?.personalInfo?.firstName} ${masterModel?.personalInfo?.lastName}'
+                      .toUpperCase(),
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.openSans(
+                    color: index == salonProfile.teamHoveredIndex
+                        ? salonProfile.salonTheme.colorScheme.secondary
+                        : salonProfile.salonTheme.textTheme.displaySmall!.color,
+                    // color:
+                    // const Color(0xFFE980B2),
+                    fontSize: 20,
+                    // fontFamily: 'Open Sans',ss
+                    fontWeight: FontWeight.w500,
+                    height: 0,
+                  ),
+                ),
+                const Gap(10),
+                if (index == salonProfile.teamHoveredIndex)
+                  Image.asset('assets/test_assets/book_arrow.png',
+                      height: 24,
+                      width: 24,
+                      color: salonProfile.salonTheme.colorScheme.secondary),
+              ],
             ),
           ),
           const Gap(10),

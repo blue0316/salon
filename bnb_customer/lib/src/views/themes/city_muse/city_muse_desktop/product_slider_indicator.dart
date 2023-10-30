@@ -18,17 +18,17 @@ class ProductSliderIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliderTheme(
-      data: const SliderThemeData(
-        thumbShape: RoundSliderThumbShape(
+      data: SliderThemeData(
+        thumbShape: const RoundSliderThumbShape(
           enabledThumbRadius: 1,
         ),
-        overlayColor: Color(0x29eb1555),
-        activeTrackColor: Color(0xff868686),
-        inactiveTrackColor: Color(0xffCACACA),
+        overlayColor: const Color(0x29eb1555),
+        activeTrackColor: const Color(0xff868686),
+        inactiveTrackColor: const Color(0xff868686).withOpacity(0.2),
         thumbColor: Colors.white,
       ),
       child: Slider(
-          value: _selectedProductIndex.toDouble(),
+          value: _selectedProductIndex.toDouble() + 1,
           thumbColor: Colors.transparent,
           //overlayColor: ,
           min: 0.0,

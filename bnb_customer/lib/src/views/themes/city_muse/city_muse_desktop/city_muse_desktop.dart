@@ -1290,7 +1290,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                         ),
                       ),
                     ),
-                    const Gap(20),
+                    const Gap(50),
                     Padding(
                       padding: const EdgeInsets.only(left: 100.0, right: 8.0),
                       child: SizedBox(
@@ -1516,7 +1516,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                     children: [
                                       Padding(
                                         padding:
-                                            const EdgeInsets.only(left: 33.0),
+                                            const EdgeInsets.only(left: 38.0),
                                         child: SizedBox(
                                           height: 350,
                                           child: ListView.builder(
@@ -1590,7 +1590,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                                           .titleSmall!
                                                           .color, //height:1.5
                                                     )),
-                                                const Gap(30),
+                                                const Gap(40),
                                                 GestureDetector(
                                                   onTap: () {
                                                     const BookingDialogWidget222()
@@ -1601,43 +1601,48 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                                         onEntered(true),
                                                     onExit: (event) =>
                                                         onEntered(false),
-                                                    child: Row(
-                                                      children: [
-                                                        Text('BOOK NOW',
-                                                            style: GoogleFonts.openSans(
-                                                                color: isHovered
-                                                                    ? increaseBrightness(
-                                                                        _salonProfileProvider
-                                                                            .salonTheme
-                                                                            .colorScheme
-                                                                            .secondary,
-                                                                        10)
-                                                                    : _salonProfileProvider
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 38.0),
+                                                      child: Row(
+                                                        children: [
+                                                          Text('BOOK NOW',
+                                                              style: GoogleFonts.openSans(
+                                                                  color: isHovered
+                                                                      ? increaseBrightness(
+                                                                          _salonProfileProvider
+                                                                              .salonTheme
+                                                                              .colorScheme
+                                                                              .secondary,
+                                                                          10)
+                                                                      : _salonProfileProvider
+                                                                          .salonTheme
+                                                                          .colorScheme
+                                                                          .secondary,
+                                                                  fontSize: 18,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w700)),
+                                                          const Gap(10),
+                                                          Image.asset(
+                                                            'assets/test_assets/book_arrow.png',
+                                                            height: 24,
+                                                            width: 24,
+                                                            color: isHovered
+                                                                ? increaseBrightness(
+                                                                    _salonProfileProvider
                                                                         .salonTheme
                                                                         .colorScheme
                                                                         .secondary,
-                                                                fontSize: 18,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w700)),
-                                                        const Gap(10),
-                                                        Image.asset(
-                                                          'assets/test_assets/book_arrow.png',
-                                                          height: 24,
-                                                          width: 24,
-                                                          color: isHovered
-                                                              ? increaseBrightness(
-                                                                  _salonProfileProvider
-                                                                      .salonTheme
-                                                                      .colorScheme
-                                                                      .secondary,
-                                                                  10)
-                                                              : _salonProfileProvider
-                                                                  .salonTheme
-                                                                  .colorScheme
-                                                                  .secondary,
-                                                        ),
-                                                      ],
+                                                                    10)
+                                                                : _salonProfileProvider
+                                                                    .salonTheme
+                                                                    .colorScheme
+                                                                    .secondary,
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
@@ -1799,7 +1804,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                         padding:
                                             const EdgeInsets.only(left: 38.0),
                                         child: SizedBox(
-                                            width: 488,
+                                            width: double.infinity,
                                             child: Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
@@ -1914,10 +1919,10 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                         child: ListView.builder(
                           itemBuilder: (context, index) {
                             return MouseRegion(
-                              onEnter: (event) =>
-                                  _salonProfileProvider.setIsHovered(true),
+                              onEnter: (event) => _salonProfileProvider
+                                  .onEnterTeamMember(index),
                               onExit: (event) =>
-                                  _salonProfileProvider.setIsHovered(false),
+                                  _salonProfileProvider.onExitTeamMember(index),
                               child: TeamWidget(
                                   masterModel: _createAppointmentProvider
                                       .salonMasters[index],
@@ -2394,7 +2399,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                               const Gap(40),
                               Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 80.0, right: 18.0),
+                                    left: 80.0, right: 5.0),
                                 child: Row(
                                   children: [
                                     CityMuseContactCard(
@@ -2440,10 +2445,10 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                   ],
                                 ),
                               ),
-                              const Gap(20),
+                              const Gap(10),
                               Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 80.0, right: 18.0),
+                                    left: 80.0, right: 5.0),
                                 child: Row(
                                   children: [
                                     CityMuseContactCard(
@@ -2515,9 +2520,9 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                     child: Container(
                         height: 1,
                         width: double.infinity,
-                        color: const Color(0xFFB8B2A6)),
+                        color: const Color(0xff41403c)),
                   ),
-                  const Gap(40),
+                  const Gap(20),
                   Padding(
                     padding: const EdgeInsets.only(left: 100.0, right: 60.0),
                     child: Row(

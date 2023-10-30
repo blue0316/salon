@@ -40,7 +40,7 @@ class CityMuseContactCard extends ConsumerWidget {
     final theme = ref.watch(salonProfileProvider).salonTheme;
     final SalonModel chosenSalon = ref.watch(salonProfileProvider).chosenSalon;
     return Padding(
-      padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+      padding: const EdgeInsets.only(left: 5.0, right: 5.0),
       child: Container(
         width: width,
         height: 142,
@@ -137,67 +137,70 @@ class CityMuseContactCard extends ConsumerWidget {
                   ),
                 ),
               ),
-              if(contactAssetList)...[
-                 const Gap(10),
-          
-            Row(children: [
-              if(chosenSalon.links?.facebook != null &&  chosenSalon.links!.facebook.isNotEmpty)
-               GestureDetector(
-                 onTap: () async {
-        Uri uri = Uri.parse(socialLinks('facebook',chosenSalon.links!.facebook  ?? ''));
+            if (contactAssetList) ...[
+              const Gap(10),
+              Row(
+                children: [
+                  if (chosenSalon.links?.facebook != null &&
+                      chosenSalon.links!.facebook.isNotEmpty)
+                    GestureDetector(
+                      onTap: () async {
+                        Uri uri = Uri.parse(socialLinks(
+                            'facebook', chosenSalon.links!.facebook ?? ''));
 
-        // debugPrint("launching Url: $uri");
+                        // debugPrint("launching Url: $uri");
 
-        if (await canLaunchUrl(uri)) {
-          await launchUrl(uri);
-        } else {
-          showToast("Social Link is not available");
-        }
-      },
+                        if (await canLaunchUrl(uri)) {
+                          await launchUrl(uri);
+                        } else {
+                          showToast("Social Link is not available");
+                        }
+                      },
+                      child:
+                          SvgPicture.asset('assets/test_assets/facebook.svg'),
+                    ),
+                  const Gap(4.0),
+                  if (chosenSalon.links?.instagram != null &&
+                      chosenSalon.links!.instagram.isNotEmpty)
+                    GestureDetector(
+                      onTap: () async {
+                        Uri uri = Uri.parse(socialLinks(
+                            'instagram', chosenSalon.links!.instagram ?? ''));
 
-                 child: SvgPicture.asset(
-                                'assets/test_assets/facebook.svg'),
-               ),
-               Gap(4.0),
+                        // debugPrint("launching Url: $uri");
 
-                               if(chosenSalon.links?.instagram != null &&  chosenSalon.links!.instagram.isNotEmpty)
-               GestureDetector(
-                onTap: () async {
-        Uri uri = Uri.parse(socialLinks('instagram',chosenSalon.links!.instagram  ?? ''));
+                        if (await canLaunchUrl(uri)) {
+                          await launchUrl(uri);
+                        } else {
+                          showToast("Social Link is not available");
+                        }
+                      },
+                      child:
+                          SvgPicture.asset('assets/test_assets/instagram.svg'),
+                    ),
+                  const Gap(4.0),
+                  if (chosenSalon.links?.tiktok != null &&
+                      chosenSalon.links!.tiktok.isNotEmpty)
+                    GestureDetector(
+                      onTap: () async {
+                        Uri uri = Uri.parse(socialLinks(
+                            'tiktok', chosenSalon.links!.tiktok ?? ''));
 
-        // debugPrint("launching Url: $uri");
+                        // debugPrint("launching Url: $uri");
 
-        if (await canLaunchUrl(uri)) {
-          await launchUrl(uri);
-        } else {
-          showToast("Social Link is not available");
-        }
-      },
+                        if (await canLaunchUrl(uri)) {
+                          await launchUrl(uri);
+                        } else {
+                          showToast("Social Link is not available");
+                        }
+                      },
+                      child: SvgPicture.asset('assets/test_assets/tiktok.svg'),
+                    ),
+                  const Gap(4.0)
+                ],
+              )
+            ]
 
-                 child: SvgPicture.asset(
-                                'assets/test_assets/instagram.svg'),
-               ),  Gap(4.0),
-                               if(chosenSalon.links?.tiktok != null &&  chosenSalon.links!.tiktok.isNotEmpty)
-               GestureDetector(
-                onTap: () async {
-        Uri uri = Uri.parse(socialLinks('tiktok',chosenSalon.links!.tiktok ?? ''));
-
-        // debugPrint("launching Url: $uri");
-
-        if (await canLaunchUrl(uri)) {
-          await launchUrl(uri);
-        } else {
-          showToast("Social Link is not available");
-        }
-      },
-
-                 child: SvgPicture.asset(
-                                'assets/test_assets/tiktok.svg'),
-               ),  Gap(4.0)
-                        
-            ],)
-              ]
-           
             // if (contactAssetList != null && contactAssetList!.isNotEmpty)
             //   SizedBox(
             //     height: 50,
@@ -207,7 +210,7 @@ class CityMuseContactCard extends ConsumerWidget {
             //         itemCount: contactAssetList!.length,
             //         itemBuilder: (context, index) => Padding(
             //               padding: const EdgeInsets.all(4.0),
-            //               child: 
+            //               child:
             // SvgPicture.asset(
             //                   'assets/test_assets/${contactAssetList![index]}'),
             //             )),
