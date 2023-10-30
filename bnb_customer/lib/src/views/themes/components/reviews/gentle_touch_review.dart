@@ -4,7 +4,6 @@ import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/review.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
-import 'package:bbblient/src/views/themes/components/widgets/button.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/prev_and_next.dart';
 import 'package:bbblient/src/views/themes/icons.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
@@ -40,8 +39,9 @@ class _GentleTouchReviewViewState extends ConsumerState<GentleTouchReviewView> {
 
     return Container(
       decoration: BoxDecoration(
-        color: themeType == ThemeType.VintageCraft ? theme.colorScheme.secondary.withOpacity(0.65) : null,
-        gradient: themeType != ThemeType.VintageCraft ? buttonGradient(themeType, theme, opacity: 0.3) : null,
+        color: theme.colorScheme.secondary.withOpacity(0.5),
+        // color: themeType == ThemeType.VintageCraft ? theme.colorScheme.secondary.withOpacity(0.65) : null,
+        // gradient: themeType != ThemeType.VintageCraft ? buttonGradient(themeType, theme, opacity: 0.3) : null,
       ),
       child: Padding(
         padding: EdgeInsets.only(
@@ -69,7 +69,7 @@ class _GentleTouchReviewViewState extends ConsumerState<GentleTouchReviewView> {
                       carouselController: _controller,
                       options: CarouselOptions(
                         viewportFraction: 1,
-                        autoPlay: true,
+                        autoPlay: (_salonProfileProvider.salonReviews.length < 2) ? false : true,
                         onPageChanged: (index, reason) {
                           setState(() {
                             _current = index;
@@ -163,7 +163,7 @@ class GentleTouchReviewCard extends ConsumerWidget {
           itemSize: isPortrait ? 20 : 15,
           itemCount: 5,
           updateOnDrag: true,
-          unratedColor: themeType == ThemeType.VintageCraft ? Colors.white : Colors.black,
+          unratedColor: themeType == ThemeType.VintageCraft ? Colors.white : Colors.grey,
           onRatingUpdate: (rating) {},
           itemBuilder: (context, _) {
             return Icon(Icons.star, color: theme.colorScheme.secondary);
