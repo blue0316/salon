@@ -1,3 +1,5 @@
+import 'package:bbblient/src/models/enums/device_screen_type.dart';
+import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/booking_dialog_2.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
@@ -59,10 +61,9 @@ BoxDecoration servicesTabBarTheme(ThemeType themeType, ThemeData theme) {
   }
 }
 
-Widget bookNowButtonTheme(context,
-    {required ThemeType themeType,
-    required ThemeData theme,
-    bool hasGradient = false}) {
+Widget bookNowButtonTheme(context, {required ThemeType themeType, required ThemeData theme, bool hasGradient = false}) {
+  final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+
   switch (themeType) {
     case ThemeType.GentleTouch:
       return Row(
@@ -111,35 +112,38 @@ Widget bookNowButtonTheme(context,
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          MultipleStatesButton(
-            borderColor: Colors.transparent,
-            buttonColor: theme.colorScheme.secondary,
-            width: 150.sp,
-            textSize: 16.sp,
-            text: (AppLocalizations.of(context)?.bookNow ?? "Book Now"),
-            weight: FontWeight.normal,
-            textColor: Colors.white,
-            height: 47.h,
-            showSuffix: false,
-            borderRadius: 2,
-            isGradient: hasGradient,
-            onTap: () => const BookingDialogWidget222().show(context),
+          Center(
+            child: MultipleStatesButton(
+              borderColor: Colors.transparent,
+              buttonColor: theme.colorScheme.secondary,
+              width: 150.sp,
+              textSize: 16.sp,
+              text: (AppLocalizations.of(context)?.bookNow ?? "Book Now"),
+              weight: FontWeight.normal,
+              textColor: Colors.white,
+              height: 47.h,
+              showSuffix: false,
+              borderRadius: 2,
+              isGradient: hasGradient,
+              onTap: () => const BookingDialogWidget222().show(context),
+            ),
           ),
-          SizedBox(width: 20.sp),
-          MultipleStatesButton(
-            borderColor: theme.colorScheme.secondary,
-            buttonColor: Colors.black,
-            width: 300.sp,
-            textSize: 16.sp,
-            text: 'Read About Cancelation Policy',
-            weight: FontWeight.normal,
-            textColor: Colors.white,
-            height: 47.h,
-            showSuffix: false,
-            borderRadius: 2,
-            isGradient: hasGradient,
-            onTap: () {},
-          ),
+          if (!isPortrait) SizedBox(width: 20.sp),
+          if (!isPortrait)
+            MultipleStatesButton(
+              borderColor: theme.colorScheme.secondary,
+              buttonColor: Colors.black,
+              width: 300.sp,
+              textSize: 16.sp,
+              text: 'Read About Cancelation Policy',
+              weight: FontWeight.normal,
+              textColor: Colors.white,
+              height: 47.h,
+              showSuffix: false,
+              borderRadius: 2,
+              isGradient: hasGradient,
+              onTap: () {},
+            ),
         ],
       );
     default:
@@ -147,8 +151,7 @@ Widget bookNowButtonTheme(context,
         width: 180.h,
         height: 60.h,
         textSize: 18.sp,
-        text:
-            (AppLocalizations.of(context)?.bookNow ?? "BOOK NOW").toTitleCase(),
+        text: (AppLocalizations.of(context)?.bookNow ?? "BOOK NOW").toTitleCase(),
         onTap: () => const BookingDialogWidget222().show(context),
       );
   }

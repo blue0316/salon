@@ -16,7 +16,6 @@ import 'package:bbblient/src/views/themes/components/salon_sponsors.dart';
 import 'package:bbblient/src/views/themes/components/team/gentle_touch_team.dart';
 import 'package:bbblient/src/views/themes/components/write_to_us/write_to_us.dart';
 import 'package:bbblient/src/views/themes/icons.dart';
-import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/themes/utils/unique_landing_bottom.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +60,6 @@ class _VintageCraftDesktopState extends ConsumerState<VintageCraftDesktop> {
     final SalonModel chosenSalon = _salonProfileProvider.chosenSalon;
     final ThemeData theme = _salonProfileProvider.salonTheme;
     final DisplaySettings? displaySettings = _salonProfileProvider.themeSettings?.displaySettings;
-    ThemeType themeType = _salonProfileProvider.themeType;
 
     return SafeArea(
       top: false,

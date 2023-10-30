@@ -421,14 +421,14 @@ class ShowServiceInfo extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Flexible(
-                  //   child: Text(
-                  //     Translation.getServiceName(service: service, langCode: AppLocalizations.of(context)?.localeName ?? 'en'),
-                  //     style: TextStyle(
-                  //       color: isAddedSelectedColor(themeType), //  AppTheme.white3,
-                  //     ),
-                  //   ),
-                  // ),
+                  Flexible(
+                    child: Text(
+                      Translation.getServiceName(service: service, langCode: AppLocalizations.of(context)?.localeName ?? 'en'),
+                      style: TextStyle(
+                        color: isAddedSelectedColor(themeType), //  AppTheme.white3,
+                      ),
+                    ),
+                  ),
                   const SizedBox.shrink(),
                   GestureDetector(
                     onTap: () => Navigator.of(context).pop(),

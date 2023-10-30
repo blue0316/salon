@@ -15,6 +15,8 @@ class UniquePortraitLandingBottom extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    final repository = ref.watch(bnbProvider);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -83,7 +85,11 @@ class UniquePortraitLandingBottom extends ConsumerWidget {
                 cursor: SystemMouseCursors.click,
                 child: GestureDetector(
                   onTap: () {
-                    js.context.callMethod('open', ['https://www.glamiris.com/']);
+                    if (repository.locale.toString() == 'uk') {
+                      js.context.callMethod('open', ['http://bnbua.com/']);
+                    } else {
+                      js.context.callMethod('open', ['https://www.glamiris.com/']);
+                    }
                   },
                   child: Text(
                     '${AppLocalizations.of(context)?.poweredBy ?? 'Powered by '}Glamiris',
@@ -112,6 +118,8 @@ class UniqueLandscapeLandingBottom extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
+    final repository = ref.watch(bnbProvider);
+
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: DeviceConstraints.getResponsiveSize(context, 70.sp, 30.sp, 70.sp),
@@ -176,7 +184,11 @@ class UniqueLandscapeLandingBottom extends ConsumerWidget {
                     cursor: SystemMouseCursors.click,
                     child: GestureDetector(
                       onTap: () {
-                        js.context.callMethod('open', ['https://www.glamiris.com/']);
+                        if (repository.locale.toString() == 'uk') {
+                          js.context.callMethod('open', ['http://bnbua.com/']);
+                        } else {
+                          js.context.callMethod('open', ['https://www.glamiris.com/']);
+                        }
                       },
                       child: Text(
                         '${AppLocalizations.of(context)?.poweredBy ?? 'Powered by '}Glamiris',

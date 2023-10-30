@@ -1,9 +1,11 @@
 // ignore_for_file: unnecessary_this
 
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/extracted/expansion_tile.dart';
 import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
+import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/currency/currency.dart';
@@ -11,6 +13,8 @@ import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/utils/translation.dart';
+import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/colors.dart';
+import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -48,6 +52,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool isLightTheme = (theme == AppTheme.customLightTheme);
+    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
@@ -303,10 +308,12 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                   //   fontFamily: "Inter-Light",
                                                   // ),
                                                   child: GestureDetector(
-                                                    // onTap: () => showDialog<bool>(
-                                                    //   context: context,
-                                                    //   builder: (BuildContext context) => ShowServiceInfo(service),
-                                                    // ),
+                                                    onTap: isPortrait
+                                                        ? () => showDialog<bool>(
+                                                              context: context,
+                                                              builder: (BuildContext context) => ShowServiceInfo(service),
+                                                            )
+                                                        : null,
                                                     child: SizedBox(
                                                       height: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
                                                       width: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
@@ -341,61 +348,65 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
   }
 }
 
-class ShowServiceInfo extends StatelessWidget {
+class ShowServiceInfo extends ConsumerWidget {
   final ServiceModel service;
   const ShowServiceInfo(this.service, {Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+    ThemeType themeType = _salonProfileProvider.themeType;
+
     return AlertDialog(
-        contentPadding: EdgeInsets.zero,
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
-        content: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            color: AppTheme.lightBlack,
-          ),
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: Text(
-                      Translation.getServiceName(service: service, langCode: AppLocalizations.of(context)?.localeName ?? 'en'),
-                      style: const TextStyle(
-                        color: AppTheme.white3,
-                        fontFamily: "Inter-Light",
-                      ),
+      contentPadding: EdgeInsets.zero,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
+      backgroundColor: Colors.transparent,
+      content: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: theme.dialogBackgroundColor, // AppTheme.lightBlack,
+        ),
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: Text(
+                    Translation.getServiceName(service: service, langCode: AppLocalizations.of(context)?.localeName ?? 'en'),
+                    style: theme.textTheme.displayMedium!.copyWith(
+                      fontWeight: FontWeight.normal,
+                      fontSize: 15.sp,
+                      color: isAddedSelectedColor(themeType),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () => Navigator.of(context).pop(),
-                    child: const Icon(
-                      Icons.clear_rounded,
-                      size: 22,
-                      color: AppTheme.white3,
-                    ),
-                  )
-                ],
-              ),
-              const Space(),
-              Text(
-                (service.description == null || service.description == "")
-                    ? "Опис відсутній" //means no description available
-                    : service.description!,
-                style: const TextStyle(
-                  color: AppTheme.white3,
-                  fontWeight: FontWeight.w400,
-                  fontFamily: "Inter-Light",
                 ),
-              )
-            ],
-          ),
-        ));
+                GestureDetector(
+                  onTap: () => Navigator.of(context).pop(),
+                  child: Icon(
+                    Icons.clear_rounded,
+                    size: 22,
+                    color: isAddedSelectedColor(themeType),
+                  ),
+                )
+              ],
+            ),
+            const Space(),
+            Text(
+              '${service.description}',
+              style: theme.textTheme.displayMedium!.copyWith(
+                fontWeight: FontWeight.normal,
+                color: isAddedSelectedColor(themeType),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
 

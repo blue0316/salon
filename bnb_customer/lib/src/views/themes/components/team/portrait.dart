@@ -2,6 +2,7 @@ import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
+import 'package:bbblient/src/views/themes/vintage_craft/desktop/team.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -54,13 +55,20 @@ class _TeamPortraitViewState extends ConsumerState<TeamPortraitView> {
                     .map(
                       (item) => Padding(
                         padding: const EdgeInsets.only(right: 0),
-                        child: GentleTouchTeamMember(
-                          name: Utils().getNameMaster(item.personalInfo),
-                          masterTitle: item.title ?? '',
-                          image: item.profilePicUrl,
-                          master: item,
-                          showDesc: true,
-                        ),
+                        child: themeType != ThemeType.VintageCraft
+                            ? GentleTouchTeamMember(
+                                name: Utils().getNameMaster(item.personalInfo),
+                                masterTitle: item.title ?? '',
+                                image: item.profilePicUrl,
+                                master: item,
+                                showDesc: true,
+                              )
+                            : VintageCraftTeamMember(
+                                name: Utils().getNameMaster(item.personalInfo),
+                                masterTitle: item.title ?? '',
+                                image: item.profilePicUrl,
+                                master: item,
+                              ),
                       ),
                     )
                     .toList(),

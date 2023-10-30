@@ -19,6 +19,7 @@ import 'package:bbblient/src/views/themes/glam_minimal/glam_minimal_entry.dart';
 import 'package:bbblient/src/views/themes/glam_one/glam_one.dart';
 import 'package:bbblient/src/views/themes/utils/theme_color.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
+import 'package:bbblient/src/views/themes/vintage_craft/mobile/menu.dart';
 import 'package:bbblient/src/views/themes/vintage_craft/vintage_main.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:collection/collection.dart';
@@ -138,6 +139,7 @@ class SalonProfileProvider with ChangeNotifier {
   }
 
   Widget currentWidget = const MenuSection();
+  Widget currentWidgetVintage = const VintageMenuSection();
 
   changeCurrentWidget(Widget widget) {
     currentWidget = widget;
@@ -351,12 +353,12 @@ class SalonProfileProvider with ChangeNotifier {
           notifyListeners();
           return const CityMuseEntry();
 
-        case '789':
-          salonTheme = getVintageCraftTheme(themeSettings?.theme?.colorCode);
-          themeType = ThemeType.VintageCraft;
+        // case '789':
+        //   salonTheme = getVintageCraftTheme(themeSettings?.theme?.colorCode);
+        //   themeType = ThemeType.VintageCraft;
 
-          notifyListeners();
-          return const VintageCraft();
+        //   notifyListeners();
+        //   return const VintageCraft();
       }
 
       return GlamOneScreen(showBooking: showBooking); // New Themes Base Widget
