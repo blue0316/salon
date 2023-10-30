@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../controller/salon/salon_profile_provider.dart';
@@ -38,13 +39,16 @@ class CityMuseServiceTab extends StatelessWidget {
               decoration: const BoxDecoration(
                   border: Border(bottom: BorderSide(color: Color(0xff414036)))),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         serviceList.translations?[
-                                AppLocalizations.of(context)?.localeName ?? 'en'] ??
+                                AppLocalizations.of(context)?.localeName ??
+                                    'en'] ??
                             serviceList.translations?['en'] ??
                             '',
                         style: GoogleFonts.openSans(
@@ -73,6 +77,22 @@ class CityMuseServiceTab extends StatelessWidget {
                       )
                     ],
                   ),
+                  if (serviceList.description != null &&
+                      serviceList.description!.isNotEmpty &&
+                      _salonProfileProvider.serviceHoveredIndex == index) ...[
+                    const Gap(20),
+                    Text(
+                      serviceList.description.toString(),
+                      style: GoogleFonts.openSans(
+                        color: _salonProfileProvider
+                            .salonTheme.textTheme.titleSmall!.color,
+                        fontSize: 18,
+                        // fontFamily: 'Open Sans',
+                        fontWeight: FontWeight.w400,
+                        height: 0,
+                      ),
+                    ),
+                  ]
                 ],
               ),
             ),
