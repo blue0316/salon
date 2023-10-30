@@ -25,7 +25,12 @@ class FeaturesCheck extends ConsumerWidget {
         width: double.infinity,
         height: 40,
         decoration: BoxDecoration(
-          color:increaseBrightness( theme.colorScheme.secondary,40)
+           color: blendColors(
+                              theme.colorScheme.secondary,
+                              // const Color(0xffea80b2),
+                              theme.scaffoldBackgroundColor,
+                              0.4),
+          //increaseBrightness( theme.colorScheme.secondary,40)
         ),
         child: Column(
           children: [

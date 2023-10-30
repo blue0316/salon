@@ -3,24 +3,25 @@ import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
-import 'package:bbblient/src/views/themes/glam_one/core/utils/prev_and_next.dart';
 import 'package:bbblient/src/views/themes/glam_one/core/utils/header_height.dart';
-
+import 'package:bbblient/src/views/themes/glam_one/core/utils/prev_and_next.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class GentleTouchWorksView extends ConsumerStatefulWidget {
   final SalonModel salonModel;
-  const GentleTouchWorksView({Key? key, required this.salonModel}) : super(key: key);
+  const GentleTouchWorksView({Key? key, required this.salonModel})
+      : super(key: key);
 
   @override
-  ConsumerState<GentleTouchWorksView> createState() => _GentleTouchWorksViewState();
+  ConsumerState<GentleTouchWorksView> createState() =>
+      _GentleTouchWorksViewState();
 }
 
 class _GentleTouchWorksViewState extends ConsumerState<GentleTouchWorksView> {
@@ -38,9 +39,12 @@ class _GentleTouchWorksViewState extends ConsumerState<GentleTouchWorksView> {
 
   @override
   Widget build(BuildContext context) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
-    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+    final bool isPortrait =
+        (DeviceConstraints.getDeviceType(MediaQuery.of(context)) ==
+            DeviceScreenType.portrait);
 
     // Check if Salon is a single masters
     // final bool isSingleMaster = _salonProfileProvider.isSingleMaster;
@@ -59,20 +63,25 @@ class _GentleTouchWorksViewState extends ConsumerState<GentleTouchWorksView> {
           isPortrait
               ? Center(
                   child: Text(
-                    (AppLocalizations.of(context)?.portfolio ?? 'portfolio').toUpperCase(),
+                    (AppLocalizations.of(context)?.portfolio ?? 'portfolio')
+                        .toUpperCase(),
                     style: theme.textTheme.displayMedium?.copyWith(
-                      fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 50.sp, 60.sp),
+                      fontSize: DeviceConstraints.getResponsiveSize(
+                          context, 50.sp, 50.sp, 60.sp),
                     ),
                     textAlign: isPortrait ? TextAlign.center : null,
                   ),
                 )
               : Text(
-                  (AppLocalizations.of(context)?.portfolio ?? 'portfolio').toUpperCase(),
+                  (AppLocalizations.of(context)?.portfolio ?? 'portfolio')
+                      .toUpperCase(),
                   style: theme.textTheme.displayMedium?.copyWith(
-                    fontSize: DeviceConstraints.getResponsiveSize(context, 40.sp, 50.sp, 60.sp),
+                    fontSize: DeviceConstraints.getResponsiveSize(
+                        context, 40.sp, 50.sp, 60.sp),
                   ),
                 ),
-          SizedBox(height: DeviceConstraints.getResponsiveSize(context, 30, 30, 60)),
+          SizedBox(
+              height: DeviceConstraints.getResponsiveSize(context, 30, 30, 60)),
           (jumpPhotosList.isNotEmpty)
               ? isPortrait
                   ? PortraitView(
@@ -92,7 +101,9 @@ class _GentleTouchWorksViewState extends ConsumerState<GentleTouchWorksView> {
                                 child: Tile(
                                   index: 1,
                                   image: jumpPhotosList[0].image!,
-                                  description: widget.salonModel.photosOfWorks![0].description ?? '',
+                                  description: widget.salonModel
+                                          .photosOfWorks![0].description ??
+                                      '',
                                 ),
                               ),
                             if (jumpPhotosList.length >= 2)
@@ -102,7 +113,9 @@ class _GentleTouchWorksViewState extends ConsumerState<GentleTouchWorksView> {
                                 child: Tile(
                                   index: 2,
                                   image: jumpPhotosList[1].image!,
-                                  description: widget.salonModel.photosOfWorks![1].description ?? '',
+                                  description: widget.salonModel
+                                          .photosOfWorks![1].description ??
+                                      '',
                                 ),
                               ),
                             if (jumpPhotosList.length >= 3)
@@ -112,7 +125,9 @@ class _GentleTouchWorksViewState extends ConsumerState<GentleTouchWorksView> {
                                 child: Tile(
                                   index: 4,
                                   image: jumpPhotosList[2].image!,
-                                  description: widget.salonModel.photosOfWorks![2].description ?? '',
+                                  description: widget.salonModel
+                                          .photosOfWorks![2].description ??
+                                      '',
                                 ),
                               ),
                             if (jumpPhotosList.length >= 4)
@@ -122,7 +137,9 @@ class _GentleTouchWorksViewState extends ConsumerState<GentleTouchWorksView> {
                                 child: Tile(
                                   index: 3,
                                   image: jumpPhotosList[3].image!,
-                                  description: widget.salonModel.photosOfWorks![3].description ?? '',
+                                  description: widget.salonModel
+                                          .photosOfWorks![3].description ??
+                                      '',
                                 ),
                               ),
                             if (jumpPhotosList.length >= 5)
@@ -132,7 +149,9 @@ class _GentleTouchWorksViewState extends ConsumerState<GentleTouchWorksView> {
                                 child: Tile(
                                   index: 6,
                                   image: jumpPhotosList[4].image!,
-                                  description: widget.salonModel.photosOfWorks![4].description ?? '',
+                                  description: widget.salonModel
+                                          .photosOfWorks![4].description ??
+                                      '',
                                 ),
                               ),
                             if (jumpPhotosList.length > 5)
@@ -142,7 +161,9 @@ class _GentleTouchWorksViewState extends ConsumerState<GentleTouchWorksView> {
                                 child: Tile(
                                   index: 5,
                                   image: jumpPhotosList[5].image!,
-                                  description: widget.salonModel.photosOfWorks![5].description ?? '',
+                                  description: widget.salonModel
+                                          .photosOfWorks![5].description ??
+                                      '',
                                 ),
                               ),
                           ],
@@ -155,24 +176,30 @@ class _GentleTouchWorksViewState extends ConsumerState<GentleTouchWorksView> {
                               if (!(startJump < 0)) {
                                 setState(() {
                                   startJump -= 6;
-                                  jumpPhotosList = widget.salonModel.photosOfWorks!.sublist(startJump);
+                                  jumpPhotosList = widget
+                                      .salonModel.photosOfWorks!
+                                      .sublist(startJump);
                                 });
                               }
                             },
                             forwardOnTap: () {
                               setState(() {
                                 startJump += 6;
-                                jumpPhotosList = jumpPhotosList.sublist(startJump);
+                                jumpPhotosList =
+                                    jumpPhotosList.sublist(startJump);
                               });
                             },
-                            leftFontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 18.sp),
-                            rightFontSize: DeviceConstraints.getResponsiveSize(context, 15.sp, 15.sp, 18.sp),
+                            leftFontSize: DeviceConstraints.getResponsiveSize(
+                                context, 15.sp, 15.sp, 18.sp),
+                            rightFontSize: DeviceConstraints.getResponsiveSize(
+                                context, 15.sp, 15.sp, 18.sp),
                           ),
                         ),
                       ],
                     )
               : NoSectionYet(
-                  text: AppLocalizations.of(context)?.noWorks ?? 'No photos of works',
+                  text: AppLocalizations.of(context)?.noWorks ??
+                      'No photos of works',
                   color: theme.colorScheme.secondary,
                 ),
         ],
@@ -196,7 +223,8 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
 
   @override
   Widget build(BuildContext context) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     // final ThemeData theme = _salonProfileProvider.salonTheme;
     final ThemeType themeType = _salonProfileProvider.themeType;
 
@@ -241,7 +269,8 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
               child: Container(
                 width: _current == entry.key ? 7 : 4,
                 height: _current == entry.key ? 7 : 4,
-                margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                margin:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: _current == entry.key
@@ -294,7 +323,8 @@ class _TileState extends ConsumerState<Tile> {
 
   @override
   Widget build(BuildContext context) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     ThemeType themeType = _salonProfileProvider.themeType;
 
@@ -330,10 +360,17 @@ class _TileState extends ConsumerState<Tile> {
             ),
             if (isHovered && widget.description.isNotEmpty)
               Container(
-                width: double.infinity,
+                width: widget.width ?? MediaQuery.of(context).size.width / 3,
                 decoration: BoxDecoration(
+                  color: themeType == ThemeType.CityMuseLight ||
+                          themeType == ThemeType.CityMuseDark
+                      ? Colors.white
+                      : null,
                   border: Border.all(
-                    color: themeType == ThemeType.GentleTouch ? Colors.black : Colors.white,
+                    color: themeType == ThemeType.GentleTouch ||  themeType == ThemeType.CityMuseLight ||
+                                themeType == ThemeType.CityMuseDark
+                        ? Colors.black
+                        : Colors.white,
                     width: 0.3,
                   ),
                 ),
@@ -343,8 +380,12 @@ class _TileState extends ConsumerState<Tile> {
                     child: Text(
                       widget.description,
                       style: theme.textTheme.bodyLarge?.copyWith(
-                        color: theme.primaryColorDark,
-                        fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 14.sp, 14.sp),
+                        color: themeType == ThemeType.CityMuseLight ||
+                                themeType == ThemeType.CityMuseDark
+                            ? Colors.black
+                            : theme.primaryColorDark,
+                        fontSize: DeviceConstraints.getResponsiveSize(
+                            context, 14.sp, 14.sp, 14.sp),
                         fontWeight: FontWeight.normal,
                       ),
                       maxLines: 2,
@@ -383,11 +424,14 @@ class _TileState extends ConsumerState<Tile> {
 class PortraitItemCard extends ConsumerWidget {
   final String image, description;
 
-  const PortraitItemCard({Key? key, required this.image, required this.description}) : super(key: key);
+  const PortraitItemCard(
+      {Key? key, required this.image, required this.description})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final SalonProfileProvider _salonProfileProvider =
+        ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     final ThemeType themeType = _salonProfileProvider.themeType;
 
@@ -398,7 +442,9 @@ class PortraitItemCard extends ConsumerWidget {
         child: Container(
           decoration: BoxDecoration(
             border: Border.all(
-              color: (themeType == ThemeType.GentleTouch) ? Colors.black : Colors.white,
+              color: (themeType == ThemeType.GentleTouch)
+                  ? Colors.black
+                  : Colors.white,
             ),
           ),
           // color: backgroundColor ?? Colors.blue,
@@ -410,7 +456,9 @@ class PortraitItemCard extends ConsumerWidget {
                   decoration: BoxDecoration(
                     border: description.isNotEmpty
                         ? Border.all(
-                            color: (themeType == ThemeType.GentleTouch) ? Colors.black : Colors.white,
+                            color: (themeType == ThemeType.GentleTouch)
+                                ? Colors.black
+                                : Colors.white,
                           )
                         : null,
                   ),
@@ -423,12 +471,14 @@ class PortraitItemCard extends ConsumerWidget {
               ),
               if (description.isNotEmpty)
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 15.sp),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 10.sp, vertical: 15.sp),
                   child: Text(
                     description,
                     style: theme.textTheme.bodyLarge?.copyWith(
                       color: theme.primaryColorDark,
-                      fontSize: DeviceConstraints.getResponsiveSize(context, 14.sp, 14.sp, 14.sp),
+                      fontSize: DeviceConstraints.getResponsiveSize(
+                          context, 14.sp, 14.sp, 14.sp),
                       fontWeight: FontWeight.normal,
                     ),
                     maxLines: 3,

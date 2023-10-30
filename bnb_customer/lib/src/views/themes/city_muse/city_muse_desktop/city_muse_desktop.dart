@@ -2,17 +2,17 @@ import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/themes/city_muse/city_muse_desktop/reviews.dart';
 import 'package:bbblient/src/views/themes/city_muse/city_muse_desktop/service_tab.dart';
 import 'package:bbblient/src/views/themes/city_muse/city_muse_desktop/teams_tile.dart';
+import 'package:bbblient/src/views/themes/city_muse/city_muse_mobile/app_bar_menu.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marquee/marquee.dart';
-import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
-import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../controller/all_providers/all_providers.dart';
@@ -30,6 +30,7 @@ import '../../../salon/widgets/additional featured.dart';
 import '../../../widgets/image.dart';
 import '../../../widgets/widgets.dart';
 import '../../components/contacts/widgets/contact_maps.dart';
+import '../../components/works/gentle_touch_works_view.dart';
 import '../city_muse_mobile/contact_card.dart';
 import '../city_muse_mobile/specialization_box.dart';
 import '../utils.dart';
@@ -239,7 +240,33 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
     double height = MediaQuery.of(context).size.height;
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
+      floatingActionButton: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: GestureDetector(
+          onTap: () {
+            Scrollable.ensureVisible(
+              controller.landing.currentContext!,
+              duration: const Duration(seconds: 2),
+              curve: Curves.ease,
+            );
+          },
+          child: Container(
+            height: 60.h,
+            width: 60.h,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: const Color(0XFFC1C1C1), width: 1.2),
+            ),
+            child: Icon(
+              Icons.keyboard_arrow_up_rounded,
+              size: 30.h,
+              color: const Color(0XFFC1C1C1),
+            ),
+          ),
+        ),
+      ),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         leading: null,
         title: SingleChildScrollView(
           child: Row(
@@ -296,23 +323,16 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
 
           if (chosenSalon.description.isNotEmpty &&
               displaySettings!.showAbout) ...[
-            GestureDetector(
-              onTap: () {
+            AppBarMenu(
+              index: 0,
+              title: AppLocalizations.of(context)?.aboutUs ?? 'About Us',
+              action: () {
                 Scrollable.ensureVisible(
                   controller.about.currentContext!,
                   duration: const Duration(seconds: 2),
                   curve: Curves.ease,
                 );
               },
-              child: Padding(
-                padding: const EdgeInsets.only(top: 16.0),
-                child: Text(
-                  AppLocalizations.of(context)?.aboutUs ?? 'About Us',
-                  style: GoogleFonts.openSans(
-                      color: _salonProfileProvider
-                          .salonTheme.textTheme.displaySmall!.color),
-                ),
-              ),
             ),
             const SizedBox(
               width: 40,
@@ -321,46 +341,32 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
           if (chosenSalon.photosOfWorks != null &&
               chosenSalon.photosOfWorks!.isNotEmpty &&
               displaySettings!.showPhotosOfWork) ...[
-            GestureDetector(
-              onTap: () {
+            AppBarMenu(
+              index: 1,
+              title: AppLocalizations.of(context)?.portfolio ?? 'Portfolio',
+              action: () {
                 Scrollable.ensureVisible(
                   controller.works.currentContext!,
                   duration: const Duration(seconds: 2),
                   curve: Curves.ease,
                 );
               },
-              child: Padding(
-                padding: const EdgeInsets.only(top: 16.0),
-                child: Text(
-                  AppLocalizations.of(context)?.portfolio ?? 'Portfolio',
-                  style: GoogleFonts.openSans(
-                      color: _salonProfileProvider
-                          .salonTheme.textTheme.displaySmall!.color),
-                ),
-              ),
             ),
             const SizedBox(
               width: 40,
             ),
           ],
           if (displaySettings!.services.showServices) ...[
-            GestureDetector(
-              onTap: () {
+            AppBarMenu(
+              index: 2,
+              title: AppLocalizations.of(context)?.services ?? 'Services',
+              action: () {
                 Scrollable.ensureVisible(
                   controller.price.currentContext!,
                   duration: const Duration(seconds: 2),
                   curve: Curves.ease,
                 );
               },
-              child: Padding(
-                padding: const EdgeInsets.only(top: 16.0),
-                child: Text(
-                  AppLocalizations.of(context)?.services ?? 'Services',
-                  style: GoogleFonts.openSans(
-                      color: _salonProfileProvider
-                          .salonTheme.textTheme.displaySmall!.color),
-                ),
-              ),
             ),
             const SizedBox(
               width: 40,
@@ -369,23 +375,16 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
 
           if (displaySettings.product.showProduct &&
               _salonProfileProvider.allProducts.isNotEmpty) ...[
-            GestureDetector(
-              onTap: () {
+            AppBarMenu(
+              index: 3,
+              title: AppLocalizations.of(context)?.products ?? 'Products',
+              action: () {
                 Scrollable.ensureVisible(
                   controller.shop.currentContext!,
                   duration: const Duration(seconds: 2),
                   curve: Curves.ease,
                 );
               },
-              child: Padding(
-                padding: const EdgeInsets.only(top: 16.0),
-                child: Text(
-                  AppLocalizations.of(context)?.products ?? 'Products',
-                  style: GoogleFonts.openSans(
-                      color: _salonProfileProvider
-                          .salonTheme.textTheme.displaySmall!.color),
-                ),
-              ),
             ),
             const SizedBox(
               width: 40,
@@ -393,23 +392,16 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
           ],
           if (displaySettings.showTeam &&
               _createAppointmentProvider.salonMasters.isNotEmpty) ...[
-            GestureDetector(
-              onTap: () {
+            AppBarMenu(
+              index: 4,
+              title: AppLocalizations.of(context)?.team ?? 'Team',
+              action: () {
                 Scrollable.ensureVisible(
                   controller.team.currentContext!,
                   duration: const Duration(seconds: 2),
                   curve: Curves.ease,
                 );
               },
-              child: Padding(
-                padding: const EdgeInsets.only(top: 16.0),
-                child: Text(
-                  AppLocalizations.of(context)?.team ?? 'Team',
-                  style: GoogleFonts.openSans(
-                      color: _salonProfileProvider
-                          .salonTheme.textTheme.displaySmall!.color),
-                ),
-              ),
             ),
             const SizedBox(
               width: 40,
@@ -418,152 +410,37 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
 
           if (_salonProfileProvider.salonReviews.isNotEmpty &&
               displaySettings.reviews.showReviews) ...[
-            GestureDetector(
-              onTap: () {
+            AppBarMenu(
+              index: 5,
+              title: AppLocalizations.of(context)?.reviews ?? 'Reviews',
+              action: () {
                 Scrollable.ensureVisible(
                   controller.reviews.currentContext!,
                   duration: const Duration(seconds: 2),
                   curve: Curves.ease,
                 );
               },
-              child: Padding(
-                padding: const EdgeInsets.only(top: 16.0),
-                child: Text(
-                  AppLocalizations.of(context)?.reviews ?? 'Reviews',
-                  style: GoogleFonts.openSans(
-                      color: _salonProfileProvider
-                          .salonTheme.textTheme.displaySmall!.color),
-                ),
-              ),
             ),
             const SizedBox(
               width: 40,
             ),
           ],
           if (displaySettings.showContact) ...[
-            GestureDetector(
-              onTap: () {
+            AppBarMenu(
+              index: 6,
+              title: AppLocalizations.of(context)?.contacts ?? 'Contacts',
+              action: () {
                 Scrollable.ensureVisible(
                   controller.contacts.currentContext!,
                   duration: const Duration(seconds: 2),
                   curve: Curves.ease,
                 );
               },
-              child: Padding(
-                padding: const EdgeInsets.only(top: 16.0),
-                child: Text(
-                  AppLocalizations.of(context)?.contacts ?? 'Contacts',
-                  style: GoogleFonts.openSans(
-                      color: _salonProfileProvider
-                          .salonTheme.textTheme.displaySmall!.color),
-                ),
-              ),
             ),
             const SizedBox(
               width: 40,
             ),
           ],
-
-          //
-          // if (chosenSalon.description.isNotEmpty &&
-          //     displaySettings!.showAbout)
-          //     AppBarMenu(
-          //       title: AppLocalizations.of(context)?.aboutUs ?? 'About Us',
-          //       action: () {
-          // Scrollable.ensureVisible(
-          //   controller.about.currentContext!,
-          //   duration: const Duration(seconds: 2),
-          //   curve: Curves.ease,
-          // );
-          //       },
-          //     ),
-          // if (chosenSalon.photosOfWorks != null &&
-          //     chosenSalon.photosOfWorks!.isNotEmpty &&
-          //     displaySettings!.showPhotosOfWork) ...[
-          //   //  const Gap(32),
-          //     AppBarMenu(
-          //       title:
-          //           AppLocalizations.of(context)?.portfolio ?? 'Portfolio',
-          //       action: () {
-          // Scrollable.ensureVisible(
-          //   controller.works.currentContext!,
-          //   duration: const Duration(seconds: 2),
-          //   curve: Curves.ease,
-          // );
-          //       },
-          //     ),
-          //   ],
-          // if (displaySettings!.services.showServices) ...[
-          //    // const Gap(32),
-          //     AppBarMenu(
-          //       title: AppLocalizations.of(context)?.services ?? 'Services',
-          //       action: () {
-          // Scrollable.ensureVisible(
-          //   controller.price.currentContext!,
-          //   duration: const Duration(seconds: 2),
-          //   curve: Curves.ease,
-          // );
-          //       },
-          //     ),
-          //   ],
-          // if (displaySettings.product.showProduct &&
-          //     _salonProfileProvider.allProducts.isNotEmpty) ...[
-          //  //   const Gap(32),
-          //     AppBarMenu(
-          //       title: AppLocalizations.of(context)?.products ?? 'Products',
-          //       action: () {
-          // Scrollable.ensureVisible(
-          //   controller.shop.currentContext!,
-          //   duration: const Duration(seconds: 2),
-          //   curve: Curves.ease,
-          // );
-          //       },
-          //     ),
-          //   ],
-          // if (displaySettings.showTeam &&
-          //     _createAppointmentProvider.salonMasters.isNotEmpty) ...[
-          // //    const Gap(32),
-          //     AppBarMenu(
-          //       title: AppLocalizations.of(context)?.team ?? 'Team',
-          //       action: () {
-          // Scrollable.ensureVisible(
-          //   controller.team.currentContext!,
-          //   duration: const Duration(seconds: 2),
-          //   curve: Curves.ease,
-          // );
-          //       },
-          //     ),
-          //   ],
-          // if (_salonProfileProvider.salonReviews.isNotEmpty &&
-          //     displaySettings.reviews.showReviews)
-          // ...[
-          //   //  const Gap(32),
-          //     AppBarMenu(
-          //       title: AppLocalizations.of(context)?.reviews ?? 'Reviews',
-          //       action: () {
-          // Scrollable.ensureVisible(
-          //   controller.reviews.currentContext!,
-          //   duration: const Duration(seconds: 2),
-          //   curve: Curves.ease,
-          // );
-          //       },
-          //     ),
-          //   ],
-          //  // const Gap(32),
-          //   AppBarMenu(
-          //     title: AppLocalizations.of(context)?.contacts ?? 'Contacts',
-          //     action: () {
-          // Scrollable.ensureVisible(
-          //   controller.contacts.currentContext!,
-          //   duration: const Duration(seconds: 2),
-          //   curve: Curves.ease,
-          // );
-          //     },
-          //   ),
-          // const Gap(62),
-          // ],
-          //),
-          // ),
         ],
         //backgroundColor: Colors.white,
       ),
@@ -577,6 +454,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox.fromSize(size: Size.zero, key: controller.landing),
                   Row(
                     children: [
                       Expanded(
@@ -737,26 +615,36 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                       displaySettings.showFeatures)
                     Container(
                         width: double.infinity,
-                        height: 482,
+                        height: chosenSalon.additionalFeatures.length * 30,
                         decoration: BoxDecoration(
-                            color: increaseBrightness(
-                                _salonProfileProvider
-                                    .salonTheme.colorScheme.secondary,
-                                40)),
+                          color: blendColors(
+                              _salonProfileProvider
+                                  .salonTheme.colorScheme.secondary,
+                              // const Color(0xffea80b2),
+                              _salonProfileProvider
+                                  .salonTheme.scaffoldBackgroundColor,
+                              0.4),
+
+                          // increaseBrightness(
+                          // _salonProfileProvider
+                          //     .salonTheme.colorScheme.secondary,
+                          //     40)
+                        ),
                         child: Column(
                           children: [
-                            const Gap(100),
+                            const Gap(40),
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.only(
                                     left: 100.0, right: 30),
                                 child: GridView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
                                   gridDelegate:
                                       const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisSpacing: 5,
                                     mainAxisExtent: 30,
-                                    mainAxisSpacing: 1,
+                                    mainAxisSpacing: 30,
                                     crossAxisCount: 3, // Number of columns
                                   ),
                                   itemCount:
@@ -921,33 +809,112 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                     const Gap(50),
                     Padding(
                       padding: const EdgeInsets.only(left: 100.0, right: 100.0),
-                      child: StaggeredGridView.countBuilder(
-                        shrinkWrap: true,
-                        crossAxisCount: 4,
-                        itemCount: chosenSalon.photosOfWorks!.length,
-                        itemBuilder: (BuildContext context, int index) =>
-                            GlamMinimalSalonWorks(
-                          photosOfWork: chosenSalon.photosOfWorks![index],
-                        ),
-
-                        // Card(
-                        //   shape: RoundedRectangleBorder(
-                        //       borderRadius: BorderRadius.circular(15)),
-                        //   color: Colors.yellow,
-                        //   child: Stack(
-                        //     children: const <Widget>[],
-                        //   ),
-                        // ),
-                        staggeredTileBuilder: (int index) => StaggeredTile.count(
-                            1,
-                            index.isEven
-                                ? 1.7
-                                :
-                                //_salonProfileProvider.isPortfolioHovered?1.2:
-                                1.4),
-                        mainAxisSpacing: 2.0,
-                        crossAxisSpacing: 4.0,
+                      child: StaggeredGrid.count(
+                        crossAxisCount: 5,
+                        mainAxisSpacing: 6,
+                        crossAxisSpacing: 4,
+                        children: [
+                          if (chosenSalon.photosOfWorks!.isNotEmpty)
+                            StaggeredGridTile.count(
+                              crossAxisCellCount: 1,
+                              mainAxisCellCount: 1,
+                              child: Tile(
+                                index: 1,
+                                image: chosenSalon.photosOfWorks![0].image!,
+                                description:
+                                    chosenSalon.photosOfWorks![0].description ??
+                                        '',
+                              ),
+                            ),
+                          if (chosenSalon.photosOfWorks!.length >= 2)
+                            StaggeredGridTile.count(
+                              crossAxisCellCount: 1,
+                              mainAxisCellCount: 1,
+                              child: Tile(
+                                index: 2,
+                                image: chosenSalon.photosOfWorks![1].image!,
+                                description:
+                                    chosenSalon.photosOfWorks![1].description ??
+                                        '',
+                              ),
+                            ),
+                          if (chosenSalon.photosOfWorks!.length >= 3)
+                            StaggeredGridTile.count(
+                              crossAxisCellCount: 2,
+                              mainAxisCellCount: 1.25,
+                              child: Tile(
+                                index: 4,
+                                image: chosenSalon.photosOfWorks![2].image!,
+                                description:
+                                    chosenSalon.photosOfWorks![2].description ??
+                                        '',
+                              ),
+                            ),
+                          if (chosenSalon.photosOfWorks!.length >= 4)
+                            StaggeredGridTile.count(
+                              crossAxisCellCount: 2,
+                              mainAxisCellCount: 1.5,
+                              child: Tile(
+                                index: 3,
+                                image: chosenSalon.photosOfWorks![3].image!,
+                                description:
+                                    chosenSalon.photosOfWorks![3].description ??
+                                        '',
+                              ),
+                            ),
+                          if (chosenSalon.photosOfWorks!.length >= 5)
+                            StaggeredGridTile.count(
+                              crossAxisCellCount: 1,
+                              mainAxisCellCount: 2.5,
+                              child: Tile(
+                                index: 6,
+                                image: chosenSalon.photosOfWorks![4].image!,
+                                description:
+                                    chosenSalon.photosOfWorks![4].description ??
+                                        '',
+                              ),
+                            ),
+                          if (chosenSalon.photosOfWorks!.length > 5)
+                            StaggeredGridTile.count(
+                              crossAxisCellCount: 2,
+                              mainAxisCellCount: 1.25,
+                              child: Tile(
+                                index: 5,
+                                image: chosenSalon.photosOfWorks![5].image!,
+                                description:
+                                    chosenSalon.photosOfWorks![5].description ??
+                                        '',
+                              ),
+                            ),
+                        ],
                       ),
+                      // StaggeredGridView.countBuilder(
+                      //   shrinkWrap: true,
+                      //   crossAxisCount: 4,
+                      //   itemCount: chosenSalon.photosOfWorks!.length,
+                      //   itemBuilder: (BuildContext context, int index) =>
+                      //       GlamMinimalSalonWorks(
+                      //     photosOfWork: chosenSalon.photosOfWorks![index],
+                      //   ),
+
+                      //   // Card(
+                      //   //   shape: RoundedRectangleBorder(
+                      //   //       borderRadius: BorderRadius.circular(15)),
+                      //   //   color: Colors.yellow,
+                      //   //   child: Stack(
+                      //   //     children: const <Widget>[],
+                      //   //   ),
+                      //   // ),
+                      //   staggeredTileBuilder: (int index) => StaggeredTile.count(
+                      //       1,
+                      //       index.isEven
+                      //           ? 1.7
+                      //           :
+                      //           //_salonProfileProvider.isPortfolioHovered?1.2:
+                      //           1.4),
+                      //   mainAxisSpacing: 2.0,
+                      //   crossAxisSpacing: 4.0,
+                      // ),
 
 //                       GridView.custom(
 //                         shrinkWrap: true,
@@ -1182,6 +1149,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                           ),
                         ),
                       ),
+                    const Gap(50),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: SizedBox(
@@ -1205,6 +1173,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                         itemCount: allServiceList.length,
                                         itemBuilder: (context, index) {
                                           return CityMuseServiceTab(
+                                              index: index,
                                               serviceList:
                                                   allServiceList[index],
                                               salonProfileProvider:
@@ -1231,6 +1200,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                             itemCount: serviceList.length,
                                             itemBuilder: (context, index) {
                                               return CityMuseServiceTab(
+                                                  index: index,
                                                   serviceList:
                                                       serviceList[index],
                                                   salonProfileProvider:
@@ -2614,4 +2584,15 @@ Color increaseBrightness(Color color, double percent) {
   final newLightness = (hslColor.lightness + (percent / 100)).clamp(0.0, 1.0);
   final newColor = hslColor.withLightness(newLightness);
   return newColor.toColor();
+}
+
+Color blendColors(Color color1, Color color2, double opacity) {
+  int red = (color1.red + (color2.red - color1.red) * opacity).round();
+  int green = (color1.green + (color2.green - color1.green) * opacity).round();
+  int blue = (color1.blue + (color2.blue - color1.blue) * opacity).round();
+  print(Color.fromARGB(255, red, green, blue).toString());
+  // Color? combinedColor = Color.lerp(color1, color2, 0.09);
+  return
+      //combinedColor!;
+      Color.fromARGB(255, red, green, blue);
 }

@@ -7,26 +7,32 @@ import '../../../../controller/all_providers/all_providers.dart';
 class AppBarMenu extends ConsumerWidget {
   final String? title;
   final Function()? action;
-  const AppBarMenu({super.key, this.title = 'About Us', this.action});
+  final int index;
+  const AppBarMenu(
+      {super.key, this.title = 'About Us', this.action, this.index = 0});
 
   @override
   Widget build(BuildContext context, ref) {
     final theme = ref.watch(salonProfileProvider).salonTheme;
+    final _salonProfileProvider = ref.watch(salonProfileProvider);
     return GestureDetector(
       onTap: action,
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.only(top:8,
-        //bottom: 8
+      child: Padding(
+        padding: const EdgeInsets.only(top: 16.0),
+        child: MouseRegion(
+          onEnter: (event) => _salonProfileProvider.onEnterAppbar(index),
+          onExit: (event) => _salonProfileProvider.onExitAppbar(index),
+          child: Text(
+            '$title',
+            style: GoogleFonts.openSans(
+                fontWeight: _salonProfileProvider.appbarHoveredIndex == index
+                    ? FontWeight.w600
+                    : null,
+                color: _salonProfileProvider.appbarHoveredIndex == index
+                    ? theme.colorScheme.secondary
+                    : theme.textTheme.displaySmall!.color),
+          ),
         ),
-        child: Text(
-          '$title',
-          style:
-              GoogleFonts.openSans(color: theme.textTheme.displaySmall!.color),
-        ),
-        decoration: const BoxDecoration(
-            border:
-                Border(bottom: BorderSide(color: Color(0xff9f9f9f), width: 1))),
       ),
     );
   }

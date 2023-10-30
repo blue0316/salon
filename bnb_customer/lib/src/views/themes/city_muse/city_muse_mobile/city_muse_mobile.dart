@@ -605,7 +605,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                               setState(() {
                                 _currentServiceIndex = index;
                                 selectedCatId = catList[index].categoryId;
-                                print('selectedId $selectedCatId');
+                             
                                 _pageController.animateToPage(
                                   index,
                                   duration: const Duration(milliseconds: 300),

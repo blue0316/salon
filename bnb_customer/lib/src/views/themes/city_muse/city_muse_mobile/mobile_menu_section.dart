@@ -34,7 +34,7 @@ class MenuSection extends ConsumerWidget {
               const Gap(50),
               if (chosenSalon.description.isNotEmpty &&
                   displaySettings!.showAbout)
-                AppBarMenu(
+                MobileAppBarMenu(
                   title: AppLocalizations.of(context)?.aboutUs ?? 'About Us',
                   action: () {
                     salonProvider.changeShowMenuMobile(false);
@@ -49,7 +49,7 @@ class MenuSection extends ConsumerWidget {
                   chosenSalon.photosOfWorks!.isNotEmpty &&
                   displaySettings!.showPhotosOfWork) ...[
                 const Gap(20),
-                AppBarMenu(
+                MobileAppBarMenu(
                   title: AppLocalizations.of(context)?.portfolio ?? 'Portfolio',
                   action: () {
                     salonProvider.changeShowMenuMobile(false);
@@ -63,7 +63,7 @@ class MenuSection extends ConsumerWidget {
               ],
               if (displaySettings!.services.showServices) ...[
                 const Gap(20),
-                AppBarMenu(
+                MobileAppBarMenu(
                     title: AppLocalizations.of(context)?.services ?? 'Services',
                     action: () {
                       salonProvider.changeShowMenuMobile(false);
@@ -77,7 +77,7 @@ class MenuSection extends ConsumerWidget {
               if (displaySettings.product.showProduct &&
                   salonProvider.allProducts.isNotEmpty) ...[
                 const Gap(20),
-                AppBarMenu(
+                MobileAppBarMenu(
                   title: AppLocalizations.of(context)?.products ?? 'Products',
                   action: () {
                     salonProvider.changeShowMenuMobile(false);
@@ -92,7 +92,7 @@ class MenuSection extends ConsumerWidget {
               if (displaySettings.showTeam &&
                   _createAppointmentProvider.salonMasters.isNotEmpty) ...[
                 const Gap(20),
-                AppBarMenu(
+                MobileAppBarMenu(
                   title: (AppLocalizations.of(context)?.team ?? 'Team'),
                   action: () {
                     salonProvider.changeShowMenuMobile(false);
@@ -107,11 +107,11 @@ class MenuSection extends ConsumerWidget {
               if (salonProvider.salonReviews.isNotEmpty &&
                   displaySettings.reviews.showReviews) ...[
                 const Gap(20),
-                AppBarMenu(
+                MobileAppBarMenu(
                     title:
                         (AppLocalizations.of(context)?.reviews ?? 'Reviews')),
                 const Gap(20),
-                AppBarMenu(
+                MobileAppBarMenu(
                   title: 'Contacts',
                   action: () {
                     salonProvider.changeShowMenuMobile(false);
@@ -124,7 +124,7 @@ class MenuSection extends ConsumerWidget {
                 ),
               ],
               const Gap(20),
-              AppBarMenu(
+              MobileAppBarMenu(
                 title: 'Book now',
                 action: () {
                   salonProvider.changeShowMenuMobile(false);

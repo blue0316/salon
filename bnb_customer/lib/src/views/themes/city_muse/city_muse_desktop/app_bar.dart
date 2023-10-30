@@ -4,10 +4,10 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../controller/all_providers/all_providers.dart';
 
-class AppBarMenu extends ConsumerWidget {
+class MobileAppBarMenu extends ConsumerWidget {
   final String? title;
   final Function()? action;
-  const AppBarMenu({super.key, this.action, this.title});
+  const MobileAppBarMenu({super.key, this.action, this.title});
 
   @override
   Widget build(BuildContext context, ref) {
@@ -28,7 +28,9 @@ class AppBarMenu extends ConsumerWidget {
             style: GoogleFonts.openSans(
               fontSize: 15,
               fontWeight: FontWeight.w500,
-              color:title == 'Book now'?  theme.colorScheme.secondary:    theme.appBarTheme.titleTextStyle!.color,
+              color: title == 'Book now'
+                  ? theme.colorScheme.secondary
+                  : theme.appBarTheme.titleTextStyle!.color,
               height: 20 / 15,
             ),
             textAlign: TextAlign.left,
