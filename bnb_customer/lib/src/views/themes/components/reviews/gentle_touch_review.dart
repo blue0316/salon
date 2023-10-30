@@ -155,19 +155,36 @@ class GentleTouchReviewCard extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         if (!isPortrait) SizedBox(height: 10.sp),
-        RatingBar.builder(
-          initialRating: review.rating,
-          minRating: 0,
-          direction: Axis.horizontal,
-          allowHalfRating: false,
-          itemSize: isPortrait ? 20 : 15,
-          itemCount: 5,
-          updateOnDrag: true,
-          unratedColor: themeType == ThemeType.VintageCraft ? Colors.white : Colors.grey,
-          onRatingUpdate: (rating) {},
-          itemBuilder: (context, _) {
-            return Icon(Icons.star, color: theme.colorScheme.secondary);
-          },
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (isPortrait)
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Text(
+                  '${review.rating}',
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    fontSize: 17.sp,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ),
+            RatingBar.builder(
+              initialRating: review.rating,
+              minRating: 0,
+              direction: Axis.horizontal,
+              allowHalfRating: false,
+              itemSize: isPortrait ? 20 : 15,
+              itemCount: 5,
+              updateOnDrag: true,
+              unratedColor: themeType == ThemeType.VintageCraft ? Colors.white : Colors.grey,
+              onRatingUpdate: (rating) {},
+              itemBuilder: (context, _) {
+                return Icon(Icons.star, color: theme.colorScheme.secondary);
+              },
+            ),
+          ],
         ),
         SizedBox(height: !isPortrait ? 20.sp : 30.sp),
         Row(

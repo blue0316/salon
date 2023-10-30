@@ -86,7 +86,7 @@ class _GentleTouchWriteToUsViewState extends ConsumerState<GentleTouchWriteToUsV
                                       style: theme.textTheme.bodyLarge?.copyWith(
                                         fontSize: 15.sp,
                                         fontWeight: FontWeight.w600,
-                                        fontFamily: 'Inter-Light',
+                                        // fontFamily: 'Inter-Light',
                                       ),
                                     ),
                                     SizedBox(height: 8.sp),
@@ -121,7 +121,7 @@ class _GentleTouchWriteToUsViewState extends ConsumerState<GentleTouchWriteToUsV
                                       style: theme.textTheme.bodyLarge?.copyWith(
                                         fontSize: 15.sp,
                                         fontWeight: FontWeight.w600,
-                                        fontFamily: 'Inter-Light',
+                                        // fontFamily: 'Inter-Light',
                                       ),
                                     ),
                                     SizedBox(height: 8.sp),
@@ -161,7 +161,7 @@ class _GentleTouchWriteToUsViewState extends ConsumerState<GentleTouchWriteToUsV
                                       style: theme.textTheme.bodyLarge?.copyWith(
                                         fontSize: 15.sp,
                                         fontWeight: FontWeight.w600,
-                                        fontFamily: 'Inter-Light',
+                                        // fontFamily: 'Inter-Light',
                                       ),
                                     ),
                                     SizedBox(height: 8.sp),
@@ -196,7 +196,7 @@ class _GentleTouchWriteToUsViewState extends ConsumerState<GentleTouchWriteToUsV
                                       style: theme.textTheme.bodyLarge?.copyWith(
                                         fontSize: 15.sp,
                                         fontWeight: FontWeight.w600,
-                                        fontFamily: 'Inter-Light',
+                                        // fontFamily: 'Inter-Light',
                                       ),
                                     ),
                                     SizedBox(height: 8.sp),
@@ -229,7 +229,7 @@ class _GentleTouchWriteToUsViewState extends ConsumerState<GentleTouchWriteToUsV
                               style: theme.textTheme.bodyLarge?.copyWith(
                                 fontSize: 15.sp,
                                 fontWeight: FontWeight.w600,
-                                fontFamily: 'Inter-Light',
+                                // fontFamily: 'Inter-Light',
                               ),
                             ),
                             SizedBox(height: 8.sp),
@@ -326,24 +326,22 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
         right: DeviceConstraints.getResponsiveSize(context, 10.w, 10.w, 30.w),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: themeType != ThemeType.VintageCraft ? CrossAxisAlignment.center : CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Center(
-            child: Text(
-              (AppLocalizations.of(context)?.writeToUsTitle ?? 'write to us').toUpperCase(),
-              textAlign: TextAlign.center,
-              style: theme.textTheme.displayMedium?.copyWith(
-                fontWeight: FontWeight.w500,
-                fontSize: 50.sp,
-              ),
+          Text(
+            themeType != ThemeType.VintageCraft ? (AppLocalizations.of(context)?.writeToUsTitle ?? 'write to us').toUpperCase() : (AppLocalizations.of(context)?.writeToUsTitle ?? 'write to us').toTitleCase(),
+            textAlign: TextAlign.center,
+            style: theme.textTheme.displayMedium?.copyWith(
+              fontWeight: FontWeight.w500,
+              fontSize: 50.sp,
             ),
           ),
           SizedBox(height: 5.sp),
           Text(
             AppLocalizations.of(context)?.writeToUsTitleDesc ?? 'Write to us and we will get back to you as soon as possible',
             style: theme.textTheme.bodyLarge?.copyWith(
-              fontSize: 20.sp,
+              fontSize: 18.sp,
               fontWeight: FontWeight.normal,
             ),
             textAlign: TextAlign.center,
@@ -360,7 +358,7 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
                   style: theme.textTheme.bodyLarge?.copyWith(
                     fontSize: 15.sp,
                     fontWeight: FontWeight.w500,
-                    fontFamily: 'Inter',
+                    // fontFamily: 'Inter',
                   ),
                 ),
                 SizedBox(height: 8.sp),
@@ -393,7 +391,7 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
                   style: theme.textTheme.bodyLarge?.copyWith(
                     fontSize: 15.sp,
                     fontWeight: FontWeight.w500,
-                    fontFamily: 'Inter',
+                    // fontFamily: 'Inter',
                   ),
                 ),
                 SizedBox(height: 8.sp),
@@ -425,7 +423,7 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
                   style: theme.textTheme.bodyLarge?.copyWith(
                     fontSize: 15.sp,
                     fontWeight: FontWeight.w500,
-                    fontFamily: 'Inter',
+                    // fontFamily: 'Inter',
                   ),
                 ),
                 SizedBox(height: 8.sp),
@@ -458,7 +456,7 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
                   style: theme.textTheme.bodyLarge?.copyWith(
                     fontSize: 15.sp,
                     fontWeight: FontWeight.w500,
-                    fontFamily: 'Inter',
+                    // fontFamily: 'Inter',
                   ),
                 ),
                 SizedBox(height: 8.sp),
@@ -488,7 +486,6 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
                 style: theme.textTheme.bodyLarge?.copyWith(
                   fontSize: 15.sp,
                   fontWeight: FontWeight.w500,
-                  fontFamily: 'Inter',
                 ),
               ),
               SizedBox(height: 8.sp),
@@ -516,17 +513,20 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
                     child: CircularProgressIndicator(color: theme.colorScheme.secondary),
                   ),
                 )
-              : MultipleStatesButton(
-                  height: 50,
-                  text: (AppLocalizations.of(context)?.sendMessage ?? "Send Message").toTitleCase(),
-                  onTap: () => submit(),
-                  buttonColor: theme.colorScheme.secondary,
-                  borderColor: theme.colorScheme.secondary,
-                  textColor: (themeType == ThemeType.GentleTouch || themeType == ThemeType.VintageCraft) ? const Color(0XFFFFFFFF) : Colors.black,
-                  weight: FontWeight.w500,
-                  borderRadius: 2,
-                  showSuffix: false,
-                  isGradient: _salonProfileProvider.hasThemeGradient,
+              : Center(
+                  child: MultipleStatesButton(
+                    height: 50,
+                    width: themeType == ThemeType.VintageCraft ? double.infinity : null,
+                    text: (AppLocalizations.of(context)?.sendMessage ?? "Send Message").toTitleCase(),
+                    onTap: () => submit(),
+                    buttonColor: theme.colorScheme.secondary,
+                    borderColor: theme.colorScheme.secondary,
+                    textColor: (themeType == ThemeType.GentleTouch || themeType == ThemeType.VintageCraft) ? const Color(0XFFFFFFFF) : Colors.black,
+                    weight: FontWeight.w500,
+                    borderRadius: 2,
+                    showSuffix: false,
+                    isGradient: _salonProfileProvider.hasThemeGradient,
+                  ),
                 ),
         ],
       ),

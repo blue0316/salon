@@ -383,7 +383,6 @@ class AppBarItem extends ConsumerWidget {
               fontSize: 15.sp,
               color: themeType == ThemeType.GentleTouch ? const Color(0XFF0D0D0E) : Colors.white,
               fontWeight: FontWeight.normal,
-              fontFamily: "Inter-Light",
             ),
           ),
         ),

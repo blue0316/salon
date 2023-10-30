@@ -4,7 +4,6 @@ import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/products.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
-import 'package:bbblient/src/views/themes/glam_one/core/utils/prev_and_next.dart';
 import 'package:bbblient/src/views/themes/images.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
@@ -53,7 +52,7 @@ class _GentleTouchShopState extends ConsumerState<GentleTouchShop> {
               ? isPortrait
                   ? PortraitView(
                       items: [
-                        AppLocalizations.of(context)?.all ?? 'All',
+                        (AppLocalizations.of(context)?.all ?? 'All').toTitleCase(),
                         ..._salonProfileProvider.tabs.keys.toList(),
                       ],
                     )
@@ -215,127 +214,148 @@ class _PortraitViewState extends ConsumerState<PortraitView> {
 
   String dropdownvalue = 'All';
 
+  bool load = false;
+  @override
+  void initState() {
+    super.initState();
+
+    getT();
+  }
+
+  getT() {
+    setState(() => load = true);
+
+    Future.delayed(const Duration(seconds: 2), () {
+      setState(() {
+        dropdownvalue = (AppLocalizations.of(context)?.all ?? 'All').toTitleCase();
+        load = false;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     ThemeType themeType = _salonProfileProvider.themeType;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        DropdownButton(
-          // Initial Value
-          value: dropdownvalue,
-          dropdownColor: themeType == ThemeType.GentleTouchDark ? Colors.black : null,
-          // Down Arrow Icon
-          icon: const Icon(Icons.keyboard_arrow_down),
-          isExpanded: true,
-          // Array list of itemsn
-          items: widget.items.map((String items) {
-            return DropdownMenuItem(
-              value: items,
-              child: Text(
-                items,
-                style: theme.textTheme.bodyLarge?.copyWith(
-                  // color: theme.primaryColorDark,
-                  fontSize: 20.sp,
-                  letterSpacing: 1,
-                ),
-              ),
-            );
-          }).toList(),
-          // After selecting the desired option,it will
-          // change button value to selected value
-          onChanged: (String? newValue) {
-            setState(() {
-              dropdownvalue = newValue!;
-            });
-          },
-        ),
-        SizedBox(height: 40.sp),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 5.w),
-          child: SizedBox(
-            height: 450.h,
-            width: double.infinity,
-            child: SizedBox(
-              width: double.infinity,
-              child: CarouselSlider(
-                carouselController: _controller,
-                options: CarouselOptions(
-                  height: 450.h,
-                  autoPlay: true,
-                  viewportFraction: 1,
-                  onPageChanged: (index, reason) {
-                    setState(() {
-                      _current = index;
-                    });
-                  },
-                ),
-                items: dropdownvalue == 'All'
-                    ? _salonProfileProvider.allProducts
-                        .map(
-                          (item) => ProductPortraitItemCard(product: item),
-                        )
-                        .toList()
-                    : _salonProfileProvider.tabs[dropdownvalue]!
-                        .map(
-                          (item) => ProductPortraitItemCard(product: item),
-                        )
-                        .toList(),
-              ),
-            ),
-          ),
-        ),
-        SizedBox(height: 10.sp),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: dropdownvalue == 'All'
-              ? _salonProfileProvider.allProducts.asMap().entries.map((entry) {
-                  return GestureDetector(
-                    onTap: () => _controller.animateToPage(entry.key),
-                    child: Container(
-                      width: _current == entry.key ? 7 : 4,
-                      height: _current == entry.key ? 7 : 4,
-                      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: _current == entry.key
-                            ? themeType == ThemeType.GentleTouch
-                                ? Colors.black
-                                : Colors.white
-                            : const Color(0XFF8A8A8A).withOpacity(
-                                _current == entry.key ? 0.9 : 0.4,
-                              ),
-                      ),
-                    ),
-                  );
-                }).toList()
-              : _salonProfileProvider.tabs[dropdownvalue]!.asMap().entries.map((entry) {
-                  return GestureDetector(
-                    onTap: () => _controller.animateToPage(entry.key),
-                    child: Container(
-                      width: _current == entry.key ? 10 : 7,
-                      height: _current == entry.key ? 10 : 7,
-                      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: _current == entry.key
-                            ? themeType == ThemeType.GentleTouch
-                                ? Colors.black
-                                : Colors.white
-                            : const Color(0XFF8A8A8A).withOpacity(
-                                _current == entry.key ? 0.9 : 0.4,
-                              ),
+    return load
+        ? const CircularProgressIndicator()
+        : Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              DropdownButton(
+                // Initial Value
+                value: dropdownvalue,
+                dropdownColor: (themeType == ThemeType.GentleTouchDark || themeType == ThemeType.VintageCraft) ? Colors.black : null,
+                // Down Arrow Icon
+                icon: const Icon(Icons.keyboard_arrow_down),
+                isExpanded: true,
+                // Array list of itemsn
+                items: widget.items.map((String items) {
+                  return DropdownMenuItem(
+                    value: items,
+                    child: Text(
+                      items,
+                      style: theme.textTheme.bodyLarge?.copyWith(
+                        // color: theme.primaryColorDark,
+                        fontSize: 20.sp,
+                        letterSpacing: 1,
                       ),
                     ),
                   );
                 }).toList(),
-        ),
-      ],
-    );
+                // After selecting the desired option,it will
+                // change button value to selected value
+                onChanged: (String? newValue) {
+                  setState(() {
+                    dropdownvalue = newValue!;
+                  });
+                },
+              ),
+              SizedBox(height: 40.sp),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5.w),
+                child: SizedBox(
+                  height: 450.h,
+                  width: double.infinity,
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: CarouselSlider(
+                      carouselController: _controller,
+                      options: CarouselOptions(
+                        height: 450.h,
+                        autoPlay: true,
+                        viewportFraction: 1,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _current = index;
+                          });
+                        },
+                      ),
+                      items: dropdownvalue == (AppLocalizations.of(context)?.all ?? 'All').toTitleCase()
+                          ? _salonProfileProvider.allProducts
+                              .map(
+                                (item) => ProductPortraitItemCard(product: item),
+                              )
+                              .toList()
+                          : _salonProfileProvider.tabs[dropdownvalue]!
+                              .map(
+                                (item) => ProductPortraitItemCard(product: item),
+                              )
+                              .toList(),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10.sp),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: dropdownvalue == (AppLocalizations.of(context)?.all ?? 'All').toTitleCase()
+                    ? _salonProfileProvider.allProducts.asMap().entries.map((entry) {
+                        return GestureDetector(
+                          onTap: () => _controller.animateToPage(entry.key),
+                          child: Container(
+                            width: _current == entry.key ? 7 : 4,
+                            height: _current == entry.key ? 7 : 4,
+                            margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: _current == entry.key
+                                  ? themeType == ThemeType.GentleTouch
+                                      ? Colors.black
+                                      : Colors.white
+                                  : const Color(0XFF8A8A8A).withOpacity(
+                                      _current == entry.key ? 0.9 : 0.4,
+                                    ),
+                            ),
+                          ),
+                        );
+                      }).toList()
+                    : _salonProfileProvider.tabs[dropdownvalue]!.asMap().entries.map((entry) {
+                        return GestureDetector(
+                          onTap: () => _controller.animateToPage(entry.key),
+                          child: Container(
+                            width: _current == entry.key ? 10 : 7,
+                            height: _current == entry.key ? 10 : 7,
+                            margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: _current == entry.key
+                                  ? themeType == ThemeType.GentleTouch
+                                      ? Colors.black
+                                      : Colors.white
+                                  : const Color(0XFF8A8A8A).withOpacity(
+                                      _current == entry.key ? 0.9 : 0.4,
+                                    ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+              ),
+            ],
+          );
   }
 }
 

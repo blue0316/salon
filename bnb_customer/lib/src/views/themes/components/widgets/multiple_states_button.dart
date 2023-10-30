@@ -111,11 +111,10 @@ class _MultipleStatesButtonState extends ConsumerState<MultipleStatesButton> {
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Text(
                     widget.text,
-                    style: TextStyle(
+                    style: theme.textTheme.bodyLarge?.copyWith(
                       fontSize: widget.textSize ?? 18.sp,
                       fontWeight: widget.weight ?? FontWeight.w600,
                       color: widget.textColor,
-                      fontFamily: "Inter-Light",
                     ),
                   ),
                 ),

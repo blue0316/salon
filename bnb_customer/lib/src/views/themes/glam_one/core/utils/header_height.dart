@@ -15,7 +15,7 @@ double getThemeHeaderHeight(context, ThemeType themeType) {
       return DeviceConstraints.getResponsiveSize(context, 830.h, 830.h, 830.h);
 
     case ThemeType.VintageCraft:
-      return DeviceConstraints.getResponsiveSize(context, 600.h, 600.h, 650.h);
+      return DeviceConstraints.getResponsiveSize(context, height - 70.h, 600.h, 650.h);
 
     default:
       return (height);

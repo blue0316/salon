@@ -227,7 +227,7 @@ class _DrawerTextState extends ConsumerState<DrawerText> {
           onTap: widget.onTap,
           child: Padding(
             padding: EdgeInsets.symmetric(
-              vertical: (themeType != ThemeType.GentleTouch && themeType != ThemeType.GentleTouchDark) ? DeviceConstraints.getResponsiveSize(context, 20.h, 15.h, 15.h) : 10.h,
+              vertical: (themeType != ThemeType.GentleTouch && themeType != ThemeType.GentleTouchDark && themeType != ThemeType.VintageCraft) ? DeviceConstraints.getResponsiveSize(context, 20.h, 15.h, 15.h) : 10.h,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -236,20 +236,17 @@ class _DrawerTextState extends ConsumerState<DrawerText> {
                 Text(
                   widget.drawerText,
                   style: theme.textTheme.bodyLarge?.copyWith(
-                    fontSize: (themeType == ThemeType.GentleTouch || themeType == ThemeType.GentleTouchDark) ? 17.sp : DeviceConstraints.getResponsiveSize(context, 20.sp, 25.sp, 35.sp),
+                    fontSize: (themeType == ThemeType.GentleTouch || themeType == ThemeType.GentleTouchDark || themeType == ThemeType.VintageCraft) ? 17.sp : DeviceConstraints.getResponsiveSize(context, 20.sp, 25.sp, 35.sp),
                     letterSpacing: 0,
                     color: textColor,
                     fontFamily: 'Inter-Light',
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                if (themeType == ThemeType.GentleTouch || themeType == ThemeType.GentleTouchDark)
+                if (themeType == ThemeType.GentleTouch || themeType == ThemeType.GentleTouchDark || themeType == ThemeType.VintageCraft)
                   const Padding(
                     padding: EdgeInsets.only(top: 1),
-                    child: Divider(
-                      color: Color(0XFF9F9F9F),
-                      thickness: 1,
-                    ),
+                    child: Divider(color: Color(0XFF9F9F9F), thickness: 1),
                   ),
               ],
             ),
