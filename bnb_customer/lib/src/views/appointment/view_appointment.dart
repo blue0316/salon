@@ -70,24 +70,24 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
     });
 
     // Change Language based on salon
-    // String salonLocale = ref.read(appointmentProvider.notifier).salon!.locale;
+    String salonLocale = ref.read(appointmentProvider.notifier).salon!.locale;
     final repository = ref.watch(bnbProvider);
-    // repository.changeLocale(locale: Locale(salonLocale));
+    repository.changeLocale(locale: Locale(salonLocale));
 
-    // ---------- GET BROWSER LANGUAGE ----------
-    String browserLanguage = html.window.navigator.language;
+    // // ---------- GET BROWSER LANGUAGE ----------
+    // String browserLanguage = html.window.navigator.language;
 
-    if (browserLanguage.isNotEmpty && browserLanguage.length >= 2) {
-      String browserLocale = browserLanguage.substring(0, 2);
+    // if (browserLanguage.isNotEmpty && browserLanguage.length >= 2) {
+    //   String browserLocale = browserLanguage.substring(0, 2);
 
-      if (availableLocales.contains(browserLocale)) {
-        repository.changeLocale(locale: Locale(browserLocale));
-      } else {
-        repository.changeLocale(locale: const Locale('en'));
-      }
-    } else {
-      repository.changeLocale(locale: const Locale('en'));
-    }
+    //   if (availableLocales.contains(browserLocale)) {
+    //     repository.changeLocale(locale: Locale(browserLocale));
+    //   } else {
+    //     repository.changeLocale(locale: const Locale('en'));
+    //   }
+    // } else {
+    //   repository.changeLocale(locale: const Locale('en'));
+    // }
   }
 
   bool shouldShowConfirmButton(DateTime appointmentTime) {
