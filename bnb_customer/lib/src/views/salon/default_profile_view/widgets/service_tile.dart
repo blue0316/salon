@@ -1,9 +1,11 @@
 // ignore_for_file: unnecessary_this
 
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/extracted/expansion_tile.dart';
 import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
+import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/currency/currency.dart';
@@ -48,6 +50,7 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool isLightTheme = (theme == AppTheme.customLightTheme);
+    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
@@ -303,10 +306,12 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
                                                   //   fontFamily: "Inter-Light",
                                                   // ),
                                                   child: GestureDetector(
-                                                    // onTap: () => showDialog<bool>(
-                                                    //   context: context,
-                                                    //   builder: (BuildContext context) => ShowServiceInfo(service),
-                                                    // ),
+                                                    onTap: isPortrait
+                                                        ? () => showDialog<bool>(
+                                                              context: context,
+                                                              builder: (BuildContext context) => ShowServiceInfo(service),
+                                                            )
+                                                        : null,
                                                     child: SizedBox(
                                                       height: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
                                                       width: DeviceConstraints.getResponsiveSize(context, 20.sp, 20.sp, 20.sp),
@@ -341,19 +346,22 @@ class _NewServiceTileState extends ConsumerState<NewServiceTile> {
   }
 }
 
-class ShowServiceInfo extends StatelessWidget {
+class ShowServiceInfo extends ConsumerWidget {
   final ServiceModel service;
   const ShowServiceInfo(this.service, {Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
+    final ThemeData theme = _salonProfileProvider.salonTheme;
+
     return AlertDialog(
         contentPadding: EdgeInsets.zero,
         shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
         content: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            color: AppTheme.lightBlack,
+            color: theme.dialogBackgroundColor, // AppTheme.lightBlack,
           ),
           padding: const EdgeInsets.all(16),
           child: Column(
