@@ -2595,7 +2595,7 @@ Color blendColors(Color color1, Color color2, double opacity) {
   int red = (color1.red + (color2.red - color1.red) * opacity).round();
   int green = (color1.green + (color2.green - color1.green) * opacity).round();
   int blue = (color1.blue + (color2.blue - color1.blue) * opacity).round();
-  print(Color.fromARGB(255, red, green, blue).toString());
+ 
   // Color? combinedColor = Color.lerp(color1, color2, 0.09);
   return
       //combinedColor!;

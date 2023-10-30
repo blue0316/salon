@@ -165,7 +165,7 @@ class CityMuseContactCard extends ConsumerWidget {
                     GestureDetector(
                       onTap: () async {
                         Uri uri = Uri.parse(socialLinks(
-                            'instagram', chosenSalon.links!.instagram ?? ''));
+                            'insta', chosenSalon.links!.instagram ?? ''));
 
                         // debugPrint("launching Url: $uri");
 

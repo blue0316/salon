@@ -6,6 +6,7 @@ import 'package:gap/gap.dart';
 import '../../../../controller/all_providers/all_providers.dart';
 import '../../../../models/customer_web_settings.dart';
 import '../../../../models/salon_master/salon.dart';
+import '../../../salon/booking/dialog_flow/booking_dialog_2.dart';
 import '../../utils/theme_type.dart';
 import '../city_muse_desktop/app_bar.dart';
 
@@ -108,8 +109,21 @@ class MenuSection extends ConsumerWidget {
                   displaySettings.reviews.showReviews) ...[
                 const Gap(20),
                 MobileAppBarMenu(
-                    title:
-                        (AppLocalizations.of(context)?.reviews ?? 'Reviews')),
+                  title: 'Reviews',
+                  action: () {
+                    salonProvider.changeShowMenuMobile(false);
+                    Scrollable.ensureVisible(
+                      controller.reviews.currentContext!,
+                      duration: const Duration(seconds: 2),
+                      curve: Curves.ease,
+                    );
+                  },
+                ),
+              ],
+              if (displaySettings.showContact) ...[
+                // MobileAppBarMenu(
+                //     title:
+                //         (AppLocalizations.of(context)?.contacts ?? 'Contacts')),
                 const Gap(20),
                 MobileAppBarMenu(
                   title: 'Contacts',
@@ -127,6 +141,7 @@ class MenuSection extends ConsumerWidget {
               MobileAppBarMenu(
                 title: 'Book now',
                 action: () {
+                  const BookingDialogWidget222().show(context);
                   salonProvider.changeShowMenuMobile(false);
                 },
               ),

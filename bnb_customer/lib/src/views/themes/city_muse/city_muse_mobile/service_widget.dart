@@ -35,12 +35,13 @@ class _CityMuseServiceTileState extends ConsumerState<CityMuseServiceTile> {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final SalonModel chosenSalon = _salonProfileProvider.chosenSalon;
     return ListView.builder(
-      // shrinkWrap: true,
+      //shrinkWrap: true,
       //   physics: NeverScrollableScrollPhysics(),
       // physics: NeverScrollableScrollPhysics(),
       scrollDirection: Axis.vertical,
       controller: widget.pageController,
       itemCount: widget.allServiceList.length,
+      //  physics: const ClampingScrollPhysics(),
       itemBuilder: (context, index) {
         serviceList.add(ServiceExpansionTile(
             serviceModel: widget.allServiceList,
@@ -97,7 +98,7 @@ class _ServiceExpansionTileState extends ConsumerState<ServiceExpansionTile> {
 
     if (_salonProfileProvider.isNumberVisible) {}
     return SizedBox(
-      height: _salonProfileProvider.isNumberVisible ? 300 : 60,
+      //height: _salonProfileProvider.isNumberVisible ? 300 : 60,
       child: Column(
         children: [
           Column(
@@ -120,12 +121,26 @@ class _ServiceExpansionTileState extends ConsumerState<ServiceExpansionTile> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
-                          widget.serviceModel[widget.index].translations?[
-                                  AppLocalizations.of(context)?.localeName ??
-                                      'en'] ??
-                              widget.serviceModel[widget.index]
-                                  .translations?['en'] ??
-                              ''.split(" ")[0],
+                          (widget.serviceModel[widget.index].translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ??
+                                          widget.serviceModel[widget.index]
+                                              .translations?['en'] ??
+                                          '')
+                                      .sublist(' ')
+                                      .length >
+                                  3
+                              ? (widget.serviceModel[widget.index].translations?[
+                                          AppLocalizations.of(context)?.localeName ??
+                                              'en'] ??
+                                      widget.serviceModel[widget.index]
+                                          .translations?['en'] ??
+                                      '')
+                                  .split(" ")
+                                  .sublist(0, 3)
+                                  .join(' ')
+                              : widget.serviceModel[widget.index].translations?[
+                                      AppLocalizations.of(context)?.localeName ?? 'en'] ??
+                                  widget.serviceModel[widget.index].translations?['en'] ??
+                                  '',
                           style: GoogleFonts.openSans(
                             color: widget.salonProfileProvider.salonTheme
                                 .textTheme.displaySmall!.color,
@@ -286,14 +301,35 @@ class _ExpandableWidgetState extends ConsumerState<ExpandableWidget> {
             height: 60,
             padding: const EdgeInsets.only(left: 20, right: 20),
             decoration: const BoxDecoration(
-                border: Border(bottom: BorderSide(color: Color(0xff9f9f9f)))),
+                border: Border(bottom: BorderSide(color: Color(0xff41403c)))),
             child: Row(
               children: <Widget>[
                 Text(
-                  widget.serviceModel.translations?[
-                          AppLocalizations.of(context)?.localeName ?? 'en'] ??
-                      widget.serviceModel.translations?['en'] ??
-                      '',
+                  (widget.serviceModel.translations?[
+                                      AppLocalizations.of(context)
+                                              ?.localeName ??
+                                          'en'] ??
+                                  widget.serviceModel.translations?['en'] ??
+                                  '')
+                              .toString()
+                              .split(" ")
+                              .length >
+                          3
+                      ? (widget.serviceModel.translations?[
+                                  AppLocalizations.of(context)?.localeName ??
+                                      'en'] ??
+                              widget.serviceModel.translations?['en'] ??
+                              '')
+                          .toString()
+                          .split(" ")
+                          .sublist(0, 3)
+                          .join(" ")
+                      : (widget.serviceModel.translations?[
+                                  AppLocalizations.of(context)?.localeName ??
+                                      'en'] ??
+                              widget.serviceModel.translations?['en'] ??
+                              '')
+                          .toString(),
                   style: GoogleFonts.openSans(
                     color: _salonProfileProvider
                         .salonTheme.textTheme.displaySmall!.color,
@@ -343,65 +379,76 @@ class _ExpandableWidgetState extends ConsumerState<ExpandableWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Gap(10),
-                  Row(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: Text(
-                          widget.serviceModel.translations?[
+                  if ((widget.serviceModel.translations?[
                                   AppLocalizations.of(context)?.localeName ??
                                       'en'] ??
                               widget.serviceModel.translations?['en'] ??
-                              '',
-                          style: GoogleFonts.openSans(
-                            color: _salonProfileProvider
-                                .salonTheme.textTheme.displaySmall!.color,
-                            fontSize: 18,
-                            //   fontFamily: 'Open Sans',
-                            fontWeight: FontWeight.w500,
-                            height: 0,
+                              '')
+                          .toString()
+                          .split(" ")
+                          .length >
+                      3)
+                    Row(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: Text(
+                            widget.serviceModel.translations?[
+                                    AppLocalizations.of(context)?.localeName ??
+                                        'en'] ??
+                                widget.serviceModel.translations?['en'] ??
+                                '',
+                            style: GoogleFonts.openSans(
+                              color: _salonProfileProvider
+                                  .salonTheme.textTheme.displaySmall!.color,
+                              fontSize: 18,
+                              //   fontFamily: 'Open Sans',
+                              fontWeight: FontWeight.w500,
+                              height: 0,
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: SvgPicture.asset(
-                          "assets/test_assets/arrow_up.svg",
-                          color: _salonProfileProvider
-                              .salonTheme.textTheme.displaySmall!.color,
-                        ),
-                      ),
-                      const Spacer(),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 20),
-                        child: Text(
-                          (widget.serviceModel.isPriceRange)
-                              ? "${getCurrency(_salonProfileProvider.chosenSalon.countryCode!)}${widget.serviceModel.priceAndDuration!.price ?? '0'}-${getCurrency(_salonProfileProvider.chosenSalon.countryCode!)}${widget.serviceModel.priceAndDurationMax!.price ?? '0'}"
-                              : (widget.serviceModel.isPriceStartAt)
-                                  ? "${getCurrency(_salonProfileProvider.chosenSalon.countryCode!)}${widget.serviceModel.priceAndDuration!.price ?? '0'}+"
-                                  : "${getCurrency(_salonProfileProvider.chosenSalon.countryCode!)}${widget.serviceModel.priceAndDuration!.price ?? '0'}",
-                          textAlign: TextAlign.right,
-                          style: GoogleFonts.openSans(
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          child: SvgPicture.asset(
+                            "assets/test_assets/arrow_up.svg",
                             color: _salonProfileProvider
                                 .salonTheme.textTheme.displaySmall!.color,
-                            fontSize: 15,
-                            // fontFamily: 'Open Sans',
-                            fontWeight: FontWeight.w500,
-                            height: 0,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  const Gap(20),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: CachedImage(
-                      url: widget.serviceModel.servicePhoto.toString(),
-                      height: 282,
-                      width: 339,
+                        const Spacer(),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 20),
+                          child: Text(
+                            (widget.serviceModel.isPriceRange)
+                                ? "${getCurrency(_salonProfileProvider.chosenSalon.countryCode!)}${widget.serviceModel.priceAndDuration!.price ?? '0'}-${getCurrency(_salonProfileProvider.chosenSalon.countryCode!)}${widget.serviceModel.priceAndDurationMax!.price ?? '0'}"
+                                : (widget.serviceModel.isPriceStartAt)
+                                    ? "${getCurrency(_salonProfileProvider.chosenSalon.countryCode!)}${widget.serviceModel.priceAndDuration!.price ?? '0'}+"
+                                    : "${getCurrency(_salonProfileProvider.chosenSalon.countryCode!)}${widget.serviceModel.priceAndDuration!.price ?? '0'}",
+                            textAlign: TextAlign.right,
+                            style: GoogleFonts.openSans(
+                              color: _salonProfileProvider
+                                  .salonTheme.textTheme.displaySmall!.color,
+                              fontSize: 15,
+                              // fontFamily: 'Open Sans',
+                              fontWeight: FontWeight.w500,
+                              height: 0,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
+                  const Gap(20),
+                  if (widget.serviceModel.servicePhoto != null &&
+                      widget.serviceModel.servicePhoto!.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: CachedImage(
+                        url: widget.serviceModel.servicePhoto.toString(),
+                        height: 282,
+                        width: 339,
+                      ),
+                    ),
                   const Gap(20),
                   Padding(
                     padding: const EdgeInsets.only(left: 20),
@@ -409,10 +456,10 @@ class _ExpandableWidgetState extends ConsumerState<ExpandableWidget> {
                       widget.serviceModel.description ?? '',
                       style: GoogleFonts.openSans(
                         color: _salonProfileProvider
-                            .salonTheme.textTheme.displaySmall!.color,
-                        fontSize: 18,
+                            .salonTheme.textTheme.titleSmall!.color,
+                        fontSize: 16,
                         //   fontFamily: 'Open Sans',
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w400,
                         height: 1,
                       ),
                     ),

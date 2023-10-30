@@ -188,16 +188,16 @@ class GlamMinimalDark {
   //     ],
   //   ),
   // );
- static final TextStyle bodyText1 = TextStyle(
+  static final TextStyle bodyText1 = TextStyle(
     fontFamily: "Poppins",
     fontSize: 16.sp,
     fontWeight: FontWeight.w500,
   );
   static Color primaryColor1 = Colors.white;
-    static Color accentColor = Color(0xfff4dfe9);
-  
+  static Color accentColor = const Color(0xfff4dfe9);
+
   static const Color lightBlack = Color(0xff1E2D3D);
-static final darkTheme = ThemeData(
+  static final darkTheme = ThemeData(
     primaryColor: primaryColor1,
     primaryColorDark: primaryColor1,
     primaryColorLight: primaryColor1,
@@ -218,84 +218,79 @@ static final darkTheme = ThemeData(
     dialogBackgroundColor: Colors.black,
 
     cardColor: Colors.black,
-  brightness: Brightness.dark,
-  inputDecorationTheme: InputDecorationTheme(
-    filled: true,
-    fillColor: const Color(0xff1D1E20),
-    border: OutlineInputBorder(
-      borderSide: BorderSide(
-        color: const Color(0xff9A9A9A).withOpacity(0.15),
+    brightness: Brightness.dark,
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: const Color(0xff1D1E20),
+      border: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: const Color(0xff9A9A9A).withOpacity(0.15),
+        ),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: const Color(0xff9A9A9A).withOpacity(0.15),
+        ),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: const Color(0xff9A9A9A).withOpacity(0.15),
+        ),
       ),
     ),
-    enabledBorder: OutlineInputBorder(
-      borderSide: BorderSide(
-        color: const Color(0xff9A9A9A).withOpacity(0.15),
-      ),
+    dividerColor: const Color(0xff6a6a6a),
+    // scaffoldBackgroundColor: Colors.black,
+    appBarTheme: AppBarTheme(
+      color: Colors.black,
+      toolbarTextStyle: TextTheme(
+        displaySmall: GoogleFonts.openSans(
+          color: const Color(0xffffffff),
+        ),
+        titleSmall: GoogleFonts.openSans(
+          color: Colors.white, // Text color of the app bar title
+//  fontSize: 20, // Text size of the app bar title
+        ),
+        titleLarge: GoogleFonts.openSans(
+          color: Colors.white, // Text color of the app bar title
+//  fontSize: 20, // Text size of the app bar title
+        ),
+      ).bodyMedium,
+      titleTextStyle: TextTheme(
+        titleLarge: GoogleFonts.openSans(
+          color: Colors.white, // Text color of the app bar title
+          //fontSize: 20, // Text size of the app bar title
+        ),
+      ).titleLarge,
     ),
-    focusedBorder: OutlineInputBorder(
-      borderSide: BorderSide(
-        color: const Color(0xff9A9A9A).withOpacity(0.15),
+    colorScheme: const ColorScheme.dark(
+      tertiary: Colors.white,
+      //primarySwatch: Colors.blue ,
+      brightness: Brightness.dark,
+    ).copyWith(
+        secondaryContainer: const Color(0xFF8e8e8e),
+        secondary: accentColor,
+        primaryContainer: const Color(0xff653B50),
+        tertiaryContainer: const Color(0xff616161),
+        outline: const Color(0xff313132),
+        outlineVariant: Colors.white),
+    textTheme: TextTheme(
+      bodyMedium: GoogleFonts.openSans(color: const Color(0xff868686)),
+      bodyLarge: GoogleFonts.openSans(color: Colors.white),
+      displayLarge: GoogleFonts.openSans(
+        color: const Color(0xffC1C1C1),
       ),
-    ),
-  ),
-  dividerColor: const Color(0xff41403C),
- // scaffoldBackgroundColor: Colors.black,
-  appBarTheme: AppBarTheme(
-    color: Colors.black,
-    toolbarTextStyle: TextTheme(
       displaySmall: GoogleFonts.openSans(
         color: const Color(0xffffffff),
       ),
       titleSmall: GoogleFonts.openSans(
-        color: Colors.white, // Text color of the app bar title
-//  fontSize: 20, // Text size of the app bar title
+        color: const Color(0xffC1C1C1),
       ),
-      titleLarge: GoogleFonts.openSans(
-        color: Colors.white, // Text color of the app bar title
-//  fontSize: 20, // Text size of the app bar title
-      ),
-    ).bodyMedium,
-    titleTextStyle: TextTheme(
-      titleLarge: GoogleFonts.openSans(
-        color: Colors.white, // Text color of the app bar title
-        //fontSize: 20, // Text size of the app bar title
-      ),
-    ).titleLarge,
-  ),
-  colorScheme: const ColorScheme.dark(
-    tertiary: Colors.white,
-    //primarySwatch: Colors.blue ,
-    brightness: Brightness.dark,
-  ).copyWith(
-      secondaryContainer: const Color(0xFF8e8e8e),
-      secondary: accentColor,
-      primaryContainer: const Color(0xff653B50),
-      tertiaryContainer: const Color(0xff616161),
-      outline: const Color(0xff313132),
-      outlineVariant: Colors.white),
-  textTheme: TextTheme(
-    bodyMedium: GoogleFonts.openSans(color: const Color(0xff868686)),
-    bodyLarge: GoogleFonts.openSans(color: Colors.white),
-    displayLarge: GoogleFonts.openSans(
-      color: const Color(0xffC1C1C1),
+      headlineSmall: GoogleFonts.openSans(color: const Color(0xffdddddd)),
+      displayMedium: const TextStyle(color: Color(0xfff7cce0)),
+      headlineMedium: GoogleFonts.openSans(color: const Color(0xff9F9F9F)),
+      // Define text color
     ),
-    displaySmall: GoogleFonts.openSans(
-      color: const Color(0xffffffff),
-    ),
-    titleSmall: GoogleFonts.openSans(
-      color: const Color(0xffC1C1C1),
-    ),
-    headlineSmall: GoogleFonts.openSans(color: const Color(0xffdddddd)),
-    displayMedium: const TextStyle(color: Color(0xfff7cce0)),
-    headlineMedium: GoogleFonts.openSans(color: const Color(0xff9F9F9F)),
-    // Define text color
-  ),
 
-  // Define other dark theme properties
-);
-
-
-
-
-
+    // Define other dark theme properties
+  );
 }

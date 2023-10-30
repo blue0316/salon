@@ -73,11 +73,18 @@ class _MastersViewState extends ConsumerState<MastersView> {
                 ),
               const Gap(30),
               Container(
-                  decoration: const BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(color: Color(0xff868686)),
-                          right: BorderSide(color: Color(0xff868686)),
-                          left: BorderSide(color: Color(0xff868686)))),
+                  decoration: BoxDecoration(
+                      border: (master.links!.instagram.isNotEmpty ||
+                              master.links!.facebook.isNotEmpty ||
+                              master.links!.pinterest.isNotEmpty ||
+                              master.links!.tiktok.isNotEmpty ||
+                              master.links!.twitter.isNotEmpty ||
+                              master.links!.yelp.isNotEmpty)
+                          ? const Border(
+                              bottom: BorderSide(color: Color(0xff868686)),
+                              right: BorderSide(color: Color(0xff868686)),
+                              left: BorderSide(color: Color(0xff868686)))
+                          : null),
                   width: double.infinity,
                   height: 373,
                   child: Column(
@@ -131,8 +138,8 @@ class _MastersViewState extends ConsumerState<MastersView> {
                                 master.links!.instagram.isNotEmpty)
                               GestureDetector(
                                 onTap: () async {
-                                  Uri uri = Uri.parse(socialLinks('instagram',
-                                      master.links?.instagram ?? ''));
+                                  Uri uri = Uri.parse(socialLinks(
+                                      'insta', master.links?.instagram ?? ''));
 
                                   // debugPrint("launching Url: $uri");
 

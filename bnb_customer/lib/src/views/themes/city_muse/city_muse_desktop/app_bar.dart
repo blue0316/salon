@@ -19,7 +19,7 @@ class MobileAppBarMenu extends ConsumerWidget {
         decoration: BoxDecoration(
             border: Border(
                 bottom: BorderSide(
-          color: theme.appBarTheme.titleTextStyle!.color!,
+          color: theme.dividerColor,
         ))),
         child: Padding(
           padding: const EdgeInsets.only(top: 15.0, bottom: 5),

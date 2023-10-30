@@ -50,7 +50,7 @@ class FeaturesCheck extends ConsumerWidget {
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
-                        '$title',
+                        '$title'.toUpperCase(),
                         style: GoogleFonts.openSans(
                           color: theme.textTheme.displaySmall!.color,
                           fontSize: 18,
