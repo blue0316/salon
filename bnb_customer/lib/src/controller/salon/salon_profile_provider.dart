@@ -13,6 +13,7 @@ import 'package:bbblient/src/models/review.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
+import 'package:bbblient/src/utils/country_code/country.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_profile.dart';
 import 'package:bbblient/src/views/themes/gentle_touch_view.dart';
 import 'package:bbblient/src/views/themes/glam_minimal/glam_minimal_entry.dart';
@@ -20,12 +21,12 @@ import 'package:bbblient/src/views/themes/glam_one/glam_one.dart';
 import 'package:bbblient/src/views/themes/utils/theme_color.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/themes/vintage_craft/mobile/menu.dart';
-import 'package:bbblient/src/views/themes/vintage_craft/vintage_main.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../utils/country_code/json/country_codes.dart';
 import '../../views/themes/city_muse/city_muse_desktop/masters_view.dart';
 import '../../views/themes/city_muse/city_muse_mobile/masters_view.dart';
 import '../../views/themes/city_muse/city_muse_mobile/mobile_menu_section.dart';
@@ -107,10 +108,13 @@ class SalonProfileProvider with ChangeNotifier {
 
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController requestController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
   final TextEditingController messageController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+    Country selectedCountry =
+      countryCodes.map((country) => Country.from(json: country)).toList().first;
 
   bool hasThemeGradient = false;
 
@@ -474,7 +478,7 @@ class SalonProfileProvider with ChangeNotifier {
       EnquiryModel _newEnquiry = EnquiryModel(
         customerName: nameController.text,
         lastName: lastNameController.text,
-        customerPhone: phoneController.text,
+        customerPhone: '$selectedCountry${phoneController.text}',
         customerRequest: requestController.text,
         salonId: salonId,
         customerEmail: emailController.text,

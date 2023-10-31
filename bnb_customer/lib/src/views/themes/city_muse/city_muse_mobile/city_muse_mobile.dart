@@ -1,4 +1,5 @@
 import 'package:bbblient/src/utils/extensions/exstension.dart';
+import 'package:bbblient/src/views/themes/city_muse/city_muse_desktop/city_muse_desktop.dart';
 import 'package:bbblient/src/views/themes/city_muse/city_muse_mobile/products.dart';
 import 'package:bbblient/src/views/themes/city_muse/city_muse_mobile/service_widget.dart';
 import 'package:bbblient/src/views/themes/city_muse/city_muse_mobile/specialization_box.dart';
@@ -20,6 +21,8 @@ import '../../../../models/customer_web_settings.dart';
 import '../../../../models/enums/status.dart';
 import '../../../../models/products.dart';
 import '../../../../models/salon_master/salon.dart';
+import '../../../../utils/country_code/country.dart';
+import '../../../../utils/country_code/json/country_codes.dart';
 import '../../../../utils/icons.dart';
 import '../../../../utils/utils.dart';
 import '../../../salon/booking/dialog_flow/booking_dialog_2.dart';
@@ -102,6 +105,12 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
 
     return s;
   }
+
+  bool showPicker = false;
+  FocusNode focusNode = FocusNode();
+  List<Country> countries =
+      countryCodes.map((country) => Country.from(json: country)).toList();
+  int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -259,27 +268,24 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                             ),
                           ),
                           if (_salonProfileProvider
-                                            .themeSettings!.showSignature! &&
-                                        _salonProfileProvider.themeSettings!
-                                                .themeSignature !=
-                                            null)
-                                      Expanded(
-                                        child: Text(
-                                          'by ${_salonProfileProvider.themeSettings!.themeSignature}',
-                                          textAlign: TextAlign.right,
-                                          style: GoogleFonts.ooohBaby(
-                                            color: _salonProfileProvider
-                                                .salonTheme
-                                                .textTheme
-                                                .displaySmall!
-                                                .color,
-                                            fontSize: 30,
-                                            //  fontFamily: 'Oooh Baby',
-                                            fontWeight: FontWeight.w400,
-                                            height: 0,
-                                          ),
-                                        ),
-                                      ),
+                                  .themeSettings!.showSignature! &&
+                              _salonProfileProvider
+                                      .themeSettings!.themeSignature !=
+                                  null)
+                            Expanded(
+                              child: Text(
+                                'by ${_salonProfileProvider.themeSettings!.themeSignature}',
+                                textAlign: TextAlign.right,
+                                style: GoogleFonts.ooohBaby(
+                                  color: _salonProfileProvider
+                                      .salonTheme.textTheme.displaySmall!.color,
+                                  fontSize: 30,
+                                  //  fontFamily: 'Oooh Baby',
+                                  fontWeight: FontWeight.w400,
+                                  height: 0,
+                                ),
+                              ),
+                            ),
                           // Expanded(
                           //   child: Text(
                           //     'by Ashley Marie',
@@ -1528,17 +1534,109 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                     padding: const EdgeInsets.only(left: 18.0, right: 18.0),
                     child: SizedBox(
                       height: 44,
-                      child: TextField(
-                        style: GoogleFonts.openSans(
-                          color: _salonProfileProvider
-                              .salonTheme.textTheme.displaySmall!.color,
-                        ),
-                        controller: _salonProfileProvider.phoneController,
-                        decoration:
-                            textFieldStyle("Phone", _salonProfileProvider),
-                      ),
+                      child: SizedBox(
+                          height: 50,
+                          // width: 250,
+                          child: Focus(
+                            onFocusChange: ((value) {
+                              if (value) {
+                                if (showPicker) {
+                                  setState(() {
+                                    showPicker = false;
+                                  });
+                                }
+                              }
+                              print("focus value");
+                              print(value);
+                            }),
+                            child: TextField(
+                              controller: _salonProfileProvider.phoneController,
+                              decoration: InputDecoration(
+                                  prefixIcon: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        if (!showPicker) {
+                                          FocusScope.of(context).unfocus();
+                                        }
+                                        showPicker = !showPicker;
+                                      });
+
+                                      print(showPicker);
+                                    },
+                                    child: SizedBox(
+                                      // height: 170,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 10.0, left: 5.0),
+                                        child: Text(
+                                          "+" +
+                                              _salonProfileProvider
+                                                  .selectedCountry.phoneCode,
+                                          style: _salonProfileProvider
+                                              .salonTheme
+                                              .textTheme
+                                              .displayLarge,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  hintText: 'Phone',
+                                  filled: _salonProfileProvider
+                                      .salonTheme.inputDecorationTheme.filled,
+                                  fillColor: _salonProfileProvider.salonTheme
+                                      .inputDecorationTheme.fillColor,
+                                  border: _salonProfileProvider
+                                      .salonTheme.inputDecorationTheme.border,
+                                  enabledBorder: _salonProfileProvider
+                                      .salonTheme
+                                      .inputDecorationTheme
+                                      .enabledBorder,
+                                  focusedBorder: _salonProfileProvider
+                                      .salonTheme
+                                      .inputDecorationTheme
+                                      .focusedBorder),
+                            ),
+                          )),
+
+                      // TextField(
+                      //   style: GoogleFonts.openSans(
+                      //     color: _salonProfileProvider
+                      //         .salonTheme.textTheme.displaySmall!.color,
+                      //   ),
+                      //   controller: _salonProfileProvider.phoneController,
+                      //   decoration:
+                      //       textFieldStyle("Phone", _salonProfileProvider),
+                      // ),
                     ),
                   ),
+                  if (showPicker)
+                    Padding(
+                      padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+                      child: SizedBox(
+                        height: 350.h,
+                        width: 250,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: countries.length,
+                          itemBuilder: (context, index) {
+                            Country country = countries[index];
+                            return CountryCodeCard(
+                              country: country,
+                              selected: selectedIndex == index ? true : false,
+                              onTap: () {
+                                setState(() {
+                                  selectedIndex = index;
+                                  _salonProfileProvider.selectedCountry =
+                                      country;
+                                  showPicker = !showPicker;
+                                });
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+
                   const Gap(30),
                   Padding(
                     padding: const EdgeInsets.only(left: 18.0, right: 18.0),

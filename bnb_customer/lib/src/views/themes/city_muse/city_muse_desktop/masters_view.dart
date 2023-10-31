@@ -163,6 +163,8 @@ class _DesktopMastersViewState extends ConsumerState<DesktopMastersView> {
                   ),
                   Expanded(
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
                             decoration: const BoxDecoration(
@@ -206,6 +208,8 @@ class _DesktopMastersViewState extends ConsumerState<DesktopMastersView> {
                                 const Gap(20),
                                 Center(
                                     child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     if (master.links?.facebook != null &&
                                         master.links!.facebook.isNotEmpty)
@@ -345,7 +349,7 @@ class _DesktopMastersViewState extends ConsumerState<DesktopMastersView> {
               ),
               const Gap(100),
               SizedBox(
-                height: 100,
+                height: 50,
                 child: Padding(
                   padding: const EdgeInsets.only(
                       left: 80,
@@ -357,13 +361,13 @@ class _DesktopMastersViewState extends ConsumerState<DesktopMastersView> {
                         child: Container(
                             height: 1,
                             width: double.infinity,
-                            color: const Color(0xFFB8B2A6)),
+                            color: const Color(0xFF41403C)),
                       ),
                     ],
                   ),
                 ),
               ),
-              const Gap(50),
+              const Gap(20),
               Padding(
                 padding: const EdgeInsets.only(
                     left: 80,

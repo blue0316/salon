@@ -364,26 +364,27 @@ class _TileState extends ConsumerState<Tile> {
                 decoration: BoxDecoration(
                   color: themeType == ThemeType.CityMuseLight ||
                           themeType == ThemeType.CityMuseDark
-                      ? theme.scaffoldBackgroundColor
+                      ? const Color(0xffF7F7F7)
                       : null,
                   border: Border.all(
-                    color: themeType == ThemeType.GentleTouch ||
-                            themeType == ThemeType.CityMuseLight ||
-                            themeType == ThemeType.CityMuseDark
+                    color: themeType == ThemeType.GentleTouch
                         ? Colors.black
                         : Colors.white,
                     width: 0.3,
                   ),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                  padding: const EdgeInsets.only(
+                      top: 10,
+                      // horizontal: 20.sp
+                      bottom: 10),
                   child: Center(
                     child: Text(
                       widget.description,
                       style: theme.textTheme.bodyLarge?.copyWith(
                         color: themeType == ThemeType.CityMuseLight ||
                                 themeType == ThemeType.CityMuseDark
-                            ? theme.textTheme.displaySmall!.color
+                            ? Colors.black
                             : theme.primaryColorDark,
                         fontSize: DeviceConstraints.getResponsiveSize(
                             context, 14.sp, 14.sp, 14.sp),

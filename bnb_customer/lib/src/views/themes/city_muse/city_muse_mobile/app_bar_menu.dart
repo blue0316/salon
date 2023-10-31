@@ -25,6 +25,7 @@ class AppBarMenu extends ConsumerWidget {
           child: Text(
             '$title',
             style: GoogleFonts.openSans(
+                fontSize: 15,
                 fontWeight: _salonProfileProvider.appbarHoveredIndex == index
                     ? FontWeight.w600
                     : null,
