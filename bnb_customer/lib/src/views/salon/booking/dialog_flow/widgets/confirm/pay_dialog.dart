@@ -133,7 +133,7 @@ class PayDialog<T> extends ConsumerStatefulWidget {
 }
 
 class _PayDialogState extends ConsumerState<PayDialog> {
-  final IFrameElement _iframeElement = IFrameElement();
+  final IFrameElement _iframeElement2 = IFrameElement();
   DateTime timeNow = DateTime.now();
   var formatter = DateFormat('dd-MM-yyyy:hh:mm:ss:Ms');
   var hash;
@@ -147,22 +147,22 @@ class _PayDialogState extends ConsumerState<PayDialog> {
     );
     hash = sha512.convert(bytesToHash);
     // print();
-    _iframeElement.style.height = '100%';
-    _iframeElement.style.width = '100%';
-    _iframeElement.src = 'https://testpayments.worldnettps.com/merchant/securecardpage?TERMINALID=${widget.terminalId ?? "5363001"}&DATETIME=${formatter.format(timeNow)}&HASH=$hash&CURRENCY=${widget.currency ?? "USD"}&MERCHANTREF=${widget.transactionId ?? "Glamiris181234${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}"}&ACTION=register&RECEIPTPAGEURL=https://us-central1-bowandbeautiful-3372d.cloudfunctions.net/payrocreceipt-payrocReceipt';
-    _iframeElement.style.border = 'none';
-    _iframeElement.style.border = 'none';
+    _iframeElement2.style.height = '100%';
+    _iframeElement2.style.width = '100%';
+    _iframeElement2.src = 'https://testpayments.worldnettps.com/merchant/securecardpage?TERMINALID=${widget.terminalId ?? "5363001"}&DATETIME=${formatter.format(timeNow)}&HASH=$hash&CURRENCY=${widget.currency ?? "USD"}&MERCHANTREF=${widget.transactionId ?? "Glamiris181234${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}"}&ACTION=register&RECEIPTPAGEURL=https://us-central1-bowandbeautiful-3372d.cloudfunctions.net/payrocreceipt-payrocReceipt';
+    _iframeElement2.style.border = 'none';
+    _iframeElement2.style.border = 'none';
 
     // ignore: undefined_prefixed_name
     ui.platformViewRegistry.registerViewFactory(
-      'iframeElement',
-      (int viewId) => _iframeElement,
+      'iframeElement2',
+      (int viewId) => _iframeElement2,
     );
   }
 
-  final Widget _iframeWidget = HtmlElementView(
+  final Widget _iframeWidget2 = HtmlElementView(
     key: UniqueKey(),
-    viewType: 'iframeElement',
+    viewType: 'iframeElement2',
   );
 
   @override
@@ -188,7 +188,7 @@ class _PayDialogState extends ConsumerState<PayDialog> {
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          child: _iframeWidget,
+          child: _iframeWidget2,
         ),
       ),
     );
