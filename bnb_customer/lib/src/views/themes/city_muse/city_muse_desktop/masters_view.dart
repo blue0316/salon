@@ -185,7 +185,7 @@ class _DesktopMastersViewState extends ConsumerState<DesktopMastersView> {
                                         fit: BoxFit.fitWidth,
                                       ))
                                     : Expanded(
-                                      child: Image.asset(
+                                        child: Image.asset(
                                           salonProvider.themeType ==
                                                   ThemeType.CityMuseLight
                                               ? ThemeImages
@@ -193,14 +193,15 @@ class _DesktopMastersViewState extends ConsumerState<DesktopMastersView> {
                                               : ThemeImages
                                                   .noTeamMemberDarkCityMuse,
                                           //ThemeImages.noTeamMember,
-                                          width:
-                                              MediaQuery.of(context).size.width /
-                                                  2,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              2,
                                           // height: 400,
                                           fit: BoxFit.fitWidth,
                                           height: 200,
                                         ),
-                                    ),
+                                      ),
                                 const Gap(20),
                                 Center(
                                     child: Row(
@@ -268,30 +269,73 @@ class _DesktopMastersViewState extends ConsumerState<DesktopMastersView> {
                                             'assets/test_assets/tiktok.svg'),
                                       ),
                                     const Gap(4.0),
-                                     if (master.links?.twitter != null &&
-                            master.links!.twitter.isNotEmpty)
-                          GestureDetector(
-                            onTap: () async {
-                              Uri uri = Uri.parse(socialLinks(
-                                  'twitter', master.links?.twitter ?? ''));
+                                    if (master.links?.twitter != null &&
+                                        master.links!.twitter.isNotEmpty)
+                                      const Gap(4.0),
+                                    if (master.links?.twitter != null &&
+                                        master.links!.twitter.isNotEmpty)
+                                      GestureDetector(
+                                        onTap: () async {
+                                          Uri uri = Uri.parse(socialLinks(
+                                              'twitter',
+                                              master.links?.twitter ?? ''));
 
-                              // debugPrint("launching Url: $uri");
+                                          // debugPrint("launching Url: $uri");
 
-                              if (await canLaunchUrl(uri)) {
-                                await launchUrl(uri);
-                              } else {
-                                showToast("Social Link is not available");
-                              }
-                            },
-                            child: SvgPicture.asset(
-                                'assets/test_assets/twitter.svg'),
-                          ),
+                                          if (await canLaunchUrl(uri)) {
+                                            await launchUrl(uri);
+                                          } else {
+                                            showToast(
+                                                "Social Link is not available");
+                                          }
+                                        },
+                                        child: SvgPicture.asset(
+                                            'assets/test_assets/twitter.svg'),
+                                      ),
+                                    const Gap(4.0),
+                                    if (master.links?.pinterest != null &&
+                                        master.links!.pinterest.isNotEmpty)
+                                      GestureDetector(
+                                        onTap: () async {
+                                          Uri uri = Uri.parse(socialLinks(
+                                              'pinterest',
+                                              master.links?.twitter ?? ''));
+
+                                          // debugPrint("launching Url: $uri");
+
+                                          if (await canLaunchUrl(uri)) {
+                                            await launchUrl(uri);
+                                          } else {
+                                            showToast(
+                                                "Social Link is not available");
+                                          }
+                                        },
+                                        child: SvgPicture.asset(
+                                            'assets/test_assets/pinterest.svg'),
+                                      ),
+                                    GestureDetector(
+                                      onTap: () async {
+                                        Uri uri = Uri.parse(socialLinks(
+                                            'twitter',
+                                            master.links?.twitter ?? ''));
+
+                                        // debugPrint("launching Url: $uri");
+
+                                        if (await canLaunchUrl(uri)) {
+                                          await launchUrl(uri);
+                                        } else {
+                                          showToast(
+                                              "Social Link is not available");
+                                        }
+                                      },
+                                      child: SvgPicture.asset(
+                                          'assets/test_assets/twitter.svg'),
+                                    ),
                                   ],
                                 )),
                                 const Gap(20),
                               ],
                             )),
-                       
                         const Gap(4.0),
                       ],
                     ),

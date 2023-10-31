@@ -495,24 +495,28 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                         ),
                                       ),
                                     ),
-
-                                    // Expanded(
-                                    //   child: Text(
-                                    //     'by Ashley Marie',
-                                    //     textAlign: TextAlign.right,
-                                    //     style: GoogleFonts.ooohBaby(
-                                    //       color: _salonProfileProvider
-                                    //           .salonTheme
-                                    //           .textTheme
-                                    //           .displaySmall!
-                                    //           .color,
-                                    //       fontSize: screenSize.width * 0.02,
-                                    //       //  fontFamily: 'Oooh Baby',
-                                    //       fontWeight: FontWeight.w400,
-                                    //       height: 0,
-                                    //     ),
-                                    //   ),
-                                    // ),
+                                    if (_salonProfileProvider
+                                            .themeSettings!.showSignature! &&
+                                        _salonProfileProvider.themeSettings!
+                                                .themeSignature !=
+                                            null)
+                                      Expanded(
+                                        child: Text(
+                                          'by ${_salonProfileProvider.themeSettings!.themeSignature}',
+                                          textAlign: TextAlign.right,
+                                          style: GoogleFonts.ooohBaby(
+                                            color: _salonProfileProvider
+                                                .salonTheme
+                                                .textTheme
+                                                .displaySmall!
+                                                .color,
+                                            fontSize: screenSize.width * 0.02,
+                                            //  fontFamily: 'Oooh Baby',
+                                            fontWeight: FontWeight.w400,
+                                            height: 0,
+                                          ),
+                                        ),
+                                      ),
                                   ],
                                 ),
                               ),
@@ -765,7 +769,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                             ),
                             bottom: BorderSide(color: Color(0xff9F9F9F)))),
                     child: Marquee(
-                      text: ' 🌑  ${chosenSalon.salonName.toTitleCase()} ',
+                      text: ' .  ${chosenSalon.salonName.toTitleCase()} ',
                       style: GoogleFonts.openSans(
                         fontSize: 15.0,
                         color: _salonProfileProvider
@@ -2560,18 +2564,31 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                           textAlign: TextAlign.left,
                         ),
                         const Gap(5),
-                        Text(
-                          "Powered by GlamIris",
-                          style: GoogleFonts.openSans(
-                            fontSize: 14,
-                            color: _salonProfileProvider
-                                .salonTheme.colorScheme.secondary,
-                            fontWeight: FontWeight.bold,
-                            // color: const Color(0xFFE980B2),
-                            //fontWeight: FontWeight.wSymbol(figma.mixed),
-                            height: 24 / 14,
+                        GestureDetector(
+                          onTap: () async {
+                            Uri uri = Uri.parse('https://glmrs.space/home');
+
+                            // debugPrint("launching Url: $uri");
+
+                            if (await canLaunchUrl(uri)) {
+                              await launchUrl(uri);
+                            } else {
+                              showToast("Unable to launch Glamiris website");
+                            }
+                          },
+                          child: Text(
+                            "Powered by GlamIris",
+                            style: GoogleFonts.openSans(
+                              fontSize: 14,
+                              color: _salonProfileProvider
+                                  .salonTheme.colorScheme.secondary,
+                              fontWeight: FontWeight.bold,
+                              // color: const Color(0xFFE980B2),
+                              //fontWeight: FontWeight.wSymbol(figma.mixed),
+                              height: 24 / 14,
+                            ),
+                            textAlign: TextAlign.left,
                           ),
-                          textAlign: TextAlign.left,
                         )
                       ],
                     ),
@@ -2595,7 +2612,7 @@ Color blendColors(Color color1, Color color2, double opacity) {
   int red = (color1.red + (color2.red - color1.red) * opacity).round();
   int green = (color1.green + (color2.green - color1.green) * opacity).round();
   int blue = (color1.blue + (color2.blue - color1.blue) * opacity).round();
- 
+
   // Color? combinedColor = Color.lerp(color1, color2, 0.09);
   return
       //combinedColor!;

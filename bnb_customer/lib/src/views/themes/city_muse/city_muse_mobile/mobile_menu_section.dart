@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../controller/all_providers/all_providers.dart';
 import '../../../../models/customer_web_settings.dart';
 import '../../../../models/salon_master/salon.dart';
 import '../../../salon/booking/dialog_flow/booking_dialog_2.dart';
+import '../../../widgets/widgets.dart';
 import '../../utils/theme_type.dart';
 import '../city_muse_desktop/app_bar.dart';
 
@@ -53,7 +55,7 @@ class MenuSection extends ConsumerWidget {
                 MobileAppBarMenu(
                   title: AppLocalizations.of(context)?.portfolio ?? 'Portfolio',
                   action: () {
-                    salonProvider.changeShowMenuMobile(false);
+                   salonProvider.changeShowMenuMobile(false);
                     Scrollable.ensureVisible(
                       controller.works.currentContext!,
                       duration: const Duration(seconds: 2),
@@ -146,12 +148,25 @@ class MenuSection extends ConsumerWidget {
                 },
               ),
               const Gap(20),
-              Image.asset(
-                  salonProvider.themeType == ThemeType.CityMuseLight
-                      ? "assets/test_assets/logo_dark.png"
-                      : "assets/test_assets/logo_light.png",
-                  height: 29,
-                  width: 78),
+              GestureDetector(
+                onTap: () async {
+                  Uri uri = Uri.parse('https://glmrs.space/home');
+
+                  // debugPrint("launching Url: $uri");
+
+                  if (await canLaunchUrl(uri)) {
+                    await launchUrl(uri);
+                  } else {
+                    showToast("Unable to launch Glamiris website");
+                  }
+                },
+                child: Image.asset(
+                    salonProvider.themeType == ThemeType.CityMuseLight
+                        ? "assets/test_assets/logo_dark.png"
+                        : "assets/test_assets/logo_light.png",
+                    height: 29,
+                    width: 78),
+              ),
               const Spacer(),
             ],
           ),

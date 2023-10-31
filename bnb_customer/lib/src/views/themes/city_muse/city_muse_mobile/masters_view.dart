@@ -187,9 +187,33 @@ class _MastersViewState extends ConsumerState<MastersView> {
                                     showToast("Social Link is not available");
                                   }
                                 },
-                                child: SvgPicture.asset(
+                                child:
+                                 SvgPicture.asset(
                                     'assets/test_assets/twitter.svg'),
                               ),
+
+
+                              const Gap(4.0),
+                            if (master.links?.pinterest != null &&
+                                master.links!.pinterest.isNotEmpty)
+                              GestureDetector(
+                                onTap: () async {
+                                  Uri uri = Uri.parse(socialLinks(
+                                      'pinterest', master.links?.twitter ?? ''));
+
+                                  // debugPrint("launching Url: $uri");
+
+                                  if (await canLaunchUrl(uri)) {
+                                    await launchUrl(uri);
+                                  } else {
+                                    showToast("Social Link is not available");
+                                  }
+                                },
+                                child:
+                                 SvgPicture.asset(
+                                    'assets/test_assets/pinterest.svg'),
+                              ),
+
                           ],
                         ),
                       ),
