@@ -227,6 +227,7 @@ class _MastersViewState extends ConsumerState<MastersView> {
                 style: GoogleFonts.openSans(
                   letterSpacing: 1,
                   height: 2,
+                  fontSize: 16,
                   color: theme.textTheme.titleSmall!.color,
                 ),
               ),

@@ -102,6 +102,7 @@ class _DesktopMastersViewState extends ConsumerState<DesktopMastersView> {
                                 style: GoogleFonts.openSans(
                                   letterSpacing: 1,
                                   height: 2,
+                                  fontSize: 18,
                                   color: theme.textTheme.titleSmall!.color,
                                 ),
                               ),
