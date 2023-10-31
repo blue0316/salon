@@ -23,6 +23,7 @@ import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/themes/utils/unique_landing_bottom.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'components/team/team_member_view.dart';
@@ -264,6 +265,18 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
             ? SingleChildScrollView(
                 child: Column(
                   children: [
+                    // InkWell(
+                    //     onTap: () {
+                    //       SystemChrome.setApplicationSwitcherDescription(ApplicationSwitcherDescription(
+                    //         label: 'Dynamic web app title',
+                    //         primaryColor: Theme.of(context).primaryColor.value,
+                    //       ));
+                    //     },
+                    //     child: Container(
+                    //       height: 200,
+                    //       width: 200,
+                    //       color: Colors.purple,
+                    //     )),
                     SizedBox.fromSize(size: Size.zero, key: controller.landing),
                     const LandingHeader(),
 
