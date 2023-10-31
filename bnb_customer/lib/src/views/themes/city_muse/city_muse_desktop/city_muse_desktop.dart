@@ -769,7 +769,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                             ),
                             bottom: BorderSide(color: Color(0xff9F9F9F)))),
                     child: Marquee(
-                      text: ' .  ${chosenSalon.salonName.toTitleCase()} ',
+                      text: ' 🌑  ${chosenSalon.salonName.toTitleCase()} ',
                       style: GoogleFonts.openSans(
                         fontSize: 15.0,
                         color: _salonProfileProvider
@@ -1585,7 +1585,6 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                                     selectedProduct!
                                                             .productDescription ??
                                                         ''.toCapitalized(),
-                                                    softWrap: true,
                                                     style: GoogleFonts.openSans(
                                                       fontSize: 15,
                                                       color: _salonProfileProvider
@@ -1605,48 +1604,44 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                                         onEntered(true),
                                                     onExit: (event) =>
                                                         onEntered(false),
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 38.0),
-                                                      child: Row(
-                                                        children: [
-                                                          Text('BOOK NOW',
-                                                              style: GoogleFonts.openSans(
-                                                                  color: isHovered
-                                                                      ? increaseBrightness(
-                                                                          _salonProfileProvider
-                                                                              .salonTheme
-                                                                              .colorScheme
-                                                                              .secondary,
-                                                                          10)
-                                                                      : _salonProfileProvider
-                                                                          .salonTheme
-                                                                          .colorScheme
-                                                                          .secondary,
-                                                                  fontSize: 18,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w700)),
-                                                          const Gap(10),
-                                                          Image.asset(
-                                                            'assets/test_assets/book_arrow.png',
-                                                            height: 24,
-                                                            width: 24,
-                                                            color: isHovered
-                                                                ? increaseBrightness(
-                                                                    _salonProfileProvider
+                                                    child: Row(
+                                                      children: [
+                                                        Text('BOOK NOW',
+                                                            style: GoogleFonts.openSans(
+                                                                color: isHovered
+                                                                    ? increaseBrightness(
+                                                                        _salonProfileProvider
+                                                                            .salonTheme
+                                                                            .colorScheme
+                                                                            .secondary,
+                                                                        10)
+                                                                    : _salonProfileProvider
                                                                         .salonTheme
                                                                         .colorScheme
                                                                         .secondary,
-                                                                    10)
-                                                                : _salonProfileProvider
-                                                                    .salonTheme
-                                                                    .colorScheme
-                                                                    .secondary,
-                                                          ),
-                                                        ],
-                                                      ),
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700)),
+                                                        const Gap(10),
+                                                        Image.asset(
+                                                          'assets/test_assets/book_arrow.png',
+                                                          height: 24,
+                                                          width: 24,
+                                                          color: isHovered
+                                                              ? increaseBrightness(
+                                                                  _salonProfileProvider
+                                                                      .salonTheme
+                                                                      .colorScheme
+                                                                      .secondary,
+                                                                  10)
+                                                              : _salonProfileProvider
+                                                                  .salonTheme
+                                                                  .colorScheme
+                                                                  .secondary,
+                                                        ),
+                                                        const Spacer(),
+                                                      ],
                                                     ),
                                                   ),
                                                 ),

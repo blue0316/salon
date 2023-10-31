@@ -364,11 +364,12 @@ class _TileState extends ConsumerState<Tile> {
                 decoration: BoxDecoration(
                   color: themeType == ThemeType.CityMuseLight ||
                           themeType == ThemeType.CityMuseDark
-                      ? Colors.white
+                      ? theme.scaffoldBackgroundColor
                       : null,
                   border: Border.all(
-                    color: themeType == ThemeType.GentleTouch ||  themeType == ThemeType.CityMuseLight ||
-                                themeType == ThemeType.CityMuseDark
+                    color: themeType == ThemeType.GentleTouch ||
+                            themeType == ThemeType.CityMuseLight ||
+                            themeType == ThemeType.CityMuseDark
                         ? Colors.black
                         : Colors.white,
                     width: 0.3,
@@ -382,7 +383,7 @@ class _TileState extends ConsumerState<Tile> {
                       style: theme.textTheme.bodyLarge?.copyWith(
                         color: themeType == ThemeType.CityMuseLight ||
                                 themeType == ThemeType.CityMuseDark
-                            ? Colors.black
+                            ? theme.textTheme.displaySmall!.color
                             : theme.primaryColorDark,
                         fontSize: DeviceConstraints.getResponsiveSize(
                             context, 14.sp, 14.sp, 14.sp),
