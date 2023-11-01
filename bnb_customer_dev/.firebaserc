@@ -4,7 +4,6 @@
     "staging": "bowandbeautiful-dev"
   },
   "targets": {
- 
     "bowandbeautiful-dev": {
       "hosting": {
         "bnb-test-dev": [
@@ -13,11 +12,12 @@
       }
     },
     "bowandbeautiful-3372d": {
-          "hosting": {
-            "bnbtest": [
-              "bnbtest"
-            ]
-          }
-        }
-  }
+      "hosting": {
+        "cw-test": [
+          "cw-test"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
