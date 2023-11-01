@@ -1,0 +1,19 @@
+{
+  "ar": [
+    "markAppointAsNoShowDialogue",
+    "yourDetails",
+    "timeAlreadyBooked",
+    "chooseAnotherSlot",
+    "learnMore",
+    "completedAppointment"
+  ],
+
+  "es": [
+    "washYourFHands"
+  ],
+
+  "fr": [
+    "choosebyServicesPriceDistanceRating",
+    "organizedWork"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "projects": {
+    "default": "bowandbeautiful-3372d",
+    "staging": "bowandbeautiful-dev"
+  },
+  "targets": {
+ 
+    "bowandbeautiful-dev": {
+      "hosting": {
+        "bnb-test-dev": [
+          "bnb-test-dev"
+        ]
+      }
+    },
+    "bowandbeautiful-3372d": {
+          "hosting": {
+            "bnbtest": [
+              "bnbtest"
+            ]
+          }
+        }
+  }
+}
