@@ -33,67 +33,75 @@ class CityMuseServiceTab extends StatelessWidget {
         onExit: (event) => _salonProfileProvider.onExitService(index),
         child: Stack(
           children: [
-            Container(
-              height: 59,
-              width: 1199,
-              decoration: const BoxDecoration(
-                  border: Border(bottom: BorderSide(color: Color(0xff414036)))),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        serviceList.translations?[
-                                AppLocalizations.of(context)?.localeName ??
-                                    'en'] ??
-                            serviceList.translations?['en'] ??
-                            '',
-                        style: GoogleFonts.openSans(
-                          color: _salonProfileProvider
-                              .salonTheme.textTheme.displaySmall!.color,
-                          fontSize: 18,
-                          // fontFamily: 'Open Sans',
-                          fontWeight: FontWeight.w500,
-                          height: 0,
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Container(
+                height: _salonProfileProvider.serviceHoveredIndex == index
+                    ? 79
+                    : 59,
+                width: 1199,
+                decoration: const BoxDecoration(
+                    border:
+                        Border(bottom: BorderSide(color: Color(0xff414036)))),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          serviceList.translations?[
+                                  AppLocalizations.of(context)?.localeName ??
+                                      'en'] ??
+                              serviceList.translations?['en'] ??
+                              '',
+                          style: GoogleFonts.openSans(
+                            color: _salonProfileProvider
+                                .salonTheme.textTheme.displaySmall!.color,
+                            fontSize: 18,
+                            // fontFamily: 'Open Sans',
+                            fontWeight: FontWeight.w500,
+                            height: 0,
+                          ),
                         ),
-                      ),
-                      Text(
-                        (serviceList.isPriceRange)
-                            ? "${getCurrency(chosenSalon.countryCode!)}${serviceList.priceAndDuration!.price ?? '0'}-${getCurrency(chosenSalon.countryCode!)}${serviceList.priceAndDurationMax!.price ?? '0'}"
-                            : (serviceList.isPriceStartAt)
-                                ? "${getCurrency(chosenSalon.countryCode!)}${serviceList.priceAndDuration!.price ?? '0'}+"
-                                : "${getCurrency(chosenSalon.countryCode!)}${serviceList.priceAndDuration!.price ?? '0'}",
-                        style: GoogleFonts.openSans(
-                          color: _salonProfileProvider
-                              .salonTheme.textTheme.displaySmall!.color,
-                          fontSize: 18,
-                          // fontFamily: 'Open Sans',
-                          fontWeight: FontWeight.w500,
-                          height: 0,
-                        ),
-                      )
-                    ],
-                  ),
-                  if (serviceList.description != null &&
-                      serviceList.description!.isNotEmpty &&
-                      _salonProfileProvider.serviceHoveredIndex == index) ...[
-                    const Gap(20),
-                    Text(
-                      serviceList.description.toString(),
-                      style: GoogleFonts.openSans(
-                        color: _salonProfileProvider
-                            .salonTheme.textTheme.titleSmall!.color,
-                        fontSize: 18,
-                        // fontFamily: 'Open Sans',
-                        fontWeight: FontWeight.w400,
-                        height: 0,
-                      ),
+                        Text(
+                          (serviceList.isPriceRange)
+                              ? "${getCurrency(chosenSalon.countryCode!)}${serviceList.priceAndDuration!.price ?? '0'}-${getCurrency(chosenSalon.countryCode!)}${serviceList.priceAndDurationMax!.price ?? '0'}"
+                              : (serviceList.isPriceStartAt)
+                                  ? "${getCurrency(chosenSalon.countryCode!)}${serviceList.priceAndDuration!.price ?? '0'}+"
+                                  : "${getCurrency(chosenSalon.countryCode!)}${serviceList.priceAndDuration!.price ?? '0'}",
+                          style: GoogleFonts.openSans(
+                            color: _salonProfileProvider
+                                .salonTheme.textTheme.displaySmall!.color,
+                            fontSize: 18,
+                            // fontFamily: 'Open Sans',
+                            fontWeight: FontWeight.w500,
+                            height: 0,
+                          ),
+                        )
+                      ],
                     ),
-                  ]
-                ],
+                    const Gap(10),
+                    if (serviceList.description != null &&
+                        serviceList.description!.isNotEmpty &&
+                        _salonProfileProvider.serviceHoveredIndex == index) ...[
+                      const Gap(20),
+                      Text(
+                        serviceList.description.toString(),
+                        style: GoogleFonts.openSans(
+                          color: _salonProfileProvider
+                              .salonTheme.textTheme.titleSmall!.color,
+                          fontSize: 18,
+                          // fontFamily: 'Open Sans',
+                          fontWeight: FontWeight.w400,
+                          height: 0,
+                        ),
+                      ),
+                      const Gap(20),
+                    ]
+                  ],
+                ),
               ),
             ),
             if (_salonProfileProvider.serviceHoveredIndex == index)

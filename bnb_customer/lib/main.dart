@@ -116,4 +116,4 @@ class _NavigatorPageState extends ConsumerState<NavigatorPage> {
   }
 }
 
-Set availableLocales = {'ar', 'en', 'es', 'fr', 'pt', 'ro', 'uk'};
+Set availableLocales = {'ar', 'en', 'es', 'fr', 'pt', 'ro', 'uk', 'cs'};

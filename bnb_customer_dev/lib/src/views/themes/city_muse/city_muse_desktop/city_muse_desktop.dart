@@ -281,7 +281,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
               const Gap(50),
               chosenSalon.salonLogo.isEmpty
                   ? Padding(
-                      padding: EdgeInsets.only(left: 5.w),
+                      padding: EdgeInsets.only(left: 30.w),
                       child: SizedBox(
                         height: 70.h,
                         width: 100.h,
@@ -299,17 +299,20 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                   //  const SizedBox()
                   // Text(_salonProfileProvider.extractFirstLetters(chosenSalon.salonName,),  style: GoogleFonts.openSans(color: _salonProfileProvider
                   //       .salonTheme.appBarTheme.titleTextStyle!.color,fontWeight: FontWeight.bold, fontSize: 14))
-                  : SizedBox(
-                      child: CircleAvatar(
-                      radius: 20,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: CachedImage(
-                          url: chosenSalon.salonLogo,
-                          fit: BoxFit.fitHeight,
+                  : Padding(
+                      padding: const EdgeInsets.only(left: 30.0),
+                      child: SizedBox(
+                          child: CircleAvatar(
+                        radius: 20,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: CachedImage(
+                            url: chosenSalon.salonLogo,
+                            fit: BoxFit.fitHeight,
+                          ),
                         ),
-                      ),
-                    ))
+                      )),
+                    )
               //  Text(_salonProfileProvider.extractFirstLetters(chosenSalon.salonName,),  style: GoogleFonts.openSans(color: _salonProfileProvider
               //         .salonTheme.appBarTheme.titleTextStyle!.color,fontWeight: FontWeight.bold, fontSize: 14))
             ],
@@ -474,19 +477,25 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                               const Gap(150),
                               SizedBox(
                                 // width: 537,
-                                height: 150,
+                                height: _salonProfileProvider
+                                            .themeSettings!.showSignature! &&
+                                        _salonProfileProvider.themeSettings!
+                                                .themeSignature !=
+                                            null
+                                    ? 300
+                                    : 150,
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  // crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Expanded(
                                       child: Padding(
                                         padding:
-                                            const EdgeInsets.only(left: 113.0),
+                                            const EdgeInsets.only(left: 100.0),
                                         child: Text(
                                           chosenSalon.salonName.toTitleCase(),
-                                          textAlign: TextAlign.center,
+                                          textAlign: TextAlign.left,
                                           style: GoogleFonts.openSans(
                                             color: _salonProfileProvider
                                                 .salonTheme
@@ -506,10 +515,13 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                             .themeSettings!.showSignature! &&
                                         _salonProfileProvider.themeSettings!
                                                 .themeSignature !=
-                                            null)
+                                            null) ...[
+                                      const Gap(10),
                                       Expanded(
                                         child: Text(
-                                          'by ${_salonProfileProvider.themeSettings!.themeSignature}',
+                                          'by Emma',
+
+                                          //${_salonProfileProvider.themeSettings!.themeSignature}',
                                           textAlign: TextAlign.right,
                                           style: GoogleFonts.ooohBaby(
                                             color: _salonProfileProvider
@@ -524,6 +536,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                           ),
                                         ),
                                       ),
+                                    ]
                                   ],
                                 ),
                               ),
@@ -689,7 +702,9 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                         Padding(
                           padding: const EdgeInsets.only(top: 20.0),
                           child: Text(
-                            'WHO ARE WE?',
+                            _createAppointmentProvider.salonMasters.length > 1
+                                ? 'WHO ARE WE?'
+                                : 'WHO AM I?',
                             textAlign: TextAlign.center,
                             style: GoogleFonts.openSans(
                               color: _salonProfileProvider
@@ -2350,8 +2365,8 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                   padding: const EdgeInsets.only(
                                       left: 10.0, right: 18.0),
                                   child: SizedBox(
-                                    height: 180,
-                                    width: 550,
+                                    height: 160,
+                                    width: 545,
                                     child: TextField(
                                       // maxLength: 8,
                                       minLines: 7,
@@ -2432,7 +2447,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                                       fontFamily: 'Open Sans',
                                                       fontWeight:
                                                           FontWeight.w700,
-                                                      height: 0,
+                                                      height: 1,
                                                     ),
                                                   ),
                                                   const Gap(20),
@@ -2474,11 +2489,11 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                               : Expanded(
                                   child: Padding(
                                   padding: const EdgeInsets.only(
-                                      right: 100.0, bottom: 50),
+                                      right: 100.0, bottom: 100),
                                   child:
                                       Image.asset(AppIcons.cityMuseBackground,
                                           width: screenSize.width * 0.3,
-                                          height: 400,
+                                          height: 500,
                                           //screenSize.width * 0.2,
                                           fit: BoxFit.cover),
                                 )),

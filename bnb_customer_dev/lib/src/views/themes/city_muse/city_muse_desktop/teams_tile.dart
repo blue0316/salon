@@ -51,36 +51,43 @@ class TeamWidget extends ConsumerWidget {
             ),
           ),
           const Gap(20),
-          Padding(
-            padding: const EdgeInsets.only(left: 10.0, right: 8.0),
-            child: Row(
-              children: [
-                Text(
-                  '${masterModel?.personalInfo?.firstName} ${masterModel?.personalInfo?.lastName}'
-                      .toUpperCase(),
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.openSans(
-                    color: index == salonProfile.teamHoveredIndex
-                        ? salonProfile.salonTheme.colorScheme.secondary
-                        : salonProfile.salonTheme.textTheme.displaySmall!.color,
-                    // color:
-                    // const Color(0xFFE980B2),
-                    fontSize: 20,
-                    // fontFamily: 'Open Sans',ss
-                    fontWeight: FontWeight.w500,
-                    height: 0,
+          SizedBox(
+            height: 20,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10.0, right: 8.0),
+              child: Row(
+                children: [
+                  Text(
+                    '${masterModel?.personalInfo?.firstName} ${masterModel?.personalInfo?.lastName}'
+                        .toUpperCase(),
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.openSans(
+                      color: index == salonProfile.teamHoveredIndex
+                          ? salonProfile.salonTheme.colorScheme.secondary
+                          : salonProfile
+                              .salonTheme.textTheme.displaySmall!.color,
+                      // color:
+                      // const Color(0xFFE980B2),
+                      fontSize: 20,
+                      // fontFamily: 'Open Sans',ss
+                      fontWeight: FontWeight.w500,
+                      height: 0,
+                    ),
                   ),
-                ),
-                const Gap(10),
-                if (index == salonProfile.teamHoveredIndex)
-                  Image.asset('assets/test_assets/book_arrow.png',
-                      height: 24,
-                      width: 24,
-                      color: salonProfile.salonTheme.colorScheme.secondary),
-              ],
+                  const Gap(10),
+                  if (index == salonProfile.teamHoveredIndex)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: Image.asset('assets/test_assets/book_arrow.png',
+                          height: 24,
+                          width: 24,
+                          color: salonProfile.salonTheme.colorScheme.secondary),
+                    ),
+                ],
+              ),
             ),
           ),
-          const Gap(10),
+          const Gap(1),
           if (masterModel?.title != null)
             Padding(
               padding: const EdgeInsets.only(left: 10.0, right: 8.0),

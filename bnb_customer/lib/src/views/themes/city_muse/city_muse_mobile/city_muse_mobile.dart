@@ -12,6 +12,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:marquee/marquee.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../controller/all_providers/all_providers.dart';
@@ -247,7 +248,13 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                     padding: const EdgeInsets.only(left: 20.0, right: 2),
                     child: SizedBox(
                       //   width: 409,
-                      height: 150,
+                      height:
+                          _salonProfileProvider.themeSettings!.showSignature! &&
+                                  _salonProfileProvider
+                                          .themeSettings!.themeSignature !=
+                                      null
+                              ? 200
+                              : 70,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -466,6 +473,35 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                         },
                       ),
                   ],
+
+                  const Gap(20),
+                  Container(
+                    height: 40,
+                    decoration: const BoxDecoration(
+                        border: Border(
+                            top: BorderSide(
+                              color: Color(0xff9F9F9F),
+                            ),
+                            bottom: BorderSide(color: Color(0xff9F9F9F)))),
+                    child: Marquee(
+                      text: ' 🌑  ${chosenSalon.salonName.toTitleCase()} ',
+                      style: GoogleFonts.openSans(
+                        fontSize: 15.0,
+                        color: _salonProfileProvider
+                            .salonTheme.textTheme.displaySmall!.color,
+                      ),
+
+                      scrollAxis: Axis.horizontal,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      blankSpace: 20.0, // Adjust the spacing as needed
+                      velocity: 40.0, // Adjust the scrolling speed
+                      startPadding: 20.0, // Adjust the initial padding
+                      accelerationDuration: const Duration(seconds: 1),
+                      accelerationCurve: Curves.easeInOut,
+                      decelerationDuration: const Duration(milliseconds: 500),
+                      decelerationCurve: Curves.easeInOut,
+                    ),
+                  ),
 
                   const Gap(24),
 
