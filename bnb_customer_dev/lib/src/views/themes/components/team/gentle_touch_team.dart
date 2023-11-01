@@ -120,12 +120,7 @@ class _GentleTouchTeamState extends ConsumerState<GentleTouchTeam> {
                   ),
             Space(factor: isPortrait ? 2 : 3),
             isPortrait
-                ? TeamPortraitView(
-                    items: [
-                      AppLocalizations.of(context)?.all ?? 'All',
-                      ..._salonProfileProvider.tabs.keys.toList(),
-                    ],
-                  )
+                ? const TeamPortraitView()
                 : Center(
                     child: SizedBox(
                       // height: size.height * 0.4, // DeviceConstraints.getResponsiveSize(context, 230.h, 230.h, 210.h),

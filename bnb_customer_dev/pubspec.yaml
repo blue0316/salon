@@ -160,7 +160,10 @@ flutter:
       fonts:
         - asset: assets/fonts/Jost-Medium.ttf
         - asset: assets/fonts/Jost-Regular.ttf
-        - asset: assets/fonts/Jost-SemiBold.ttf    
+        - asset: assets/fonts/Jost-SemiBold.ttf        
+    - family: Onest
+      fonts:
+        - asset: assets/fonts/Onest-Light.ttf
     - family: Inter
       fonts:
         - asset: assets/fonts/Inter-Light.ttf
