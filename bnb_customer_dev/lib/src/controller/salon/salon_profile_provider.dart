@@ -15,6 +15,7 @@ import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/country_code/country.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_profile.dart';
+import 'package:bbblient/src/views/themes/gentle_touch_entry/entry.dart';
 import 'package:bbblient/src/views/themes/gentle_touch_view.dart';
 import 'package:bbblient/src/views/themes/glam_minimal/glam_minimal_entry.dart';
 import 'package:bbblient/src/views/themes/glam_one/glam_one.dart';
@@ -330,7 +331,7 @@ class SalonProfileProvider with ChangeNotifier {
           themeType = ThemeType.GentleTouch;
 
           notifyListeners();
-          return GentleTouchTesting(showBooking: showBooking); //  GentleTouch(showBooking: showBooking);
+          return const GentleTouchEntry(); //  GentleTouch(showBooking: showBooking);
 
         case '11':
           salonTheme = getGentleTouchDarkTheme(themeSettings?.theme?.colorCode);

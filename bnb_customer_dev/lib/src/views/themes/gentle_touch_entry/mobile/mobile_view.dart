@@ -165,7 +165,7 @@ class _GentleTouchTestingPhoneState extends ConsumerState<GentleTouchTestingPhon
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: theme.colorScheme.background, //  themeType == ThemeType.VintageCraftDesktop ? Colors.white : Colors.black,
+        backgroundColor: Colors.yellow[50], //  theme.colorScheme.background, //  themeType == ThemeType.VintageCraftDesktop ? Colors.white : Colors.black,
         automaticallyImplyLeading: false,
         toolbarHeight: 70.h,
         leading: Padding(
@@ -216,7 +216,7 @@ class _GentleTouchTestingPhoneState extends ConsumerState<GentleTouchTestingPhon
           ),
         ],
       ),
-      body: Column(
+      body: ListView(
         children: [
           // ** TAGS ** //
           Padding(
