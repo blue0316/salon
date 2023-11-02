@@ -481,12 +481,12 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                         _salonProfileProvider.themeSettings!
                                                 .themeSignature !=
                                             null
-                                    ? 300
+                                    ? 280
                                     : 150,
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   mainAxisAlignment: MainAxisAlignment.start,
-                                  // crossAxisAlignment: CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Expanded(
                                       child: Padding(
@@ -501,7 +501,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                                 .textTheme
                                                 .titleLarge!
                                                 .color,
-                                            fontSize: screenSize.width * 0.05,
+                                            fontSize: screenSize.width * 0.04,
                                             //80,
                                             //     fontFamily: 'Open Sans',
                                             fontWeight: FontWeight.w600,
@@ -515,26 +515,31 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                         _salonProfileProvider.themeSettings!
                                                 .themeSignature !=
                                             null) ...[
-                                      const Gap(10),
+                                      //  const Gap(10),
                                       Expanded(
-                                        child: Text(
-                                          //  'by Emma',
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              right: 50.0),
+                                          child: Text(
+                                            //  'by Emma',
 
-                                          '${_salonProfileProvider.themeSettings!.themeSignature}',
-                                          textAlign: TextAlign.right,
-                                          style: GoogleFonts.ooohBaby(
-                                            color: _salonProfileProvider
-                                                .salonTheme
-                                                .textTheme
-                                                .displaySmall!
-                                                .color,
-                                            fontSize: screenSize.width * 0.02,
-                                            //  fontFamily: 'Oooh Baby',
-                                            fontWeight: FontWeight.w400,
-                                            height: 0,
+                                            'by ${_salonProfileProvider.themeSettings!.themeSignature}',
+                                            textAlign: TextAlign.right,
+                                            style: GoogleFonts.ooohBaby(
+                                              color: _salonProfileProvider
+                                                  .salonTheme
+                                                  .textTheme
+                                                  .displaySmall!
+                                                  .color,
+                                              fontSize: screenSize.width * 0.02,
+                                              //  fontFamily: 'Oooh Baby',
+                                              fontWeight: FontWeight.w400,
+                                              height: 0,
+                                            ),
                                           ),
                                         ),
                                       ),
+                                      const Spacer(),
                                     ]
                                   ],
                                 ),
@@ -616,6 +621,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                           ),
                         ),
                       ),
+                      const Gap(10),
                       (_salonProfileProvider.themeSettings?.backgroundImage !=
                                   null &&
                               _salonProfileProvider
