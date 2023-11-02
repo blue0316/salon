@@ -11,7 +11,7 @@ class GentleTouchEntry extends StatelessWidget {
     return ScreenTypeLayout.builder(
       mobile: (BuildContext context) => const GentleTouchTestingPhone(),
       tablet: (BuildContext context) => const GentleTouchTestingPhone(),
-      desktop: (BuildContext context) => const GentleTouchTesting(),
+      desktop: (BuildContext context) => const GentleTouchDesktop(),
       watch: (BuildContext context) => Container(color: Colors.purple),
     );
   }

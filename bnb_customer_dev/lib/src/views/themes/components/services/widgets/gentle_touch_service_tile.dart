@@ -53,7 +53,7 @@ class _GentleTouchServiceTileState extends ConsumerState<GentleTouchServiceTile>
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  if (isHovered && widget.service.description != null && widget.service.description != '' && (widget.service.servicePhoto != null || widget.service.servicePhoto != ''))
+                  if (isHovered && widget.service.description != null && widget.service.description != '' && (widget.service.servicePhoto != null && widget.service.servicePhoto != ''))
                     SizedBox(
                       height: 60.sp,
                     ),
@@ -102,7 +102,7 @@ class _GentleTouchServiceTileState extends ConsumerState<GentleTouchServiceTile>
                               // 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum.',
                               style: theme.textTheme.bodyLarge?.copyWith(
                                 color: serviceNameColor(themeType, theme),
-                                fontSize: 15.sp,
+                                fontSize: 18.sp,
                                 fontWeight: FontWeight.normal,
                               ),
                               maxLines: 3,
