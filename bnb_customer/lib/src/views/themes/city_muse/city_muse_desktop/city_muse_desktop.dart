@@ -518,9 +518,9 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                       const Gap(10),
                                       Expanded(
                                         child: Text(
-                                          'by Emma',
+                                          //  'by Emma',
 
-                                          //${_salonProfileProvider.themeSettings!.themeSignature}',
+                                          '${_salonProfileProvider.themeSettings!.themeSignature}',
                                           textAlign: TextAlign.right,
                                           style: GoogleFonts.ooohBaby(
                                             color: _salonProfileProvider
