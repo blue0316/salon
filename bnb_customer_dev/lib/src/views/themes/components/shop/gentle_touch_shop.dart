@@ -379,7 +379,9 @@ class ProductPortraitItemCard extends ConsumerWidget {
         ),
         child: Container(
           decoration: BoxDecoration(
-            color: (themeType == ThemeType.GentleTouch) ? Colors.white : Colors.black,
+            // color: (themeType == ThemeType.GentleTouch) ? Colors.white : Colors.black,
+            color: theme.colorScheme.secondary,
+
             // border: Border.all(color: (themeType == ThemeType.GentleTouch) ? Colors.black : Colors.white),
           ),
           // color: backgroundColor ?? Colors.blue,
@@ -434,7 +436,7 @@ class ProductPortraitItemCard extends ConsumerWidget {
                               child: Text(
                                 '${product.productName}'.toUpperCase(),
                                 style: theme.textTheme.bodyLarge?.copyWith(
-                                  color: theme.primaryColorDark,
+                                  color: theme.colorScheme.onBackground, //theme.primaryColorDark,
                                   fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 16.sp),
                                   fontWeight: FontWeight.normal,
                                 ),
@@ -448,7 +450,7 @@ class ProductPortraitItemCard extends ConsumerWidget {
                         Text(
                           '\$${product.clientPrice}',
                           style: theme.textTheme.bodyLarge?.copyWith(
-                            color: theme.primaryColorLight,
+                            color: theme.colorScheme.onBackground, // theme.primaryColorLight,
                             fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 16.sp),
                             fontWeight: FontWeight.w600,
                           ),

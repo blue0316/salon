@@ -227,7 +227,7 @@ class _GentleTouchTestingPhoneState extends ConsumerState<GentleTouchTestingPhon
       body: _salonProfileProvider.isShowMenuMobile
           ? Container(
               width: double.infinity,
-              color: theme.scaffoldBackgroundColor,
+              color: theme.colorScheme.background,
               child: _salonProfileProvider.currentWidgetGentle,
             )
           : !(_salonProfileProvider.showMasterView)

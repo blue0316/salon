@@ -40,48 +40,21 @@ class _GentleTouchDrawerState extends ConsumerState<GentleTouchDrawer> {
       padding: EdgeInsets.symmetric(horizontal: 17.w, vertical: 20.h),
       child: ListView(
         children: [
+          Container(
+            height: 200,
+            width: 900,
+            color: Colors.green,
+          ),
+          Container(
+            height: 200,
+            width: 900,
+            color: Colors.yellow,
+          ),
           IntrinsicHeight(
             child: Column(
               crossAxisAlignment: isPortrait ? CrossAxisAlignment.start : CrossAxisAlignment.center,
               mainAxisAlignment: isPortrait ? MainAxisAlignment.start : MainAxisAlignment.center,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      height: 70.h,
-                      width: 80.h,
-                      child: Center(
-                        child: (chosenSalon.salonLogo.isNotEmpty)
-                            ? CachedImage(
-                                url: chosenSalon.salonLogo,
-                                fit: BoxFit.cover,
-                              )
-                            : Text(
-                                chosenSalon.salonName.initials,
-                                style: theme.textTheme.displayLarge!.copyWith(
-                                  fontSize: DeviceConstraints.getResponsiveSize(context, 50.sp, 50.sp, 50.sp),
-                                  color: themeType == ThemeType.GentleTouch ? Colors.black : Colors.white,
-                                  fontFamily: "VASQUZ",
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                      ),
-                    ),
-                    MouseRegion(
-                      cursor: SystemMouseCursors.click,
-                      child: GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: Icon(
-                          Icons.close,
-                          color: themeType == ThemeType.GentleTouch ? Colors.black : Colors.white,
-                          size: 30.h,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
                 SizedBox(height: 25.h),
 
                 // ABOUT US

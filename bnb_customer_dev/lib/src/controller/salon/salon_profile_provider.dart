@@ -338,7 +338,7 @@ class SalonProfileProvider with ChangeNotifier {
           themeType = ThemeType.GentleTouchDark;
 
           notifyListeners();
-          return GentleTouch(showBooking: showBooking);
+          return const GentleTouchEntry();
 
         case '12':
           salonTheme = getCityMuseLightTheme(themeSettings?.theme?.colorCode);

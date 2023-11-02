@@ -50,7 +50,7 @@ class GentleTouchDarkTheme {
       onSurface: lightGrey,
 
       // Dialog Colors
-      onBackground: Colors.white,
+      onBackground: Colors.black,
       tertiary: Colors.white, // Text colors on dialog
 
       onError: redishPink,

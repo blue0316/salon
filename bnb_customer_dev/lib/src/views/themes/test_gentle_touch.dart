@@ -798,7 +798,7 @@ class _GentleTouchDesktopState extends ConsumerState<GentleTouchDesktop> {
                                     child: Column(
                                       children: [
                                         SizedBox(
-                                          height: 420.h, //  _salonProfileProvider.isHovered ? 410.h : 360.h,
+                                          height: 450.h, //  _salonProfileProvider.isHovered ? 410.h : 360.h,
                                           width: double.infinity,
                                           child: Row(
                                             children: [

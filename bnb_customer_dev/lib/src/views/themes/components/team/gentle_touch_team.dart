@@ -324,7 +324,7 @@ class _GentleTouchTeamMemberState extends ConsumerState<GentleTouchTeamMember> {
                   ),
                 ),
 
-                (widget.masterTitle!.isNotEmpty && (isHovered || widget.showDesc)) ? SizedBox(height: 10.sp) : SizedBox(height: 5.sp),
+                (widget.masterTitle!.isNotEmpty && (isHovered || widget.showDesc)) ? SizedBox(height: 15.sp) : SizedBox(height: 5.sp),
 
                 if (isHovered || widget.showDesc)
                   Padding(
@@ -335,17 +335,16 @@ class _GentleTouchTeamMemberState extends ConsumerState<GentleTouchTeamMember> {
                       children: [
                         if (widget.master.personalInfo?.description != null && widget.master.personalInfo!.description!.isNotEmpty)
                           Text(
-                            (widget.master.personalInfo?.description ?? '').toTitleCase(),
+                            (widget.master.personalInfo?.description ?? ''),
                             style: theme.textTheme.bodyLarge?.copyWith(
                               color: (themeType == ThemeType.GentleTouch) ? Colors.black : Colors.white,
-                              fontSize: 14.sp,
+                              fontSize: 16.sp,
                               fontWeight: FontWeight.normal,
-                              fontFamily: 'Inter-Light',
                             ),
-                            maxLines: 3,
+                            maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
-                        if (widget.master.personalInfo?.description != null && widget.master.personalInfo!.description!.isNotEmpty) SizedBox(height: 15.sp),
+                        if (widget.master.personalInfo?.description != null && widget.master.personalInfo!.description!.isNotEmpty) SizedBox(height: 20.sp),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -422,7 +421,7 @@ class _GentleTouchTeamButtonState extends ConsumerState<GentleTouchTeamButton> {
                     ? (!isHovered ? Colors.black : Colors.white)
                     : (!isHovered ? Colors.white : Colors.black)
                 : Colors.black,
-            fontFamily: "Inter-Light",
+            fontFamily: 'Onest',
           ),
         ),
         style: ElevatedButton.styleFrom(
