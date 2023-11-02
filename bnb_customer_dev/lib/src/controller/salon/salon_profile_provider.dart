@@ -16,10 +16,10 @@ import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/country_code/country.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_profile.dart';
 import 'package:bbblient/src/views/themes/gentle_touch_entry/entry.dart';
+import 'package:bbblient/src/views/themes/gentle_touch_entry/mobile/menu.dart';
 import 'package:bbblient/src/views/themes/gentle_touch_view.dart';
 import 'package:bbblient/src/views/themes/glam_minimal/glam_minimal_entry.dart';
 import 'package:bbblient/src/views/themes/glam_one/glam_one.dart';
-import 'package:bbblient/src/views/themes/test_gentle_touch.dart';
 import 'package:bbblient/src/views/themes/utils/theme_color.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/themes/vintage_craft/mobile/menu.dart';
@@ -27,7 +27,6 @@ import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import '../../utils/country_code/json/country_codes.dart';
 import '../../views/themes/city_muse/city_muse_desktop/masters_view.dart';
 import '../../views/themes/city_muse/city_muse_mobile/masters_view.dart';
@@ -142,6 +141,7 @@ class SalonProfileProvider with ChangeNotifier {
 
   Widget currentWidget = const MenuSection();
   Widget currentWidgetVintage = const VintageMenuSection();
+  Widget currentWidgetGentle = const GentleTouchDrawer();
 
   changeCurrentWidget(Widget widget) {
     currentWidget = widget;
