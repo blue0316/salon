@@ -794,7 +794,12 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                             ),
                             bottom: BorderSide(color: Color(0xff9F9F9F)))),
                     child: Marquee(
-                      text: ' 🌑  ${chosenSalon.salonName.toTitleCase()} ',
+                      text: _salonProfileProvider.allProductBrands
+                          .map((e) => e.brandName)
+                          .toList()
+                          .join()
+                          .toCapitalized(),
+                      //' 🌑  ${chosenSalon.salonName.toTitleCase()} ',
                       style: GoogleFonts.openSans(
                         fontSize: 15.0,
                         color: _salonProfileProvider
