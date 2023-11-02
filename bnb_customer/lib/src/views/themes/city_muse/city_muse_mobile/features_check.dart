@@ -1,6 +1,7 @@
 import 'package:bbblient/src/views/themes/city_muse/city_muse_desktop/city_muse_desktop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../controller/all_providers/all_providers.dart';
@@ -20,10 +21,13 @@ class FeaturesCheck extends ConsumerWidget {
               index ==
                   _salonProfileProvider.chosenSalon.additionalFeatures.length
           ? 70
-          : 50,
+          : index == _salonProfileProvider.chosenSalon.additionalFeatures.length
+              ? 70
+              : 50,
       //MediaQuery.of(context).size.width * (8/30),
       child: Container(
         width: double.infinity,
+        padding: EdgeInsets.zero,
         height: 40,
         decoration: BoxDecoration(
           color: blendColors(
@@ -37,9 +41,12 @@ class FeaturesCheck extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // const Gap(10),
+            if (index == 0) const Gap(20),
             Padding(
-              padding: const EdgeInsets.only(left: 18.0, right: 8.0, bottom: 4),
+              padding: const EdgeInsets.only(
+                left: 18.0,
+                right: 8.0,
+              ),
               child: SizedBox(
                 height: 30,
                 width: double.infinity,
@@ -73,6 +80,9 @@ class FeaturesCheck extends ConsumerWidget {
                 ),
               ),
             ),
+            if (index ==
+                _salonProfileProvider.chosenSalon.additionalFeatures.length)
+              const Gap(20),
           ],
         ),
       ),
