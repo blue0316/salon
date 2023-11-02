@@ -388,9 +388,11 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                       shrinkWrap: true,
                       itemBuilder: (context, index) => FeaturesCheck(
                         title: getFeature(
-                            _salonProfileProvider
-                                .chosenSalon.additionalFeatures[index],
-                            chosenSalon.locale),
+                          _salonProfileProvider
+                              .chosenSalon.additionalFeatures[index],
+                          chosenSalon.locale,
+                        ),
+                        index: index,
                       ),
                       itemCount: chosenSalon.additionalFeatures.length,
                     ),
@@ -401,7 +403,9 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                     Padding(
                       padding: const EdgeInsets.only(left: 18.0, right: 8.0),
                       child: Text(
-                        'WHO ARE WE?',
+                        _createAppointmentProvider.salonMasters.length > 1
+                            ? 'WHO ARE WE?'
+                            : 'WHO AM I?',
                         textAlign: TextAlign.start,
                         style: GoogleFonts.openSans(
                           color: _salonProfileProvider
@@ -420,7 +424,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                         width: double.infinity,
                         child: Text(
                           chosenSalon.description.toCapitalized(),
-                          textAlign: TextAlign.justify,
+                          textAlign: TextAlign.left,
                           style: GoogleFonts.openSans(
                             color: _salonProfileProvider
                                 .salonTheme.textTheme.titleSmall!.color,
