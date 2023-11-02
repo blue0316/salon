@@ -1,3 +1,4 @@
+import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/themes/city_muse/city_muse_desktop/city_muse_desktop.dart';
 import 'package:bbblient/src/views/themes/city_muse/city_muse_mobile/products.dart';
@@ -332,32 +333,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                               .toList()),
                     ),
                   const Gap(48),
-                  GestureDetector(
-                    onTap: () {
-                      const BookingDialogWidget222().show(context);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20.0, right: 12),
-                      child: Row(
-                        children: [
-                          Text('BOOK NOW',
-                              style: GoogleFonts.openSans(
-                                  color: _salonProfileProvider
-                                      .salonTheme.colorScheme.secondary,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700)),
-                          const Gap(10),
-                          Image.asset(
-                            'assets/test_assets/book_arrow.png',
-                            height: 24,
-                            width: 24,
-                            color: _salonProfileProvider
-                                .salonTheme.colorScheme.secondary,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  BookNowButton(salonProfileProvider: _salonProfileProvider),
                   const Gap(18),
                   (_salonProfileProvider.themeSettings?.backgroundImage !=
                               null &&
@@ -791,36 +767,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                     ),
                     const Gap(40),
                     //const Gap(48),
-                    GestureDetector(
-                      onTap: () {
-                        const BookingDialogWidget222().show(context);
-                      },
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 20.0, right: 12),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text('BOOK NOW',
-                                  style: GoogleFonts.openSans(
-                                      color: _salonProfileProvider
-                                          .salonTheme.colorScheme.secondary,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w700)),
-                              const Gap(10),
-                              Image.asset(
-                                'assets/test_assets/book_arrow.png',
-                                height: 24,
-                                width: 24,
-                                color: _salonProfileProvider
-                                    .salonTheme.colorScheme.secondary,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+                    BookNowButton(salonProfileProvider: _salonProfileProvider),
                     const Gap(120),
                   ],
 
@@ -1787,7 +1734,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                            MainAxisAlignment.center,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
@@ -1803,9 +1750,13 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                             ),
                                           ),
                                           const Gap(20),
-                                          SvgPicture.asset(
-                                            'assets/test_assets/arrow_side.svg',
-                                            color: Colors.white,
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 5.0),
+                                            child: SvgPicture.asset(
+                                              'assets/test_assets/arrow_side.svg',
+                                              color: Colors.white,
+                                            ),
                                           )
                                         ],
                                       ),
@@ -2014,6 +1965,50 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                 ],
               ),
             ),
+    );
+  }
+}
+
+class BookNowButton extends StatelessWidget {
+  const BookNowButton({
+    super.key,
+    required SalonProfileProvider salonProfileProvider,
+  }) : _salonProfileProvider = salonProfileProvider;
+
+  final SalonProfileProvider _salonProfileProvider;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        const BookingDialogWidget222().show(context);
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(left: 20.0, right: 12),
+        child: Row(
+          children: [
+            Text('BOOK NOW',
+                style: GoogleFonts.openSans(
+                    color:
+                        _salonProfileProvider.salonTheme.colorScheme.secondary,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700)),
+            const Gap(10),
+            ColorFiltered(
+              colorFilter: ColorFilter.mode(
+                  _salonProfileProvider.salonTheme.colorScheme.secondary,
+                  BlendMode.src),
+              child: Image.asset(
+                'assets/test_assets/book_arrow.png',
+                height: 24,
+                width: 24,
+                // color: _salonProfileProvider
+                //     .salonTheme.colorScheme.secondary,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

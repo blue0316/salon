@@ -8,7 +8,6 @@ import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/booking_dialog_2.dart';
 import 'package:bbblient/src/views/themes/components/drawer.dart';
-import 'package:bbblient/src/views/themes/components/header/landing_header.dart';
 import 'package:bbblient/src/views/themes/components/about/salon_about.dart';
 import 'package:bbblient/src/views/themes/components/contacts/salon_contact.dart';
 import 'package:bbblient/src/views/themes/components/reviews/salon_reviews.dart';
@@ -23,25 +22,24 @@ import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/themes/utils/unique_landing_bottom.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'components/team/team_member_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class GentleTouch extends ConsumerStatefulWidget {
+class GentleTouchTesting extends ConsumerStatefulWidget {
   static const route = '/gentle-touch';
   final bool showBooking;
 
   // final SalonModel salonModel;
 
-  const GentleTouch({Key? key, this.showBooking = false}) : super(key: key);
+  const GentleTouchTesting({Key? key, this.showBooking = false}) : super(key: key);
 
   @override
-  _GentleTouchState createState() => _GentleTouchState();
+  _GentleTouchTestingState createState() => _GentleTouchTestingState();
 }
 
-class _GentleTouchState extends ConsumerState<GentleTouch> {
+class _GentleTouchTestingState extends ConsumerState<GentleTouchTesting> {
   @override
   void initState() {
     super.initState();
@@ -235,51 +233,11 @@ class _GentleTouchState extends ConsumerState<GentleTouch> {
             ),
           ),
         ),
-        floatingActionButton: MouseRegion(
-          cursor: SystemMouseCursors.click,
-          child: GestureDetector(
-            onTap: () {
-              Scrollable.ensureVisible(
-                controller.landing.currentContext!,
-                duration: const Duration(seconds: 2),
-                curve: Curves.ease,
-              );
-            },
-            child: Container(
-              height: 60.h,
-              width: 60.h,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: const Color(0XFFC1C1C1), width: 1.2),
-              ),
-              child: Icon(
-                Icons.keyboard_arrow_up_rounded,
-                size: 30.h,
-                color: const Color(0XFFC1C1C1),
-              ),
-            ),
-          ),
-        ),
 
         body: !(_salonProfileProvider.showMasterView)
             ? SingleChildScrollView(
                 child: Column(
                   children: [
-                    // InkWell(
-                    //     onTap: () {
-                    //       SystemChrome.setApplicationSwitcherDescription(ApplicationSwitcherDescription(
-                    //         label: 'Dynamic web app title',
-                    //         primaryColor: Theme.of(context).primaryColor.value,
-                    //       ));
-                    //     },
-                    //     child: Container(
-                    //       height: 200,
-                    //       width: 200,
-                    //       color: Colors.purple,
-                    //     )),
-                    SizedBox.fromSize(size: Size.zero, key: controller.landing),
-                    const LandingHeader(),
-
                     // TAGS
                     // if (displaySettings?.showFeatures == true) SizedBox.fromSize(size: Size.zero, key: controller.tags),
                     if (displaySettings?.showFeatures == true)

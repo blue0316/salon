@@ -1,7 +1,6 @@
 import 'package:bbblient/src/views/themes/city_muse/city_muse_desktop/city_muse_desktop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../controller/all_providers/all_providers.dart';
@@ -14,13 +13,14 @@ class FeaturesCheck extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final theme = ref.watch(salonProfileProvider).salonTheme;
-    final _salonProfileProvider = ref.watch(salonProfileProvider).chosenSalon;
+    final _salonProfileProvider = ref.watch(salonProfileProvider);
     return SizedBox(
       width: double.infinity,
-      height:
-          index == 0 || index == _salonProfileProvider.additionalFeatures.length
-              ? 70
-              : 50,
+      height: index == 0 ||
+              index ==
+                  _salonProfileProvider.chosenSalon.additionalFeatures.length
+          ? 70
+          : 50,
       //MediaQuery.of(context).size.width * (8/30),
       child: Container(
         width: double.infinity,
@@ -29,6 +29,7 @@ class FeaturesCheck extends ConsumerWidget {
           color: blendColors(
               theme.colorScheme.secondary,
               // const Color(0xffea80b2),
+
               theme.scaffoldBackgroundColor,
               0.4),
           //increaseBrightness( theme.colorScheme.secondary,40)
@@ -47,8 +48,14 @@ class FeaturesCheck extends ConsumerWidget {
                   // mainAxisAlignment: MainAxisAlignment.start,
                   // crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SvgPicture.asset("assets/test_assets/check.svg",
-                        color: theme.colorScheme.secondary),
+                    ColorFiltered(
+                      colorFilter: ColorFilter.mode(
+                          theme.colorScheme.secondary, BlendMode.src),
+                      child: Image.asset("assets/test_assets/check.png",
+                          // color: theme.colorScheme.secondary,
+                          height: 20,
+                          width: 20),
+                    ),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(

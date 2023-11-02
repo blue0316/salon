@@ -151,7 +151,7 @@ class GentleTouchDarkTheme {
     // color: primaryColor1,
   );
   static final TextStyle subTitle1 = TextStyle(
-    fontFamily: "Inter-Light",
+    fontFamily: "Onest",
     fontSize: 16.sp,
     fontWeight: FontWeight.w600,
     // color: primaryColor1,

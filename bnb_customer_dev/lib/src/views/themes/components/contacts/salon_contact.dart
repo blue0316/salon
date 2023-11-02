@@ -21,20 +21,6 @@ class SalonContact extends ConsumerStatefulWidget {
 }
 
 class _SalonContactState extends ConsumerState<SalonContact> with SingleTickerProviderStateMixin {
-  TabController? tabController;
-
-  @override
-  void initState() {
-    tabController = TabController(vsync: this, length: 2);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    tabController!.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);

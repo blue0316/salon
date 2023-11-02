@@ -144,7 +144,7 @@ class GentleTouchTheme {
     fontWeight: FontWeight.w400,
   );
   static final TextStyle subTitle1 = TextStyle(
-    fontFamily: "Inter-Light",
+    fontFamily: "Onest",
     fontSize: 16.sp,
     fontWeight: FontWeight.w600,
   );

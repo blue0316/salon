@@ -10,9 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'gentle_touch_team.dart';
 
 class TeamPortraitView extends ConsumerStatefulWidget {
-  final List<String> items;
-
-  const TeamPortraitView({Key? key, required this.items}) : super(key: key);
+  const TeamPortraitView({Key? key}) : super(key: key);
 
   @override
   ConsumerState<TeamPortraitView> createState() => _TeamPortraitViewState();
