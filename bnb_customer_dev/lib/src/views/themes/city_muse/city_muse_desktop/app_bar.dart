@@ -33,7 +33,7 @@ class MobileAppBarMenu extends ConsumerWidget {
                   : theme.appBarTheme.titleTextStyle!.color,
               height: 20 / 15,
             ),
-            textAlign: TextAlign.left,
+            textAlign: TextAlign.center,
           ),
         ),
       ),

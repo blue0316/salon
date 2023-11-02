@@ -1,6 +1,8 @@
+import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/themes/images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -28,8 +30,54 @@ class _MastersViewState extends ConsumerState<MastersView> {
     final _createAppointmentProvider = ref.watch(createAppointmentProvider);
     MasterModel master = _createAppointmentProvider
         .salonMasters[salonProvider.currentMasterIndex];
-    return Container(
-      child: Padding(
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: salonProvider.salonTheme.appBarTheme.backgroundColor,
+        leading: salonProvider.chosenSalon.salonLogo.isEmpty
+            ? Padding(
+                padding: EdgeInsets.only(left: 5.w),
+                child: SizedBox(
+                  height: 70.h,
+                  width: 100.h,
+                  child: Center(
+                    child: Text(salonProvider.chosenSalon.salonName.initials,
+                        style: TextStyle(
+                            fontFamily: "VASQUZ",
+                            color: salonProvider
+                                .salonTheme.appBarTheme.titleTextStyle!.color,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14)),
+                  ),
+                ),
+              )
+            : SizedBox(
+                width: 40,
+                child: ClipOval(
+                  //  borderRadius: BorderRadius.circular(30),
+                  child: CachedImage(
+                    width: 100,
+                    url: salonProvider.chosenSalon.salonLogo,
+                    fit: BoxFit.contain,
+                  ),
+                )),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: SvgPicture.asset(
+              "assets/test_assets/cancel_menu.svg",
+              color: salonProvider.salonTheme.appBarTheme.titleTextStyle!.color,
+            ),
+          ),
+          const SizedBox(
+            width: 20,
+          )
+        ],
+      ),
+      backgroundColor: salonProvider.salonTheme.appBarTheme.backgroundColor,
+      body: Padding(
         padding: const EdgeInsets.only(left: 18.0, right: 18),
         child: SingleChildScrollView(
           child: Column(
@@ -38,13 +86,7 @@ class _MastersViewState extends ConsumerState<MastersView> {
               const Gap(30),
               GestureDetector(
                 onTap: () {
-                  setState(() {
-                    salonProvider.changeShowMenuMobile(false);
-                    // getWidget("menu");
-                  });
-                  setState(() {
-                    salonProvider.changeShowMenuMobile(false);
-                  });
+                  Navigator.pop(context);
                 },
                 child: Row(
                   children: [
@@ -104,8 +146,8 @@ class _MastersViewState extends ConsumerState<MastersView> {
                               child: Image.asset(
                                 salonProvider.themeType ==
                                         ThemeType.CityMuseLight
-                                    ? ThemeImages.noTeamMember
-                                    : ThemeImages.noTeamMemberDark,
+                                    ? ThemeImages.noTeamMemberLightCityMuse
+                                    : ThemeImages.noTeamMemberDarkCityMuse,
                                 width: MediaQuery.of(context).size.width / 0.8,
                                 fit: BoxFit.fitWidth,
                               ),
@@ -187,19 +229,16 @@ class _MastersViewState extends ConsumerState<MastersView> {
                                     showToast("Social Link is not available");
                                   }
                                 },
-                                child:
-                                 SvgPicture.asset(
+                                child: SvgPicture.asset(
                                     'assets/test_assets/twitter.svg'),
                               ),
-
-
-                              const Gap(4.0),
+                            const Gap(4.0),
                             if (master.links?.pinterest != null &&
                                 master.links!.pinterest.isNotEmpty)
                               GestureDetector(
                                 onTap: () async {
-                                  Uri uri = Uri.parse(socialLinks(
-                                      'pinterest', master.links?.twitter ?? ''));
+                                  Uri uri = Uri.parse(socialLinks('pinterest',
+                                      master.links?.twitter ?? ''));
 
                                   // debugPrint("launching Url: $uri");
 
@@ -209,11 +248,9 @@ class _MastersViewState extends ConsumerState<MastersView> {
                                     showToast("Social Link is not available");
                                   }
                                 },
-                                child:
-                                 SvgPicture.asset(
+                                child: SvgPicture.asset(
                                     'assets/test_assets/pinterest.svg'),
                               ),
-
                           ],
                         ),
                       ),

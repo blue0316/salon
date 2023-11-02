@@ -1,6 +1,9 @@
+import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -8,6 +11,7 @@ import '../../../../controller/all_providers/all_providers.dart';
 import '../../../../models/customer_web_settings.dart';
 import '../../../../models/salon_master/salon.dart';
 import '../../../salon/booking/dialog_flow/booking_dialog_2.dart';
+import '../../../widgets/image.dart';
 import '../../../widgets/widgets.dart';
 import '../../utils/theme_type.dart';
 import '../city_muse_desktop/app_bar.dart';
@@ -34,13 +38,55 @@ class MenuSection extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Row(
+                children: [
+                  chosenSalon.salonLogo.isEmpty
+                      ? Padding(
+                          padding: EdgeInsets.only(left: 5.w),
+                          child: SizedBox(
+                            height: 70.h,
+                            width: 100.h,
+                            child: Center(
+                              child: Text(chosenSalon.salonName.initials,
+                                  style: TextStyle(
+                                      fontFamily: "VASQUZ",
+                                      color: salonProvider.salonTheme
+                                          .appBarTheme.titleTextStyle!.color,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14)),
+                            ),
+                          ),
+                        )
+                      : SizedBox(
+                          width: 40,
+                          child: ClipOval(
+                            //  borderRadius: BorderRadius.circular(30),
+                            child: CachedImage(
+                              width: 100,
+                              url: chosenSalon.salonLogo,
+                              fit: BoxFit.contain,
+                            ),
+                          )),
+                  const Spacer(),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: SvgPicture.asset(
+                      "assets/test_assets/cancel_menu.svg",
+                      color: salonProvider
+                          .salonTheme.appBarTheme.titleTextStyle!.color,
+                    ),
+                  ),
+                ],
+              ),
               const Gap(50),
               if (chosenSalon.description.isNotEmpty &&
                   displaySettings!.showAbout)
                 MobileAppBarMenu(
                   title: AppLocalizations.of(context)?.aboutUs ?? 'About Us',
                   action: () {
-                    salonProvider.changeShowMenuMobile(false);
+                    Navigator.pop(context);
                     Scrollable.ensureVisible(
                       controller.about.currentContext!,
                       duration: const Duration(seconds: 2),
@@ -55,7 +101,7 @@ class MenuSection extends ConsumerWidget {
                 MobileAppBarMenu(
                   title: AppLocalizations.of(context)?.portfolio ?? 'Portfolio',
                   action: () {
-                   salonProvider.changeShowMenuMobile(false);
+                    Navigator.pop(context);
                     Scrollable.ensureVisible(
                       controller.works.currentContext!,
                       duration: const Duration(seconds: 2),
@@ -69,7 +115,7 @@ class MenuSection extends ConsumerWidget {
                 MobileAppBarMenu(
                     title: AppLocalizations.of(context)?.services ?? 'Services',
                     action: () {
-                      salonProvider.changeShowMenuMobile(false);
+                      Navigator.pop(context);
                       Scrollable.ensureVisible(
                         controller.price.currentContext!,
                         duration: const Duration(seconds: 2),
@@ -83,7 +129,8 @@ class MenuSection extends ConsumerWidget {
                 MobileAppBarMenu(
                   title: AppLocalizations.of(context)?.products ?? 'Products',
                   action: () {
-                    salonProvider.changeShowMenuMobile(false);
+                    Navigator.pop(context);
+
                     Scrollable.ensureVisible(
                       controller.shop.currentContext!,
                       duration: const Duration(seconds: 2),
@@ -98,6 +145,7 @@ class MenuSection extends ConsumerWidget {
                 MobileAppBarMenu(
                   title: (AppLocalizations.of(context)?.team ?? 'Team'),
                   action: () {
+                    Navigator.pop(context);
                     salonProvider.changeShowMenuMobile(false);
                     Scrollable.ensureVisible(
                       controller.team.currentContext!,
@@ -113,7 +161,7 @@ class MenuSection extends ConsumerWidget {
                 MobileAppBarMenu(
                   title: 'Reviews',
                   action: () {
-                    salonProvider.changeShowMenuMobile(false);
+                    Navigator.pop(context);
                     Scrollable.ensureVisible(
                       controller.reviews.currentContext!,
                       duration: const Duration(seconds: 2),
@@ -130,7 +178,7 @@ class MenuSection extends ConsumerWidget {
                 MobileAppBarMenu(
                   title: 'Contacts',
                   action: () {
-                    salonProvider.changeShowMenuMobile(false);
+                    Navigator.pop(context);
                     Scrollable.ensureVisible(
                       controller.contacts.currentContext!,
                       duration: const Duration(seconds: 2),

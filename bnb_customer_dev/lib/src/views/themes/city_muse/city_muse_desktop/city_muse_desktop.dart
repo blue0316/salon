@@ -302,16 +302,15 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                   : Padding(
                       padding: const EdgeInsets.only(left: 30.0),
                       child: SizedBox(
-                          child: CircleAvatar(
-                        radius: 20,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: CachedImage(
-                            url: chosenSalon.salonLogo,
-                            fit: BoxFit.fitHeight,
-                          ),
-                        ),
-                      )),
+                          width: 40,
+                          child: ClipOval(
+                            //  borderRadius: BorderRadius.circular(30),
+                            child: CachedImage(
+                              width: 100,
+                              url: chosenSalon.salonLogo,
+                              fit: BoxFit.contain,
+                            ),
+                          )),
                     )
               //  Text(_salonProfileProvider.extractFirstLetters(chosenSalon.salonName,),  style: GoogleFonts.openSans(color: _salonProfileProvider
               //         .salonTheme.appBarTheme.titleTextStyle!.color,fontWeight: FontWeight.bold, fontSize: 14))
