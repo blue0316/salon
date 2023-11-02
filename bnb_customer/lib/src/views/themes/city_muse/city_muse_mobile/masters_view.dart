@@ -76,7 +76,7 @@ class _MastersViewState extends ConsumerState<MastersView> {
           )
         ],
       ),
-      backgroundColor: salonProvider.salonTheme.appBarTheme.backgroundColor,
+      backgroundColor: salonProvider.salonTheme.scaffoldBackgroundColor,
       body: Padding(
         padding: const EdgeInsets.only(left: 18.0, right: 18),
         child: SingleChildScrollView(
