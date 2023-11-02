@@ -35,7 +35,8 @@ class _CityMuseServiceTileState extends ConsumerState<CityMuseServiceTile> {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final SalonModel chosenSalon = _salonProfileProvider.chosenSalon;
     return ListView.builder(
-      //shrinkWrap: true,
+      // shrinkWrap: true,
+      //physics: const NeverScrollableScrollPhysics(),
       //   physics: NeverScrollableScrollPhysics(),
       // physics: NeverScrollableScrollPhysics(),
       scrollDirection: Axis.vertical,
@@ -369,11 +370,11 @@ class _ExpandableWidgetState extends ConsumerState<ExpandableWidget> {
         ),
         if (isExpanded) // Conditionally show children when expanded
           Align(
-            alignment: Alignment.topCenter,
+            alignment: Alignment.topLeft,
             child: Container(
               color:
                   _salonProfileProvider.salonTheme.appBarTheme.backgroundColor,
-              height: 400,
+              // height: 400,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -389,6 +390,7 @@ class _ExpandableWidgetState extends ConsumerState<ExpandableWidget> {
                           .length >
                       3)
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Padding(
                           padding: const EdgeInsets.only(left: 20),
@@ -398,6 +400,7 @@ class _ExpandableWidgetState extends ConsumerState<ExpandableWidget> {
                                         'en'] ??
                                 widget.serviceModel.translations?['en'] ??
                                 '',
+                            textAlign: TextAlign.left,
                             style: GoogleFonts.openSans(
                               color: _salonProfileProvider
                                   .salonTheme.textTheme.displaySmall!.color,

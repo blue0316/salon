@@ -64,6 +64,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
   String? selectedCatId = '';
   final PageController _pageController = PageController();
 
+  int currentPortfolioIndex = 0;
   int currentIndex = 0;
   int currentServiceIndex = 0;
   int currentReviewIndex = 0;
@@ -236,6 +237,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
               color: _salonProfileProvider.salonTheme.scaffoldBackgroundColor,
               child: _salonProfileProvider.currentWidget)
           : SingleChildScrollView(
+              // physics: const NeverScrollableScrollPhysics(),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -356,6 +358,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                   if (chosenSalon.additionalFeatures.isNotEmpty &&
                       displaySettings!.showFeatures)
                     ListView.builder(
+                      padding: EdgeInsets.zero,
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemBuilder: (context, index) => FeaturesCheck(
@@ -510,9 +513,27 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
                           height: 450,
-                          decoration: BoxDecoration(
-                              border:
-                                  Border.all(color: const Color(0xFF282828))),
+                          decoration: const BoxDecoration(
+                              // border:
+                              //     // chosenSalon
+                              //     //                 .photosOfWorks![
+                              //     //                     currentPortfolioIndex]
+                              //     //                 .description ==
+                              //     //             null ||
+                              //     //         chosenSalon
+                              //     //             .photosOfWorks![currentPortfolioIndex]
+                              //     //             .description!
+                              //     //             .isEmpty
+                              //     //     ? null
+                              //     //     :
+                              //     Border(
+                              //         bottom:
+                              //             BorderSide(color: Color(0xFF282828)),
+                              //         right:
+                              //             BorderSide(color: Color(0xFF282828)),
+                              //         left: BorderSide(
+                              //             color: Color(0xFF282828)))
+                              ),
                           child: CarouselSlider.builder(
                             options: CarouselOptions(
                               height: 450,
@@ -530,7 +551,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                               enlargeFactor: 0,
                               onPageChanged: (value, reason) {
                                 setState(() {
-                                  currentIndex = value;
+                                  currentPortfolioIndex = value;
                                 });
                               },
                               scrollDirection: Axis.horizontal,
@@ -558,11 +579,29 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                       width: double.infinity,
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 14, vertical: 16),
-                                      decoration: const ShapeDecoration(
-                                        shape: RoundedRectangleBorder(
-                                            // side: BorderSide(width: 1, color: Color(0xFF282828)),
-                                            ),
-                                      ),
+                                      decoration: BoxDecoration(
+                                          border: chosenSalon
+                                                          .photosOfWorks![
+                                                              currentPortfolioIndex]
+                                                          .description ==
+                                                      null ||
+                                                  chosenSalon
+                                                      .photosOfWorks![
+                                                          currentPortfolioIndex]
+                                                      .description!
+                                                      .isEmpty
+                                              ? null
+                                              : const Border(
+                                                  bottom: BorderSide(
+                                                      color: Color(0xFF282828)),
+                                                  right: BorderSide(
+                                                      color: Color(0xFF282828)),
+                                                  left: BorderSide(
+                                                      color: Color(0xFF282828)))
+                                          // shape: RoundedRectangleBorder(
+                                          //     // side: BorderSide(width: 1, color: Color(0xFF282828)),
+                                          //     ),
+                                          ),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment:
@@ -610,11 +649,12 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                 padding: const EdgeInsets.all(3.0),
                                 child: CircleAvatar(
                                   radius: 5,
-                                  backgroundColor: currentIndex == index
-                                      ? _salonProfileProvider
-                                          .salonTheme.colorScheme.outlineVariant
-                                      : _salonProfileProvider
-                                          .salonTheme.colorScheme.outline,
+                                  backgroundColor:
+                                      currentPortfolioIndex == index
+                                          ? _salonProfileProvider.salonTheme
+                                              .colorScheme.outlineVariant
+                                          : _salonProfileProvider
+                                              .salonTheme.colorScheme.outline,
                                 ),
                               );
                             },
@@ -727,10 +767,10 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                     ),
                     const Gap(30),
                     // Tab Content
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SizedBox(
-                        height: 400,
+                    SizedBox(
+                      height: 400,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
                         child: Builder(builder: (_) {
                           if (_currentServiceIndex == 0) {
                             List<ServiceModel> allServiceList = [];
@@ -883,7 +923,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                         .toString()
                                         .toCapitalized(),
                                     style: GoogleFonts.openSans(
-                                      fontSize: 12,
+                                      fontSize: 16,
                                       color: _currentProductIndex == index
                                           ? _salonProfileProvider
                                               .salonTheme.colorScheme.secondary
