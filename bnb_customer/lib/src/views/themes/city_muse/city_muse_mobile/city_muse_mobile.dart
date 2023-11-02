@@ -1,6 +1,7 @@
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/themes/city_muse/city_muse_desktop/city_muse_desktop.dart';
+import 'package:bbblient/src/views/themes/city_muse/city_muse_mobile/mobile_menu_section.dart';
 import 'package:bbblient/src/views/themes/city_muse/city_muse_mobile/products.dart';
 import 'package:bbblient/src/views/themes/city_muse/city_muse_mobile/service_widget.dart';
 import 'package:bbblient/src/views/themes/city_muse/city_muse_mobile/specialization_box.dart';
@@ -37,6 +38,7 @@ import '../../utils/theme_type.dart';
 import '../utils.dart';
 import 'contact_card.dart';
 import 'features_check.dart';
+import 'masters_view.dart';
 
 class GlamMinimalPhone extends ConsumerStatefulWidget {
   const GlamMinimalPhone({super.key});
@@ -130,6 +132,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
       key: scaffoldKey,
       drawer: const Drawer(
         width: double.infinity,
+        child: MenuSection(),
       ),
       appBar: AppBar(
         backgroundColor:
@@ -151,22 +154,14 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                   ),
                 ),
               )
-
-            //  Padding(
-            //     padding: const EdgeInsets.only(top: 8.0),
-            //     child:
-            //   )
             : SizedBox(
                 width: 40,
-                child: CircleAvatar(
-                  radius: 15,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(30),
-                    child: CachedImage(
-                      width: 100,
-                      url: chosenSalon.salonLogo,
-                      fit: BoxFit.contain,
-                    ),
+                child: ClipOval(
+                  //  borderRadius: BorderRadius.circular(30),
+                  child: CachedImage(
+                    width: 100,
+                    url: chosenSalon.salonLogo,
+                    fit: BoxFit.contain,
                   ),
                 )),
         //       Padding(
@@ -180,20 +175,21 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
         actions: [
           GestureDetector(
             onTap: () {
-              if (!_salonProfileProvider.isShowMenuMobile) {
-                setState(() {
-                  isShowMenu = true;
-                });
-                print('true');
-                _salonProfileProvider.getWidgetForMobile('menu');
-                _salonProfileProvider.changeShowMenuMobile(true);
-              } else {
-                setState(() {
-                  isShowMenu = false;
-                });
-                _salonProfileProvider.changeShowMenuMobile(false);
-                print('false');
-              }
+              scaffoldKey.currentState!.openDrawer();
+              // if (!_salonProfileProvider.isShowMenuMobile) {
+              //   setState(() {
+              //     isShowMenu = true;
+              //   });
+              //   print('true');
+              //   _salonProfileProvider.getWidgetForMobile('menu');
+              //   _salonProfileProvider.changeShowMenuMobile(true);
+              // } else {
+              //   setState(() {
+              //     isShowMenu = false;
+              //   });
+              //   _salonProfileProvider.changeShowMenuMobile(false);
+              //   print('false');
+              // }
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -454,7 +450,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                       ),
                   ],
 
-                  const Gap(20),
+                  const Gap(60),
                   Container(
                     height: 40,
                     decoration: const BoxDecoration(
@@ -887,6 +883,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                         .toString()
                                         .toCapitalized(),
                                     style: GoogleFonts.openSans(
+                                      fontSize: 12,
                                       color: _currentProductIndex == index
                                           ? _salonProfileProvider
                                               .salonTheme.colorScheme.secondary
@@ -1073,7 +1070,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                     const Gap(20),
                     CarouselSlider.builder(
                       options: CarouselOptions(
-                        height: 515,
+                        height: 550,
                         scrollPhysics: const ClampingScrollPhysics(),
                         aspectRatio: 16 / 9,
                         viewportFraction: 1,
@@ -1099,16 +1096,19 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                           (BuildContext context, int index, int realIndex) {
                         return GestureDetector(
                           onTap: () {
-                            setState(() {
-                              _salonProfileProvider.changeShowMenuMobile(true);
-                              _salonProfileProvider
-                                  .getWidgetForMobile('masters');
+                            // setState(() {
+                            //   _salonProfileProvider.changeShowMenuMobile(true);
+                            //   _salonProfileProvider
+                            //       .getWidgetForMobile('masters');
 
-                              _salonProfileProvider.changeSelectedMasterView(
-                                  _createAppointmentProvider
-                                      .salonMasters[index]);
-                              _salonProfileProvider.changeCurrentIndex(index);
-                            });
+                            _salonProfileProvider.changeSelectedMasterView(
+                                _createAppointmentProvider.salonMasters[index]);
+                            _salonProfileProvider.changeCurrentIndex(index);
+                            // });
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const MastersView()));
                           },
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1135,12 +1135,23 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                         )),
                                       ),
                                     )
-                                  : Image.asset(
-                                      _salonProfileProvider.themeType ==
-                                              ThemeType.CityMuseLight
-                                          ? ThemeImages.noTeamMember
-                                          : ThemeImages.noTeamMemberDark,
-                                      fit: BoxFit.cover,
+                                  : Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 10.0, right: 10.0),
+                                        child: Image.asset(
+                                          _salonProfileProvider.themeType ==
+                                                  ThemeType.CityMuseLight
+                                              ? ThemeImages
+                                                  .noTeamMemberLightCityMuse
+                                              : ThemeImages
+                                                  .noTeamMemberDarkCityMuse,
+                                          // fit: BoxFit.cover,
+                                          width: size.width / 1.1,
+                                          height: 589,
+                                          fit: BoxFit.fitWidth,
+                                        ),
+                                      ),
                                     ),
                               const Gap(16),
                               Row(
@@ -1691,7 +1702,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                       ),
                     ),
                   ),
-                  const Gap(40),
+                  const Gap(10),
                   GestureDetector(
                     onTap: () {
                       _salonProfileProvider.sendEnquiryToSalonCityMuse(context,
@@ -1753,9 +1764,15 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                           Padding(
                                             padding: const EdgeInsets.only(
                                                 bottom: 5.0),
-                                            child: SvgPicture.asset(
-                                              'assets/test_assets/arrow_side.svg',
-                                              color: Colors.white,
+                                            child: ColorFiltered(
+                                              colorFilter:
+                                                  const ColorFilter.mode(
+                                                      Colors.white,
+                                                      BlendMode.src),
+                                              child: SvgPicture.asset(
+                                                'assets/test_assets/arrow_side.svg',
+                                                color: Colors.white,
+                                              ),
                                             ),
                                           )
                                         ],
