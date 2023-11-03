@@ -569,7 +569,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                     url: chosenSalon.photosOfWorks![index].image
                                         .toString(),
                                     width: size.width,
-                                    fit: BoxFit.fitWidth,
+                                    fit: BoxFit.cover,
                                     height: 296,
                                   ),
                                 ),
