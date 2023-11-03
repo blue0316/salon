@@ -774,7 +774,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                 const Gap(30),
                 // Tab Content
                 SizedBox(
-                  height: 400,
+                  //  height: 400,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Builder(builder: (_) {

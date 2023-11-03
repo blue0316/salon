@@ -34,36 +34,44 @@ class _CityMuseServiceTileState extends ConsumerState<CityMuseServiceTile> {
   Widget build(BuildContext context) {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     final SalonModel chosenSalon = _salonProfileProvider.chosenSalon;
-    return ListView.builder(
-      // shrinkWrap: true,
-      //physics: const NeverScrollableScrollPhysics(),
-      //   physics: NeverScrollableScrollPhysics(),
-      // physics: NeverScrollableScrollPhysics(),
-      scrollDirection: Axis.vertical,
-      controller: widget.pageController,
-      itemCount: widget.allServiceList.length,
-      //  physics: const ClampingScrollPhysics(),
-      itemBuilder: (context, index) {
-        serviceList.add(ServiceExpansionTile(
-            serviceModel: widget.allServiceList,
-            index: index,
-            salonProfileProvider: _salonProfileProvider));
-        return ExpandableWidget(serviceModel: widget.allServiceList[index]);
-        //serviceList[index];
+    return ListView(
+        shrinkWrap: true,
+        children: widget.allServiceList
+            .map((e) => ExpandableWidget(
+                serviceModel:
+                    widget.allServiceList[widget.allServiceList.indexOf(e)]))
+            .toList());
 
-        //   Center(
-        //   child: Text(
-        //     "Content for ${tabs[index]}",
-        //     style: TextStyle(fontSize: 20),
-        //   ),
-        // );
-      },
-      // onPageChanged: (index) {
-      //   setState(() {
-      //     _currentIndex = index;
-      //   });
-      // },
-    );
+    //  ListView.builder(
+    //   // shrinkWrap: true,
+    //   // physics: const ClampingScrollPhysics(),
+    //   //   physics: NeverScrollableScrollPhysics(),
+    //   // physics: NeverScrollableScrollPhysics(),
+    //   scrollDirection: Axis.vertical,
+    //   controller: widget.pageController,
+    //   itemCount: widget.allServiceList.length,
+    //   //  physics: const ClampingScrollPhysics(),
+    //   itemBuilder: (context, index) {
+    //     serviceList.add(ServiceExpansionTile(
+    //         serviceModel: widget.allServiceList,
+    //         index: index,
+    //         salonProfileProvider: _salonProfileProvider));
+    //     return ExpandableWidget(serviceModel: widget.allServiceList[index]);
+    //     //serviceList[index];
+
+    //     //   Center(
+    //     //   child: Text(
+    //     //     "Content for ${tabs[index]}",
+    //     //     style: TextStyle(fontSize: 20),
+    //     //   ),
+    //     // );
+    //   },
+    //   // onPageChanged: (index) {
+    //   //   setState(() {
+    //   //     _currentIndex = index;
+    //   //   });
+    //   // },
+    // );
   }
 }
 
