@@ -36,6 +36,7 @@ class _CityMuseServiceTileState extends ConsumerState<CityMuseServiceTile> {
     final SalonModel chosenSalon = _salonProfileProvider.chosenSalon;
     return ListView(
         shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
         children: widget.allServiceList
             .map((e) => ExpandableWidget(
                 serviceModel:
@@ -46,7 +47,7 @@ class _CityMuseServiceTileState extends ConsumerState<CityMuseServiceTile> {
     //   // shrinkWrap: true,
     //   // physics: const ClampingScrollPhysics(),
     //   //   physics: NeverScrollableScrollPhysics(),
-    //   // physics: NeverScrollableScrollPhysics(),
+    // physics: NeverScrollableScrollPhysics(),
     //   scrollDirection: Axis.vertical,
     //   controller: widget.pageController,
     //   itemCount: widget.allServiceList.length,
