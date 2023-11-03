@@ -6,7 +6,9 @@ import 'package:bbblient/src/views/themes/city_muse/city_muse_mobile/products.da
 import 'package:bbblient/src/views/themes/city_muse/city_muse_mobile/service_widget.dart';
 import 'package:bbblient/src/views/themes/city_muse/city_muse_mobile/specialization_box.dart';
 import 'package:bbblient/src/views/widgets/smooth_scroll/smooth_scroll.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dyn_mouse_scroll/dyn_mouse_scroll.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -140,6 +142,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
         child: const MenuSection(),
       ),
       appBar: AppBar(
+        leadingWidth: 50,
         backgroundColor:
             _salonProfileProvider.salonTheme.appBarTheme.backgroundColor,
         leading: chosenSalon.salonLogo.isEmpty
@@ -160,15 +163,24 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                 ),
               )
             : SizedBox(
+                height: 40,
                 width: 40,
-                child: ClipOval(
-                  //  borderRadius: BorderRadius.circular(30),
-                  child: CachedImage(
-                    width: 100,
-                    url: chosenSalon.salonLogo,
-                    fit: BoxFit.contain,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20.0),
+                  child: CircleAvatar(
+                    //radius: 5,
+                    minRadius: 10,
+                    maxRadius: 10,
+                    //  borderRadius: BorderRadius.circular(30),
+                    backgroundImage: CachedNetworkImageProvider(
+                        chosenSalon.salonLogo,
+                        maxHeight: 20,
+                        maxWidth: 20
+                        //fit: BoxFit.cover,
+                        ),
                   ),
-                )),
+                ),
+              ),
         //       Padding(
         //   padding: const EdgeInsets.all(8.0),
         //   child: SvgPicture.asset(
@@ -237,10 +249,9 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
       ),
       body: WebSmoothScroll(
         controller: _scrollController,
-        child: SingleChildScrollView(
-          // physics: const NeverScrollableScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        child: DynMouseScroll(builder: (context, controller1, physics) {
+          return ListView(
+            // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Gap(50),
               SizedBox.fromSize(size: Size.zero, key: controller.landing),
@@ -355,7 +366,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                   displaySettings!.showFeatures)
                 ListView.builder(
                   padding: EdgeInsets.zero,
-                  physics: const NeverScrollableScrollPhysics(),
+                  physics: const ClampingScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, index) => FeaturesCheck(
                     title: getFeature(
@@ -415,6 +426,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                       height: 315,
                       aspectRatio: 16 / 9,
                       viewportFraction: 1,
+                      scrollPhysics: const ClampingScrollPhysics(),
                       initialPage: 0,
                       enableInfiniteScroll: true,
                       reverse: false,
@@ -542,6 +554,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                           enableInfiniteScroll: true,
                           reverse: false,
                           autoPlay: true,
+                          scrollPhysics: const ClampingScrollPhysics(),
                           autoPlayInterval: const Duration(seconds: 3),
                           autoPlayAnimationDuration:
                               const Duration(milliseconds: 800),
@@ -936,13 +949,14 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                       children: [
                         CarouselSlider.builder(
                           options: CarouselOptions(
-                            height: 515,
+                            height: 550,
                             aspectRatio: 16 / 9,
                             viewportFraction: 1,
                             initialPage: 0,
                             enableInfiniteScroll: true,
                             reverse: false,
                             autoPlay: true,
+                            scrollPhysics: const ClampingScrollPhysics(),
                             autoPlayInterval: const Duration(seconds: 3),
                             autoPlayAnimationDuration:
                                 const Duration(milliseconds: 800),
@@ -999,13 +1013,14 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                       children: [
                         CarouselSlider.builder(
                           options: CarouselOptions(
-                            height: 515,
+                            height: 550,
                             aspectRatio: 16 / 9,
                             viewportFraction: 1,
                             initialPage: 0,
                             enableInfiniteScroll: true,
                             reverse: false,
                             autoPlay: true,
+                            scrollPhysics: const ClampingScrollPhysics(),
                             autoPlayInterval: const Duration(seconds: 3),
                             autoPlayAnimationDuration:
                                 const Duration(milliseconds: 800),
@@ -1090,7 +1105,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                 CarouselSlider.builder(
                   options: CarouselOptions(
                     height: 550,
-                    scrollPhysics: const ClampingScrollPhysics(),
+                    //scrollPhysics: const ClampingScrollPhysics(),
                     aspectRatio: 16 / 9,
                     viewportFraction: 1,
                     initialPage: 0,
@@ -1102,6 +1117,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                         const Duration(milliseconds: 800),
                     autoPlayCurve: Curves.fastOutSlowIn,
                     enlargeCenterPage: true,
+                    scrollPhysics: const ClampingScrollPhysics(),
                     enlargeFactor: 0,
                     onPageChanged: (value, reason) {
                       setState(() {
@@ -1320,6 +1336,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                     enableInfiniteScroll: true,
                     reverse: false,
                     autoPlay: true,
+                    scrollPhysics: const ClampingScrollPhysics(),
                     autoPlayInterval: const Duration(seconds: 3),
                     autoPlayAnimationDuration:
                         const Duration(milliseconds: 800),
@@ -1572,6 +1589,10 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                           print(value);
                         }),
                         child: TextField(
+                          style: GoogleFonts.openSans(
+                            color: _salonProfileProvider
+                                .salonTheme.textTheme.displaySmall!.color,
+                          ),
                           controller: _salonProfileProvider.phoneController,
                           decoration: InputDecoration(
                               prefixIcon: GestureDetector(
@@ -1589,7 +1610,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                   // height: 170,
                                   child: Padding(
                                     padding: const EdgeInsets.only(
-                                        top: 10.0, left: 5.0),
+                                        top: 10.0, left: 5.0, right: 5),
                                     child: Text(
                                       "+" +
                                           _salonProfileProvider
@@ -1718,7 +1739,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                   ),
                 ),
               ),
-              const Gap(10),
+              const Gap(30),
               GestureDetector(
                 onTap: () {
                   _salonProfileProvider.sendEnquiryToSalonCityMuse(context,
@@ -1990,8 +2011,8 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
               ),
               const Gap(30),
             ],
-          ),
-        ),
+          );
+        }),
       ),
     );
   }
