@@ -40,7 +40,7 @@ class CityMuseContactCard extends ConsumerWidget {
     final theme = ref.watch(salonProfileProvider).salonTheme;
     final SalonModel chosenSalon = ref.watch(salonProfileProvider).chosenSalon;
     return Padding(
-      padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+      padding: const EdgeInsets.only(left: 18.0, right: 18.0),
       child: Container(
         width: width,
         height: 142,
