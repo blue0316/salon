@@ -20,15 +20,15 @@ class FeaturesCheck extends ConsumerWidget {
       height: index == 0 ||
               index ==
                   _salonProfileProvider.chosenSalon.additionalFeatures.length
-          ? 70
+          ? 80
           : index == _salonProfileProvider.chosenSalon.additionalFeatures.length
-              ? 70
+              ? 80
               : 50,
       //MediaQuery.of(context).size.width * (8/30),
       child: Container(
         width: double.infinity,
         padding: EdgeInsets.zero,
-        height: 40,
+        height: 70,
         decoration: BoxDecoration(
           color: blendColors(
               theme.colorScheme.secondary,
@@ -48,7 +48,7 @@ class FeaturesCheck extends ConsumerWidget {
                 right: 8.0,
               ),
               child: SizedBox(
-                height: 30,
+                height: 50,
                 width: double.infinity,
                 child: Row(
                   // mainAxisSize: MainAxisSize.min,
@@ -72,7 +72,7 @@ class FeaturesCheck extends ConsumerWidget {
                           fontSize: 18,
                           // fontFamily: 'Open Sans',
                           fontWeight: FontWeight.w600,
-                          height: 0,
+                          height: 1,
                         ),
                       ),
                     ),
@@ -82,7 +82,7 @@ class FeaturesCheck extends ConsumerWidget {
             ),
             if (index ==
                 _salonProfileProvider.chosenSalon.additionalFeatures.length)
-              const Gap(20),
+              const Gap(10),
           ],
         ),
       ),

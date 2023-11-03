@@ -35,7 +35,7 @@ class DesktopFeaturesCheck extends ConsumerWidget {
                     fontSize: 18,
                     // fontFamily: 'Open Sans',
                     fontWeight: FontWeight.w600,
-                    height: 0,
+                    height: 1,
                   ),
                 ),
               ),
