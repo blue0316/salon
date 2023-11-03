@@ -476,7 +476,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                     text: _salonProfileProvider.allProductBrands
                         .map((e) => e.brandName)
                         .toList()
-                        .join()
+                        .join('    ')
                         .toCapitalized(),
                     style: GoogleFonts.openSans(
                       fontSize: 15.0,
