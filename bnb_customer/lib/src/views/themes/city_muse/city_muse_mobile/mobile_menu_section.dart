@@ -1,4 +1,5 @@
 import 'package:bbblient/src/utils/extensions/exstension.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,7 +12,6 @@ import '../../../../controller/all_providers/all_providers.dart';
 import '../../../../models/customer_web_settings.dart';
 import '../../../../models/salon_master/salon.dart';
 import '../../../salon/booking/dialog_flow/booking_dialog_2.dart';
-import '../../../widgets/image.dart';
 import '../../../widgets/widgets.dart';
 import '../../utils/theme_type.dart';
 import '../city_muse_desktop/app_bar.dart';
@@ -58,15 +58,24 @@ class MenuSection extends ConsumerWidget {
                           ),
                         )
                       : SizedBox(
+                          height: 40,
                           width: 40,
-                          child: ClipOval(
-                            //  borderRadius: BorderRadius.circular(30),
-                            child: CachedImage(
-                              width: 100,
-                              url: chosenSalon.salonLogo,
-                              fit: BoxFit.contain,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 20.0),
+                            child: CircleAvatar(
+                              //radius: 5,
+                              minRadius: 10,
+                              maxRadius: 10,
+                              //  borderRadius: BorderRadius.circular(30),
+                              backgroundImage: CachedNetworkImageProvider(
+                                  chosenSalon.salonLogo,
+                                  maxHeight: 20,
+                                  maxWidth: 20
+                                  //fit: BoxFit.cover,
+                                  ),
                             ),
-                          )),
+                          ),
+                        ),
                   const Spacer(),
                   GestureDetector(
                     onTap: () {

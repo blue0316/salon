@@ -6,6 +6,7 @@ import 'package:bbblient/src/views/themes/city_muse/city_muse_mobile/products.da
 import 'package:bbblient/src/views/themes/city_muse/city_muse_mobile/service_widget.dart';
 import 'package:bbblient/src/views/themes/city_muse/city_muse_mobile/specialization_box.dart';
 import 'package:bbblient/src/views/widgets/smooth_scroll/smooth_scroll.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -140,6 +141,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
         child: const MenuSection(),
       ),
       appBar: AppBar(
+        leadingWidth: 50,
         backgroundColor:
             _salonProfileProvider.salonTheme.appBarTheme.backgroundColor,
         leading: chosenSalon.salonLogo.isEmpty
@@ -160,15 +162,24 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                 ),
               )
             : SizedBox(
+                height: 40,
                 width: 40,
-                child: ClipOval(
-                  //  borderRadius: BorderRadius.circular(30),
-                  child: CachedImage(
-                    width: 100,
-                    url: chosenSalon.salonLogo,
-                    fit: BoxFit.contain,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20.0),
+                  child: CircleAvatar(
+                    //radius: 5,
+                    minRadius: 10,
+                    maxRadius: 10,
+                    //  borderRadius: BorderRadius.circular(30),
+                    backgroundImage: CachedNetworkImageProvider(
+                        chosenSalon.salonLogo,
+                        maxHeight: 20,
+                        maxWidth: 20
+                        //fit: BoxFit.cover,
+                        ),
                   ),
-                )),
+                ),
+              ),
         //       Padding(
         //   padding: const EdgeInsets.all(8.0),
         //   child: SvgPicture.asset(
@@ -368,9 +379,10 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                   itemCount: chosenSalon.additionalFeatures.length,
                 ),
               Gap(100.h),
+              SizedBox.fromSize(size: Size.zero, key: controller.about),
+              const Gap(10),
               if (chosenSalon.description.isNotEmpty &&
                   displaySettings!.showAbout) ...[
-                SizedBox.fromSize(size: Size.zero, key: controller.about),
                 Padding(
                   padding: const EdgeInsets.only(left: 18.0, right: 8.0),
                   child: Text(
@@ -662,6 +674,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
 
               if (displaySettings!.services.showServices) ...[
                 SizedBox.fromSize(size: Size.zero, key: controller.price),
+                const Gap(20),
                 Padding(
                   padding: const EdgeInsets.only(left: 18.0, right: 8.0),
                   child: Text(
@@ -802,6 +815,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
               if (displaySettings.product.showProduct &&
                   _salonProfileProvider.allProducts.isNotEmpty) ...[
                 SizedBox.fromSize(size: Size.zero, key: controller.shop),
+                const Gap(20),
                 Padding(
                   padding: const EdgeInsets.only(left: 18.0, right: 8.0),
                   child: Text(
@@ -1070,6 +1084,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
               if (displaySettings.showTeam &&
                   _createAppointmentProvider.salonMasters.isNotEmpty) ...[
                 SizedBox.fromSize(size: Size.zero, key: controller.team),
+                const Gap(20),
                 Padding(
                   padding: const EdgeInsets.only(left: 18.0, right: 8.0),
                   child: Text(
@@ -1799,6 +1814,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
               const Gap(120),
               if (displaySettings.showContact) ...[
                 SizedBox.fromSize(size: Size.zero, key: controller.contacts),
+                const Gap(20),
                 Padding(
                   padding: const EdgeInsets.only(left: 18.0, right: 18.0),
                   child: Text(

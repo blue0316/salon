@@ -1,5 +1,6 @@
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/themes/images.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,6 +34,7 @@ class _MastersViewState extends ConsumerState<MastersView> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
+        leadingWidth: 50,
         backgroundColor: salonProvider.salonTheme.appBarTheme.backgroundColor,
         leading: salonProvider.chosenSalon.salonLogo.isEmpty
             ? Padding(
@@ -52,15 +54,24 @@ class _MastersViewState extends ConsumerState<MastersView> {
                 ),
               )
             : SizedBox(
+                height: 40,
                 width: 40,
-                child: ClipOval(
-                  //  borderRadius: BorderRadius.circular(30),
-                  child: CachedImage(
-                    width: 100,
-                    url: salonProvider.chosenSalon.salonLogo,
-                    fit: BoxFit.contain,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20.0),
+                  child: CircleAvatar(
+                    //radius: 5,
+                    minRadius: 10,
+                    maxRadius: 10,
+                    //  borderRadius: BorderRadius.circular(30),
+                    backgroundImage: CachedNetworkImageProvider(
+                        salonProvider.chosenSalon.salonLogo,
+                        maxHeight: 20,
+                        maxWidth: 20
+                        //fit: BoxFit.cover,
+                        ),
                   ),
-                )),
+                ),
+              ),
         actions: [
           GestureDetector(
             onTap: () {
