@@ -52,8 +52,8 @@ double getTotalRatings(List<ReviewModel> reviews) {
 InputDecoration textFieldStyle(
     String hintText, SalonProfileProvider _salonProfileProvider) {
   return InputDecoration(
-    
       hintText: hintText,
+      hintStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
       filled: _salonProfileProvider.salonTheme.inputDecorationTheme.filled,
       fillColor:
           _salonProfileProvider.salonTheme.inputDecorationTheme.fillColor,

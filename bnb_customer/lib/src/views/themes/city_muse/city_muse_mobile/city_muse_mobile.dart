@@ -1147,7 +1147,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                       url:
                                           '${_createAppointmentProvider.salonMasters[index].profilePicUrl}',
                                       width: size.width / 1.1,
-                                      fit: BoxFit.fitWidth,
+                                      fit: BoxFit.cover,
                                       height: 589,
 
                                       //height: 450,
@@ -1168,7 +1168,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                       // fit: BoxFit.cover,
                                       width: size.width / 1.1,
                                       height: 589,
-                                      fit: BoxFit.fitWidth,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
                                 ),
@@ -1535,7 +1535,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                   ),
                 ),
               ),
-              const Gap(40),
+              const Gap(20),
               Padding(
                 padding: const EdgeInsets.only(left: 18.0, right: 18.0),
                 child: Text(
@@ -1652,7 +1652,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                   ),
                 ),
 
-              const Gap(30),
+              const Gap(20),
               Padding(
                 padding: const EdgeInsets.only(left: 18.0, right: 18.0),
                 child: Text(
@@ -1683,7 +1683,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                   ),
                 ),
               ),
-              const Gap(40),
+              const Gap(20),
               Padding(
                 padding: const EdgeInsets.only(left: 18.0, right: 18.0),
                 child: Text(
