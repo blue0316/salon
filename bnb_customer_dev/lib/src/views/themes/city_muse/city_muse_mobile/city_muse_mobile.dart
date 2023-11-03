@@ -1610,7 +1610,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                   // height: 170,
                                   child: Padding(
                                     padding: const EdgeInsets.only(
-                                        top: 10.0, left: 5.0, right: 5),
+                                        top: 10.0, left: 10.0, right: 2),
                                     child: Text(
                                       "+" +
                                           _salonProfileProvider
@@ -1802,9 +1802,12 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                         child: ColorFiltered(
                                           colorFilter: const ColorFilter.mode(
                                               Colors.white, BlendMode.src),
-                                          child: SvgPicture.asset(
-                                            'assets/test_assets/arrow_side.svg',
-                                            color: Colors.white,
+                                          child: Image.asset(
+                                            'assets/test_assets/book_arrow.png',
+                                            height: 24,
+                                            width: 24,
+                                            // color: _salonProfileProvider
+                                            //     .salonTheme.colorScheme.secondary,
                                           ),
                                         ),
                                       )
