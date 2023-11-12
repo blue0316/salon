@@ -8,8 +8,6 @@ import 'package:bbblient/src/models/chat_models/chat_messages.dart';
 import 'package:bbblient/src/models/chat_models/chat_model.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/icons.dart';
-import 'package:bbblient/src/utils/notification/chat_notification.dart';
-import 'package:bbblient/src/utils/translation_widget.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
@@ -67,7 +65,7 @@ class Chat extends StatelessWidget {
             ),
             Text(
               peerName,
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
           ],
         ),
@@ -96,7 +94,7 @@ class ChatScreen extends ConsumerStatefulWidget {
 }
 
 class _ChatScreenState extends ConsumerState<ChatScreen> {
-  late AuthProvider _authProvider;
+  late AuthProviderController _authProvider;
   late String userUId = '';
   List<ChatMessages> listMessage = [];
   final int _limit = 20;
@@ -112,7 +110,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
 
   bool imagepickerTapped = false;
   final Utils utils = Utils();
-  final ChatNotification notification = ChatNotification();
+  // final ChatNotification notification = ChatNotification();
   final TextEditingController textEditingController = TextEditingController();
   final ScrollController listScrollController = ScrollController();
   final FocusNode focusNode = FocusNode();
@@ -245,7 +243,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
       await chatRef.doc(chatId).update({
         "messages": FieldValue.arrayUnion([ChatMessages(uid: userUId, createdAt: Timestamp.fromDate(DateTime.now()), type: type, content: content).toJson()])
       });
-      notification.sendNotificationToSalon(utils.getName(_authProvider.currentCustomer?.personalInfo), content, widget.peerId, type: type);
+      // notification.sendNotificationToSalon(utils.getName(_authProvider.currentCustomer?.personalInfo), content, widget.peerId, type: type);
       listScrollController.animateTo(0.0, duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
       setState(() {
         lastMessage = content;
@@ -256,101 +254,102 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
   }
 
   Widget buildItem(int index, ChatMessages chatMessages) {
+    // ignore: unnecessary_null_comparison
     if (chatMessages != null) {
       if (chatMessages.uid == userUId) {
         // Right (my message)
-        return Row(
+        return const Row(
           children: <Widget>[
-            chatMessages.type == 0
-                // Text
-                ? TranslationWidget(
-                    // fromString: chatMessages.content,
-                    toLanguageCode: _authProvider.currentCustomer?.locale,
-                    message: chatMessages.content,
-                    builder: (stringg) {
-                      return Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              stringg,
-                              style: Theme.of(context).textTheme.bodyText2!.copyWith(color: AppTheme.textBlack),
-                              textAlign: TextAlign.start,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(
-                                  DateFormat('EE kk:mm').format(DateTime.fromMillisecondsSinceEpoch(chatMessages.createdAt!.millisecondsSinceEpoch)),
+            // chatMessages.type == 0
+            //     // Text
+            //     ? TranslationWidget(
+            //         // fromString: chatMessages.content,
+            //         toLanguageCode: _authProvider.currentCustomer?.locale,
+            //         message: chatMessages.content,
+            //         builder: (stringg) {
+            //           return Container(
+            //             child: Column(
+            //               crossAxisAlignment: CrossAxisAlignment.start,
+            //               children: [
+            //                 Text(
+            //                   stringg,
+            //                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: AppTheme.textBlack),
+            //                   textAlign: TextAlign.start,
+            //                 ),
+            //                 Row(
+            //                   mainAxisAlignment: MainAxisAlignment.end,
+            //                   children: [
+            //                     Text(
+            //                       DateFormat('EE kk:mm').format(DateTime.fromMillisecondsSinceEpoch(chatMessages.createdAt!.millisecondsSinceEpoch)),
 
-                                  // "${chatMessages.createdAt.toDate().hour}:${chatMessages.createdAt.toDate().minute}",
-                                  style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                                        fontSize: 12,
-                                        fontStyle: FontStyle.italic,
-                                      ),
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                        padding: const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 10.0),
-                        width: .7.sw,
-                        decoration: BoxDecoration(
-                            color: AppTheme.oliveLight.withOpacity(0.3),
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(12),
-                              bottomLeft: Radius.circular(12),
-                              bottomRight: Radius.circular(12),
-                            )),
-                        margin: const EdgeInsets.only(bottom: 10.0, right: 10.0),
-                      );
-                    })
-                : chatMessages.type == 1
-                    // Image
-                    ? GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ImagePreview(
-                                        index: 0,
-                                        imageUrls: [chatMessages.content],
-                                      )));
-                        },
-                        child: imageUrl != ""
-                            ? Container(
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: CachedImage(url: imageUrl, height: 200.w, width: 200.w),
-                                ),
-                                margin: const EdgeInsets.only(bottom: 10.0, right: 10.0),
-                              )
-                            : Container(
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: CachedNetworkImage(
-                                    memCacheHeight: 200,
-                                    imageUrl: chatMessages.content!,
-                                    width: 200.0.w,
-                                    height: 200.0.h,
-                                    fit: BoxFit.cover,
-                                    progressIndicatorBuilder: (context, url, progress) {
-                                      return Center(
-                                          child: SizedBox(
-                                              height: 30,
-                                              width: 30,
-                                              child: CircularProgressIndicator(
-                                                value: progress.progress,
-                                              )));
-                                    },
-                                  ),
-                                ),
-                                margin: const EdgeInsets.only(bottom: 10.0, right: 10.0),
-                              ),
-                      )
-                    : Container(
-                        margin: const EdgeInsets.only(bottom: 10.0, right: 10.0),
-                      ),
+            //                       // "${chatMessages.createdAt.toDate().hour}:${chatMessages.createdAt.toDate().minute}",
+            //                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+            //                             fontSize: 12,
+            //                             fontStyle: FontStyle.italic,
+            //                           ),
+            //                     )
+            //                   ],
+            //                 )
+            //               ],
+            //             ),
+            //             padding: const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 10.0),
+            //             width: .7.sw,
+            //             decoration: BoxDecoration(
+            //                 color: AppTheme.oliveLight.withOpacity(0.3),
+            //                 borderRadius: const BorderRadius.only(
+            //                   topLeft: Radius.circular(12),
+            //                   bottomLeft: Radius.circular(12),
+            //                   bottomRight: Radius.circular(12),
+            //                 )),
+            //             margin: const EdgeInsets.only(bottom: 10.0, right: 10.0),
+            //           );
+            //         })
+            //     : chatMessages.type == 1
+            //         // Image
+            //         ? GestureDetector(
+            //             onTap: () {
+            //               Navigator.push(
+            //                   context,
+            //                   MaterialPageRoute(
+            //                       builder: (context) => ImagePreview(
+            //                             index: 0,
+            //                             imageUrls: [chatMessages.content],
+            //                           )));
+            //             },
+            //             child: imageUrl != ""
+            //                 ? Container(
+            //                     child: ClipRRect(
+            //                       borderRadius: BorderRadius.circular(12),
+            //                       child: CachedImage(url: imageUrl, height: 200.w, width: 200.w),
+            //                     ),
+            //                     margin: const EdgeInsets.only(bottom: 10.0, right: 10.0),
+            //                   )
+            //                 : Container(
+            //                     child: ClipRRect(
+            //                       borderRadius: BorderRadius.circular(12),
+            //                       child: CachedNetworkImage(
+            //                         memCacheHeight: 200,
+            //                         imageUrl: chatMessages.content!,
+            //                         width: 200.0.w,
+            //                         height: 200.0.h,
+            //                         fit: BoxFit.cover,
+            //                         progressIndicatorBuilder: (context, url, progress) {
+            //                           return Center(
+            //                               child: SizedBox(
+            //                                   height: 30,
+            //                                   width: 30,
+            //                                   child: CircularProgressIndicator(
+            //                                     value: progress.progress,
+            //                                   )));
+            //                         },
+            //                       ),
+            //                     ),
+            //                     margin: const EdgeInsets.only(bottom: 10.0, right: 10.0),
+            //                   ),
+            //           )
+            //         : Container(
+            //             margin: const EdgeInsets.only(bottom: 10.0, right: 10.0),
+            //           ),
           ],
           mainAxisAlignment: MainAxisAlignment.end,
         );
@@ -368,7 +367,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                             children: [
                               Text(
                                 chatMessages.content!,
-                                style: Theme.of(context).textTheme.bodyText2!.copyWith(color: AppTheme.textBlack),
+                                style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: AppTheme.textBlack),
                                 textAlign: TextAlign.start,
                               ),
                               Row(
@@ -376,7 +375,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                                 children: [
                                   Text(
                                     DateFormat('dd EE kk:mm').format(DateTime.fromMillisecondsSinceEpoch(chatMessages.createdAt!.millisecondsSinceEpoch)),
-                                    style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                                           fontSize: 12,
                                           fontStyle: FontStyle.italic,
                                         ),
@@ -501,11 +500,11 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                   onSubmitted: (value) {
                     onSendMessage(textEditingController.text, 0);
                   },
-                  style: Theme.of(context).textTheme.bodyText2!.copyWith(color: AppTheme.textBlack),
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: AppTheme.textBlack),
                   controller: textEditingController,
                   decoration: InputDecoration(
                     hintText: AppLocalizations.of(context)?.typeYourMessage ?? 'Type your message...',
-                    hintStyle: Theme.of(context).textTheme.bodyText2!.copyWith(color: AppTheme.lightGrey),
+                    hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: AppTheme.lightGrey),
                     fillColor: AppTheme.milkeyGrey,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),

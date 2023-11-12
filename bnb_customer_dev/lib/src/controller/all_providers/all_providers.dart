@@ -9,6 +9,7 @@ import 'package:bbblient/src/controller/quiz/quiz_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
 import 'package:bbblient/src/controller/search/search_provider.dart';
 import 'package:bbblient/src/controller/user/user_provider.dart';
+import 'package:bbblient/src/mongodb/db_service.dart';
 import 'package:bbblient/src/views/themes/glam_one/controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,8 +27,18 @@ final appProvider = ChangeNotifierProvider<AppProvider>(
   (ref) => AppProvider(),
 );
 
+final dbProvider = ChangeNotifierProvider<DatabaseProvider>(
+  (ref) => DatabaseProvider(),
+);
+
 final salonSearchProvider = ChangeNotifierProvider<SalonSearchProvider>(
-  (ref) => SalonSearchProvider(),
+  (ref) {
+    final DatabaseProvider mongodbProvider = ref.watch(dbProvider);
+
+    return SalonSearchProvider(
+      mongodbProvider: mongodbProvider,
+    );
+  },
 );
 
 final searchProvider = ChangeNotifierProvider<SearchProvider>(
@@ -38,8 +49,8 @@ final appointmentProvider = ChangeNotifierProvider<AppointmentProvider>(
   (ref) => AppointmentProvider(),
 );
 
-final authProvider = ChangeNotifierProvider<AuthProvider>((ref) {
-  return AuthProvider();
+final authProvider = ChangeNotifierProvider<AuthProviderController>((ref) {
+  return AuthProviderController();
 });
 
 final userProfileProvider = ChangeNotifierProvider<UserProfileProvider>(
@@ -59,7 +70,13 @@ final mapViewProvider = ChangeNotifierProvider<MapViewProvider>(
 );
 
 final salonProfileProvider = ChangeNotifierProvider<SalonProfileProvider>(
-  (ref) => SalonProfileProvider(),
+  (ref) {
+    final DatabaseProvider mongodbProvider = ref.watch(dbProvider);
+
+    return SalonProfileProvider(
+      mongodbProvider: mongodbProvider,
+    );
+  },
 );
 
 final themeController = ChangeNotifierProvider<ThemeController>(

@@ -12,11 +12,8 @@ import 'package:bbblient/src/models/customer/customer.dart';
 // import 'package:bbblient/src/models/customer/customer_auth_error.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
-// import 'package:bbblient/src/theme/app_main_theme.dart';
-import 'package:bbblient/src/utils/analytics.dart';
 import 'package:bbblient/src/utils/error_codes.dart';
 import 'package:bbblient/src/utils/icons.dart';
-import 'package:bbblient/src/utils/notification/fcm_token.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/registration/quiz/register_quiz.dart';
 import 'package:bbblient/src/views/widgets/dialogues/default.dart';
@@ -24,23 +21,19 @@ import 'package:bbblient/src/views/widgets/dialogues/dialogue_function.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 // import 'package:top_snackbar_flutter/top_snack_bar.dart';
-import 'package:translator/translator.dart';
-
 import '../create_apntmnt_provider/create_appointment_provider.dart';
 
-class AuthProvider with ChangeNotifier {
+class AuthProviderController with ChangeNotifier {
   static final FirebaseAuth _auth = FirebaseAuth.instance;
-  static final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  // static final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   //       final TextEditingController firstnamecontroller = TextEditingController();
   // final TextEditingController lastnamecontroller = TextEditingController();
   String? verificationCode;
@@ -426,7 +419,7 @@ class AuthProvider with ChangeNotifier {
 
       notifyListeners();
     } on FirebaseAuthException catch (e) {
-      var translator = GoogleTranslator();
+      // var translator = GoogleTranslator();
       loginStatus = Status.failed;
       notifyListeners();
       // printIt("$e");
@@ -437,10 +430,11 @@ class AuthProvider with ChangeNotifier {
         } else {
           if (locale != null && locale != 'en') {
             // printIt(locale);
-            var translatederror = await translator.translate(ErrorCodes.getFirebaseErrorMessage(e)!, from: 'en', to: locale);
+            // var translatederror = await translator.translate(ErrorCodes.getFirebaseErrorMessage(e)!, from: 'en', to: locale);
             // printIt('Else Error ');
             // printIt(translatederror);
-            showToast(translatederror);
+            // showToast(translatederror);
+            showToast(ErrorCodes.getFirebaseErrorMessage(e));
           } else {
             printIt('Firebase Error');
             showToast(ErrorCodes.getFirebaseErrorMessage(e));
@@ -472,7 +466,7 @@ class AuthProvider with ChangeNotifier {
       return;
     }
 
-    Analytics.setUser(user.uid);
+    // Analytics.setUser(user.uid);
     userLoggedIn = true;
     notifyListeners();
     CustomerModel? customerModel = await CustomerApi().getCustomer();
@@ -575,16 +569,16 @@ class AuthProvider with ChangeNotifier {
   }
 
   addPosition({required LatLng latlng}) async {
-    GeoFirePoint myLocation = Geoflutterfire().point(latitude: latlng.latitude, longitude: latlng.longitude);
-    Position myPosition = Position(geoHash: myLocation.hash, geoPoint: GeoPoint(myLocation.latitude, myLocation.longitude));
-    bool added = await CustomerApi().addCustomerLocation(newPosition: myPosition);
-    if (added) {
-      CustomerModel? customerModel = await CustomerApi().getCustomer();
-      if (customerModel != null) {
-        currentCustomer = customerModel;
-        notifyListeners();
-      }
-    }
+    // GeoFirePoint myLocation = Geoflutterfire().point(latitude: latlng.latitude, longitude: latlng.longitude);
+    // Position myPosition = Position(geoHash: myLocation.hash, geoPoint: GeoPoint(myLocation.latitude, myLocation.longitude));
+    // bool added = await CustomerApi().addCustomerLocation(newPosition: myPosition);
+    // if (added) {
+    //   CustomerModel? customerModel = await CustomerApi().getCustomer();
+    //   if (customerModel != null) {
+    //     currentCustomer = customerModel;
+    //     notifyListeners();
+    //   }
+    // }
   }
 
   //pops up the quiz
@@ -613,7 +607,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   createInitialCustomer({required BuildContext context}) async {
-    String? fcmToken = await FCMTokenHandler.getFCMToken();
+    // String? fcmToken = await FCMTokenHandler.getFCMToken();
     // debugPrint("Sending phone Number");
     // debugPrint("$countryCode$phoneNumber");
     CustomerModel _initialCustomer = CustomerModel(
@@ -637,7 +631,8 @@ class AuthProvider with ChangeNotifier {
       quizCompleted: false,
       preferredGender: '',
       registeredSalons: [],
-      fcmToken: fcmToken ?? '',
+      fcmToken: '',
+      // fcmToken: fcmToken ?? '',
       preferredCategories: [],
       customerId: '',
       locale: 'uk',

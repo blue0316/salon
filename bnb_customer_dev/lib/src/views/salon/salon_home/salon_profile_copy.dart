@@ -49,16 +49,12 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
 
   @override
   void initState() {
-    // final _bnbProvider = ref.read(bnbProvider);
-    // print(widget.locale);
-    // _bnbProvider.changeLocale(locale: const Locale('uk'));
-    final AppProvider _appProvider = ref.read(appProvider);
+    // final AppProvider _appProvider = ref.read(appProvider);
     super.initState();
-    // debugPrint('==========');
 
-    _appProvider.selectSalonFirstRoute();
+    // _appProvider.selectSalonFirstRoute();
 
-    printIt(_appProvider.firstRoute);
+    // printIt(_appProvider.firstRoute);
     final _salonSearchProvider = ref.read(salonSearchProvider);
 
     _salonSearchProvider.init(widget.salonId).then(
@@ -69,11 +65,12 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
           ),
         );
     _salonProfileProvider = ref.read(salonProfileProvider);
+
     _salonProfileProvider.init(context, widget.salonId).then(
           (salon) => WidgetsBinding.instance.addPostFrameCallback(
             (_) async {
               // here we set the time interval instead of the 15mins preset available
-              await init(salon);
+              // await init(salon);
             },
           ),
         );
@@ -83,7 +80,7 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
     // Time().timeSlotSize = Duration(minutes: salon!.timeSlotsInterval!);
     // Time().timeSlotSizeInt = salon!.timeSlotsInterval!;
     // await Time().setTimeSlot(salon!.timeSlotsInterval);
-    categories = await CategoryServicesApi().getCategories();
+    categories = await CategoryServicesApi().getCategories(); // TODO: WORK ON THIS
     // await CategoryServicesApi().getSalonServices(salonId: widget.salonId);
     final _createAppointmentProvider = ref.read(createAppointmentProvider);
     final repository = ref.watch(bnbProvider);
@@ -120,10 +117,10 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
       );
 
       // get all categories in create appointment provider class
-      // _createAppointmentProvider.setAllCategories(_salonSearchProvider.categories);
+      // // _createAppointmentProvider.setAllCategories(_salonSearchProvider.categories);
 
-      await _salonProfileProvider.getSalonReviews(salonId: widget.salonId);
-      await _salonProfileProvider.getProductsData(context, salonId: widget.salonId);
+      // await _salonProfileProvider.getSalonReviews(salonId: widget.salonId);
+      // await _salonProfileProvider.getProductsData(context, salonId: widget.salonId);
 
       Future.delayed(const Duration(milliseconds: 1000), () async {
         if (mounted) {
@@ -150,12 +147,14 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
   Widget build(BuildContext context) {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
 
-    return _salonProfileProvider.loadingStatus == Status.loading
-        ? const Center(
-            child: CircularProgressIndicator(),
-          )
-        : _salonProfileProvider.loadingStatus == Status.failed
-            ? const ErrorScreen()
-            : _salonProfileProvider.getTheme(widget.showBooking);
+    return const Text('ENTERED SALON PROFILE COPY WIDGET');
+
+    // return _salonProfileProvider.loadingStatus == Status.loading
+    //     ? const Center(
+    //         child: CircularProgressIndicator(),
+    //       )
+    //     : _salonProfileProvider.loadingStatus == Status.failed
+    //         ? const ErrorScreen()
+    //         : _salonProfileProvider.getTheme(widget.showBooking);
   }
 }

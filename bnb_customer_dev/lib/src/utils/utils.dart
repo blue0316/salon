@@ -6,13 +6,9 @@ import 'dart:math';
 import 'package:bbblient/src/models/customer/customer.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:country_codes/country_codes.dart';
-import 'package:device_info/device_info.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:geoflutterfire/geoflutterfire.dart';
-import 'package:map_launcher/map_launcher.dart' as mapLauncher;
-import 'package:map_launcher/map_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vibration/vibration.dart';
 import '../models/country.dart';
@@ -88,58 +84,58 @@ class Utils {
     }
   }
 
-  launchMaps({required Coordinates coordinates, required String label, required BuildContext context}) async {
-    openMapsSheet(context) async {
-      try {
-        final availableMaps = await MapLauncher.installedMaps;
-        showModalBottomSheet(
-          context: context,
-          builder: (BuildContext context) {
-            return SafeArea(
-              child: SingleChildScrollView(
-                child: SizedBox(
-                  child: Wrap(
-                    children: <Widget>[
-                      for (var map in availableMaps)
-                        ListTile(
-                          onTap: () => map.showMarker(
-                            coords: mapLauncher.Coords(coordinates.latitude, coordinates.longitude),
-                            title: label,
-                          ),
-                          title: Text(map.mapName),
-                          leading: SvgPicture.asset(
-                            map.icon,
-                            height: 30.0,
-                            width: 30.0,
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-              ),
-            );
-          },
-        );
-      } catch (e) {
-        printIt('Error on launchMaps(): ${e.toString()}');
-      }
-    }
+  // launchMaps({required Coordinates coordinates, required String label, required BuildContext context}) async {
+  //   openMapsSheet(context) async {
+  //     try {
+  //       final availableMaps = await MapLauncher.installedMaps;
+  //       showModalBottomSheet(
+  //         context: context,
+  //         builder: (BuildContext context) {
+  //           return SafeArea(
+  //             child: SingleChildScrollView(
+  //               child: SizedBox(
+  //                 child: Wrap(
+  //                   children: <Widget>[
+  //                     for (var map in availableMaps)
+  //                       ListTile(
+  //                         onTap: () => map.showMarker(
+  //                           coords: mapLauncher.Coords(coordinates.latitude, coordinates.longitude),
+  //                           title: label,
+  //                         ),
+  //                         title: Text(map.mapName),
+  //                         leading: SvgPicture.asset(
+  //                           map.icon,
+  //                           height: 30.0,
+  //                           width: 30.0,
+  //                         ),
+  //                       ),
+  //                   ],
+  //                 ),
+  //               ),
+  //             ),
+  //           );
+  //         },
+  //       );
+  //     } catch (e) {
+  //       printIt('Error on launchMaps(): ${e.toString()}');
+  //     }
+  //   }
 
-    try {
-      if (await mapLauncher.MapLauncher.isMapAvailable(mapLauncher.MapType.google) ?? false) {
-        await mapLauncher.MapLauncher.showMarker(
-          mapType: mapLauncher.MapType.google,
-          coords: mapLauncher.Coords(coordinates.latitude, coordinates.longitude),
-          title: label,
-          description: label,
-        );
-      } else {
-        openMapsSheet(context);
-      }
-    } catch (e) {
-      printIt('Error on 2nd try catch launchMaps(): ${e.toString()}');
-    }
-  }
+  //   try {
+  //     if (await mapLauncher.MapLauncher.isMapAvailable(mapLauncher.MapType.google) ?? false) {
+  //       await mapLauncher.MapLauncher.showMarker(
+  //         mapType: mapLauncher.MapType.google,
+  //         coords: mapLauncher.Coords(coordinates.latitude, coordinates.longitude),
+  //         title: label,
+  //         description: label,
+  //       );
+  //     } else {
+  //       openMapsSheet(context);
+  //     }
+  //   } catch (e) {
+  //     printIt('Error on 2nd try catch launchMaps(): ${e.toString()}');
+  //   }
+  // }
 
   launchUrlUtil({required String? url}) async {
     if (url == null || url == '') {
@@ -280,6 +276,14 @@ class Utils {
 
   //returns the device info in string format
   Future<String?> getDeviceInfo() async {
+    if (kIsWeb) {
+      DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+
+      WebBrowserInfo webBrowserInfo = await deviceInfo.webBrowserInfo;
+
+      return "Web ${webBrowserInfo.vendor} | ${webBrowserInfo.userAgent}";
+    }
+
     if (Platform.isAndroid) {
       AndroidDeviceInfo androidInfo = await DeviceInfoPlugin().androidInfo;
 

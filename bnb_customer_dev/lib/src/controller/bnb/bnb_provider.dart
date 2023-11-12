@@ -23,9 +23,12 @@ import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mongodb_realm/flutter_mongo_realm.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // loads important app settings and firebase data for initialisation of app
 class BnbProvider with ChangeNotifier {
@@ -58,6 +61,7 @@ class BnbProvider with ChangeNotifier {
   get getLocale => locale;
   get getCurrenMaster => salonMaster;
   final AppData _appData = AppData();
+
   // StreamSubscription<ConnectivityResult>? _connectivitySubscription;
 
   // @override
@@ -67,24 +71,94 @@ class BnbProvider with ChangeNotifier {
   //   super.dispose();
   // }
 
+  Future initializeMongoDB() async {
+    // // initialize Realm
+    // await RealmApp.init("glamirisapp-ylzgj");
+
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // var jwtPref = prefs.getString("jwtPref");
+
+    // if (jwtPref == null) {
+    //   String? deviceInfo = await Utils().getDeviceInfo();
+
+    //   final jwt = JWT(
+    //     {
+    //       "aud": "glamirisapp-ylzgj",
+    //       "sub": "654cee212b2a1443f89fd1a6",
+    //       "createdAt": (DateTime.now()).toString(),
+    //       "name": deviceInfo,
+    //       "pass": "jhhdhvvcvdvfvvfvrfhjHJKKKEEHWKWEUJYYTRGBGSFT6338738746574849938737455389290384746",
+    //     },
+    //     // {"UID": deviceInfo!, "createdAt": DateTime.now().toString()},
+    //     issuer: 'https://github.com/jonasroussel/dart_jsonwebtoken',
+    //   );
+
+    //   // Sign it (default with HS256 algorithm)
+    //   final token = jwt.sign(SecretKey("jhhdhvvcvdvfvvfvrfhjHJKKKEEHWKWEUJYYTRGBGSFT6338738746574849938737455389290384746"), expiresIn: const Duration(days: 6));
+    //   jwtPref = token;
+    //   prefs.setString("jwtPref", token);
+    // } else {
+    //   final jwtToken = JWT.verify(jwtPref, SecretKey("jhhdhvvcvdvfvvfvrfhjHJKKKEEHWKWEUJYYTRGBGSFT6338738746574849938737455389290384746"));
+    //   // debugPrint('__------+++++-------___');
+    //   // debugPrint('${jwtToken.audience}');
+    //   // debugPrint('__------+++++-------___');
+
+    //   if (DateTime.parse(jwtToken.payload["createdAt"]).add(const Duration(days: 5)).isBefore(DateTime.now())) {
+    //     String? deviceInfo = await Utils().getDeviceInfo();
+
+    //     final jwt = JWT(
+    //       {
+    //         "aud": "glamirisapp-ylzgj",
+    //         "sub": "654cee212b2a1443f89fd1a6",
+    //         "createdAt": (DateTime.now()).toString(),
+    //         "name": deviceInfo,
+    //         "pass": "jhhdhvvcvdvfvvfvrfhjHJKKKEEHWKWEUJYYTRGBGSFT6338738746574849938737455389290384746",
+    //       },
+    //       // {"UID": deviceInfo!, "createdAt": DateTime.now().toString()},
+    //       issuer: 'https://github.com/jonasroussel/dart_jsonwebtoken',
+    //     );
+
+    //     // Sign it (default with HS256 algorithm)
+    //     final token = jwt.sign(
+    //       SecretKey("jhhdhvvcvdvfvvfvrfhjHJKKKEEHWKWEUJYYTRGBGSFT6338738746574849938737455389290384746"),
+    //       expiresIn: const Duration(days: 6),
+    //     );
+    //     jwtPref = token;
+    //     prefs.setString("jwtPref", token);
+    //   }
+    // }
+
+    // final RealmApp app = RealmApp();
+
+    // CoreRealmUser? mongoUser = await app.login(Credentials.jwt(jwtPref)).then((value) async {
+    //   client = MongoRealmClient();
+    //   db = client!.getDatabase("glamiris");
+
+    //   return value;
+    // });
+  }
+
   Future initializeApp({CustomerModel? customerModel, Locale? lang}) async {
-    locale = lang ?? const Locale("en");
+    // locale = lang ?? const Locale("en");
 
-    if (!kIsWeb) {
-      await monitorInternetConnection();
-    }
+    // if (!kIsWeb) {
+    //   await monitorInternetConnection();
+    // }
 
-    printIt("Getting to this place ");
-    appInitialization = await _appData.getAppInitialization() ?? AppInitialization(serverDownReason: {}, serverDown: false);
+    printIt("-----------*******-----------");
+    printIt("CHECKPOINT 1");
+    printIt("-----------*******-----------");
 
-    generalBanners = await _appData.getBanners();
+    // appInitialization = await _appData.getAppInitialization() ?? AppInitialization(serverDownReason: {}, serverDown: false);
 
-    if (customerModel != null) {
-      customer = customerModel;
-      await getBonusSettings();
-      await getNotifications(customerId: customerModel.customerId);
-      await getBonuses(customerId: customerModel.customerId);
-    }
+    // generalBanners = await _appData.getBanners();
+
+    // if (customerModel != null) {
+    //   customer = customerModel;
+    //   await getBonusSettings();
+    //   await getNotifications(customerId: customerModel.customerId);
+    //   await getBonuses(customerId: customerModel.customerId);
+    // }
   }
 
   refresh() async {

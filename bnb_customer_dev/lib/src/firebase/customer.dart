@@ -1,7 +1,6 @@
 import 'package:bbblient/src/models/customer/credit_card.dart';
 import 'package:bbblient/src/models/customer/customer.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
-import 'package:bbblient/src/utils/notification/fcm_token.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,12 +26,12 @@ class CustomerApi {
 
         printIt(doc.data());
         if (doc.exists) {
-          Map<String,dynamic> customerMap = doc.data() as Map<String, dynamic>;
+          Map<String, dynamic> customerMap = doc.data() as Map<String, dynamic>;
           customerMap['customerId'] = doc.id;
           final CustomerModel customer = CustomerModel.fromJson(customerMap);
           customer.customerId = doc.id;
 
-          FCMTokenHandler.updateCustomerFCMToken(customer);
+          // FCMTokenHandler.updateCustomerFCMToken(customer);
 
           return customer;
         } else {
@@ -81,7 +80,7 @@ class CustomerApi {
       DocumentSnapshot doc = await Collection.customers.doc(customerId).get();
       printIt(doc.data());
       if (doc.exists) {
-        Map<String,dynamic> customerMap = doc.data() as Map<String, dynamic>;
+        Map<String, dynamic> customerMap = doc.data() as Map<String, dynamic>;
         customerMap['customerId'] = doc.id;
         final CustomerModel customer = CustomerModel.fromJson(customerMap);
         customer.customerId = doc.id;
@@ -227,10 +226,10 @@ class CustomerApi {
       if (getData.docs.isEmpty) {
         return null;
       } else {
-        Map<String,dynamic> customerMap = getData.docs.first.data() as Map<String, dynamic>;
+        Map<String, dynamic> customerMap = getData.docs.first.data() as Map<String, dynamic>;
         customerMap['customerId'] = getData.docs.first.id;
         final CustomerModel customer = CustomerModel.fromJson(customerMap);
-       // final CustomerModel customer = CustomerModel.fromJson(getData.docs.first.data() as Map<String, dynamic>);
+        // final CustomerModel customer = CustomerModel.fromJson(getData.docs.first.data() as Map<String, dynamic>);
 
         return customer;
       }

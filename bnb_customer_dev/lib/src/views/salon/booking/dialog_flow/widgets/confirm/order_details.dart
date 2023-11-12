@@ -46,7 +46,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
   Widget build(BuildContext context) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
-    final AuthProvider _auth = ref.watch(authProvider);
+    final AuthProviderController _auth = ref.watch(authProvider);
     SalonModel salonModel = _salonProfileProvider.chosenSalon;
 
     final ThemeData theme = _salonProfileProvider.salonTheme;

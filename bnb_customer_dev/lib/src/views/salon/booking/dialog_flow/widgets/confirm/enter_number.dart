@@ -58,7 +58,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
   @override
   Widget build(BuildContext context) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
-    final AuthProvider _authProvider = ref.watch(authProvider);
+    final AuthProviderController _authProvider = ref.watch(authProvider);
     final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
     SalonModel salonModel = _salonProfileProvider.chosenSalon;
 

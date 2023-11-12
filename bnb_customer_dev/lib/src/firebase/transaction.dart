@@ -2,7 +2,6 @@ import 'package:bbblient/src/firebase/collections.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/transaction.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 
 class TransactionApi {
   TransactionApi._privateConstructor();

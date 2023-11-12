@@ -1,36 +1,52 @@
-import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
+import 'dart:convert';
 import 'package:bbblient/src/models/review.dart';
-import 'package:bbblient/src/utils/utils.dart';
+import 'package:bbblient/src/mongodb/collection.dart';
+import 'package:bbblient/src/mongodb/db_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 import '../models/salon_master/salon.dart';
 import 'collections.dart';
 
 class SalonApi {
-  SalonApi._privateConstructor();
-  static final SalonApi _instance = SalonApi._privateConstructor();
-  factory SalonApi() {
+  // SalonApi._privateConstructor();
+  // static final SalonApi _instance = SalonApi._privateConstructor();
+  // factory SalonApi() {
+  //   return _instance;
+  // }
+
+  SalonApi._privateConstructor(this.mongodbProvider);
+
+  static final SalonApi _instance = SalonApi._privateConstructor(null);
+
+  factory SalonApi({DatabaseProvider? mongodbProvider}) {
+    _instance.mongodbProvider = mongodbProvider;
     return _instance;
   }
-  final Geoflutterfire _geo = Geoflutterfire();
+
+  DatabaseProvider? mongodbProvider;
+
+  // final Geoflutterfire _geo = Geoflutterfire();
 
   Future<List<SalonModel>> getSalons({required LatLng position, required double radius}) async {
     // // printIt('Fetching salons from the server');
-    final GeoFirePoint _center = Geoflutterfire().point(
-      latitude: position.latitude,
-      longitude: position.longitude,
-    );
+    // final GeoFirePoint _center = Geoflutterfire().point(
+    //   latitude: position.latitude,
+    //   longitude: position.longitude,
+    // );
     try {
-      List<DocumentSnapshot> _salons;
+      List<DocumentSnapshot> _salons = [];
 
-      var query = Collection.salons.where('isAvailableOnline', isEqualTo: true);
+      // var query = Collection.salons.where('isAvailableOnline', isEqualTo: true);
 
-      Stream<List<DocumentSnapshot>> stream = _geo.collection(collectionRef: query).within(center: GeoFirePoint(position.latitude, position.longitude), radius: radius * 0.5, field: 'position');
-      _salons = await stream.first;
-      // // printIt("salon data");
-      // // printIt(_salons.length);
+      // Stream<List<DocumentSnapshot>> stream = _geo.collection(collectionRef: query).within(
+      //       center: GeoFirePoint(position.latitude, position.longitude),
+      //       radius: radius * 0.5,
+      //       field: 'position',
+      //     );
+      // _salons = await stream.first;
+      // // // printIt("salon data");
+      // // // printIt(_salons.length);
       List<SalonModel> salons = [];
       for (DocumentSnapshot doc in _salons) {
         Map salonMap = doc.data() as Map<dynamic, dynamic>;
@@ -38,7 +54,10 @@ class SalonApi {
           salonMap['salonId'] = doc.id;
           SalonModel salon = SalonModel.fromJson(salonMap as Map<String, dynamic>);
           if (salon.isAvailableOnline) {
-            salon.distanceFromCenter = _center.distance(lat: salon.position!.geoPoint!.latitude, lng: salon.position!.geoPoint!.longitude);
+            // salon.distanceFromCenter = _center.distance(
+            //   lat: salon.position!.geoPoint!.latitude,
+            //   lng: salon.position!.geoPoint!.longitude,
+            // );
             salons.add(salon);
           }
         } catch (e) {
@@ -53,49 +72,49 @@ class SalonApi {
     }
   }
 
-  Stream<List<SalonModel>> getSalonsStream({required LatLng position, required double radius}) async* {
-    // // printIt('Fetching salons from the server');
-    try {
-      final GeoFirePoint _center = Geoflutterfire().point(
-        latitude: position.latitude,
-        longitude: position.longitude,
-      );
-      List<DocumentSnapshot> _salons;
+  // Stream<List<SalonModel>> getSalonsStream({required LatLng position, required double radius}) async* {
+  //   // // printIt('Fetching salons from the server');
+  //   try {
+  //     final GeoFirePoint _center = Geoflutterfire().point(
+  //       latitude: position.latitude,
+  //       longitude: position.longitude,
+  //     );
+  //     List<DocumentSnapshot> _salons;
 
-      var query = Collection.salons.where('isAvailableOnline', isEqualTo: true);
+  //     var query = Collection.salons.where('isAvailableOnline', isEqualTo: true);
 
-      Stream<List<DocumentSnapshot>> stream = _geo.collection(collectionRef: query).within(
-            center: GeoFirePoint(position.latitude, position.longitude),
-            radius: radius,
-            field: 'position',
-          );
-      _salons = await stream.first;
-      // // printIt("salon data");
-      // // printIt(_salons.length);
-      List<SalonModel> salons = [];
-      for (DocumentSnapshot doc in _salons) {
-        Map salonMap = doc.data() as Map<dynamic, dynamic>;
-        try {
-          salonMap['salonId'] = doc.id;
-          SalonModel salon = SalonModel.fromJson(salonMap as Map<String, dynamic>);
-          if (salon.isAvailableOnline) {
-            salon.distanceFromCenter = _center.distance(
-              lat: salon.position!.geoPoint!.latitude,
-              lng: salon.position!.geoPoint!.longitude,
-            );
-            salons.add(salon);
-          }
-        } catch (e) {
-          // printIt(e);
-        }
-      }
-      // printIt("salons from geofire ${salons.length}");
-      yield salons;
-    } catch (e) {
-      // printIt(e);
-      yield [];
-    }
-  }
+  //     Stream<List<DocumentSnapshot>> stream = _geo.collection(collectionRef: query).within(
+  //           center: GeoFirePoint(position.latitude, position.longitude),
+  //           radius: radius,
+  //           field: 'position',
+  //         );
+  //     _salons = await stream.first;
+  //     // // printIt("salon data");
+  //     // // printIt(_salons.length);
+  //     List<SalonModel> salons = [];
+  //     for (DocumentSnapshot doc in _salons) {
+  //       Map salonMap = doc.data() as Map<dynamic, dynamic>;
+  //       try {
+  //         salonMap['salonId'] = doc.id;
+  //         SalonModel salon = SalonModel.fromJson(salonMap as Map<String, dynamic>);
+  //         if (salon.isAvailableOnline) {
+  //           salon.distanceFromCenter = _center.distance(
+  //             lat: salon.position!.geoPoint!.latitude,
+  //             lng: salon.position!.geoPoint!.longitude,
+  //           );
+  //           salons.add(salon);
+  //         }
+  //       } catch (e) {
+  //         // printIt(e);
+  //       }
+  //     }
+  //     // printIt("salons from geofire ${salons.length}");
+  //     yield salons;
+  //   } catch (e) {
+  //     // printIt(e);
+  //     yield [];
+  //   }
+  // }
 
   Future<List<SalonModel>?> getSalonsForSearch({required String searchText}) async {
     try {
@@ -146,19 +165,23 @@ class SalonApi {
   // FETCH SALON FROM DB
   Future<SalonModel?> getSalonFromId(String? salonId) async {
     if (salonId == null) return null;
+
     try {
-      DocumentSnapshot _response = await Collection.salons.doc(salonId).get();
+      var _response = await mongodbProvider!.fetchCollection(CollectionMongo.salons).findOne(
+        filter: {"__path__": "salons/$salonId"},
+      );
 
-      Map<String, dynamic> _map = _response.data() as Map<String, dynamic>;
+      if (_response != null) {
+        Map<String, dynamic> _map = json.decode(_response.toJson()) as Map<String, dynamic>;
 
-      _map['salonId'] = _response.id;
-      SalonModel salon = SalonModel.fromJson(_map);
-
-      return salon;
+        SalonModel salon = SalonModel.fromJson(_map);
+        return salon;
+      }
     } catch (e) {
-      // printIt(e);
+      debugPrint("Error on getSalonFromId() - $e");
       return null;
     }
+    return null;
   }
 
   Stream<List<SalonModel>> getSalonFromIdList({required List<String?> salonIds}) async* {
@@ -199,9 +222,20 @@ class SalonApi {
     return allSaloons;
   }
 
-// todo use pagination
   Future<List<ReviewModel>> getSalonReviews({required String salonId}) async {
     List<ReviewModel> allReviews = [];
+
+    // try {
+    //   var _response = await mongodbProvider!.fetchCollection(CollectionMongo.salons)
+
+    //   .find(
+    //     filter: {"__path__": "salons/$salonId/reviews/LocLVCyWldFDsNseEgRx"},
+
+    //   );
+    // } catch (err) {
+    //   debugPrint("Error on getSalonFromId() - $e");
+    //   return [];
+    // }
     QuerySnapshot reviewsSnapshot = await Collection.salons.doc(salonId).collection('reviews').limit(20).get();
     for (QueryDocumentSnapshot doc in reviewsSnapshot.docs) {
       // printIt(doc.data());

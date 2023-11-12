@@ -18,7 +18,6 @@ import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../controller/all_providers/all_providers.dart';
 import '../../../controller/appointment/apointment_provider.dart';
-import '../../../firebase/dynamic_link.dart';
 
 class Login2 extends ConsumerStatefulWidget {
   const Login2({Key? key}) : super(key: key);
@@ -28,7 +27,7 @@ class Login2 extends ConsumerStatefulWidget {
 }
 
 class _Login2State extends ConsumerState<Login2> {
-  late AuthProvider _auth;
+  late AuthProviderController _auth;
 
   final UnderlineInputBorder border = const UnderlineInputBorder(
     borderSide: BorderSide(
@@ -53,10 +52,11 @@ class _Login2State extends ConsumerState<Login2> {
 
     //await _salonSearchProvider.initialize();
 
+    await _bnbProvider.initializeMongoDB();
     await _bnbProvider.initializeApp(customerModel: _auth.currentCustomer, lang: _bnbProvider.getLocale);
 
     if (_auth.userLoggedIn) {
-      await DynamicLinksApi().handleDynamicLink(context: context, bonusSettings: _bnbProvider.bonusSettings);
+      // await DynamicLinksApi().handleDynamicLink(context: context, bonusSettings: _bnbProvider.bonusSettings);
 
       await _appointmentProvider.loadAppointments(
         customerId: _auth.currentCustomer?.customerId ?? '',

@@ -6,13 +6,10 @@ import 'package:bbblient/src/firebase/customer.dart';
 import 'package:bbblient/src/models/customer/customer.dart';
 import 'package:bbblient/src/models/enums/gender.dart';
 import 'package:bbblient/src/models/enums/status.dart';
-import 'package:bbblient/src/models/salon_master/salon.dart';
-import 'package:bbblient/src/utils/notification/fcm_token.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -116,7 +113,7 @@ class QuizProvider with ChangeNotifier {
       notifyListeners();
       showToast(AppLocalizations.of(context)?.saving ?? 'saving');
       //saving async not waiting fot it
-      final AuthProvider _auth = ref.read(authProvider);
+      final AuthProviderController _auth = ref.read(authProvider);
       if (_auth.currentCustomer != null) _saveInfo(_auth.currentCustomer!);
       saveInfoStatus = Status.success;
       showToast(AppLocalizations.of(context)?.done ?? 'Done');
@@ -129,18 +126,18 @@ class QuizProvider with ChangeNotifier {
 
   Future _saveInfo(CustomerModel customer) async {
     String _phoneNumber = FirebaseAuth.instance.currentUser?.phoneNumber ?? '';
-    String? _fcmToken = await FCMTokenHandler.getFCMToken();
-    final geo = Geoflutterfire();
-    GeoFirePoint? myLocation;
+    // String? _fcmToken = await FCMTokenHandler.getFCMToken();
+    // final geo = Geoflutterfire();
+    // GeoFirePoint? myLocation;
 
     //  LatLng? _currentLocation = await LocationUtils.getLocation();
     // if (_currentLocation != null) {
-    myLocation = geo.point(
-        latitude: 0.0,
-        //_currentLocation.latitude,
-        longitude: 0.0
-        // _currentLocation.longitude
-        );
+    // myLocation = geo.point(
+    //     latitude: 0.0,
+    //     //_currentLocation.latitude,
+    //     longitude: 0.0
+    //     // _currentLocation.longitude
+    //     );
     //  }
     // debugPrint('3');
     customer.personalInfo = PersonalInfo(
@@ -157,15 +154,16 @@ class QuizProvider with ChangeNotifier {
 
     customer.preferredGender = preferredGender;
     customer.preferredCategories = selectedCategories;
-    customer.locations = [
-      myLocation != null
-          ? Position(
-              geoHash: myLocation.hash,
-              geoPoint: myLocation.geoPoint,
-            )
-          : Position().getDefaultPosition()
-    ];
-    customer.fcmToken = _fcmToken ?? "";
+    // customer.locations = [
+    //   myLocation != null
+    //       ? Position(
+    //           geoHash: myLocation.hash,
+    //           geoPoint: myLocation.geoPoint,
+    //         )
+    //       : Position().getDefaultPosition()
+    // ];
+    customer.fcmToken = "";
+    // customer.fcmToken = _fcmToken ?? "";
     customer.quizCompleted = true;
 
     await CustomerApi().updateCustomer(customerModel: customer);

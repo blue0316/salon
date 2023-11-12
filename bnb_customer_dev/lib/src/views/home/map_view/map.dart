@@ -86,7 +86,7 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
               );
             },
             markerId: MarkerId('marker_uid_${_salon.salonId}'),
-            position: LatLng(_salon.position!.geoPoint!.latitude, _salon.position!.geoPoint!.longitude),
+            // position: LatLng(_salon.position!.geoPoint!.latitude, _salon.position!.geoPoint!.longitude),
             icon: widget.selectedSalonId == _salon.salonId ? _selectedSalonMarker! : _salonMarker!));
       }
     });

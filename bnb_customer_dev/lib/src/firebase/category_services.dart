@@ -1,4 +1,7 @@
+import 'dart:convert';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
+import 'package:bbblient/src/mongodb/collection.dart';
+import 'package:bbblient/src/mongodb/db_service.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -6,26 +9,35 @@ import '../models/cat_sub_service/category_service.dart';
 import 'collections.dart';
 
 class CategoryServicesApi {
-  CategoryServicesApi._privateConstructor();
-  static final CategoryServicesApi _instance = CategoryServicesApi._privateConstructor();
-  factory CategoryServicesApi() {
+  // CategoryServicesApi._privateConstructor();
+  // static final CategoryServicesApi _instance = CategoryServicesApi._privateConstructor();
+  // factory CategoryServicesApi() {
+  //   return _instance;
+  // }
+
+  CategoryServicesApi._privateConstructor(this.mongodbProvider);
+
+  static final CategoryServicesApi _instance = CategoryServicesApi._privateConstructor(null);
+
+  factory CategoryServicesApi({DatabaseProvider? mongodbProvider}) {
+    _instance.mongodbProvider = mongodbProvider;
     return _instance;
   }
 
-  Future<List<CategoryModel>> getCategories() async {
-    QuerySnapshot _response;
-    try {
-      _response = await Collection.allCategories.get();
+  DatabaseProvider? mongodbProvider;
 
-      return _response.docs.map<CategoryModel>((e) {
-        // print(e.data().);
-        Map _temp = e.data() as Map<dynamic, dynamic>;
-        _temp['categoryId'] = e.id;
+  Future<List<CategoryModel>> getCategories() async {
+    try {
+      var _response = await mongodbProvider!.db!.getCollection(CollectionMongo.allCategories).find();
+
+      return _response.map<CategoryModel>((e) {
+        Map _temp = json.decode(e.toJson()) as Map<String, dynamic>;
+        _temp['categoryId'] = _temp['__id__'];
 
         return CategoryModel.fromJson(_temp as Map<String, dynamic>);
       }).toList();
     } catch (e) {
-      debugPrint('eeee${e.toString()}');
+      debugPrint('Error on getCategories - ${e.toString()}');
       return [];
     }
   }

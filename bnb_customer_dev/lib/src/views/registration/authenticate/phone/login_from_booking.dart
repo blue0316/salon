@@ -1,20 +1,17 @@
 // ignore_for_file: avoid_web_libraries_in_flutter, unused_local_variable
 
 import 'dart:html' as html;
+import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
-import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/app_provider.dart';
 import 'package:bbblient/src/controller/appointment/apointment_provider.dart';
-import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
 import 'package:bbblient/src/controller/home/salon_search_provider.dart';
-import 'package:bbblient/src/firebase/dynamic_link.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/enums/appointment_status.dart';
@@ -38,7 +35,7 @@ class LoginFromBooking extends ConsumerStatefulWidget {
 }
 
 class _Login2State extends ConsumerState<LoginFromBooking> {
-  late AuthProvider _auth;
+  late AuthProviderController _auth;
   final UnderlineInputBorder border = const UnderlineInputBorder(
     borderSide: BorderSide(
       color: AppTheme.lightGrey2,
@@ -60,10 +57,11 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
     await _auth.getUserInfo(context: context);
 
     //await _salonSearchProvider.initialize();
+    await _bnbProvider.initializeMongoDB();
     await _bnbProvider.initializeApp(customerModel: _auth.currentCustomer, lang: _bnbProvider.getLocale);
 
     if (_auth.userLoggedIn) {
-      await DynamicLinksApi().handleDynamicLink(context: context, bonusSettings: _bnbProvider.bonusSettings);
+      // await DynamicLinksApi().handleDynamicLink(context: context, bonusSettings: _bnbProvider.bonusSettings);
 
       await _appointmentProvider.loadAppointments(
         customerId: _auth.currentCustomer?.customerId ?? '',
@@ -250,7 +248,7 @@ class _Login2State extends ConsumerState<LoginFromBooking> {
                           Expanded(
                             child: Text(
                               appointment.salon.name,
-                              style: Theme.of(context).textTheme.headline4!.copyWith(color: AppTheme.textBlack),
+                              style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: AppTheme.textBlack),
                               maxLines: 1,
                             ),
                           )

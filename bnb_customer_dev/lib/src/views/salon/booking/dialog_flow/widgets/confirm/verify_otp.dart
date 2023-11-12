@@ -33,14 +33,14 @@ class _VerifyOtpState extends ConsumerState<VerifyOtp> {
   }
 
   refreshAccount() async {
-    final AuthProvider _auth = ref.read(authProvider);
+    final AuthProviderController _auth = ref.read(authProvider);
     await _auth.getUserInfo(context: context);
   }
 
   @override
   Widget build(BuildContext context) {
     final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
-    final AuthProvider _auth = ref.watch(authProvider);
+    final AuthProviderController _auth = ref.watch(authProvider);
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;

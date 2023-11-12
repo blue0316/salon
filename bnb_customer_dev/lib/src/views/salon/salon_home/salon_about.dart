@@ -33,7 +33,7 @@ class SalonAbout extends ConsumerStatefulWidget {
 class _SaloonAboutState extends ConsumerState<SalonAbout> {
   ScrollController controller = ScrollController();
   int totalReviewsToShow = 3;
-  late AuthProvider _authProvider;
+  late AuthProviderController _authProvider;
 
   @override
   void initState() {
@@ -232,7 +232,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
                       ),
                     ],
                     if (_bnbProvider.locale == const Locale('uk')) ...[
-                      Container(
+                      SizedBox(
                         height: 100.sp,
                         width: 70.sp,
                         child: Column(
@@ -393,7 +393,7 @@ class _SaloonAboutState extends ConsumerState<SalonAbout> {
           const SizedBox(height: 20),
           Text(
             AppLocalizations.of(context)?.socialNetwork ?? 'Social Network',
-            style: Theme.of(context).textTheme.bodyText1!.copyWith(),
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(),
           ),
           const Space(factor: 0.7),
           Row(

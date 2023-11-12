@@ -1,26 +1,37 @@
-// import 'package:bbblient/src/models/products.dart';
+import 'dart:convert';
 import 'package:bbblient/src/models/products.dart';
+import 'package:bbblient/src/mongodb/collection.dart';
+import 'package:bbblient/src/mongodb/db_service.dart';
 import 'package:bbblient/src/utils/utils.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'collections.dart';
 
 class ProductsApi {
-  ProductsApi._privateConstructor();
-  static final ProductsApi _instance = ProductsApi._privateConstructor();
-  factory ProductsApi() {
+  // ProductsApi._privateConstructor();
+  // static final ProductsApi _instance = ProductsApi._privateConstructor();
+  // factory ProductsApi() {
+  //   return _instance;
+  // }
+
+  ProductsApi._privateConstructor(this.mongodbProvider);
+
+  static final ProductsApi _instance = ProductsApi._privateConstructor(null);
+
+  factory ProductsApi({DatabaseProvider? mongodbProvider}) {
+    _instance.mongodbProvider = mongodbProvider;
     return _instance;
   }
+
+  DatabaseProvider? mongodbProvider;
 
   // Product Categories
   Future<List<ProductCategoryModel>> getAllProductCategory({required String salonId}) async {
     try {
-      QuerySnapshot _response = await Collection.allProductCategories.get();
-
       List<ProductCategoryModel> allCategories = [];
 
-      for (DocumentSnapshot doc in _response.docs) {
-        Map<String, dynamic> _temp = doc.data() as Map<String, dynamic>;
-        _temp['categoryId'] = doc.id;
+      var _response = await mongodbProvider!.fetchCollection(CollectionMongo.allProductCategories).find();
+
+      for (var item in _response) {
+        Map<String, dynamic> _temp = json.decode(item.toJson()) as Map<String, dynamic>;
+        _temp['categoryId'] = _temp["categoryId"];
 
         ProductCategoryModel? categoryModel;
 
@@ -46,12 +57,12 @@ class ProductsApi {
   // Product Brands
   Future<List<ProductBrandModel>> getAllProductBrands({required String salonId}) async {
     try {
-      QuerySnapshot _response = await Collection.allProductBrand.where('salonId', isEqualTo: salonId).get();
-
       List<ProductBrandModel> allBrands = [];
 
-      for (DocumentSnapshot doc in _response.docs) {
-        Map<String, dynamic> _temp = doc.data() as Map<String, dynamic>;
+      var _response = await mongodbProvider!.fetchCollection(CollectionMongo.allProductBrand).find();
+
+      for (var item in _response) {
+        Map<String, dynamic> _temp = json.decode(item.toJson()) as Map<String, dynamic>;
 
         ProductBrandModel? brandModel;
 
@@ -76,12 +87,15 @@ class ProductsApi {
   // Salon Products
   Future<List<ProductModel>> getSalonProducts({required String salonId}) async {
     try {
-      QuerySnapshot _response = await Collection.products.where('salonId', isEqualTo: salonId).get();
-
       List<ProductModel> salonProducts = [];
 
-      for (DocumentSnapshot doc in _response.docs) {
-        Map<String, dynamic> _temp = doc.data() as Map<String, dynamic>;
+      var _response = await mongodbProvider!.fetchCollection(CollectionMongo.products).find(
+        filter: {"salonId": salonId},
+      );
+
+      for (var item in _response) {
+        Map<String, dynamic> _temp = json.decode(item.toJson()) as Map<String, dynamic>;
+
         ProductModel? productsModel;
 
         try {

@@ -1,41 +1,50 @@
-// ignore_for_file: avoid_web_libraries_in_flutter, unused_local_variable
-
-import 'dart:io';
-
+// ignore_for_file: avoid_web_libraries_in_flutter, unused_local_variableimport 'package:bbblient/main.dart';
 import 'package:bbblient/main.dart';
+import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
 import 'package:bbblient/src/loadingLink.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
+import 'package:bbblient/src/mongodb/db_service.dart';
 import 'package:bbblient/src/views/appointment/view_appointment.dart';
 import 'package:bbblient/src/views/payment/payment.dart';
 import 'package:bbblient/src/views/policy/policy.dart';
 import 'package:bbblient/src/views/policy/cookies.dart';
 import 'package:bbblient/src/views/policy/terms_condition.dart';
-import 'package:bbblient/src/views/policy/testes.dart';
 import 'package:bbblient/src/views/salon/salon_home/salon_profile_copy.dart';
-import 'package:bot_toast/bot_toast.dart';
+import 'package:bbblient/src/views/policy/testes.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'utils/analytics.dart';
 import 'dart:html' as html;
 
+import 'controller/app_provider.dart';
 import 'views/salon/booking/confirmation_success.dart';
 
 final GoRouter router = GoRouter(
   debugLogDiagnostics: kDebugMode,
-  urlPathStrategy: UrlPathStrategy.path,
-  observers: [BotToastNavigatorObserver(), Analytics.getObserver()],
+  // urlPathStrategy: UrlPathStrategy.path,
+  // observers: [BotToastNavigatorObserver(), Analytics.getObserver()],
   errorBuilder: (context, state) {
+    stylePrint('${state.error?.toString()}');
+    // stylePrint('OMO NAWA O23232');
+
+    // DatabaseProvider().initMongoDB();
+
+    // final provider = Provider((ref) async {
+    //   stylePrint('OMO NAWA O');
+
+    //   final db = ref.watch(dbProvider);
+    //   if (!db.dbConnected) {
+    //     await db.initMongoDB();
+    //   }
+    // });
+
     if (kIsWeb) {
-      var myPath = state.path;
-      myPath = myPath!.substring(1);
+      var myPath = state.location;
+      myPath = myPath.substring(1);
+
       try {
-        // FirebaseFirestore.instance
-        //       .collection('stories')
-        //       .where('uid', isEqualTo: user.uid)
-        //       .snapshots()
         return LoadingLink(
           key: const Key("Loading Link"),
           myPath: myPath,
@@ -171,7 +180,7 @@ final GoRouter router = GoRouter(
             final String showBooking = state.queryParams['booking'] ?? "";
 
             bool back = true;
-            MasterModel? salonMaster;
+            // MasterModel? salonMaster;
             if (state.queryParams['back'] != null) {
               back = !(state.queryParams['back'] == 'false');
             }
@@ -186,16 +195,22 @@ final GoRouter router = GoRouter(
 
               // repository.changeLocale(locale: Locale(state.queryParams['locale']!.toString()));
 
-              if (id2 != "") {
-                repository.retrieveSalonMasterModel(state.queryParams['id2']!.toString());
-                salonMaster = repository.getCurrenMaster;
-                // debugPrint(repository.getCurrenMaster);k
-              }
+              // if (id2 != "") {
+              //   repository.retrieveSalonMasterModel(state.queryParams['id2']!.toString());
+              //   salonMaster = repository.getCurrenMaster;
+              //   // debugPrint(repository.getCurrenMaster);k
+              // }
               return repository;
             });
             // debugPrint(salonMaster.toString());
             return MaterialPage(
               key: state.pageKey,
+              // child:
+              //  OmoTest2(
+              //   salonId: id,
+              //   locale: locale,
+              //   showBooking: (showBooking == 'true') ? true : false,
+              // ),
               child: SalonPage(
                 salonId: id,
                 showBackButton: back,

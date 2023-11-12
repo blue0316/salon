@@ -49,7 +49,7 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
   @override
   Widget build(BuildContext context) {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
-    final AuthProvider _authProvider = ref.watch(authProvider);
+    final AuthProviderController _authProvider = ref.watch(authProvider);
     final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;

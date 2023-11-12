@@ -1,3 +1,4 @@
+import 'package:bbblient/src/controller/app_provider.dart';
 import 'package:bbblient/src/firebase/customer_web_settings.dart';
 import 'package:bbblient/src/firebase/enquiry.dart';
 import 'package:bbblient/src/firebase/master.dart';
@@ -12,12 +13,12 @@ import 'package:bbblient/src/models/products.dart';
 import 'package:bbblient/src/models/review.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
+import 'package:bbblient/src/mongodb/db_service.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/country_code/country.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_profile.dart';
 import 'package:bbblient/src/views/themes/gentle_touch_entry/entry.dart';
 import 'package:bbblient/src/views/themes/gentle_touch_entry/mobile/menu.dart';
-import 'package:bbblient/src/views/themes/gentle_touch_view.dart';
 import 'package:bbblient/src/views/themes/glam_minimal/glam_minimal_entry.dart';
 import 'package:bbblient/src/views/themes/glam_one/glam_one.dart';
 import 'package:bbblient/src/views/themes/utils/theme_color.dart';
@@ -32,9 +33,10 @@ import '../../views/themes/city_muse/city_muse_desktop/masters_view.dart';
 import '../../views/themes/city_muse/city_muse_mobile/masters_view.dart';
 import '../../views/themes/city_muse/city_muse_mobile/mobile_menu_section.dart';
 
-// todo make salons and masters profile responsiblity here from salonSearchProvider
 class SalonProfileProvider with ChangeNotifier {
-  final SalonApi _salonApi = SalonApi();
+  SalonProfileProvider({required this.mongodbProvider});
+  DatabaseProvider mongodbProvider;
+
   Status loadingStatus = Status.loading;
 
   late SalonModel chosenSalon;
@@ -119,14 +121,17 @@ class SalonProfileProvider with ChangeNotifier {
   Future<SalonModel?> init(context, salonId) async {
     try {
       loadingStatus = Status.loading;
-      chosenSalon = (await _salonApi.getSalonFromId(salonId))!;
-      // await Time().setTimeSlot(chosenSalon.timeSlotsInterval);
-      themeSettings = await CustomerWebSettingsApi().getSalonTheme(salonId: salonId);
-      themeType = getThemeTypeEnum(themeSettings?.theme?.id);
-      hasThemeGradient = themeSettings?.theme?.isGradient ?? false;
+      chosenSalon = (await SalonApi(mongodbProvider: mongodbProvider).getSalonFromId(salonId))!;
 
-      await getSalonReviews(salonId: salonId);
-      await getProductsData(context, salonId: salonId);
+      // // await Time().setTimeSlot(chosenSalon.timeSlotsInterval);
+      // themeSettings = await CustomerWebSettingsApi(mongodbProvider: mongodbProvider).getSalonTheme(salonId: salonId);
+
+      // themeType = getThemeTypeEnum(themeSettings?.theme?.id);
+      // hasThemeGradient = themeSettings?.theme?.isGradient ?? false;
+
+      // await getSalonReviews(salonId: salonId); // TODO: WORK ON THIS - SUB COLLECTION ISSUE
+
+      // await getProductsData(context, salonId: salonId);
       await getAllSalonMasters(salonId);
 
       // await getSalonServices(salonId: salonId);
@@ -136,7 +141,7 @@ class SalonProfileProvider with ChangeNotifier {
       loadingStatus = Status.failed;
     }
     notifyListeners();
-    return chosenSalon;
+    // return chosenSalon;
   }
 
   Widget currentWidget = const MenuSection();
@@ -377,7 +382,7 @@ class SalonProfileProvider with ChangeNotifier {
 
   getSalonReviews({required String salonId}) async {
     salonReviews.clear();
-    salonReviews = await SalonApi().getSalonReviews(salonId: salonId);
+    salonReviews = await SalonApi(mongodbProvider: mongodbProvider).getSalonReviews(salonId: salonId);
   }
 
   getAllSalonMasters(salonId) async {
@@ -498,13 +503,13 @@ class SalonProfileProvider with ChangeNotifier {
     tabs.clear();
 
     // Get all brands
-    allProductBrands = await ProductsApi().getAllProductBrands(salonId: salonId);
+    allProductBrands = await ProductsApi(mongodbProvider: mongodbProvider).getAllProductBrands(salonId: salonId);
 
     // Get Salon Product Categories
-    allProductCategories = await ProductsApi().getAllProductCategory(salonId: salonId);
+    allProductCategories = await ProductsApi(mongodbProvider: mongodbProvider).getAllProductCategory(salonId: salonId);
 
     // Get Salon Products
-    allProducts = await ProductsApi().getSalonProducts(salonId: salonId);
+    allProducts = await ProductsApi(mongodbProvider: mongodbProvider).getSalonProducts(salonId: salonId);
 
     // Split into categories
     for (ProductModel product in allProducts) {

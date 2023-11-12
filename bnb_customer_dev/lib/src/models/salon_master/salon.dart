@@ -14,7 +14,7 @@ class SalonModel {
   late String ownerType;
   late String? workStation;
   late Links? links;
-  late Position? position;
+  // late Position? position;
   late String? salonWebSite;
   late String phoneNumber;
   late String email;
@@ -59,7 +59,7 @@ class SalonModel {
     required this.address,
     required this.ownerType,
     this.workStation,
-    required this.position,
+    // required this.position,
     this.links,
     this.timeSlotsInterval,
     this.isAvailableOnline = false,
@@ -106,13 +106,13 @@ class SalonModel {
     parentServiceId = json['parentServiceId'] == null ? [] : parentServiceId = json['parentServiceId'].cast<String>();
     timeSlotsInterval = json['timeSlotsInterval'] ?? 15;
     bookingRestrictionDays = json['bookingRestrictionDays'];
-    createdAt = json['createdAt'] != null ? json['createdAt'].toDate() : DateTime(1990);
+    createdAt = json['createdAt'] != null ? DateTime.parse(json['createdAt']["__time__"]) : DateTime(1990);
     address = json['address'] ?? '';
     ownerType = json['ownerType'] ?? OwnerType.salon;
     workStation = json['workStation'] ?? '';
     isAvailableOnline = json['isAvailableOnline'] ?? false;
     links = json['links'] != null ? Links.fromJson(json['links']) : null;
-    position = json['position'] != null ? Position.fromJson(json['position']) : null;
+    // position = json['position'] != null ? Position.fromJson(json['position']) : null;
     workingHours = WorkingHoursModel.fromJson(json['workingHours']);
     irregularWorkingHours = json['irregularWorkingHours'] != null ? mapIrregularHours(json['irregularWorkingHours']) : null;
     salonWebSite = json['salonWebSite'] ?? '';
@@ -168,7 +168,7 @@ class SalonModel {
     data['salonName'] = salonName;
     data['salonName'] = salonName;
     data['salonLogo'] = salonLogo;
-    createdAt = data['createdAt'] != null ? data['createdAt']?.toDate() : DateTime.now();
+    createdAt = data['createdAt'] != null ? DateTime.parse(data['createdAt']["__time__"]) : DateTime.now();
     data['categoryId'] = categoryId;
     data['appointmentsLeadTime'] = appointmentsLeadTime;
     data['parentServiceId'] = parentServiceId;
@@ -180,9 +180,9 @@ class SalonModel {
     if (links != null) {
       data['links'] = links!.toJson();
     }
-    if (position != null) {
-      data['position'] = position!.toJson();
-    }
+    // if (position != null) {
+    //   data['position'] = position!.toJson();
+    // }
     data['workingHours'] = workingHours?.toJson();
     data['timeSlotsInterval'] = timeSlotsInterval;
     data['salonWebSite'] = salonWebSite;
@@ -270,7 +270,7 @@ class PhotosOfWorks {
   });
 
   PhotosOfWorks.fromJson(Map<String, dynamic> json) {
-    createdAt = json["createdAt"];
+    createdAt = json["createdAt"]["__time__"];
     image = json['image'];
     description = json['imageDescription'];
   }

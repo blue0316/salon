@@ -1,29 +1,36 @@
 // import 'package:bbblient/src/models/products.dart';
+import 'dart:convert';
 import 'package:bbblient/src/models/customer_web_settings.dart';
+import 'package:bbblient/src/mongodb/collection.dart';
+import 'package:bbblient/src/mongodb/db_service.dart';
 import 'package:bbblient/src/utils/utils.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'collections.dart';
 
 class CustomerWebSettingsApi {
-  CustomerWebSettingsApi._privateConstructor();
-  static final CustomerWebSettingsApi _instance = CustomerWebSettingsApi._privateConstructor();
-  factory CustomerWebSettingsApi() {
+  // CustomerWebSettingsApi._privateConstructor();
+  // static final CustomerWebSettingsApi _instance = CustomerWebSettingsApi._privateConstructor();
+  // factory CustomerWebSettingsApi() {
+  //   return _instance;
+  // }
+
+  CustomerWebSettingsApi._privateConstructor(this.mongodbProvider);
+
+  static final CustomerWebSettingsApi _instance = CustomerWebSettingsApi._privateConstructor(null);
+
+  factory CustomerWebSettingsApi({DatabaseProvider? mongodbProvider}) {
+    _instance.mongodbProvider = mongodbProvider;
     return _instance;
   }
 
+  DatabaseProvider? mongodbProvider;
+
   Future<CustomerWebSettings?> getSalonTheme({required String salonId}) async {
     try {
-      // String salonTheme = '';
+      var _response = await mongodbProvider!.fetchCollection(CollectionMongo.customerWebSettings).findOne(
+        filter: {"salonId": salonId},
+      );
 
-      QuerySnapshot _response = await Collection.customerWebSettings.where('salonId', isEqualTo: salonId).get();
-
-      // print('***********************');
-      // print(_response);
-      // print(_response.docs);
-      // print('***********************');
-
-      if (_response.docs.isNotEmpty) {
-        Map<String, dynamic> _temp = _response.docs[0].data() as Map<String, dynamic>;
+      if (_response != null) {
+        Map<String, dynamic> _temp = json.decode(_response.toJson()) as Map<String, dynamic>;
 
         CustomerWebSettings webSettings = CustomerWebSettings.fromJson(_temp);
         return webSettings;
@@ -35,26 +42,4 @@ class CustomerWebSettingsApi {
     }
     return null;
   }
-
-  // Future<Map<String, dynamic>> getSalonTheme({required String salonId}) async {
-  //   try {
-  //     // String salonTheme = '';
-
-  //     QuerySnapshot _response = await Collection.customerWebSettings.where('salonId', isEqualTo: salonId).get();
-
-  //     // print('***********************');
-  //     // print(_response);
-  //     // print(_response.docs);
-  //     // print('***********************');
-
-  //     Map<String, dynamic> _temp = _response.docs[0].data() as Map<String, dynamic>;
-
-  //     // salonTheme = _temp['theme']['id'];
-
-  //     return _temp['theme'];
-  //   } catch (e) {
-  //     printIt('Error on getSalonTheme() - ${e.toString()}');
-  //   }
-  //   return {};
-  // }
 }

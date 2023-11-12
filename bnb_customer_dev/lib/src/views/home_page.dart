@@ -1,11 +1,9 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
 import 'package:bbblient/src/controller/appointment/apointment_provider.dart';
-import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/home/salon_search_provider.dart';
-import 'package:bbblient/src/firebase/dynamic_link.dart';
 import 'package:bbblient/src/routes.dart';
-import 'package:bbblient/src/utils/analytics.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/registration/authenticate/login.dart';
 import 'package:bbblient/src/views/widgets/smooth_scroll/smooth_scroll.dart';
@@ -46,23 +44,21 @@ class HomePageState extends ConsumerState<HomePage> {
 
   initHome() async {
     _bnbProvider = ref.read(bnbProvider);
-    printIt(router.location);
-    AuthProvider _authProvider = ref.read(authProvider);
+    // printIt(router.location);
+    AuthProviderController _authProvider = ref.read(authProvider);
     SalonSearchProvider _salonSearchProvider = ref.read(salonSearchProvider);
     AppointmentProvider _appointmentProvider = ref.read(appointmentProvider);
 
     await _authProvider.getUserInfo(context: context);
 
-    await _bnbProvider.initializeApp(
-        customerModel: _authProvider.currentCustomer,
-        lang: _bnbProvider.getLocale);
+    await _bnbProvider.initializeMongoDB();
+    await _bnbProvider.initializeApp(customerModel: _authProvider.currentCustomer, lang: _bnbProvider.getLocale);
 
     setState(() {});
     await _salonSearchProvider.initialize();
 
     if (_authProvider.userLoggedIn) {
-      await DynamicLinksApi().handleDynamicLink(
-          context: context, bonusSettings: _bnbProvider.bonusSettings);
+      // await DynamicLinksApi().handleDynamicLink(context: context, bonusSettings: _bnbProvider.bonusSettings);
       await _appointmentProvider.loadAppointments(
         customerId: _authProvider.currentCustomer?.customerId ?? '',
         salonSearchProvider: _salonSearchProvider,
@@ -70,7 +66,6 @@ class HomePageState extends ConsumerState<HomePage> {
       _authProvider.quizReminder(context);
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -83,29 +78,25 @@ class HomePageState extends ConsumerState<HomePage> {
           currentIndex: _currentIndex,
           onTap: (i) {
             checkUser(
-                context,
-                ref,
-                () => setState(() {
-                      _currentIndex = i;
-                      _pageController.jumpToPage(
-                        i,
-                      );
-                      Analytics.reportTabChange(selectedTab: i, tabNames: [
-                        "home",
-                        "favourites",
-                        "calendarView",
-                        "profile",
-                        "notifications"
-                      ]);
-                    }));
+              context,
+              ref,
+              () => setState(
+                () {
+                  _currentIndex = i;
+                  _pageController.jumpToPage(
+                    i,
+                  );
+                  // Analytics.reportTabChange(selectedTab: i, tabNames: ["home", "favourites", "calendarView", "profile", "notifications"]);
+                },
+              ),
+            );
           },
           curve: Curves.ease,
           duration: const Duration(milliseconds: 200),
           selectedColorOpacity: 1,
           backgroundColor: Colors.white,
           itemPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          margin:
-              EdgeInsets.only(bottom: 16.h, left: 16.w, right: 16.w, top: 8),
+          margin: EdgeInsets.only(bottom: 16.h, left: 16.w, right: 16.w, top: 8),
           items: [
             SalomonBottomBarItem(
               icon: SizedBox(
@@ -115,11 +106,7 @@ class HomePageState extends ConsumerState<HomePage> {
               ),
               title: Text(
                 AppLocalizations.of(context)?.home ?? "Home",
-                style: TextStyle(
-                    fontFamily: "Montserrat",
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w400,
-                    color: AppTheme.textBlack),
+                style: TextStyle(fontFamily: "Montserrat", fontSize: 14.sp, fontWeight: FontWeight.w400, color: AppTheme.textBlack),
               ),
               selectedColor: AppTheme.milkeyGrey,
             ),
@@ -131,11 +118,7 @@ class HomePageState extends ConsumerState<HomePage> {
               ),
               title: Text(
                 AppLocalizations.of(context)?.favourites ?? "Favourites",
-                style: TextStyle(
-                    fontFamily: "Montserrat",
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w400,
-                    color: AppTheme.textBlack),
+                style: TextStyle(fontFamily: "Montserrat", fontSize: 14.sp, fontWeight: FontWeight.w400, color: AppTheme.textBlack),
               ),
               selectedColor: AppTheme.milkeyGrey,
             ),
@@ -147,11 +130,7 @@ class HomePageState extends ConsumerState<HomePage> {
               ),
               title: Text(
                 AppLocalizations.of(context)?.calendar ?? "Calendar",
-                style: TextStyle(
-                    fontFamily: "Montserrat",
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w400,
-                    color: AppTheme.textBlack),
+                style: TextStyle(fontFamily: "Montserrat", fontSize: 14.sp, fontWeight: FontWeight.w400, color: AppTheme.textBlack),
               ),
               selectedColor: AppTheme.milkeyGrey,
             ),
@@ -163,11 +142,7 @@ class HomePageState extends ConsumerState<HomePage> {
               ),
               title: Text(
                 AppLocalizations.of(context)?.profile ?? "Profile",
-                style: TextStyle(
-                    fontFamily: "Montserrat",
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w400,
-                    color: AppTheme.textBlack),
+                style: TextStyle(fontFamily: "Montserrat", fontSize: 14.sp, fontWeight: FontWeight.w400, color: AppTheme.textBlack),
               ),
               selectedColor: AppTheme.milkeyGrey,
             ),
@@ -179,11 +154,7 @@ class HomePageState extends ConsumerState<HomePage> {
               ),
               title: Text(
                 AppLocalizations.of(context)?.notifications ?? "Notifications",
-                style: TextStyle(
-                    fontFamily: "Montserrat",
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w400,
-                    color: AppTheme.textBlack),
+                style: TextStyle(fontFamily: "Montserrat", fontSize: 14.sp, fontWeight: FontWeight.w400, color: AppTheme.textBlack),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
               ),
@@ -193,7 +164,7 @@ class HomePageState extends ConsumerState<HomePage> {
         ),
       ),
       body: WebSmoothScroll(
-        controller:_scrollController ,
+        controller: _scrollController,
         child: SafeArea(
           child: PageView(
             key: const ValueKey("page-view"),
@@ -202,17 +173,15 @@ class HomePageState extends ConsumerState<HomePage> {
             physics: const NeverScrollableScrollPhysics(),
             children: [
               _bnbProvider.appInitialization.serverDown
-                  ? ServerDownScreen(
-                      reason:
-                          _bnbProvider.appInitialization.serverDownReason["uk"])
+                  ? ServerDownScreen(reason: _bnbProvider.appInitialization.serverDownReason["uk"])
                   : const Home(
                       key: ValueKey("home"),
                     ),
               _bnbProvider.appInitialization.serverDown
-                  ? ServerDownScreen(
-                      reason:
-                          _bnbProvider.appInitialization.serverDownReason["uk"])
-                  : const Favourites(key: ValueKey("fav")),
+                  ? ServerDownScreen(reason: _bnbProvider.appInitialization.serverDownReason["uk"])
+                  : const Favourites(
+                      key: ValueKey("fav"),
+                    ),
               const CalendarView(
                 key: ValueKey("cal"),
               ),
@@ -253,7 +222,7 @@ class ServerDownScreen extends StatelessWidget {
           Text(
             reason,
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyText1,
+            style: Theme.of(context).textTheme.bodyLarge,
           ),
         ],
       )),

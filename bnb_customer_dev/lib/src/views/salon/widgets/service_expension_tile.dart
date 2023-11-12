@@ -13,7 +13,7 @@ import 'package:bbblient/src/utils/translation.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/colors.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:translator/translator.dart' as trans;
+// import 'package:translator/translator.dart' as trans;
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -44,7 +44,7 @@ class ServiceTile extends ConsumerStatefulWidget {
 
 class _ServiceTileState extends ConsumerState<ServiceTile> {
   Future<String> translate(value) async {
-    final translator = trans.GoogleTranslator();
+    // final translator = trans.GoogleTranslator();
     var text;
     var _bnbProvider;
     try {
@@ -52,11 +52,11 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
         // use ref to obtain other providers
         _bnbProvider = ref.watch(bnbProvider);
       });
-      text = value != "" && value != null
-          ? await translator.translate(value, to: _bnbProvider.getLocale.toString()).then((value) {
-              return value.text;
-            })
-          : "";
+      // text = value != "" && value != null
+      //     ? await translator.translate(value, to: _bnbProvider.getLocale.toString()).then((value) {
+      //         return value.text;
+      //       })
+      //     : "";
     } catch (e) {}
     return text;
   }
@@ -318,7 +318,7 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
                                               // PREVIOUS PRICE
-                                              if (service.priceAndDuration!.price == '200') // TODO: REMOVE THIS
+                                              if (service.priceAndDuration!.price == '200')
                                                 Text(
                                                   service.isFixedPrice
                                                       ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price}"
@@ -336,14 +336,11 @@ class _ServiceTileState extends ConsumerState<ServiceTile> {
                                                 ),
                                               SizedBox(width: DeviceConstraints.getResponsiveSize(context, 7, 20, 20)),
                                               Text(
-                                                // TODO: NOTE - Service PRICE
-
                                                 service.isFixedPrice
                                                     ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price}"
                                                     : service.isPriceStartAt
                                                         ? "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price} - ${getCurrency(salonModel.countryCode!)}∞"
                                                         : "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price} - ${getCurrency(salonModel.countryCode!)}${service.priceAndDurationMax!.price}",
-
                                                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                                       fontWeight: FontWeight.w600,
                                                       fontSize: 16.sp,

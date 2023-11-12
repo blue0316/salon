@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import '../../../theme/app_main_theme.dart';
 import 'language_preferences.dart';
 import 'my_preferences.dart';
@@ -20,14 +19,14 @@ class _SettingsState extends State<Settings> {
   String buildNumber = "";
 
   void getAppInfo() {
-    PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
-      setState(() {
-        appName = packageInfo.appName;
-        packageName = packageInfo.packageName;
-        version = packageInfo.version;
-        buildNumber = packageInfo.buildNumber;
-      });
-    });
+    // PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+    //   setState(() {
+    //     appName = packageInfo.appName;
+    //     packageName = packageInfo.packageName;
+    //     version = packageInfo.version;
+    //     buildNumber = packageInfo.buildNumber;
+    //   });
+    // });
   }
 
   @override

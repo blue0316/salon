@@ -6,7 +6,6 @@ import 'package:bbblient/src/controller/appointment/apointment_provider.dart';
 import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
 import 'package:bbblient/src/controller/home/salon_search_provider.dart';
-import 'package:bbblient/src/firebase/dynamic_link.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
@@ -16,7 +15,6 @@ import 'package:bbblient/src/views/registration/authenticate/login2.dart';
 import 'package:bbblient/src/views/registration/authenticate/phone/login_from_booking.dart';
 import 'package:bbblient/src/views/registration/authenticate/phone/otp.dart';
 import 'package:bbblient/src/views/registration/quiz/register_quiz.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,7 +29,7 @@ const double radius = 32;
 
 // New Booking Flow
 checkUser2(BuildContext context, WidgetRef ref, {required Function isLoggedIn, required Function notLoggedIn}) {
-  AuthProvider _auth = ref.read(authProvider);
+  AuthProviderController _auth = ref.read(authProvider);
   if (_auth.userLoggedIn) {
     isLoggedIn();
   } else {
@@ -40,7 +38,7 @@ checkUser2(BuildContext context, WidgetRef ref, {required Function isLoggedIn, r
 }
 
 checkUser(BuildContext context, WidgetRef ref, Function onTap, {AppointmentModel? appointmentModel}) {
-  AuthProvider _auth = ref.read(authProvider);
+  AuthProviderController _auth = ref.read(authProvider);
   if (_auth.userLoggedIn) {
     // openSignInSheet(context);
     onTap();
@@ -79,7 +77,7 @@ class LoginIntro extends ConsumerStatefulWidget {
 }
 
 class _LoginIntroState extends ConsumerState<LoginIntro> {
-  late AuthProvider _auth;
+  late AuthProviderController _auth;
 
   @override
   void dispose() {
@@ -98,10 +96,11 @@ class _LoginIntroState extends ConsumerState<LoginIntro> {
 
     //await _salonSearchProvider.initialize();
 
+    await _bnbProvider.initializeMongoDB();
     await _bnbProvider.initializeApp(customerModel: _auth.currentCustomer, lang: _bnbProvider.getLocale);
 
     if (_auth.userLoggedIn) {
-      await DynamicLinksApi().handleDynamicLink(context: context, bonusSettings: _bnbProvider.bonusSettings);
+      // await DynamicLinksApi().handleDynamicLink(context: context, bonusSettings: _bnbProvider.bonusSettings);
 
       await _appointmentProvider.loadAppointments(
         customerId: _auth.currentCustomer?.customerId ?? '',
@@ -181,7 +180,7 @@ class _LoginIntroState extends ConsumerState<LoginIntro> {
                                 alignment: Alignment.topLeft,
                                 child: Text(
                                   AppLocalizations.of(context)?.phoneNumber ?? "Enter phone no",
-                                  style: Theme.of(context).textTheme.headline1!.copyWith(
+                                  style: Theme.of(context).textTheme.displayLarge!.copyWith(
                                         fontSize: 16,
                                       ),
                                 ),
@@ -260,7 +259,7 @@ class _LoginIntroState extends ConsumerState<LoginIntro> {
                                 child: (_auth.otpStatus != Status.loading)
                                     ? Text(
                                         AppLocalizations.of(context)?.login ?? "",
-                                        style: Theme.of(context).textTheme.headline2,
+                                        style: Theme.of(context).textTheme.displayMedium,
                                       )
                                     : const SizedBox(
                                         height: 20,
@@ -327,7 +326,7 @@ class _LoginIntroState extends ConsumerState<LoginIntro> {
                                     ),
                                     Text(
                                       AppLocalizations.of(context)?.enterOTP ?? "Enter OTP",
-                                      style: Theme.of(context).textTheme.headline1!.copyWith(
+                                      style: Theme.of(context).textTheme.displayLarge!.copyWith(
                                             fontSize: 16,
                                             color: AppTheme.lightBlack,
                                           ),
@@ -361,7 +360,7 @@ class _LoginIntroState extends ConsumerState<LoginIntro> {
                                 child: (_auth.loginStatus != Status.loading)
                                     ? Text(
                                         AppLocalizations.of(context)?.login ?? "Login",
-                                        style: Theme.of(context).textTheme.headline2,
+                                        style: Theme.of(context).textTheme.displayMedium,
                                       )
                                     : const SizedBox(
                                         height: 20,
@@ -379,7 +378,7 @@ class _LoginIntroState extends ConsumerState<LoginIntro> {
                                 alignment: Alignment.topLeft,
                                 child: Text(
                                   AppLocalizations.of(context)?.pleasefillInYourName.toCapitalized() ?? 'Please Fill In Your Name ',
-                                  style: Theme.of(context).textTheme.headline1!.copyWith(
+                                  style: Theme.of(context).textTheme.displayLarge!.copyWith(
                                         fontSize: 16,
                                       ),
                                 ),
@@ -454,7 +453,7 @@ class _LoginIntroState extends ConsumerState<LoginIntro> {
                                 child: (_auth.saveNameStatus != Status.loading)
                                     ? Text(
                                         AppLocalizations.of(context)?.save ?? "Save",
-                                        style: Theme.of(context).textTheme.headline2,
+                                        style: Theme.of(context).textTheme.displayMedium,
                                       )
                                     : const SizedBox(
                                         height: 20,
@@ -499,7 +498,7 @@ class _LoginIntroState extends ConsumerState<LoginIntro> {
                                   minWidth: 1.sw - 80,
                                   child: Text(
                                     AppLocalizations.of(context)?.done ?? "Done !",
-                                    style: Theme.of(context).textTheme.headline2,
+                                    style: Theme.of(context).textTheme.displayMedium,
                                   ))
                             ],
                           ],

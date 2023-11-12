@@ -28,7 +28,7 @@ class PersonalInformation extends ConsumerStatefulWidget {
 
 class _PersonalInformationState extends ConsumerState<PersonalInformation> {
   final TextEditingController _dobController = TextEditingController();
-  late AuthProvider _authProvider;
+  late AuthProviderController _authProvider;
   late UserProfileProvider _userProfileProvider;
   File? pickedImage;
 
@@ -56,7 +56,7 @@ class _PersonalInformationState extends ConsumerState<PersonalInformation> {
         padding: const EdgeInsets.only(bottom: 4),
         child: Text(
           text,
-          style: Theme.of(context).textTheme.bodyText2,
+          style: Theme.of(context).textTheme.bodyMedium,
         ),
       );
 
@@ -100,7 +100,7 @@ class _PersonalInformationState extends ConsumerState<PersonalInformation> {
           ),
           title: Text(
             AppLocalizations.of(context)?.personalInformation ?? "Personal Information",
-            style: Theme.of(context).textTheme.bodyText1,
+            style: Theme.of(context).textTheme.bodyLarge,
           ),
           centerTitle: true,
           actions: [
@@ -283,7 +283,7 @@ class _PersonalInformationState extends ConsumerState<PersonalInformation> {
     );
   }
 
-  Future<bool?> showSaveDialogue({required UserProfileProvider userProfileProvider, required AuthProvider authProvider}) {
+  Future<bool?> showSaveDialogue({required UserProfileProvider userProfileProvider, required AuthProviderController authProvider}) {
     return showDialog(
         context: context,
         builder: (context) {
@@ -401,7 +401,7 @@ class SelectDOB extends ConsumerWidget {
                                 onTap: () => Navigator.of(context).pop(),
                                 child: Text(
                                   AppLocalizations.of(context)?.cancel ?? 'Cancel',
-                                  style: Theme.of(context).textTheme.subtitle1!.copyWith(color: AppTheme.lightGrey),
+                                  style: Theme.of(context).textTheme.titleMedium!.copyWith(color: AppTheme.lightGrey),
                                 ),
                               ),
                             )),
@@ -414,19 +414,21 @@ class SelectDOB extends ConsumerWidget {
                                   style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: AppTheme.textBlack),
                                 ))),
                         Expanded(
-                            flex: 1,
-                            child: Container(
-                                alignment: Alignment.centerRight,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    onChange(_tempDate);
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Text(
-                                    AppLocalizations.of(context)?.select ?? 'Select',
-                                    style: Theme.of(context).textTheme.subtitle1!.copyWith(color: CupertinoColors.activeBlue),
-                                  ),
-                                ))),
+                          flex: 1,
+                          child: Container(
+                            alignment: Alignment.centerRight,
+                            child: GestureDetector(
+                              onTap: () {
+                                onChange(_tempDate);
+                                Navigator.of(context).pop();
+                              },
+                              child: Text(
+                                AppLocalizations.of(context)?.select ?? 'Select',
+                                style: Theme.of(context).textTheme.titleMedium!.copyWith(color: CupertinoColors.activeBlue),
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -462,7 +464,7 @@ class SelectDOB extends ConsumerWidget {
                 padding: const EdgeInsets.symmetric(horizontal: AppTheme.margin),
                 child: Text(
                   _date,
-                  style: Theme.of(context).textTheme.bodyText1,
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ))),
       ),
     );

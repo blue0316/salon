@@ -1,7 +1,6 @@
 // ignore_for_file: unnecessary_type_check, avoid_web_libraries_in_flutter
 
 import 'dart:math';
-
 import 'package:bbblient/main.dart';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/authentication/auth_provider.dart';
@@ -239,7 +238,7 @@ class _AppBarState extends ConsumerState<HomePageAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    final AuthProvider _authProvider = ref.watch(authProvider);
+    final AuthProviderController _authProvider = ref.watch(authProvider);
     final SalonSearchProvider _salonSearchProvider = ref.watch(salonSearchProvider);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -251,9 +250,20 @@ class _AppBarState extends ConsumerState<HomePageAppBar> {
             firstChild: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("${AppLocalizations.of(context)!.welcomeback}${(_authProvider.currentCustomer?.personalInfo.firstName != null && _authProvider.currentCustomer?.personalInfo.firstName != '') ? "," : ""}", style: Theme.of(context).textTheme.headline5),
+                Text(
+                  "${AppLocalizations.of(context)!.welcomeback}${(_authProvider.currentCustomer?.personalInfo.firstName != null && _authProvider.currentCustomer?.personalInfo.firstName != '') ? "," : ""}",
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
                 SizedBox(height: 4.h),
-                if ((_authProvider.currentCustomer?.personalInfo.firstName != null && _authProvider.currentCustomer?.personalInfo.firstName != '')) Text(_authProvider.currentCustomer?.personalInfo.firstName ?? "", style: Theme.of(context).textTheme.headline5!.copyWith(fontSize: 18.sp, fontWeight: FontWeight.w500, color: AppTheme.textBlack)),
+                if ((_authProvider.currentCustomer?.personalInfo.firstName != null && _authProvider.currentCustomer?.personalInfo.firstName != ''))
+                  Text(
+                    _authProvider.currentCustomer?.personalInfo.firstName ?? "",
+                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w500,
+                          color: AppTheme.textBlack,
+                        ),
+                  ),
               ],
             ),
             secondChild: Padding(
@@ -264,7 +274,7 @@ class _AppBarState extends ConsumerState<HomePageAppBar> {
                   Expanded(
                     child: Text(
                       _salonSearchProvider.tempAddress,
-                      style: Theme.of(context).textTheme.headline5!.copyWith(fontSize: 15.sp),
+                      style: Theme.of(context).textTheme.headlineSmall!.copyWith(fontSize: 15.sp),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

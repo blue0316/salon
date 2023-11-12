@@ -42,7 +42,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
     var mediaQuery = MediaQuery.of(context).size;
     final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
-    final AuthProvider _auth = ref.watch(authProvider);
+    final AuthProviderController _auth = ref.watch(authProvider);
     final _appointmentProvider = ref.watch(appointmentProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;

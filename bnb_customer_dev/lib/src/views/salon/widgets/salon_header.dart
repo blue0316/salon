@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../models/salon_master/salon.dart';
 import '../../../utils/icons.dart';
@@ -98,7 +97,7 @@ class _SaloonHeaderState extends ConsumerState<SaloonHeader> {
                                 bottom: 100,
                                 left: 40.w,
                                 child: Container(
-                                  height: DeviceConstraints.getResponsiveSize(context, 95.h, 140.h, 140.h), // TODO: TAB HEIGHT??
+                                  height: DeviceConstraints.getResponsiveSize(context, 95.h, 140.h, 140.h),
                                   width: DeviceConstraints.getResponsiveSize(context, 95.h, 140.h, 140.h),
                                   decoration: BoxDecoration(
                                     border: Border.all(color: Colors.white, width: 1.3),
@@ -177,7 +176,7 @@ class _SaloonHeaderState extends ConsumerState<SaloonHeader> {
                                       children: [
                                         Text(
                                           widget.salonModel.salonName,
-                                          style: Theme.of(context).textTheme.headline2!.copyWith(fontSize: 25.sp),
+                                          style: Theme.of(context).textTheme.displayMedium!.copyWith(fontSize: 25.sp),
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                         ),
@@ -194,7 +193,7 @@ class _SaloonHeaderState extends ConsumerState<SaloonHeader> {
                                             const SizedBox(width: 10),
                                             Text(
                                               widget.salonModel.address,
-                                              style: Theme.of(context).textTheme.headline2!.copyWith(
+                                              style: Theme.of(context).textTheme.displayMedium!.copyWith(
                                                     fontSize: 13.sp,
                                                     fontWeight: FontWeight.w400,
                                                   ),
@@ -241,20 +240,20 @@ class _SaloonHeaderState extends ConsumerState<SaloonHeader> {
                                       const SizedBox(width: 10),
                                       GestureDetector(
                                         onTap: () {
-                                          if ((widget.salonModel.position?.geoPoint?.latitude ?? 0) == 0 && (widget.salonModel.position?.geoPoint?.longitude ?? 0) == 0) {
-                                            BnbProvider _bnbProvider = ref.read(bnbProvider);
-                                            _bnbProvider.getLocale.toString() == "en" ? showToast("Salon's Location Not Added") : showToast("Місцезнаходження салону не додано");
-                                          } else {
-                                            if (kIsWeb) {
-                                              _launchURL("https://maps.google.com/maps?q=${widget.salonModel.position?.geoPoint?.latitude ?? 0},${widget.salonModel.position?.geoPoint?.longitude ?? 0}&");
-                                            } else {
-                                              Utils().launchMaps(
-                                                coordinates: Coordinates(widget.salonModel.position?.geoPoint?.latitude ?? 0, widget.salonModel.position?.geoPoint?.longitude ?? 0),
-                                                label: widget.salonModel.address,
-                                                context: context,
-                                              );
-                                            }
-                                          }
+                                          // if ((widget.salonModel.position?.geoPoint?.latitude ?? 0) == 0 && (widget.salonModel.position?.geoPoint?.longitude ?? 0) == 0) {
+                                          //   BnbProvider _bnbProvider = ref.read(bnbProvider);
+                                          //   _bnbProvider.getLocale.toString() == "en" ? showToast("Salon's Location Not Added") : showToast("Місцезнаходження салону не додано");
+                                          // } else {
+                                          //   if (kIsWeb) {
+                                          //     _launchURL("https://maps.google.com/maps?q=${widget.salonModel.position?.geoPoint?.latitude ?? 0},${widget.salonModel.position?.geoPoint?.longitude ?? 0}&");
+                                          //   } else {
+                                          //     // Utils().launchMaps(
+                                          //     //   coordinates: Coordinates(widget.salonModel.position?.geoPoint?.latitude ?? 0, widget.salonModel.position?.geoPoint?.longitude ?? 0),
+                                          //     //   label: widget.salonModel.address,
+                                          //     //   context: context,
+                                          //     // );
+                                          //   }
+                                          // }
                                         },
                                         child: Container(
                                           height: 35.h,
