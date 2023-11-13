@@ -1,18 +1,33 @@
+import 'dart:convert';
+
 import 'package:bbblient/src/models/cat_sub_service/price_and_duration.dart';
 import 'package:bbblient/src/models/review.dart';
+import 'package:bbblient/src/mongodb/collection.dart';
+import 'package:bbblient/src/mongodb/db_service.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
-
+import 'package:flutter/material.dart';
 import '../models/salon_master/master.dart';
 import 'collections.dart';
 
 class MastersApi {
-  MastersApi._privateConstructor();
-  static final MastersApi _instance = MastersApi._privateConstructor();
-  factory MastersApi() {
+  // MastersApi._privateConstructor();
+  // static final MastersApi _instance = MastersApi._privateConstructor();
+  // factory MastersApi() {
+  //   return _instance;
+  // }
+
+  MastersApi._privateConstructor(this.mongodbProvider);
+
+  static final MastersApi _instance = MastersApi._privateConstructor(null);
+
+  factory MastersApi({DatabaseProvider? mongodbProvider}) {
+    _instance.mongodbProvider = mongodbProvider;
     return _instance;
   }
+
+  DatabaseProvider? mongodbProvider;
+
   Future<MasterModel?> getMasterFromId(String masterId) async {
     try {
       printIt(masterId);
@@ -65,19 +80,19 @@ class MastersApi {
     try {
       List<MasterModel> masters = [];
 
-      QuerySnapshot _response = await Collection.masters.where('salonId', isEqualTo: salonId).get();
+      var _response = await mongodbProvider!.fetchCollection(CollectionMongo.masters).find(
+        filter: {"salonId": salonId},
+      );
+      for (var item in _response) {
+        Map<String, dynamic> _temp = json.decode(item.toJson()) as Map<String, dynamic>;
+        _temp['masterId'] = _temp["__id__"];
 
-      for (DocumentSnapshot doc in _response.docs) {
-        Map _temp = doc.data() as Map<dynamic, dynamic>;
-        _temp['masterId'] = doc.id;
-
-        var master = MasterModel.fromJson(_temp as Map<String, dynamic>);
-
+        var master = MasterModel.fromJson(_temp);
         masters.add(master);
       }
       return masters;
     } catch (e) {
-      // debugPrint(e.toString());
+      debugPrint('Error on getAllSalonMasters() - ${e.toString()}');
       return [];
     }
   }

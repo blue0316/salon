@@ -12,6 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Header extends ConsumerWidget {
@@ -92,7 +93,7 @@ class Header extends ConsumerWidget {
                             salonModel.salonName.toTitleCase(),
                             style: theme.textTheme.displayLarge!.copyWith(
                               fontSize: DeviceConstraints.getResponsiveSize(context, 18.sp, 20.sp, 20.sp),
-                              color: theme.primaryColor,
+                              color: Colors.purple, // theme.primaryColor,
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,

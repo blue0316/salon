@@ -58,27 +58,26 @@ class CategoryServicesApi {
   }
 
   Future<List<ServiceModel>> getSalonServices({required String salonId}) async {
-    try {
-      QuerySnapshot _response = await Collection.services.where('salonId', isEqualTo: salonId).get();
-      List<ServiceModel> allServices = [];
-      for (DocumentSnapshot doc in _response.docs) {
-        Map _temp = doc.data() as Map<dynamic, dynamic>;
-        _temp['serviceId'] = doc.id;
-        ServiceModel? serviceModel;
-        try {
-          serviceModel = ServiceModel.fromJson(_temp);
-        } catch (e) {
-          printIt(e);
-        }
-        if (serviceModel != null) {
-          // print(serviceModel.serviceName);
-          allServices.add(serviceModel);
+    List<ServiceModel> allServices = [];
 
-          // if (serviceModel.priceAndDuration.price != "0") {
-          // } else {
-          //   printIt('service price not valid ${serviceModel.serviceName} : ${serviceModel.priceAndDuration.price}');
-          // }
-        }
+    try {
+      var _response = await mongodbProvider!.fetchCollection(CollectionMongo.services).findOne(
+        filter: {"salonId": salonId},
+      );
+
+      if (_response != null) {
+        Map<String, dynamic> _temp = json.decode(_response.toJson()) as Map<String, dynamic>;
+        _temp['serviceId'] = _temp["__id__"];
+        ServiceModel? serviceModel;
+
+        serviceModel = ServiceModel.fromJson(_temp);
+
+        allServices.add(serviceModel);
+
+        // if (serviceModel.priceAndDuration.price != "0") {
+        // } else {
+        //   printIt('service price not valid ${serviceModel.serviceName} : ${serviceModel.priceAndDuration.price}');
+        // }
       }
       return allServices;
     } catch (e) {

@@ -19,8 +19,15 @@ final firebaseAuthProvider = Provider<FirebaseAuth>((ref) => FirebaseAuth.instan
 final authStateChangesProvider = StreamProvider<User?>(
   (ref) => ref.watch(firebaseAuthProvider).authStateChanges(),
 );
+
 final createAppointmentProvider = ChangeNotifierProvider<CreateAppointmentProvider>(
-  (ref) => CreateAppointmentProvider(),
+  (ref) {
+    final DatabaseProvider mongodbProvider = ref.watch(dbProvider);
+
+    return CreateAppointmentProvider(
+      mongodbProvider: mongodbProvider,
+    );
+  },
 );
 
 final appProvider = ChangeNotifierProvider<AppProvider>(

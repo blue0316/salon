@@ -70,22 +70,19 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
           (salon) => WidgetsBinding.instance.addPostFrameCallback(
             (_) async {
               // here we set the time interval instead of the 15mins preset available
-              // await init(salon);
+              await init(salon);
             },
           ),
         );
   }
 
   init(salon) async {
-    // Time().timeSlotSize = Duration(minutes: salon!.timeSlotsInterval!);
-    // Time().timeSlotSizeInt = salon!.timeSlotsInterval!;
-    // await Time().setTimeSlot(salon!.timeSlotsInterval);
-    categories = await CategoryServicesApi().getCategories(); // TODO: WORK ON THIS
-    // await CategoryServicesApi().getSalonServices(salonId: widget.salonId);
+    final _salonSearchProvider = ref.read(salonSearchProvider);
     final _createAppointmentProvider = ref.read(createAppointmentProvider);
     final repository = ref.watch(bnbProvider);
-    final _salonSearchProvider = ref.read(salonSearchProvider);
     final _salonProfileProvider = ref.read(salonProfileProvider);
+
+    categories = _salonSearchProvider.categories; // await CategoryServicesApi().getCategories();
 
     _createAppointmentProvider.cle();
 
@@ -116,9 +113,6 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
         categories: _salonSearchProvider.categories,
       );
 
-      // get all categories in create appointment provider class
-      // // _createAppointmentProvider.setAllCategories(_salonSearchProvider.categories);
-
       // await _salonProfileProvider.getSalonReviews(salonId: widget.salonId);
       // await _salonProfileProvider.getProductsData(context, salonId: widget.salonId);
 
@@ -146,15 +140,16 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
   @override
   Widget build(BuildContext context) {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
+    final _dbProvider = ref.watch(dbProvider);
 
-    return const Text('ENTERED SALON PROFILE COPY WIDGET');
-
-    // return _salonProfileProvider.loadingStatus == Status.loading
-    //     ? const Center(
-    //         child: CircularProgressIndicator(),
-    //       )
-    //     : _salonProfileProvider.loadingStatus == Status.failed
-    //         ? const ErrorScreen()
-    //         : _salonProfileProvider.getTheme(widget.showBooking);
+    return (_salonProfileProvider.loadingStatus == Status.loading)
+        ? Center(
+            child: CircularProgressIndicator(
+              color: Colors.lime[300],
+            ),
+          )
+        : _salonProfileProvider.loadingStatus == Status.failed
+            ? const ErrorScreen()
+            : _salonProfileProvider.getTheme(widget.showBooking);
   }
 }

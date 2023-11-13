@@ -1,11 +1,11 @@
 // ignore_for_file: avoid_function_literals_in_foreach_calls
 
+import 'package:bbblient/src/controller/app_provider.dart';
 import 'package:bbblient/src/firebase/appointment_availability.dart';
 import 'package:bbblient/src/firebase/appointments.dart';
 import 'package:bbblient/src/firebase/category_services.dart';
 import 'package:bbblient/src/firebase/collections.dart';
 import 'package:bbblient/src/firebase/master.dart';
-import 'package:bbblient/src/firebase/promotion_service.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/appointment/serviceAndMaster.dart';
 import 'package:bbblient/src/models/backend_codings/appointment.dart';
@@ -24,21 +24,21 @@ import 'package:bbblient/src/models/promotions/promotion_service.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/models/review.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
+import 'package:bbblient/src/mongodb/db_service.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
-import 'package:bbblient/src/utils/integration/beauty_pro.dart';
-import 'package:bbblient/src/utils/integration/yclients.dart';
 import 'package:bbblient/src/utils/time.dart';
 import 'package:bbblient/src/utils/utils.dart';
-import 'package:bbblient/src/views/notifications/notification_type_widgets.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:collection/collection.dart';
-import "dart:math";
 
 class CreateAppointmentProvider with ChangeNotifier {
+  CreateAppointmentProvider({required this.mongodbProvider});
+  DatabaseProvider mongodbProvider;
+
   Status loadingStatus = Status.loading;
   SalonModel? chosenSalon;
   MasterModel? chosenMaster;
@@ -1903,24 +1903,20 @@ class CreateAppointmentProvider with ChangeNotifier {
 
   setSalon({required SalonModel salonModel, required BuildContext context, required List<ServiceModel> servicesFromSearch, required List<CategoryModel> categories}) async {
     chosenSalon = salonModel;
-    //set time slot interval
 
-    // Time().timeSlotSize = Duration(minutes: chosenSalon!.timeSlotsInterval!);
-    // Time().timeSlotSizeInt = chosenSalon!.timeSlotsInterval!;
-    // await Time().setTimeSlot(chosenSalon!.timeSlotsInterval);
-    ownerType = chosenSalon?.ownerType ?? OwnerType.all;
+    ownerType = chosenSalon?.ownerType ?? OwnerType.all; // ??
     _clearProvider();
-    // print(Time().timeSlotSizeInt);
+
     calculateValidSlots();
     await _initSalon(salonModel: salonModel, context: context, servicesFromSearch: servicesFromSearch);
     _initCrm(salonId: salonModel.salonId);
+
     clearSlotsAndSlotsRequired();
     setUpSlots(day: chosenDay, context: context, showNotWorkingToast: false);
     getSalonServices(categories: categories);
+
     notifyListeners();
   }
-
-  // List<ServiceModel> a333 = [];
 
   getSalonServices({required List<CategoryModel> categories}) async {
     categoriesAvailable.clear();
@@ -1950,10 +1946,6 @@ class CreateAppointmentProvider with ChangeNotifier {
         }
       }
     }
-
-    // print('****************************########************');
-    // print(categoriesAvailable);
-    // print('****************************########************');
 
     notifyListeners();
   }
@@ -2048,10 +2040,11 @@ class CreateAppointmentProvider with ChangeNotifier {
     // printIt(salonModel.toJson());
 
     if (salonModel.ownerType == OwnerType.singleMaster) {
-      List<ServiceModel> _servicesList = await CategoryServicesApi().getSalonServices(salonId: salonModel.salonId);
+      List<ServiceModel> _servicesList = await CategoryServicesApi(
+        mongodbProvider: mongodbProvider,
+      ).getSalonServices(salonId: salonModel.salonId);
 
-      salonServices = _servicesList; // _clearProvider not clearing list // TODO: FIX LATER
-
+      salonServices = _servicesList;
       _servicesValidList = _servicesList;
 
       //Saving these for promotion
@@ -2065,9 +2058,11 @@ class CreateAppointmentProvider with ChangeNotifier {
     } else {
       List<MasterModel> _masters = await MastersApi().getAllMaster(salonModel.salonId);
 
-      List<ServiceModel> _servicesList = await CategoryServicesApi().getSalonServices(salonId: salonModel.salonId);
+      List<ServiceModel> _servicesList = await CategoryServicesApi(
+        mongodbProvider: mongodbProvider,
+      ).getSalonServices(salonId: salonModel.salonId);
 
-      salonServices = _servicesList; // _clearProvider not clearing list // TODO: FIX LATER
+      salonServices = _servicesList;
 
       if (_servicesList.isNotEmpty && _masters.isNotEmpty) {
         for (MasterModel master in _masters) {
@@ -2146,7 +2141,7 @@ class CreateAppointmentProvider with ChangeNotifier {
       }
     }
 
-    salonPromotions = await PromotionServiceApi().getSalonPromotions(salonId: salonModel.salonId);
+    // salonPromotions = await PromotionServiceApi().getSalonPromotions(salonId: salonModel.salonId);
 
     notifyListeners();
   }
@@ -2638,10 +2633,6 @@ class CreateAppointmentProvider with ChangeNotifier {
   }
 
   calculateAvailableMasters({required DateTime day}) {
-    // print('entered here ??? ');
-    // print(salonMasters);
-    // print('entered here ??? ');
-
     if (salonMasters.isNotEmpty) {
       availableMasters.clear();
 
@@ -2685,106 +2676,113 @@ class CreateAppointmentProvider with ChangeNotifier {
     for (int i = 1; i <= chosenServices.length; i++) {
       chosenSlots.add('');
     }
+
     calculateAvailableMasters(day: day);
 
     // clearChoosenSlots();
     clearSlots();
     slotsStatus = Status.loading;
     notifyListeners();
-    if (beautyProActive && chosenMaster != null) {
-      printIt('fatching slots from beauty pro');
-      Map<String, List<String>>? slots = await BeautyProEngine().getMasterSlots(day);
-      printIt("beauty pro result $slots");
-      printIt(chosenMaster?.beautyProId);
-      List<String>? _masterslots = slots?[chosenMaster?.beautyProId];
-      printIt(_masterslots);
-      if (_masterslots != null) {
-        if (_masterslots.isEmpty) {
-          if (showNotWorkingToast) {
-            showToast(AppLocalizations.of(context)?.masterNotWorking ?? "master's not Working");
-          }
-          slotsStatus = Status.failed;
-          notifyListeners();
-          return;
-        } else {
-          allSlots.clear();
-          validSlots = _masterslots;
-          TimeOfDay _startTime = Time().stringToTime(validSlots.first);
-          TimeOfDay _endTime = Time().stringToTime(validSlots.last);
-          if (chosenDay.day == DateTime.now().day && chosenDay.month == DateTime.now().month) {
-            List<String> _pastSlots = Time()
-                .generateTimeSlots(
-                  _startTime,
-                  TimeOfDay.now(),
-                  timeSlotSizeDuration: chosenSalon!.timeSlotsInterval,
-                )
-                .toList();
-            for (String slot in _pastSlots) {
-              validSlots.remove(slot);
-            }
-          }
-          allSlots = Time().getTimeSlots(_startTime, _endTime, step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15)).toList();
-          slotsStatus = Status.success;
-          divideSlotsForDay();
-          notifyListeners();
-        }
-      } else {
-        slotsStatus = Status.failed;
-        notifyListeners();
-        return;
-      }
-    } else if (yclientActive && chosenMaster != null) {
-      List<String>? slots = await YClientsEngine().getMasterSlots(day, master: chosenMaster!);
-      // printIt("yclient result $slots");
-      List<String>? _masterslots = slots;
-      // printIt(_masterslots);
-      if (_masterslots != null) {
-        if (_masterslots.isEmpty) {
-          if (showNotWorkingToast) {
-            showToast(AppLocalizations.of(context)?.masterNotWorking ?? "master's not Working");
-          }
-          slotsStatus = Status.failed;
-          notifyListeners();
-          return;
-        } else {
-          validSlots.clear();
-          allSlots.clear();
-          validSlots = _masterslots;
-          TimeOfDay _startTime = Time().stringToTime(validSlots.first);
-          TimeOfDay _endTime = Time().stringToTime(validSlots.last);
-          if (chosenDay.day == DateTime.now().day && chosenDay.month == DateTime.now().month) {
-            List<String> _pastSlots = Time()
-                .generateTimeSlots(
-                  _startTime,
-                  TimeOfDay.now(),
-                  step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15),
-                  timeSlotSizeDuration: chosenSalon!.timeSlotsInterval,
-                )
-                .toList();
-            for (String slot in _pastSlots) {
-              validSlots.remove(slot);
-            }
-          }
-          allSlots = Time().getTimeSlots(_startTime, _endTime, step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15)).toList();
-          slotsStatus = Status.success;
-          divideSlotsForDay();
-          notifyListeners();
-        }
-        slotsStatus = Status.success;
-        notifyListeners();
-      } else {
-        slotsStatus = Status.failed;
-        notifyListeners();
-        return;
-      }
-    } else if (!beautyProActive && !yclientActive) {
+
+    // if (beautyProActive && chosenMaster != null) {
+    //   // printIt('fatching slots from beauty pro');
+    //   Map<String, List<String>>? slots = await BeautyProEngine().getMasterSlots(day);
+    //   // printIt("beauty pro result $slots");
+    //   // printIt(chosenMaster?.beautyProId);
+    //   List<String>? _masterslots = slots?[chosenMaster?.beautyProId];
+    //   // printIt(_masterslots);
+    //   if (_masterslots != null) {
+    //     if (_masterslots.isEmpty) {
+    //       if (showNotWorkingToast) {
+    //         showToast(AppLocalizations.of(context)?.masterNotWorking ?? "master's not Working");
+    //       }
+    //       slotsStatus = Status.failed;
+    //       notifyListeners();
+    //       return;
+    //     } else {
+    //       allSlots.clear();
+    //       validSlots = _masterslots;
+    //       TimeOfDay _startTime = Time().stringToTime(validSlots.first);
+    //       TimeOfDay _endTime = Time().stringToTime(validSlots.last);
+    //       if (chosenDay.day == DateTime.now().day && chosenDay.month == DateTime.now().month) {
+    //         List<String> _pastSlots = Time()
+    //             .generateTimeSlots(
+    //               _startTime,
+    //               TimeOfDay.now(),
+    //               timeSlotSizeDuration: chosenSalon!.timeSlotsInterval,
+    //             )
+    //             .toList();
+    //         for (String slot in _pastSlots) {
+    //           validSlots.remove(slot);
+    //         }
+    //       }
+    //       allSlots = Time().getTimeSlots(_startTime, _endTime, step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15)).toList();
+    //       slotsStatus = Status.success;
+    //       divideSlotsForDay();
+    //       notifyListeners();
+    //     }
+    //   } else {
+    //     slotsStatus = Status.failed;
+    //     notifyListeners();
+    //     return;
+    //   }
+    // } else if (yclientActive && chosenMaster != null) {
+    //   List<String>? slots = await YClientsEngine().getMasterSlots(day, master: chosenMaster!);
+    //   // printIt("yclient result $slots");
+    //   List<String>? _masterslots = slots;
+    //   // printIt(_masterslots);
+    //   if (_masterslots != null) {
+    //     if (_masterslots.isEmpty) {
+    //       if (showNotWorkingToast) {
+    //         showToast(AppLocalizations.of(context)?.masterNotWorking ?? "master's not Working");
+    //       }
+    //       slotsStatus = Status.failed;
+    //       notifyListeners();
+    //       return;
+    //     } else {
+    //       validSlots.clear();
+    //       allSlots.clear();
+    //       validSlots = _masterslots;
+    //       TimeOfDay _startTime = Time().stringToTime(validSlots.first);
+    //       TimeOfDay _endTime = Time().stringToTime(validSlots.last);
+    //       if (chosenDay.day == DateTime.now().day && chosenDay.month == DateTime.now().month) {
+    //         List<String> _pastSlots = Time()
+    //             .generateTimeSlots(
+    //               _startTime,
+    //               TimeOfDay.now(),
+    //               step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15),
+    //               timeSlotSizeDuration: chosenSalon!.timeSlotsInterval,
+    //             )
+    //             .toList();
+    //         for (String slot in _pastSlots) {
+    //           validSlots.remove(slot);
+    //         }
+    //       }
+    //       allSlots = Time().getTimeSlots(_startTime, _endTime, step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15)).toList();
+    //       slotsStatus = Status.success;
+    //       divideSlotsForDay();
+    //       notifyListeners();
+    //     }
+    //     slotsStatus = Status.success;
+    //     notifyListeners();
+    //   } else {
+    //     slotsStatus = Status.failed;
+    //     notifyListeners();
+    //     return;
+    //   }
+    // }
+
+    if (!beautyProActive && !yclientActive) {
       // print(chosenSalon!.workingHours!.wed.startTime);
       if (chosenSalon?.ownerType == OwnerType.singleMaster) {
         Hours? workingHours;
         // workingHours = Time().getWorkingHoursFromWeekDay(
         //     chosenDay.weekday, chosenSalon!.workingHours);
 
-        if (chosenSalon!.irregularWorkingHours != null && chosenSalon!.irregularWorkingHours!.containsKey(DateFormat('yyyy-MM-dd').format(chosenDay).toString())) {
+        if (chosenSalon!.irregularWorkingHours != null &&
+            chosenSalon!.irregularWorkingHours!.containsKey(
+              DateFormat('yyyy-MM-dd').format(chosenDay).toString(),
+            )) {
           workingHours = chosenSalon!.irregularWorkingHours![DateFormat('yyyy-MM-dd').format(chosenDay).toString()];
         } else {
           workingHours = Time().getWorkingHoursFromWeekDay(chosenDay.weekday, chosenSalon!.workingHours);
@@ -2830,10 +2828,23 @@ class CreateAppointmentProvider with ChangeNotifier {
             } else {
               validSlots = Time().getTimeSlots(_startTime, _endTime, step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15)).toList();
             }
-            bool isBreakAvailable = Time().getWorkingHoursFromWeekDay(chosenDay.weekday, (chosenSalon?.ownerType == OwnerType.salon) ? chosenMaster?.workingHours : chosenSalon!.workingHours)?.isBreakAvailable ?? false;
+            bool isBreakAvailable = Time()
+                    .getWorkingHoursFromWeekDay(
+                      chosenDay.weekday,
+                      (chosenSalon?.ownerType == OwnerType.salon) ? chosenMaster?.workingHours : chosenSalon!.workingHours,
+                    )
+                    ?.isBreakAvailable ??
+                false;
             if (isBreakAvailable) {
               // printIt('master is taking break on choosen day');
-              breakSlots = Time().getTimeSlots(_breakStartTime, _breakEndTime, step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15)).toList() + _blokedSlots;
+              breakSlots = Time()
+                      .getTimeSlots(
+                        _breakStartTime,
+                        _breakEndTime,
+                        step: Duration(minutes: chosenSalon!.timeSlotsInterval ?? 15),
+                      )
+                      .toList() +
+                  _blokedSlots;
             } else {
               // printIt('master is not taking break on choosen day');
               breakSlots = _blokedSlots;
@@ -3224,29 +3235,30 @@ class CreateAppointmentProvider with ChangeNotifier {
     //  picking the booking from suitable integration
     //  if beauty-pro id is present means system has integration with beauty pro, same with yclients
     //  so will pickup that integration
-    if (beautyProActive) {
-      final AppointmentModel? _appointmentWithBeautyPro = await BeautyProEngine().makeAppointment(app, master.beautyProId);
+    // if (beautyProActive) {
+    //   final AppointmentModel? _appointmentWithBeautyPro = await BeautyProEngine().makeAppointment(app, master.beautyProId);
 
-      if (_appointmentWithBeautyPro == null) {
-        showToast("Booking failed..");
-        return null;
-      } else {
-        _app = _appointmentWithBeautyPro;
-        return _app;
-      }
-    } else if (yclientActive) {
-      //booking in yClients
-      final AppointmentModel? _appointmentWithYClients = await YClientsEngine().makeAppointment(app, master.yClientsId);
-      if (_appointmentWithYClients == null) {
-        showToast("Booking failed.");
-        return null;
-      } else {
-        _app = _appointmentWithYClients;
-        return _app;
-      }
-    } else {
-      return app;
-    }
+    //   if (_appointmentWithBeautyPro == null) {
+    //     showToast("Booking failed..");
+    //     return null;
+    //   } else {
+    //     _app = _appointmentWithBeautyPro;
+    //     return _app;
+    //   }
+    // } else if (yclientActive) {
+    //   //booking in yClients
+    //   final AppointmentModel? _appointmentWithYClients = await YClientsEngine().makeAppointment(app, master.yClientsId);
+    //   if (_appointmentWithYClients == null) {
+    //     showToast("Booking failed.");
+    //     return null;
+    //   } else {
+    //     _app = _appointmentWithYClients;
+    //     return _app;
+    //   }
+    // }
+    //  else {
+    return app;
+    // }
   }
 
   creatAppointmentSalonOwner({required CustomerModel? customerModel, required BuildContext context}) {

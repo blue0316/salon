@@ -55,7 +55,7 @@ class SalonSearchProvider with ChangeNotifier {
   List<ServiceModel> allSalonServices = [];
 
   getAllSalonServices(_createAppointmentProvider) {
-    print(_createAppointmentProvider.categoryServicesMap);
+    // print(_createAppointmentProvider.categoryServicesMap);
     allSalonServices.clear();
     for (var cat in categories) {
       if (_createAppointmentProvider.categoryServicesMap[cat.categoryId.toString()] != null && _createAppointmentProvider.categoryServicesMap[cat.categoryId.toString()]!.isNotEmpty) {

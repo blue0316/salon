@@ -19,11 +19,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:html' as html;
 import 'src/mongodb/collection.dart';
 import 'src/routes.dart';
 import 'package:flutter_mongodb_realm/flutter_mongo_realm.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -60,6 +62,9 @@ void main() async {
   }
   //logs the app opening..okay
   // Analytics.openApp();
+
+  usePathUrlStrategy();
+
   runApp(
     const ProviderScope(
       child: MyApp(),
@@ -97,15 +102,17 @@ class _MyAppState extends ConsumerState<MyApp> {
     // todo wrap with settings provider
     return loading
         ? const Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              color: Colors.deepPurpleAccent,
+            ),
           )
         : ScreenUtilInit(
             designSize: const Size(414, 896),
             minTextAdapt: true,
             builder: (context, c) => MaterialApp.router(
-              // routerConfig: router,
-              routeInformationParser: router.routeInformationParser,
-              routerDelegate: router.routerDelegate,
+              routerConfig: router,
+              // routeInformationParser: router.routeInformationParser,
+              // routerDelegate: router.routerDelegate,
               debugShowCheckedModeBanner: false,
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               supportedLocales: AppLocalizations.supportedLocales,

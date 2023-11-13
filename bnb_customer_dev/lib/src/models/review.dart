@@ -45,7 +45,7 @@ class ReviewModel {
     salonName = json['salonName'];
     review = json['review'] ?? "";
     rating = double.parse(json['rating'].toString());
-    createdAt = json['createdAt'].toDate();
+    createdAt = DateTime.parse(json['createdAt']["__time__"]);
     choosenTags = json['choosenTags'] != null ? json['choosenTags'].cast<String>() : [];
     customerName = json["customerName"] != null ? json['customerName'] : '';
     customerPic = json["customerPic"] != null ? json['customerPic'] : '';

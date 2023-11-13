@@ -144,11 +144,11 @@ class AppointmentApi {
   /// cancels appointment and then returns status
   /// if [Status] == [Status.failed] then u must abort cancellation
   Future<Status> cancelAppointmentInIntegration(String salonId, AppointmentModel appointment) async {
-    final bool yClients = await YClientsEngine().init(salonId);
-    final bool beautyPro = await BeautyProEngine().init(salonId);
-    printIt("canceling in y $yClients b $beautyPro");
-    if (yClients) return await YClientsEngine().cancelAppointment(appointment);
-    if (beautyPro) return await BeautyProEngine().cancelAppointment(appointment);
+    // final bool yClients = await YClientsEngine().init(salonId);
+    // final bool beautyPro = await BeautyProEngine().init(salonId);
+    // printIt("canceling in y $yClients b $beautyPro");
+    // if (yClients) return await YClientsEngine().cancelAppointment(appointment);
+    // if (beautyPro) return await BeautyProEngine().cancelAppointment(appointment);
     return Status.success;
   }
 

@@ -72,7 +72,7 @@ class MasterModel {
   });
 
   MasterModel.fromJson(Map<String, dynamic> json) {
-    if (json['createdAt'] != null) createdAt = json['createdAt'].toDate();
+    if (json['createdAt'] != null) createdAt = DateTime.parse(json['createdAt']["__time__"]);
 
     masterId = json['masterId'];
     salonId = json['salonId'];

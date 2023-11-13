@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:bbblient/src/models/review.dart';
 import 'package:bbblient/src/mongodb/collection.dart';
 import 'package:bbblient/src/mongodb/db_service.dart';
+import 'package:bbblient/src/utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -225,28 +226,29 @@ class SalonApi {
   Future<List<ReviewModel>> getSalonReviews({required String salonId}) async {
     List<ReviewModel> allReviews = [];
 
-    // try {
-    //   var _response = await mongodbProvider!.fetchCollection(CollectionMongo.salons)
+    try {
+      var _response = await mongodbProvider!.fetchCollection(CollectionMongo.salons).find(
+        filter: {"salonId": salonId},
+      );
 
-    //   .find(
-    //     filter: {"__path__": "salons/$salonId/reviews/LocLVCyWldFDsNseEgRx"},
+      for (var item in _response) {
+        Map<String, dynamic> decodedItem = json.decode(item.toJson()) as Map<String, dynamic>;
+        String path = decodedItem["__path__"];
 
-    //   );
-    // } catch (err) {
-    //   debugPrint("Error on getSalonFromId() - $e");
-    //   return [];
-    // }
-    QuerySnapshot reviewsSnapshot = await Collection.salons.doc(salonId).collection('reviews').limit(20).get();
-    for (QueryDocumentSnapshot doc in reviewsSnapshot.docs) {
-      // printIt(doc.data());
-      try {
-        ReviewModel _reviewModel = ReviewModel.fromJson(doc.data() as Map<String, dynamic>);
-        _reviewModel.reviewId = doc.id;
-        allReviews.add(_reviewModel);
-      } catch (e) {
-        // printIt(e);
+        if (path.startsWith("salons/$salonId/reviews/")) {
+          ReviewModel _reviewModel = ReviewModel.fromJson(decodedItem);
+
+          List splitPath = path.split('/');
+          _reviewModel.reviewId = splitPath.last;
+
+          allReviews.add(_reviewModel);
+        }
       }
+    } catch (err) {
+      printIt('Error on getSalonReviews() -$err');
+      return [];
     }
+
     return allReviews;
   }
 

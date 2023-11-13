@@ -123,25 +123,23 @@ class SalonProfileProvider with ChangeNotifier {
       loadingStatus = Status.loading;
       chosenSalon = (await SalonApi(mongodbProvider: mongodbProvider).getSalonFromId(salonId))!;
 
-      // // await Time().setTimeSlot(chosenSalon.timeSlotsInterval);
-      // themeSettings = await CustomerWebSettingsApi(mongodbProvider: mongodbProvider).getSalonTheme(salonId: salonId);
+      themeSettings = await CustomerWebSettingsApi(mongodbProvider: mongodbProvider).getSalonTheme(salonId: salonId);
 
-      // themeType = getThemeTypeEnum(themeSettings?.theme?.id);
-      // hasThemeGradient = themeSettings?.theme?.isGradient ?? false;
+      themeType = getThemeTypeEnum(themeSettings?.theme?.id);
+      hasThemeGradient = themeSettings?.theme?.isGradient ?? false;
 
-      // await getSalonReviews(salonId: salonId); // TODO: WORK ON THIS - SUB COLLECTION ISSUE
+      await getSalonReviews(salonId: salonId);
 
-      // await getProductsData(context, salonId: salonId);
+      await getProductsData(context, salonId: salonId);
       await getAllSalonMasters(salonId);
 
-      // await getSalonServices(salonId: salonId);
       loadingStatus = Status.success;
     } catch (e) {
       // debugPrint(e.toString());
       loadingStatus = Status.failed;
     }
     notifyListeners();
-    // return chosenSalon;
+    return chosenSalon;
   }
 
   Widget currentWidget = const MenuSection();
@@ -370,13 +368,19 @@ class SalonProfileProvider with ChangeNotifier {
 
       return GlamOneScreen(showBooking: showBooking); // New Themes Base Widget
     } else {
-      salonTheme = AppTheme.customLightTheme;
+      salonTheme = getDefaultLightTheme(themeSettings?.theme?.colorCode);
       themeType = ThemeType.DefaultLight;
       hasLandingPage = themeSettings?.hasLandingPage ?? false;
 
       notifyListeners();
 
-      return DefaultLandingTheme(showBooking: showBooking); // Default landing theme
+      return
+
+          // Container(
+          //   color: Colors.blueGrey[700],
+          // );
+
+          DefaultLandingTheme(showBooking: showBooking); // Default landing theme
     }
   }
 
@@ -387,7 +391,7 @@ class SalonProfileProvider with ChangeNotifier {
 
   getAllSalonMasters(salonId) async {
     allMastersInSalon.clear();
-    allMastersInSalon = await MastersApi().getAllSalonMasters(salonId);
+    allMastersInSalon = await MastersApi(mongodbProvider: mongodbProvider).getAllSalonMasters(salonId);
 
     if (allMastersInSalon.length < 2) {
       isSingleMaster = true;
@@ -396,7 +400,7 @@ class SalonProfileProvider with ChangeNotifier {
 
   getMasterReviews({required String masterId}) async {
     masterReviews.clear();
-    masterReviews = await MastersApi().getMasterReviews(masterId: masterId);
+    masterReviews = await MastersApi(mongodbProvider: mongodbProvider).getMasterReviews(masterId: masterId);
     // printIt('got ${masterReviews.length} master reviews');
     notifyListeners();
   }

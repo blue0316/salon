@@ -92,7 +92,9 @@ class _LoadingLinkState extends ConsumerState<LoadingLink> {
   Widget build(BuildContext context) {
     return loading
         ? const Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              color: Colors.black,
+            ),
           )
         : error
             ? const ErrorScreen(
