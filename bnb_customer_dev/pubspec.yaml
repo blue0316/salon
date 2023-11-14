@@ -43,7 +43,7 @@ dependencies:
   flutter_native_splash: any
   flutter_rating_bar: ^4.0.0
   flutter_riverpod: ^1.0.0
-  flutter_screenutil: ^5.8.4
+  flutter_screenutil: ^5.0.4
   flutter_svg: ^1.1.6
   flutter_tags: ^1.0.0-nullsafety.1
   gap: ^3.0.1

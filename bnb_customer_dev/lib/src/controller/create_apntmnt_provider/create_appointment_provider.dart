@@ -2056,7 +2056,7 @@ class CreateAppointmentProvider with ChangeNotifier {
       loadingStatus = Status.success;
       notifyListeners();
     } else {
-      List<MasterModel> _masters = await MastersApi().getAllMaster(salonModel.salonId);
+      List<MasterModel> _masters = await MastersApi(mongodbProvider: mongodbProvider).getAllMaster(salonModel.salonId);
 
       List<ServiceModel> _servicesList = await CategoryServicesApi(
         mongodbProvider: mongodbProvider,
@@ -2099,6 +2099,7 @@ class CreateAppointmentProvider with ChangeNotifier {
           categoryServicesMap[_service.categoryId!] = [];
         }
         categoryServicesMap[_service.categoryId]!.add(_service);
+
         if (categoryServicesMap != {}) {
           // categoryServicesMap[_service.categoryId]!.sort((a, b) => a.bookOrderId != null && b.bookOrderId != null ? a.bookOrderId!.compareTo(b.bookOrderId!) : 1);
 

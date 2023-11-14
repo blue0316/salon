@@ -42,14 +42,21 @@ class _SalonServicesState extends ConsumerState<SalonServices> {
       mainAxisAlignment: MainAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        SectionSpacer(
-          title: (!isSingleMaster)
-              ? salonTitles(
-                  AppLocalizations.of(context)?.localeName ?? 'en',
-                )[0]
-              : masterTitles(
-                  AppLocalizations.of(context)?.localeName ?? 'en',
-                )[0],
+        InkWell(
+          onTap: () {
+            // print(_salonSearchProvider.categories);
+            print('-----------------------------');
+            print(_createAppointmentProvider.categoryServicesMap);
+          },
+          child: SectionSpacer(
+            title: (!isSingleMaster)
+                ? salonTitles(
+                    AppLocalizations.of(context)?.localeName ?? 'en',
+                  )[0]
+                : masterTitles(
+                    AppLocalizations.of(context)?.localeName ?? 'en',
+                  )[0],
+          ),
         ),
         SizedBox(
           // height: 1000.h,

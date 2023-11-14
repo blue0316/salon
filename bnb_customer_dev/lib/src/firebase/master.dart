@@ -59,11 +59,16 @@ class MastersApi {
   Future<List<MasterModel>> getAllMaster(String salonId) async {
     try {
       List<MasterModel> masters = [];
-      QuerySnapshot _response = await Collection.masters.where('salonId', isEqualTo: salonId).get();
-      for (DocumentSnapshot doc in _response.docs) {
-        Map _temp = doc.data() as Map<dynamic, dynamic>;
-        _temp['masterId'] = doc.id;
-        var master = MasterModel.fromJson(_temp as Map<String, dynamic>);
+
+      var _response = await mongodbProvider!.fetchCollection(CollectionMongo.masters).find(
+        filter: {"salonId": salonId},
+      );
+
+      for (var item in _response) {
+        Map<String, dynamic> _temp = json.decode(item.toJson()) as Map<String, dynamic>;
+
+        _temp['masterId'] = _temp["__id__"];
+        var master = MasterModel.fromJson(_temp);
 
         if (master.availableOnline) {
           masters.add(master);
@@ -71,7 +76,7 @@ class MastersApi {
       }
       return masters;
     } catch (e) {
-      // debugPrint(e.toString());
+      debugPrint('Error on getAllMaster() -$e');
       return [];
     }
   }

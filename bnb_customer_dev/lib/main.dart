@@ -4,8 +4,10 @@ import 'dart:convert';
 
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/app_provider.dart';
+import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/mongodb/db_service.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
+import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/home/home_iframe.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
@@ -98,6 +100,7 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   Widget build(BuildContext context) {
     final _bnbProvider = ref.watch(bnbProvider);
+    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
 
     // todo wrap with settings provider
     return loading
@@ -107,7 +110,7 @@ class _MyAppState extends ConsumerState<MyApp> {
             ),
           )
         : ScreenUtilInit(
-            designSize: const Size(414, 896),
+            designSize: !isPortrait ? const Size(1440, 828) : const Size(414, 896),
             minTextAdapt: true,
             builder: (context, c) => MaterialApp.router(
               routerConfig: router,
