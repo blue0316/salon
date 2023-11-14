@@ -169,11 +169,12 @@ class GentleTouchContactCard extends ConsumerWidget {
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
     final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+    final bool isLandscape = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.landScape); // Tab
     ThemeType themeType = _salonProfileProvider.themeType;
 
     return Container(
-      height: 145.h,
-      width: !isPortrait ? 305.h : double.infinity,
+      height: isLandscape ? 180.h : 145.h,
+      width: isPortrait || isLandscape ? double.infinity : 305.h,
       decoration: BoxDecoration(
         border: Border.all(
           color: (themeType == ThemeType.GentleTouch) ? const Color(0XFFD9D9D9) : const Color(0XFF616161),

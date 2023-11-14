@@ -1,14 +1,12 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/models/customer_web_settings.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
-import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/booking_dialog_2.dart';
 import 'package:bbblient/src/views/themes/components/drawer.dart';
 import 'package:bbblient/src/views/themes/icons.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
-import 'package:bbblient/src/views/widgets/image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,7 +25,6 @@ class _GentleTouchDrawerState extends ConsumerState<GentleTouchDrawer> {
   Widget build(BuildContext context) {
     final controller = ref.watch(themeController);
     final _salonProfileProvider = ref.watch(salonProfileProvider);
-    final SalonModel chosenSalon = _salonProfileProvider.chosenSalon;
 
     ThemeType themeType = _salonProfileProvider.themeType;
     final DisplaySettings? displaySettings = _salonProfileProvider.themeSettings?.displaySettings;
@@ -40,16 +37,6 @@ class _GentleTouchDrawerState extends ConsumerState<GentleTouchDrawer> {
       padding: EdgeInsets.symmetric(horizontal: 17.w, vertical: 20.h),
       child: ListView(
         children: [
-          Container(
-            height: 200,
-            width: 900,
-            color: Colors.green,
-          ),
-          Container(
-            height: 200,
-            width: 900,
-            color: Colors.yellow,
-          ),
           IntrinsicHeight(
             child: Column(
               crossAxisAlignment: isPortrait ? CrossAxisAlignment.start : CrossAxisAlignment.center,

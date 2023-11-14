@@ -164,7 +164,7 @@ class _GentleTouchTestingPhoneState extends ConsumerState<GentleTouchTestingPhon
     final DisplaySettings? displaySettings = _salonProfileProvider.themeSettings?.displaySettings;
     final bool isSingleMaster = _salonProfileProvider.isSingleMaster;
     ThemeType themeType = _salonProfileProvider.themeType;
-    final bool isTab = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab);
+    final bool isLandscape = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.landScape);
 
     void submit() {
       _salonProfileProvider.sendEnquiryToSalon(context, salonId: chosenSalon.salonId);
@@ -234,7 +234,6 @@ class _GentleTouchTestingPhoneState extends ConsumerState<GentleTouchTestingPhon
               ? ListView(
                   children: [
                     // ** HEADER ** //
-
                     SizedBox.fromSize(size: Size.zero, key: controller.landing),
                     SizedBox(
                       height: getThemeHeaderHeight(context, themeType),
@@ -251,7 +250,7 @@ class _GentleTouchTestingPhoneState extends ConsumerState<GentleTouchTestingPhon
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   // ThemeAppBar(salonModel: chosenSalon),
-                                  SizedBox(height: isTab ? 150.h : 80.h),
+                                  SizedBox(height: 80.h),
                                   ThemeHeader(salonModel: chosenSalon),
                                 ],
                               ),
@@ -448,11 +447,11 @@ class _GentleTouchTestingPhoneState extends ConsumerState<GentleTouchTestingPhon
                                       MultipleStatesButton(
                                         borderColor: Colors.transparent,
                                         buttonColor: theme.colorScheme.secondary,
-                                        width: 180.sp,
                                         text: (AppLocalizations.of(context)?.bookNow ?? "Book Now"),
                                         weight: FontWeight.normal,
                                         textColor: themeType == ThemeType.GentleTouch ? const Color(0XFFFFFFFF) : Colors.black,
-                                        height: 47.h,
+                                        width: DeviceConstraints.getResponsiveSize(context, 180.sp, 140.sp, 180.sp),
+                                        height: DeviceConstraints.getResponsiveSize(context, 47.h, 55.h, 47.h),
                                         showSuffix: false,
                                         borderRadius: 3,
                                         isGradient: _salonProfileProvider.hasThemeGradient,
@@ -1144,7 +1143,7 @@ class _GentleTouchTestingPhoneState extends ConsumerState<GentleTouchTestingPhon
                             ),
                             SizedBox(height: 30.sp),
                             SizedBox(
-                              height: 80.h,
+                              height: isLandscape ? 120.h : 80.h,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -1175,9 +1174,9 @@ class _GentleTouchTestingPhoneState extends ConsumerState<GentleTouchTestingPhon
                                 ],
                               ),
                             ),
-                            SizedBox(height: 10.sp),
+                            SizedBox(height: isLandscape ? 15.sp : 10.sp),
                             SizedBox(
-                              height: 80.h,
+                              height: isLandscape ? 120.h : 80.h,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -1207,9 +1206,9 @@ class _GentleTouchTestingPhoneState extends ConsumerState<GentleTouchTestingPhon
                                 ],
                               ),
                             ),
-                            SizedBox(height: 10.sp),
+                            SizedBox(height: isLandscape ? 15.sp : 10.sp),
                             SizedBox(
-                              height: 80.h,
+                              height: isLandscape ? 120.h : 80.h,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -1240,9 +1239,9 @@ class _GentleTouchTestingPhoneState extends ConsumerState<GentleTouchTestingPhon
                                 ],
                               ),
                             ),
-                            SizedBox(height: 10.sp),
+                            SizedBox(height: isLandscape ? 15.sp : 10.sp),
                             SizedBox(
-                              height: 80.h,
+                              height: isLandscape ? 120.h : 80.h,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -1272,7 +1271,7 @@ class _GentleTouchTestingPhoneState extends ConsumerState<GentleTouchTestingPhon
                                 ],
                               ),
                             ),
-                            SizedBox(height: 10.sp),
+                            SizedBox(height: isLandscape ? 15.sp : 10.sp),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -1311,7 +1310,7 @@ class _GentleTouchTestingPhoneState extends ConsumerState<GentleTouchTestingPhon
                                   )
                                 : Center(
                                     child: MultipleStatesButton(
-                                      height: 50,
+                                      height: isLandscape ? 60.h : 50,
                                       width: MediaQuery.of(context).size.width,
                                       text: (AppLocalizations.of(context)?.sendMessage ?? "Send Message").toTitleCase(),
                                       onTap: () => submit(),
@@ -1441,9 +1440,9 @@ class _GentleTouchTestingPhoneState extends ConsumerState<GentleTouchTestingPhon
                       ),
 
                     // ** BOTTOM ** //
-                    SizedBox(
+                    const SizedBox(
                       width: double.infinity,
-                      child: isTab ? const UniqueLandscapeLandingBottom() : const UniquePortraitLandingBottom(),
+                      child: UniquePortraitLandingBottom(),
                     )
                   ],
                 )

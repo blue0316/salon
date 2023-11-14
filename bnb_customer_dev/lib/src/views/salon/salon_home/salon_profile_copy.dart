@@ -1,16 +1,11 @@
 // ignore_for_file: file_names
-import 'dart:html' as html;
 import 'dart:async';
-import 'package:bbblient/main.dart';
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
-import 'package:bbblient/src/controller/app_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
-import 'package:bbblient/src/firebase/category_services.dart';
 import 'package:bbblient/src/models/cat_sub_service/category_service.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/routes.dart';
-import 'package:bbblient/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -42,7 +37,7 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
   final ScrollController _scrollController = ScrollController();
   final PageController _pageController = PageController();
   late SalonProfileProvider _salonProfileProvider;
-  int _activeTab = 0;
+  // int _activeTab = 0;
   bool choosen = false;
   List<CategoryModel>? categories;
   List<ServiceModel>? services;
@@ -140,13 +135,10 @@ class _SaloonProfileState extends ConsumerState<SalonPage> {
   @override
   Widget build(BuildContext context) {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
-    final _dbProvider = ref.watch(dbProvider);
 
     return (_salonProfileProvider.loadingStatus == Status.loading)
-        ? Center(
-            child: CircularProgressIndicator(
-              color: Colors.lime[300],
-            ),
+        ? const Center(
+            child: CircularProgressIndicator(),
           )
         : _salonProfileProvider.loadingStatus == Status.failed
             ? const ErrorScreen()

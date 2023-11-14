@@ -57,7 +57,7 @@ class _GentleTouchShopCardState extends ConsumerState<GentleTouchShopCard> {
             ),
           ),
           child: Container(
-            height: 80,
+            height: 100,
 
             decoration: BoxDecoration(
               // color: !isHovered ? (themeType == ThemeType.GentleTouch ? Colors.white : Colors.black) : theme.colorScheme.secondary,
@@ -72,7 +72,7 @@ class _GentleTouchShopCardState extends ConsumerState<GentleTouchShopCard> {
               context,
               size / 1.5.sp,
               size / 2.3.sp,
-              70.w,
+              320.w,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,7 +95,7 @@ class _GentleTouchShopCardState extends ConsumerState<GentleTouchShopCard> {
                       context,
                       size / 1.5.sp,
                       size / 2.3.sp,
-                      70.w,
+                      320.w, // 70.w,
                     ),
 
                     child: (widget.product.productImageUrlList!.isNotEmpty)

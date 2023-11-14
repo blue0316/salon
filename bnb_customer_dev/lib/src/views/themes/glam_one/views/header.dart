@@ -24,7 +24,8 @@ class ThemeHeader extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
-    final bool isTab = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab);
+    final bool isTab = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab); // Desktop
+    final bool isLandscape = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.landScape); // Tab
 
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
     final ThemeData theme = _salonProfileProvider.salonTheme;
@@ -46,7 +47,7 @@ class ThemeHeader extends ConsumerWidget {
               fontSize: DeviceConstraints.getResponsiveSize(
                 context,
                 (themeType == ThemeType.GentleTouch || themeType == ThemeType.GentleTouchDark) ? 70.sp : 50.sp,
-                75.sp,
+                60.sp,
                 85.sp,
               ),
               color: titleHeaderColor(theme, themeType),
@@ -71,6 +72,7 @@ class ThemeHeader extends ConsumerWidget {
         ),
 
         if (themeType != ThemeType.Barbershop) SizedBox(height: DeviceConstraints.getResponsiveSize(context, 100.h, 100.h, 150.h)),
+
         if (themeType != ThemeType.Barbershop)
           Padding(
             padding: EdgeInsets.symmetric(
@@ -82,7 +84,7 @@ class ThemeHeader extends ConsumerWidget {
               direction: Axis.horizontal,
               alignment: WrapAlignment.center,
               children: _salonProfileProvider.chosenSalon.specializations!
-                  .take(8)
+                  .take(isLandscape ? 4 : 8)
                   .map(
                     (item) => GlamOneWrap(text: item),
                   )
@@ -145,11 +147,11 @@ Widget getThemeButton(context, ThemeType themeType, ThemeData theme, {bool hasGr
       return MultipleStatesButton(
         borderColor: Colors.transparent,
         buttonColor: theme.colorScheme.secondary,
-        width: 180.sp,
+        width: DeviceConstraints.getResponsiveSize(context, 180.sp, 140.sp, 180.sp),
         text: (AppLocalizations.of(context)?.bookNow ?? "Book Now"),
         weight: FontWeight.normal,
         textColor: const Color(0XFFFFFFFF),
-        height: 47.h,
+        height: DeviceConstraints.getResponsiveSize(context, 47.h, 55.h, 47.h),
         showSuffix: false,
         borderRadius: 3,
         isGradient: hasGradient,
@@ -160,11 +162,11 @@ Widget getThemeButton(context, ThemeType themeType, ThemeData theme, {bool hasGr
       return MultipleStatesButton(
         borderColor: Colors.transparent,
         buttonColor: theme.colorScheme.secondary,
-        width: 180.sp,
+        width: DeviceConstraints.getResponsiveSize(context, 180.sp, 140.sp, 180.sp),
         text: (AppLocalizations.of(context)?.bookNow ?? "Book Now"),
         weight: FontWeight.normal,
         textColor: Colors.black,
-        height: 47.h,
+        height: DeviceConstraints.getResponsiveSize(context, 47.h, 55.h, 47.h),
         showSuffix: false,
         borderRadius: 3,
         isGradient: hasGradient,

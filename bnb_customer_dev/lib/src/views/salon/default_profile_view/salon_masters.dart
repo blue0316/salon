@@ -1,4 +1,5 @@
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
+import 'package:bbblient/src/models/enums/device_screen_type.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_profile.dart';
 import 'package:bbblient/src/views/salon/default_profile_view/salon_reviews.dart';
@@ -34,6 +35,7 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
     bool isLightTheme = (theme == AppTheme.customLightTheme);
+    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
 
     return !(_salonProfileProvider.showMasterView)
         ? Column(
@@ -46,7 +48,10 @@ class _SalonMastersState extends ConsumerState<SalonMasters> {
                 width: double.infinity,
                 color: theme.canvasColor.withOpacity(!isLightTheme ? 0.7 : 1),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: isPortrait ? 10.w : 20.w,
+                    vertical: 20.h,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,

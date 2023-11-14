@@ -93,7 +93,12 @@ class _SalonAboutState extends ConsumerState<SalonAbout> {
           width: double.infinity,
           color: theme.canvasColor.withOpacity(!isLightTheme ? 0.7 : 1),
           child: Padding(
-            padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 40.h, bottom: 20.h),
+            padding: EdgeInsets.only(
+              left: isPortrait ? 20.w : 40.w,
+              right: isPortrait ? 20.w : 40.w,
+              top: 40.h,
+              bottom: 20.h,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,

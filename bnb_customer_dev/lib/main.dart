@@ -100,17 +100,15 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   Widget build(BuildContext context) {
     final _bnbProvider = ref.watch(bnbProvider);
-    final bool isPortrait = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.portrait);
+    final bool isTab = (DeviceConstraints.getDeviceType(MediaQuery.of(context)) == DeviceScreenType.tab);
 
     // todo wrap with settings provider
     return loading
         ? const Center(
-            child: CircularProgressIndicator(
-              color: Colors.deepPurpleAccent,
-            ),
+            child: CircularProgressIndicator(),
           )
         : ScreenUtilInit(
-            designSize: !isPortrait ? const Size(1440, 828) : const Size(414, 896),
+            designSize: !isTab ? const Size(414, 896) : const Size(1440, 828),
             minTextAdapt: true,
             builder: (context, c) => MaterialApp.router(
               routerConfig: router,
