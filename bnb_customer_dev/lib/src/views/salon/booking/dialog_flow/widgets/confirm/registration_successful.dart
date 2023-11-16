@@ -331,93 +331,97 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
               return;
             }
 
-            if (_salonProfileProvider.chosenSalon.countryCode == 'US') {
-              CustomerModel createNewCustomer = CustomerModel(
-                customerId: "",
-                personalInfo: PersonalInfo(
-                  phone: '${_authProvider.countryCode}${_authProvider.phoneNumber}',
-                  firstName: firstNameController.text,
-                  lastName: lastNameController.text,
-                  description: '',
-                  dob: DateTime.now(),
-                  email: emailController.text,
-                  pronoun: dropdownvalue,
-                ),
-                registeredSalons: [_salonProfileProvider.chosenSalon.salonId],
-                createdAt: DateTime.now(),
-                avgRating: 0,
-                noOfRatings: 0,
-                profilePicUploaded: false,
-                profilePic: "",
-                profileCompleted: false,
-                quizCompleted: false,
-                preferredCategories: [],
-                locations: [],
-                fcmToken: "",
-                locale: 'en',
-                favSalons: [_salonProfileProvider.chosenSalon.salonId],
-                referralLink: "",
-              );
+            CustomerModel createNewCustomer = CustomerModel(
+              customerId: "",
+              personalInfo: PersonalInfo(
+                phone: '${_authProvider.countryCode}${_authProvider.phoneNumber}',
+                firstName: firstNameController.text,
+                lastName: lastNameController.text,
+                description: '',
+                dob: DateTime.now(),
+                email: emailController.text,
+                pronoun: dropdownvalue,
+              ),
+              registeredSalons: [_salonProfileProvider.chosenSalon.salonId],
+              createdAt: DateTime.now(),
+              avgRating: 0,
+              noOfRatings: 0,
+              profilePicUploaded: false,
+              profilePic: "",
+              profileCompleted: false,
+              quizCompleted: false,
+              preferredCategories: [],
+              locations: [],
+              fcmToken: "",
+              locale: 'en',
+              favSalons: [_salonProfileProvider.chosenSalon.salonId],
+              referralLink: "",
+            );
 
-              await _authProvider.createCustomerMongo(newCustomer: createNewCustomer);
+            // if (_salonProfileProvider.chosenSalon.countryCode == 'US') {
+            await _authProvider.createCustomerMongo(newCustomer: createNewCustomer);
 
-              if (_authProvider.updateCustomerPersonalInfoStatus == Status.success) {
-                _createAppointmentProvider.nextPageView(3);
-              }
-            } else {
-              setState(() => loader = true);
-
-              // CHECK IF WE HAVE THIS NUMBER IN OUT DB
-              final CustomerModel? customer = await CustomerApi().findCustomer('$countryCode${phoneNumberController.text.trim()}');
-
-              // IF IT EXISTS - GRAB CUSTOMER INFO
-              if (customer != null) {
-                // UPDATE CUSTOMER INFO
-                PersonalInfo personalInfo = PersonalInfo(
-                  phone: '$countryCode${phoneNumberController.text}',
-                  firstName: firstNameController.text,
-                  lastName: lastNameController.text,
-                  email: emailController.text,
-                  sex: pronounceController.text,
-                );
-
-                await CustomerApi().updatePersonalInfo(
-                  customerId: customer.customerId,
-                  personalInfo: personalInfo,
-                );
-
-                // SET AS CURRENT CUSTOMER
-                _authProvider.setCurrentCustomer(customer);
-                // Go to PageView Order List Screen
+            if (_authProvider.updateCustomerPersonalInfoStatus == Status.success) {
+              if (_salonProfileProvider.chosenSalon.countryCode == 'US') {
                 _createAppointmentProvider.nextPageView(3);
               } else {
-                // IF IT DOESN'T EXISTS - JUMP TO PAGE TO INPUT INFO
-                // CREATE NEW CUSTOMER DOCUMENT
-
-                final CustomerModel? createdCustomer = await CustomerApi().createNewCustomer(
-                  personalInfo: PersonalInfo(
-                    phone: '$countryCode${phoneNumberController.text}',
-                    firstName: firstNameController.text,
-                    lastName: lastNameController.text,
-                    description: "",
-                    dob: null,
-                    email: emailController.text,
-                    sex: pronounceController.text,
-                  ),
-                );
-
-                if (createdCustomer != null) {
-                  _authProvider.setCurrentCustomer(createdCustomer);
-
-                  setState(() => loader = false);
-
-                  _createAppointmentProvider.nextPageView(1);
-                } else {
-                  setState(() => loader = false);
-                  return;
-                }
+                _createAppointmentProvider.nextPageView(2);
               }
             }
+            // } else {
+            //   setState(() => loader = true);
+
+            //   // CHECK IF WE HAVE THIS NUMBER IN OUT DB
+            //   final CustomerModel? customer = await CustomerApi().findCustomer('$countryCode${phoneNumberController.text.trim()}');
+
+            //   // IF IT EXISTS - GRAB CUSTOMER INFO
+            //   if (customer != null) {
+            //     // UPDATE CUSTOMER INFO
+            //     PersonalInfo personalInfo = PersonalInfo(
+            //       phone: '$countryCode${phoneNumberController.text}',
+            //       firstName: firstNameController.text,
+            //       lastName: lastNameController.text,
+            //       email: emailController.text,
+            //       sex: pronounceController.text,
+            //     );
+
+            //     await CustomerApi().updatePersonalInfo(
+            //       customerId: customer.customerId,
+            //       personalInfo: personalInfo,
+            //     );
+
+            //     // SET AS CURRENT CUSTOMER
+            //     _authProvider.setCurrentCustomer(customer);
+            //     // Go to PageView Order List Screen
+            //     _createAppointmentProvider.nextPageView(3);
+            //   } else {
+            //     // IF IT DOESN'T EXISTS - JUMP TO PAGE TO INPUT INFO
+            //     // CREATE NEW CUSTOMER DOCUMENT
+
+            //     final CustomerModel? createdCustomer = await CustomerApi().createNewCustomer(
+            //       personalInfo: PersonalInfo(
+            //         phone: '$countryCode${phoneNumberController.text}',
+            //         firstName: firstNameController.text,
+            //         lastName: lastNameController.text,
+            //         description: "",
+            //         dob: null,
+            //         email: emailController.text,
+            //         sex: pronounceController.text,
+            //       ),
+            //     );
+
+            //     if (createdCustomer != null) {
+            //       _authProvider.setCurrentCustomer(createdCustomer);
+
+            //       setState(() => loader = false);
+
+            //       _createAppointmentProvider.nextPageView(1);
+            //     } else {
+            //       setState(() => loader = false);
+            //       return;
+            //     }
+            //   }
+            // }
           },
           color: dialogButtonColor(themeType, theme),
           borderColor: dialogButtonColor(themeType, theme),

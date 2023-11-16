@@ -230,50 +230,17 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                       _createAppointmentProvider.nextPageView(3); // CUSTOMER EXISTS - Go to PageView Order List Screen
                     } else {
                       printIt('customer does not exist');
-                      _createAppointmentProvider.nextPageView(2); // Go to pageview that has fields to create customer
+                      _createAppointmentProvider.nextPageView(1); // Go to pageview that has fields to create customer
                     }
 
                     setState(() => noVerificationSpinner = false);
-
-                    // // IF IT EXISTS - GRAB CUSTOMER INFO
-                    // if (customer != null) {
-                    //   _auth.setCurrentCustomer(customer);
-                    //   // Go to PageView Order List Screen
-                    //   _createAppointmentProvider.nextPageView(3);
-                    // } else {
-                    //   // IF IT DOESN'T EXISTS - JUMP TO PAGE TO INPUT INFO
-                    //   // CREATE NEW CUSTOMER DOCUMENT
-
-                    //   final CustomerModel? createdCustomer = await CustomerApi().createNewCustomer(
-                    //     personalInfo: PersonalInfo(
-                    //       phone: '$countryCode${_authProvider.phoneNoController.text}',
-                    //       firstName: "",
-                    //       lastName: "",
-                    //       description: "",
-                    //       dob: null,
-                    //       email: "",
-                    //       sex: "",
-                    //     ),
-                    //   );
-
-                    //   if (createdCustomer != null) {
-                    //     _authProvider.setCurrentCustomer(createdCustomer);
-
-                    //     setState(() => noVerificationSpinner = false);
-
-                    //     _createAppointmentProvider.nextPageView(2);
-                    //   } else {
-                    //     setState(() => noVerificationSpinner = false);
-                    //     return;
-                    //   }
-                    // }
                   }
                 },
                 color: dialogButtonColor(themeType, theme),
                 textColor: loaderColor(themeType),
                 height: 60.h,
                 borderColor: dialogButtonColor(themeType, theme),
-                label: (AppLocalizations.of(context)?.sendACode ?? 'Send a code').toCapitalized(),
+                label: (salonModel.countryCode == 'US' ? (AppLocalizations.of(context)?.sendACode ?? 'Send a code') : AppLocalizations.of(context)?.next ?? 'Next').toCapitalized(),
                 isLoading: (noVerificationSpinner == true) || _authProvider.authenticatePhoneStatus == Status.loading,
                 loaderColor: loaderColor(themeType), // defaultTheme ? Colors.white : Colors.black,
                 suffixIcon: Icon(
