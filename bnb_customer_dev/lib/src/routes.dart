@@ -1,12 +1,8 @@
 // ignore_for_file: avoid_web_libraries_in_flutter, unused_local_variableimport 'package:bbblient/main.dart';
 import 'package:bbblient/main.dart';
-import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
 import 'package:bbblient/src/loadingLink.dart';
-import 'package:bbblient/src/models/salon_master/master.dart';
-import 'package:bbblient/src/mongodb/db_service.dart';
 import 'package:bbblient/src/views/appointment/view_appointment.dart';
-import 'package:bbblient/src/views/home/home_iframe.dart';
 import 'package:bbblient/src/views/payment/payment.dart';
 import 'package:bbblient/src/views/policy/policy.dart';
 import 'package:bbblient/src/views/policy/cookies.dart';
@@ -27,7 +23,6 @@ final GoRouter router = GoRouter(
   // urlPathStrategy: UrlPathStrategy.path,
   // observers: [BotToastNavigatorObserver(), Analytics.getObserver()],
   errorBuilder: (context, state) {
-    print('-------------- WHAT THE HELL IS GOING ON??? -------------');
     stylePrint('${state.error?.toString()}');
     // stylePrint('OMO NAWA O23232');
 
@@ -217,12 +212,6 @@ final GoRouter router = GoRouter(
             // debugPrint(salonMaster.toString());
             return MaterialPage(
               key: state.pageKey,
-              // child:
-              //  OmoTest2(
-              //   salonId: id,
-              //   locale: locale,
-              //   showBooking: (showBooking == 'true') ? true : false,
-              // ),
               child: SalonPage(
                 salonId: id,
                 showBackButton: back,

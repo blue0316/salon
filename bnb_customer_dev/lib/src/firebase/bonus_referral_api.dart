@@ -181,9 +181,9 @@ class BonusReferralApi {
           printIt(referredBy.customerId);
           printIt(referredTo.customerId);
           if (referredBy.customerId != referredTo.customerId) {
-            printIt(referredBy.createdAt.difference(referredTo.createdAt).inHours.abs());
+            printIt(referredBy.createdAt!.difference(referredTo.createdAt!).inHours.abs());
             List<String> bonusIds = [];
-            if (referredBy.createdAt.difference(referredTo.createdAt).inHours.abs() < bonusSettings.doubleHours) {
+            if (referredBy.createdAt!.difference(referredTo.createdAt!).inHours.abs() < bonusSettings.doubleHours) {
               for (int i = 0; i < bonusSettings.referralBonusesAmounts.length; i++) {
                 String bonusId = await addBonus(
                     bonusModel: BonusModel(
@@ -201,7 +201,7 @@ class BonusReferralApi {
                 ));
                 bonusIds.add(bonusId);
               }
-            } else if (referredBy.createdAt.difference(referredTo.createdAt).inHours.abs() > bonusSettings.doubleHours) {
+            } else if (referredBy.createdAt!.difference(referredTo.createdAt!).inHours.abs() > bonusSettings.doubleHours) {
               String bonusId = await addBonus(
                   bonusModel: BonusModel(
                 bonusType: BonusTypes.referralBonus,

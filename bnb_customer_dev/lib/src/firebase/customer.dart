@@ -1,49 +1,63 @@
+import 'dart:convert';
 import 'package:bbblient/src/models/customer/credit_card.dart';
 import 'package:bbblient/src/models/customer/customer.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
+import 'package:bbblient/src/mongodb/collection.dart';
+import 'package:bbblient/src/mongodb/db_service.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_mongodb_realm/flutter_mongo_realm.dart';
 import 'collections.dart';
 
 class CustomerApi {
-  CustomerApi._privateConstructor();
-  static final CustomerApi _instance = CustomerApi._privateConstructor();
-  factory CustomerApi() {
+  // CustomerApi._privateConstructor();
+  // static final CustomerApi _instance = CustomerApi._privateConstructor();
+  // factory CustomerApi() {
+  //   return _instance;
+  // }
+  // final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+  CustomerApi._privateConstructor(this.mongodbProvider);
+
+  static final CustomerApi _instance = CustomerApi._privateConstructor(null);
+
+  factory CustomerApi({DatabaseProvider? mongodbProvider}) {
+    _instance.mongodbProvider = mongodbProvider;
     return _instance;
   }
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+  DatabaseProvider? mongodbProvider;
 
   Future<CustomerModel?> getCustomer() async {
-    try {
-      if (_firebaseAuth.currentUser == null) return null;
+    // try {
+    //   if (_firebaseAuth.currentUser == null) return null;
 
-      DocumentSnapshot snap = await Collection.customersAdmins.doc(_firebaseAuth.currentUser?.uid).get();
+    //   DocumentSnapshot snap = await Collection.customersAdmins.doc(_firebaseAuth.currentUser?.uid).get();
 
-      if (snap.exists) {
-        Map<String, dynamic> adminData = snap.data() as Map<String, dynamic>;
-        DocumentSnapshot doc = await Collection.customers.doc(adminData['customerIds'][0]).get();
+    //   if (snap.exists) {
+    //     Map<String, dynamic> adminData = snap.data() as Map<String, dynamic>;
+    //     DocumentSnapshot doc = await Collection.customers.doc(adminData['customerIds'][0]).get();
 
-        printIt(doc.data());
-        if (doc.exists) {
-          Map<String, dynamic> customerMap = doc.data() as Map<String, dynamic>;
-          customerMap['customerId'] = doc.id;
-          final CustomerModel customer = CustomerModel.fromJson(customerMap);
-          customer.customerId = doc.id;
+    //     printIt(doc.data());
+    //     if (doc.exists) {
+    //       Map<String, dynamic> customerMap = doc.data() as Map<String, dynamic>;
+    //       customerMap['customerId'] = doc.id;
+    //       final CustomerModel customer = CustomerModel.fromJson(customerMap);
+    //       customer.customerId = doc.id;
 
-          // FCMTokenHandler.updateCustomerFCMToken(customer);
+    //       // FCMTokenHandler.updateCustomerFCMToken(customer);
 
-          return customer;
-        } else {
-          return null;
-        }
-      } else {
-        return null;
-      }
-    } catch (e) {
-      printIt('error in getting customer');
-      printIt(e);
-    }
+    //       return customer;
+    //     } else {
+    //       return null;
+    //     }
+    //   } else {
+    //     return null;
+    //   }
+    // } catch (e) {
+    //   printIt('error in getting customer');
+    //   printIt(e);
+    // }
     return null;
   }
 
@@ -146,17 +160,31 @@ class CustomerApi {
     }
   }
 
-  updatePersonalInfo({
-    required String customerId,
-    required PersonalInfo personalInfo,
-    String? gender,
-  }) async {
+  createNewCustomerMongo({required CustomerModel newCustomer}) async {
+    try {
+      final _docRef = await mongodbProvider!.fetchCollection(CollectionMongo.customers).insertOne(
+            MongoDocument(newCustomer.toJson()),
+          );
+
+      if (_docRef != null) {
+        String val = _docRef.toHexString();
+        final selector = {"_id": _docRef};
+
+        final modifier = UpdateOperator.set({"path": 'customers/$val', "customerId": val});
+        await mongodbProvider!.fetchCollection(CollectionMongo.customers).updateOne(
+              filter: selector,
+              update: modifier,
+            );
+      }
+    } catch (e) {
+      printIt('Catch error on updatePersonalInfo() - $e');
+    }
+  }
+
+  updatePersonalInfo({required String customerId, required PersonalInfo personalInfo}) async {
     try {
       await Collection.customers.doc(customerId).update(
-        {
-          'personalInfo': personalInfo.toJson(),
-          'preferredGender': gender ?? 'male',
-        },
+        {'personalInfo': personalInfo.toJson()},
       );
     } catch (e) {
       printIt('Catch error on updatePersonalInfo() - $e');
@@ -164,43 +192,43 @@ class CustomerApi {
   }
 
   Future<String?> updateCustomer({required CustomerModel customerModel}) async {
-    try {
-      DocumentSnapshot snap = await Collection.customersAdmins.doc(_firebaseAuth.currentUser?.uid).get();
-      printIt(snap.data());
-      if (snap.exists) {
-        Map<String, dynamic> adminData = snap.data() as Map<String, dynamic>;
-        await Collection.customers.doc(adminData['customerIds'][0]).set(customerModel.toJson());
-      } else {
-        DocumentReference doc = await Collection.customers.add(customerModel.toJson());
-        await Collection.customersAdmins.doc(_firebaseAuth.currentUser?.uid).set({
-          'customerIds': [doc.id]
-        });
-      }
-    } catch (e) {
-      printIt(e);
-      return null;
-    }
+    // try {
+    //   DocumentSnapshot snap = await Collection.customersAdmins.doc(_firebaseAuth.currentUser?.uid).get();
+    //   printIt(snap.data());
+    //   if (snap.exists) {
+    //     Map<String, dynamic> adminData = snap.data() as Map<String, dynamic>;
+    //     await Collection.customers.doc(adminData['customerIds'][0]).set(customerModel.toJson());
+    //   } else {
+    //     DocumentReference doc = await Collection.customers.add(customerModel.toJson());
+    //     await Collection.customersAdmins.doc(_firebaseAuth.currentUser?.uid).set({
+    //       'customerIds': [doc.id]
+    //     });
+    //   }
+    // } catch (e) {
+    //   printIt(e);
+    //   return null;
+    // }
     return null;
   }
 
   Future<bool> addCustomerLocation({required Position newPosition}) async {
-    try {
-      DocumentSnapshot snap = await Collection.customersAdmins.doc(_firebaseAuth.currentUser?.uid).get();
-      printIt(snap.data());
-      if (snap.exists) {
-        Map<String, dynamic> adminData = snap.data() as Map<String, dynamic>;
-        await Collection.customers.doc(adminData['customerIds'][0]).update(
-          {
-            'locations': [newPosition.toJson()]
-          },
-        );
-        return true;
-      } else {
-        return false;
-      }
-    } catch (e) {
-      return false;
-    }
+    // try {
+    //   DocumentSnapshot snap = await Collection.customersAdmins.doc(_firebaseAuth.currentUser?.uid).get();
+    //   printIt(snap.data());
+    //   if (snap.exists) {
+    //     Map<String, dynamic> adminData = snap.data() as Map<String, dynamic>;
+    //     await Collection.customers.doc(adminData['customerIds'][0]).update(
+    //       {
+    //         'locations': [newPosition.toJson()]
+    //       },
+    //     );
+    //     return true;
+    //   } else {
+    //     return false;
+    //   }
+    // } catch (e) {
+    return false;
+    // }
   }
 
   Future<bool> createCard({required String customerId, required CreditCard card}) async {
@@ -218,24 +246,22 @@ class CustomerApi {
   }
 
   Future<CustomerModel?> findCustomer(String number) async {
-    printIt(number);
     try {
-      Query snap = Collection.customers.where('personalInfo.phone', isEqualTo: number);
+      var _response = await mongodbProvider!.fetchCollection(CollectionMongo.customers).findOne(
+        filter: {"personalInfo.phone": number},
+      );
 
-      final getData = await snap.get();
-      if (getData.docs.isEmpty) {
-        return null;
-      } else {
-        Map<String, dynamic> customerMap = getData.docs.first.data() as Map<String, dynamic>;
-        customerMap['customerId'] = getData.docs.first.id;
+      if (_response != null) {
+        Map<String, dynamic> customerMap = json.decode(_response.toJson()) as Map<String, dynamic>;
+        customerMap['customerId'] = customerMap["customerMap"];
         final CustomerModel customer = CustomerModel.fromJson(customerMap);
-        // final CustomerModel customer = CustomerModel.fromJson(getData.docs.first.data() as Map<String, dynamic>);
-
         return customer;
       }
-    } catch (e) {
-      printIt('error in getting customer');
-      printIt(e);
+
+      return null;
+    } catch (err) {
+      printIt('Error on findCustomer() -$err');
+
       return null;
     }
   }
@@ -255,7 +281,6 @@ class CustomerApi {
         profilePic: "",
         profileCompleted: false,
         quizCompleted: false,
-        preferredGender: "male",
         preferredCategories: [],
         locations: [],
         fcmToken: "",

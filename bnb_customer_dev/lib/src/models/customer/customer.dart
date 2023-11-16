@@ -1,8 +1,9 @@
-import '../salon_master/salon.dart';
+import 'package:bbblient/src/models/salon_master/salon.dart';
+import 'package:bbblient/src/utils/time.dart';
 
 class CustomerModel {
   late String customerId;
-  late DateTime createdAt;
+  late DateTime? createdAt;
   late PersonalInfo personalInfo;
   late int noOfRatings;
   late double avgRating;
@@ -12,7 +13,7 @@ class CustomerModel {
   late String profilePic;
   late List<String> registeredSalons;
   late List<Position> locations;
-  late String preferredGender;
+  // late String preferredGender;
   late List<String> preferredCategories;
   late String fcmToken;
   late String locale;
@@ -32,7 +33,7 @@ class CustomerModel {
     required this.profilePic,
     required this.profileCompleted,
     required this.quizCompleted,
-    required this.preferredGender,
+    // required this.preferredGender,
     required this.preferredCategories,
     required this.locations,
     required this.fcmToken,
@@ -42,7 +43,9 @@ class CustomerModel {
   });
 
   CustomerModel.fromJson(Map<String, dynamic> json) {
-    createdAt = json['createdAt'] != null ? json['createdAt'].toDate() : DateTime.now();
+    createdAt = json['createdAt'] != null ? Time().convertToMongoTimeMore3(json: json, timeTitle: 'createdAt', time: json['createdAt']) : DateTime.now();
+
+    // DateTime.parse(json['createdAt']["__time__"]) : DateTime.now();
     customerId = json['customerId'] ?? '';
     personalInfo = PersonalInfo.fromJson(json['personalInfo']);
     registeredSalons = json['registeredSalons'] == null ? [] : json['registeredSalons'].cast<String>();
@@ -52,7 +55,7 @@ class CustomerModel {
     quizCompleted = json['quizCompleted'] ?? false;
     profilePicUploaded = json['profilePicUploaded'] ?? false;
     profilePic = json['profilePic'] ?? '';
-    preferredGender = json['preferredGender'] ?? 'all';
+    // preferredGender = json['preferredGender'] ?? 'all';
     preferredCategories = json['preferredCategories'] == null ? [] : json['preferredCategories'].cast<String>();
     favSalons = json['favSalons'] == null ? [] : json['favSalons'].cast<String>();
     fcmToken = json['fcmToken'] ?? '';
@@ -64,14 +67,14 @@ class CustomerModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
-    data['createdAt'] = createdAt;
+    data['createdAt'] = createdAt?.toIso8601String();
     data['customerId'] = customerId;
     data['personalInfo'] = personalInfo.toJson();
     data['registeredSalons'] = registeredSalons;
     data['avgRating'] = avgRating;
     data['noOfRatings'] = noOfRatings;
     data['profilePic'] = profilePic;
-    data['preferredGender'] = preferredGender;
+    // data['preferredGender'] = preferredGender;
     data['preferredCategories'] = preferredCategories;
     data['locations'] = locations.map<Map<String, dynamic>>((loc) => loc.toJson()).toList();
     data['favSalons'] = favSalons;
@@ -94,6 +97,7 @@ class PersonalInfo {
     this.description,
     this.dob,
     this.sex,
+    this.pronoun,
   });
   late String phone;
   late String firstName;
@@ -103,6 +107,7 @@ class PersonalInfo {
   String? description;
   DateTime? dob;
   String? sex;
+  String? pronoun;
 
   PersonalInfo.fromJson(Map<String, dynamic> json) {
     phone = json['phone'];
@@ -110,8 +115,9 @@ class PersonalInfo {
     lastName = json['lastName'] ?? '';
     email = json['email'];
     description = json['description'];
-    dob = json['dob']?.toDate() ?? DateTime.now();
+    dob = json['dob'] == null ? DateTime.parse(json['dob']["__time__"]) : DateTime.now();
     sex = json['sex'];
+    pronoun = json['pronoun'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
@@ -121,7 +127,8 @@ class PersonalInfo {
     data['lastName'] = lastName;
     data['email'] = email;
     data['description'] = description;
-    data['dob'] = dob;
+    data['dob'] = dob?.toIso8601String();
+    data['pronoun'] = pronoun;
     data['sex'] = sex;
     return data;
   }

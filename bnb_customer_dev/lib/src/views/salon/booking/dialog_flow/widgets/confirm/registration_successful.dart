@@ -1,4 +1,5 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/controller/app_provider.dart';
 import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
@@ -330,28 +331,39 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
               return;
             }
 
-            PersonalInfo _personalInfo;
-
             if (_salonProfileProvider.chosenSalon.countryCode == 'US') {
-              CustomerModel? currentCustomer = _authProvider.currentCustomer;
-
-              _personalInfo = PersonalInfo(
-                phone: currentCustomer!.personalInfo.phone,
-                firstName: firstNameController.text,
-                lastName: lastNameController.text,
-                description: currentCustomer.personalInfo.description ?? '',
-                dob: currentCustomer.personalInfo.dob ?? DateTime.now().subtract(const Duration(days: 365 * 26)),
-                email: emailController.text,
-                sex: currentCustomer.personalInfo.sex ?? '',
+              CustomerModel createNewCustomer = CustomerModel(
+                customerId: "",
+                personalInfo: PersonalInfo(
+                  phone: '${_authProvider.countryCode}${_authProvider.phoneNumber}',
+                  firstName: firstNameController.text,
+                  lastName: lastNameController.text,
+                  description: '',
+                  dob: DateTime.now(),
+                  email: emailController.text,
+                  pronoun: dropdownvalue,
+                ),
+                registeredSalons: [_salonProfileProvider.chosenSalon.salonId],
+                createdAt: DateTime.now(),
+                avgRating: 0,
+                noOfRatings: 0,
+                profilePicUploaded: false,
+                profilePic: "",
+                profileCompleted: false,
+                quizCompleted: false,
+                preferredCategories: [],
+                locations: [],
+                fcmToken: "",
+                locale: 'en',
+                favSalons: [_salonProfileProvider.chosenSalon.salonId],
+                referralLink: "",
               );
 
-              await _authProvider.updateCustomerPersonalInfo(
-                customerId: currentCustomer.customerId,
-                personalInfo: _personalInfo,
-                gender: dropdownvalue,
-              );
+              await _authProvider.createCustomerMongo(newCustomer: createNewCustomer);
 
-              _createAppointmentProvider.nextPageView(3);
+              if (_authProvider.updateCustomerPersonalInfoStatus == Status.success) {
+                _createAppointmentProvider.nextPageView(3);
+              }
             } else {
               setState(() => loader = true);
 

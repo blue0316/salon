@@ -1,4 +1,5 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/controller/app_provider.dart';
 import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
@@ -6,17 +7,16 @@ import 'package:bbblient/src/firebase/customer.dart';
 import 'package:bbblient/src/models/customer/customer.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
+import 'package:bbblient/src/mongodb/db_service.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/utils/utils.dart';
-import 'package:bbblient/src/views/registration/authenticate/login.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/colors.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
 import 'package:bbblient/src/views/widgets/buttons.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:country_code_picker/country_code_picker.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -61,6 +61,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
     final AuthProviderController _authProvider = ref.watch(authProvider);
     final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
     SalonModel salonModel = _salonProfileProvider.chosenSalon;
+    final DatabaseProvider _dbProvider = ref.watch(dbProvider);
 
     final _auth = ref.watch(authProvider);
 
@@ -166,38 +167,32 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                 borderRadius: 60,
                 onTap: () async {
                   if (_authProvider.phoneNoController.text.isEmpty) {
-                    showToast(
-                      AppLocalizations.of(context)?.pleaseEnterPhoneNumber ?? 'Please enter your phone number',
-                    );
+                    showToast(AppLocalizations.of(context)?.pleaseEnterPhoneNumber ?? 'Please enter your phone number');
                     return;
                   }
 
-                  debugPrint('@@@#####*******************@@@@#####');
-                  debugPrint(_authProvider.countryCode);
-                  debugPrint(_authProvider.phoneNoController.text);
-                  debugPrint('@@@#####*******************@@@@#####');
-
-                  showToast(
-                    AppLocalizations.of(context)?.pleaseWait ?? "Please wait",
-                  );
+                  showToast(AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
 
                   /// only run phone verfication if country code is US
                   if (salonModel.countryCode == 'US') {
-                    // If user has logged in with another number and decides to use a new number to book
-                    if (FirebaseAuth.instance.currentUser?.phoneNumber != null && FirebaseAuth.instance.currentUser?.phoneNumber != _authProvider.phoneNoController.text) {
-                      // Log the former account out
-                      await _auth.signOut();
-                    }
+                    /* 
+                    1. GET PHONE NUMBER
+                    2. SEND OTP CODE TO PHONE NUMBER
+                    3. VERIFY OTP
+                    4. CHECK IF CUSTOMER DATA EXISTS IN DATABASE
+                    4a. IF TRUE, GO TO NEXT PAGE
+                    4b. IF FALSE, ADD TO CUSTOMER COLLECTION THEN GO TO NEXT PAGE
+                     
+                    */
 
-                    // send otp
-                    if (!_auth.userLoggedIn) {
-                      await _auth.verifyPhoneNumber(
-                        context: context,
-                        code: countryCode,
-                        phone: _authProvider.phoneNoController.text,
-                      );
+                    // SEND OTP TO NUMBER
+                    await _auth.authenticatePhone(
+                      context,
+                      code: countryCode,
+                      phone: _authProvider.phoneNoController.text,
+                      otpSent: () {
+                        _createAppointmentProvider.nextPageView(1);
 
-                      if (_auth.otpStatus != Status.failed) {
                         showTopSnackBar(
                           context,
                           CustomSnackBar.success(
@@ -210,77 +205,68 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                           ),
                           displayDuration: const Duration(seconds: 2),
                         );
-                        checkUser2(
-                          context,
-                          ref,
-                          isLoggedIn: () {},
-                          notLoggedIn: () {
-                            _createAppointmentProvider.nextPageView(1);
-                          },
-                        ); // , appointmentModel: appointment);
-                      } else {
-                        showToast(AppLocalizations.of(context)?.somethingWentWrong ?? 'Something went wrong');
-                        return;
-                      }
-                    } else {
-                      printIt('*********************');
-                      printIt('user is logged in');
-                      printIt('*********************');
-
-                      CustomerModel? currentCustomer = _auth.currentCustomer;
-                      if (currentCustomer != null) {
-                        if (currentCustomer.personalInfo.firstName == '' || currentCustomer.personalInfo.email == null) {
-                          // Customer Personal Info is missing name and email
-
-                          // Go to pageview that has fields to update personal info
-                          _createAppointmentProvider.nextPageView(2); // PageView screen that contains name and email fields
-                        } else {
-                          // Go to PageView Order List Screen
-                          _createAppointmentProvider.nextPageView(3);
-                        }
-                      }
-                    }
+                      },
+                    );
                   } else {
                     setState(() => noVerificationSpinner = true);
 
-                    // Check if that number exists on our db and grab the info
-                    // If it doesn’t, we show the page to input info
+                    /*
+                    SINCE WE ARE NOT RUNNING VERIFICATION FOR NON US COUNTRIES
+                    1. CHECK IF CUSTOMER EXISTS ALREADY IN DB (PHONE NUMBER)
+                    2. IF IT EXISTS, GO TO ORDER DETAILS (PAGEVIEW 3)
+                    3. ELSE GO TO PAGEVIEW 2 TO CREATE NEW CUSTOMER
+                    */
 
-                    // CHECK IF WE HAVE THIS NUMBER IN OUT DB
-                    final CustomerModel? customer = await CustomerApi().findCustomer('$countryCode${_authProvider.phoneNoController.text.trim()}');
+                    // CHECK IF CUSTOMER DATA EXISTS IN DATABASE
+                    final CustomerModel? customer = await CustomerApi(mongodbProvider: _dbProvider).findCustomer(
+                      '${_auth.countryCode}${_auth.phoneNoController.text.trim()}',
+                    );
 
-                    // IF IT EXISTS - GRAB CUSTOMER INFO
+                    stylePrint(customer);
+
                     if (customer != null) {
+                      printIt('customer exists');
                       _auth.setCurrentCustomer(customer);
-                      // Go to PageView Order List Screen
-                      _createAppointmentProvider.nextPageView(3);
+                      _createAppointmentProvider.nextPageView(3); // CUSTOMER EXISTS - Go to PageView Order List Screen
                     } else {
-                      // IF IT DOESN'T EXISTS - JUMP TO PAGE TO INPUT INFO
-                      // CREATE NEW CUSTOMER DOCUMENT
-
-                      final CustomerModel? createdCustomer = await CustomerApi().createNewCustomer(
-                        personalInfo: PersonalInfo(
-                          phone: '$countryCode${_authProvider.phoneNoController.text}',
-                          firstName: "",
-                          lastName: "",
-                          description: "",
-                          dob: null,
-                          email: "",
-                          sex: "",
-                        ),
-                      );
-
-                      if (createdCustomer != null) {
-                        _authProvider.setCurrentCustomer(createdCustomer);
-
-                        setState(() => noVerificationSpinner = false);
-
-                        _createAppointmentProvider.nextPageView(2);
-                      } else {
-                        setState(() => noVerificationSpinner = false);
-                        return;
-                      }
+                      printIt('customer does not exist');
+                      _createAppointmentProvider.nextPageView(2); // Go to pageview that has fields to create customer
                     }
+
+                    setState(() => noVerificationSpinner = false);
+
+                    // // IF IT EXISTS - GRAB CUSTOMER INFO
+                    // if (customer != null) {
+                    //   _auth.setCurrentCustomer(customer);
+                    //   // Go to PageView Order List Screen
+                    //   _createAppointmentProvider.nextPageView(3);
+                    // } else {
+                    //   // IF IT DOESN'T EXISTS - JUMP TO PAGE TO INPUT INFO
+                    //   // CREATE NEW CUSTOMER DOCUMENT
+
+                    //   final CustomerModel? createdCustomer = await CustomerApi().createNewCustomer(
+                    //     personalInfo: PersonalInfo(
+                    //       phone: '$countryCode${_authProvider.phoneNoController.text}',
+                    //       firstName: "",
+                    //       lastName: "",
+                    //       description: "",
+                    //       dob: null,
+                    //       email: "",
+                    //       sex: "",
+                    //     ),
+                    //   );
+
+                    //   if (createdCustomer != null) {
+                    //     _authProvider.setCurrentCustomer(createdCustomer);
+
+                    //     setState(() => noVerificationSpinner = false);
+
+                    //     _createAppointmentProvider.nextPageView(2);
+                    //   } else {
+                    //     setState(() => noVerificationSpinner = false);
+                    //     return;
+                    //   }
+                    // }
                   }
                 },
                 color: dialogButtonColor(themeType, theme),
@@ -288,7 +274,7 @@ class _EnterNumberState extends ConsumerState<EnterNumber> {
                 height: 60.h,
                 borderColor: dialogButtonColor(themeType, theme),
                 label: (AppLocalizations.of(context)?.sendACode ?? 'Send a code').toCapitalized(),
-                isLoading: (noVerificationSpinner == true) || _authProvider.otpStatus == Status.loading,
+                isLoading: (noVerificationSpinner == true) || _authProvider.authenticatePhoneStatus == Status.loading,
                 loaderColor: loaderColor(themeType), // defaultTheme ? Colors.white : Colors.black,
                 suffixIcon: Icon(
                   Icons.arrow_forward_ios_rounded,

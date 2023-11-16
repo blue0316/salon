@@ -1,6 +1,5 @@
 // ignore_for_file: avoid_function_literals_in_foreach_calls
 
-import 'package:bbblient/src/controller/app_provider.dart';
 import 'package:bbblient/src/firebase/appointment_availability.dart';
 import 'package:bbblient/src/firebase/appointments.dart';
 import 'package:bbblient/src/firebase/category_services.dart';

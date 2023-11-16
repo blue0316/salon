@@ -152,7 +152,7 @@ class QuizProvider with ChangeNotifier {
     );
     customer.locale = locale;
 
-    customer.preferredGender = preferredGender;
+    // customer.preferredGender = preferredGender;
     customer.preferredCategories = selectedCategories;
     // customer.locations = [
     //   myLocation != null

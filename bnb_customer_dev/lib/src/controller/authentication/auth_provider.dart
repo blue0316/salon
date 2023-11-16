@@ -1,17 +1,17 @@
-// ignore_for_file: unnecessary_null_comparison
+// ignore_for_file: unnecessary_null_comparison, unused_field
 
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/controller/app_provider.dart';
 import 'package:bbblient/src/controller/bnb/bnb_provider.dart';
 import 'package:bbblient/src/firebase/admin.dart';
-// import 'package:bbblient/src/firebase/bonus_referral_api.dart';
 import 'package:bbblient/src/firebase/customer.dart';
 import 'package:bbblient/src/models/customer/customer.dart';
-// import 'package:bbblient/src/models/customer/customer_auth_error.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
+import 'package:bbblient/src/mongodb/db_service.dart';
+import 'package:bbblient/src/mongodb/network_handler.dart';
 import 'package:bbblient/src/utils/error_codes.dart';
 import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/utils/utils.dart';
@@ -27,15 +27,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:top_snackbar_flutter/custom_snack_bar.dart';
-// import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../create_apntmnt_provider/create_appointment_provider.dart';
 
 class AuthProviderController with ChangeNotifier {
+  AuthProviderController({required this.mongodbProvider});
+  DatabaseProvider mongodbProvider;
+
   static final FirebaseAuth _auth = FirebaseAuth.instance;
-  // static final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-  //       final TextEditingController firstnamecontroller = TextEditingController();
-  // final TextEditingController lastnamecontroller = TextEditingController();
   String? verificationCode;
   bool userLoggedIn = false;
   User? user;
@@ -65,6 +63,8 @@ class AuthProviderController with ChangeNotifier {
   int start = 60;
   late CreateAppointmentProvider createAppointment;
   TextEditingController phoneNoController = TextEditingController();
+  Status authenticatePhoneStatus = Status.init;
+  Status verifyOTPStatus = Status.init;
 
   Future signOut() async {
     initialUserCreated = false;
@@ -180,6 +180,87 @@ class AuthProviderController with ChangeNotifier {
 
   ConfirmationResult? webOTPConfirmationResult;
   ConfirmationResult? phoneVerificationResult;
+
+  /// MONGO MIGRATION
+  Future<void> authenticatePhone(
+    BuildContext context, {
+    required String code,
+    required String phone,
+    required Function otpSent,
+  }) async {
+    try {
+      printIt("sending phone number");
+      String _phone = "$code$phone";
+      printIt(_phone);
+
+      authenticatePhoneStatus = Status.loading;
+      notifyListeners();
+
+      if (phone.length < 8 || phone.length > 10) {
+        showToast(AppLocalizations.of(context)?.invalid_phone_number ?? 'Invalid phone No');
+
+        authenticatePhoneStatus = Status.init;
+        notifyListeners();
+        return;
+      } else {
+        var response = await NetworkHandler().postRequest(
+          '$hostUrl/otp/send',
+          {"phoneNumber": _phone},
+        );
+
+        if (response != null) {
+          if (response['success']) {
+            otpSent();
+          }
+
+          countryCode = code;
+          authenticatePhoneStatus = Status.init;
+          notifyListeners();
+        } else {
+          showToast(AppLocalizations.of(context)?.somethingWentWrong ?? 'Something went wrong');
+          return;
+        }
+      }
+
+      authenticatePhoneStatus = Status.init;
+      notifyListeners();
+    } catch (err) {
+      stylePrint('Error on authenticatePhone() - $err');
+      showToast(AppLocalizations.of(context)?.somethingWentWrong ?? 'Something went wrong');
+    }
+  }
+
+  Future<void> verifyOtpReceived(BuildContext context, {required String otp}) async {
+    printIt("verifying otp");
+
+    verifyOTPStatus = Status.loading;
+    notifyListeners();
+
+    try {
+      var response = await NetworkHandler().postRequest(
+        '$hostUrl/otp/verify-otp',
+        {
+          "phoneNumber": "$countryCode${phoneNoController.text}",
+          "otp": otp,
+        },
+      );
+
+      if (response != null && response['success']) {
+        verifyOTPStatus = Status.success;
+        notifyListeners();
+      } else {
+        showToast(AppLocalizations.of(context)?.somethingWentWrong ?? 'Something went wrong');
+        verifyOTPStatus = Status.failed;
+        notifyListeners();
+        return;
+      }
+    } catch (err) {
+      stylePrint('Error on verifyOtpReceived() - $err');
+      showToast(AppLocalizations.of(context)?.somethingWentWrong ?? 'Something went wrong');
+      verifyOTPStatus = Status.failed;
+      notifyListeners();
+    }
+  }
 
   Future<void> verifyPhoneNumber({required BuildContext context, required String phone, required String code}) async {
     final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -532,17 +613,35 @@ class AuthProviderController with ChangeNotifier {
     }
   }
 
+  Future<bool> createCustomerMongo({required CustomerModel newCustomer}) async {
+    printIt('Updating customer info');
+    updateCustomerPersonalInfoStatus = Status.loading;
+    notifyListeners();
+
+    try {
+      await CustomerApi(mongodbProvider: mongodbProvider).createNewCustomerMongo(newCustomer: newCustomer);
+
+      updateCustomerPersonalInfoStatus = Status.success;
+      notifyListeners();
+
+      printIt('Customer info updated');
+      return true;
+    } catch (err) {
+      printIt('Catch error on updateCustomerPersonalInfo() - $err');
+
+      updateCustomerPersonalInfoStatus = Status.failed;
+      notifyListeners();
+      return false;
+    }
+  }
+
   Future<bool> updateCustomerPersonalInfo({required String customerId, required PersonalInfo personalInfo, String? gender}) async {
     printIt('Updating customer info');
     updateCustomerPersonalInfoStatus = Status.loading;
     notifyListeners();
 
     try {
-      await CustomerApi().updatePersonalInfo(
-        customerId: customerId,
-        personalInfo: personalInfo,
-        gender: gender,
-      );
+      await CustomerApi().updatePersonalInfo(customerId: customerId, personalInfo: personalInfo);
 
       currentCustomer!.personalInfo = personalInfo;
 
@@ -624,12 +723,11 @@ class AuthProviderController with ChangeNotifier {
       avgRating: 0,
       noOfRatings: 0,
       locations: [
-        Position(geoHash: 'u8vwyxct5', geoPoint: const GeoPoint(50.44872086752114, 30.52221357822418)),
+        // Position(geoHash: 'u8vwyxct5', geoPoint: const GeoPoint(50.44872086752114, 30.52221357822418)),
       ],
       profileCompleted: false,
       profilePicUploaded: false,
       quizCompleted: false,
-      preferredGender: '',
       registeredSalons: [],
       fcmToken: '',
       // fcmToken: fcmToken ?? '',
@@ -705,7 +803,6 @@ class AuthProviderController with ChangeNotifier {
       profilePic: "",
       profileCompleted: false,
       quizCompleted: false,
-      preferredGender: "male",
       preferredCategories: [],
       locations: [],
       fcmToken: "",

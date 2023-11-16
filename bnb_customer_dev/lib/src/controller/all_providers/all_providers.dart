@@ -56,9 +56,15 @@ final appointmentProvider = ChangeNotifierProvider<AppointmentProvider>(
   (ref) => AppointmentProvider(),
 );
 
-final authProvider = ChangeNotifierProvider<AuthProviderController>((ref) {
-  return AuthProviderController();
-});
+final authProvider = ChangeNotifierProvider<AuthProviderController>(
+  (ref) {
+    final DatabaseProvider mongodbProvider = ref.watch(dbProvider);
+
+    return AuthProviderController(
+      mongodbProvider: mongodbProvider,
+    );
+  },
+);
 
 final userProfileProvider = ChangeNotifierProvider<UserProfileProvider>(
   (ref) => UserProfileProvider(),

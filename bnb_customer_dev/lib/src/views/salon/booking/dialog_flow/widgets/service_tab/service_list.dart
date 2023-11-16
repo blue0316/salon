@@ -108,7 +108,7 @@ class ServiceCard extends ConsumerWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(
             vertical: 17.sp,
-            horizontal: DeviceConstraints.getResponsiveSize(context, 15.w, 7.w, 7.w),
+            horizontal: DeviceConstraints.getResponsiveSize(context, 15.w, 10.w, 7.w),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,7 +125,7 @@ class ServiceCard extends ConsumerWidget {
                       service.translations?[AppLocalizations.of(context)?.localeName ?? 'en'] ?? service.translations?['en'] ?? '', // 'Eyebrow Tinting',
                       style: theme.textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w500,
-                        fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
+                        fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 18.sp),
                         color: isAddedSelectedColor(themeType), // isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary,
                         fontFamily: 'Inter',
                       ),
@@ -142,7 +142,7 @@ class ServiceCard extends ConsumerWidget {
                             : "${getCurrency(salonModel.countryCode!)}${service.priceAndDuration!.price ?? '0'}",
                     style: theme.textTheme.bodyLarge!.copyWith(
                       fontWeight: FontWeight.w500,
-                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
+                      fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 18.sp),
                       color: isAddedSelectedColor(themeType), // isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
                       fontFamily: 'Inter',
                     ),
@@ -166,7 +166,7 @@ class ServiceCard extends ConsumerWidget {
                 ],
               ),
               SizedBox(
-                height: DeviceConstraints.getResponsiveSize(context, 20.h, 17.h, 17.h),
+                height: DeviceConstraints.getResponsiveSize(context, 20.h, 20.h, 17.h),
               ),
 
               // SERVICE DURATION
@@ -191,7 +191,7 @@ class ServiceCard extends ConsumerWidget {
                           ? Text(
                               "${service.priceAndDuration!.duration} ${AppLocalizations.of(context)?.minutes ?? "minutes"}",
                               style: theme.textTheme.bodyLarge!.copyWith(
-                                fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
+                                fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 18.sp),
                                 color: isAddedSelectedColor(themeType),
                                 fontFamily: 'Inter',
                               ),
@@ -201,7 +201,7 @@ class ServiceCard extends ConsumerWidget {
                           : Text(
                               "${service.priceAndDuration!.duration} ${AppLocalizations.of(context)?.minutes ?? "minutes"} - ${service.priceAndDurationMax!.duration} ${AppLocalizations.of(context)?.minutes ?? "minutes"}",
                               style: theme.textTheme.bodyLarge!.copyWith(
-                                fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
+                                fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 18.sp),
                                 color: isAddedSelectedColor(themeType),
                                 fontFamily: 'Inter',
                               ),
@@ -211,7 +211,7 @@ class ServiceCard extends ConsumerWidget {
                       : Text(
                           "${service.priceAndDuration!.duration} ${AppLocalizations.of(context)?.minutes ?? "minutes"}",
                           style: theme.textTheme.bodyLarge!.copyWith(
-                            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
+                            fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 16.sp, 18.sp),
                             color: isAddedSelectedColor(themeType),
                             fontFamily: 'Inter',
                           ),
@@ -248,13 +248,13 @@ class ServiceCard extends ConsumerWidget {
                                     )
                                 : null,
                             child: SizedBox(
-                              height: DeviceConstraints.getResponsiveSize(context, 20, 25, 28),
-                              width: DeviceConstraints.getResponsiveSize(context, 20, 25, 28),
+                              height: DeviceConstraints.getResponsiveSize(context, 20, 23, 28),
+                              width: DeviceConstraints.getResponsiveSize(context, 20, 23, 28),
                               child: Center(
                                 child: SvgPicture.asset(
                                   AppIcons.informationSVG,
-                                  height: DeviceConstraints.getResponsiveSize(context, 20, 25, 28),
-                                  width: DeviceConstraints.getResponsiveSize(context, 20, 25, 28),
+                                  height: DeviceConstraints.getResponsiveSize(context, 20, 23, 28),
+                                  width: DeviceConstraints.getResponsiveSize(context, 20, 23, 28),
                                   color: isAddedSelectedColor(themeType), //  isAdded ? isAddedSelectedColor(themeType) : theme.colorScheme.tertiary, // defaultTheme ? AppTheme.textBlack : Colors.white,,
                                 ),
                               ),
@@ -271,7 +271,7 @@ class ServiceCard extends ConsumerWidget {
                   child: Column(
                     children: [
                       const Divider(color: Color(0XFF474747), thickness: 1.5),
-                      SizedBox(height: DeviceConstraints.getResponsiveSize(context, 10.h, 5.h, 5.h)),
+                      SizedBox(height: DeviceConstraints.getResponsiveSize(context, 10.h, 10.h, 5.h)),
                       SizedBox(
                         // color: Colors.blue,
                         height: 45.h,

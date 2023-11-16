@@ -3,6 +3,8 @@ import 'package:bbblient/src/models/backend_codings/working_hours.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/utils/utils.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
@@ -719,8 +721,102 @@ class Time {
       }
     } while (hour < endTime!.hour || (hour == endTime.hour && minute < endTime.minute));
   }
+
+  // DateTime? mongoTime({Map<String, dynamic>? json, String? title}) {
+  //   if (title == null || json == null || !json.containsKey(title)) {
+  //     return null; // Return null if timeTitle is null or not a key in json
+  //   }
+
+  //   var timeData = json["title"];
+
+  //   if(timeData.runtimeType.toString())
+  // }
+
+  DateTime? convertToMongoTimeMore3({String? timeTitle, var time, Map<String, dynamic>? json}) {
+    if (timeTitle == null || !json!.containsKey(timeTitle)) {
+      return null; // Return null if timeTitle is null or not a key in json
+    }
+
+    var timeData = json[timeTitle];
+
+    // Check for Map<String, dynamic> type with null-safety
+    if (timeData.runtimeType.toString() == '_Map<String, dynamic>') {
+      if (timeData["value"]?['_seconds'] == null || timeData["value"]?['_nanoseconds'] == null) {
+        if (timeData["__time__"] != null) {
+          return DateTime.tryParse(timeData["__time__"]);
+        }
+      } else if (timeData["value"]?['_seconds'] != null && timeData["value"]?['_nanoseconds'] != null) {
+        var seconds = timeData["value"]?['_seconds'];
+        var nanoseconds = timeData["value"]?['_nanoseconds'];
+
+        if (seconds is int && nanoseconds is int) {
+          return Timestamp(seconds, nanoseconds).toDate();
+        }
+      } else {
+        return time;
+      }
+    }
+
+    // Check for String type with proper parsing
+    if (timeData is String) {
+      // try {
+      if (isMillisecondsSinceEpoch(timeData)) {
+        int milliseconds = int.tryParse(timeData) ?? 0; // Parse the string to an integer
+
+        return DateTime.fromMillisecondsSinceEpoch(milliseconds, isUtc: true);
+      }
+      return DateTime.parse(timeData);
+      // } catch (e) {
+      //   print("Error parsing DateTime from String: $e");
+      // }
+    }
+
+    // Check for int type representing milliseconds since epoch
+    if (timeData is int) {
+      return DateTime.fromMillisecondsSinceEpoch(timeData);
+    }
+
+    // Additional checks for web and non-web platforms
+    if (kIsWeb) {
+      if (timeData is DateTime) {
+        return timeData;
+      } else if (timeData is Map<String, dynamic>) {
+        var seconds = timeData['_seconds'];
+        var nanoseconds = timeData['_nanoseconds'];
+        if (seconds is int && nanoseconds is int) {
+          return Timestamp(seconds, nanoseconds).toDate();
+        }
+      }
+    } else {
+      if (timeData is DateTime) {
+        return timeData;
+      } else if (timeData is Timestamp) {
+        return timeData.toDate();
+      }
+    }
+
+    // Fallback to provided DateTime if no conditions are met
+    return time;
+  }
+
+  bool isMillisecondsSinceEpoch(String str) {
+    try {
+      int milliseconds = int.parse(str);
+
+      // Check if the parsed value is within a reasonable range
+      DateTime date = DateTime.fromMillisecondsSinceEpoch(milliseconds, isUtc: true);
+      DateTime lowerLimit = DateTime.utc(1970);
+      DateTime upperLimit = DateTime.now().add(const Duration(days: 365)); // Some upper limit in the future
+
+      return date.isAfter(lowerLimit) && date.isBefore(upperLimit);
+    } catch (e) {
+      // Parsing failed, not a valid number
+      return false;
+    }
+  }
 }
 
+///-
 extension TimeOfDayExtension on TimeOfDay {
   TimeOfDay addMinutes(int? minutes) {
     if (minutes == 0) {
@@ -739,4 +835,20 @@ extension TimeOfDayExtension on TimeOfDay {
   }
 
   translateDate({required BuildContext context, required DateTime dateTime}) {}
+
+  bool isMillisecondsSinceEpoch(String str) {
+    try {
+      int milliseconds = int.parse(str);
+
+      // Check if the parsed value is within a reasonable range
+      DateTime date = DateTime.fromMillisecondsSinceEpoch(milliseconds, isUtc: true);
+      DateTime lowerLimit = DateTime.utc(1970);
+      DateTime upperLimit = DateTime.now().add(const Duration(days: 365)); // Some upper limit in the future
+
+      return date.isAfter(lowerLimit) && date.isBefore(upperLimit);
+    } catch (e) {
+      // Parsing failed, not a valid number
+      return false;
+    }
+  }
 }

@@ -230,25 +230,26 @@ class SalonModel {
 
 class Position {
   String? geoHash;
-  GeoPoint? geoPoint;
+  // GeoPoint? geoPoint;
 
-  Position({this.geoHash, this.geoPoint});
+  Position({this.geoHash});
+  // Position({this.geoHash, this.geoPoint});
 
   Position.fromJson(Map<String, dynamic> json) {
     geoHash = json['geohash'] ?? '';
-    geoPoint = json['geopoint'] ?? '';
+    // geoPoint = json['geopoint'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     data['geohash'] = geoHash;
-    data['geopoint'] = geoPoint;
+    // data['geopoint'] = geoPoint;
     return data;
   }
 
   Position getDefaultPosition() => Position(
         geoHash: 'u8vxn8bw',
-        geoPoint: const GeoPoint(50.45445, 30.52088),
+        // geoPoint: const GeoPoint(50.45445, 30.52088),
       );
 
   LatLng getDefaultLatLng() => const LatLng(40.71427, -74.00597);

@@ -1,9 +1,12 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/controller/app_provider.dart';
 import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
+import 'package:bbblient/src/firebase/customer.dart';
 import 'package:bbblient/src/models/customer/customer.dart';
 import 'package:bbblient/src/models/enums/status.dart';
+import 'package:bbblient/src/mongodb/db_service.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/utils/utils.dart';
@@ -25,6 +28,7 @@ class VerifyOtp extends ConsumerStatefulWidget {
 }
 
 class _VerifyOtpState extends ConsumerState<VerifyOtp> {
+  bool isLoading = false;
   @override
   void initState() {
     super.initState();
@@ -40,6 +44,7 @@ class _VerifyOtpState extends ConsumerState<VerifyOtp> {
   @override
   Widget build(BuildContext context) {
     final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
+    final DatabaseProvider _dbProvider = ref.watch(dbProvider);
     final AuthProviderController _auth = ref.watch(authProvider);
     final SalonProfileProvider _salonProfileProvider = ref.watch(salonProfileProvider);
 
@@ -135,81 +140,50 @@ class _VerifyOtpState extends ConsumerState<VerifyOtp> {
                 onTap: _auth.otp.length < 6
                     ? () {}
                     : () async {
-                        if (_auth.loginStatus != Status.loading) {
-                          await _auth.signIn(context: context, ref: ref, callBack: refreshAccount).then(
-                            (value) async {
-                              if (value == Status.success) {
-                                CustomerModel? currentCustomer = _auth.currentCustomer;
+                        /* 
+                          1. GET PHONE NUMBER
+                          2. SEND OTP CODE TO PHONE NUMBER
+                          3. VERIFY OTP
+                          4. CHECK IF CUSTOMER DATA (PHONE NUMBER) EXISTS IN DATABASE
+                          4a. IF TRUE, GO TO NEXT PAGE
+                          4b. IF FALSE, ADD TO CUSTOMER COLLECTION THEN GO TO NEXT PAGE
+                        */
 
-                                // print('___++++____@@@@_____');
-                                // print(currentCustomer?.personalInfo.phone);
-                                // print(currentCustomer?.personalInfo.firstName);
-                                // print(currentCustomer?.personalInfo.lastName);
-                                // print(currentCustomer?.personalInfo.email);
-                                // print('___++++____@@@@_____');
+                        // VERIFY OTP
+                        await _auth.verifyOtpReceived(context, otp: _auth.otp);
 
-                                if (currentCustomer != null) {
-                                  if (currentCustomer.personalInfo.firstName == '' || currentCustomer.personalInfo.email == null) {
-                                    // Customer Personal Info is missing name and email
+                        if (_auth.verifyOTPStatus == Status.success) {
+                          setState(() => isLoading = true);
 
-                                    // Go to pageview that has fields to update personal info
-                                    _createAppointmentProvider.nextPageView(2); // PageView screen that contains name and email fields
-                                  } else {
-                                    // Go to PageView Order List Screen
-                                    _createAppointmentProvider.nextPageView(3);
-
-                                    // CustomerModel customer = CustomerModel(
-                                    //   customerId: currentCustomer.customerId,
-                                    //   personalInfo: currentCustomer.personalInfo,
-                                    //   registeredSalons: [],
-                                    //   createdAt: DateTime.now(),
-                                    //   avgRating: 3.0,
-                                    //   noOfRatings: 6,
-                                    //   profilePicUploaded: false,
-                                    //   profilePic: "",
-                                    //   profileCompleted: false,
-                                    //   quizCompleted: false,
-                                    //   preferredGender: "male",
-                                    //   preferredCategories: [],
-                                    //   locations: [],
-                                    //   fcmToken: "",
-                                    //   locale: "en",
-                                    //   favSalons: [],
-                                    //   referralLink: "",
-                                    // );
-
-                                    // if (_createAppointmentProvider.chosenSalon!.ownerType == OwnerType.singleMaster) {
-                                    //   await _createAppointmentProvider.createAppointment(customerModel: customer, context: context);
-                                    // } else {
-
-                                    //   await _createAppointmentProvider.creatAppointmentSalonOwner(customerModel: customer, context: context);
-                                    // }
-
-                                    // if mastes list is 1, block time of salon and master, phone number
-                                  }
-                                }
-
-                                return;
-                              } else if (value == Status.failed) {
-                                showToast(AppLocalizations.of(context)?.somethingWentWrong ?? "Something went wrong");
-                              } else {
-                                printIt('wahala dey here');
-                              } // /salon?id=IaUsq9UnKNsQ05bhhUuk
-                            },
+                          // CHECK IF CUSTOMER DATA EXISTS IN DATABASE
+                          final CustomerModel? customer = await CustomerApi(mongodbProvider: _dbProvider).findCustomer(
+                            '${_auth.countryCode}${_auth.phoneNoController.text.trim()}',
                           );
-                        } else {
-                          showToast(AppLocalizations.of(context)?.pleaseWait ?? "Please wait");
+
+                          stylePrint(customer);
+
+                          setState(() => isLoading = false);
+
+                          if (customer != null) {
+                            printIt('customer exists');
+
+                            _auth.setCurrentCustomer(customer);
+                            _createAppointmentProvider.nextPageView(3); // CUSTOMER EXISTS - Go to PageView Order List Screen
+                          } else {
+                            printIt('customer does not exist');
+                            _createAppointmentProvider.nextPageView(2); // Go to pageview that has fields to create customer
+                          }
+                        } else if (_auth.verifyOTPStatus == Status.failed) {
+                          showToast(AppLocalizations.of(context)?.somethingWentWrong ?? "Something went wrong");
                         }
                       },
-                // color: defaultTheme ? Colors.black : theme.primaryColor,
-                // textColor: defaultTheme ? Colors.white : Colors.black,
+
                 color: _auth.otp.length < 6 ? dialogButtonColor(themeType, theme)?.withOpacity(0.4) : dialogButtonColor(themeType, theme),
                 textColor: loaderColor(themeType),
                 borderColor: _auth.otp.length < 6 ? dialogButtonColor(themeType, theme)?.withOpacity(0.4) : dialogButtonColor(themeType, theme),
-
                 height: 60.h,
                 label: (AppLocalizations.of(context)?.confirmNumber ?? 'Confirm number').toCapitalized(),
-                isLoading: _auth.loginStatus == Status.loading,
+                isLoading: _auth.verifyOTPStatus == Status.loading || isLoading,
                 loaderColor: loaderColor(themeType),
                 suffixIcon: Icon(
                   Icons.arrow_forward_ios_rounded,

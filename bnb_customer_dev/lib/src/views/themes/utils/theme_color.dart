@@ -171,7 +171,7 @@ ThemeData getGentleTouchTheme(String? colorCode) {
 
 // Theme 7 - GLAM MINIMAL LIGHT
 ThemeData getCityMuseLightTheme(String? colorCode) {
-  print('color code $colorCode');
+  // print('color code $colorCode');
   switch (colorCode) {
     case null: // 'FFC692':
       // GlamMinimalLight.themeBackgroundColor = Colors.white;
