@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:bbblient/src/models/cat_sub_service/price_and_duration.dart';
 import 'package:bbblient/src/models/review.dart';
 import 'package:bbblient/src/mongodb/collection.dart';
@@ -7,6 +6,7 @@ import 'package:bbblient/src/mongodb/db_service.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mongodb_realm/flutter_mongo_realm.dart';
 import '../models/salon_master/master.dart';
 import 'collections.dart';
 
@@ -117,21 +117,20 @@ class MastersApi {
     return allReviews;
   }
 
-  Future<int> updateMasterBlockTime(
-    MasterModel master,
-  ) async {
-    try {
-      await Collection.masters.doc(master.masterId).update({
-        'blockedTime': master.blockedTime,
-      });
-      return 1;
-    } catch (e) {
-      // debugPrint(e.toString());
-      return 0;
-    }
-  }
+  // Future<int> updateMasterBlockTime(MasterModel master) async {
+  //   try {
+  //     await Collection.masters.doc(master.masterId).update({
+  //       'blockedTime': master.blockedTime,
+  //     });
+  //     return 1;
+  //   } catch (e) {
+  //     // debugPrint(e.toString());
+  //     return 0;
+  //   }
+  // }
 
   //updates the salon admin data
+
   Future updateMaster(MasterModel master, {bool isNewMaster = false}) async {
     try {
       //updates salon data
@@ -166,6 +165,46 @@ class MastersApi {
     }
   }
 
+  Future updateMasterMongo(MasterModel master, {bool isNewMaster = false}) async {
+    try {
+      //updates salon data
+
+      //assigns a timestamp in-case of a new master
+      if (isNewMaster) master.createdAt = DateTime.now();
+
+      master = removeExtraPriceAndDuration(master);
+
+      if (isNewMaster) {
+        final _doc = await mongodbProvider!.fetchCollection(CollectionMongo.masters).insertOne(MongoDocument(master.toJson()));
+
+        String val = _doc.toHexString();
+
+        if (val != null) {
+          final selector = {"_id": _doc};
+          master.masterId = val;
+          final modifier = UpdateOperator.set({"__path__": 'salonMasters/$val', "masterId": val});
+          await mongodbProvider!.fetchCollection(CollectionMongo.masters).updateOne(filter: selector, update: modifier);
+        }
+
+        return master;
+      } else if (master.masterId != null || !isNewMaster) {
+        final selector = {"__path__": 'salonMasters/${master.masterId}'};
+        final modifier = UpdateOperator.set(master.toJson());
+
+        await mongodbProvider!.fetchCollection(CollectionMongo.masters).updateOne(filter: selector, update: modifier);
+
+        return master;
+      }
+
+      //links th salon with ownerId
+
+      return null;
+    } catch (e) {
+      debugPrint(e.toString());
+      return null;
+    }
+  }
+
   //removes the extra price and duration
   MasterModel removeExtraPriceAndDuration(MasterModel master) {
     try {
@@ -188,20 +227,20 @@ class MastersApi {
 
   Future<List<MasterModel>?> getMasterFromPhone({required String phone, required String salonId}) async {
     try {
-      QuerySnapshot _response = await Collection.masters
-          .where('personalInfo.phone', isEqualTo: phone)
-          .where(
-            'salonId',
-            isEqualTo: salonId,
-          )
-          .get();
-      return _response.docs.map<MasterModel>((master) {
-        Map _temp = master.data() as Map<dynamic, dynamic>;
-        _temp['masterId'] = master.id;
-        return MasterModel.fromJson(_temp as Map<String, dynamic>);
+      List<MongoDocument> _response = await mongodbProvider!.fetchCollection(CollectionMongo.masters).find(
+        filter: {
+          "personalInfo.phone": phone,
+          "salonId": salonId,
+        },
+      );
+
+      return _response.map<MasterModel>((master) {
+        Map<String, dynamic> temp = json.decode(master.toJson()) as Map<String, dynamic>;
+        temp['masterId'] = temp["__id__"];
+        return MasterModel.fromJson(temp);
       }).toList();
     } catch (e) {
-      // debugPrint(e.toString());
+      debugPrint('Error on getMasterFromPhone() - $e');
       return null;
     }
   }

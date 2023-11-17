@@ -160,24 +160,22 @@ class CustomerApi {
     }
   }
 
-  createNewCustomerMongo({required CustomerModel newCustomer}) async {
+  Future<String> createNewCustomerMongo({required CustomerModel newCustomer}) async {
     try {
       final _docRef = await mongodbProvider!.fetchCollection(CollectionMongo.customers).insertOne(
             MongoDocument(newCustomer.toJson()),
           );
 
-      if (_docRef != null) {
-        String val = _docRef.toHexString();
-        final selector = {"_id": _docRef};
+      String val = _docRef.toHexString();
+      final selector = {"_id": _docRef};
 
-        final modifier = UpdateOperator.set({"path": 'customers/$val', "customerId": val});
-        await mongodbProvider!.fetchCollection(CollectionMongo.customers).updateOne(
-              filter: selector,
-              update: modifier,
-            );
-      }
+      final modifier = UpdateOperator.set({"__path__": 'customers/$val', "customerId": val});
+      await mongodbProvider!.fetchCollection(CollectionMongo.customers).updateOne(filter: selector, update: modifier);
+
+      return _docRef.toHexString();
     } catch (e) {
-      printIt('Catch error on updatePersonalInfo() - $e');
+      printIt('Catch error on createNewCustomerMongo() - $e');
+      return '';
     }
   }
 

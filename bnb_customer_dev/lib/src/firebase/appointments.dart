@@ -6,24 +6,36 @@ import 'package:bbblient/src/models/backend_codings/owner_type.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
-import 'package:bbblient/src/utils/integration/beauty_pro.dart';
-import 'package:bbblient/src/utils/integration/yclients.dart';
+import 'package:bbblient/src/mongodb/collection.dart';
+import 'package:bbblient/src/mongodb/db_service.dart';
 import 'package:bbblient/src/utils/time.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mongodb_realm/flutter_mongo_realm.dart';
 import '../models/appointment/appointment.dart';
 import 'collections.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AppointmentApi {
-  AppointmentApi._privateConstructor();
-  static final AppointmentApi _instance = AppointmentApi._privateConstructor();
-  factory AppointmentApi() {
+  // AppointmentApi._privateConstructor();
+  // static final AppointmentApi _instance = AppointmentApi._privateConstructor();
+  // factory AppointmentApi() {
+  //   return _instance;
+  // }
+
+  AppointmentApi._privateConstructor(this.mongodbProvider);
+
+  static final AppointmentApi _instance = AppointmentApi._privateConstructor(null);
+
+  factory AppointmentApi({DatabaseProvider? mongodbProvider}) {
+    _instance.mongodbProvider = mongodbProvider;
     return _instance;
   }
+
+  DatabaseProvider? mongodbProvider;
 
   final Time _timeUtils = Time();
 
@@ -83,6 +95,43 @@ class AppointmentApi {
     } catch (e) {
       // debugPrint('error in making appointment');
       // debugPrint(e.toString());
+      return null;
+    }
+  }
+
+  Future createUpdateAppointmentMongo(AppointmentModel appointment) async {
+    String returnedId = '';
+
+    try {
+      MongoDocument? _docRef;
+      if (appointment.appointmentId != null) {
+        //updates the existing appointment
+
+        final selector = {'appointmentId': appointment.appointmentId!};
+        final modifier = UpdateOperator.set(appointment.toJson());
+
+        returnedId = appointment.appointmentId!;
+        await mongodbProvider!.fetchCollection(CollectionMongo.appointments).updateOne(filter: selector, update: modifier);
+      } else {
+        //creates a new appointment
+        final val = await mongodbProvider!.fetchCollection(CollectionMongo.appointments).insertOne(MongoDocument(appointment.toJson()));
+        String value = val.toHexString();
+        if (value != null) {
+          final selector = {"_id": val};
+          final modifier = UpdateOperator.set({
+            "appointmentId": value,
+          });
+
+          await mongodbProvider!.fetchCollection(CollectionMongo.salons).updateOne(filter: selector, update: modifier);
+          returnedId = value;
+        }
+      }
+
+      // await _docRef.set(appointment.toJson(), SetOptions(merge: true));
+
+      return returnedId;
+    } catch (e) {
+      debugPrint('Error on createUpdateAppointmentMongo() -$e');
       return null;
     }
   }
@@ -234,11 +283,11 @@ class AppointmentApi {
         time: time,
         minutes: minutes,
       );
-      await MastersApi().updateMasterBlockTime(master);
+      await MastersApi().updateMasterMongo(master);
+      // await MastersApi().updateMasterBlockTime(master);
       return 1;
     } catch (e) {
-      printIt('error while generating blocked time ');
-      printIt(e);
+      printIt('Error on blockMastersTime() - $e ');
       return null;
     }
   }
@@ -246,7 +295,8 @@ class AppointmentApi {
   cancelBlockedTimeMaster({required AppointmentModel appointmentModel, required MasterModel master}) async {
     try {
       master = _removeBlockedSlotsMaster(appointmentModel, master);
-      await MastersApi().updateMasterBlockTime(master);
+      await MastersApi().updateMasterMongo(master);
+      // await MastersApi().updateMasterBlockTime(master);
       return Status.success;
     } catch (e) {
       printIt(e);
@@ -273,11 +323,10 @@ class AppointmentApi {
     }
   }
 
-  // in case of single master use this to block bcz single master is stored as salon in firebase
   Future blockSalonTime({required SalonModel salon, required DateTime date, required String time, required int minutes}) async {
     try {
       salon.blockedTime = _generateBlockedTimeMap2(blockedTime: salon.blockedTime, date: date, time: time, minutes: minutes);
-      await SalonApi().updateSalonBlockedTime(salon);
+      await SalonApi().updateSalonMongo(salon);
       return 1;
     } catch (e) {
       printIt('$e - blockSalonTime()');
@@ -288,7 +337,7 @@ class AppointmentApi {
   Future cancelSalonTime({required AppointmentModel appointmentModel, required SalonModel salon}) async {
     try {
       SalonModel _salon = _removeBlockedSlotsSalon(appointmentModel, salon);
-      await SalonApi().updateSalonBlockedTime(_salon);
+      await SalonApi().updateSalonMongo(_salon);
       return 1;
     } catch (e) {
       printIt(e);
@@ -441,7 +490,7 @@ class AppointmentApi {
     try {
       //remove blocked time from master's schedule
       salon = _removeBlockedSlotsSingleMaster(app, salon);
-      await SalonApi().updateSalon(salon);
+      await SalonApi().updateSalonMongo(salon);
       return Status.success;
     } catch (e) {
       //(e);
@@ -492,7 +541,8 @@ class AppointmentApi {
     try {
       //remove blocked time from master's schedule
       master = _removeBlockedSlots(app, master);
-      await MastersApi().updateMaster(master);
+      await MastersApi().updateMasterMongo(master);
+      // await MastersApi().updateMaster(master);
       return Status.success;
     } catch (e) {
       //(e);

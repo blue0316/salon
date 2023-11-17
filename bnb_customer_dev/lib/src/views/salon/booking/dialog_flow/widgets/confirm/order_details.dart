@@ -9,6 +9,7 @@ import 'package:bbblient/src/models/customer/customer.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/models/transaction.dart';
+import 'package:bbblient/src/mongodb/db_service.dart';
 import 'package:bbblient/src/utils/currency/currency.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
@@ -48,6 +49,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
     final CreateAppointmentProvider _createAppointmentProvider = ref.watch(createAppointmentProvider);
     final AuthProviderController _auth = ref.watch(authProvider);
     SalonModel salonModel = _salonProfileProvider.chosenSalon;
+    final DatabaseProvider _dbProvider = ref.watch(dbProvider);
 
     final ThemeData theme = _salonProfileProvider.salonTheme;
     ThemeType themeType = _salonProfileProvider.themeType;
@@ -316,40 +318,13 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                             if (salonModel.cancellationAndNoShowPolicy.setCancellationAndNoShowPolicy == true) {
                               if (!acceptTerms) {
                                 // Terms Checkbox is unchecked
-
-                                showToast(
-                                  AppLocalizations.of(context)?.pleaseAcceptCancellationPolicy ?? "Please accept the cancellation policy",
-                                );
-
+                                showToast(AppLocalizations.of(context)?.pleaseAcceptCancellationPolicy ?? "Please accept the cancellation policy");
                                 return;
                               }
                             }
 
-                            CustomerModel? currentCustomer = _auth.currentCustomer;
+                            CustomerModel? currentCustomer = _auth.currentCustomer!;
 
-                            CustomerModel customer = CustomerModel(
-                              customerId: currentCustomer!.customerId,
-                              personalInfo: currentCustomer.personalInfo,
-                              registeredSalons: [],
-                              createdAt: DateTime.now(),
-                              avgRating: 3.0,
-                              noOfRatings: 6,
-                              profilePicUploaded: false,
-                              profilePic: "",
-                              profileCompleted: false,
-                              quizCompleted: false,
-                              // preferredGender: "male",
-                              preferredCategories: [],
-                              locations: [],
-                              fcmToken: "",
-                              locale: "en",
-                              favSalons: [],
-                              referralLink: "",
-                            );
-
-                            // const ConfirmedDialog().show(context);
-
-                            // ---------------------------- +++++++++++++++ ----------------------------
                             setState(() => spinner = true);
 
                             final TransactionModel newTransaction = TransactionModel(
@@ -358,14 +333,14 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                               salonId: salonModel.salonId,
                             );
 
-                            String? transactionId = await TransactionApi().createTransaction(newTransaction);
+                            String? transactionId = await TransactionApi(mongodbProvider: _dbProvider).createTransactionMongo(newTransaction);
 
                             if (transactionId == null) {
                               // Transaction must not be null (a doc must me created in transactions collection)
                               showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? 'Something went wrong, please try again');
                               return;
                             } else {
-                              TransactionApi().streamTransaction(transactionId).listen((event) async {
+                              TransactionApi(mongodbProvider: _dbProvider).streamTransaction(transactionId).listen((event) async {
                                 for (TransactionModel transaction in event) {
                                   if (transaction.responseCode != null) {
                                     if (transaction.responseCode == 'A' || transaction.responseCode == 'E') {
@@ -374,7 +349,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
 
                                       if (transaction.cardReference != null) {
                                         await CustomerApi().createCard(
-                                          customerId: customer.customerId,
+                                          customerId: currentCustomer.customerId,
                                           card: CreditCard(
                                             cardNumber: transaction.cardNumber ?? '',
                                             cardExpiry: transaction.cardExpiry ?? '',
@@ -394,13 +369,13 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                         if (!_salonProfileProvider.isSingleMaster) {
                                           await _createAppointmentProvider.saveNewAppointmentForMultipleServices(
                                             isSingleMaster: _salonProfileProvider.isSingleMaster,
-                                            customer: customer,
+                                            customer: currentCustomer,
                                             transactionId: transactionId,
                                           );
                                         } else {
                                           await _createAppointmentProvider.saveAppointmentForMultipleServices(
                                             isSingleMaster: _salonProfileProvider.isSingleMaster,
-                                            customer: customer,
+                                            customer: currentCustomer,
                                             transactionId: transactionId,
                                           );
                                         }
@@ -410,13 +385,13 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                         if (!_salonProfileProvider.isSingleMaster) {
                                           await _createAppointmentProvider.saveAppointment(
                                             isSingleMaster: _salonProfileProvider.isSingleMaster,
-                                            customer: customer,
+                                            customer: currentCustomer,
                                             transactionId: transactionId,
                                           );
                                         } else {
                                           await _createAppointmentProvider.saveAppointmentSingleMaster(
                                             isSingleMaster: _salonProfileProvider.isSingleMaster,
-                                            customer: customer,
+                                            customer: currentCustomer,
                                             transactionId: transactionId,
                                           );
                                         }
@@ -484,27 +459,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                               }
                             }
 
-                            CustomerModel? currentCustomer = _auth.currentCustomer;
-
-                            CustomerModel customer = CustomerModel(
-                              customerId: currentCustomer!.customerId,
-                              personalInfo: currentCustomer.personalInfo,
-                              registeredSalons: [],
-                              createdAt: DateTime.now(),
-                              avgRating: 3.0,
-                              noOfRatings: 6,
-                              profilePicUploaded: false,
-                              profilePic: "",
-                              profileCompleted: false,
-                              quizCompleted: false,
-                              // preferredGender: "male",
-                              preferredCategories: [],
-                              locations: [],
-                              fcmToken: "",
-                              locale: "en",
-                              favSalons: [],
-                              referralLink: "",
-                            );
+                            CustomerModel currentCustomer = _auth.currentCustomer!;
 
                             // Build Appointment
                             if (_createAppointmentProvider.chosenServices.length > 1) {
@@ -513,13 +468,13 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                               if (!_salonProfileProvider.isSingleMaster) {
                                 await _createAppointmentProvider.saveNewAppointmentForMultipleServices(
                                   isSingleMaster: _salonProfileProvider.isSingleMaster,
-                                  customer: customer,
+                                  customer: currentCustomer,
                                   transactionId: null,
                                 );
                               } else {
                                 await _createAppointmentProvider.saveAppointmentForMultipleServices(
                                   isSingleMaster: _salonProfileProvider.isSingleMaster,
-                                  customer: customer,
+                                  customer: currentCustomer,
                                   transactionId: null,
                                 );
                               }
@@ -529,13 +484,13 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                               if (!_salonProfileProvider.isSingleMaster) {
                                 await _createAppointmentProvider.saveAppointment(
                                   isSingleMaster: _salonProfileProvider.isSingleMaster,
-                                  customer: customer,
+                                  customer: currentCustomer,
                                   transactionId: null,
                                 );
                               } else {
                                 await _createAppointmentProvider.saveAppointmentSingleMaster(
                                   isSingleMaster: _salonProfileProvider.isSingleMaster,
-                                  customer: customer,
+                                  customer: currentCustomer,
                                   transactionId: null,
                                 );
                               }

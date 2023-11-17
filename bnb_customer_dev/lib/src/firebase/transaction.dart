@@ -1,16 +1,31 @@
 import 'package:bbblient/src/firebase/collections.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/transaction.dart';
+import 'package:bbblient/src/mongodb/collection.dart';
+import 'package:bbblient/src/mongodb/db_service.dart';
+import 'package:bbblient/src/utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_mongodb_realm/flutter_mongo_realm.dart';
 
 class TransactionApi {
-  TransactionApi._privateConstructor();
+  // TransactionApi._privateConstructor();
 
-  static final TransactionApi _instance = TransactionApi._privateConstructor();
+  // static final TransactionApi _instance = TransactionApi._privateConstructor();
 
-  factory TransactionApi() {
+  // factory TransactionApi() {
+  //   return _instance;
+  // }
+
+  TransactionApi._privateConstructor(this.mongodbProvider);
+
+  static final TransactionApi _instance = TransactionApi._privateConstructor(null);
+
+  factory TransactionApi({DatabaseProvider? mongodbProvider}) {
+    _instance.mongodbProvider = mongodbProvider;
     return _instance;
   }
+
+  DatabaseProvider? mongodbProvider;
 
   Future<String?> createTransaction(TransactionModel transaction) async {
     try {
@@ -24,6 +39,31 @@ class TransactionApi {
       return _docRef.id;
     } catch (e) {
       // debugPrint('Error on createTransaction()- ${e.toString()}');
+      return null;
+    }
+  }
+
+  Future<String?> createTransactionMongo(TransactionModel transaction) async {
+    try {
+      final _docRef = await mongodbProvider!.fetchCollection(CollectionMongo.transactions).insertOne(
+            MongoDocument(transaction.toJson()),
+          );
+
+      String val = _docRef.toHexString();
+
+      if (val != null) {
+        final selector = {"_id": _docRef};
+
+        final modifier = UpdateOperator.set({
+          "__path__": 'transactions/$val',
+          "transactionId": val,
+        });
+
+        await mongodbProvider!.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifier);
+      }
+      return val;
+    } catch (e) {
+      printIt('Error on createTransactionMongo()- ${e.toString()}');
       return null;
     }
   }

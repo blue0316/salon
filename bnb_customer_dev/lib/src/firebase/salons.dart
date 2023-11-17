@@ -5,6 +5,7 @@ import 'package:bbblient/src/mongodb/db_service.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mongodb_realm/flutter_mongo_realm.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../models/salon_master/salon.dart';
 import 'collections.dart';
@@ -272,15 +273,15 @@ class SalonApi {
   //   return allServices;
   // }
 
-  Future updateSalonBlockedTime(SalonModel salon) async {
-    try {
-      await Collection.salons.doc(salon.salonId).update({"blockedTime": salon.blockedTime});
-      return 1;
-    } catch (e) {
-      // printIt(e);
-      return 0;
-    }
-  }
+  // Future updateSalonBlockedTime(SalonModel salon) async {
+  //   try {
+  //     await Collection.salons.doc(salon.salonId).update({"blockedTime": salon.blockedTime});
+  //     return 1;
+  //   } catch (e) {
+  //     // printIt(e);
+  //     return 0;
+  //   }
+  // }
 
   //updates the salon data
   Future updateSalon(SalonModel? salon) async {
@@ -291,6 +292,21 @@ class SalonApi {
       }
     } catch (e) {
       //(e);
+      return 0;
+    }
+  }
+
+  Future updateSalonMongo(SalonModel? salon) async {
+    try {
+      if (salon != null) {
+        final selector = {"__path__": 'salons/${salon.salonId}'};
+        final modifier = UpdateOperator.set(salon.toJson());
+        await mongodbProvider!.fetchCollection(CollectionMongo.salons).updateOne(filter: selector, update: modifier);
+
+        return 1;
+      }
+    } catch (e) {
+      printIt('Error on updateSalonMongo() - $e');
       return 0;
     }
   }

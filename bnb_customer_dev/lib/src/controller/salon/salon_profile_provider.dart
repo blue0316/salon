@@ -1,3 +1,4 @@
+import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/app_provider.dart';
 import 'package:bbblient/src/firebase/customer_web_settings.dart';
 import 'package:bbblient/src/firebase/enquiry.dart';
@@ -28,6 +29,7 @@ import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../utils/country_code/json/country_codes.dart';
 import '../../views/themes/city_muse/city_muse_desktop/masters_view.dart';
 import '../../views/themes/city_muse/city_muse_mobile/masters_view.dart';
@@ -364,6 +366,13 @@ class SalonProfileProvider with ChangeNotifier {
 
         //   notifyListeners();
         //   return const VintageCraft();
+
+        case 'x1':
+          salonTheme = getGentleTouchTheme(themeSettings?.theme?.colorCode);
+          themeType = ThemeType.GentleTouch;
+
+          notifyListeners();
+          return const TestScreen();
       }
 
       return GlamOneScreen(showBooking: showBooking); // New Themes Base Widget
@@ -560,6 +569,32 @@ class SalonProfileProvider with ChangeNotifier {
   }
 }
 
+class TestScreen extends ConsumerWidget {
+  const TestScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final DatabaseProvider _dbProvider = ref.watch(dbProvider);
+
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      color: Colors.amber,
+      child: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            MastersApi(mongodbProvider: _dbProvider).getMasterFromPhone(
+              phone: '+2348135822208',
+              salonId: 'HK1jjphPA9I1Ym9QRtQN',
+            );
+          },
+          child: const Text('Test'),
+        ),
+      ),
+    );
+  }
+}
+
 Set availableThemes = {
   '0', // DefaultLight
   '1', // DefaultDark
@@ -576,4 +611,5 @@ Set availableThemes = {
   '12', // City Muse Light
   '13', // City Muse Dark
   '789', // Vintage Craft
+  'x1', // test
 };

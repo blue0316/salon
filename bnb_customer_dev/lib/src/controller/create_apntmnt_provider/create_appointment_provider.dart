@@ -23,6 +23,7 @@ import 'package:bbblient/src/models/promotions/promotion_service.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/models/review.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
+import 'package:bbblient/src/mongodb/collection.dart';
 import 'package:bbblient/src/mongodb/db_service.dart';
 import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/utils/time.dart';
@@ -31,6 +32,7 @@ import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_mongodb_realm/flutter_mongo_realm.dart';
 import 'package:intl/intl.dart';
 import 'package:collection/collection.dart';
 
@@ -4523,8 +4525,10 @@ class CreateAppointmentProvider with ChangeNotifier {
 
     ///this identifier is used to locate prepTime or cleaUptime created with this appointment
     var identifier = chosenSalon!.salonId + DateTime.now().toString() + _appointment.master!.id;
+
     _appointment.appointmentIdentifier = identifier;
-    await AppointmentApi().createUpdateAppointment(_appointment).then((value) async {
+
+    await AppointmentApi().createUpdateAppointmentMongo(_appointment).then((value) async {
       //blocking master's time
 
       // debugPrint('is it getting here');
@@ -4625,7 +4629,7 @@ class CreateAppointmentProvider with ChangeNotifier {
         _appointmentPrep.appointmentIdentifier = identifier;
         //create and block prep time
         if (_appointmentPrep != null) {
-          await AppointmentApi().createUpdateAppointment(_appointmentPrep).then((value) async {
+          await AppointmentApi().createUpdateAppointmentMongo(_appointmentPrep).then((value) async {
             await AppointmentApi().blockMastersTime(
               master: chosenMaster!,
               date: chosenDay,
@@ -4664,7 +4668,7 @@ class CreateAppointmentProvider with ChangeNotifier {
         _appointmentCleanUp.appointmentIdentifier = identifier;
         //create and block cleanUp time
         if (_appointmentCleanUp != null) {
-          await AppointmentApi().createUpdateAppointment(_appointmentCleanUp).then((value) async {
+          await AppointmentApi().createUpdateAppointmentMongo(_appointmentCleanUp).then((value) async {
             await AppointmentApi().blockMastersTime(
               master: chosenMaster!,
               date: chosenDay,
@@ -4698,9 +4702,20 @@ class CreateAppointmentProvider with ChangeNotifier {
 
       // UPDATE REGISTERED SALONS IN CUSTOMER PROFILE
       if (customer.customerId != '') {
-        Collection.customers.doc(customer.customerId).update({
-          'registeredSalons': FieldValue.arrayUnion([_appointment.salon.id])
+        // Collection.customers.doc(customer.customerId).update({
+        //   'registeredSalons': FieldValue.arrayUnion([_appointment.salon.id])
+        // });
+
+        final selector = {"customerId": customer.customerId};
+
+        final modifier = UpdateOperator.push({
+          "registeredSalons": ArrayModifier.each([_appointment.salon.id])
         });
+
+        await mongodbProvider.fetchCollection(CollectionMongo.customers).updateOne(
+              filter: selector,
+              update: modifier,
+            );
       }
     });
   }
@@ -4795,7 +4810,7 @@ class CreateAppointmentProvider with ChangeNotifier {
     // // debugPrint('end processing time$endApptProcessingTime');
     _appointment.appointmentIdentifier = identifier;
 
-    await AppointmentApi().createUpdateAppointment(_appointment).then((value) async {
+    await AppointmentApi().createUpdateAppointmentMongo(_appointment).then((value) async {
       //blocking master's time
 
       // // debugPrint('is it getting here');
@@ -4840,7 +4855,7 @@ class CreateAppointmentProvider with ChangeNotifier {
         if (_appointmentPrep != null) {
           _appointment.appointmentIdentifier = identifier;
 
-          await AppointmentApi().createUpdateAppointment(_appointmentPrep).then((value) async {
+          await AppointmentApi().createUpdateAppointmentMongo(_appointmentPrep).then((value) async {
             await AppointmentApi().blockMastersTime(
               master: chosenMaster!,
               date: chosenDay,
@@ -4879,7 +4894,7 @@ class CreateAppointmentProvider with ChangeNotifier {
         if (_appointmentCleanUp != null) {
           _appointment.appointmentIdentifier = identifier;
 
-          await AppointmentApi().createUpdateAppointment(_appointmentCleanUp).then((value) async {
+          await AppointmentApi().createUpdateAppointmentMongo(_appointmentCleanUp).then((value) async {
             await AppointmentApi().blockMastersTime(
               master: chosenMaster!,
               date: chosenDay,
@@ -4912,9 +4927,20 @@ class CreateAppointmentProvider with ChangeNotifier {
 
       // UPDATE REGISTERED SALONS IN CUSTOMER PROFILE
       if (customer.customerId != '') {
-        Collection.customers.doc(customer.customerId).update({
-          'registeredSalons': FieldValue.arrayUnion([_appointment.salon.id])
+        // Collection.customers.doc(customer.customerId).update({
+        //   'registeredSalons': FieldValue.arrayUnion([_appointment.salon.id])
+        // });
+
+        final selector = {"customerId": customer.customerId};
+
+        final modifier = UpdateOperator.push({
+          "registeredSalons": ArrayModifier.each([_appointment.salon.id])
         });
+
+        await mongodbProvider.fetchCollection(CollectionMongo.customers).updateOne(
+              filter: selector,
+              update: modifier,
+            );
       }
     });
   }
@@ -4927,7 +4953,7 @@ class CreateAppointmentProvider with ChangeNotifier {
     notifyListeners();
 
     // get master owner profile
-    masters = await MastersApi().getMasterFromPhone(
+    masters = await MastersApi(mongodbProvider: mongodbProvider).getMasterFromPhone(
       phone: chosenSalon!.phoneNumber,
       salonId: chosenSalon!.salonId,
     );
@@ -4943,7 +4969,7 @@ class CreateAppointmentProvider with ChangeNotifier {
     var identifier = chosenSalon!.salonId + DateTime.now().toString() + _appointment.master!.id;
     _appointment.appointmentIdentifier = identifier;
 
-    await AppointmentApi().createUpdateAppointment(_appointment).then((value) async {
+    await AppointmentApi().createUpdateAppointmentMongo(_appointment).then((value) async {
       // debugPrint('is it getting here');
 
       // if it has processing time then it is complex
@@ -5032,7 +5058,7 @@ class CreateAppointmentProvider with ChangeNotifier {
         _appointmentPrep.appointmentIdentifier = identifier;
         //create and block prep time
         if (_appointmentPrep != null) {
-          await AppointmentApi().createUpdateAppointment(_appointmentPrep).then((value) async {
+          await AppointmentApi().createUpdateAppointmentMongo(_appointmentPrep).then((value) async {
             if (masters!.isNotEmpty) {
               await AppointmentApi().blockMastersTime(
                 master: salonMasters[0],
@@ -5066,7 +5092,7 @@ class CreateAppointmentProvider with ChangeNotifier {
         _appointmentCleanUp.appointmentIdentifier = identifier;
         //create and block cleanUp time
         if (_appointmentCleanUp != null) {
-          await AppointmentApi().createUpdateAppointment(_appointmentCleanUp).then((value) async {
+          await AppointmentApi().createUpdateAppointmentMongo(_appointmentCleanUp).then((value) async {
             if (masters!.isNotEmpty) {
               await AppointmentApi().blockMastersTime(
                 master: salonMasters[0],
@@ -5097,9 +5123,20 @@ class CreateAppointmentProvider with ChangeNotifier {
 
       // UPDATE REGISTERED SALONS IN CUSTOMER PROFILE
       if (customer.customerId != '') {
-        Collection.customers.doc(customer.customerId).update({
-          'registeredSalons': FieldValue.arrayUnion([_appointment.salon.id])
+        // Collection.customers.doc(customer.customerId).update({
+        //   'registeredSalons': FieldValue.arrayUnion([_appointment.salon.id])
+        // });
+
+        final selector = {"customerId": customer.customerId};
+
+        final modifier = UpdateOperator.push({
+          "registeredSalons": ArrayModifier.each([_appointment.salon.id])
         });
+
+        await mongodbProvider.fetchCollection(CollectionMongo.customers).updateOne(
+              filter: selector,
+              update: modifier,
+            );
       }
     });
   }
@@ -5109,7 +5146,7 @@ class CreateAppointmentProvider with ChangeNotifier {
     notifyListeners();
 
     // get master owner profile
-    masters = await MastersApi().getMasterFromPhone(
+    masters = await MastersApi(mongodbProvider: mongodbProvider).getMasterFromPhone(
       phone: chosenSalon!.phoneNumber,
       salonId: chosenSalon!.salonId,
     );
@@ -5190,7 +5227,7 @@ class CreateAppointmentProvider with ChangeNotifier {
     // debugPrint(' prep time $preparationTime');
     // debugPrint('end processing time$endApptProcessingTime');
 
-    await AppointmentApi().createUpdateAppointment(_appointment).then((value) async {
+    await AppointmentApi().createUpdateAppointmentMongo(_appointment).then((value) async {
       //blocking master's time
 
       // debugPrint('is it getting here');
@@ -5227,7 +5264,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 
         //create and block prep time
         if (_appointmentPrep != null) {
-          await AppointmentApi().createUpdateAppointment(_appointmentPrep).then((value) async {
+          await AppointmentApi().createUpdateAppointmentMongo(_appointmentPrep).then((value) async {
             // if both single master, we will block both master and salon profile
             if (masters!.isNotEmpty) {
               await AppointmentApi().blockMastersTime(
@@ -5249,10 +5286,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 
       //create and block cleanUp time if clean up time is not 0
       if (cleanUpApptTime != 0) {
-        final PriceAndDurationModel _priceAndDuration = PriceAndDurationModel(
-          duration: serviceDuration,
-          price: servicePrice,
-        );
+        final PriceAndDurationModel _priceAndDuration = PriceAndDurationModel(duration: serviceDuration, price: servicePrice);
         TimeOfDay appointend = Time().stringToTime(selectedAppointmentSlot!).addMinutes(
               int.parse(_priceAndDuration.duration!),
             );
@@ -5267,7 +5301,7 @@ class CreateAppointmentProvider with ChangeNotifier {
         _appointmentCleanUp.appointmentIdentifier = identifier;
         //create and block cleanUp time
         if (_appointmentCleanUp != null) {
-          await AppointmentApi().createUpdateAppointment(_appointmentCleanUp).then((value) async {
+          await AppointmentApi().createUpdateAppointmentMongo(_appointmentCleanUp).then((value) async {
             // if both single master, we will block both master and salon profile
             if (masters!.isNotEmpty) {
               await AppointmentApi().blockMastersTime(
@@ -5299,9 +5333,20 @@ class CreateAppointmentProvider with ChangeNotifier {
 
       // UPDATE REGISTERED SALONS IN CUSTOMER PROFILE
       if (customer.customerId != '') {
-        Collection.customers.doc(customer.customerId).update({
-          'registeredSalons': FieldValue.arrayUnion([_appointment.salon.id])
+        // Collection.customers.doc(customer.customerId).update({
+        //   'registeredSalons': FieldValue.arrayUnion([_appointment.salon.id])
+        // });
+
+        final selector = {"customerId": customer.customerId};
+
+        final modifier = UpdateOperator.push({
+          "registeredSalons": ArrayModifier.each([_appointment.salon.id])
         });
+
+        await mongodbProvider.fetchCollection(CollectionMongo.customers).updateOne(
+              filter: selector,
+              update: modifier,
+            );
       }
     });
   }
@@ -5385,7 +5430,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 
   //   // debugPrint(' prep time $preparationTime');
   //   // debugPrint('end processing time$endApptProcessingTime');
-  //   await AppointmentApi().createUpdateAppointment(appointment).then((value) async {
+  //   await AppointmentApi().createUpdateAppointmentMongo(appointment).then((value) async {
   //     //blocking master's time
 
   //     // debugPrint('is it getting here 2');
@@ -5431,7 +5476,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 
   //       //create and block prep time
   //       if (_appointmentPrep != null) {
-  //         await AppointmentApi().createUpdateAppointment(_appointmentPrep).then((value) async {
+  //         await AppointmentApi().createUpdateAppointmentMongo(_appointmentPrep).then((value) async {
   //           if (isSingleMaster) {
   //             blockTime(
   //               time: prepTime,
@@ -5466,7 +5511,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 
   //       //create and block cleanUp time
   //       if (_appointmentCleanUp != null) {
-  //         await AppointmentApi().createUpdateAppointment(_appointmentCleanUp).then((value) async {
+  //         await AppointmentApi().createUpdateAppointmentMongo(_appointmentCleanUp).then((value) async {
   //           if (isSingleMaster) {
   //             blockTime(
   //               time: Time().timeToString(appointend)!,
@@ -5707,124 +5752,6 @@ class CreateAppointmentProvider with ChangeNotifier {
       paymentInfo: _paymentInfo,
     );
   }
-
-  // AppointmentModel _createOtherNewAppointmentTypeModelForMultipleServices({
-  //   required AppointmentModel appointment,
-  //   String? type,
-  //   String? appointmentSlot,
-  //   int? duration,
-  //   required CustomerModel? customerModel,
-  // }) {
-  //   ///creating all the required variables
-  //   final String _type = type!;
-  //   //updating the latest update
-  //   final List<String> _updates = [AppointmentUpdates.createdByCustomer];
-  //   final List<DateTime> _updatedAt = [DateTime.now()];
-
-  //   List<Service> servicesList = appointment.services;
-
-  //   //////////////////////////////////////////////
-  //   //handling appointment TIME & DURATION
-  //   //////////////////////////////////////////////
-  //   final PriceAndDurationModel _priceAndDuration = mastersPriceDurationMap[appointment.master?.id] ?? PriceAndDurationModel();
-  //   // debugPrint(type + " Chosen Slots");
-  //   // debugPrint(appointmentSlot);
-
-  //   TimeOfDay _startTime = Time().stringToTime(appointmentSlot!);
-  //   //computing appointment end time in string
-
-  //   // debugPrint("_startTime");
-  //   // debugPrint(_startTime.toString());
-  //   TimeOfDay _endTime = _startTime.addMinutes(duration ?? 0);
-
-  //   final DateTime _start = Time().generateDateTimeFromString(chosenDay, appointmentSlot);
-
-  //   // debugPrint("_start");
-  //   // debugPrint(_start.toString());
-
-  //   final DateTime _end = Time().generateDateTimeFromString(
-  //     chosenDay,
-  //     Time().timeToString(_endTime)!,
-  //   );
-
-  //   final String? _appointmentTime = appointmentSlot;
-  //   final String _appointmentDate = Time().getDateInStandardFormat(chosenDay);
-
-  //   final DateTime _createdAt = DateTime.now();
-
-  //   /////////////////////////////////////////////
-
-  //   final Master _master = Master(id: appointment.master!.id, name: appointment.master!.name);
-
-  //   /////////////////////////////////////////////
-
-  //   const String _status = AppointmentStatus.active;
-
-  //   const String _createdBy = CreatedBy.salon;
-
-  //   List<Service> selectedAppointmentServices = [];
-
-  //   for (var selectedAvailableService in servicesList) {
-  //     selectedAppointmentServices.add(Service(
-  //       serviceId: selectedAvailableService.serviceId,
-  //       categoryId: selectedAvailableService.categoryId,
-  //       subCategoryId: selectedAvailableService.subCategoryId,
-  //       serviceName: selectedAvailableService.serviceName,
-  //       translations: selectedAvailableService.translations,
-  //       priceAndDuration: PriceAndDurationModel(
-  //         // isFixedPrice: selectedAvailableService.isFixedPrice,
-  //         // isPriceRange: selectedAvailableService.isPriceRange,
-  //         // isPriceStartAt: selectedAvailableService.isPriceStartAt,
-  //         durationinHr: selectedAvailableService.priceAndDuration!.durationinHr,
-  //         durationinMin: selectedAvailableService.priceAndDuration!.durationinMin,
-  //         duration: selectedAvailableService.priceAndDuration!.duration,
-  //         price: selectedAvailableService.priceAndDuration!.price,
-  //       ),
-  //     ));
-  //   }
-
-  //   /// assigning all the variables and creating appointment model ....
-
-  //   return AppointmentModel(
-  //     type: _type,
-  //     createdAt: _createdAt,
-  //     appointmentStartTime: _start,
-  //     appointmentEndTime: _end,
-  //     appointmentTime: _appointmentTime ?? '',
-  //     appointmentDate: _appointmentDate,
-  //     salon: Salon(
-  //       id: chosenSalon!.salonId,
-  //       name: chosenSalon!.salonName,
-  //       address: chosenSalon!.address,
-  //       phoneNo: chosenSalon!.phoneNumber,
-  //     ),
-  //     master: _master,
-  //     customer: Customer(
-  //       id: customerModel!.customerId,
-  //       name: Utils().getName(customerModel.personalInfo),
-  //       phoneNumber: customerModel.personalInfo.phone,
-  //       pic: customerModel.profilePic,
-  //       email: customerModel.personalInfo.email ?? '',
-  //     ),
-  //     createdBy: _createdBy,
-  //     salonOwnerType: OwnerType.salon,
-  //     status: _status,
-  //     subStatus: _start.difference(DateTime.now()).inHours < 24 ? ActiveAppointmentSubStatus.confirmed : ActiveAppointmentSubStatus.unConfirmed,
-  //     updates: _updates,
-  //     updatedAt: _updatedAt,
-  //     services: selectedAppointmentServices,
-  //     priceAndDuration: _priceAndDuration,
-  //     paymentInfo: PaymentInfo(
-  //       bonusApplied: false,
-  //       bonusAmount: 0,
-  //       actualAmount: 0,
-  //       bonusIds: [],
-  //       paymentDone: false,
-  //       onlinePayment: false,
-  //       paymentMethod: PaymentMethods.cardSalon,
-  //     ),
-  //   );
-  // }
 
   resetFlow() {
     loadingStatus = Status.init;

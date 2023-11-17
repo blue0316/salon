@@ -367,61 +367,9 @@ class _RegistrationSuccessfulState extends ConsumerState<RegistrationSuccessful>
               } else {
                 _createAppointmentProvider.nextPageView(2);
               }
+            } else {
+              showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? 'Something went wrong, please try again');
             }
-            // } else {
-            //   setState(() => loader = true);
-
-            //   // CHECK IF WE HAVE THIS NUMBER IN OUT DB
-            //   final CustomerModel? customer = await CustomerApi().findCustomer('$countryCode${phoneNumberController.text.trim()}');
-
-            //   // IF IT EXISTS - GRAB CUSTOMER INFO
-            //   if (customer != null) {
-            //     // UPDATE CUSTOMER INFO
-            //     PersonalInfo personalInfo = PersonalInfo(
-            //       phone: '$countryCode${phoneNumberController.text}',
-            //       firstName: firstNameController.text,
-            //       lastName: lastNameController.text,
-            //       email: emailController.text,
-            //       sex: pronounceController.text,
-            //     );
-
-            //     await CustomerApi().updatePersonalInfo(
-            //       customerId: customer.customerId,
-            //       personalInfo: personalInfo,
-            //     );
-
-            //     // SET AS CURRENT CUSTOMER
-            //     _authProvider.setCurrentCustomer(customer);
-            //     // Go to PageView Order List Screen
-            //     _createAppointmentProvider.nextPageView(3);
-            //   } else {
-            //     // IF IT DOESN'T EXISTS - JUMP TO PAGE TO INPUT INFO
-            //     // CREATE NEW CUSTOMER DOCUMENT
-
-            //     final CustomerModel? createdCustomer = await CustomerApi().createNewCustomer(
-            //       personalInfo: PersonalInfo(
-            //         phone: '$countryCode${phoneNumberController.text}',
-            //         firstName: firstNameController.text,
-            //         lastName: lastNameController.text,
-            //         description: "",
-            //         dob: null,
-            //         email: emailController.text,
-            //         sex: pronounceController.text,
-            //       ),
-            //     );
-
-            //     if (createdCustomer != null) {
-            //       _authProvider.setCurrentCustomer(createdCustomer);
-
-            //       setState(() => loader = false);
-
-            //       _createAppointmentProvider.nextPageView(1);
-            //     } else {
-            //       setState(() => loader = false);
-            //       return;
-            //     }
-            //   }
-            // }
           },
           color: dialogButtonColor(themeType, theme),
           borderColor: dialogButtonColor(themeType, theme),

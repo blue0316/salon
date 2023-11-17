@@ -9,7 +9,6 @@ import 'package:bbblient/src/firebase/admin.dart';
 import 'package:bbblient/src/firebase/customer.dart';
 import 'package:bbblient/src/models/customer/customer.dart';
 import 'package:bbblient/src/models/enums/status.dart';
-import 'package:bbblient/src/models/salon_master/salon.dart';
 import 'package:bbblient/src/mongodb/db_service.dart';
 import 'package:bbblient/src/mongodb/network_handler.dart';
 import 'package:bbblient/src/utils/error_codes.dart';
@@ -19,7 +18,6 @@ import 'package:bbblient/src/views/registration/quiz/register_quiz.dart';
 import 'package:bbblient/src/views/widgets/dialogues/default.dart';
 import 'package:bbblient/src/views/widgets/dialogues/dialogue_function.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -613,25 +611,32 @@ class AuthProviderController with ChangeNotifier {
     }
   }
 
-  Future<bool> createCustomerMongo({required CustomerModel newCustomer}) async {
+  Future createCustomerMongo({required CustomerModel newCustomer}) async {
     printIt('Updating customer info');
     updateCustomerPersonalInfoStatus = Status.loading;
     notifyListeners();
 
     try {
-      await CustomerApi(mongodbProvider: mongodbProvider).createNewCustomerMongo(newCustomer: newCustomer);
+      String docId = await CustomerApi(mongodbProvider: mongodbProvider).createNewCustomerMongo(newCustomer: newCustomer);
 
-      updateCustomerPersonalInfoStatus = Status.success;
-      notifyListeners();
+      if (docId != '') {
+        newCustomer.customerId = docId;
+        setCurrentCustomer(newCustomer);
 
-      printIt('Customer info updated');
-      return true;
+        updateCustomerPersonalInfoStatus = Status.success;
+        notifyListeners();
+
+        printIt('Customer created');
+      } else {
+        printIt('updateCustomerPersonalInfo() - docId is empty (not created)');
+        updateCustomerPersonalInfoStatus = Status.failed;
+        notifyListeners();
+      }
     } catch (err) {
       printIt('Catch error on updateCustomerPersonalInfo() - $err');
 
       updateCustomerPersonalInfoStatus = Status.failed;
       notifyListeners();
-      return false;
     }
   }
 
