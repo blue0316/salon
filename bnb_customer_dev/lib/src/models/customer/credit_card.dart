@@ -6,6 +6,7 @@ class CreditCard {
   String cardType = '';
   String merchantRef = '';
   String storedCredentialUse = '';
+  String customerId = '';
 
   CreditCard({
     this.id = '',
@@ -15,10 +16,12 @@ class CreditCard {
     required this.merchantRef,
     required this.cardType,
     required this.storedCredentialUse,
+    required this.customerId,
   });
 
   CreditCard.fromJson(Map<String, dynamic> json) {
     id = json['id'] ?? '';
+    customerId = json['customerId'] ?? '';
     if (json['CARDNUMBER'] != null) cardNumber = json['CARDNUMBER'];
     if (json['CARDEXPIRY'] != null) cardExpiry = json['CARDEXPIRY'];
     if (json['CARDREFERENCE'] != null) cardReference = json['CARDREFERENCE'];
@@ -31,6 +34,7 @@ class CreditCard {
     final Map<String, dynamic> data = {};
 
     data['id'] = id;
+    data['customerId'] = customerId;
     data['CARDNUMBER'] = cardNumber;
     data['CARDEXPIRY'] = cardExpiry;
     data['CARDREFERENCE'] = cardReference;

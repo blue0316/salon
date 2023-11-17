@@ -392,58 +392,69 @@ class AppointmentProvider with ChangeNotifier {
       "locale": salon?.locale ?? 'en',
     };
 
-    var response = await http.post(url, body: body);
+    try {
+      var response = await http.post(url, body: body);
 
-    debugPrint(body.toString());
-    debugPrint('----------');
-    debugPrint('Response: $response');
-    debugPrint('Response status: ${response.statusCode}');
-    debugPrint('Response body: ${response.body}');
+      debugPrint(body.toString());
+      debugPrint('----------');
+      debugPrint('Response: $response');
+      debugPrint('Response status: ${response.statusCode}');
+      debugPrint('Response body: ${response.body}');
 
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      final Map<String, dynamic> parsedResponse = json.decode(response.body);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final Map<String, dynamic> parsedResponse = json.decode(response.body);
 
-      js.context.callMethod('open', [parsedResponse["message"], '_self']);
+        js.context.callMethod('open', [parsedResponse["message"], '_self']);
 
-      if ((parsedResponse["message"]).toString().length >= 9) {
-        String launchDownloadLink = 'https://${(parsedResponse["message"]).toString().substring('webcal://'.length)}';
-        Uri uri = Uri.parse(launchDownloadLink);
+        if ((parsedResponse["message"]).toString().length >= 9) {
+          String launchDownloadLink = 'https://${(parsedResponse["message"]).toString().substring('webcal://'.length)}';
+          Uri uri = Uri.parse(launchDownloadLink);
 
-        if (await canLaunchUrl(uri)) {
-          await launchUrl(
-            uri,
-            webOnlyWindowName: '_self',
-          );
-        } else {
-          showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? 'Something went wrong, please try again');
+          if (await canLaunchUrl(uri)) {
+            await launchUrl(
+              uri,
+              webOnlyWindowName: '_self',
+            );
+          } else {
+            showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? 'Something went wrong, please try again');
+
+            appleCalendarStatus = Status.failed;
+            notifyListeners();
+          }
         }
+
+        // webcal://storage.googleapis.com/bowandbeautiful-3372d.appspot.com/invites%2F84hWagCdUAURP6BUwNLC
+
+        showTopSnackBar(
+          context,
+          CustomSnackBar.success(
+            message: "Invite successfully created, please check your downloads",
+            backgroundColor: AppTheme.creamBrown,
+            textStyle: AppTheme.customLightTheme.textTheme.bodyLarge!.copyWith(
+              fontSize: 20.sp,
+              color: Colors.black,
+            ),
+          ),
+        );
+      } else {
+        showTopSnackBar(
+          context,
+          CustomSnackBar.success(
+            message: "Something went wrong please try again",
+            backgroundColor: AppTheme.creamBrown,
+            textStyle: AppTheme.customLightTheme.textTheme.bodyLarge!.copyWith(
+              fontSize: 20.sp,
+              color: Colors.black,
+            ),
+          ),
+        );
+        appleCalendarStatus = Status.failed;
+        notifyListeners();
       }
-
-      // webcal://storage.googleapis.com/bowandbeautiful-3372d.appspot.com/invites%2F84hWagCdUAURP6BUwNLC
-
-      showTopSnackBar(
-        context,
-        CustomSnackBar.success(
-          message: "Invite successfully created, please check your downloads",
-          backgroundColor: AppTheme.creamBrown,
-          textStyle: AppTheme.customLightTheme.textTheme.bodyLarge!.copyWith(
-            fontSize: 20.sp,
-            color: Colors.black,
-          ),
-        ),
-      );
-    } else {
-      showTopSnackBar(
-        context,
-        CustomSnackBar.success(
-          message: "Something went wrong please try again",
-          backgroundColor: AppTheme.creamBrown,
-          textStyle: AppTheme.customLightTheme.textTheme.bodyLarge!.copyWith(
-            fontSize: 20.sp,
-            color: Colors.black,
-          ),
-        ),
-      );
+    } catch (err) {
+      printIt('Error on addToAppleCalendar() - $err');
+      appleCalendarStatus = Status.failed;
+      notifyListeners();
     }
     appleCalendarStatus = Status.init;
     notifyListeners();

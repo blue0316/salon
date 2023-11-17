@@ -3903,14 +3903,14 @@ class CreateAppointmentProvider with ChangeNotifier {
 
   blockTime({String? time, int? minutes}) async {
     if (chosenSalon!.ownerType == OwnerType.singleMaster) {
-      await AppointmentApi().blockSalonTime(
+      await AppointmentApi(mongodbProvider: mongodbProvider).blockSalonTime(
         salon: chosenSalon!,
         date: chosenDay,
         time: time ?? chosenSlots.first,
         minutes: minutes ?? int.parse(appointmentModel!.priceAndDuration.duration!),
       );
     } else {
-      await AppointmentApi().blockMastersTime(
+      await AppointmentApi(mongodbProvider: mongodbProvider).blockMastersTime(
         master: chosenMaster!,
         date: chosenDay,
         time: time ?? chosenSlots.first,
@@ -3920,7 +3920,7 @@ class CreateAppointmentProvider with ChangeNotifier {
   }
 
   blockTimeSalonOwnerMaster(AppointmentModel app, MasterModel master, {int? minutes, String? time}) async {
-    await AppointmentApi().blockMastersTime(
+    await AppointmentApi(mongodbProvider: mongodbProvider).blockMastersTime(
       master: master,
       date: chosenDay,
       time: time ?? app.appointmentTime,
@@ -4528,7 +4528,14 @@ class CreateAppointmentProvider with ChangeNotifier {
 
     _appointment.appointmentIdentifier = identifier;
 
-    await AppointmentApi().createUpdateAppointmentMongo(_appointment).then((value) async {
+    await AppointmentApi(mongodbProvider: mongodbProvider).createUpdateAppointmentMongo(_appointment).then((value) async {
+      if (value == null) {
+        bookAppointmentStatus = Status.failed;
+        notifyListeners();
+
+        return;
+      }
+
       //blocking master's time
 
       // debugPrint('is it getting here');
@@ -4537,7 +4544,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 
       if (selectedService.hasProcessingTime) {
         // block start processing
-        await AppointmentApi().blockMastersTime(
+        await AppointmentApi(mongodbProvider: mongodbProvider).blockMastersTime(
           master: chosenMaster!,
           date: chosenDay,
           time: selectedAppointmentSlot!,
@@ -4548,7 +4555,7 @@ class CreateAppointmentProvider with ChangeNotifier {
         /// block time of salon and master,
         if (isSingleMaster) {
           if (salonMasters.first.personalInfo?.phone == chosenSalon?.phoneNumber) {
-            await AppointmentApi().blockSalonTime(
+            await AppointmentApi(mongodbProvider: mongodbProvider).blockSalonTime(
               salon: chosenSalon!,
               date: chosenDay,
               time: selectedAppointmentSlot!,
@@ -4570,7 +4577,7 @@ class CreateAppointmentProvider with ChangeNotifier {
             minute: appointTimeInNumberNew % 60,
           ),
         )!;
-        await AppointmentApi().blockMastersTime(
+        await AppointmentApi(mongodbProvider: mongodbProvider).blockMastersTime(
           master: chosenMaster!,
           date: chosenDay,
           time: endProcessingTime,
@@ -4579,7 +4586,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 
         if (isSingleMaster) {
           if (salonMasters.first.personalInfo?.phone == chosenSalon?.phoneNumber) {
-            await AppointmentApi().blockSalonTime(
+            await AppointmentApi(mongodbProvider: mongodbProvider).blockSalonTime(
               salon: chosenSalon!,
               date: chosenDay,
               time: selectedAppointmentSlot!,
@@ -4589,7 +4596,7 @@ class CreateAppointmentProvider with ChangeNotifier {
         }
       } else {
         // block time normally if
-        await AppointmentApi().blockMastersTime(
+        await AppointmentApi(mongodbProvider: mongodbProvider).blockMastersTime(
           master: chosenMaster!,
           date: chosenDay,
           time: selectedAppointmentSlot!,
@@ -4599,7 +4606,7 @@ class CreateAppointmentProvider with ChangeNotifier {
         );
         if (isSingleMaster) {
           if (salonMasters.first.personalInfo?.phone == chosenSalon?.phoneNumber) {
-            await AppointmentApi().blockSalonTime(
+            await AppointmentApi(mongodbProvider: mongodbProvider).blockSalonTime(
               salon: chosenSalon!,
               date: chosenDay,
               time: selectedAppointmentSlot!,
@@ -4629,8 +4636,15 @@ class CreateAppointmentProvider with ChangeNotifier {
         _appointmentPrep.appointmentIdentifier = identifier;
         //create and block prep time
         if (_appointmentPrep != null) {
-          await AppointmentApi().createUpdateAppointmentMongo(_appointmentPrep).then((value) async {
-            await AppointmentApi().blockMastersTime(
+          await AppointmentApi(mongodbProvider: mongodbProvider).createUpdateAppointmentMongo(_appointmentPrep).then((value) async {
+            if (value == null) {
+              bookAppointmentStatus = Status.failed;
+              notifyListeners();
+
+              return;
+            }
+
+            await AppointmentApi(mongodbProvider: mongodbProvider).blockMastersTime(
               master: chosenMaster!,
               date: chosenDay,
               time: prepTime,
@@ -4639,7 +4653,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 
             if (isSingleMaster) {
               if (salonMasters.first.personalInfo?.phone == chosenSalon?.phoneNumber) {
-                await AppointmentApi().blockSalonTime(
+                await AppointmentApi(mongodbProvider: mongodbProvider).blockSalonTime(
                   salon: chosenSalon!,
                   date: chosenDay,
                   time: selectedAppointmentSlot!,
@@ -4668,8 +4682,15 @@ class CreateAppointmentProvider with ChangeNotifier {
         _appointmentCleanUp.appointmentIdentifier = identifier;
         //create and block cleanUp time
         if (_appointmentCleanUp != null) {
-          await AppointmentApi().createUpdateAppointmentMongo(_appointmentCleanUp).then((value) async {
-            await AppointmentApi().blockMastersTime(
+          await AppointmentApi(mongodbProvider: mongodbProvider).createUpdateAppointmentMongo(_appointmentCleanUp).then((value) async {
+            if (value == null) {
+              bookAppointmentStatus = Status.failed;
+              notifyListeners();
+
+              return;
+            }
+
+            await AppointmentApi(mongodbProvider: mongodbProvider).blockMastersTime(
               master: chosenMaster!,
               date: chosenDay,
               time: Time().timeToString(appointend)!,
@@ -4678,7 +4699,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 
             if (isSingleMaster) {
               if (salonMasters.first.personalInfo?.phone == chosenSalon?.phoneNumber) {
-                await AppointmentApi().blockSalonTime(
+                await AppointmentApi(mongodbProvider: mongodbProvider).blockSalonTime(
                   salon: chosenSalon!,
                   date: chosenDay,
                   time: selectedAppointmentSlot!,
@@ -4810,12 +4831,19 @@ class CreateAppointmentProvider with ChangeNotifier {
     // // debugPrint('end processing time$endApptProcessingTime');
     _appointment.appointmentIdentifier = identifier;
 
-    await AppointmentApi().createUpdateAppointmentMongo(_appointment).then((value) async {
+    await AppointmentApi(mongodbProvider: mongodbProvider).createUpdateAppointmentMongo(_appointment).then((value) async {
+      if (value == null) {
+        bookAppointmentStatus = Status.failed;
+        notifyListeners();
+
+        return;
+      }
+
       //blocking master's time
 
       // // debugPrint('is it getting here');
       // block time normally if
-      await AppointmentApi().blockMastersTime(
+      await AppointmentApi(mongodbProvider: mongodbProvider).blockMastersTime(
         master: chosenMaster!,
         date: chosenDay,
         time: selectedAppointmentSlot!,
@@ -4825,7 +4853,7 @@ class CreateAppointmentProvider with ChangeNotifier {
       );
       if (isSingleMaster) {
         if (salonMasters.first.personalInfo?.phone == chosenSalon?.phoneNumber) {
-          await AppointmentApi().blockSalonTime(
+          await AppointmentApi(mongodbProvider: mongodbProvider).blockSalonTime(
             salon: chosenSalon!,
             date: chosenDay,
             time: selectedAppointmentSlot!,
@@ -4855,8 +4883,15 @@ class CreateAppointmentProvider with ChangeNotifier {
         if (_appointmentPrep != null) {
           _appointment.appointmentIdentifier = identifier;
 
-          await AppointmentApi().createUpdateAppointmentMongo(_appointmentPrep).then((value) async {
-            await AppointmentApi().blockMastersTime(
+          await AppointmentApi(mongodbProvider: mongodbProvider).createUpdateAppointmentMongo(_appointmentPrep).then((value) async {
+            if (value == null) {
+              bookAppointmentStatus = Status.failed;
+              notifyListeners();
+
+              return;
+            }
+
+            await AppointmentApi(mongodbProvider: mongodbProvider).blockMastersTime(
               master: chosenMaster!,
               date: chosenDay,
               time: prepTime,
@@ -4864,7 +4899,7 @@ class CreateAppointmentProvider with ChangeNotifier {
             );
             if (isSingleMaster) {
               if (salonMasters.first.personalInfo?.phone == chosenSalon?.phoneNumber) {
-                await AppointmentApi().blockSalonTime(
+                await AppointmentApi(mongodbProvider: mongodbProvider).blockSalonTime(
                   salon: chosenSalon!,
                   date: chosenDay,
                   time: selectedAppointmentSlot!,
@@ -4894,8 +4929,15 @@ class CreateAppointmentProvider with ChangeNotifier {
         if (_appointmentCleanUp != null) {
           _appointment.appointmentIdentifier = identifier;
 
-          await AppointmentApi().createUpdateAppointmentMongo(_appointmentCleanUp).then((value) async {
-            await AppointmentApi().blockMastersTime(
+          await AppointmentApi(mongodbProvider: mongodbProvider).createUpdateAppointmentMongo(_appointmentCleanUp).then((value) async {
+            if (value == null) {
+              bookAppointmentStatus = Status.failed;
+              notifyListeners();
+
+              return;
+            }
+
+            await AppointmentApi(mongodbProvider: mongodbProvider).blockMastersTime(
               master: chosenMaster!,
               date: chosenDay,
               time: Time().timeToString(appointend)!,
@@ -4903,7 +4945,7 @@ class CreateAppointmentProvider with ChangeNotifier {
             );
             if (isSingleMaster) {
               if (salonMasters.first.personalInfo?.phone == chosenSalon?.phoneNumber) {
-                await AppointmentApi().blockSalonTime(
+                await AppointmentApi(mongodbProvider: mongodbProvider).blockSalonTime(
                   salon: chosenSalon!,
                   date: chosenDay,
                   time: selectedAppointmentSlot!,
@@ -4969,7 +5011,14 @@ class CreateAppointmentProvider with ChangeNotifier {
     var identifier = chosenSalon!.salonId + DateTime.now().toString() + _appointment.master!.id;
     _appointment.appointmentIdentifier = identifier;
 
-    await AppointmentApi().createUpdateAppointmentMongo(_appointment).then((value) async {
+    await AppointmentApi(mongodbProvider: mongodbProvider).createUpdateAppointmentMongo(_appointment).then((value) async {
+      if (value == null) {
+        bookAppointmentStatus = Status.failed;
+        notifyListeners();
+
+        return;
+      }
+
       // debugPrint('is it getting here');
 
       // if it has processing time then it is complex
@@ -4979,14 +5028,14 @@ class CreateAppointmentProvider with ChangeNotifier {
       if (selectedService.hasProcessingTime && selectedService.processingTime != null && selectedService.processingTime != 0) {
         // block start processing
         if (masters!.isNotEmpty) {
-          await AppointmentApi().blockMastersTime(
+          await AppointmentApi(mongodbProvider: mongodbProvider).blockMastersTime(
             master: salonMasters[0],
             date: chosenDay,
             time: selectedAppointmentSlot!,
             minutes: selectedService.startProcessingTime!,
           );
         }
-        await AppointmentApi().blockSalonTime(
+        await AppointmentApi(mongodbProvider: mongodbProvider).blockSalonTime(
           salon: chosenSalon!,
           date: chosenDay,
           time: selectedAppointmentSlot!,
@@ -5003,14 +5052,14 @@ class CreateAppointmentProvider with ChangeNotifier {
           ),
         )!;
         if (masters!.isNotEmpty) {
-          await AppointmentApi().blockMastersTime(
+          await AppointmentApi(mongodbProvider: mongodbProvider).blockMastersTime(
             master: salonMasters[0],
             date: chosenDay,
             time: endProcessingTime,
             minutes: selectedService.endProcessingTime!,
           );
         }
-        await AppointmentApi().blockSalonTime(
+        await AppointmentApi(mongodbProvider: mongodbProvider).blockSalonTime(
           salon: chosenSalon!,
           date: chosenDay,
           time: endProcessingTime,
@@ -5020,7 +5069,7 @@ class CreateAppointmentProvider with ChangeNotifier {
         // block time normally if
 
         if (masters!.isNotEmpty) {
-          await AppointmentApi().blockMastersTime(
+          await AppointmentApi(mongodbProvider: mongodbProvider).blockMastersTime(
             master: salonMasters[0],
             date: chosenDay,
             time: selectedAppointmentSlot!,
@@ -5029,7 +5078,7 @@ class CreateAppointmentProvider with ChangeNotifier {
             ),
           );
         }
-        await AppointmentApi().blockSalonTime(
+        await AppointmentApi(mongodbProvider: mongodbProvider).blockSalonTime(
           salon: chosenSalon!,
           date: chosenDay,
           time: selectedAppointmentSlot!,
@@ -5058,16 +5107,23 @@ class CreateAppointmentProvider with ChangeNotifier {
         _appointmentPrep.appointmentIdentifier = identifier;
         //create and block prep time
         if (_appointmentPrep != null) {
-          await AppointmentApi().createUpdateAppointmentMongo(_appointmentPrep).then((value) async {
+          await AppointmentApi(mongodbProvider: mongodbProvider).createUpdateAppointmentMongo(_appointmentPrep).then((value) async {
+            if (value == null) {
+              bookAppointmentStatus = Status.failed;
+              notifyListeners();
+
+              return;
+            }
+
             if (masters!.isNotEmpty) {
-              await AppointmentApi().blockMastersTime(
+              await AppointmentApi(mongodbProvider: mongodbProvider).blockMastersTime(
                 master: salonMasters[0],
                 date: chosenDay,
                 time: prepTime,
                 minutes: selectedService.preparationTime!,
               );
             }
-            await AppointmentApi().blockSalonTime(
+            await AppointmentApi(mongodbProvider: mongodbProvider).blockSalonTime(
               salon: chosenSalon!,
               date: chosenDay,
               time: prepTime,
@@ -5092,16 +5148,23 @@ class CreateAppointmentProvider with ChangeNotifier {
         _appointmentCleanUp.appointmentIdentifier = identifier;
         //create and block cleanUp time
         if (_appointmentCleanUp != null) {
-          await AppointmentApi().createUpdateAppointmentMongo(_appointmentCleanUp).then((value) async {
+          await AppointmentApi(mongodbProvider: mongodbProvider).createUpdateAppointmentMongo(_appointmentCleanUp).then((value) async {
+            if (value == null) {
+              bookAppointmentStatus = Status.failed;
+              notifyListeners();
+
+              return;
+            }
+
             if (masters!.isNotEmpty) {
-              await AppointmentApi().blockMastersTime(
+              await AppointmentApi(mongodbProvider: mongodbProvider).blockMastersTime(
                 master: salonMasters[0],
                 date: chosenDay,
                 time: Time().timeToString(appointend)!,
                 minutes: selectedService.cleanUpTime!,
               );
             }
-            await AppointmentApi().blockSalonTime(
+            await AppointmentApi(mongodbProvider: mongodbProvider).blockSalonTime(
               salon: chosenSalon!,
               date: chosenDay,
               time: Time().timeToString(appointend)!,
@@ -5227,20 +5290,27 @@ class CreateAppointmentProvider with ChangeNotifier {
     // debugPrint(' prep time $preparationTime');
     // debugPrint('end processing time$endApptProcessingTime');
 
-    await AppointmentApi().createUpdateAppointmentMongo(_appointment).then((value) async {
+    await AppointmentApi(mongodbProvider: mongodbProvider).createUpdateAppointmentMongo(_appointment).then((value) async {
+      if (value == null) {
+        bookAppointmentStatus = Status.failed;
+        notifyListeners();
+
+        return;
+      }
+
       //blocking master's time
 
       // debugPrint('is it getting here');
       // block time normally if
       if (masters!.isNotEmpty) {
-        await AppointmentApi().blockMastersTime(
+        await AppointmentApi(mongodbProvider: mongodbProvider).blockMastersTime(
           master: masters!.first,
           date: chosenDay,
           time: selectedAppointmentSlot!,
           minutes: int.parse(serviceDuration),
         );
       }
-      await AppointmentApi().blockSalonTime(
+      await AppointmentApi(mongodbProvider: mongodbProvider).blockSalonTime(
         salon: chosenSalon!,
         date: chosenDay,
         time: selectedAppointmentSlot!,
@@ -5264,17 +5334,24 @@ class CreateAppointmentProvider with ChangeNotifier {
 
         //create and block prep time
         if (_appointmentPrep != null) {
-          await AppointmentApi().createUpdateAppointmentMongo(_appointmentPrep).then((value) async {
+          await AppointmentApi(mongodbProvider: mongodbProvider).createUpdateAppointmentMongo(_appointmentPrep).then((value) async {
+            if (value == null) {
+              bookAppointmentStatus = Status.failed;
+              notifyListeners();
+
+              return;
+            }
+
             // if both single master, we will block both master and salon profile
             if (masters!.isNotEmpty) {
-              await AppointmentApi().blockMastersTime(
+              await AppointmentApi(mongodbProvider: mongodbProvider).blockMastersTime(
                 master: masters!.first,
                 date: chosenDay,
                 time: prepTime,
                 minutes: preparationTime,
               );
             }
-            await AppointmentApi().blockSalonTime(
+            await AppointmentApi(mongodbProvider: mongodbProvider).blockSalonTime(
               salon: chosenSalon!,
               date: chosenDay,
               time: prepTime,
@@ -5301,17 +5378,24 @@ class CreateAppointmentProvider with ChangeNotifier {
         _appointmentCleanUp.appointmentIdentifier = identifier;
         //create and block cleanUp time
         if (_appointmentCleanUp != null) {
-          await AppointmentApi().createUpdateAppointmentMongo(_appointmentCleanUp).then((value) async {
+          await AppointmentApi(mongodbProvider: mongodbProvider).createUpdateAppointmentMongo(_appointmentCleanUp).then((value) async {
+            if (value == null) {
+              bookAppointmentStatus = Status.failed;
+              notifyListeners();
+
+              return;
+            }
+
             // if both single master, we will block both master and salon profile
             if (masters!.isNotEmpty) {
-              await AppointmentApi().blockMastersTime(
+              await AppointmentApi(mongodbProvider: mongodbProvider).blockMastersTime(
                 master: masters!.first,
                 date: chosenDay,
                 time: Time().timeToString(appointend)!,
                 minutes: cleanUpApptTime,
               );
             }
-            await AppointmentApi().blockSalonTime(
+            await AppointmentApi(mongodbProvider: mongodbProvider).blockSalonTime(
               salon: chosenSalon!,
               date: chosenDay,
               time: Time().timeToString(appointend)!,
@@ -5430,7 +5514,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 
   //   // debugPrint(' prep time $preparationTime');
   //   // debugPrint('end processing time$endApptProcessingTime');
-  //   await AppointmentApi().createUpdateAppointmentMongo(appointment).then((value) async {
+  //   await  AppointmentApi(mongodbProvider: mongodbProvider).createUpdateAppointmentMongo(appointment).then((value) async {
   //     //blocking master's time
 
   //     // debugPrint('is it getting here 2');
@@ -5476,7 +5560,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 
   //       //create and block prep time
   //       if (_appointmentPrep != null) {
-  //         await AppointmentApi().createUpdateAppointmentMongo(_appointmentPrep).then((value) async {
+  //         await  AppointmentApi(mongodbProvider: mongodbProvider).createUpdateAppointmentMongo(_appointmentPrep).then((value) async {
   //           if (isSingleMaster) {
   //             blockTime(
   //               time: prepTime,
@@ -5511,7 +5595,7 @@ class CreateAppointmentProvider with ChangeNotifier {
 
   //       //create and block cleanUp time
   //       if (_appointmentCleanUp != null) {
-  //         await AppointmentApi().createUpdateAppointmentMongo(_appointmentCleanUp).then((value) async {
+  //         await  AppointmentApi(mongodbProvider: mongodbProvider).createUpdateAppointmentMongo(_appointmentCleanUp).then((value) async {
   //           if (isSingleMaster) {
   //             blockTime(
   //               time: Time().timeToString(appointend)!,

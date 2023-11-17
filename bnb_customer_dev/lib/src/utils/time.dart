@@ -1,3 +1,4 @@
+import 'package:bbblient/src/controller/app_provider.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/backend_codings/working_hours.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
@@ -738,9 +739,11 @@ class Time {
     }
 
     var timeData = json[timeTitle];
+    // print([timeData,timeData.runtimeType.toString(), 'from']);
 
     // Check for Map<String, dynamic> type with null-safety
-    if (timeData.runtimeType.toString() == '_Map<String, dynamic>') {
+    if (timeData.runtimeType.toString() == '_Map<String, dynamic>' || timeData.runtimeType.toString() == '_JsonMap') {
+      // print([timeData,timeData.runtimeType.toString(), 'to']);
       if (timeData["value"]?['_seconds'] == null || timeData["value"]?['_nanoseconds'] == null) {
         if (timeData["__time__"] != null) {
           return DateTime.tryParse(timeData["__time__"]);
@@ -748,7 +751,7 @@ class Time {
       } else if (timeData["value"]?['_seconds'] != null && timeData["value"]?['_nanoseconds'] != null) {
         var seconds = timeData["value"]?['_seconds'];
         var nanoseconds = timeData["value"]?['_nanoseconds'];
-
+        // print([seconds,nanoseconds]);
         if (seconds is int && nanoseconds is int) {
           return Timestamp(seconds, nanoseconds).toDate();
         }

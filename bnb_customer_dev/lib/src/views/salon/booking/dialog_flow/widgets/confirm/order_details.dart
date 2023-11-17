@@ -1,4 +1,5 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/controller/app_provider.dart';
 import 'package:bbblient/src/controller/authentication/auth_provider.dart';
 import 'package:bbblient/src/controller/create_apntmnt_provider/create_appointment_provider.dart';
 import 'package:bbblient/src/controller/salon/salon_profile_provider.dart';
@@ -340,7 +341,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                               showToast(AppLocalizations.of(context)?.somethingWentWrongPleaseTryAgain ?? 'Something went wrong, please try again');
                               return;
                             } else {
-                              TransactionApi(mongodbProvider: _dbProvider).streamTransaction(transactionId).listen((event) async {
+                              TransactionApi(mongodbProvider: _dbProvider).streamTransactionMongo(transactionId).listen((event) async {
                                 for (TransactionModel transaction in event) {
                                   if (transaction.responseCode != null) {
                                     if (transaction.responseCode == 'A' || transaction.responseCode == 'E') {
@@ -348,7 +349,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                       // IF REFERENCE EXISTS
 
                                       if (transaction.cardReference != null) {
-                                        await CustomerApi().createCard(
+                                        await CustomerApi(mongodbProvider: _dbProvider).createCardMongo(
                                           customerId: currentCustomer.customerId,
                                           card: CreditCard(
                                             cardNumber: transaction.cardNumber ?? '',
@@ -357,6 +358,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                             cardType: transaction.cardType ?? '',
                                             merchantRef: transaction.merchantRef ?? '',
                                             storedCredentialUse: transaction.storedCredentialUse ?? '',
+                                            customerId: currentCustomer.customerId,
                                           ),
                                         );
                                       }
@@ -459,7 +461,12 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                               }
                             }
 
+                            stylePrint('begin test phase 1');
+
                             CustomerModel currentCustomer = _auth.currentCustomer!;
+
+                            stylePrint('begin test phase 2');
+                            stylePrint('${currentCustomer.personalInfo.lastName} ${currentCustomer.personalInfo.firstName}');
 
                             // Build Appointment
                             if (_createAppointmentProvider.chosenServices.length > 1) {
@@ -471,12 +478,14 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                   customer: currentCustomer,
                                   transactionId: null,
                                 );
+                                stylePrint('begin test phase 2a');
                               } else {
                                 await _createAppointmentProvider.saveAppointmentForMultipleServices(
                                   isSingleMaster: _salonProfileProvider.isSingleMaster,
                                   customer: currentCustomer,
                                   transactionId: null,
                                 );
+                                stylePrint('begin test phase 2b');
                               }
                             } else {
                               //call this single appointment service save function
@@ -487,16 +496,21 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                   customer: currentCustomer,
                                   transactionId: null,
                                 );
+                                stylePrint('begin test phase 2c');
                               } else {
                                 await _createAppointmentProvider.saveAppointmentSingleMaster(
                                   isSingleMaster: _salonProfileProvider.isSingleMaster,
                                   customer: currentCustomer,
                                   transactionId: null,
                                 );
+                                stylePrint('begin test phase 2d');
                               }
                             }
 
+                            stylePrint('begin test phase 3');
+
                             if (_createAppointmentProvider.bookAppointmentStatus == Status.success) {
+                              stylePrint('begin test phase successful');
                               const ConfirmationSuccess(
                                 responseCode: 'A',
                                 transactionID: '',

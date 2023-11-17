@@ -243,6 +243,27 @@ class CustomerApi {
     }
   }
 
+  Future<bool> createCardMongo({required String customerId, required CreditCard card}) async {
+    try {
+      final _docRef = await mongodbProvider!.fetchCollection(CollectionMongo.cards).insertOne(
+            MongoDocument(card.toJson()),
+          );
+
+      String val = _docRef.toHexString();
+      if (val != null) {
+        final selector = {"_id": _docRef};
+        final modifier = UpdateOperator.set({"__path__": 'cards/$val', "id": val});
+
+        await mongodbProvider!.fetchCollection(CollectionMongo.cards).updateOne(filter: selector, update: modifier);
+      }
+
+      return true;
+    } catch (e) {
+      printIt('Error on createCard - e');
+      return false;
+    }
+  }
+
   Future<CustomerModel?> findCustomer(String number) async {
     try {
       var _response = await mongodbProvider!.fetchCollection(CollectionMongo.customers).findOne(

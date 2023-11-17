@@ -11,6 +11,7 @@ class CollectionMongo {
   static const salonAdmins = 'salonAdmins';
   static const masters = 'salonMasters';
   static const customers = 'customers';
+  static const cards = 'cards';
   static const customersAdmins = 'customerAdmins';
   static const appointments = 'appointments';
   static const transactions = 'transactions';

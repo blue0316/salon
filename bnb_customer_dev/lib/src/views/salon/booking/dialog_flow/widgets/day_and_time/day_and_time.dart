@@ -1185,7 +1185,7 @@ class ServiceNameAndPrice extends ConsumerWidget {
           Flexible(
             flex: 0,
             child: Text(
-              servicePrice,
+              servicePrice.trim(),
               style: theme.textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w600,
                 fontSize: priceFontSize ?? DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),

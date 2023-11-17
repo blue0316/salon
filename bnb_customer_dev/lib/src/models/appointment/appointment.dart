@@ -199,11 +199,11 @@ class AppointmentModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     data['type'] = type;
-    data['appointmentStartTime'] = appointmentStartTime;
-    data['createdAt'] = createdAt;
+    data['appointmentStartTime'] = appointmentStartTime?.toIso8601String();
+    data['createdAt'] = createdAt?.toIso8601String();
     data['appointmentIdentifier'] = appointmentIdentifier;
-    data['appointmentEndTime'] = appointmentEndTime;
-    data['updatedAt'] = updatedAt;
+    data['appointmentEndTime'] = appointmentEndTime?.toIso8601String();
+    data['updatedAt'] = updatedAt?.map((e) => e.toIso8601String()).toList();
     data['appointmentTime'] = appointmentTime;
     data['appointmentDate'] = appointmentDate;
     data['salon'] = salon.toJson();

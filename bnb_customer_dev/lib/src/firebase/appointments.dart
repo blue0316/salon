@@ -234,7 +234,7 @@ class AppointmentApi {
             }
           }
         } else {
-          final MasterModel? masterModel = await MastersApi().getMasterFromId(appointmentModel.master!.id);
+          final MasterModel? masterModel = await MastersApi(mongodbProvider: mongodbProvider).getMasterFromId(appointmentModel.master!.id);
           if (masterModel != null) {
             Status cancel = await cancelBlockedTimeMaster(
               appointmentModel: appointmentModel,
@@ -283,8 +283,8 @@ class AppointmentApi {
         time: time,
         minutes: minutes,
       );
-      await MastersApi().updateMasterMongo(master);
-      // await MastersApi().updateMasterBlockTime(master);
+      await MastersApi(mongodbProvider: mongodbProvider).updateMasterMongo(master);
+      // await MastersApi(mongodbProvider: mongodbProvider).updateMasterBlockTime(master);
       return 1;
     } catch (e) {
       printIt('Error on blockMastersTime() - $e ');
@@ -295,8 +295,8 @@ class AppointmentApi {
   cancelBlockedTimeMaster({required AppointmentModel appointmentModel, required MasterModel master}) async {
     try {
       master = _removeBlockedSlotsMaster(appointmentModel, master);
-      await MastersApi().updateMasterMongo(master);
-      // await MastersApi().updateMasterBlockTime(master);
+      await MastersApi(mongodbProvider: mongodbProvider).updateMasterMongo(master);
+      // await MastersApi(mongodbProvider: mongodbProvider).updateMasterBlockTime(master);
       return Status.success;
     } catch (e) {
       printIt(e);
@@ -541,8 +541,8 @@ class AppointmentApi {
     try {
       //remove blocked time from master's schedule
       master = _removeBlockedSlots(app, master);
-      await MastersApi().updateMasterMongo(master);
-      // await MastersApi().updateMaster(master);
+      await MastersApi(mongodbProvider: mongodbProvider).updateMasterMongo(master);
+      // await MastersApi(mongodbProvider: mongodbProvider).updateMaster(master);
       return Status.success;
     } catch (e) {
       //(e);
@@ -720,7 +720,7 @@ class AppointmentApi {
 
 
 
-           // MasterModel? masterModel = await MastersApi().getMasterFromId(appointmentModel.master?.id ?? '');
+           // MasterModel? masterModel = await MastersApi(mongodbProvider: mongodbProvider).getMasterFromId(appointmentModel.master?.id ?? '');
           // printIt(masterModel?.toJson());
           // if (masterModel != null) {
           //   Map<String, dynamic>? blockedTimes = masterModel.blockedTime;
@@ -737,7 +737,7 @@ class AppointmentApi {
           //       }
           //       printIt(blockedTimes);
           //       masterModel.blockedTime = blockedTimes;
-          //       await MastersApi().updateMasterBlockTime(masterModel);
+          //       await MastersApi(mongodbProvider: mongodbProvider).updateMasterBlockTime(masterModel);
           //     }
           //   }
           // }

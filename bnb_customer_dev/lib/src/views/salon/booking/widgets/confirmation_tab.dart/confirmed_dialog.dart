@@ -10,6 +10,7 @@ import 'package:bbblient/src/utils/google_calendar.dart';
 import 'package:bbblient/src/utils/icons.dart';
 import 'package:bbblient/src/utils/time.dart';
 import 'package:bbblient/src/views/appointment/widgets/theme_colors.dart';
+import 'package:bbblient/src/views/salon/booking/dialog_flow/booking_dialog_2.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/confirm/order_details.dart';
 import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/day_and_time/day_and_time.dart';
 import 'package:bbblient/src/views/themes/utils/theme_type.dart';
@@ -102,7 +103,7 @@ class _ConfirmedDialogState<T> extends ConsumerState<ConfirmedDialog<T>> {
                           fontSize: DeviceConstraints.getResponsiveSize(context, 16.sp, 17.sp, 18.sp),
                           fontWeight: FontWeight.w500,
                           fontFamily: 'Inter-Medium',
-                          color: theme.colorScheme.onBackground,
+                          color: tabTitleColor(themeType, theme),
                         ),
                       ),
                       const Spacer(flex: 2),

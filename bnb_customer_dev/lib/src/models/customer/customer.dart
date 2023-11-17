@@ -43,7 +43,7 @@ class CustomerModel {
   });
 
   CustomerModel.fromJson(Map<String, dynamic> json) {
-    createdAt = json['createdAt'] != null ? Time().convertToMongoTimeMore3(json: json, timeTitle: 'createdAt', time: json['createdAt']) : DateTime.now();
+    createdAt = Time().convertToMongoTimeMore3(json: json, timeTitle: 'createdAt', time: json['createdAt']);
 
     // DateTime.parse(json['createdAt']["__time__"]) : DateTime.now();
     customerId = json['customerId'] ?? '';

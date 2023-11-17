@@ -1,3 +1,5 @@
+import 'package:bbblient/src/utils/time.dart';
+
 class TransactionModel {
   late DateTime timeInitiated;
   late String amount;
@@ -26,7 +28,15 @@ class TransactionModel {
   });
 
   TransactionModel.fromJson(Map<String, dynamic> json) {
-    timeInitiated = json['timeInitiated'].toDate();
+    timeInitiated = json['timeInitiated'] != null
+        ? Time().convertToMongoTimeMore3(
+            json: json,
+            timeTitle: 'timeInitiated',
+            time: json['timeInitiated'],
+          )!
+        : DateTime.now();
+
+    // timeInitiated = json['timeInitiated'].toDate();
     amount = json['amount'];
     transactionId = json['transactionId'];
     responseCode = json['RESPONSECODE'] ?? '';
@@ -42,7 +52,7 @@ class TransactionModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
-    data['timeInitiated'] = timeInitiated;
+    data['timeInitiated'] = timeInitiated.toIso8601String();
     data['amount'] = amount;
     data['transactionId'] = transactionId;
     data['RESPONSECODE'] = responseCode;

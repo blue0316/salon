@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bbblient/src/firebase/collections.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/transaction.dart';
@@ -86,6 +88,18 @@ class TransactionApi {
       }
       return allTransactions;
     });
+  }
+
+  Stream<List<TransactionModel>> streamTransactionMongo(String id) {
+    return mongodbProvider!.fetchCollection(CollectionMongo.transactions).watchWithFilter({'transactionId': id}).take(1).map((event) {
+          if (event == null) throw 'error';
+          return event.map((snapShot) {
+            Map<String, dynamic> _temp = json.decode(snapShot.toJson()) as Map<String, dynamic>;
+            _temp['transactionId'] = _temp["transactionId"];
+
+            return TransactionModel.fromJson(_temp);
+          }).toList();
+        });
   }
 
   Stream<List<AppointmentModel>> getAllAppointmentWithTransaction(String? transactionId) {
