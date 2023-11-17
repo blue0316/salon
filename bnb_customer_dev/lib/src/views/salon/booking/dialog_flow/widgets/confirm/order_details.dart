@@ -324,7 +324,12 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                               }
                             }
 
+                            stylePrint('begin test phase 1');
+
                             CustomerModel? currentCustomer = _auth.currentCustomer!;
+
+                            stylePrint('begin test phase 2');
+                            stylePrint('${currentCustomer.personalInfo.lastName} ${currentCustomer.personalInfo.firstName}');
 
                             setState(() => spinner = true);
 
@@ -334,7 +339,12 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                               salonId: salonModel.salonId,
                             );
 
+                            stylePrint('begin test phase 3');
+
                             String? transactionId = await TransactionApi(mongodbProvider: _dbProvider).createTransactionMongo(newTransaction);
+
+                            stylePrint(transactionId);
+                            stylePrint('begin test phase 4');
 
                             if (transactionId == null) {
                               // Transaction must not be null (a doc must me created in transactions collection)
@@ -342,9 +352,17 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                               return;
                             } else {
                               TransactionApi(mongodbProvider: _dbProvider).streamTransactionMongo(transactionId).listen((event) async {
+                                stylePrint(transactionId);
+
                                 for (TransactionModel transaction in event) {
+                                  stylePrint('begin test phase 5');
+
                                   if (transaction.responseCode != null) {
+                                    stylePrint('begin test phase 6');
+
                                     if (transaction.responseCode == 'A' || transaction.responseCode == 'E') {
+                                      stylePrint('begin test phase 7');
+
                                       // ADD CARD TO CARDS SUB-COLLECTION IN CUSTOMER DOCUMENT
                                       // IF REFERENCE EXISTS
 
@@ -363,6 +381,8 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                         );
                                       }
 
+                                      stylePrint('begin test phase 8');
+
                                       Navigator.pop(context); // closes payroc dialog
 
                                       // html.window.open('https://yogasm.firebaseapp.com/confirmation?RESPONSECODE=${transaction.responseCode}?transactionId=$transactionId', "_self");
@@ -374,12 +394,14 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                             customer: currentCustomer,
                                             transactionId: transactionId,
                                           );
+                                          stylePrint('begin test phase 8a');
                                         } else {
                                           await _createAppointmentProvider.saveAppointmentForMultipleServices(
                                             isSingleMaster: _salonProfileProvider.isSingleMaster,
                                             customer: currentCustomer,
                                             transactionId: transactionId,
                                           );
+                                          stylePrint('begin test phase 8b');
                                         }
                                       } else {
                                         //call multiple appointment service save option
@@ -390,12 +412,14 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                             customer: currentCustomer,
                                             transactionId: transactionId,
                                           );
+                                          stylePrint('begin test phase 8c');
                                         } else {
                                           await _createAppointmentProvider.saveAppointmentSingleMaster(
                                             isSingleMaster: _salonProfileProvider.isSingleMaster,
                                             customer: currentCustomer,
                                             transactionId: transactionId,
                                           );
+                                          stylePrint('begin test phase 8d');
                                         }
                                       }
 
@@ -461,12 +485,7 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                               }
                             }
 
-                            stylePrint('begin test phase 1');
-
                             CustomerModel currentCustomer = _auth.currentCustomer!;
-
-                            stylePrint('begin test phase 2');
-                            stylePrint('${currentCustomer.personalInfo.lastName} ${currentCustomer.personalInfo.firstName}');
 
                             // Build Appointment
                             if (_createAppointmentProvider.chosenServices.length > 1) {
@@ -478,14 +497,12 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                   customer: currentCustomer,
                                   transactionId: null,
                                 );
-                                stylePrint('begin test phase 2a');
                               } else {
                                 await _createAppointmentProvider.saveAppointmentForMultipleServices(
                                   isSingleMaster: _salonProfileProvider.isSingleMaster,
                                   customer: currentCustomer,
                                   transactionId: null,
                                 );
-                                stylePrint('begin test phase 2b');
                               }
                             } else {
                               //call this single appointment service save function
@@ -496,18 +513,14 @@ class _OrderListState extends ConsumerState<OrderDetails> {
                                   customer: currentCustomer,
                                   transactionId: null,
                                 );
-                                stylePrint('begin test phase 2c');
                               } else {
                                 await _createAppointmentProvider.saveAppointmentSingleMaster(
                                   isSingleMaster: _salonProfileProvider.isSingleMaster,
                                   customer: currentCustomer,
                                   transactionId: null,
                                 );
-                                stylePrint('begin test phase 2d');
                               }
                             }
-
-                            stylePrint('begin test phase 3');
 
                             if (_createAppointmentProvider.bookAppointmentStatus == Status.success) {
                               stylePrint('begin test phase successful');
