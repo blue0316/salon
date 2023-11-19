@@ -281,7 +281,7 @@ class Utils {
 
       WebBrowserInfo webBrowserInfo = await deviceInfo.webBrowserInfo;
 
-      return "Web ${webBrowserInfo.vendor} | ${webBrowserInfo.userAgent}";
+      return "Web ${webBrowserInfo.vendor} | ${webBrowserInfo.userAgent} ${Random().nextDouble() * 256}";
     }
 
     if (Platform.isAndroid) {
