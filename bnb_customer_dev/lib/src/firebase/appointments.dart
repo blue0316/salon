@@ -283,7 +283,13 @@ class AppointmentApi {
         time: time,
         minutes: minutes,
       );
-      await MastersApi(mongodbProvider: mongodbProvider).updateMasterMongo(master);
+
+      master.avgRating = 45; // 3
+
+      // print('&&&&------&&&&------');
+      // print(master.blockedTime);
+      // print('&&&&------&&&&------');
+      await MastersApi(mongodbProvider: mongodbProvider).updateMasterBlockTimeMongo(master);
       // await MastersApi(mongodbProvider: mongodbProvider).updateMasterBlockTime(master);
       return 1;
     } catch (e) {

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:bbblient/src/controller/app_provider.dart';
 import 'package:bbblient/src/models/cat_sub_service/price_and_duration.dart';
 import 'package:bbblient/src/models/review.dart';
 import 'package:bbblient/src/mongodb/collection.dart';
@@ -129,6 +130,31 @@ class MastersApi {
   //   }
   // }
 
+  Future<int> updateMasterBlockTimeMongo(MasterModel master) async {
+    try {
+      print(master.blockedTime);
+      final selector = {"__path__": 'salonMasters/${master.masterId}'};
+
+      // Map<String, dynamic> aa = master.blockedTime!;
+      master.personalInfo?.firstName = 'Abeg';
+      final modifier = UpdateOperator.set(master.toJson());
+
+      var abc = await mongodbProvider!.fetchCollection(CollectionMongo.masters).updateOne(filter: selector, update: modifier);
+
+      stylePrint(abc);
+
+      // Map<String, dynamic> aa = {
+      //   '2023-11-20': ['09:00', '09:29'],
+      // };
+// {2023-11-20: [09:00, 09:01, 09:02, 09:03, 09:04, 09:05, 09:06, 09:07, 09:08, 09:09, 09:10, 09:11, 09:12, 09:13, 09:14, 09:15, 09:16, 09:17, 09:18, 09:19, 09:20, 09:21, 09:22, 09:23, 09:24, 09:25, 09:26, 09:27, 09:28, 09:29, 09:00, 09:15, 09:16, 09:17, 09:18, 09:19, 09:20, 09:21, 09:22, 09:23, 09:24, 09:25, 09:26, 09:27, 09:28, 09:29]}
+
+      return 1;
+    } catch (e) {
+      debugPrint('Error on updateMasterBlockTimeMongo() -$e');
+      return 0;
+    }
+  }
+
   //updates the salon admin data
 
   Future updateMaster(MasterModel master, {bool isNewMaster = false}) async {
@@ -188,10 +214,24 @@ class MastersApi {
 
         return master;
       } else if (master.masterId != null || !isNewMaster) {
+        // master.reviewCount = 20; // 1
         final selector = {"__path__": 'salonMasters/${master.masterId}'};
         final modifier = UpdateOperator.set(master.toJson());
 
         await mongodbProvider!.fetchCollection(CollectionMongo.masters).updateOne(filter: selector, update: modifier);
+
+        // await mongodbProvider!.fetchCollection(CollectionMongo.masters).updateOne(
+        //   filter: {"masterId": master.masterId},
+        //   update: UpdateOperator.set(master.toJson()),
+        // );
+
+        master.title = 'omo nawa';
+        // await mongodbProvider!.fetchCollection(CollectionMongo.masters).insertOne(MongoDocument(master.toJson()));
+
+        // print('@@@@@@######---@@@@@@######---');
+
+        // print(a);
+        // print('@@@@@@######---@@@@@@######---');
 
         return master;
       }

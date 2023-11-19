@@ -1,5 +1,6 @@
 import 'package:bbblient/src/models/cat_sub_service/price_and_duration.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
+import 'package:bbblient/src/utils/time.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import '../backend_codings/working_hours.dart';
 
@@ -72,7 +73,9 @@ class MasterModel {
   });
 
   MasterModel.fromJson(Map<String, dynamic> json) {
-    if (json['createdAt'] != null) createdAt = DateTime.parse(json['createdAt']["__time__"]);
+    createdAt = Time().convertToMongoTimeMore3(json: json, timeTitle: 'createdAt', time: json['createdAt']);
+
+    // if (json['createdAt'] != null) createdAt = DateTime.parse(json['createdAt']["__time__"]);
 
     masterId = json['masterId'];
     salonId = json['salonId'];
@@ -110,7 +113,7 @@ class MasterModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
-    if (createdAt != null) data['createdAt'] = createdAt;
+    if (createdAt != null) data['createdAt'] = createdAt?.toIso8601String();
 
     data['salonId'] = salonId;
     data['masterId'] = masterId;

@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_function_literals_in_foreach_calls
 
+import 'package:bbblient/src/controller/app_provider.dart';
 import 'package:bbblient/src/firebase/appointment_availability.dart';
 import 'package:bbblient/src/firebase/appointments.dart';
 import 'package:bbblient/src/firebase/category_services.dart';
@@ -4541,7 +4542,6 @@ class CreateAppointmentProvider with ChangeNotifier {
       // debugPrint('is it getting here');
 
       // if it has processing time then it is complex
-
       if (selectedService.hasProcessingTime) {
         // block start processing
         await AppointmentApi(mongodbProvider: mongodbProvider).blockMastersTime(
