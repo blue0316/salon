@@ -132,16 +132,17 @@ class MastersApi {
 
   Future<int> updateMasterBlockTimeMongo(MasterModel master) async {
     try {
+      print(master.masterId);
       final selector = {"masterId": master.masterId};
 
       // Map<String, dynamic> aa = master.blockedTime!;
-      master.personalInfo?.firstName = 'Abeg';
       final modifier = UpdateOperator.set(
-        master.toJson(),
+        {
+          'blockedTime': master.blockedTime,
+        },
       );
 
       await mongodbProvider!.fetchCollection(CollectionMongo.masters).updateOne(filter: selector, update: modifier).catchError((err) {
-        print('Catch error - $err');
         return [];
       });
 

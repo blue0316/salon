@@ -52,7 +52,7 @@ void main() async {
       profileScreenRobot = ProfileScreenRobot(tester);
       singleMasterRobot = SingleMasterRobot(tester);
       notFirstTimeRobot = NotFirstTimeRobot(tester);
-      final userLoggedIn = AuthProviderController();
+      // final userLoggedIn = AuthProviderController();
       if (firstTime.isFirstTime) {
         await onboardingRobot.navigatingToOnboarding();
         await homeRobot.navigatingToHomePage();
@@ -70,7 +70,7 @@ void main() async {
         await singleMasterRobot.selectingAMaster();
         await singleMasterRobot.choosingAMasterService();
         await singleMasterRobot.bookingAMastersService();
-      } else if (firstTime.isFirstTime == false && userLoggedIn.userLoggedIn == false) {
+        // } else if (firstTime.isFirstTime == false && userLoggedIn.userLoggedIn == false) {
         //then we want to log in the user
         await notFirstTimeRobot.goToHomePage();
         await loginRobots.loginIn();
@@ -87,7 +87,7 @@ void main() async {
         await singleMasterRobot.selectingAMaster();
         await singleMasterRobot.choosingAMasterService();
         await singleMasterRobot.bookingAMastersService();
-      } else if (userLoggedIn.userLoggedIn == true) {
+        // } else if (userLoggedIn.userLoggedIn == true) {
         //then we want to check that the user is logged in
         await notFirstTimeRobot.ifUserIsloggedIn();
         await homeRobot.checkingForHomeScreenWidgets();
