@@ -132,16 +132,18 @@ class MastersApi {
 
   Future<int> updateMasterBlockTimeMongo(MasterModel master) async {
     try {
-      print(master.blockedTime);
-      final selector = {"__path__": 'salonMasters/${master.masterId}'};
+      final selector = {"masterId": master.masterId};
 
       // Map<String, dynamic> aa = master.blockedTime!;
       master.personalInfo?.firstName = 'Abeg';
-      final modifier = UpdateOperator.set(master.toJson());
+      final modifier = UpdateOperator.set(
+        master.toJson(),
+      );
 
-      var abc = await mongodbProvider!.fetchCollection(CollectionMongo.masters).updateOne(filter: selector, update: modifier);
-
-      stylePrint(abc);
+      await mongodbProvider!.fetchCollection(CollectionMongo.masters).updateOne(filter: selector, update: modifier).catchError((err) {
+        print('Catch error - $err');
+        return [];
+      });
 
       // Map<String, dynamic> aa = {
       //   '2023-11-20': ['09:00', '09:29'],
