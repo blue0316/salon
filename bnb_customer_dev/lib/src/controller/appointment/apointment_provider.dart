@@ -312,7 +312,7 @@ class AppointmentProvider with ChangeNotifier {
 
       final modifier2 = UpdateOperator.push({
         "updates": ArrayModifier.each([AppointmentUpdates.cancelledBySalon]),
-        "updatedAt": ArrayModifier.each([DateTime.now()])
+        "updatedAt": ArrayModifier.each([DateTime.now().toIso8601String()])
       });
 
       final modifier = UpdateOperator.set({

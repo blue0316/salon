@@ -411,39 +411,40 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                                     ],
                                                     // NOT US CHECK
                                                     if (_appointmentProvider.salon!.countryCode != 'US') ...[
-                                                      Button(
-                                                        text: AppLocalizations.of(context)?.cancelAppointment ?? 'Cancel Appointment',
-                                                        onTap: () async {
-                                                          showMyDialog(
-                                                            context,
-                                                            bgColor: scaffoldBGColor(themeType, theme),
-                                                            child: DeleteClientNewTheme(
-                                                              title: (AppLocalizations.of(context)?.cancelAppointmentDialogue ?? "Are you sure you want to cancel this appointment?"),
-                                                              desc: "",
-                                                              delete: 'tr(Keys.yes)',
-                                                              cancel: 'tr(Keys.no)',
-                                                              onDelete: () async {
-                                                                _appointmentProvider.cancelAppointment(
-                                                                  isSingleMaster: _appointmentProvider.isSingleMaster,
-                                                                  appointmentID: appointment!.appointmentId!,
-                                                                  appointment: appointment!,
-                                                                  salon: _appointmentProvider.salon!,
-                                                                  salonMasters: _appointmentProvider.allMastersInSalon,
-                                                                  callback: () {
-                                                                    fetchDetails();
-                                                                  },
-                                                                );
+                                                      if (appointment?.status != AppointmentStatus.cancelled)
+                                                        Button(
+                                                          text: AppLocalizations.of(context)?.cancelAppointment ?? 'Cancel Appointment',
+                                                          onTap: () async {
+                                                            showMyDialog(
+                                                              context,
+                                                              bgColor: scaffoldBGColor(themeType, theme),
+                                                              child: DeleteClientNewTheme(
+                                                                title: (AppLocalizations.of(context)?.cancelAppointmentDialogue ?? "Are you sure you want to cancel this appointment?"),
+                                                                desc: "",
+                                                                delete: 'tr(Keys.yes)',
+                                                                cancel: 'tr(Keys.no)',
+                                                                onDelete: () async {
+                                                                  _appointmentProvider.cancelAppointment(
+                                                                    isSingleMaster: _appointmentProvider.isSingleMaster,
+                                                                    appointmentID: appointment!.appointmentId!,
+                                                                    appointment: appointment!,
+                                                                    salon: _appointmentProvider.salon!,
+                                                                    salonMasters: _appointmentProvider.allMastersInSalon,
+                                                                    callback: () {
+                                                                      fetchDetails();
+                                                                    },
+                                                                  );
 
-                                                                showToast(AppLocalizations.of(context)?.appointmentCancelledSuccessfully ?? 'Appointment cancelled succesfully');
-                                                              },
-                                                            ),
-                                                          );
-                                                        },
-                                                        isLoading: _spinner == true || _appointmentProvider.cancelAppointmentStatus == Status.loading || _appointmentProvider.createNoShowPolicyStatus == Status.loading,
-                                                        loaderColor: transparentLoaderColor(themeType, theme),
-                                                        borderColor: theme.primaryColor.withOpacity(0.6),
-                                                        textColor: borderColor(themeType, theme),
-                                                      ),
+                                                                  showToast(AppLocalizations.of(context)?.appointmentCancelledSuccessfully ?? 'Appointment cancelled succesfully');
+                                                                },
+                                                              ),
+                                                            );
+                                                          },
+                                                          isLoading: _spinner == true || _appointmentProvider.cancelAppointmentStatus == Status.loading || _appointmentProvider.createNoShowPolicyStatus == Status.loading,
+                                                          loaderColor: transparentLoaderColor(themeType, theme),
+                                                          borderColor: theme.primaryColor.withOpacity(0.6),
+                                                          textColor: borderColor(themeType, theme),
+                                                        ),
                                                     ],
                                                     const SizedBox(width: 20),
                                                     if (appointment?.subStatus != ActiveAppointmentSubStatus.confirmed && shouldShowConfirmButton(appointment!.appointmentStartTime!))
@@ -462,7 +463,7 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                                       ),
                                                   ],
                                                 ),
-                                            ],
+                                            ], // http://localhost:57876/appointments?id=655bc7f379cc5295ea1cfd98
                                           ),
                                         ),
                                       ),

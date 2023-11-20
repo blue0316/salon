@@ -704,7 +704,7 @@ class AppointmentApi {
             final modifier2 = UpdateOperator.set({"subStatus": appointment.subStatus});
 
             final modifierPush = UpdateOperator.push({
-              "updatedAt": ArrayModifier.each([DateTime.now()]),
+              "updatedAt": ArrayModifier.each([DateTime.now().toIso8601String()]),
               "updates": ArrayModifier.each([AppointmentUpdates.cancelledBySalon])
             });
 
@@ -720,7 +720,7 @@ class AppointmentApi {
             final modifier2 = UpdateOperator.set({"subStatus": appointment.subStatus});
 
             final modifierPush = UpdateOperator.push({
-              "updatedAt": ArrayModifier.each([DateTime.now()]),
+              "updatedAt": ArrayModifier.each([DateTime.now().toIso8601String()]),
               "updates": ArrayModifier.each([AppointmentUpdates.approvedBySalon])
             });
 
@@ -733,7 +733,7 @@ class AppointmentApi {
             final modifier2 = UpdateOperator.set({"subStatus": appointment.subStatus});
 
             final modifierPush = UpdateOperator.push({
-              "updatedAt": ArrayModifier.each([DateTime.now()]),
+              "updatedAt": ArrayModifier.each([DateTime.now().toIso8601String()]),
               "updates": ArrayModifier.each([AppointmentUpdates.approvedBySalon])
             });
 
@@ -746,7 +746,7 @@ class AppointmentApi {
             final modifier2 = UpdateOperator.set({"subStatus": appointment.subStatus});
 
             final modifierPush = UpdateOperator.push({
-              "updatedAt": ArrayModifier.each([DateTime.now()]),
+              "updatedAt": ArrayModifier.each([DateTime.now().toIso8601String()]),
               "updates": ArrayModifier.each([AppointmentUpdates.noShowBySalon])
             });
 
@@ -759,7 +759,7 @@ class AppointmentApi {
             final modifier2 = UpdateOperator.set({"subStatus": appointment.subStatus});
 
             final modifierPush = UpdateOperator.push({
-              "updatedAt": ArrayModifier.each([DateTime.now()]),
+              "updatedAt": ArrayModifier.each([DateTime.now().toIso8601String()]),
               "updates": ArrayModifier.each([AppointmentUpdates.completed])
             });
 
@@ -772,7 +772,7 @@ class AppointmentApi {
             final modifier2 = UpdateOperator.set({"subStatus": appointment.subStatus});
 
             final modifierPush = UpdateOperator.push({
-              "updatedAt": ArrayModifier.each([DateTime.now()]),
+              "updatedAt": ArrayModifier.each([DateTime.now().toIso8601String()]),
               "updates": ArrayModifier.each([AppointmentUpdates.completed])
             });
 
@@ -785,7 +785,7 @@ class AppointmentApi {
             final modifier2 = UpdateOperator.set({"subStatus": appointment.subStatus});
 
             final modifierPush = UpdateOperator.push({
-              "updatedAt": ArrayModifier.each([DateTime.now()]),
+              "updatedAt": ArrayModifier.each([DateTime.now().toIso8601String()]),
               "updates": ArrayModifier.each([AppointmentUpdates.completed])
             });
 
@@ -798,7 +798,7 @@ class AppointmentApi {
             final modifier2 = UpdateOperator.set({"subStatus": appointment.subStatus});
 
             final modifierPush = UpdateOperator.push({
-              "updatedAt": ArrayModifier.each([DateTime.now()]),
+              "updatedAt": ArrayModifier.each([DateTime.now().toIso8601String()]),
               "updates": ArrayModifier.each([AppointmentUpdates.completed])
             });
 
@@ -811,7 +811,7 @@ class AppointmentApi {
             final modifier2 = UpdateOperator.set({"subStatus": appointment.subStatus});
 
             final modifierPush = UpdateOperator.push({
-              "updatedAt": ArrayModifier.each([DateTime.now()]),
+              "updatedAt": ArrayModifier.each([DateTime.now().toIso8601String()]),
               "updates": ArrayModifier.each([AppointmentUpdates.changedBySalon])
             });
             await mongodbProvider!.fetchCollection(CollectionMongo.appointments).updateOne(filter: selector, update: modifier);
