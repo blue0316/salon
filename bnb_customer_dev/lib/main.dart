@@ -154,14 +154,14 @@ class _NavigatorPageState extends ConsumerState<NavigatorPage> {
   @override
   Widget build(BuildContext context) {
     // final AppProvider _appProvider = ref.watch(appProvider);
-    return Container(
-      color: Colors.purple,
-      child: const Text('DEV ENV'),
-    );
-    // return const Material(
-    //   color: AppTheme.white,
-    //   child: HomeIframe(),
+    // return Container(
+    //   color: Colors.purple,
+    //   child: const Text('DEV ENV'),
     // );
+    return const Material(
+      color: AppTheme.white,
+      child: HomeIframe(),
+    );
   }
 }
 
