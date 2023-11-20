@@ -149,10 +149,7 @@ class _PayDialogState extends ConsumerState<PayDialog> {
     // print();
     _iframeElement2.style.height = '100%';
     _iframeElement2.style.width = '100%';
-    _iframeElement2.src = 'https://testpayments.worldnettps.com/merchant/securecardpage?TERMINALID=${widget.terminalId ?? "5363001"}&DATETIME=${formatter.format(timeNow)}&HASH=$hash&CURRENCY=${widget.currency ?? "USD"}&MERCHANTREF=${widget.transactionId ?? "Glamiris181234${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}"}&ACTION=register&RECEIPTPAGEURL=http://34.23.250.26:3000/api/v1/payroc/mobileReceipt';
-    // _iframeElement2.src = 'https://testpayments.worldnettps.com/merchant/securecardpage?TERMINALID=${widget.terminalId ?? "5363001"}&DATETIME=${formatter.format(timeNow)}&HASH=$hash&CURRENCY=${widget.currency ?? "USD"}&MERCHANTREF=${widget.transactionId ?? "Glamiris181234${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}"}&ACTION=register&RECEIPTPAGEURL=https://us-central1-bowandbeautiful-3372d.cloudfunctions.net/payrocreceipt-payrocReceipt';
-    // _iframeElement2.src = 'https://us-east-1.aws.data.mongodb-api.com/app/glamiris_realm_test-msatn/endpoint/payroc_receipt';
-    // https://us-east-1.aws.data.mongodb-api.com/app/glamiris_realm_test-msatn/endpoint/payroc_mobile_receipt
+    _iframeElement2.src = 'https://testpayments.worldnettps.com/merchant/securecardpage?TERMINALID=${widget.terminalId ?? "5363001"}&DATETIME=${formatter.format(timeNow)}&HASH=$hash&CURRENCY=${widget.currency ?? "USD"}&MERCHANTREF=${widget.transactionId ?? "Glamiris181234${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}"}&ACTION=register';
     _iframeElement2.style.border = 'none';
     _iframeElement2.style.border = 'none';
 

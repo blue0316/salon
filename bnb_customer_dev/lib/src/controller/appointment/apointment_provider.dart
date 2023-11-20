@@ -29,6 +29,7 @@ import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_mongodb_realm/flutter_mongo_realm.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import 'package:table_calendar/table_calendar.dart';
@@ -151,7 +152,7 @@ class AppointmentProvider with ChangeNotifier {
     appointmentStatus = Status.loading;
     notifyListeners();
     try {
-      var appointmentDoc = await mongodbProvider!.fetchCollection(CollectionMongo.appointments).findOne(
+      var appointmentDoc = await mongodbProvider.fetchCollection(CollectionMongo.appointments).findOne(
         filter: {'appointmentId': appointmentID},
       );
 
@@ -261,6 +262,39 @@ class AppointmentProvider with ChangeNotifier {
     }
   }
 
+  void updateAppointmentSubStatusMongo({required String appointmentID, Function? callback}) async {
+    updateSubStatus = Status.loading;
+    notifyListeners();
+    try {
+      final selector = {'appointmentId': appointmentID};
+
+      final modifier = UpdateOperator.set({"status": AppointmentStatus.active});
+      final modifier3 = UpdateOperator.set({"subStatus": ActiveAppointmentSubStatus.confirmed});
+
+      final modifier2 = UpdateOperator.push({
+        "updates": ArrayModifier.each([AppointmentUpdates.confirmedByCustomer]),
+        "updatedAt": ArrayModifier.each([DateTime.now()])
+      });
+
+      await mongodbProvider.fetchCollection(CollectionMongo.appointments).updateOne(filter: selector, update: modifier);
+      await mongodbProvider.fetchCollection(CollectionMongo.appointments).updateOne(filter: selector, update: modifier2);
+      await mongodbProvider.fetchCollection(CollectionMongo.appointments).updateOne(filter: selector, update: modifier3);
+
+      // SHOW TOAST
+      showToast('YOUR APPOINTMENT HAS BEEN CONFIRMED');
+
+      // REFRESH SCREEN
+      callback!();
+
+      updateSubStatus = Status.success;
+      notifyListeners();
+    } catch (e) {
+      printIt('Error on updateAppointmentSubStatusMongo() - ${e.toString()}');
+      updateSubStatus = Status.failed;
+      notifyListeners();
+    }
+  }
+
   void cancelAppointment({
     required String appointmentID,
     Function? callback,
@@ -272,17 +306,24 @@ class AppointmentProvider with ChangeNotifier {
     cancelAppointmentStatus = Status.loading;
     notifyListeners();
     try {
-      await Collection.appointments.doc(appointmentID).set(
-        {
-          'status': 'cancelled',
-          'subStatus': 'cancelledByCustomer',
-          'updates': FieldValue.arrayUnion(['cancelledByCustomer'])
-        },
-        SetOptions(merge: true),
-      );
+      //updates the existing appointment
+
+      final selector = {'appointmentId': appointmentID};
+
+      final modifier2 = UpdateOperator.push({
+        "updates": ArrayModifier.each([AppointmentUpdates.cancelledBySalon]),
+        "updatedAt": ArrayModifier.each([DateTime.now()])
+      });
+
+      final modifier = UpdateOperator.set({
+        "status": AppointmentStatus.cancelled,
+      });
+
+      await mongodbProvider.fetchCollection(CollectionMongo.appointments).updateOne(filter: selector, update: modifier);
+      await mongodbProvider.fetchCollection(CollectionMongo.appointments).updateOne(filter: selector, update: modifier2);
 
       // UNBLOCK TIME SLOTS
-      await AppointmentApi().updateMultipleAppointment(
+      await AppointmentApi(mongodbProvider: mongodbProvider).updateMultipleAppointment(
         isSingleMaster: isSingleMaster,
         appointmentModel: appointment,
         appointmentSubStatus: ActiveAppointmentSubStatus.cancelledByCustomer,

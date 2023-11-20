@@ -451,7 +451,7 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                                         text: AppLocalizations.of(context)?.confirmApppointment ?? 'Confirm Appointment',
                                                         buttonColor: confirmButton(themeType, theme),
                                                         textColor: buttonTextColor(themeType),
-                                                        onTap: () => _appointmentProvider.updateAppointmentSubStatus(
+                                                        onTap: () => _appointmentProvider.updateAppointmentSubStatusMongo(
                                                           appointmentID: widget.appointmentDocId,
                                                           callback: () {
                                                             fetchDetails();
