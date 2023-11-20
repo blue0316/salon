@@ -18,6 +18,8 @@ import 'package:bbblient/src/models/customer_web_settings.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
+import 'package:bbblient/src/mongodb/collection.dart';
+import 'package:bbblient/src/mongodb/db_service.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/time.dart';
 import 'package:bbblient/src/utils/utils.dart';
@@ -35,6 +37,9 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AppointmentProvider with ChangeNotifier {
+  AppointmentProvider({required this.mongodbProvider});
+  DatabaseProvider mongodbProvider;
+
   static final DateTime _today = Time().getDate();
 
   ///todo change first and last date acc.
@@ -140,6 +145,50 @@ class AppointmentProvider with ChangeNotifier {
     } else {
       return [];
     }
+  }
+
+  Future<AppointmentModel?> fetchAppointmentMongo({required String appointmentID}) async {
+    appointmentStatus = Status.loading;
+    notifyListeners();
+    try {
+      var appointmentDoc = await mongodbProvider!.fetchCollection(CollectionMongo.appointments).findOne(
+        filter: {'appointmentId': appointmentID},
+      );
+
+      if (appointmentDoc == null) {
+        appointmentStatus = Status.init;
+        notifyListeners();
+        return null;
+      }
+
+      Map<String, dynamic> _temp = json.decode(appointmentDoc.toJson()) as Map<String, dynamic>;
+      AppointmentModel appointment = AppointmentModel.fromJson(_temp);
+
+      // Get Salon
+      salon = await SalonApi(mongodbProvider: mongodbProvider).getSalonFromId(appointment.salon.id);
+
+      // Get Salon Masters
+      allMastersInSalon.clear();
+      allMastersInSalon = await MastersApi(mongodbProvider: mongodbProvider).getAllSalonMasters(salon!.salonId);
+      // Check if single master
+      if (allMastersInSalon.length < 2) {
+        isSingleMaster = true;
+      }
+
+      // Get Salon Theme
+      themeType = await getSalonTheme(salon?.salonId);
+
+      // appointmentStatus = Status.success;
+      // notifyListeners();
+
+      return appointment;
+    } catch (e) {
+      // printIt('Error on fetchAppointment() - ${e.toString()}');
+      appointmentStatus = Status.failed;
+      notifyListeners();
+    }
+
+    return null;
   }
 
   Future<AppointmentModel?> fetchAppointment({required String appointmentID}) async {
@@ -260,7 +309,7 @@ class AppointmentProvider with ChangeNotifier {
   void getCategoryDetails(String categoryId) async {}
 
   Future<ThemeType?> getSalonTheme(salonId) async {
-    CustomerWebSettings? themeSettings = await CustomerWebSettingsApi().getSalonTheme(salonId: salonId);
+    CustomerWebSettings? themeSettings = await CustomerWebSettingsApi(mongodbProvider: mongodbProvider).getSalonTheme(salonId: salonId);
 
     return getTheme(themeSettings);
   }
@@ -466,7 +515,7 @@ class AppointmentProvider with ChangeNotifier {
 
     int total = 0;
 
-    List<ServiceModel> salonServices = await CategoryServicesApi().getSalonServices(salonId: salon!.salonId);
+    List<ServiceModel> salonServices = await CategoryServicesApi(mongodbProvider: mongodbProvider).getSalonServices(salonId: salon!.salonId);
 
     for (var service in appointment.services) {
       for (var salonService in salonServices) {

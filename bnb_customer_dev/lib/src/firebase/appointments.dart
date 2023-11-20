@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bbblient/src/firebase/bonus_referral_api.dart';
 import 'package:bbblient/src/firebase/master.dart';
 import 'package:bbblient/src/firebase/salons.dart';
@@ -116,13 +118,33 @@ class AppointmentApi {
         //creates a new appointment
         final val = await mongodbProvider!.fetchCollection(CollectionMongo.appointments).insertOne(MongoDocument(appointment.toJson()));
         String value = val.toHexString();
+
         if (value != null) {
           final selector = {"_id": val};
-          final modifier = UpdateOperator.set({
-            "appointmentId": value,
-          });
+          final modifier = UpdateOperator.set(
+            {
+              "appointmentId": value,
+              "__id__": value,
+              "__path__": 'appointments/$value',
+            },
+          );
+          // await mongodbProvider!.fetchCollection(CollectionMongo.appointments).updateOne(
+          //       filter: selector,
+          //       update: modifier,
+          //     );
+          await mongodbProvider!.fetchCollection(CollectionMongo.appointments).updateOne(
+                filter: selector,
+                update: UpdateOperator.set({"appointmentId": value}),
+              );
+          await mongodbProvider!.fetchCollection(CollectionMongo.appointments).updateOne(
+                filter: selector,
+                update: UpdateOperator.set({"__id__": value}),
+              );
+          await mongodbProvider!.fetchCollection(CollectionMongo.appointments).updateOne(
+                filter: selector,
+                update: UpdateOperator.set({"__path__": 'appointments/$value'}),
+              );
 
-          await mongodbProvider!.fetchCollection(CollectionMongo.salons).updateOne(filter: selector, update: modifier);
           returnedId = value;
         }
       }
@@ -439,11 +461,9 @@ class AppointmentApi {
       appointmentModel!.subStatus = appointmentSubStatus;
     }
 
-    appointmentModel!.updates.add(
-      AppointmentUpdates.cancelledByCustomer,
-    );
+    appointmentModel!.updates.add(AppointmentUpdates.cancelledByCustomer);
 
-    final updateResult = await updateMultipleAppointmentBlocks(appointmentModel, appointmentStatus, appointmentSubStatus);
+    final updateResult = await updateMultipleAppointmentBlocksMongo(appointmentModel, appointmentStatus, appointmentSubStatus);
 
     List<MasterModel> masters = salonMasters.where((element) => appointmentModel.master!.id == element.masterId).toList();
 
@@ -457,7 +477,9 @@ class AppointmentApi {
     // print(isSingleMaster);
     // print('-----------------+++++++--------------');
 
-    List<AppointmentModel?> allAppointments = await AppointmentApi().getAppointmentFromIdentifier(appointmentModel.appointmentIdentifier);
+    List<AppointmentModel?> allAppointments = await AppointmentApi(
+      mongodbProvider: mongodbProvider,
+    ).getAppointmentFromIdentifierMongo(appointmentModel.appointmentIdentifier);
 
     if (appointmentStatus == AppointmentStatus.cancelled && appointmentSubStatus == ActiveAppointmentSubStatus.cancelledBySalon) {
       for (var currentAppt in allAppointments) {
@@ -645,6 +667,153 @@ class AppointmentApi {
     }
   }
 
+  Future updateMultipleAppointmentBlocksMongo(AppointmentModel appointment, String? appointmentStatus, String? appointmentSubStatus) async {
+    try {
+      DocumentReference _docRef;
+      if (appointment.appointmentIdentifier != null) {
+        //updates the existing appointment
+
+        List<MongoDocument> allFind = await mongodbProvider!.fetchCollection(CollectionMongo.transactions).find(
+          filter: {'appointmentIdentifier': appointment.appointmentIdentifier},
+        );
+
+        if (allFind.isEmpty) {
+          return null;
+        }
+
+        allFind.forEach((doc) async {
+          if (appointment.status == AppointmentStatus.cancelled && appointment.subStatus == ActiveAppointmentSubStatus.cancelledBySalon) {
+            final selector = {'appointmentIdentifier': appointment.appointmentIdentifier};
+            final modifier = UpdateOperator.set({"status": appointment.status});
+            final modifier2 = UpdateOperator.set({"subStatus": appointment.subStatus});
+
+            final modifierPush = UpdateOperator.push({
+              "updatedAt": ArrayModifier.each([DateTime.now()]),
+              "updates": ArrayModifier.each([AppointmentUpdates.cancelledBySalon])
+            });
+
+            await mongodbProvider!.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifier);
+            await mongodbProvider!.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifier2);
+            await mongodbProvider!.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifierPush);
+          } else if (appointment.status == AppointmentStatus.active && appointment.subStatus == ActiveAppointmentSubStatus.confirmed) {
+            // Map<String, dynamic> _temp = json.decode(doc.toJson()) as Map<String, dynamic>;
+
+            final selector = {'appointmentIdentifier': appointment.appointmentIdentifier};
+
+            final modifier = UpdateOperator.set({"status": appointment.status});
+            final modifier2 = UpdateOperator.set({"subStatus": appointment.subStatus});
+
+            final modifierPush = UpdateOperator.push({
+              "updatedAt": ArrayModifier.each([DateTime.now()]),
+              "updates": ArrayModifier.each([AppointmentUpdates.approvedBySalon])
+            });
+
+            await mongodbProvider!.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifier);
+            await mongodbProvider!.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifier2);
+            await mongodbProvider!.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifierPush);
+          } else if (appointment.status == AppointmentStatus.active && appointment.subStatus == ActiveAppointmentSubStatus.unConfirmed) {
+            final selector = {'appointmentIdentifier': appointment.appointmentIdentifier};
+            final modifier = UpdateOperator.set({"status": appointment.status});
+            final modifier2 = UpdateOperator.set({"subStatus": appointment.subStatus});
+
+            final modifierPush = UpdateOperator.push({
+              "updatedAt": ArrayModifier.each([DateTime.now()]),
+              "updates": ArrayModifier.each([AppointmentUpdates.approvedBySalon])
+            });
+
+            await mongodbProvider!.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifier);
+            await mongodbProvider!.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifier2);
+            await mongodbProvider!.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifierPush);
+          } else if (appointment.status == AppointmentStatus.noShow) {
+            final selector = {'appointmentIdentifier': appointment.appointmentIdentifier};
+            final modifier = UpdateOperator.set({"status": appointment.status});
+            final modifier2 = UpdateOperator.set({"subStatus": appointment.subStatus});
+
+            final modifierPush = UpdateOperator.push({
+              "updatedAt": ArrayModifier.each([DateTime.now()]),
+              "updates": ArrayModifier.each([AppointmentUpdates.noShowBySalon])
+            });
+
+            await mongodbProvider!.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifier);
+            await mongodbProvider!.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifier2);
+            await mongodbProvider!.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifierPush);
+          } else if (appointment.status == AppointmentStatus.completed && appointment.subStatus == ActiveAppointmentSubStatus.unConfirmed) {
+            final selector = {'appointmentIdentifier': appointment.appointmentIdentifier};
+            final modifier = UpdateOperator.set({"status": appointment.status});
+            final modifier2 = UpdateOperator.set({"subStatus": appointment.subStatus});
+
+            final modifierPush = UpdateOperator.push({
+              "updatedAt": ArrayModifier.each([DateTime.now()]),
+              "updates": ArrayModifier.each([AppointmentUpdates.completed])
+            });
+
+            await mongodbProvider!.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifier);
+            await mongodbProvider!.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifier2);
+            await mongodbProvider!.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifierPush);
+          } else if (appointment.status == AppointmentStatus.completed && appointment.subStatus == ActiveAppointmentSubStatus.unConfirmed) {
+            final selector = {'appointmentIdentifier': appointment.appointmentIdentifier};
+            final modifier = UpdateOperator.set({"status": appointment.status});
+            final modifier2 = UpdateOperator.set({"subStatus": appointment.subStatus});
+
+            final modifierPush = UpdateOperator.push({
+              "updatedAt": ArrayModifier.each([DateTime.now()]),
+              "updates": ArrayModifier.each([AppointmentUpdates.completed])
+            });
+
+            await mongodbProvider!.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifier);
+            await mongodbProvider!.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifier2);
+            await mongodbProvider!.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifierPush);
+          } else if (appointment.status == AppointmentStatus.completed && appointment.subStatus == ActiveAppointmentSubStatus.confirmed) {
+            final selector = {'appointmentIdentifier': appointment.appointmentIdentifier};
+            final modifier = UpdateOperator.set({"status": appointment.status});
+            final modifier2 = UpdateOperator.set({"subStatus": appointment.subStatus});
+
+            final modifierPush = UpdateOperator.push({
+              "updatedAt": ArrayModifier.each([DateTime.now()]),
+              "updates": ArrayModifier.each([AppointmentUpdates.completed])
+            });
+
+            await mongodbProvider!.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifier);
+            await mongodbProvider!.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifier2);
+            await mongodbProvider!.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifierPush);
+          } else if (appointment.status == AppointmentStatus.completed && appointment.subStatus == ActiveAppointmentSubStatus.reviewed) {
+            final selector = {'appointmentIdentifier': appointment.appointmentIdentifier};
+            final modifier = UpdateOperator.set({"status": appointment.status});
+            final modifier2 = UpdateOperator.set({"subStatus": appointment.subStatus});
+
+            final modifierPush = UpdateOperator.push({
+              "updatedAt": ArrayModifier.each([DateTime.now()]),
+              "updates": ArrayModifier.each([AppointmentUpdates.completed])
+            });
+
+            await mongodbProvider!.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifier);
+            await mongodbProvider!.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifier2);
+            await mongodbProvider!.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifierPush);
+          } else {
+            final selector = {'appointmentIdentifier': appointment.appointmentIdentifier};
+            final modifier = UpdateOperator.set({"status": appointment.status});
+            final modifier2 = UpdateOperator.set({"subStatus": appointment.subStatus});
+
+            final modifierPush = UpdateOperator.push({
+              "updatedAt": ArrayModifier.each([DateTime.now()]),
+              "updates": ArrayModifier.each([AppointmentUpdates.changedBySalon])
+            });
+            await mongodbProvider!.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifier);
+            await mongodbProvider!.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifier2);
+            await mongodbProvider!.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifierPush);
+          }
+        });
+        return true;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      debugPrint('Error on updateMultipleAppointmentBlocksMongo() - $e');
+      debugPrint(e.toString());
+      return null;
+    }
+  }
+
   ///get appointment with same identifier
   Future<List<AppointmentModel?>> getAppointmentFromIdentifier(String? appointmentIdentifier) async {
     //try {
@@ -670,6 +839,31 @@ class AppointmentApi {
       }).toList();
     }
     return [];
+  }
+
+  Future<List<AppointmentModel?>> getAppointmentFromIdentifierMongo(String? appointmentIdentifier) async {
+    try {
+      if (appointmentIdentifier != null && appointmentIdentifier != "") {
+        List<MongoDocument> _response;
+
+        _response = await mongodbProvider!.fetchCollection(CollectionMongo.appointments).find(
+          filter: {"appointmentIdentifier": appointmentIdentifier},
+        );
+
+        if (_response.isEmpty) return [];
+        return _response.map<AppointmentModel>((e) {
+          Map<String, dynamic> _temp = json.decode(e.toJson()) as Map<String, dynamic>;
+          _temp['appointmentId'] = (json.decode(e.toJson()) as Map<String, dynamic>)["__id__"];
+
+          return AppointmentModel.fromJson(_temp);
+        }).toList();
+      }
+      return [];
+    } catch (e) {
+      debugPrint("Error on getAppointmentFromIdentifierMongo() -$e");
+      //(e);
+      return [];
+    }
   }
 }
 

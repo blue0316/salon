@@ -1,5 +1,6 @@
 import 'package:bbblient/src/models/cat_sub_service/price_and_duration.dart';
 import 'package:bbblient/src/models/cat_sub_service/services_model.dart';
+import 'package:bbblient/src/utils/time.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
@@ -99,62 +100,72 @@ class AppointmentModel {
   AppointmentModel.fromJson(Map<String, dynamic> json) {
     printIt(json['appointmentStartTime'].runtimeType.toString());
     type = json['type'] ?? AppointmentType.reservation;
-    json['appointmentStartTime'] != null
-        ? json['appointmentStartTime'].runtimeType.toString() == 'int'
-            ? appointmentStartTime = DateTime.fromMillisecondsSinceEpoch(json['appointmentStartTime'])
-            : appointmentStartTime = kIsWeb
-                ? json['appointmentStartTime'].runtimeType.toString() == 'DateTime'
-                    ? json['appointmentStartTime']
-                    : json['appointmentStartTime'].runtimeType.toString() == 'IdentityMap<String, dynamic>'
-                        ? Timestamp(json['appointmentStartTime']['_seconds'], json['appointmentStartTime']['_nanoseconds']).toDate()
-                        : json['appointmentStartTime'].toDate()
-                : json['appointmentStartTime'].runtimeType.toString() == 'DateTime'
-                    ? json['appointmentStartTime']
-                    : json['appointmentStartTime'].toDate()
-        : appointmentStartTime = null;
+    // json['appointmentStartTime'] != null
+    //     ? json['appointmentStartTime'].runtimeType.toString() == 'int'
+    //         ? appointmentStartTime = DateTime.fromMillisecondsSinceEpoch(json['appointmentStartTime'])
+    //         : appointmentStartTime = kIsWeb
+    //             ? json['appointmentStartTime'].runtimeType.toString() == 'DateTime'
+    //                 ? json['appointmentStartTime']
+    //                 : json['appointmentStartTime'].runtimeType.toString() == 'IdentityMap<String, dynamic>'
+    //                     ? Timestamp(json['appointmentStartTime']['_seconds'], json['appointmentStartTime']['_nanoseconds']).toDate()
+    //                     : json['appointmentStartTime'].toDate()
+    //             : json['appointmentStartTime'].runtimeType.toString() == 'DateTime'
+    //                 ? json['appointmentStartTime']
+    //                 : json['appointmentStartTime'].toDate()
+    //     : appointmentStartTime = null;
+
+    appointmentStartTime = Time().convertToMongoTimeMore3(json: json, timeTitle: 'appointmentStartTime', time: json['appointmentStartTime']);
+
     appointmentIdentifier = json['appointmentIdentifier'] ?? "";
 
-    json['createdAt'] != null
-        ? json['createdAt'].runtimeType.toString() == 'int'
-            ? createdAt = DateTime.fromMillisecondsSinceEpoch(json['createdAt'])
-            : createdAt = kIsWeb
-                ? json['createdAt'].runtimeType.toString() == 'DateTime'
-                    ? json['createdAt']
-                    : json['createdAt'].runtimeType.toString() == 'IdentityMap<String, dynamic>'
-                        ? Timestamp(json['createdAt']['_seconds'], json['createdAt']['_nanoseconds']).toDate()
-                        : json['createdAt'].toDate()
-                : json['createdAt'].runtimeType.toString() == 'DateTime'
-                    ? json['createdAt']
-                    : json['createdAt'].toDate()
-        : createdAt = null;
-    json['appointmentEndTime'] != null
-        ? json['appointmentEndTime'].runtimeType.toString() == 'int'
-            ? appointmentEndTime = DateTime.fromMillisecondsSinceEpoch(json['appointmentEndTime'])
-            : appointmentEndTime = kIsWeb
-                ? json['appointmentEndTime'].runtimeType.toString() == 'DateTime'
-                    ? json['appointmentEndTime']
-                    : json['appointmentEndTime'].runtimeType.toString() == 'IdentityMap<String, dynamic>'
-                        ? Timestamp(json['appointmentEndTime']['_seconds'], json['appointmentEndTime']['_nanoseconds']).toDate()
-                        : json['appointmentEndTime'].toDate()
-                : json['appointmentEndTime'].runtimeType.toString() == 'DateTime'
-                    ? json['appointmentEndTime']
-                    : json['appointmentEndTime'].toDate()
-        : appointmentEndTime = null;
-    (json['updatedAt'] != null && json['updatedAt'].isNotEmpty)
-        ? updatedAt = List<DateTime>.from(json['updatedAt']
-            .map((e) => e.runtimeType == int
-                ? DateTime.fromMillisecondsSinceEpoch(e)
-                : kIsWeb
-                    ?
-                    //null
-                    e.runtimeType.toString() == 'DateTime'
-                        ? e
-                        : Timestamp(e.seconds, e.nanoseconds).toDate()
-                    : e.runtimeType.toString() == 'DateTime'
-                        ? e
-                        : e.toDate())
-            .toList())
-        : updatedAt = null;
+    // json['createdAt'] != null
+    //     ? json['createdAt'].runtimeType.toString() == 'int'
+    //         ? createdAt = DateTime.fromMillisecondsSinceEpoch(json['createdAt'])
+    //         : createdAt = kIsWeb
+    //             ? json['createdAt'].runtimeType.toString() == 'DateTime'
+    //                 ? json['createdAt']
+    //                 : json['createdAt'].runtimeType.toString() == 'IdentityMap<String, dynamic>'
+    //                     ? Timestamp(json['createdAt']['_seconds'], json['createdAt']['_nanoseconds']).toDate()
+    //                     : json['createdAt'].toDate()
+    //             : json['createdAt'].runtimeType.toString() == 'DateTime'
+    //                 ? json['createdAt']
+    //                 : json['createdAt'].toDate()
+    //     : createdAt = null;
+
+    createdAt = Time().convertToMongoTimeMore3(json: json, timeTitle: 'createdAt', time: json['createdAt']);
+
+    // json['appointmentEndTime'] != null
+    //     ? json['appointmentEndTime'].runtimeType.toString() == 'int'
+    //         ? appointmentEndTime = DateTime.fromMillisecondsSinceEpoch(json['appointmentEndTime'])
+    //         : appointmentEndTime = kIsWeb
+    //             ? json['appointmentEndTime'].runtimeType.toString() == 'DateTime'
+    //                 ? json['appointmentEndTime']
+    //                 : json['appointmentEndTime'].runtimeType.toString() == 'IdentityMap<String, dynamic>'
+    //                     ? Timestamp(json['appointmentEndTime']['_seconds'], json['appointmentEndTime']['_nanoseconds']).toDate()
+    //                     : json['appointmentEndTime'].toDate()
+    //             : json['appointmentEndTime'].runtimeType.toString() == 'DateTime'
+    //                 ? json['appointmentEndTime']
+    //                 : json['appointmentEndTime'].toDate()
+    //     : appointmentEndTime = null;
+
+    appointmentEndTime = Time().convertToMongoTimeMore3(json: json, timeTitle: 'appointmentEndTime', time: json['appointmentEndTime']);
+
+    // (json['updatedAt'] != null && json['updatedAt'].isNotEmpty)
+    //     ? updatedAt = List<DateTime>.from(json['updatedAt']
+    //         .map((e) => e.runtimeType == int
+    //             ? DateTime.fromMillisecondsSinceEpoch(e)
+    //             : kIsWeb
+    //                 ?
+    //                 //null
+    //                 e.runtimeType.toString() == 'DateTime'
+    //                     ? e
+    //                     : Timestamp(e.seconds, e.nanoseconds).toDate()
+    //                 : e.runtimeType.toString() == 'DateTime'
+    //                     ? e
+    //                     : e.toDate())
+    //         .toList())
+    //     : updatedAt = null;
+
     paymentInfo = json['paymentInfo'] != null ? PaymentInfo.fromJson(json['paymentInfo']) : null;
 
     appointmentTime = json['appointmentTime'];

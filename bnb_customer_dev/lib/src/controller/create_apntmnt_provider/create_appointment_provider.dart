@@ -4,7 +4,6 @@ import 'package:bbblient/src/controller/app_provider.dart';
 import 'package:bbblient/src/firebase/appointment_availability.dart';
 import 'package:bbblient/src/firebase/appointments.dart';
 import 'package:bbblient/src/firebase/category_services.dart';
-import 'package:bbblient/src/firebase/collections.dart';
 import 'package:bbblient/src/firebase/master.dart';
 import 'package:bbblient/src/models/appointment/appointment.dart';
 import 'package:bbblient/src/models/appointment/serviceAndMaster.dart';
@@ -30,7 +29,6 @@ import 'package:bbblient/src/utils/extensions/exstension.dart';
 import 'package:bbblient/src/utils/time.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/widgets/widgets.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_mongodb_realm/flutter_mongo_realm.dart';
@@ -4530,6 +4528,7 @@ class CreateAppointmentProvider with ChangeNotifier {
     _appointment.appointmentIdentifier = identifier;
 
     await AppointmentApi(mongodbProvider: mongodbProvider).createUpdateAppointmentMongo(_appointment).then((value) async {
+      stylePrint(value);
       if (value == null) {
         bookAppointmentStatus = Status.failed;
         notifyListeners();

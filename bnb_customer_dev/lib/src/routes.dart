@@ -57,15 +57,6 @@ final GoRouter router = GoRouter(
 
   initialLocation: NavigatorPage.route,
   routes: [
-    // Home Route (Default)
-    // GoRoute(
-    //   path: '/',
-    //   name: '/initial-route',
-    //   pageBuilder: (context, state) {
-    //     return const MaterialPage(child: HomeIframe());
-    //   },
-    // ),
-
     // Appointments
     GoRoute(
       path: AppointmentViewDetails.route,

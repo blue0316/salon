@@ -1,32 +1,23 @@
 // ignore_for_file: avoid_web_libraries_in_flutter
 
-import 'dart:convert';
-
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
 import 'package:bbblient/src/controller/app_provider.dart';
 import 'package:bbblient/src/models/enums/device_screen_type.dart';
-import 'package:bbblient/src/mongodb/db_service.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/device_constraints.dart';
 import 'package:bbblient/src/utils/utils.dart';
 import 'package:bbblient/src/views/home/home_iframe.dart';
-import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:bot_toast/bot_toast.dart';
-// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:html' as html;
-import 'src/mongodb/collection.dart';
 import 'src/routes.dart';
-import 'package:flutter_mongodb_realm/flutter_mongo_realm.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 
 void main() async {
