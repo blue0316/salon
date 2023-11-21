@@ -64,7 +64,7 @@ class _PayrocLoaderState extends ConsumerState<PayrocLoader> {
       otpSent: () {},
     );
 
-    if (widget.orderId.isNotEmpty || widget.responseCode == 'A') {
+    if (widget.orderId != '') {
       final selector = {"_id": widget.orderId};
 
       final modifier = UpdateOperator.set({'CARDHOLDERNAME': 'widget.cardHolderNumber'});
@@ -81,7 +81,7 @@ class _PayrocLoaderState extends ConsumerState<PayrocLoader> {
 
       await _dbProvider.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifier);
     } else {
-      final selector = {"_id": widget.merchantRef};
+      final selector = {"transactionId": widget.merchantRef};
       final modifier = UpdateOperator.set({'CARDHOLDERNAME': ' widget.cardHolderNumber'});
 
       // final modifier = UpdateOperator.set({
