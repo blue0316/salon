@@ -51,6 +51,7 @@ class _PayrocLoaderState extends ConsumerState<PayrocLoader> {
   }
 
   f() async {
+    print('inside here ');
     setState(() => isLoading = true);
 
     final DatabaseProvider _dbProvider = ref.read(dbProvider);

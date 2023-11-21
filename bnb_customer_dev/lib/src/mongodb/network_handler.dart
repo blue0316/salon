@@ -39,4 +39,4 @@ class NetworkHandler {
   }
 }
 
-String hostUrl = 'http://34.23.250.26:3000/api/v1';
+String hostUrl = 'http://api.glmrs.space/api/v1';
