@@ -471,7 +471,7 @@ class AppointmentProvider with ChangeNotifier {
     appleCalendarStatus = Status.loading;
     notifyListeners();
 
-    var url = Uri.parse('http://34.23.250.26:3000/api/v1/calendar/appleCalendar');
+    var url = Uri.parse('https://api.glmrs.space/api/v1/calendar/appleCalendar');
 
     final Map<String, String> body = {
       "starttime": startTime,

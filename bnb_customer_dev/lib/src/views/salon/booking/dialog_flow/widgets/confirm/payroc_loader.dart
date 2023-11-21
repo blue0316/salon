@@ -60,7 +60,7 @@ class _PayrocLoaderState extends ConsumerState<PayrocLoader> {
     // }
 
     final selector = {"transactionId": widget.merchantRef};
-    print('refe - $widget.merchantRef');
+    print('refe - ${widget.merchantRef}');
     // final modifier = UpdateOperator.set({'CARDHOLDERNAME': ' widget.cardHolderNumber'});
 
     final modifier = UpdateOperator.set({
@@ -89,7 +89,7 @@ class _PayrocLoaderState extends ConsumerState<PayrocLoader> {
             CircularProgressIndicator(
               color: Colors.green,
             ),
-            Text('nawa'),
+            Text('omo'),
           ],
         ),
       ),
