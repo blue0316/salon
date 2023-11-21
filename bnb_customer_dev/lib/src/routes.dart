@@ -58,7 +58,7 @@ final GoRouter router = GoRouter(
 
   initialLocation: NavigatorPage.route,
   routes: [
-    // Appointments
+    // Payroc Loader
     GoRoute(
       path: PayrocLoader.route,
       name: PayrocLoader.route,

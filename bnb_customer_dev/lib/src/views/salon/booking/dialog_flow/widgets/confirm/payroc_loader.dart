@@ -7,7 +7,7 @@ import 'package:flutter_mongodb_realm/database/update_operator.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PayrocLoader extends ConsumerStatefulWidget {
-  static const route = "/payroc-loader";
+  static const route = "/payrocloader";
 
   final String orderId;
   final String merchantRef;
