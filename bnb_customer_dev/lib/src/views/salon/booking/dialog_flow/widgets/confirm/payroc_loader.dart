@@ -1,5 +1,4 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
-import 'package:bbblient/src/controller/app_provider.dart';
 import 'package:bbblient/src/mongodb/collection.dart';
 import 'package:bbblient/src/mongodb/db_service.dart';
 import 'package:flutter/material.dart';
@@ -55,14 +54,6 @@ class _PayrocLoaderState extends ConsumerState<PayrocLoader> {
     setState(() => isLoading = true);
 
     final DatabaseProvider _dbProvider = ref.read(dbProvider);
-    final _auth = ref.read(authProvider);
-
-    await _auth.authenticatePhone(
-      context,
-      code: '+234',
-      phone: '8135822208',
-      otpSent: () {},
-    );
 
     // if (widget.orderId == '') {
     //   widget.orderId = widget.merchantRef;
@@ -70,19 +61,19 @@ class _PayrocLoaderState extends ConsumerState<PayrocLoader> {
 
     final selector = {"transactionId": widget.merchantRef};
     print('refe - $widget.merchantRef');
-    final modifier = UpdateOperator.set({'CARDHOLDERNAME': ' widget.cardHolderNumber'});
+    // final modifier = UpdateOperator.set({'CARDHOLDERNAME': ' widget.cardHolderNumber'});
 
-    // final modifier = UpdateOperator.set({
-    //   'ORDERID': widget.merchantRef,
-    //   'MERCHANTREF': widget.merchantRef,
-    //   'RESPONSECODE': widget.responseCode,
-    //   'RESPONSETEXT': widget.responseText,
-    //   'CARDREFERENCE': widget.cardReference,
-    //   'CARDTYPE': widget.cardType,
-    //   'MASKEDCARDNUMBER': widget.maskedCardNumber,
-    //   'CARDEXPIRY': widget.cardExpiry,
-    //   'CARDHOLDERNAME': widget.cardHolderNumber,
-    // });
+    final modifier = UpdateOperator.set({
+      'ORDERID': widget.merchantRef,
+      'MERCHANTREF': widget.merchantRef,
+      'RESPONSECODE': widget.responseCode,
+      'RESPONSETEXT': widget.responseText,
+      'CARDREFERENCE': widget.cardReference,
+      'CARDTYPE': widget.cardType,
+      'MASKEDCARDNUMBER': widget.maskedCardNumber,
+      'CARDEXPIRY': widget.cardExpiry,
+      'CARDHOLDERNAME': widget.cardHolderNumber,
+    });
 
     await _dbProvider.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifier);
 
@@ -91,19 +82,6 @@ class _PayrocLoaderState extends ConsumerState<PayrocLoader> {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) async {
-        final _auth = ref.read(authProvider);
-
-        await _auth.authenticatePhone(
-          context,
-          code: '+234',
-          phone: '8020752193',
-          otpSent: () {},
-        );
-      },
-    );
-
     return const Scaffold(
       body: Center(
         child: Column(
