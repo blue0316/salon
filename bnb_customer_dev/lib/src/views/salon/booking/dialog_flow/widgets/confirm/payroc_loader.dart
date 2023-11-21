@@ -64,40 +64,27 @@ class _PayrocLoaderState extends ConsumerState<PayrocLoader> {
       otpSent: () {},
     );
 
-    if (widget.orderId != '') {
-      final selector = {"_id": widget.orderId};
+    // if (widget.orderId == '') {
+    //   widget.orderId = widget.merchantRef;
+    // }
 
-      final modifier = UpdateOperator.set({'CARDHOLDERNAME': 'widget.cardHolderNumber'});
-      //  final modifier = UpdateOperator.set({
-      //   'MERCHANTREF': widget.merchantRef,
-      //   'RESPONSECODE': widget.responseCode,
-      //   'RESPONSETEXT': widget.responseText,
-      //   'CARDREFERENCE': widget.cardReference,
-      //   'CARDTYPE': widget.cardType,
-      //   'MASKEDCARDNUMBER': widget.maskedCardNumber,
-      //   'CARDEXPIRY': widget.cardExpiry,
-      //   'CARDHOLDERNAME': widget.cardHolderNumber,
-      // });
+    final selector = {"transactionId": widget.merchantRef};
+    print('refe - $widget.merchantRef');
+    final modifier = UpdateOperator.set({'CARDHOLDERNAME': ' widget.cardHolderNumber'});
 
-      await _dbProvider.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifier);
-    } else {
-      final selector = {"transactionId": widget.merchantRef};
-      final modifier = UpdateOperator.set({'CARDHOLDERNAME': ' widget.cardHolderNumber'});
+    // final modifier = UpdateOperator.set({
+    //   'ORDERID': widget.merchantRef,
+    //   'MERCHANTREF': widget.merchantRef,
+    //   'RESPONSECODE': widget.responseCode,
+    //   'RESPONSETEXT': widget.responseText,
+    //   'CARDREFERENCE': widget.cardReference,
+    //   'CARDTYPE': widget.cardType,
+    //   'MASKEDCARDNUMBER': widget.maskedCardNumber,
+    //   'CARDEXPIRY': widget.cardExpiry,
+    //   'CARDHOLDERNAME': widget.cardHolderNumber,
+    // });
 
-      // final modifier = UpdateOperator.set({
-      //   'ORDERID': widget.merchantRef,
-      //   'MERCHANTREF': widget.merchantRef,
-      //   'RESPONSECODE': widget.responseCode,
-      //   'RESPONSETEXT': widget.responseText,
-      //   'CARDREFERENCE': widget.cardReference,
-      //   'CARDTYPE': widget.cardType,
-      //   'MASKEDCARDNUMBER': widget.maskedCardNumber,
-      //   'CARDEXPIRY': widget.cardExpiry,
-      //   'CARDHOLDERNAME': widget.cardHolderNumber,
-      // });
-
-      await _dbProvider.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifier);
-    }
+    await _dbProvider.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifier);
 
     setState(() => isLoading = false);
   }
