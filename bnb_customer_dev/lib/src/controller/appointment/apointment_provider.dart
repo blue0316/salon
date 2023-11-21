@@ -470,7 +470,7 @@ class AppointmentProvider with ChangeNotifier {
   }) async {
     appleCalendarStatus = Status.loading;
     notifyListeners();
-    var url = Uri.parse('https://us-central1-bowandbeautiful-3372d.cloudfunctions.net/calendar-appleCalendar');
+    var url = Uri.parse('http://34.23.250.26:3000/api/v1/calendar/appleCalendar');
     final Map<String, String> body = {
       "starttime": startTime,
       "endtime": endTime,
@@ -486,7 +486,7 @@ class AppointmentProvider with ChangeNotifier {
       var response = await http.post(url, body: body);
 
       debugPrint(body.toString());
-      debugPrint('----------');
+      debugPrint('----??------');
       debugPrint('Response: $response');
       debugPrint('Response status: ${response.statusCode}');
       debugPrint('Response body: ${response.body}');

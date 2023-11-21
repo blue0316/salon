@@ -7,6 +7,7 @@ import 'package:bbblient/src/views/payment/payment.dart';
 import 'package:bbblient/src/views/policy/policy.dart';
 import 'package:bbblient/src/views/policy/cookies.dart';
 import 'package:bbblient/src/views/policy/terms_condition.dart';
+import 'package:bbblient/src/views/salon/booking/dialog_flow/widgets/confirm/payroc_loader.dart';
 import 'package:bbblient/src/views/salon/salon_home/salon_profile_copy.dart';
 import 'package:bbblient/src/views/policy/testes.dart';
 import 'package:flutter/foundation.dart';
@@ -57,6 +58,37 @@ final GoRouter router = GoRouter(
 
   initialLocation: NavigatorPage.route,
   routes: [
+    // Appointments
+    GoRoute(
+      path: PayrocLoader.route,
+      name: PayrocLoader.route,
+      pageBuilder: (context, state) {
+        final String orderId = state.queryParams['ORDERID'] ?? '';
+        final String merchantRef = state.queryParams['MERCHANTREF'] ?? '';
+        final String responseCode = state.queryParams['RESPONSECODE'] ?? '';
+        final String responseText = state.queryParams['RESPONSETEXT'] ?? '';
+        final String cardReference = state.queryParams['CARDREFERENCE'] ?? '';
+        final String cardType = state.queryParams['CARDTYPE'] ?? '';
+        final String maskedCardNumber = state.queryParams['MASKEDCARDNUMBER'] ?? '';
+        final String cardExpiry = state.queryParams['CARDEXPIRY'] ?? '';
+        final String cardHolderNumber = state.queryParams['CARDHOLDERNAME'] ?? '';
+
+        return MaterialPage(
+          child: PayrocLoader(
+            orderId: orderId,
+            merchantRef: merchantRef,
+            responseCode: responseCode,
+            responseText: responseText,
+            cardReference: cardReference,
+            cardType: cardType,
+            maskedCardNumber: maskedCardNumber,
+            cardExpiry: cardExpiry,
+            cardHolderNumber: cardHolderNumber,
+          ),
+        );
+      },
+    ),
+
     // Appointments
     GoRoute(
       path: AppointmentViewDetails.route,
