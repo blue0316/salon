@@ -49,7 +49,7 @@ class _PayrocLoaderState extends ConsumerState<PayrocLoader> {
     stylePrint('started here 1');
     setState(() => isLoading = true);
 
-    final DatabaseProvider _dbProvider = ref.watch(dbProvider);
+    final DatabaseProvider _dbProvider = ref.read(dbProvider);
 
     if (widget.orderId.isNotEmpty) {
       stylePrint('started here 2a');
@@ -95,8 +95,10 @@ class _PayrocLoaderState extends ConsumerState<PayrocLoader> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CircularProgressIndicator(
-        color: Colors.pink[800],
+      body: Center(
+        child: CircularProgressIndicator(
+          color: Colors.pink[800],
+        ),
       ),
     );
   }
