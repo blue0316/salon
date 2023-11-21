@@ -1,4 +1,5 @@
 import 'package:bbblient/src/controller/all_providers/all_providers.dart';
+import 'package:bbblient/src/controller/app_provider.dart';
 import 'package:bbblient/src/mongodb/collection.dart';
 import 'package:bbblient/src/mongodb/db_service.dart';
 import 'package:flutter/material.dart';
@@ -41,14 +42,17 @@ class _PayrocLoaderState extends ConsumerState<PayrocLoader> {
   @override
   void initState() {
     super.initState();
+    f();
   }
 
   f() async {
+    stylePrint('started here 1');
     setState(() => isLoading = true);
 
     final DatabaseProvider _dbProvider = ref.watch(dbProvider);
 
     if (widget.orderId.isNotEmpty) {
+      stylePrint('started here 2a');
       final selector = {"_id": widget.orderId};
 
       final modifier = UpdateOperator.set({
@@ -61,9 +65,11 @@ class _PayrocLoaderState extends ConsumerState<PayrocLoader> {
         'CARDEXPIRY': widget.cardExpiry,
         'CARDHOLDERNAME': widget.cardHolderNumber,
       });
-
+      stylePrint('started here 2b');
       await _dbProvider.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifier);
+      stylePrint('started here 2c');
     } else {
+      stylePrint('started here 3a');
       final selector = {"_id": widget.merchantRef};
 
       final modifier = UpdateOperator.set({
@@ -78,7 +84,9 @@ class _PayrocLoaderState extends ConsumerState<PayrocLoader> {
         'CARDHOLDERNAME': widget.cardHolderNumber,
       });
 
+      stylePrint('started here 3b');
       await _dbProvider.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifier);
+      stylePrint('started here 3c');
     }
 
     setState(() => isLoading = false);

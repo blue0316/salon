@@ -470,7 +470,9 @@ class AppointmentProvider with ChangeNotifier {
   }) async {
     appleCalendarStatus = Status.loading;
     notifyListeners();
+
     var url = Uri.parse('http://34.23.250.26:3000/api/v1/calendar/appleCalendar');
+
     final Map<String, String> body = {
       "starttime": startTime,
       "endtime": endTime,
@@ -485,8 +487,8 @@ class AppointmentProvider with ChangeNotifier {
     try {
       var response = await http.post(url, body: body);
 
-      debugPrint(body.toString());
-      debugPrint('----??------');
+      // debugPrint(body.toString());
+      // debugPrint('----??------');
       debugPrint('Response: $response');
       debugPrint('Response status: ${response.statusCode}');
       debugPrint('Response body: ${response.body}');
@@ -494,10 +496,14 @@ class AppointmentProvider with ChangeNotifier {
       if (response.statusCode == 200 || response.statusCode == 201) {
         final Map<String, dynamic> parsedResponse = json.decode(response.body);
 
-        js.context.callMethod('open', [parsedResponse["message"], '_self']);
+        if ((parsedResponse["data"]).toString().length >= 9) {
+          String launchDownloadLink = 'https://${(parsedResponse["data"]).toString().substring('webcal://'.length)}';
+          debugPrint('----ical------');
 
-        if ((parsedResponse["message"]).toString().length >= 9) {
-          String launchDownloadLink = 'https://${(parsedResponse["message"]).toString().substring('webcal://'.length)}';
+          print(launchDownloadLink);
+          js.context.callMethod('open', [parsedResponse["data"], '_self']);
+          // js.context.callMethod('open', [launchDownloadLink, '_self']);
+
           Uri uri = Uri.parse(launchDownloadLink);
 
           if (await canLaunchUrl(uri)) {
