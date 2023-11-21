@@ -73,6 +73,11 @@ final GoRouter router = GoRouter(
         final String cardExpiry = state.queryParams['CARDEXPIRY'] ?? '';
         final String cardHolderNumber = state.queryParams['CARDHOLDERNAME'] ?? '';
 
+        print('-----');
+        print(orderId);
+        print(responseCode);
+        print(responseText);
+        print('-----');
         return MaterialPage(
           child: PayrocLoader(
             orderId: orderId,

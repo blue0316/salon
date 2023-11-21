@@ -42,51 +42,60 @@ class _PayrocLoaderState extends ConsumerState<PayrocLoader> {
   @override
   void initState() {
     super.initState();
-    f();
+
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) async {
+        f();
+      },
+    );
   }
 
   f() async {
-    stylePrint('started here 1');
     setState(() => isLoading = true);
 
     final DatabaseProvider _dbProvider = ref.read(dbProvider);
+    final _auth = ref.read(authProvider);
+
+    await _auth.authenticatePhone(
+      context,
+      code: '+234',
+      phone: '8135822208',
+      otpSent: () {},
+    );
 
     if (widget.orderId.isNotEmpty) {
-      stylePrint('started here 2a');
       final selector = {"_id": widget.orderId};
 
-      final modifier = UpdateOperator.set({
-        'MERCHANTREF': widget.merchantRef,
-        'RESPONSECODE': widget.responseCode,
-        'RESPONSETEXT': widget.responseText,
-        'CARDREFERENCE': widget.cardReference,
-        'CARDTYPE': widget.cardType,
-        'MASKEDCARDNUMBER': widget.maskedCardNumber,
-        'CARDEXPIRY': widget.cardExpiry,
-        'CARDHOLDERNAME': widget.cardHolderNumber,
-      });
-      stylePrint('started here 2b');
+      final modifier = UpdateOperator.set({'CARDHOLDERNAME': 'widget.cardHolderNumber'});
+      //  final modifier = UpdateOperator.set({
+      //   'MERCHANTREF': widget.merchantRef,
+      //   'RESPONSECODE': widget.responseCode,
+      //   'RESPONSETEXT': widget.responseText,
+      //   'CARDREFERENCE': widget.cardReference,
+      //   'CARDTYPE': widget.cardType,
+      //   'MASKEDCARDNUMBER': widget.maskedCardNumber,
+      //   'CARDEXPIRY': widget.cardExpiry,
+      //   'CARDHOLDERNAME': widget.cardHolderNumber,
+      // });
+
       await _dbProvider.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifier);
-      stylePrint('started here 2c');
     } else {
-      stylePrint('started here 3a');
       final selector = {"_id": widget.merchantRef};
+      final modifier = UpdateOperator.set({'CARDHOLDERNAME': ' widget.cardHolderNumber'});
 
-      final modifier = UpdateOperator.set({
-        'ORDERID': widget.merchantRef,
-        'MERCHANTREF': widget.merchantRef,
-        'RESPONSECODE': widget.responseCode,
-        'RESPONSETEXT': widget.responseText,
-        'CARDREFERENCE': widget.cardReference,
-        'CARDTYPE': widget.cardType,
-        'MASKEDCARDNUMBER': widget.maskedCardNumber,
-        'CARDEXPIRY': widget.cardExpiry,
-        'CARDHOLDERNAME': widget.cardHolderNumber,
-      });
+      // final modifier = UpdateOperator.set({
+      //   'ORDERID': widget.merchantRef,
+      //   'MERCHANTREF': widget.merchantRef,
+      //   'RESPONSECODE': widget.responseCode,
+      //   'RESPONSETEXT': widget.responseText,
+      //   'CARDREFERENCE': widget.cardReference,
+      //   'CARDTYPE': widget.cardType,
+      //   'MASKEDCARDNUMBER': widget.maskedCardNumber,
+      //   'CARDEXPIRY': widget.cardExpiry,
+      //   'CARDHOLDERNAME': widget.cardHolderNumber,
+      // });
 
-      stylePrint('started here 3b');
       await _dbProvider.fetchCollection(CollectionMongo.transactions).updateOne(filter: selector, update: modifier);
-      stylePrint('started here 3c');
     }
 
     setState(() => isLoading = false);
@@ -94,10 +103,28 @@ class _PayrocLoaderState extends ConsumerState<PayrocLoader> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) async {
+        final _auth = ref.read(authProvider);
+
+        await _auth.authenticatePhone(
+          context,
+          code: '+234',
+          phone: '8020752193',
+          otpSent: () {},
+        );
+      },
+    );
+
+    return const Scaffold(
       body: Center(
-        child: CircularProgressIndicator(
-          color: Colors.pink[800],
+        child: Column(
+          children: [
+            CircularProgressIndicator(
+              color: Colors.green,
+            ),
+            Text('nawa'),
+          ],
         ),
       ),
     );
