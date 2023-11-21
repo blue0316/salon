@@ -39,4 +39,4 @@ class NetworkHandler {
   }
 }
 
-String hostUrl = 'http://api.glmrs.space/api/v1';
+String hostUrl = 'https://api.glmrs.space/api/v1';
