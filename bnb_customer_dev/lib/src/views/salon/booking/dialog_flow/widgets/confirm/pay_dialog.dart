@@ -149,7 +149,7 @@ class _PayDialogState extends ConsumerState<PayDialog> {
     // print();
     _iframeElement2.style.height = '100%';
     _iframeElement2.style.width = '100%';
-    _iframeElement2.src = 'https://testpayments.worldnettps.com/merchant/securecardpage?TERMINALID=${widget.terminalId ?? "5363001"}&DATETIME=${formatter.format(timeNow)}&HASH=$hash&CURRENCY=${widget.currency ?? "USD"}&MERCHANTREF=${widget.transactionId ?? "Glamiris181234${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}"}&ACTION=register&RECEIPTPAGEURL=https://glmrs.space/payrocloader'; // https://api.glmrs.space/api/v1/payroc/receipt';
+    _iframeElement2.src = 'https://testpayments.worldnettps.com/merchant/securecardpage?TERMINALID=${widget.terminalId ?? "5363001"}&DATETIME=${formatter.format(timeNow)}&HASH=$hash&CURRENCY=${widget.currency ?? "USD"}&MERCHANTREF=${widget.transactionId ?? "Glamiris181234${timeNow.day}${timeNow.hour}${timeNow.minute}${timeNow.second}"}&ACTION=register&RECEIPTPAGEURL=https://cw-test.web.app/payrocloader'; // https://api.glmrs.space/api/v1/payroc/receipt';
     _iframeElement2.style.border = 'none';
     _iframeElement2.style.border = 'none';
 
