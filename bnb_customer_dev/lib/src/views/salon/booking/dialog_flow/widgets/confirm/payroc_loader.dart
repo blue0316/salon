@@ -64,7 +64,7 @@ class _PayrocLoaderState extends ConsumerState<PayrocLoader> {
       otpSent: () {},
     );
 
-    if (widget.orderId.isNotEmpty) {
+    if (widget.orderId.isNotEmpty || widget.responseCode == 'A') {
       final selector = {"_id": widget.orderId};
 
       final modifier = UpdateOperator.set({'CARDHOLDERNAME': 'widget.cardHolderNumber'});
