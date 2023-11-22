@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:bbblient/src/controller/app_provider.dart';
 import 'package:bbblient/src/models/cat_sub_service/price_and_duration.dart';
 import 'package:bbblient/src/models/review.dart';
 import 'package:bbblient/src/mongodb/collection.dart';
@@ -228,9 +227,6 @@ class MastersApi {
         //   update: UpdateOperator.set(master.toJson()),
         // );
 
-        master.title = 'omo nawa';
-        // await mongodbProvider!.fetchCollection(CollectionMongo.masters).insertOne(MongoDocument(master.toJson()));
-
         // print('@@@@@@######---@@@@@@######---');
 
         // print(a);
@@ -243,7 +239,7 @@ class MastersApi {
 
       return null;
     } catch (e) {
-      debugPrint(e.toString());
+      debugPrint('Error on updateMasterMongo() - $e');
       return null;
     }
   }

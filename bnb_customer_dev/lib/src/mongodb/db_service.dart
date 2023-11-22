@@ -45,7 +45,10 @@ class DatabaseProvider extends ChangeNotifier {
       );
 
       // Sign it (default with HS256 algorithm)
-      final token = jwt.sign(SecretKey("jhhdhvvcvdvfvvfvrfhjHJKKKEEHWKWEUJYYTRGBGSFT6338738746574849938737455389290384746"), expiresIn: const Duration(days: 6));
+      final token = jwt.sign(
+        SecretKey("jhhdhvvcvdvfvvfvrfhjHJKKKEEHWKWEUJYYTRGBGSFT6338738746574849938737455389290384746"),
+        expiresIn: const Duration(days: 6),
+      );
       jwtPref = token;
       prefs.setString("jwtPref", token);
     } else {

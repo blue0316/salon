@@ -291,26 +291,6 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                             ),
                           ),
                         ),
-                        const Gap(7),
-                        if (_salonProfileProvider
-                                .themeSettings!.showSignature! &&
-                            _salonProfileProvider
-                                    .themeSettings!.themeSignature !=
-                                null)
-                          Expanded(
-                            child: Text(
-                              'by ${_salonProfileProvider.themeSettings!.themeSignature}',
-                              textAlign: TextAlign.right,
-                              style: GoogleFonts.ooohBaby(
-                                color: _salonProfileProvider
-                                    .salonTheme.textTheme.displaySmall!.color,
-                                fontSize: 30,
-                                //  fontFamily: 'Oooh Baby',
-                                fontWeight: FontWeight.w400,
-                                height: 1,
-                              ),
-                            ),
-                          ),
                         // Expanded(
                         //   child: Text(
                         //     'by Ashley Marie',
@@ -366,6 +346,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                         width: size.width,
                         fit: BoxFit.fitWidth,
                       ),
+
                 // Image.asset(
                 //   'assets/test_assets/Background.png',
                 //   width: double.infinity,
@@ -388,6 +369,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                     ),
                     itemCount: chosenSalon.additionalFeatures.length,
                   ),
+
                 Gap(100.h),
                 if (chosenSalon.description.isNotEmpty &&
                     displaySettings!.showAbout) ...[
@@ -1231,19 +1213,24 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                     ),
                                   ),
                                 ),
-                                ColorFiltered(
-                                  colorFilter: ColorFilter.mode(
-                                      _salonProfileProvider
-                                          .salonTheme.colorScheme.secondary,
-                                      BlendMode.src),
-                                  child: Image.asset(
-                                    'assets/test_assets/book_arrow.png',
-                                    height: 24,
-                                    width: 24,
-                                    // color: _salonProfileProvider
-                                    //     .salonTheme.colorScheme.secondary,
-                                  ),
+
+                                Image.asset(
+                                  'assets/test_assets/book_arrow.png',
+                                  height: 24,
+                                  width: 24,
+                                  // color: _salonProfileProvider
+                                  //     .salonTheme.colorScheme.secondary,
                                 ),
+                                // ColorFiltered(
+                                //   colorFilter: ColorFilter.mode(_salonProfileProvider.salonTheme.colorScheme.secondary, BlendMode.src),
+                                //   child: Image.asset(
+                                //     'assets/test_assets/book_arrow.png',
+                                //     height: 24,
+                                //     width: 24,
+                                //     // color: _salonProfileProvider
+                                //     //     .salonTheme.colorScheme.secondary,
+                                //   ),
+                                // ),
                               ],
                             ),
                             if (_createAppointmentProvider
@@ -1826,17 +1813,23 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                                         Padding(
                                           padding: const EdgeInsets.only(
                                               bottom: 5.0),
-                                          child: ColorFiltered(
-                                            colorFilter: const ColorFilter.mode(
-                                                Colors.white, BlendMode.src),
-                                            child: Image.asset(
-                                              'assets/test_assets/book_arrow.png',
-                                              height: 24,
-                                              width: 24,
-                                              // color: _salonProfileProvider
-                                              //     .salonTheme.colorScheme.secondary,
-                                            ),
+                                          child: Image.asset(
+                                            'assets/test_assets/book_arrow.png',
+                                            height: 24,
+                                            width: 24,
+                                            // color: _salonProfileProvider
+                                            //     .salonTheme.colorScheme.secondary,
                                           ),
+                                          // child: ColorFiltered(
+                                          //   colorFilter: const ColorFilter.mode(Colors.white, BlendMode.src),
+                                          //   child: Image.asset(
+                                          //     'assets/test_assets/book_arrow.png',
+                                          //     height: 24,
+                                          //     width: 24,
+                                          //     // color: _salonProfileProvider
+                                          //     //     .salonTheme.colorScheme.secondary,
+                                          //   ),
+                                          // ),
                                         )
                                       ],
                                     ),
@@ -1944,24 +1937,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
                 ],
 
                 const Gap(20),
-                // Padding(
-                //   padding: const EdgeInsets.only(left: 18.0, right: 18.0),
-                //   child: Image.asset(
-                //     'assets/test_assets/map.png',
-                //     width: double.infinity,
-                //     fit: BoxFit.fitWidth,
-                //   ),
-                // ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 18.0, right: 18.0),
-                  child: SizedBox(
-                    height: 500.h,
-                    width: double.infinity,
-                    child: GoogleMaps(
-                      salonModel: chosenSalon,
-                    ),
-                  ),
-                ),
+
                 const Gap(40),
                 Padding(
                   padding: const EdgeInsets.only(left: 18.0, right: 18.0),
@@ -2073,18 +2049,16 @@ class BookNowButton extends StatelessWidget {
                     fontSize: 18,
                     fontWeight: FontWeight.w700)),
             const Gap(10),
-            ColorFiltered(
-              colorFilter: ColorFilter.mode(
-                  _salonProfileProvider.salonTheme.colorScheme.secondary,
-                  BlendMode.src),
-              child: Image.asset(
-                'assets/test_assets/book_arrow.png',
-                height: 24,
-                width: 24,
-                // color: _salonProfileProvider
-                //     .salonTheme.colorScheme.secondary,
-              ),
-            ),
+            // ColorFiltered(
+            //   colorFilter: ColorFilter.mode(_salonProfileProvider.salonTheme.colorScheme.secondary, BlendMode.src),
+            //   child: Image.asset(
+            //     'assets/test_assets/book_arrow.png',
+            //     height: 24,
+            //     width: 24,
+            //     // color: _salonProfileProvider
+            //     //     .salonTheme.colorScheme.secondary,
+            //   ),
+            // ),
           ],
         ),
       ),

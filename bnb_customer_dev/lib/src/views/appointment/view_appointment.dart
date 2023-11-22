@@ -11,6 +11,7 @@ import 'package:bbblient/src/models/backend_codings/appointment.dart';
 import 'package:bbblient/src/models/cancellation_noShow_policy.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/transaction.dart';
+import 'package:bbblient/src/mongodb/db_service.dart';
 import 'package:bbblient/src/routes.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/currency/currency.dart';
@@ -55,7 +56,7 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
 
   void fetchDetails() async {
     // Get Appointment
-    appointment = await ref.read(appointmentProvider.notifier).fetchAppointment(
+    appointment = await ref.read(appointmentProvider.notifier).fetchAppointmentMongo(
           appointmentID: widget.appointmentDocId,
         );
 
@@ -123,6 +124,7 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
     final _appointmentProvider = ref.watch(appointmentProvider);
     ThemeData theme = _appointmentProvider.salonTheme ?? AppTheme.customLightTheme;
     ThemeType themeType = _appointmentProvider.themeType ?? ThemeType.DefaultLight;
+    final DatabaseProvider _dbProvider = ref.watch(dbProvider);
 
     return Scaffold(
       backgroundColor: scaffoldBGColor(themeType, theme),
@@ -315,7 +317,11 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                                                 }
 
                                                                 setState(() => _spinner = true);
-                                                                TransactionModel? transaction = await TransactionApi().getTransaction(appointment!.transactionId!.first);
+                                                                // 9  http: //localhost:50828/appointments?id=655a63b4cea56b73a9290366;
+
+                                                                TransactionModel? transaction = await TransactionApi(
+                                                                  mongodbProvider: _dbProvider,
+                                                                ).getTransaction(appointment!.transactionId!.first);
 
                                                                 setState(() => _spinner = false);
 
@@ -357,7 +363,7 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                                                     onDelete: () async {
                                                                       if (_appointmentProvider.salon!.cancellationAndNoShowPolicy != null && _appointmentProvider.salon!.cancellationAndNoShowPolicy.chargeWhenCancelledBool! && appointment!.transactionId != null && appointment!.transactionId!.isNotEmpty) {
                                                                         await _appointmentProvider.createNoShowPolicy(policy: policy);
-                                                                        await AppointmentApi().updateMultipleAppointment(
+                                                                        await AppointmentApi(mongodbProvider: _dbProvider).updateMultipleAppointment(
                                                                           isSingleMaster: _appointmentProvider.isSingleMaster,
                                                                           appointmentModel: appointment,
                                                                           appointmentSubStatus: ActiveAppointmentSubStatus.cancelledByCustomer,
@@ -367,7 +373,7 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                                                         );
                                                                         showToast(AppLocalizations.of(context)?.appointmentCancelledSuccessfully ?? 'Appointment cancelled succesfully');
                                                                       } else {
-                                                                        await AppointmentApi().updateMultipleAppointment(
+                                                                        await AppointmentApi(mongodbProvider: _dbProvider).updateMultipleAppointment(
                                                                           isSingleMaster: _appointmentProvider.isSingleMaster,
                                                                           appointmentModel: appointment,
                                                                           appointmentSubStatus: ActiveAppointmentSubStatus.cancelledByCustomer,
@@ -383,7 +389,7 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                                               } else {
                                                                 setState(() => _spinner = true);
 
-                                                                await AppointmentApi().updateMultipleAppointment(
+                                                                await AppointmentApi(mongodbProvider: _dbProvider).updateMultipleAppointment(
                                                                   isSingleMaster: _appointmentProvider.isSingleMaster,
                                                                   appointmentModel: appointment,
                                                                   appointmentSubStatus: ActiveAppointmentSubStatus.cancelledByCustomer,
@@ -405,39 +411,40 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                                     ],
                                                     // NOT US CHECK
                                                     if (_appointmentProvider.salon!.countryCode != 'US') ...[
-                                                      Button(
-                                                        text: AppLocalizations.of(context)?.cancelAppointment ?? 'Cancel Appointment',
-                                                        onTap: () async {
-                                                          showMyDialog(
-                                                            context,
-                                                            bgColor: scaffoldBGColor(themeType, theme),
-                                                            child: DeleteClientNewTheme(
-                                                              title: (AppLocalizations.of(context)?.cancelAppointmentDialogue ?? "Are you sure you want to cancel this appointment?"),
-                                                              desc: "",
-                                                              delete: 'tr(Keys.yes)',
-                                                              cancel: 'tr(Keys.no)',
-                                                              onDelete: () async {
-                                                                _appointmentProvider.cancelAppointment(
-                                                                  isSingleMaster: _appointmentProvider.isSingleMaster,
-                                                                  appointmentID: appointment!.appointmentId!,
-                                                                  appointment: appointment!,
-                                                                  salon: _appointmentProvider.salon!,
-                                                                  salonMasters: _appointmentProvider.allMastersInSalon,
-                                                                  callback: () {
-                                                                    fetchDetails();
-                                                                  },
-                                                                );
+                                                      if (appointment?.status != AppointmentStatus.cancelled)
+                                                        Button(
+                                                          text: AppLocalizations.of(context)?.cancelAppointment ?? 'Cancel Appointment',
+                                                          onTap: () async {
+                                                            showMyDialog(
+                                                              context,
+                                                              bgColor: scaffoldBGColor(themeType, theme),
+                                                              child: DeleteClientNewTheme(
+                                                                title: (AppLocalizations.of(context)?.cancelAppointmentDialogue ?? "Are you sure you want to cancel this appointment?"),
+                                                                desc: "",
+                                                                delete: 'tr(Keys.yes)',
+                                                                cancel: 'tr(Keys.no)',
+                                                                onDelete: () async {
+                                                                  _appointmentProvider.cancelAppointment(
+                                                                    isSingleMaster: _appointmentProvider.isSingleMaster,
+                                                                    appointmentID: appointment!.appointmentId!,
+                                                                    appointment: appointment!,
+                                                                    salon: _appointmentProvider.salon!,
+                                                                    salonMasters: _appointmentProvider.allMastersInSalon,
+                                                                    callback: () {
+                                                                      fetchDetails();
+                                                                    },
+                                                                  );
 
-                                                                showToast(AppLocalizations.of(context)?.appointmentCancelledSuccessfully ?? 'Appointment cancelled succesfully');
-                                                              },
-                                                            ),
-                                                          );
-                                                        },
-                                                        isLoading: _spinner == true || _appointmentProvider.cancelAppointmentStatus == Status.loading || _appointmentProvider.createNoShowPolicyStatus == Status.loading,
-                                                        loaderColor: transparentLoaderColor(themeType, theme),
-                                                        borderColor: theme.primaryColor.withOpacity(0.6),
-                                                        textColor: borderColor(themeType, theme),
-                                                      ),
+                                                                  showToast(AppLocalizations.of(context)?.appointmentCancelledSuccessfully ?? 'Appointment cancelled succesfully');
+                                                                },
+                                                              ),
+                                                            );
+                                                          },
+                                                          isLoading: _spinner == true || _appointmentProvider.cancelAppointmentStatus == Status.loading || _appointmentProvider.createNoShowPolicyStatus == Status.loading,
+                                                          loaderColor: transparentLoaderColor(themeType, theme),
+                                                          borderColor: theme.primaryColor.withOpacity(0.6),
+                                                          textColor: borderColor(themeType, theme),
+                                                        ),
                                                     ],
                                                     const SizedBox(width: 20),
                                                     if (appointment?.subStatus != ActiveAppointmentSubStatus.confirmed && shouldShowConfirmButton(appointment!.appointmentStartTime!))
@@ -445,7 +452,7 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                                         text: AppLocalizations.of(context)?.confirmApppointment ?? 'Confirm Appointment',
                                                         buttonColor: confirmButton(themeType, theme),
                                                         textColor: buttonTextColor(themeType),
-                                                        onTap: () => _appointmentProvider.updateAppointmentSubStatus(
+                                                        onTap: () => _appointmentProvider.updateAppointmentSubStatusMongo(
                                                           appointmentID: widget.appointmentDocId,
                                                           callback: () {
                                                             fetchDetails();
@@ -456,7 +463,7 @@ class _AppointmentViewDetailsState extends ConsumerState<AppointmentViewDetails>
                                                       ),
                                                   ],
                                                 ),
-                                            ],
+                                            ], // http://localhost:57876/appointments?id=655bc7f379cc5295ea1cfd98
                                           ),
                                         ),
                                       ),

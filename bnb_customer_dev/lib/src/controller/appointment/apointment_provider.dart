@@ -18,6 +18,8 @@ import 'package:bbblient/src/models/customer_web_settings.dart';
 import 'package:bbblient/src/models/enums/status.dart';
 import 'package:bbblient/src/models/salon_master/master.dart';
 import 'package:bbblient/src/models/salon_master/salon.dart';
+import 'package:bbblient/src/mongodb/collection.dart';
+import 'package:bbblient/src/mongodb/db_service.dart';
 import 'package:bbblient/src/theme/app_main_theme.dart';
 import 'package:bbblient/src/utils/time.dart';
 import 'package:bbblient/src/utils/utils.dart';
@@ -27,6 +29,7 @@ import 'package:bbblient/src/views/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_mongodb_realm/flutter_mongo_realm.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import 'package:table_calendar/table_calendar.dart';
@@ -35,6 +38,9 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AppointmentProvider with ChangeNotifier {
+  AppointmentProvider({required this.mongodbProvider});
+  DatabaseProvider mongodbProvider;
+
   static final DateTime _today = Time().getDate();
 
   ///todo change first and last date acc.
@@ -142,6 +148,50 @@ class AppointmentProvider with ChangeNotifier {
     }
   }
 
+  Future<AppointmentModel?> fetchAppointmentMongo({required String appointmentID}) async {
+    appointmentStatus = Status.loading;
+    notifyListeners();
+    try {
+      var appointmentDoc = await mongodbProvider.fetchCollection(CollectionMongo.appointments).findOne(
+        filter: {'appointmentId': appointmentID},
+      );
+
+      if (appointmentDoc == null) {
+        appointmentStatus = Status.init;
+        notifyListeners();
+        return null;
+      }
+
+      Map<String, dynamic> _temp = json.decode(appointmentDoc.toJson()) as Map<String, dynamic>;
+      AppointmentModel appointment = AppointmentModel.fromJson(_temp);
+
+      // Get Salon
+      salon = await SalonApi(mongodbProvider: mongodbProvider).getSalonFromId(appointment.salon.id);
+
+      // Get Salon Masters
+      allMastersInSalon.clear();
+      allMastersInSalon = await MastersApi(mongodbProvider: mongodbProvider).getAllSalonMasters(salon!.salonId);
+      // Check if single master
+      if (allMastersInSalon.length < 2) {
+        isSingleMaster = true;
+      }
+
+      // Get Salon Theme
+      themeType = await getSalonTheme(salon?.salonId);
+
+      // appointmentStatus = Status.success;
+      // notifyListeners();
+
+      return appointment;
+    } catch (e) {
+      // printIt('Error on fetchAppointment() - ${e.toString()}');
+      appointmentStatus = Status.failed;
+      notifyListeners();
+    }
+
+    return null;
+  }
+
   Future<AppointmentModel?> fetchAppointment({required String appointmentID}) async {
     appointmentStatus = Status.loading;
     notifyListeners();
@@ -212,6 +262,39 @@ class AppointmentProvider with ChangeNotifier {
     }
   }
 
+  void updateAppointmentSubStatusMongo({required String appointmentID, Function? callback}) async {
+    updateSubStatus = Status.loading;
+    notifyListeners();
+    try {
+      final selector = {'appointmentId': appointmentID};
+
+      final modifier = UpdateOperator.set({"status": AppointmentStatus.active});
+      final modifier3 = UpdateOperator.set({"subStatus": ActiveAppointmentSubStatus.confirmed});
+
+      final modifier2 = UpdateOperator.push({
+        "updates": ArrayModifier.each([AppointmentUpdates.confirmedByCustomer]),
+        "updatedAt": ArrayModifier.each([DateTime.now()])
+      });
+
+      await mongodbProvider.fetchCollection(CollectionMongo.appointments).updateOne(filter: selector, update: modifier);
+      await mongodbProvider.fetchCollection(CollectionMongo.appointments).updateOne(filter: selector, update: modifier2);
+      await mongodbProvider.fetchCollection(CollectionMongo.appointments).updateOne(filter: selector, update: modifier3);
+
+      // SHOW TOAST
+      showToast('YOUR APPOINTMENT HAS BEEN CONFIRMED');
+
+      // REFRESH SCREEN
+      callback!();
+
+      updateSubStatus = Status.success;
+      notifyListeners();
+    } catch (e) {
+      printIt('Error on updateAppointmentSubStatusMongo() - ${e.toString()}');
+      updateSubStatus = Status.failed;
+      notifyListeners();
+    }
+  }
+
   void cancelAppointment({
     required String appointmentID,
     Function? callback,
@@ -223,17 +306,24 @@ class AppointmentProvider with ChangeNotifier {
     cancelAppointmentStatus = Status.loading;
     notifyListeners();
     try {
-      await Collection.appointments.doc(appointmentID).set(
-        {
-          'status': 'cancelled',
-          'subStatus': 'cancelledByCustomer',
-          'updates': FieldValue.arrayUnion(['cancelledByCustomer'])
-        },
-        SetOptions(merge: true),
-      );
+      //updates the existing appointment
+
+      final selector = {'appointmentId': appointmentID};
+
+      final modifier2 = UpdateOperator.push({
+        "updates": ArrayModifier.each([AppointmentUpdates.cancelledBySalon]),
+        "updatedAt": ArrayModifier.each([DateTime.now().toIso8601String()])
+      });
+
+      final modifier = UpdateOperator.set({
+        "status": AppointmentStatus.cancelled,
+      });
+
+      await mongodbProvider.fetchCollection(CollectionMongo.appointments).updateOne(filter: selector, update: modifier);
+      await mongodbProvider.fetchCollection(CollectionMongo.appointments).updateOne(filter: selector, update: modifier2);
 
       // UNBLOCK TIME SLOTS
-      await AppointmentApi().updateMultipleAppointment(
+      await AppointmentApi(mongodbProvider: mongodbProvider).updateMultipleAppointment(
         isSingleMaster: isSingleMaster,
         appointmentModel: appointment,
         appointmentSubStatus: ActiveAppointmentSubStatus.cancelledByCustomer,
@@ -260,7 +350,7 @@ class AppointmentProvider with ChangeNotifier {
   void getCategoryDetails(String categoryId) async {}
 
   Future<ThemeType?> getSalonTheme(salonId) async {
-    CustomerWebSettings? themeSettings = await CustomerWebSettingsApi().getSalonTheme(salonId: salonId);
+    CustomerWebSettings? themeSettings = await CustomerWebSettingsApi(mongodbProvider: mongodbProvider).getSalonTheme(salonId: salonId);
 
     return getTheme(themeSettings);
   }
@@ -380,7 +470,9 @@ class AppointmentProvider with ChangeNotifier {
   }) async {
     appleCalendarStatus = Status.loading;
     notifyListeners();
-    var url = Uri.parse('https://us-central1-bowandbeautiful-3372d.cloudfunctions.net/calendar-appleCalendar');
+
+    var url = Uri.parse('https://api.glmrs.space/api/v1/calendar/appleCalendar');
+
     final Map<String, String> body = {
       "starttime": startTime,
       "endtime": endTime,
@@ -395,8 +487,8 @@ class AppointmentProvider with ChangeNotifier {
     try {
       var response = await http.post(url, body: body);
 
-      debugPrint(body.toString());
-      debugPrint('----------');
+      // debugPrint(body.toString());
+      // debugPrint('----??------');
       debugPrint('Response: $response');
       debugPrint('Response status: ${response.statusCode}');
       debugPrint('Response body: ${response.body}');
@@ -404,10 +496,14 @@ class AppointmentProvider with ChangeNotifier {
       if (response.statusCode == 200 || response.statusCode == 201) {
         final Map<String, dynamic> parsedResponse = json.decode(response.body);
 
-        js.context.callMethod('open', [parsedResponse["message"], '_self']);
+        if ((parsedResponse["data"]).toString().length >= 9) {
+          String launchDownloadLink = 'https://${(parsedResponse["data"]).toString().substring('webcal://'.length)}';
+          debugPrint('----ical------');
 
-        if ((parsedResponse["message"]).toString().length >= 9) {
-          String launchDownloadLink = 'https://${(parsedResponse["message"]).toString().substring('webcal://'.length)}';
+          print(launchDownloadLink);
+          js.context.callMethod('open', [parsedResponse["data"], '_self']);
+          // js.context.callMethod('open', [launchDownloadLink, '_self']);
+
           Uri uri = Uri.parse(launchDownloadLink);
 
           if (await canLaunchUrl(uri)) {
@@ -466,7 +562,7 @@ class AppointmentProvider with ChangeNotifier {
 
     int total = 0;
 
-    List<ServiceModel> salonServices = await CategoryServicesApi().getSalonServices(salonId: salon!.salonId);
+    List<ServiceModel> salonServices = await CategoryServicesApi(mongodbProvider: mongodbProvider).getSalonServices(salonId: salon!.salonId);
 
     for (var service in appointment.services) {
       for (var salonService in salonServices) {

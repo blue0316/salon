@@ -17,9 +17,7 @@ class FeaturesCheck extends ConsumerWidget {
     final _salonProfileProvider = ref.watch(salonProfileProvider);
     return SizedBox(
       width: double.infinity,
-      height: index == 0 ||
-              index ==
-                  _salonProfileProvider.chosenSalon.additionalFeatures.length
+      height: index == 0 || index == _salonProfileProvider.chosenSalon.additionalFeatures.length
           ? 80
           : index == _salonProfileProvider.chosenSalon.additionalFeatures.length
               ? 80
@@ -55,14 +53,17 @@ class FeaturesCheck extends ConsumerWidget {
                   // mainAxisAlignment: MainAxisAlignment.start,
                   // crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    ColorFiltered(
-                      colorFilter: ColorFilter.mode(
-                          theme.colorScheme.secondary, BlendMode.src),
-                      child: Image.asset("assets/test_assets/check.png",
-                          // color: theme.colorScheme.secondary,
-                          height: 20,
-                          width: 20),
-                    ),
+                    // ColorFiltered(
+                    //   colorFilter: ColorFilter.mode(theme.colorScheme.secondary, BlendMode.src),
+                    //   child: Image.asset("assets/test_assets/check.png",
+                    //       // color: theme.colorScheme.secondary,
+                    //       height: 20,
+                    //       width: 20),
+                    // ),
+                    Image.asset("assets/test_assets/check.png",
+                        // color: theme.colorScheme.secondary,
+                        height: 20,
+                        width: 20),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
@@ -80,9 +81,7 @@ class FeaturesCheck extends ConsumerWidget {
                 ),
               ),
             ),
-            if (index ==
-                _salonProfileProvider.chosenSalon.additionalFeatures.length)
-              const Gap(10),
+            if (index == _salonProfileProvider.chosenSalon.additionalFeatures.length) const Gap(10),
           ],
         ),
       ),
