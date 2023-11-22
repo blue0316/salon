@@ -3,6 +3,7 @@ import 'package:bbblient/src/views/themes/city_muse/city_muse_desktop/reviews.da
 import 'package:bbblient/src/views/themes/city_muse/city_muse_desktop/service_tab.dart';
 import 'package:bbblient/src/views/themes/city_muse/city_muse_desktop/teams_tile.dart';
 import 'package:bbblient/src/views/themes/city_muse/city_muse_mobile/app_bar_menu.dart';
+import 'package:bbblient/src/views/widgets/smooth_scroll/smooth_scroll.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -143,6 +144,7 @@ class GlamMinimalDesktop extends ConsumerStatefulWidget {
 class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
   int _currentIndex = 0;
   final PageController _pageController = PageController();
+  late ScrollController _scrollController;
   int currentIndex = 0;
   bool isHovered = false;
 
@@ -217,6 +219,7 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
   @override
   void initState() {
     super.initState();
+    _scrollController = ScrollController();
     ref
         .read(salonSearchProvider)
         .getAllSalonServices(ref.read(createAppointmentProvider));
@@ -459,131 +462,172 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
               width: double.infinity,
               color: _salonProfileProvider.salonTheme.scaffoldBackgroundColor,
               child: _salonProfileProvider.currentWidget)
-          : SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox.fromSize(size: Size.zero, key: controller.landing),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: SizedBox(
-                          height: height,
-                          //color: Colors.white,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Gap(150),
-                              SizedBox(
-                                // width: 537,
-                                height: _salonProfileProvider
-                                            .themeSettings!.showSignature! &&
-                                        _salonProfileProvider.themeSettings!
-                                                .themeSignature !=
-                                            null
-                                    ? 280
-                                    : 150,
+          : SafeArea(
+              child: WebSmoothScroll(
+                  controller: _scrollController,
+                  scrollOffset: 60, // additional offset to users scroll input
+                  animationDuration:
+                      500, // duration of animation of scroll in milliseconds
+                  curve: Curves.easeInOutCirc, // curve of the animation
+                  child: SingleChildScrollView(
+                    controller: _scrollController,
+                    physics: const NeverScrollableScrollPhysics(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox.fromSize(
+                            size: Size.zero, key: controller.landing),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: SizedBox(
+                                height: height,
+                                //color: Colors.white,
                                 child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Expanded(
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 100.0),
-                                        child: Text(
-                                          chosenSalon.salonName.toTitleCase(),
-                                          textAlign: TextAlign.left,
-                                          style: GoogleFonts.openSans(
-                                            color: _salonProfileProvider
-                                                .salonTheme
-                                                .textTheme
-                                                .titleLarge!
-                                                .color,
-                                            fontSize: screenSize.width * 0.04,
-                                            //80,
-                                            //     fontFamily: 'Open Sans',
-                                            fontWeight: FontWeight.w600,
-                                            height: 1,
+                                    const Gap(150),
+                                    SizedBox(
+                                      // width: 537,
+                                      height: _salonProfileProvider
+                                                  .themeSettings!
+                                                  .showSignature! &&
+                                              _salonProfileProvider
+                                                      .themeSettings!
+                                                      .themeSignature !=
+                                                  null
+                                          ? 280
+                                          : 150,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          Expanded(
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 100.0),
+                                              child: Text(
+                                                chosenSalon.salonName
+                                                    .toTitleCase(),
+                                                textAlign: TextAlign.left,
+                                                style: GoogleFonts.openSans(
+                                                  color: _salonProfileProvider
+                                                      .salonTheme
+                                                      .textTheme
+                                                      .titleLarge!
+                                                      .color,
+                                                  fontSize:
+                                                      screenSize.width * 0.04,
+                                                  //80,
+                                                  //     fontFamily: 'Open Sans',
+                                                  fontWeight: FontWeight.w600,
+                                                  height: 1,
+                                                ),
+                                              ),
+                                            ),
                                           ),
-                                        ),
+                                          if (_salonProfileProvider
+                                                  .themeSettings!
+                                                  .showSignature! &&
+                                              _salonProfileProvider
+                                                      .themeSettings!
+                                                      .themeSignature !=
+                                                  null) ...[
+                                            //  const Gap(10),
+                                            Expanded(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 50.0),
+                                                child: Text(
+                                                  //  'by Emma',
+
+                                                  'by ${_salonProfileProvider.themeSettings!.themeSignature}',
+                                                  textAlign: TextAlign.right,
+                                                  style: GoogleFonts.ooohBaby(
+                                                    color: _salonProfileProvider
+                                                        .salonTheme
+                                                        .textTheme
+                                                        .displaySmall!
+                                                        .color,
+                                                    fontSize:
+                                                        screenSize.width * 0.02,
+                                                    //  fontFamily: 'Oooh Baby',
+                                                    fontWeight: FontWeight.w400,
+                                                    height: 0,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            const Spacer(),
+                                          ]
+                                        ],
                                       ),
                                     ),
-                                    if (_salonProfileProvider
-                                            .themeSettings!.showSignature! &&
-                                        _salonProfileProvider.themeSettings!
-                                                .themeSignature !=
-                                            null) ...[
-                                      //  const Gap(10),
-                                      Expanded(
+                                    const Gap(50),
+                                    if (chosenSalon.specializations != null &&
+                                        chosenSalon
+                                            .specializations!.isNotEmpty &&
+                                        displaySettings.showSpecialization)
+                                      Padding(
+                                        // padding: const EdgeInsets.only(
+                                        //     left: 113.0, right: 30),
+                                        padding: const EdgeInsets.only(
+                                            left: 113.0, right: 20),
+                                        child: Wrap(
+                                            //verticalDirection: VerticalDirection.up,
+                                            alignment: WrapAlignment.start,
+                                            runSpacing: 7,
+                                            spacing: 10,
+                                            children:
+                                                chosenSalon.specializations!
+                                                    .map(
+                                                      (e) => SpecializationBox(
+                                                        name: e.toString(),
+                                                      ),
+                                                    )
+                                                    .toList()),
+                                      ),
+                                    const Gap(50),
+                                    GestureDetector(
+                                      onTap: () {
+                                        const BookingDialogWidget222()
+                                            .show(context);
+                                      },
+                                      child: MouseRegion(
+                                        onEnter: (event) => onEntered(true),
+                                        onExit: (event) => onEntered(false),
                                         child: Padding(
                                           padding: const EdgeInsets.only(
-                                              right: 50.0),
-                                          child: Text(
-                                            //  'by Emma',
-
-                                            'by ${_salonProfileProvider.themeSettings!.themeSignature}',
-                                            textAlign: TextAlign.right,
-                                            style: GoogleFonts.ooohBaby(
-                                              color: _salonProfileProvider
-                                                  .salonTheme
-                                                  .textTheme
-                                                  .displaySmall!
-                                                  .color,
-                                              fontSize: screenSize.width * 0.02,
-                                              //  fontFamily: 'Oooh Baby',
-                                              fontWeight: FontWeight.w400,
-                                              height: 0,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                    ]
-                                  ],
-                                ),
-                              ),
-                              const Gap(50),
-                              if (chosenSalon.specializations != null &&
-                                  chosenSalon.specializations!.isNotEmpty &&
-                                  displaySettings.showSpecialization)
-                                Padding(
-                                  // padding: const EdgeInsets.only(
-                                  //     left: 113.0, right: 30),
-                                  padding: const EdgeInsets.only(
-                                      left: 113.0, right: 20),
-                                  child: Wrap(
-                                      //verticalDirection: VerticalDirection.up,
-                                      alignment: WrapAlignment.start,
-                                      runSpacing: 7,
-                                      spacing: 10,
-                                      children: chosenSalon.specializations!
-                                          .map(
-                                            (e) => SpecializationBox(
-                                              name: e.toString(),
-                                            ),
-                                          )
-                                          .toList()),
-                                ),
-                              const Gap(50),
-                              GestureDetector(
-                                onTap: () {
-                                  const BookingDialogWidget222().show(context);
-                                },
-                                child: MouseRegion(
-                                  onEnter: (event) => onEntered(true),
-                                  onExit: (event) => onEntered(false),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 113.0, right: 12),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      // mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text('BOOK NOW',
-                                            style: GoogleFonts.openSans(
+                                              left: 113.0, right: 12),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            // mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Text('BOOK NOW',
+                                                  style: GoogleFonts.openSans(
+                                                      color: isHovered
+                                                          ? increaseBrightness(
+                                                              _salonProfileProvider
+                                                                  .salonTheme
+                                                                  .colorScheme
+                                                                  .secondary,
+                                                              10)
+                                                          : _salonProfileProvider
+                                                              .salonTheme
+                                                              .colorScheme
+                                                              .secondary,
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.w700)),
+                                              const Gap(10),
+                                              Image.asset(
+                                                'assets/test_assets/book_arrow.png',
+                                                height: 24,
+                                                width: 24,
                                                 color: isHovered
                                                     ? increaseBrightness(
                                                         _salonProfileProvider
@@ -595,360 +639,366 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                                         .salonTheme
                                                         .colorScheme
                                                         .secondary,
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w700)),
-                                        const Gap(10),
-                                        Image.asset(
-                                          'assets/test_assets/book_arrow.png',
-                                          height: 24,
-                                          width: 24,
-                                          color: isHovered
-                                              ? increaseBrightness(
-                                                  _salonProfileProvider
-                                                      .salonTheme
-                                                      .colorScheme
-                                                      .secondary,
-                                                  10)
-                                              : _salonProfileProvider.salonTheme
-                                                  .colorScheme.secondary,
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            const Gap(10),
+                            (_salonProfileProvider
+                                            .themeSettings?.backgroundImage !=
+                                        null &&
+                                    _salonProfileProvider
+                                            .themeSettings?.backgroundImage !=
+                                        '')
+                                ? Expanded(
+                                    child: CachedImage(
+                                      url: _salonProfileProvider
+                                          .themeSettings!.backgroundImage!,
+                                      fit: BoxFit.cover,
+                                      height: height,
+                                    ),
+                                  )
+                                : Expanded(
+                                    child: Image.asset(
+                                        AppIcons.cityMuseBackground,
+                                        height: height,
+                                        fit: BoxFit.cover)),
+                          ],
+                        ),
+                        if (chosenSalon.additionalFeatures.isNotEmpty &&
+                            displaySettings.showFeatures)
+                          Container(
+                              // width: double.infinity,
+                              height:
+                                  chosenSalon.additionalFeatures.length * 30,
+                              decoration: BoxDecoration(
+                                color: blendColors(
+                                    _salonProfileProvider
+                                        .salonTheme.colorScheme.secondary,
+                                    // const Color(0xffea80b2),
+                                    _salonProfileProvider
+                                        .salonTheme.scaffoldBackgroundColor,
+                                    0.4),
+
+                                // increaseBrightness(
+                                // _salonProfileProvider
+                                //     .salonTheme.colorScheme.secondary,
+                                //     40)
+                              ),
+                              child: Column(
+                                children: [
+                                  const Gap(40),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 100.0, right: 30),
+                                      child: GridView.builder(
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        gridDelegate:
+                                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisSpacing: 5,
+                                          mainAxisExtent: 30,
+                                          mainAxisSpacing: 15,
+                                          crossAxisCount:
+                                              3, // Number of columns
+                                        ),
+                                        itemCount:
+                                            //15,
+                                            chosenSalon
+                                                .additionalFeatures.length,
+                                        itemBuilder: (context, index) {
+                                          return
+                                              //const Text('helloooooooooo');
+                                              DesktopFeaturesCheck(
+                                                  title: getFeature(
+                                                      chosenSalon
+                                                              .additionalFeatures[
+                                                          index],
+                                                      chosenSalon.locale));
+                                        },
+                                      ),
                                     ),
                                   ),
+                                ],
+                              )),
+                        const Gap(100),
+                        if (chosenSalon.description.isNotEmpty &&
+                            displaySettings.showAbout)
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Gap(100),
+                              SizedBox.fromSize(
+                                  size: Size.zero, key: controller.about),
+                              const Gap(50),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 20.0),
+                                child: Text(
+                                  _createAppointmentProvider
+                                              .salonMasters.length >
+                                          1
+                                      ? 'WHO ARE WE?'
+                                      : 'WHO AM I?',
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.openSans(
+                                    color: _salonProfileProvider.salonTheme
+                                        .textTheme.displaySmall!.color,
+                                    fontSize: 60,
+                                    // fontFamily: 'Open Sans',
+                                    fontWeight: FontWeight.w600,
+                                    height: 0.04,
+                                  ),
                                 ),
                               ),
+                              const Gap(100),
+                              //  const Gap(50),
+
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  // 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum.Maecenas eget condimentum velit, sit amet feugiat lectus. Maecenas eget condimentum velit, sit amet feugiat lectus.',
+                                  chosenSalon.description.toCapitalized(),
+                                  textAlign: TextAlign.justify,
+                                  style: GoogleFonts.openSans(
+                                    color: _salonProfileProvider
+                                        .salonTheme.textTheme.titleSmall!.color,
+                                    fontSize: 16,
+                                    // fontFamily: 'Open Sans',
+                                    fontWeight: FontWeight.w400,
+                                    height: 1.5,
+                                    letterSpacing: 0.16,
+                                  ),
+                                ),
+                              ),
+                              const Gap(50),
                             ],
                           ),
-                        ),
-                      ),
-                      const Gap(10),
-                      (_salonProfileProvider.themeSettings?.backgroundImage !=
-                                  null &&
-                              _salonProfileProvider
-                                      .themeSettings?.backgroundImage !=
-                                  '')
-                          ? Expanded(
-                              child: CachedImage(
-                                url: _salonProfileProvider
-                                    .themeSettings!.backgroundImage!,
-                                fit: BoxFit.cover,
-                                height: height,
-                              ),
-                            )
-                          : Expanded(
-                              child: Image.asset(AppIcons.cityMuseBackground,
-                                  height: height, fit: BoxFit.cover)),
-                    ],
-                  ),
-                  if (chosenSalon.additionalFeatures.isNotEmpty &&
-                      displaySettings.showFeatures)
-                    Container(
-                        width: double.infinity,
-                        height: chosenSalon.additionalFeatures.length * 30,
-                        decoration: BoxDecoration(
-                          color: blendColors(
-                              _salonProfileProvider
-                                  .salonTheme.colorScheme.secondary,
-                              // const Color(0xffea80b2),
-                              _salonProfileProvider
-                                  .salonTheme.scaffoldBackgroundColor,
-                              0.4),
-
-                          // increaseBrightness(
-                          // _salonProfileProvider
-                          //     .salonTheme.colorScheme.secondary,
-                          //     40)
-                        ),
-                        child: Column(
-                          children: [
-                            const Gap(40),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 100.0, right: 30),
-                                child: GridView.builder(
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisSpacing: 5,
-                                    mainAxisExtent: 30,
-                                    mainAxisSpacing: 15,
-                                    crossAxisCount: 3, // Number of columns
-                                  ),
-                                  itemCount:
-                                      //15,
-                                      chosenSalon.additionalFeatures.length,
-                                  itemBuilder: (context, index) {
-                                    return
-                                        //const Text('helloooooooooo');
-                                        DesktopFeaturesCheck(
-                                            title: getFeature(
-                                                chosenSalon
-                                                    .additionalFeatures[index],
-                                                chosenSalon.locale));
-                                  },
-                                ),
-                              ),
+                        const Gap(60),
+                        if (chosenSalon.profilePics.isNotEmpty)
+                          CarouselSlider.builder(
+                            options: CarouselOptions(
+                              height: 515,
+                              aspectRatio: 16 / 9,
+                              viewportFraction: 1,
+                              initialPage: 0,
+                              enableInfiniteScroll: true,
+                              reverse: false,
+                              autoPlay: true,
+                              autoPlayInterval: const Duration(seconds: 3),
+                              autoPlayAnimationDuration:
+                                  const Duration(milliseconds: 800),
+                              autoPlayCurve: Curves.fastOutSlowIn,
+                              enlargeCenterPage: true,
+                              enlargeFactor: 0.3,
+                              onPageChanged: (value, reason) {
+                                // setState(() {
+                                //   currentIndex = value;
+                                // });
+                              },
+                              scrollDirection: Axis.horizontal,
                             ),
-                          ],
-                        )),
-                  const Gap(100),
-                  if (chosenSalon.description.isNotEmpty &&
-                      displaySettings.showAbout)
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Gap(100),
-                        SizedBox.fromSize(
-                            size: Size.zero, key: controller.about),
+                            itemCount: chosenSalon.profilePics.length,
+                            itemBuilder: (BuildContext context, int index,
+                                int realIndex) {
+                              return Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 100.0, right: 80),
+                                child: CachedImage(
+                                  url:
+                                      chosenSalon.profilePics[index].toString(),
+                                  width: 1201,
+                                  //size.width / 1.2,
+                                  //fit: BoxFit.contain,
+                                  height: 616,
+                                ),
+                              );
+                            },
+                          ),
                         const Gap(50),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
-                          child: Text(
-                            _createAppointmentProvider.salonMasters.length > 1
-                                ? 'WHO ARE WE?'
-                                : 'WHO AM I?',
-                            textAlign: TextAlign.center,
+                        Container(
+                          height: 40,
+                          decoration: const BoxDecoration(
+                              border: Border(
+                                  top: BorderSide(
+                                    color: Color(0xff9F9F9F),
+                                  ),
+                                  bottom:
+                                      BorderSide(color: Color(0xff9F9F9F)))),
+                          child: Marquee(
+                            text: _salonProfileProvider.allProductBrands
+                                .map((e) => e.brandName)
+                                .toList()
+                                .join()
+                                .toCapitalized(),
+                            //' 🌑  ${chosenSalon.salonName.toTitleCase()} ',
                             style: GoogleFonts.openSans(
+                              fontSize: 15.0,
                               color: _salonProfileProvider
                                   .salonTheme.textTheme.displaySmall!.color,
-                              fontSize: 60,
-                              // fontFamily: 'Open Sans',
-                              fontWeight: FontWeight.w600,
-                              height: 0.04,
                             ),
+
+                            scrollAxis: Axis.horizontal,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            blankSpace: 20.0, // Adjust the spacing as needed
+                            velocity: 40.0, // Adjust the scrolling speed
+                            startPadding: 20.0, // Adjust the initial padding
+                            accelerationDuration: const Duration(seconds: 1),
+                            accelerationCurve: Curves.easeInOut,
+                            decelerationDuration:
+                                const Duration(milliseconds: 500),
+                            decelerationCurve: Curves.easeInOut,
                           ),
                         ),
                         const Gap(100),
-                        //  const Gap(50),
-
-                        Expanded(
-                          flex: 2,
-                          child: Text(
-                            // 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum.Maecenas eget condimentum velit, sit amet feugiat lectus. Maecenas eget condimentum velit, sit amet feugiat lectus.',
-                            chosenSalon.description.toCapitalized(),
-                            textAlign: TextAlign.justify,
-                            style: GoogleFonts.openSans(
-                              color: _salonProfileProvider
-                                  .salonTheme.textTheme.titleSmall!.color,
-                              fontSize: 16,
-                              // fontFamily: 'Open Sans',
-                              fontWeight: FontWeight.w400,
-                              height: 1.5,
-                              letterSpacing: 0.16,
+                        if (chosenSalon.photosOfWorks != null &&
+                            chosenSalon.photosOfWorks!.isNotEmpty &&
+                            displaySettings.showPhotosOfWork) ...[
+                          SizedBox.fromSize(
+                              size: Size.zero, key: controller.works),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 100.0,
+                            ),
+                            child: Text(
+                              (AppLocalizations.of(context)?.portfolio ??
+                                      'PORTFOLIO')
+                                  .toUpperCase(),
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.openSans(
+                                color: _salonProfileProvider
+                                    .salonTheme.textTheme.displaySmall!.color,
+                                fontSize: 60,
+                                // fontFamily: 'Open Sans',
+                                fontWeight: FontWeight.w600,
+                                height: 0.03,
+                              ),
                             ),
                           ),
-                        ),
-                        const Gap(50),
-                      ],
-                    ),
-                  const Gap(60),
-                  if (chosenSalon.profilePics.isNotEmpty)
-                    CarouselSlider.builder(
-                      options: CarouselOptions(
-                        height: 515,
-                        aspectRatio: 16 / 9,
-                        viewportFraction: 1,
-                        initialPage: 0,
-                        enableInfiniteScroll: true,
-                        reverse: false,
-                        autoPlay: true,
-                        autoPlayInterval: const Duration(seconds: 3),
-                        autoPlayAnimationDuration:
-                            const Duration(milliseconds: 800),
-                        autoPlayCurve: Curves.fastOutSlowIn,
-                        enlargeCenterPage: true,
-                        enlargeFactor: 0.3,
-                        onPageChanged: (value, reason) {
-                          // setState(() {
-                          //   currentIndex = value;
-                          // });
-                        },
-                        scrollDirection: Axis.horizontal,
-                      ),
-                      itemCount: chosenSalon.profilePics.length,
-                      itemBuilder:
-                          (BuildContext context, int index, int realIndex) {
-                        return Padding(
-                          padding:
-                              const EdgeInsets.only(left: 100.0, right: 80),
-                          child: CachedImage(
-                            url: chosenSalon.profilePics[index].toString(),
-                            width: 1201,
-                            //size.width / 1.2,
-                            //fit: BoxFit.contain,
-                            height: 616,
-                          ),
-                        );
-                      },
-                    ),
-                  const Gap(50),
-                  Container(
-                    height: 40,
-                    decoration: const BoxDecoration(
-                        border: Border(
-                            top: BorderSide(
-                              color: Color(0xff9F9F9F),
+                          const Gap(50),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 100.0, right: 100.0),
+                            child: StaggeredGrid.count(
+                              crossAxisCount: 5,
+                              mainAxisSpacing: 6,
+                              crossAxisSpacing: 4,
+                              children: [
+                                if (chosenSalon.photosOfWorks!.isNotEmpty)
+                                  StaggeredGridTile.count(
+                                    crossAxisCellCount: 1,
+                                    mainAxisCellCount: 1,
+                                    child: Tile(
+                                      index: 1,
+                                      image:
+                                          chosenSalon.photosOfWorks![0].image!,
+                                      description: chosenSalon
+                                              .photosOfWorks![0].description ??
+                                          '',
+                                    ),
+                                  ),
+                                if (chosenSalon.photosOfWorks!.length >= 2)
+                                  StaggeredGridTile.count(
+                                    crossAxisCellCount: 1,
+                                    mainAxisCellCount: 1,
+                                    child: Tile(
+                                      index: 2,
+                                      image:
+                                          chosenSalon.photosOfWorks![1].image!,
+                                      description: chosenSalon
+                                              .photosOfWorks![1].description ??
+                                          '',
+                                    ),
+                                  ),
+                                if (chosenSalon.photosOfWorks!.length >= 3)
+                                  StaggeredGridTile.count(
+                                    crossAxisCellCount: 2,
+                                    mainAxisCellCount: 1.25,
+                                    child: Tile(
+                                      index: 4,
+                                      image:
+                                          chosenSalon.photosOfWorks![2].image!,
+                                      description: chosenSalon
+                                              .photosOfWorks![2].description ??
+                                          '',
+                                    ),
+                                  ),
+                                if (chosenSalon.photosOfWorks!.length >= 4)
+                                  StaggeredGridTile.count(
+                                    crossAxisCellCount: 2,
+                                    mainAxisCellCount: 1.5,
+                                    child: Tile(
+                                      index: 3,
+                                      image:
+                                          chosenSalon.photosOfWorks![3].image!,
+                                      description: chosenSalon
+                                              .photosOfWorks![3].description ??
+                                          '',
+                                    ),
+                                  ),
+                                if (chosenSalon.photosOfWorks!.length >= 5)
+                                  StaggeredGridTile.count(
+                                    crossAxisCellCount: 1,
+                                    mainAxisCellCount: 2.5,
+                                    child: Tile(
+                                      index: 6,
+                                      image:
+                                          chosenSalon.photosOfWorks![4].image!,
+                                      description: chosenSalon
+                                              .photosOfWorks![4].description ??
+                                          '',
+                                    ),
+                                  ),
+                                if (chosenSalon.photosOfWorks!.length > 5)
+                                  StaggeredGridTile.count(
+                                    crossAxisCellCount: 2,
+                                    mainAxisCellCount: 1.25,
+                                    child: Tile(
+                                      index: 5,
+                                      image:
+                                          chosenSalon.photosOfWorks![5].image!,
+                                      description: chosenSalon
+                                              .photosOfWorks![5].description ??
+                                          '',
+                                    ),
+                                  ),
+                              ],
                             ),
-                            bottom: BorderSide(color: Color(0xff9F9F9F)))),
-                    child: Marquee(
-                      text: _salonProfileProvider.allProductBrands
-                          .map((e) => e.brandName)
-                          .toList()
-                          .join()
-                          .toCapitalized(),
-                      //' 🌑  ${chosenSalon.salonName.toTitleCase()} ',
-                      style: GoogleFonts.openSans(
-                        fontSize: 15.0,
-                        color: _salonProfileProvider
-                            .salonTheme.textTheme.displaySmall!.color,
-                      ),
+                            // StaggeredGridView.countBuilder(
+                            //   shrinkWrap: true,
+                            //   crossAxisCount: 4,
+                            //   itemCount: chosenSalon.photosOfWorks!.length,
+                            //   itemBuilder: (BuildContext context, int index) =>
+                            //       GlamMinimalSalonWorks(
+                            //     photosOfWork: chosenSalon.photosOfWorks![index],
+                            //   ),
 
-                      scrollAxis: Axis.horizontal,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      blankSpace: 20.0, // Adjust the spacing as needed
-                      velocity: 40.0, // Adjust the scrolling speed
-                      startPadding: 20.0, // Adjust the initial padding
-                      accelerationDuration: const Duration(seconds: 1),
-                      accelerationCurve: Curves.easeInOut,
-                      decelerationDuration: const Duration(milliseconds: 500),
-                      decelerationCurve: Curves.easeInOut,
-                    ),
-                  ),
-                  const Gap(100),
-                  if (chosenSalon.photosOfWorks != null &&
-                      chosenSalon.photosOfWorks!.isNotEmpty &&
-                      displaySettings.showPhotosOfWork) ...[
-                    SizedBox.fromSize(size: Size.zero, key: controller.works),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 100.0,
-                      ),
-                      child: Text(
-                        (AppLocalizations.of(context)?.portfolio ?? 'PORTFOLIO')
-                            .toUpperCase(),
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.openSans(
-                          color: _salonProfileProvider
-                              .salonTheme.textTheme.displaySmall!.color,
-                          fontSize: 60,
-                          // fontFamily: 'Open Sans',
-                          fontWeight: FontWeight.w600,
-                          height: 0.03,
-                        ),
-                      ),
-                    ),
-                    const Gap(50),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 100.0, right: 100.0),
-                      child: StaggeredGrid.count(
-                        crossAxisCount: 5,
-                        mainAxisSpacing: 6,
-                        crossAxisSpacing: 4,
-                        children: [
-                          if (chosenSalon.photosOfWorks!.isNotEmpty)
-                            StaggeredGridTile.count(
-                              crossAxisCellCount: 1,
-                              mainAxisCellCount: 1,
-                              child: Tile(
-                                index: 1,
-                                image: chosenSalon.photosOfWorks![0].image!,
-                                description:
-                                    chosenSalon.photosOfWorks![0].description ??
-                                        '',
-                              ),
-                            ),
-                          if (chosenSalon.photosOfWorks!.length >= 2)
-                            StaggeredGridTile.count(
-                              crossAxisCellCount: 1,
-                              mainAxisCellCount: 1,
-                              child: Tile(
-                                index: 2,
-                                image: chosenSalon.photosOfWorks![1].image!,
-                                description:
-                                    chosenSalon.photosOfWorks![1].description ??
-                                        '',
-                              ),
-                            ),
-                          if (chosenSalon.photosOfWorks!.length >= 3)
-                            StaggeredGridTile.count(
-                              crossAxisCellCount: 2,
-                              mainAxisCellCount: 1.25,
-                              child: Tile(
-                                index: 4,
-                                image: chosenSalon.photosOfWorks![2].image!,
-                                description:
-                                    chosenSalon.photosOfWorks![2].description ??
-                                        '',
-                              ),
-                            ),
-                          if (chosenSalon.photosOfWorks!.length >= 4)
-                            StaggeredGridTile.count(
-                              crossAxisCellCount: 2,
-                              mainAxisCellCount: 1.5,
-                              child: Tile(
-                                index: 3,
-                                image: chosenSalon.photosOfWorks![3].image!,
-                                description:
-                                    chosenSalon.photosOfWorks![3].description ??
-                                        '',
-                              ),
-                            ),
-                          if (chosenSalon.photosOfWorks!.length >= 5)
-                            StaggeredGridTile.count(
-                              crossAxisCellCount: 1,
-                              mainAxisCellCount: 2.5,
-                              child: Tile(
-                                index: 6,
-                                image: chosenSalon.photosOfWorks![4].image!,
-                                description:
-                                    chosenSalon.photosOfWorks![4].description ??
-                                        '',
-                              ),
-                            ),
-                          if (chosenSalon.photosOfWorks!.length > 5)
-                            StaggeredGridTile.count(
-                              crossAxisCellCount: 2,
-                              mainAxisCellCount: 1.25,
-                              child: Tile(
-                                index: 5,
-                                image: chosenSalon.photosOfWorks![5].image!,
-                                description:
-                                    chosenSalon.photosOfWorks![5].description ??
-                                        '',
-                              ),
-                            ),
-                        ],
-                      ),
-                      // StaggeredGridView.countBuilder(
-                      //   shrinkWrap: true,
-                      //   crossAxisCount: 4,
-                      //   itemCount: chosenSalon.photosOfWorks!.length,
-                      //   itemBuilder: (BuildContext context, int index) =>
-                      //       GlamMinimalSalonWorks(
-                      //     photosOfWork: chosenSalon.photosOfWorks![index],
-                      //   ),
-
-                      //   // Card(
-                      //   //   shape: RoundedRectangleBorder(
-                      //   //       borderRadius: BorderRadius.circular(15)),
-                      //   //   color: Colors.yellow,
-                      //   //   child: Stack(
-                      //   //     children: const <Widget>[],
-                      //   //   ),
-                      //   // ),
-                      //   staggeredTileBuilder: (int index) => StaggeredTile.count(
-                      //       1,
-                      //       index.isEven
-                      //           ? 1.7
-                      //           :
-                      //           //_salonProfileProvider.isPortfolioHovered?1.2:
-                      //           1.4),
-                      //   mainAxisSpacing: 2.0,
-                      //   crossAxisSpacing: 4.0,
-                      // ),
+                            //   // Card(
+                            //   //   shape: RoundedRectangleBorder(
+                            //   //       borderRadius: BorderRadius.circular(15)),
+                            //   //   color: Colors.yellow,
+                            //   //   child: Stack(
+                            //   //     children: const <Widget>[],
+                            //   //   ),
+                            //   // ),
+                            //   staggeredTileBuilder: (int index) => StaggeredTile.count(
+                            //       1,
+                            //       index.isEven
+                            //           ? 1.7
+                            //           :
+                            //           //_salonProfileProvider.isPortfolioHovered?1.2:
+                            //           1.4),
+                            //   mainAxisSpacing: 2.0,
+                            //   crossAxisSpacing: 4.0,
+                            // ),
 
 //                       GridView.custom(
 //                         shrinkWrap: true,
@@ -985,1445 +1035,303 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
 //                               ),
 //   ),
 // ),
-                      //  StaggeredGrid.count(
-                      //  // axisDirection: AxisDirection.right,
-                      //     crossAxisCount: 4,
-                      //     mainAxisSpacing: 4,
-                      //     crossAxisSpacing: 1,
-                      //     children: chosenSalon.photosOfWorks!.map((e) {
-                      //       // bool isHovered =
-                      //       //     chosenSalon.photosOfWorks!.indexOf(e) ==
-                      //       //         hoveredIndex;
+                            //  StaggeredGrid.count(
+                            //  // axisDirection: AxisDirection.right,
+                            //     crossAxisCount: 4,
+                            //     mainAxisSpacing: 4,
+                            //     crossAxisSpacing: 1,
+                            //     children: chosenSalon.photosOfWorks!.map((e) {
+                            //       // bool isHovered =
+                            //       //     chosenSalon.photosOfWorks!.indexOf(e) ==
+                            //       //         hoveredIndex;
 
-                      //       return StaggeredGridTile.count(
-                      //         crossAxisCellCount: 1,
-                      //         mainAxisCellCount: 1.1,
-                      //         child: GlamMinimalSalonWorks(
-                      //           photosOfWork: e,
-                      //         ),
-                      //       );
-                      //       // return GlamMinimalSalonWorks(
-                      //       //   photosOfWork: e,
-                      //       // );
-                      //     }).toList()),
-                      // [
-                      // StaggeredGridTile.count(
-                      //   crossAxisCellCount: 2,
-                      //   mainAxisCellCount: 2,
-                      //   child: Tile(index: 0),
-                      // ),
-                      //   StaggeredGridTile.count(
-                      //     crossAxisCellCount: 2,
-                      //     mainAxisCellCount: 1,
-                      //     child: Tile(index: 1),
-                      //   ),
-                      //   StaggeredGridTile.count(
-                      //     crossAxisCellCount: 1,
-                      //     mainAxisCellCount: 1,
-                      //     child: Tile(index: 2),
-                      //   ),
-                      //   StaggeredGridTile.count(
-                      //     crossAxisCellCount: 1,
-                      //     mainAxisCellCount: 1,
-                      //     child: Tile(index: 3),
-                      //   ),
-                      //   StaggeredGridTile.count(
-                      //     crossAxisCellCount: 4,
-                      //     mainAxisCellCount: 2,
-                      //     child: Tile(index: 4),
-                      //   ),
-                      // ],
-                    ),
-
-                    // Wrap(
-                    //     //verticalDirection: VerticalDirection.up,
-                    //     alignment: WrapAlignment.start,
-                    //     runSpacing: 7,
-                    //     spacing: 10,
-                    //     children: chosenSalon.photosOfWorks!.map((e) {
-                    //       // bool isHovered =
-                    //       //     chosenSalon.photosOfWorks!.indexOf(e) ==
-                    //       //         hoveredIndex;
-                    // return GlamMinimalSalonWorks(
-                    //   photosOfWork: e,
-                    // );
-                    //     }).toList()),
-                    // ),
-                    const Gap(100),
-                  ],
-                  SizedBox.fromSize(size: Size.zero, key: controller.price),
-                  if (displaySettings.services.showServices) ...[
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 100.0,
-                      ),
-                      child: Text(
-                        (AppLocalizations.of(context)?.services ?? 'SERVICES')
-                            .toUpperCase(),
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.openSans(
-                          color: _salonProfileProvider
-                              .salonTheme.textTheme.displaySmall!.color,
-                          fontSize: 60,
-                          // fontFamily: 'Open Sans',
-                          fontWeight: FontWeight.w600,
-                          height: 0.03,
-                        ),
-                      ),
-                    ),
-                    const Gap(50),
-                    if (_createAppointmentProvider
-                        .categoriesAvailable.isNotEmpty)
-                      Padding(
-                        padding: const EdgeInsets.only(left: 100.0, right: 8.0),
-                        child: SizedBox(
-                          height: 40,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: _createAppointmentProvider
-                                    .categoriesAvailable.length +
-                                1,
-                            itemBuilder: (context, index) {
-                              List<CategoryModel> catList = [
-                                CategoryModel(
-                                  categoryName: 'All',
-                                  categoryId: 'all',
-                                  translations: {
-                                    'en': 'All',
-                                    'es': 'Toda',
-                                    'pt': 'Todos',
-                                    'ro': 'Toate',
-                                    'uk': 'все',
-                                    'fr': 'Tout',
-                                  },
-                                ),
-                                ..._createAppointmentProvider
-                                    .categoriesAvailable,
-                              ];
-                              bool isHovered2 = index == hoveredIndex;
-
-                              return GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _currentIndex = index;
-                                    selectedCatId = catList[index].categoryId;
-
-                                    _pageController.animateToPage(
-                                      index,
-                                      duration:
-                                          const Duration(milliseconds: 300),
-                                      curve: Curves.ease,
-                                    );
-                                  });
-                                },
-                                child: MouseRegion(
-                                  //  onEnter: (event) => setState(() {
-                                  //   isTabHovered = true;
-                                  // }),
-                                  // onExit: (event) => setState(() {
-                                  //   isTabHovered = false;
-                                  // }),
-                                  onEnter: (_) => _onEnter(index),
-                                  onExit: (_) => _onExit(index),
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20),
-
-                                    decoration: BoxDecoration(
-                                      border: _currentIndex == index
-                                          ? BorderDirectional(
-                                              bottom: BorderSide(
-                                                width: 2,
-                                                color: _salonProfileProvider
-                                                    .salonTheme
-                                                    .colorScheme
-                                                    .secondary,
-                                                // color:
-                                                //  Color(0xFFE980B2)
-                                              ),
-                                            )
-                                          : null,
-                                    ),
-                                    //Change the tab's color
-                                    child: Center(
-                                      child: Text(
-                                        '${catList[index].translations[AppLocalizations.of(context)?.localeName ?? 'en'] ?? catList[index].translations['en']}'
-                                            .toTitleCase(),
-                                        style: GoogleFonts.openSans(
-                                            color: _currentIndex == index
-                                                ? _salonProfileProvider
-                                                    .salonTheme
-                                                    .colorScheme
-                                                    .secondary
-                                                : isHovered2
-                                                    ? _salonProfileProvider
-                                                        .salonTheme
-                                                        .colorScheme
-                                                        .secondary
-                                                    : _salonProfileProvider
-                                                        .salonTheme
-                                                        .textTheme
-                                                        .bodyMedium!
-                                                        .color,
-                                            fontSize: 16,
-                                            fontWeight: _currentIndex == index
-                                                ? FontWeight.w600
-                                                : null
-
-                                            // _currentIndex == index
-                                            //     ? Colors.white
-                                            //     : Colors.black, // Change the text color
-                                            ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
+                            //       return StaggeredGridTile.count(
+                            //         crossAxisCellCount: 1,
+                            //         mainAxisCellCount: 1.1,
+                            //         child: GlamMinimalSalonWorks(
+                            //           photosOfWork: e,
+                            //         ),
+                            //       );
+                            //       // return GlamMinimalSalonWorks(
+                            //       //   photosOfWork: e,
+                            //       // );
+                            //     }).toList()),
+                            // [
+                            // StaggeredGridTile.count(
+                            //   crossAxisCellCount: 2,
+                            //   mainAxisCellCount: 2,
+                            //   child: Tile(index: 0),
+                            // ),
+                            //   StaggeredGridTile.count(
+                            //     crossAxisCellCount: 2,
+                            //     mainAxisCellCount: 1,
+                            //     child: Tile(index: 1),
+                            //   ),
+                            //   StaggeredGridTile.count(
+                            //     crossAxisCellCount: 1,
+                            //     mainAxisCellCount: 1,
+                            //     child: Tile(index: 2),
+                            //   ),
+                            //   StaggeredGridTile.count(
+                            //     crossAxisCellCount: 1,
+                            //     mainAxisCellCount: 1,
+                            //     child: Tile(index: 3),
+                            //   ),
+                            //   StaggeredGridTile.count(
+                            //     crossAxisCellCount: 4,
+                            //     mainAxisCellCount: 2,
+                            //     child: Tile(index: 4),
+                            //   ),
+                            // ],
                           ),
-                        ),
-                      ),
-                    const Gap(50),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SizedBox(
-                        height: 400,
-                        width: double.infinity,
-                        child: Builder(
-                          builder: (_) {
-                            List<ServiceModel> allServiceList = [];
-                            if (_currentIndex == 0) {
-                              for (List<ServiceModel> serviceList
-                                  in _createAppointmentProvider
-                                      .servicesAvailable) {
-                                allServiceList.addAll(serviceList);
-                              }
-                              return Column(
-                                children: [
-                                  Expanded(
-                                    child: ListView.builder(
-                                        controller: _pageController,
-                                        //  shrinkWrap: true,
-                                        itemCount: allServiceList.length,
-                                        itemBuilder: (context, index) {
-                                          return CityMuseServiceTab(
-                                              index: index,
-                                              serviceList:
-                                                  allServiceList[index],
-                                              salonProfileProvider:
-                                                  _salonProfileProvider,
-                                              chosenSalon: chosenSalon);
-                                        }),
-                                  ),
-                                ],
-                              );
-                            }
 
-                            for (List<ServiceModel> serviceList
-                                in _createAppointmentProvider
-                                    .servicesAvailable) {
-                              for (var ser in serviceList) {
-                                // print(cat.categoryId);
-                                if (selectedCatId == ser.categoryId) {
-                                  return Column(
-                                    children: [
-                                      Expanded(
-                                        child: ListView.builder(
-                                            controller: _pageController,
-                                            //  shrinkWrap: true,
-                                            itemCount: serviceList.length,
-                                            itemBuilder: (context, index) {
-                                              return CityMuseServiceTab(
-                                                  index: index,
-                                                  serviceList:
-                                                      serviceList[index],
-                                                  salonProfileProvider:
-                                                      _salonProfileProvider,
-                                                  chosenSalon: chosenSalon);
-                                            }),
-                                      ),
-                                    ],
-                                  );
-                                } else {}
-                              }
-                            }
-
-                            return const SizedBox.shrink();
-                          },
-                        ),
-                      ),
-                    ),
-                    const Gap(40),
-                    Center(
-                      child: GestureDetector(
-                        onTap: () {
-                          const BookingDialogWidget222().show(context);
-                        },
-                        child: MouseRegion(
-                          onEnter: (event) => onEntered(true),
-                          onExit: (event) => onEntered(false),
-                          child: Center(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 120.0, right: 12),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text('BOOK NOW',
-                                      style: GoogleFonts.openSans(
-                                          color: isHovered
-                                              ? increaseBrightness(
-                                                  _salonProfileProvider
-                                                      .salonTheme
-                                                      .colorScheme
-                                                      .secondary,
-                                                  10)
-                                              : _salonProfileProvider.salonTheme
-                                                  .colorScheme.secondary,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w700)),
-                                  const Gap(10),
-                                  Image.asset(
-                                    'assets/test_assets/book_arrow.png',
-                                    height: 24,
-                                    width: 24,
-                                    color: isHovered
-                                        ? increaseBrightness(
-                                            _salonProfileProvider.salonTheme
-                                                .colorScheme.secondary,
-                                            10)
-                                        : _salonProfileProvider
-                                            .salonTheme.colorScheme.secondary,
-                                  ),
-                                ],
+                          // Wrap(
+                          //     //verticalDirection: VerticalDirection.up,
+                          //     alignment: WrapAlignment.start,
+                          //     runSpacing: 7,
+                          //     spacing: 10,
+                          //     children: chosenSalon.photosOfWorks!.map((e) {
+                          //       // bool isHovered =
+                          //       //     chosenSalon.photosOfWorks!.indexOf(e) ==
+                          //       //         hoveredIndex;
+                          // return GlamMinimalSalonWorks(
+                          //   photosOfWork: e,
+                          // );
+                          //     }).toList()),
+                          // ),
+                          const Gap(100),
+                        ],
+                        SizedBox.fromSize(
+                            size: Size.zero, key: controller.price),
+                        if (displaySettings.services.showServices) ...[
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 100.0,
+                            ),
+                            child: Text(
+                              (AppLocalizations.of(context)?.services ??
+                                      'SERVICES')
+                                  .toUpperCase(),
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.openSans(
+                                color: _salonProfileProvider
+                                    .salonTheme.textTheme.displaySmall!.color,
+                                fontSize: 60,
+                                // fontFamily: 'Open Sans',
+                                fontWeight: FontWeight.w600,
+                                height: 0.03,
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                    ),
-                    const Gap(70),
-                  ],
-                  //PRODUCT
-                  if (displaySettings.product.showProduct &&
-                      _salonProfileProvider.allProducts.isNotEmpty) ...[
-                    SizedBox.fromSize(size: Size.zero, key: controller.shop),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 100.0, right: 8.0),
-                      child: Text(
-                        (AppLocalizations.of(context)?.products ?? 'PRODUCTS')
-                            .toUpperCase(),
-                        style: GoogleFonts.openSans(
-                          color: _salonProfileProvider
-                              .salonTheme.textTheme.displaySmall!.color,
-                          fontSize: 60,
-                          //  fontFamily: 'Open Sans',
-                          fontWeight: FontWeight.w600,
-                          height: 0,
-                        ),
-                      ),
-                    ),
-                    const Gap(50),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 100.0, right: 8.0),
-                      child: SizedBox(
-                        height: 40,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount:
-                              _salonProfileProvider.tabs.entries.length + 1,
-                          itemBuilder: (context, index) {
-                            List<ProductCategoryModel> catList = [
-                              ProductCategoryModel(
-                                'All',
-                                'all',
-                                {
-                                  'en': 'All',
-                                  'es': 'Toda',
-                                  'pt': 'Todos',
-                                  'ro': 'Toate',
-                                  'uk': 'все',
-                                  'fr': 'Tout',
-                                },
-                                'all',
-                              ),
-                              // ..._salonProfileProvider.allProductCategories,
-                              ..._salonProfileProvider.tabs.entries
-                                  .map(
-                                    (entry) => ProductCategoryModel(
-                                      entry.key,
-                                      'all',
-                                      {
-                                        'en': entry.key,
-                                        'es': 'Toda',
-                                        'pt': 'Todos',
-                                        'ro': 'Toate',
-                                        'uk': 'все',
-                                        'fr': 'Tout',
-                                      },
-                                      'all',
-                                    ),
-                                  )
-                                  .toList(),
-                            ];
-                            bool isHovered2 = index == hoveredIndex;
-
-                            return GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  _currentProductIndex = index;
-                                  selectedCatId = catList[index].categoryId;
-
-                                  _pageController.animateToPage(
-                                    index,
-                                    duration: const Duration(milliseconds: 300),
-                                    curve: Curves.ease,
-                                  );
-                                });
-                                if (_currentProductIndex == 0) {
-                                  setState(() => currentSelectedEntry = null);
-                                } else {
-                                  // for (var ent
-                                  //     in _salonProfileProvider.tabs.entries) {
-                                  setState(() => currentSelectedEntry =
-                                      catList[index].categoryName);
-                                }
-                              },
-                              child: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-
-                                decoration: BoxDecoration(
-                                  border: _currentProductIndex == index
-                                      ? BorderDirectional(
-                                          bottom: BorderSide(
-                                            width: 2,
-                                            color: _salonProfileProvider
-                                                .salonTheme
-                                                .colorScheme
-                                                .secondary,
-                                            //color: Color(0xFFE980B2)
-                                          ),
-                                        )
-                                      : null,
-                                ),
-                                //Change the tab's color
-                                child: MouseRegion(
-                                  onEnter: (_) => _onEnter(index),
-                                  onExit: (_) => _onExit(index),
-                                  child: Center(
-                                    child: Text(
-                                      '${catList[index].translations![AppLocalizations.of(context)?.localeName ?? 'en'] ?? catList[index].translations!['en']}'
-                                          .toTitleCase(),
-                                      style: GoogleFonts.openSans(
-                                          color: _currentProductIndex == index
-                                              ? _salonProfileProvider.salonTheme
-                                                  .colorScheme.secondary
-                                              : isHovered2
-                                                  ? _salonProfileProvider
-                                                      .salonTheme
-                                                      .colorScheme
-                                                      .secondary
-                                                  : _salonProfileProvider
-                                                      .salonTheme
-                                                      .textTheme
-                                                      .bodyMedium!
-                                                      .color,
-                                          fontSize: 16,
-                                          fontWeight:
-                                              _currentProductIndex == index
-                                                  ? FontWeight.w600
-                                                  : null
-                                          // _currentIndex == index
-                                          //     ? Colors.white
-                                          //     : Colors.black, // Change the text color
-                                          ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                    const Gap(40),
-                    SizedBox(
-                      height: 600,
-                      //width: 1000,
-                      child: Builder(builder: (context) {
-                        selectedProduct = _salonProfileProvider
-                            .allProducts[_selectedProductIndex];
-                        if (_currentProductIndex == 0) {
-                          return Padding(
-                            padding:
-                                const EdgeInsets.only(left: 100.0, right: 8.0),
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  width: 488,
-                                  child: Column(
-                                    children: [
-                                      if (selectedProduct!
-                                                  .productImageUrlList ==
-                                              null ||
-                                          selectedProduct!
-                                              .productImageUrlList!.isEmpty ||
-                                          selectedProduct!
-                                                  .productImageUrlList![0] ==
-                                              null ||
-                                          selectedProduct!
-                                              .productImageUrlList![0]!
-                                              .isEmpty) ...[
-                                        Expanded(
-                                          child: Text(
-                                            AppLocalizations.of(context)
-                                                    ?.photoNA ??
-                                                'Photo N/A',
-                                            style: GoogleFonts.openSans(
-                                              //   color: const Color(0xFF0D0D0E),
-                                              fontSize: 18,
-                                              // fontFamily: 'Open Sans',
-                                              fontWeight: FontWeight.w600,
-                                              height: 0,
-                                            ),
-                                          ),
-                                        )
-                                      ] else ...[
-                                        Center(
-                                            child: CachedImage(
-                                          url:
-                                              '${selectedProduct!.productImageUrlList![0]}',
-                                          width: 488,
-                                          height: 530,
-                                        )),
-                                      ],
-                                      const Gap(20),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 5.0, right: 8.0),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              selectedProduct!.productName ??
-                                                  '',
-                                              textAlign: TextAlign.center,
-                                              style: GoogleFonts.openSans(
-                                                color: _salonProfileProvider
-                                                    .salonTheme
-                                                    .textTheme
-                                                    .displaySmall!
-                                                    .color,
-                                                //   color: const Color(0xFF0D0D0E),
-                                                fontSize: 18,
-                                                // fontFamily: 'Open Sans',
-                                                fontWeight: FontWeight.w600,
-                                                height: 0,
-                                              ),
-                                            ),
-                                            // const Spacer(),
-                                            Text(
-                                              '${getCurrency(chosenSalon.countryCode!)}${selectedProduct!.clientPrice ?? ''}',
-                                              textAlign: TextAlign.center,
-                                              style: GoogleFonts.openSans(
-                                                color: const Color(0xFF868686),
-                                                //      color: const Color(0xFF868686),
-                                                fontSize: 18,
-                                                //    fontFamily: 'Open Sans',
-                                                fontWeight: FontWeight.w600,
-                                                height: 0,
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 38.0),
-                                        child: SizedBox(
-                                          height: 350,
-                                          child: ListView.builder(
-                                              scrollDirection: Axis.horizontal,
-                                              itemCount: _salonProfileProvider
-                                                  .allProducts.length,
-                                              shrinkWrap: true,
-                                              itemBuilder: (context, index) {
-                                                // print(
-                                                //     'all products ${_salonProfileProvider.allProducts[index].productImageUrlList![0]}');
-                                                // print(
-                                                //     'all products ${_salonProfileProvider.allProducts[index].productImageUrlList}');
-
-                                                return GestureDetector(
-                                                  onTap: () {
-                                                    setState(() {
-                                                      selectedProduct =
-                                                          _salonProfileProvider
-                                                                  .allProducts[
-                                                              index];
-                                                      _selectedProductIndex =
-                                                          index;
-                                                    });
-                                                    setState(() {});
-                                                  },
-                                                  child: CityMuseDesktopSmallerProductWidget(
-                                                      salonProfileProvider:
-                                                          _salonProfileProvider,
-                                                      product:
-                                                          _salonProfileProvider
-                                                                  .allProducts[
-                                                              index],
-                                                      index: index,
-                                                      chosenSalon: chosenSalon),
-                                                );
-                                              }),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 20.0),
-                                        child: ProductSliderIndicator(
-                                          selectedProductIndex:
-                                              _selectedProductIndex,
-                                          salonProfileProvider:
-                                              _salonProfileProvider,
-                                          length: _salonProfileProvider
-                                              .allProducts.length
-                                              .toDouble(),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 38.0),
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              right: 100.0),
-                                          child: SizedBox(
-                                              width: double.infinity,
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                      selectedProduct!
-                                                              .productDescription ??
-                                                          ''.toCapitalized(),
-                                                      style:
-                                                          GoogleFonts.openSans(
-                                                        fontSize: 15,
-                                                        color: _salonProfileProvider
-                                                            .salonTheme
-                                                            .textTheme
-                                                            .titleSmall!
-                                                            .color, //height:1.5
-                                                      )),
-                                                  const Gap(40),
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      const BookingDialogWidget222()
-                                                          .show(context);
-                                                    },
-                                                    child: MouseRegion(
-                                                      onEnter: (event) =>
-                                                          onEntered(true),
-                                                      onExit: (event) =>
-                                                          onEntered(false),
-                                                      child: Row(
-                                                        children: [
-                                                          Text('BOOK NOW',
-                                                              style: GoogleFonts.openSans(
-                                                                  color: isHovered
-                                                                      ? increaseBrightness(
-                                                                          _salonProfileProvider
-                                                                              .salonTheme
-                                                                              .colorScheme
-                                                                              .secondary,
-                                                                          10)
-                                                                      : _salonProfileProvider
-                                                                          .salonTheme
-                                                                          .colorScheme
-                                                                          .secondary,
-                                                                  fontSize: 18,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w700)),
-                                                          const Gap(10),
-                                                          Image.asset(
-                                                            'assets/test_assets/book_arrow.png',
-                                                            height: 24,
-                                                            width: 24,
-                                                            color: isHovered
-                                                                ? increaseBrightness(
-                                                                    _salonProfileProvider
-                                                                        .salonTheme
-                                                                        .colorScheme
-                                                                        .secondary,
-                                                                    10)
-                                                                : _salonProfileProvider
-                                                                    .salonTheme
-                                                                    .colorScheme
-                                                                    .secondary,
-                                                          ),
-                                                          const Spacer(),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              )),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          );
-                        }
-                        if (_currentProductIndex != 0) {
-                          return Padding(
-                            padding:
-                                const EdgeInsets.only(left: 100.0, right: 8.0),
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  width: 488,
-                                  child: Column(
-                                    children: [
-                                      if (selectedProduct!
-                                                  .productImageUrlList ==
-                                              null ||
-                                          selectedProduct!
-                                              .productImageUrlList!.isEmpty ||
-                                          selectedProduct!
-                                                  .productImageUrlList![0] ==
-                                              null ||
-                                          selectedProduct!
-                                              .productImageUrlList![0]!
-                                              .isEmpty) ...[
-                                        Expanded(
-                                          child: Text(
-                                            AppLocalizations.of(context)
-                                                    ?.photoNA ??
-                                                'Photo N/A',
-                                            style: GoogleFonts.openSans(
-                                              //   color: const Color(0xFF0D0D0E),
-                                              fontSize: 18,
-                                              // fontFamily: 'Open Sans',
-                                              fontWeight: FontWeight.w600,
-                                              height: 0,
-                                            ),
-                                          ),
-                                        )
-                                      ] else ...[
-                                        Center(
-                                            child: CachedImage(
-                                          url:
-                                              '${selectedProduct!.productImageUrlList![0]}',
-                                          width: 488,
-                                          height: 530,
-                                        )),
-                                      ],
-                                      const Gap(20),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 5.0, right: 8.0),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              selectedProduct!.productName ??
-                                                  '',
-                                              textAlign: TextAlign.center,
-                                              style: GoogleFonts.openSans(
-                                                color: _salonProfileProvider
-                                                    .salonTheme
-                                                    .textTheme
-                                                    .displaySmall!
-                                                    .color,
-                                                //   color: const Color(0xFF0D0D0E),
-                                                fontSize: 18,
-                                                // fontFamily: 'Open Sans',
-                                                fontWeight: FontWeight.w600,
-                                                height: 0,
-                                              ),
-                                            ),
-                                            // const Spacer(),
-                                            Text(
-                                              '${getCurrency(chosenSalon.countryCode!)}${selectedProduct!.clientPrice ?? ''}',
-                                              textAlign: TextAlign.center,
-                                              style: GoogleFonts.openSans(
-                                                color: const Color(0xFF868686),
-                                                //      color: const Color(0xFF868686),
-                                                fontSize: 18,
-                                                //    fontFamily: 'Open Sans',
-                                                fontWeight: FontWeight.w600,
-                                                height: 0,
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 38.0),
-                                        child: SizedBox(
-                                          height: 350,
-                                          child: ListView.builder(
-                                              scrollDirection: Axis.horizontal,
-                                              itemCount: _salonProfileProvider
-                                                  .tabs[currentSelectedEntry]
-                                                  ?.length,
-                                              shrinkWrap: true,
-                                              itemBuilder: (context, index) {
-                                                return GestureDetector(
-                                                  onTap: () {
-                                                    setState(() {
-                                                      selectedProduct =
-                                                          _salonProfileProvider
-                                                                      .tabs[
-                                                                  currentSelectedEntry]![
-                                                              index];
-                                                      _selectedProductIndex =
-                                                          index;
-                                                    });
-                                                  },
-                                                  child: CityMuseDesktopSmallerProductWidget(
-                                                      salonProfileProvider:
-                                                          _salonProfileProvider,
-                                                      product: _salonProfileProvider
-                                                                  .tabs[
-                                                              currentSelectedEntry]![
-                                                          index],
-                                                      index: index,
-                                                      chosenSalon: chosenSalon),
-                                                );
-                                              }),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 20.0),
-                                        child: ProductSliderIndicator(
-                                          selectedProductIndex:
-                                              _selectedProductIndex,
-                                          salonProfileProvider:
-                                              _salonProfileProvider,
-                                          length: _salonProfileProvider
-                                              .tabs[currentSelectedEntry]!
-                                              .length
-                                              .toDouble(),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 38.0),
-                                        child: SizedBox(
-                                            width: 488,
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                    selectedProduct!
-                                                            .productDescription ??
-                                                        ''.toCapitalized(),
-                                                    style: GoogleFonts.openSans(
-                                                      fontSize: 15,
-                                                      color: _salonProfileProvider
-                                                          .salonTheme
-                                                          .textTheme
-                                                          .titleSmall!
-                                                          .color, //height:1.5
-                                                    )),
-                                                SvgPicture.asset(
-                                                    'assets/arrow.svg'),
-                                              ],
-                                            )),
-                                      ),
-                                      const Gap(40),
-                                      GestureDetector(
-                                        onTap: () {
-                                          const BookingDialogWidget222()
-                                              .show(context);
+                          const Gap(50),
+                          if (_createAppointmentProvider
+                              .categoriesAvailable.isNotEmpty)
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 100.0, right: 8.0),
+                              child: SizedBox(
+                                height: 40,
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: _createAppointmentProvider
+                                          .categoriesAvailable.length +
+                                      1,
+                                  itemBuilder: (context, index) {
+                                    List<CategoryModel> catList = [
+                                      CategoryModel(
+                                        categoryName: 'All',
+                                        categoryId: 'all',
+                                        translations: {
+                                          'en': 'All',
+                                          'es': 'Toda',
+                                          'pt': 'Todos',
+                                          'ro': 'Toate',
+                                          'uk': 'все',
+                                          'fr': 'Tout',
                                         },
-                                        child: MouseRegion(
-                                          onEnter: (event) => onEntered(true),
-                                          onExit: (event) => onEntered(false),
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 38.0),
-                                            child: Row(
-                                              children: [
-                                                Text('BOOK NOW',
-                                                    style: GoogleFonts.openSans(
-                                                        color: isHovered
-                                                            ? increaseBrightness(
-                                                                _salonProfileProvider
-                                                                    .salonTheme
-                                                                    .colorScheme
-                                                                    .secondary,
-                                                                10)
-                                                            : _salonProfileProvider
-                                                                .salonTheme
-                                                                .colorScheme
-                                                                .secondary,
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.w700)),
-                                                const Gap(10),
-                                                Image.asset(
-                                                  'assets/test_assets/book_arrow.png',
-                                                  height: 24,
-                                                  width: 24,
-                                                  color: isHovered
-                                                      ? increaseBrightness(
+                                      ),
+                                      ..._createAppointmentProvider
+                                          .categoriesAvailable,
+                                    ];
+                                    bool isHovered2 = index == hoveredIndex;
+
+                                    return GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _currentIndex = index;
+                                          selectedCatId =
+                                              catList[index].categoryId;
+
+                                          _pageController.animateToPage(
+                                            index,
+                                            duration: const Duration(
+                                                milliseconds: 300),
+                                            curve: Curves.ease,
+                                          );
+                                        });
+                                      },
+                                      child: MouseRegion(
+                                        //  onEnter: (event) => setState(() {
+                                        //   isTabHovered = true;
+                                        // }),
+                                        // onExit: (event) => setState(() {
+                                        //   isTabHovered = false;
+                                        // }),
+                                        onEnter: (_) => _onEnter(index),
+                                        onExit: (_) => _onExit(index),
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 20),
+
+                                          decoration: BoxDecoration(
+                                            border: _currentIndex == index
+                                                ? BorderDirectional(
+                                                    bottom: BorderSide(
+                                                      width: 2,
+                                                      color:
                                                           _salonProfileProvider
                                                               .salonTheme
                                                               .colorScheme
                                                               .secondary,
-                                                          10)
-                                                      : _salonProfileProvider
+                                                      // color:
+                                                      //  Color(0xFFE980B2)
+                                                    ),
+                                                  )
+                                                : null,
+                                          ),
+                                          //Change the tab's color
+                                          child: Center(
+                                            child: Text(
+                                              '${catList[index].translations[AppLocalizations.of(context)?.localeName ?? 'en'] ?? catList[index].translations['en']}'
+                                                  .toTitleCase(),
+                                              style: GoogleFonts.openSans(
+                                                  color: _currentIndex == index
+                                                      ? _salonProfileProvider
                                                           .salonTheme
                                                           .colorScheme
-                                                          .secondary,
-                                                ),
-                                              ],
+                                                          .secondary
+                                                      : isHovered2
+                                                          ? _salonProfileProvider
+                                                              .salonTheme
+                                                              .colorScheme
+                                                              .secondary
+                                                          : _salonProfileProvider
+                                                              .salonTheme
+                                                              .textTheme
+                                                              .bodyMedium!
+                                                              .color,
+                                                  fontSize: 16,
+                                                  fontWeight:
+                                                      _currentIndex == index
+                                                          ? FontWeight.w600
+                                                          : null
+
+                                                  // _currentIndex == index
+                                                  //     ? Colors.white
+                                                  //     : Colors.black, // Change the text color
+                                                  ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          );
-                        }
-                        return const SizedBox();
-                      }),
-                    ),
-                    const Gap(60),
-                  ],
-
-                  //TEAM
-
-                  if (displaySettings.showTeam &&
-                      _createAppointmentProvider.salonMasters.isNotEmpty) ...[
-                    SizedBox.fromSize(size: Size.zero, key: controller.team),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 100.0, right: 8.0),
-                      child: Text(
-                        (AppLocalizations.of(context)?.team ?? 'TEAM')
-                            .toUpperCase(),
-                        style: GoogleFonts.openSans(
-                          color: _salonProfileProvider
-                              .salonTheme.textTheme.displaySmall!.color,
-                          fontSize: 60,
-                          //  fontFamily: 'Open Sans',
-                          fontWeight: FontWeight.w600,
-                          height: 0,
-                        ),
-                      ),
-                    ),
-                    const Gap(50),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 100.0, right: 20.0),
-                      child: SizedBox(
-                        height: 501,
-                        child: ListView.builder(
-                          itemBuilder: (context, index) {
-                            return MouseRegion(
-                              onEnter: (event) => _salonProfileProvider
-                                  .onEnterTeamMember(index),
-                              onExit: (event) =>
-                                  _salonProfileProvider.onExitTeamMember(index),
-                              child: TeamWidget(
-                                  masterModel: _createAppointmentProvider
-                                      .salonMasters[index],
-                                  index: index),
-                            );
-                          },
-                          itemCount:
-                              _createAppointmentProvider.salonMasters.length,
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          // children: [
-                          //   GestureDetector(
-                          //       onTap: () {
-                          //         setState(() {
-                          //           getWidget('masters');
-                          //           isShowMenu = true;
-                          //         });
-                          //       },
-                          //       child: const TeamWidget()),
-                          //   const TeamWidget(),
-                          //   const TeamWidget(),
-                          // ],
-                        ),
-                      ),
-                    ),
-                    const Gap(100),
-                  ],
-                  //REVIEWS
-
-                  if (_salonProfileProvider.salonReviews.isNotEmpty &&
-                      displaySettings.reviews.showReviews) ...[
-                    SizedBox.fromSize(size: Size.zero, key: controller.reviews),
-                    const CityMuseDesktopReviews(),
-                  ],
-                  //CONTACT US
-                  const Gap(70),
-                  if (displaySettings.showRequestForm) ...[
-                    SizedBox.fromSize(
-                        size: Size.zero, key: controller.writeToUs),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 100.0, right: 0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'WRITE TO US',
-                                  style: GoogleFonts.openSans(
-                                    color: _salonProfileProvider.salonTheme
-                                        .textTheme.displaySmall!.color,
-                                    fontSize: 60,
-                                    fontWeight: FontWeight.w600,
-                                    height: 0,
-                                  ),
-                                ),
-                                const Gap(20),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10.0, right: 18.0),
-                                  child: Text(
-                                    'Write to us and we will get back to you as soon as possible',
-                                    style: GoogleFonts.openSans(
-                                      color: _salonProfileProvider.salonTheme
-                                          .textTheme.displaySmall!.color,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400,
-                                      height: 1.5,
-                                      letterSpacing: 0.16,
-                                    ),
-                                  ),
-                                ),
-                                const Gap(40),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 10.0, right: 18.0),
-                                          child: Text(
-                                            'First Name',
-                                            style: GoogleFonts.openSans(
-                                              color: _salonProfileProvider
-                                                  .salonTheme
-                                                  .textTheme
-                                                  .displaySmall!
-                                                  .color,
-                                              fontSize: 14,
-                                              // fontFamily: 'Red Hat Display',
-                                              fontWeight: FontWeight.w700,
-                                              height: 0.08,
-                                              letterSpacing: 0.60,
-                                            ),
-                                          ),
-                                        ),
-                                        const Gap(10),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 10.0, right: 18.0),
-                                          child: SizedBox(
-                                            height: 44,
-                                            width: 250,
-                                            child: TextField(
-                                              controller: _salonProfileProvider
-                                                  .firstNameController,
-                                              decoration: textFieldStyle(
-                                                  "First Name",
-                                                  _salonProfileProvider),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 18.0, right: 18.0),
-                                          child: Text(
-                                            'Last Name',
-                                            style: GoogleFonts.openSans(
-                                              color: _salonProfileProvider
-                                                  .salonTheme
-                                                  .textTheme
-                                                  .displaySmall!
-                                                  .color,
-                                              fontSize: 14,
-                                              // fontFamily: 'Red Hat Display',
-                                              fontWeight: FontWeight.w700,
-                                              height: 0.08,
-                                              letterSpacing: 0.60,
-                                            ),
-                                          ),
-                                        ),
-                                        const Gap(10),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 18.0, right: 13.0),
-                                          child: SizedBox(
-                                            height: 44,
-                                            width: 262,
-                                            child: TextField(
-                                              controller: _salonProfileProvider
-                                                  .lastNameController,
-                                              decoration: textFieldStyle(
-                                                  "Last Name",
-                                                  _salonProfileProvider),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                const Gap(20),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 10.0, right: 18.0),
-                                          child: Text(
-                                            'Email',
-                                            style: GoogleFonts.openSans(
-                                              color: _salonProfileProvider
-                                                  .salonTheme
-                                                  .textTheme
-                                                  .displaySmall!
-                                                  .color,
-                                              fontSize: 14,
-                                              // fontFamily: 'Red Hat Display',
-                                              fontWeight: FontWeight.w700,
-                                              height: 0.08,
-                                              letterSpacing: 0.60,
-                                            ),
-                                          ),
-                                        ),
-                                        const Gap(10),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 10.0, right: 18.0),
-                                          child: SizedBox(
-                                            height: 44,
-                                            width: 250,
-                                            child: TextField(
-                                              controller: _salonProfileProvider
-                                                  .emailController,
-                                              decoration: textFieldStyle(
-                                                  "glamiris@gmail.com",
-                                                  _salonProfileProvider),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 18.0, right: 18.0),
-                                          child: Text(
-                                            'Phone',
-                                            style: GoogleFonts.openSans(
-                                              color: _salonProfileProvider
-                                                  .salonTheme
-                                                  .textTheme
-                                                  .displaySmall!
-                                                  .color,
-                                              fontSize: 14,
-                                              // fontFamily: 'Red Hat Display',
-                                              fontWeight: FontWeight.w700,
-                                              height: 0.08,
-                                              letterSpacing: 0.60,
-                                            ),
-                                          ),
-                                        ),
-                                        const Gap(10),
-                                        // Padding(
-                                        // padding: const EdgeInsets.only(
-                                        //     left: 18.0, right: 18.0),
-                                        //   child: SizedBox(
-                                        //     height: 44,
-                                        //     width: 250,
-                                        //     child: TextField(
-                                        // controller: _salonProfileProvider
-                                        //     .phoneController,
-                                        //       decoration: textFieldStyle(
-                                        //           "Phone",
-                                        //           _salonProfileProvider),
-                                        //     ),
-                                        //   ),
-                                        // ),
-
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 18.0, right: 13.0),
-                                          child: SizedBox(
-                                            height: 50,
-                                            width: 262,
-                                            child: Focus(
-                                              onFocusChange: ((value) {
-                                                if (value) {
-                                                  if (showPicker) {
-                                                    setState(() {
-                                                      showPicker = false;
-                                                    });
-                                                  }
-                                                }
-                                                print("focus value");
-                                                print(value);
-                                              }),
-                                              child: TextField(
-                                                controller:
-                                                    _salonProfileProvider
-                                                        .phoneController,
-                                                decoration: InputDecoration(
-                                                    prefixIcon: GestureDetector(
-                                                      onTap: () {
-                                                        setState(() {
-                                                          if (!showPicker) {
-                                                            FocusScope.of(
-                                                                    context)
-                                                                .unfocus();
-                                                          }
-                                                          showPicker =
-                                                              !showPicker;
-                                                        });
-
-                                                        print(showPicker);
-                                                      },
-                                                      child: SizedBox(
-                                                        // height: 170,
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  top: 11.0,
-                                                                  left: 5.0),
-                                                          child: Text(
-                                                            "+" +
-                                                                _salonProfileProvider
-                                                                    .selectedCountry
-                                                                    .phoneCode,
-                                                            style:
-                                                                _salonProfileProvider
-                                                                    .salonTheme
-                                                                    .textTheme
-                                                                    .displayLarge,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    hintText: 'Phone',
-                                                    filled: _salonProfileProvider
-                                                        .salonTheme
-                                                        .inputDecorationTheme
-                                                        .filled,
-                                                    fillColor:
-                                                        _salonProfileProvider
-                                                            .salonTheme
-                                                            .inputDecorationTheme
-                                                            .fillColor,
-                                                    border: _salonProfileProvider
-                                                        .salonTheme
-                                                        .inputDecorationTheme
-                                                        .border,
-                                                    enabledBorder:
-                                                        _salonProfileProvider
-                                                            .salonTheme
-                                                            .inputDecorationTheme
-                                                            .enabledBorder,
-                                                    focusedBorder:
-                                                        _salonProfileProvider
-                                                            .salonTheme
-                                                            .inputDecorationTheme
-                                                            .focusedBorder),
-                                              ),
-
-                                              // CustomTextField(
-                                              //   controller:  _salonProfileProvider
-                                              //         .phoneController,
-                                              //   padding: 0,
-                                              //   hPadding: 0,
-
-                                              //   onChanged: (val) {
-                                              //     print(val);
-                                              //    _salonProfileProvider
-                                              //         .phoneController = val;
-                                              //   },
-
-                                              //   vPadding: 0,
-                                              //   focusNode: focusNode,
-                                              //   keyboardType: TextInputType.number,
-                                              //   listOfInputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
-                                              //   // focusNode: widget.focusNode,
-                                              //   noBorder: true,
-                                              //   textColor: Color(0XFFFBFBFB),
-                                              // ),
-                                            ),
-                                          ),
-                                        ),
-
-                                        if (showPicker)
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 18.0, right: 18.0),
-                                            child: SizedBox(
-                                              height: 350.h,
-                                              width: 250,
-                                              child: ListView.builder(
-                                                shrinkWrap: true,
-                                                itemCount: countries.length,
-                                                itemBuilder: (context, index) {
-                                                  Country country =
-                                                      countries[index];
-                                                  return CountryCodeCard(
-                                                    country: country,
-                                                    selected:
-                                                        selectedIndex == index
-                                                            ? true
-                                                            : false,
-                                                    onTap: () {
-                                                      setState(() {
-                                                        selectedIndex = index;
-                                                        _salonProfileProvider
-                                                                .selectedCountry =
-                                                            country;
-                                                        showPicker =
-                                                            !showPicker;
-                                                      });
-                                                    },
-                                                  );
-                                                },
-                                              ),
-                                            ),
-                                          ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                const Gap(20),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10.0, right: 18.0),
-                                  child: Text(
-                                    'Message',
-                                    style: GoogleFonts.openSans(
-                                      color: _salonProfileProvider.salonTheme
-                                          .textTheme.displaySmall!.color,
-                                      fontSize: 14,
-                                      // fontFamily: 'Red Hat Display',
-                                      fontWeight: FontWeight.w700,
-                                      height: 0.08,
-                                      letterSpacing: 0.60,
-                                    ),
-                                  ),
-                                ),
-                                const Gap(10),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10.0, right: 18.0),
-                                  child: SizedBox(
-                                    height: 160,
-                                    width: 545,
-                                    child: TextField(
-                                      // maxLength: 8,
-                                      minLines: 7,
-                                      maxLines: 8,
-                                      controller: _salonProfileProvider
-                                          .requestController,
-                                      decoration: textFieldStyle(
-                                          "Write to Us", _salonProfileProvider),
-                                    ),
-                                  ),
-                                ),
-                                const Gap(5),
-                                GestureDetector(
-                                  onTap: () {
-                                    _salonProfileProvider
-                                        .sendEnquiryToSalonCityMuse(context,
-                                            salonId: chosenSalon.salonId);
+                                    );
                                   },
-                                  child: _salonProfileProvider.enquiryStatus ==
-                                          Status.loading
-                                      ? Center(
-                                          child: SizedBox(
-                                            height: 30,
-                                            width: 30,
-                                            child: CircularProgressIndicator(
-                                                color: _salonProfileProvider
-                                                    .salonTheme
-                                                    .colorScheme
-                                                    .secondary
-                                                // Color(0xFFE980B2),
-                                                ),
-                                          ),
-                                        )
-                                      : MouseRegion(
-                                          onEnter: (event) => onEntered(true),
-                                          onExit: (event) => onEntered(false),
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 10.0, right: 18.0),
-                                            child: Container(
-                                              width: 550,
-                                              height: 50,
-                                              // padding:
-                                              // const EdgeInsets.symmetric(
-                                              //     horizontal: 40,
-                                              //     vertical: 13),
-                                              decoration: ShapeDecoration(
+                                ),
+                              ),
+                            ),
+                          const Gap(50),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SizedBox(
+                              height: 400,
+                              width: double.infinity,
+                              child: Builder(
+                                builder: (_) {
+                                  List<ServiceModel> allServiceList = [];
+                                  if (_currentIndex == 0) {
+                                    for (List<ServiceModel> serviceList
+                                        in _createAppointmentProvider
+                                            .servicesAvailable) {
+                                      allServiceList.addAll(serviceList);
+                                    }
+                                    return Column(
+                                      children: [
+                                        Expanded(
+                                          child: ListView.builder(
+                                              controller: _pageController,
+                                              //  shrinkWrap: true,
+                                              itemCount: allServiceList.length,
+                                              itemBuilder: (context, index) {
+                                                return CityMuseServiceTab(
+                                                    index: index,
+                                                    serviceList:
+                                                        allServiceList[index],
+                                                    salonProfileProvider:
+                                                        _salonProfileProvider,
+                                                    chosenSalon: chosenSalon);
+                                              }),
+                                        ),
+                                      ],
+                                    );
+                                  }
+
+                                  for (List<ServiceModel> serviceList
+                                      in _createAppointmentProvider
+                                          .servicesAvailable) {
+                                    for (var ser in serviceList) {
+                                      // print(cat.categoryId);
+                                      if (selectedCatId == ser.categoryId) {
+                                        return Column(
+                                          children: [
+                                            Expanded(
+                                              child: ListView.builder(
+                                                  controller: _pageController,
+                                                  //  shrinkWrap: true,
+                                                  itemCount: serviceList.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    return CityMuseServiceTab(
+                                                        index: index,
+                                                        serviceList:
+                                                            serviceList[index],
+                                                        salonProfileProvider:
+                                                            _salonProfileProvider,
+                                                        chosenSalon:
+                                                            chosenSalon);
+                                                  }),
+                                            ),
+                                          ],
+                                        );
+                                      } else {}
+                                    }
+                                  }
+
+                                  return const SizedBox.shrink();
+                                },
+                              ),
+                            ),
+                          ),
+                          const Gap(40),
+                          Center(
+                            child: GestureDetector(
+                              onTap: () {
+                                const BookingDialogWidget222().show(context);
+                              },
+                              child: MouseRegion(
+                                onEnter: (event) => onEntered(true),
+                                onExit: (event) => onEntered(false),
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 120.0, right: 12),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text('BOOK NOW',
+                                            style: GoogleFonts.openSans(
                                                 color: isHovered
                                                     ? increaseBrightness(
                                                         _salonProfileProvider
@@ -2435,351 +1343,1620 @@ class _GlamMinimalDesktopState extends ConsumerState<GlamMinimalDesktop> {
                                                         .salonTheme
                                                         .colorScheme
                                                         .secondary,
-                                                // color: const Color(0xFFE980B2),
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            2)),
-                                              ),
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w700)),
+                                        const Gap(10),
+                                        Image.asset(
+                                          'assets/test_assets/book_arrow.png',
+                                          height: 24,
+                                          width: 24,
+                                          color: isHovered
+                                              ? increaseBrightness(
+                                                  _salonProfileProvider
+                                                      .salonTheme
+                                                      .colorScheme
+                                                      .secondary,
+                                                  10)
+                                              : _salonProfileProvider.salonTheme
+                                                  .colorScheme.secondary,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const Gap(70),
+                        ],
+                        //PRODUCT
+                        if (displaySettings.product.showProduct &&
+                            _salonProfileProvider.allProducts.isNotEmpty) ...[
+                          SizedBox.fromSize(
+                              size: Size.zero, key: controller.shop),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 100.0, right: 8.0),
+                            child: Text(
+                              (AppLocalizations.of(context)?.products ??
+                                      'PRODUCTS')
+                                  .toUpperCase(),
+                              style: GoogleFonts.openSans(
+                                color: _salonProfileProvider
+                                    .salonTheme.textTheme.displaySmall!.color,
+                                fontSize: 60,
+                                //  fontFamily: 'Open Sans',
+                                fontWeight: FontWeight.w600,
+                                height: 0,
+                              ),
+                            ),
+                          ),
+                          const Gap(50),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 100.0, right: 8.0),
+                            child: SizedBox(
+                              height: 40,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount:
+                                    _salonProfileProvider.tabs.entries.length +
+                                        1,
+                                itemBuilder: (context, index) {
+                                  List<ProductCategoryModel> catList = [
+                                    ProductCategoryModel(
+                                      'All',
+                                      'all',
+                                      {
+                                        'en': 'All',
+                                        'es': 'Toda',
+                                        'pt': 'Todos',
+                                        'ro': 'Toate',
+                                        'uk': 'все',
+                                        'fr': 'Tout',
+                                      },
+                                      'all',
+                                    ),
+                                    // ..._salonProfileProvider.allProductCategories,
+                                    ..._salonProfileProvider.tabs.entries
+                                        .map(
+                                          (entry) => ProductCategoryModel(
+                                            entry.key,
+                                            'all',
+                                            {
+                                              'en': entry.key,
+                                              'es': 'Toda',
+                                              'pt': 'Todos',
+                                              'ro': 'Toate',
+                                              'uk': 'все',
+                                              'fr': 'Tout',
+                                            },
+                                            'all',
+                                          ),
+                                        )
+                                        .toList(),
+                                  ];
+                                  bool isHovered2 = index == hoveredIndex;
+
+                                  return GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _currentProductIndex = index;
+                                        selectedCatId =
+                                            catList[index].categoryId;
+
+                                        _pageController.animateToPage(
+                                          index,
+                                          duration:
+                                              const Duration(milliseconds: 300),
+                                          curve: Curves.ease,
+                                        );
+                                      });
+                                      if (_currentProductIndex == 0) {
+                                        setState(
+                                            () => currentSelectedEntry = null);
+                                      } else {
+                                        // for (var ent
+                                        //     in _salonProfileProvider.tabs.entries) {
+                                        setState(() => currentSelectedEntry =
+                                            catList[index].categoryName);
+                                      }
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20),
+
+                                      decoration: BoxDecoration(
+                                        border: _currentProductIndex == index
+                                            ? BorderDirectional(
+                                                bottom: BorderSide(
+                                                  width: 2,
+                                                  color: _salonProfileProvider
+                                                      .salonTheme
+                                                      .colorScheme
+                                                      .secondary,
+                                                  //color: Color(0xFFE980B2)
+                                                ),
+                                              )
+                                            : null,
+                                      ),
+                                      //Change the tab's color
+                                      child: MouseRegion(
+                                        onEnter: (_) => _onEnter(index),
+                                        onExit: (_) => _onExit(index),
+                                        child: Center(
+                                          child: Text(
+                                            '${catList[index].translations![AppLocalizations.of(context)?.localeName ?? 'en'] ?? catList[index].translations!['en']}'
+                                                .toTitleCase(),
+                                            style: GoogleFonts.openSans(
+                                                color: _currentProductIndex ==
+                                                        index
+                                                    ? _salonProfileProvider
+                                                        .salonTheme
+                                                        .colorScheme
+                                                        .secondary
+                                                    : isHovered2
+                                                        ? _salonProfileProvider
+                                                            .salonTheme
+                                                            .colorScheme
+                                                            .secondary
+                                                        : _salonProfileProvider
+                                                            .salonTheme
+                                                            .textTheme
+                                                            .bodyMedium!
+                                                            .color,
+                                                fontSize: 16,
+                                                fontWeight:
+                                                    _currentProductIndex ==
+                                                            index
+                                                        ? FontWeight.w600
+                                                        : null
+                                                // _currentIndex == index
+                                                //     ? Colors.white
+                                                //     : Colors.black, // Change the text color
+                                                ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                          const Gap(40),
+                          SizedBox(
+                            height: 600,
+                            //width: 1000,
+                            child: Builder(builder: (context) {
+                              selectedProduct = _salonProfileProvider
+                                  .allProducts[_selectedProductIndex];
+                              if (_currentProductIndex == 0) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 100.0, right: 8.0),
+                                  child: Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 488,
+                                        child: Column(
+                                          children: [
+                                            if (selectedProduct!
+                                                        .productImageUrlList ==
+                                                    null ||
+                                                selectedProduct!
+                                                    .productImageUrlList!
+                                                    .isEmpty ||
+                                                selectedProduct!
+                                                            .productImageUrlList![
+                                                        0] ==
+                                                    null ||
+                                                selectedProduct!
+                                                    .productImageUrlList![0]!
+                                                    .isEmpty) ...[
+                                              Expanded(
+                                                child: Text(
+                                                  AppLocalizations.of(context)
+                                                          ?.photoNA ??
+                                                      'Photo N/A',
+                                                  style: GoogleFonts.openSans(
+                                                    //   color: const Color(0xFF0D0D0E),
+                                                    fontSize: 18,
+                                                    // fontFamily: 'Open Sans',
+                                                    fontWeight: FontWeight.w600,
+                                                    height: 0,
+                                                  ),
+                                                ),
+                                              )
+                                            ] else ...[
+                                              Center(
+                                                  child: CachedImage(
+                                                url:
+                                                    '${selectedProduct!.productImageUrlList![0]}',
+                                                width: 488,
+                                                height: 530,
+                                              )),
+                                            ],
+                                            const Gap(20),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 5.0, right: 8.0),
                                               child: Row(
-                                                mainAxisSize: MainAxisSize.min,
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
-                                                  const Text(
-                                                    'SEND MESSAGE',
+                                                  Text(
+                                                    selectedProduct!
+                                                            .productName ??
+                                                        '',
                                                     textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 16,
-                                                      fontFamily: 'Open Sans',
+                                                    style: GoogleFonts.openSans(
+                                                      color:
+                                                          _salonProfileProvider
+                                                              .salonTheme
+                                                              .textTheme
+                                                              .displaySmall!
+                                                              .color,
+                                                      //   color: const Color(0xFF0D0D0E),
+                                                      fontSize: 18,
+                                                      // fontFamily: 'Open Sans',
                                                       fontWeight:
-                                                          FontWeight.w700,
-                                                      height: 1,
+                                                          FontWeight.w600,
+                                                      height: 0,
                                                     ),
                                                   ),
-                                                  const Gap(20),
-                                                  SvgPicture.asset(
-                                                    'assets/test_assets/arrow_side.svg',
-                                                    color: Colors.white,
+                                                  // const Spacer(),
+                                                  Text(
+                                                    '${getCurrency(chosenSalon.countryCode!)}${selectedProduct!.clientPrice ?? ''}',
+                                                    textAlign: TextAlign.center,
+                                                    style: GoogleFonts.openSans(
+                                                      color: const Color(
+                                                          0xFF868686),
+                                                      //      color: const Color(0xFF868686),
+                                                      fontSize: 18,
+                                                      //    fontFamily: 'Open Sans',
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      height: 0,
+                                                    ),
                                                   )
                                                 ],
                                               ),
                                             ),
+                                          ],
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 38.0),
+                                              child: SizedBox(
+                                                height: 350,
+                                                child: ListView.builder(
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    itemCount:
+                                                        _salonProfileProvider
+                                                            .allProducts.length,
+                                                    shrinkWrap: true,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      // print(
+                                                      //     'all products ${_salonProfileProvider.allProducts[index].productImageUrlList![0]}');
+                                                      // print(
+                                                      //     'all products ${_salonProfileProvider.allProducts[index].productImageUrlList}');
+
+                                                      return GestureDetector(
+                                                        onTap: () {
+                                                          setState(() {
+                                                            selectedProduct =
+                                                                _salonProfileProvider
+                                                                        .allProducts[
+                                                                    index];
+                                                            _selectedProductIndex =
+                                                                index;
+                                                          });
+                                                          setState(() {});
+                                                        },
+                                                        child: CityMuseDesktopSmallerProductWidget(
+                                                            salonProfileProvider:
+                                                                _salonProfileProvider,
+                                                            product:
+                                                                _salonProfileProvider
+                                                                        .allProducts[
+                                                                    index],
+                                                            index: index,
+                                                            chosenSalon:
+                                                                chosenSalon),
+                                                      );
+                                                    }),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 20.0),
+                                              child: ProductSliderIndicator(
+                                                selectedProductIndex:
+                                                    _selectedProductIndex,
+                                                salonProfileProvider:
+                                                    _salonProfileProvider,
+                                                length: _salonProfileProvider
+                                                    .allProducts.length
+                                                    .toDouble(),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 38.0),
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 100.0),
+                                                child: SizedBox(
+                                                    width: double.infinity,
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                            selectedProduct!
+                                                                    .productDescription ??
+                                                                ''
+                                                                    .toCapitalized(),
+                                                            style: GoogleFonts
+                                                                .openSans(
+                                                              fontSize: 15,
+                                                              color: _salonProfileProvider
+                                                                  .salonTheme
+                                                                  .textTheme
+                                                                  .titleSmall!
+                                                                  .color, //height:1.5
+                                                            )),
+                                                        const Gap(40),
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            const BookingDialogWidget222()
+                                                                .show(context);
+                                                          },
+                                                          child: MouseRegion(
+                                                            onEnter: (event) =>
+                                                                onEntered(true),
+                                                            onExit: (event) =>
+                                                                onEntered(
+                                                                    false),
+                                                            child: Row(
+                                                              children: [
+                                                                Text('BOOK NOW',
+                                                                    style: GoogleFonts.openSans(
+                                                                        color: isHovered
+                                                                            ? increaseBrightness(
+                                                                                _salonProfileProvider
+                                                                                    .salonTheme.colorScheme.secondary,
+                                                                                10)
+                                                                            : _salonProfileProvider
+                                                                                .salonTheme.colorScheme.secondary,
+                                                                        fontSize:
+                                                                            18,
+                                                                        fontWeight:
+                                                                            FontWeight.w700)),
+                                                                const Gap(10),
+                                                                Image.asset(
+                                                                  'assets/test_assets/book_arrow.png',
+                                                                  height: 24,
+                                                                  width: 24,
+                                                                  color: isHovered
+                                                                      ? increaseBrightness(
+                                                                          _salonProfileProvider
+                                                                              .salonTheme
+                                                                              .colorScheme
+                                                                              .secondary,
+                                                                          10)
+                                                                      : _salonProfileProvider
+                                                                          .salonTheme
+                                                                          .colorScheme
+                                                                          .secondary,
+                                                                ),
+                                                                const Spacer(),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    )),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              }
+                              if (_currentProductIndex != 0) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 100.0, right: 8.0),
+                                  child: Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 488,
+                                        child: Column(
+                                          children: [
+                                            if (selectedProduct!
+                                                        .productImageUrlList ==
+                                                    null ||
+                                                selectedProduct!
+                                                    .productImageUrlList!
+                                                    .isEmpty ||
+                                                selectedProduct!
+                                                            .productImageUrlList![
+                                                        0] ==
+                                                    null ||
+                                                selectedProduct!
+                                                    .productImageUrlList![0]!
+                                                    .isEmpty) ...[
+                                              Expanded(
+                                                child: Text(
+                                                  AppLocalizations.of(context)
+                                                          ?.photoNA ??
+                                                      'Photo N/A',
+                                                  style: GoogleFonts.openSans(
+                                                    //   color: const Color(0xFF0D0D0E),
+                                                    fontSize: 18,
+                                                    // fontFamily: 'Open Sans',
+                                                    fontWeight: FontWeight.w600,
+                                                    height: 0,
+                                                  ),
+                                                ),
+                                              )
+                                            ] else ...[
+                                              Center(
+                                                  child: CachedImage(
+                                                url:
+                                                    '${selectedProduct!.productImageUrlList![0]}',
+                                                width: 488,
+                                                height: 530,
+                                              )),
+                                            ],
+                                            const Gap(20),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 5.0, right: 8.0),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    selectedProduct!
+                                                            .productName ??
+                                                        '',
+                                                    textAlign: TextAlign.center,
+                                                    style: GoogleFonts.openSans(
+                                                      color:
+                                                          _salonProfileProvider
+                                                              .salonTheme
+                                                              .textTheme
+                                                              .displaySmall!
+                                                              .color,
+                                                      //   color: const Color(0xFF0D0D0E),
+                                                      fontSize: 18,
+                                                      // fontFamily: 'Open Sans',
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      height: 0,
+                                                    ),
+                                                  ),
+                                                  // const Spacer(),
+                                                  Text(
+                                                    '${getCurrency(chosenSalon.countryCode!)}${selectedProduct!.clientPrice ?? ''}',
+                                                    textAlign: TextAlign.center,
+                                                    style: GoogleFonts.openSans(
+                                                      color: const Color(
+                                                          0xFF868686),
+                                                      //      color: const Color(0xFF868686),
+                                                      fontSize: 18,
+                                                      //    fontFamily: 'Open Sans',
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      height: 0,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 38.0),
+                                              child: SizedBox(
+                                                height: 350,
+                                                child: ListView.builder(
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    itemCount: _salonProfileProvider
+                                                        .tabs[
+                                                            currentSelectedEntry]
+                                                        ?.length,
+                                                    shrinkWrap: true,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      return GestureDetector(
+                                                        onTap: () {
+                                                          setState(() {
+                                                            selectedProduct =
+                                                                _salonProfileProvider
+                                                                            .tabs[
+                                                                        currentSelectedEntry]![
+                                                                    index];
+                                                            _selectedProductIndex =
+                                                                index;
+                                                          });
+                                                        },
+                                                        child: CityMuseDesktopSmallerProductWidget(
+                                                            salonProfileProvider:
+                                                                _salonProfileProvider,
+                                                            product: _salonProfileProvider
+                                                                        .tabs[
+                                                                    currentSelectedEntry]![
+                                                                index],
+                                                            index: index,
+                                                            chosenSalon:
+                                                                chosenSalon),
+                                                      );
+                                                    }),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 20.0),
+                                              child: ProductSliderIndicator(
+                                                selectedProductIndex:
+                                                    _selectedProductIndex,
+                                                salonProfileProvider:
+                                                    _salonProfileProvider,
+                                                length: _salonProfileProvider
+                                                    .tabs[currentSelectedEntry]!
+                                                    .length
+                                                    .toDouble(),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 38.0),
+                                              child: SizedBox(
+                                                  width: 488,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                          selectedProduct!
+                                                                  .productDescription ??
+                                                              ''
+                                                                  .toCapitalized(),
+                                                          style: GoogleFonts
+                                                              .openSans(
+                                                            fontSize: 15,
+                                                            color: _salonProfileProvider
+                                                                .salonTheme
+                                                                .textTheme
+                                                                .titleSmall!
+                                                                .color, //height:1.5
+                                                          )),
+                                                      SvgPicture.asset(
+                                                          'assets/arrow.svg'),
+                                                    ],
+                                                  )),
+                                            ),
+                                            const Gap(40),
+                                            GestureDetector(
+                                              onTap: () {
+                                                const BookingDialogWidget222()
+                                                    .show(context);
+                                              },
+                                              child: MouseRegion(
+                                                onEnter: (event) =>
+                                                    onEntered(true),
+                                                onExit: (event) =>
+                                                    onEntered(false),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 38.0),
+                                                  child: Row(
+                                                    children: [
+                                                      Text('BOOK NOW',
+                                                          style: GoogleFonts.openSans(
+                                                              color: isHovered
+                                                                  ? increaseBrightness(
+                                                                      _salonProfileProvider
+                                                                          .salonTheme
+                                                                          .colorScheme
+                                                                          .secondary,
+                                                                      10)
+                                                                  : _salonProfileProvider
+                                                                      .salonTheme
+                                                                      .colorScheme
+                                                                      .secondary,
+                                                              fontSize: 18,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700)),
+                                                      const Gap(10),
+                                                      Image.asset(
+                                                        'assets/test_assets/book_arrow.png',
+                                                        height: 24,
+                                                        width: 24,
+                                                        color: isHovered
+                                                            ? increaseBrightness(
+                                                                _salonProfileProvider
+                                                                    .salonTheme
+                                                                    .colorScheme
+                                                                    .secondary,
+                                                                10)
+                                                            : _salonProfileProvider
+                                                                .salonTheme
+                                                                .colorScheme
+                                                                .secondary,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              }
+                              return const SizedBox();
+                            }),
+                          ),
+                          const Gap(60),
+                        ],
+
+                        //TEAM
+
+                        if (displaySettings.showTeam &&
+                            _createAppointmentProvider
+                                .salonMasters.isNotEmpty) ...[
+                          SizedBox.fromSize(
+                              size: Size.zero, key: controller.team),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 100.0, right: 8.0),
+                            child: Text(
+                              (AppLocalizations.of(context)?.team ?? 'TEAM')
+                                  .toUpperCase(),
+                              style: GoogleFonts.openSans(
+                                color: _salonProfileProvider
+                                    .salonTheme.textTheme.displaySmall!.color,
+                                fontSize: 60,
+                                //  fontFamily: 'Open Sans',
+                                fontWeight: FontWeight.w600,
+                                height: 0,
+                              ),
+                            ),
+                          ),
+                          const Gap(50),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 100.0, right: 20.0),
+                            child: SizedBox(
+                              height: 501,
+                              child: ListView.builder(
+                                itemBuilder: (context, index) {
+                                  return MouseRegion(
+                                    onEnter: (event) => _salonProfileProvider
+                                        .onEnterTeamMember(index),
+                                    onExit: (event) => _salonProfileProvider
+                                        .onExitTeamMember(index),
+                                    child: TeamWidget(
+                                        masterModel: _createAppointmentProvider
+                                            .salonMasters[index],
+                                        index: index),
+                                  );
+                                },
+                                itemCount: _createAppointmentProvider
+                                    .salonMasters.length,
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                // children: [
+                                //   GestureDetector(
+                                //       onTap: () {
+                                //         setState(() {
+                                //           getWidget('masters');
+                                //           isShowMenu = true;
+                                //         });
+                                //       },
+                                //       child: const TeamWidget()),
+                                //   const TeamWidget(),
+                                //   const TeamWidget(),
+                                // ],
+                              ),
+                            ),
+                          ),
+                          const Gap(100),
+                        ],
+                        //REVIEWS
+
+                        if (_salonProfileProvider.salonReviews.isNotEmpty &&
+                            displaySettings.reviews.showReviews) ...[
+                          SizedBox.fromSize(
+                              size: Size.zero, key: controller.reviews),
+                          const CityMuseDesktopReviews(),
+                        ],
+                        //CONTACT US
+                        const Gap(70),
+                        if (displaySettings.showRequestForm) ...[
+                          SizedBox.fromSize(
+                              size: Size.zero, key: controller.writeToUs),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 100.0, right: 0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'WRITE TO US',
+                                        style: GoogleFonts.openSans(
+                                          color: _salonProfileProvider
+                                              .salonTheme
+                                              .textTheme
+                                              .displaySmall!
+                                              .color,
+                                          fontSize: 60,
+                                          fontWeight: FontWeight.w600,
+                                          height: 0,
+                                        ),
+                                      ),
+                                      const Gap(20),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 10.0, right: 18.0),
+                                        child: Text(
+                                          'Write to us and we will get back to you as soon as possible',
+                                          style: GoogleFonts.openSans(
+                                            color: _salonProfileProvider
+                                                .salonTheme
+                                                .textTheme
+                                                .displaySmall!
+                                                .color,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400,
+                                            height: 1.5,
+                                            letterSpacing: 0.16,
                                           ),
                                         ),
+                                      ),
+                                      const Gap(40),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 10.0, right: 18.0),
+                                                child: Text(
+                                                  'First Name',
+                                                  style: GoogleFonts.openSans(
+                                                    color: _salonProfileProvider
+                                                        .salonTheme
+                                                        .textTheme
+                                                        .displaySmall!
+                                                        .color,
+                                                    fontSize: 14,
+                                                    // fontFamily: 'Red Hat Display',
+                                                    fontWeight: FontWeight.w700,
+                                                    height: 0.08,
+                                                    letterSpacing: 0.60,
+                                                  ),
+                                                ),
+                                              ),
+                                              const Gap(10),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 10.0, right: 18.0),
+                                                child: SizedBox(
+                                                  height: 44,
+                                                  width: 250,
+                                                  child: TextField(
+                                                    controller:
+                                                        _salonProfileProvider
+                                                            .firstNameController,
+                                                    decoration: textFieldStyle(
+                                                        "First Name",
+                                                        _salonProfileProvider),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 18.0, right: 18.0),
+                                                child: Text(
+                                                  'Last Name',
+                                                  style: GoogleFonts.openSans(
+                                                    color: _salonProfileProvider
+                                                        .salonTheme
+                                                        .textTheme
+                                                        .displaySmall!
+                                                        .color,
+                                                    fontSize: 14,
+                                                    // fontFamily: 'Red Hat Display',
+                                                    fontWeight: FontWeight.w700,
+                                                    height: 0.08,
+                                                    letterSpacing: 0.60,
+                                                  ),
+                                                ),
+                                              ),
+                                              const Gap(10),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 18.0, right: 13.0),
+                                                child: SizedBox(
+                                                  height: 44,
+                                                  width: 262,
+                                                  child: TextField(
+                                                    controller:
+                                                        _salonProfileProvider
+                                                            .lastNameController,
+                                                    decoration: textFieldStyle(
+                                                        "Last Name",
+                                                        _salonProfileProvider),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      const Gap(20),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 10.0, right: 18.0),
+                                                child: Text(
+                                                  'Email',
+                                                  style: GoogleFonts.openSans(
+                                                    color: _salonProfileProvider
+                                                        .salonTheme
+                                                        .textTheme
+                                                        .displaySmall!
+                                                        .color,
+                                                    fontSize: 14,
+                                                    // fontFamily: 'Red Hat Display',
+                                                    fontWeight: FontWeight.w700,
+                                                    height: 0.08,
+                                                    letterSpacing: 0.60,
+                                                  ),
+                                                ),
+                                              ),
+                                              const Gap(10),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 10.0, right: 18.0),
+                                                child: SizedBox(
+                                                  height: 44,
+                                                  width: 250,
+                                                  child: TextField(
+                                                    controller:
+                                                        _salonProfileProvider
+                                                            .emailController,
+                                                    decoration: textFieldStyle(
+                                                        "glamiris@gmail.com",
+                                                        _salonProfileProvider),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 18.0, right: 18.0),
+                                                child: Text(
+                                                  'Phone',
+                                                  style: GoogleFonts.openSans(
+                                                    color: _salonProfileProvider
+                                                        .salonTheme
+                                                        .textTheme
+                                                        .displaySmall!
+                                                        .color,
+                                                    fontSize: 14,
+                                                    // fontFamily: 'Red Hat Display',
+                                                    fontWeight: FontWeight.w700,
+                                                    height: 0.08,
+                                                    letterSpacing: 0.60,
+                                                  ),
+                                                ),
+                                              ),
+                                              const Gap(10),
+                                              // Padding(
+                                              // padding: const EdgeInsets.only(
+                                              //     left: 18.0, right: 18.0),
+                                              //   child: SizedBox(
+                                              //     height: 44,
+                                              //     width: 250,
+                                              //     child: TextField(
+                                              // controller: _salonProfileProvider
+                                              //     .phoneController,
+                                              //       decoration: textFieldStyle(
+                                              //           "Phone",
+                                              //           _salonProfileProvider),
+                                              //     ),
+                                              //   ),
+                                              // ),
+
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 18.0, right: 13.0),
+                                                child: SizedBox(
+                                                  height: 50,
+                                                  width: 262,
+                                                  child: Focus(
+                                                    onFocusChange: ((value) {
+                                                      if (value) {
+                                                        if (showPicker) {
+                                                          setState(() {
+                                                            showPicker = false;
+                                                          });
+                                                        }
+                                                      }
+                                                      print("focus value");
+                                                      print(value);
+                                                    }),
+                                                    child: TextField(
+                                                      controller:
+                                                          _salonProfileProvider
+                                                              .phoneController,
+                                                      decoration:
+                                                          InputDecoration(
+                                                              prefixIcon:
+                                                                  GestureDetector(
+                                                                onTap: () {
+                                                                  setState(() {
+                                                                    if (!showPicker) {
+                                                                      FocusScope.of(
+                                                                              context)
+                                                                          .unfocus();
+                                                                    }
+                                                                    showPicker =
+                                                                        !showPicker;
+                                                                  });
+
+                                                                  print(
+                                                                      showPicker);
+                                                                },
+                                                                child: SizedBox(
+                                                                  // height: 170,
+                                                                  child:
+                                                                      Padding(
+                                                                    padding: const EdgeInsets
+                                                                        .only(
+                                                                        top:
+                                                                            11.0,
+                                                                        left:
+                                                                            5.0),
+                                                                    child: Text(
+                                                                      "+" +
+                                                                          _salonProfileProvider
+                                                                              .selectedCountry
+                                                                              .phoneCode,
+                                                                      style: _salonProfileProvider
+                                                                          .salonTheme
+                                                                          .textTheme
+                                                                          .displayLarge,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              hintText: 'Phone',
+                                                              filled: _salonProfileProvider
+                                                                  .salonTheme
+                                                                  .inputDecorationTheme
+                                                                  .filled,
+                                                              fillColor:
+                                                                  _salonProfileProvider
+                                                                      .salonTheme
+                                                                      .inputDecorationTheme
+                                                                      .fillColor,
+                                                              border: _salonProfileProvider
+                                                                  .salonTheme
+                                                                  .inputDecorationTheme
+                                                                  .border,
+                                                              enabledBorder:
+                                                                  _salonProfileProvider
+                                                                      .salonTheme
+                                                                      .inputDecorationTheme
+                                                                      .enabledBorder,
+                                                              focusedBorder:
+                                                                  _salonProfileProvider
+                                                                      .salonTheme
+                                                                      .inputDecorationTheme
+                                                                      .focusedBorder),
+                                                    ),
+
+                                                    // CustomTextField(
+                                                    //   controller:  _salonProfileProvider
+                                                    //         .phoneController,
+                                                    //   padding: 0,
+                                                    //   hPadding: 0,
+
+                                                    //   onChanged: (val) {
+                                                    //     print(val);
+                                                    //    _salonProfileProvider
+                                                    //         .phoneController = val;
+                                                    //   },
+
+                                                    //   vPadding: 0,
+                                                    //   focusNode: focusNode,
+                                                    //   keyboardType: TextInputType.number,
+                                                    //   listOfInputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+                                                    //   // focusNode: widget.focusNode,
+                                                    //   noBorder: true,
+                                                    //   textColor: Color(0XFFFBFBFB),
+                                                    // ),
+                                                  ),
+                                                ),
+                                              ),
+
+                                              if (showPicker)
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 18.0,
+                                                          right: 18.0),
+                                                  child: SizedBox(
+                                                    height: 350.h,
+                                                    width: 250,
+                                                    child: ListView.builder(
+                                                      shrinkWrap: true,
+                                                      itemCount:
+                                                          countries.length,
+                                                      itemBuilder:
+                                                          (context, index) {
+                                                        Country country =
+                                                            countries[index];
+                                                        return CountryCodeCard(
+                                                          country: country,
+                                                          selected:
+                                                              selectedIndex ==
+                                                                      index
+                                                                  ? true
+                                                                  : false,
+                                                          onTap: () {
+                                                            setState(() {
+                                                              selectedIndex =
+                                                                  index;
+                                                              _salonProfileProvider
+                                                                      .selectedCountry =
+                                                                  country;
+                                                              showPicker =
+                                                                  !showPicker;
+                                                            });
+                                                          },
+                                                        );
+                                                      },
+                                                    ),
+                                                  ),
+                                                ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      const Gap(20),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 10.0, right: 18.0),
+                                        child: Text(
+                                          'Message',
+                                          style: GoogleFonts.openSans(
+                                            color: _salonProfileProvider
+                                                .salonTheme
+                                                .textTheme
+                                                .displaySmall!
+                                                .color,
+                                            fontSize: 14,
+                                            // fontFamily: 'Red Hat Display',
+                                            fontWeight: FontWeight.w700,
+                                            height: 0.08,
+                                            letterSpacing: 0.60,
+                                          ),
+                                        ),
+                                      ),
+                                      const Gap(10),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 10.0, right: 18.0),
+                                        child: SizedBox(
+                                          height: 160,
+                                          width: 545,
+                                          child: TextField(
+                                            // maxLength: 8,
+                                            minLines: 7,
+                                            maxLines: 8,
+                                            controller: _salonProfileProvider
+                                                .requestController,
+                                            decoration: textFieldStyle(
+                                                "Write to Us",
+                                                _salonProfileProvider),
+                                          ),
+                                        ),
+                                      ),
+                                      const Gap(5),
+                                      GestureDetector(
+                                        onTap: () {
+                                          _salonProfileProvider
+                                              .sendEnquiryToSalonCityMuse(
+                                                  context,
+                                                  salonId: chosenSalon.salonId);
+                                        },
+                                        child: _salonProfileProvider
+                                                    .enquiryStatus ==
+                                                Status.loading
+                                            ? Center(
+                                                child: SizedBox(
+                                                  height: 30,
+                                                  width: 30,
+                                                  child: CircularProgressIndicator(
+                                                      color:
+                                                          _salonProfileProvider
+                                                              .salonTheme
+                                                              .colorScheme
+                                                              .secondary
+                                                      // Color(0xFFE980B2),
+                                                      ),
+                                                ),
+                                              )
+                                            : MouseRegion(
+                                                onEnter: (event) =>
+                                                    onEntered(true),
+                                                onExit: (event) =>
+                                                    onEntered(false),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 10.0,
+                                                          right: 18.0),
+                                                  child: Container(
+                                                    width: 550,
+                                                    height: 50,
+                                                    // padding:
+                                                    // const EdgeInsets.symmetric(
+                                                    //     horizontal: 40,
+                                                    //     vertical: 13),
+                                                    decoration: ShapeDecoration(
+                                                      color: isHovered
+                                                          ? increaseBrightness(
+                                                              _salonProfileProvider
+                                                                  .salonTheme
+                                                                  .colorScheme
+                                                                  .secondary,
+                                                              10)
+                                                          : _salonProfileProvider
+                                                              .salonTheme
+                                                              .colorScheme
+                                                              .secondary,
+                                                      // color: const Color(0xFFE980B2),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          2)),
+                                                    ),
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        const Text(
+                                                          'SEND MESSAGE',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 16,
+                                                            fontFamily:
+                                                                'Open Sans',
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                            height: 1,
+                                                          ),
+                                                        ),
+                                                        const Gap(20),
+                                                        SvgPicture.asset(
+                                                          'assets/test_assets/arrow_side.svg',
+                                                          color: Colors.white,
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
+                                //  Spacer(),
+                                // const Gap(100),
+                                (_salonProfileProvider.themeSettings
+                                                ?.backgroundImage !=
+                                            null &&
+                                        _salonProfileProvider.themeSettings
+                                                ?.backgroundImage !=
+                                            '')
+                                    ? Expanded(
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              right: 100.0, bottom: 100),
+                                          child: CachedImage(
+                                            url: _salonProfileProvider
+                                                .themeSettings!
+                                                .backgroundImage!,
+                                            fit: BoxFit.cover,
+                                            width: screenSize.width * 0.30,
+                                            height: 500,
+                                            //screenSize.width * 0.4,
+                                          ),
+                                        ),
+                                      )
+                                    : Expanded(
+                                        child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            right: 100.0, bottom: 100),
+                                        child: Image.asset(
+                                            AppIcons.cityMuseBackground,
+                                            width: screenSize.width * 0.3,
+                                            height: 500,
+                                            //screenSize.width * 0.2,
+                                            fit: BoxFit.cover),
+                                      )),
+                                // Expanded(
+                                //   child: Image.asset(
+                                //     'assets/test_assets/write.png',
+                                // width: screenSize.width * 0.3,
+                                // height: screenSize.width * 0.4,
+                                //     fit: BoxFit.fitHeight,
+                                //   ),
+                                // ),
                               ],
                             ),
                           ),
-                          //  Spacer(),
-                          // const Gap(100),
-                          (_salonProfileProvider
-                                          .themeSettings?.backgroundImage !=
-                                      null &&
-                                  _salonProfileProvider
-                                          .themeSettings?.backgroundImage !=
-                                      '')
-                              ? Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        right: 100.0, bottom: 100),
-                                    child: CachedImage(
-                                      url: _salonProfileProvider
-                                          .themeSettings!.backgroundImage!,
-                                      fit: BoxFit.cover,
-                                      width: screenSize.width * 0.30,
-                                      height: 500,
-                                      //screenSize.width * 0.4,
-                                    ),
-                                  ),
-                                )
-                              : Expanded(
-                                  child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      right: 100.0, bottom: 100),
-                                  child:
-                                      Image.asset(AppIcons.cityMuseBackground,
-                                          width: screenSize.width * 0.3,
-                                          height: 500,
-                                          //screenSize.width * 0.2,
-                                          fit: BoxFit.cover),
-                                )),
-                          // Expanded(
-                          //   child: Image.asset(
-                          //     'assets/test_assets/write.png',
-                          // width: screenSize.width * 0.3,
-                          // height: screenSize.width * 0.4,
-                          //     fit: BoxFit.fitHeight,
-                          //   ),
-                          // ),
+                          const Gap(120),
                         ],
-                      ),
-                    ),
-                    const Gap(120),
-                  ],
-                  if (displaySettings.showContact) ...[
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              left: 100.0,
-                            ),
-                            child: SizedBox(
-                              height: screenSize.width * 0.35,
-                              width: screenSize.width * 0.1,
-                              child: GoogleMaps(
-                                salonModel: chosenSalon,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Column(
+                        if (displaySettings.showContact) ...[
+                          Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox.fromSize(
-                                  size: Size.zero, key: controller.contacts),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 100.0, right: 18.0),
-                                child: Text(
-                                  (AppLocalizations.of(context)?.contacts ??
-                                          'Contacts')
-                                      .toUpperCase(),
-                                  textAlign: TextAlign.center,
-                                  style: GoogleFonts.openSans(
-                                    color: _salonProfileProvider.salonTheme
-                                        .textTheme.displaySmall!.color,
-                                    fontSize: 40,
-                                    //  fontFamily: 'Open Sans',
-                                    fontWeight: FontWeight.w600,
-                                    height: 0,
+                              Expanded(
+                                flex: 1,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 100.0,
                                   ),
-                                ),
-                              ),
-                              const Gap(24),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 100.0, right: 18.0),
-                                child: SizedBox(
-                                  width: 508,
-                                  child: Text(
-                                    "Connect with us easily. Whether it's questions, collaborations, or just saying hello, we're here for you. Reach out via email, find us on social media, give us a call, or visit our address below.",
-                                    style: GoogleFonts.openSans(
-                                      //  fontFamily: "Open Sans",
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w400,
-                                      color: _salonProfileProvider.salonTheme
-                                          .textTheme.displaySmall!.color,
-                                      height: 1.5,
+                                  child: SizedBox(
+                                    height: screenSize.width * 0.35,
+                                    width: screenSize.width * 0.1,
+                                    child: GoogleMaps(
+                                      salonModel: chosenSalon,
                                     ),
-                                    textAlign: TextAlign.left,
                                   ),
                                 ),
                               ),
-                              const Gap(40),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 80.0, right: 5.0),
-                                child: Row(
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    CityMuseContactCard(
-                                      contactTitle: 'Write To Us',
-                                      contactAction: () async {
-                                        final Uri emailLaunchUri = Uri(
-                                          scheme: 'mailto',
-                                          path: chosenSalon.email,
-                                          queryParameters: {
-                                            'subject': 'Contact'
-                                          },
-                                        );
-                                        launchUrl(emailLaunchUri);
-                                      },
-                                      width: screenSize.width * 0.17,
-                                      titleFontSize: screenSize.width * 0.009,
-                                      descriptionFontSize:
-                                          screenSize.width * 0.008,
-                                      infoFontSize: screenSize.width * 0.008,
-                                      contactAsset: 'message.svg',
-                                      contactDescription:
-                                          'Start a conversations via email',
-                                      contactInfo: chosenSalon.email,
-                                    ),
-                                    if (chosenSalon.phoneNumber.isNotEmpty)
-                                      CityMuseContactCard(
-                                        contactTitle: 'Call Us',
-                                        width: screenSize.width * 0.17,
-                                        contactAction: () {
-                                          Utils().launchCaller(chosenSalon
-                                              .phoneNumber
-                                              .replaceAll("-", ""));
-                                        },
-                                        titleFontSize: screenSize.width * 0.009,
-                                        descriptionFontSize:
-                                            screenSize.width * 0.008,
-                                        infoFontSize: screenSize.width * 0.008,
-                                        contactAsset: 'phone.svg',
-                                        contactDescription:
-                                            'Today from 10 am to 7 pm',
-                                        contactInfo: chosenSalon.phoneNumber,
+                                    SizedBox.fromSize(
+                                        size: Size.zero,
+                                        key: controller.contacts),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 100.0, right: 18.0),
+                                      child: Text(
+                                        (AppLocalizations.of(context)
+                                                    ?.contacts ??
+                                                'Contacts')
+                                            .toUpperCase(),
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.openSans(
+                                          color: _salonProfileProvider
+                                              .salonTheme
+                                              .textTheme
+                                              .displaySmall!
+                                              .color,
+                                          fontSize: 40,
+                                          //  fontFamily: 'Open Sans',
+                                          fontWeight: FontWeight.w600,
+                                          height: 0,
+                                        ),
                                       ),
+                                    ),
+                                    const Gap(24),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 100.0, right: 18.0),
+                                      child: SizedBox(
+                                        width: 508,
+                                        child: Text(
+                                          "Connect with us easily. Whether it's questions, collaborations, or just saying hello, we're here for you. Reach out via email, find us on social media, give us a call, or visit our address below.",
+                                          style: GoogleFonts.openSans(
+                                            //  fontFamily: "Open Sans",
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w400,
+                                            color: _salonProfileProvider
+                                                .salonTheme
+                                                .textTheme
+                                                .displaySmall!
+                                                .color,
+                                            height: 1.5,
+                                          ),
+                                          textAlign: TextAlign.left,
+                                        ),
+                                      ),
+                                    ),
+                                    const Gap(40),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 80.0, right: 5.0),
+                                      child: Row(
+                                        children: [
+                                          CityMuseContactCard(
+                                            contactTitle: 'Write To Us',
+                                            contactAction: () async {
+                                              final Uri emailLaunchUri = Uri(
+                                                scheme: 'mailto',
+                                                path: chosenSalon.email,
+                                                queryParameters: {
+                                                  'subject': 'Contact'
+                                                },
+                                              );
+                                              launchUrl(emailLaunchUri);
+                                            },
+                                            width: screenSize.width * 0.17,
+                                            titleFontSize:
+                                                screenSize.width * 0.009,
+                                            descriptionFontSize:
+                                                screenSize.width * 0.008,
+                                            infoFontSize:
+                                                screenSize.width * 0.008,
+                                            contactAsset: 'message.svg',
+                                            contactDescription:
+                                                'Start a conversations via email',
+                                            contactInfo: chosenSalon.email,
+                                          ),
+                                          if (chosenSalon
+                                              .phoneNumber.isNotEmpty)
+                                            CityMuseContactCard(
+                                              contactTitle: 'Call Us',
+                                              width: screenSize.width * 0.17,
+                                              contactAction: () {
+                                                Utils().launchCaller(chosenSalon
+                                                    .phoneNumber
+                                                    .replaceAll("-", ""));
+                                              },
+                                              titleFontSize:
+                                                  screenSize.width * 0.009,
+                                              descriptionFontSize:
+                                                  screenSize.width * 0.008,
+                                              infoFontSize:
+                                                  screenSize.width * 0.008,
+                                              contactAsset: 'phone.svg',
+                                              contactDescription:
+                                                  'Today from 10 am to 7 pm',
+                                              contactInfo:
+                                                  chosenSalon.phoneNumber,
+                                            ),
+                                        ],
+                                      ),
+                                    ),
+                                    const Gap(10),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 80.0, right: 5.0),
+                                      child: Row(
+                                        children: [
+                                          CityMuseContactCard(
+                                            contactTitle: 'Visit Us',
+                                            width: screenSize.width * 0.17,
+                                            titleFontSize:
+                                                screenSize.width * 0.009,
+                                            descriptionFontSize:
+                                                screenSize.width * 0.008,
+                                            infoFontSize:
+                                                screenSize.width * 0.008,
+                                            contactAsset: 'location.svg',
+                                            contactAction: () async {
+                                              Uri uri = Uri.parse(
+                                                  'https://www.google.com/maps/search/?api=1&query=${Uri.encodeFull(chosenSalon.address)}');
+
+                                              if (await canLaunchUrl(uri)) {
+                                                await launchUrl(uri);
+                                              } else {
+                                                showToast(
+                                                    AppLocalizations.of(context)
+                                                            ?.couldNotLaunch ??
+                                                        "Could not launch");
+                                              }
+                                            },
+                                            contactDescription:
+                                                chosenSalon.address,
+                                            contactInfo: 'View on The Map',
+                                          ),
+                                          CityMuseContactCard(
+                                            width: screenSize.width * 0.17,
+                                            titleFontSize:
+                                                screenSize.width * 0.009,
+                                            descriptionFontSize:
+                                                screenSize.width * 0.008,
+                                            infoFontSize:
+                                                screenSize.width * 0.008,
+                                            contactTitle: 'Social Media',
+                                            contactAsset: 'social_media.svg',
+                                            contactDescription:
+                                                'Discover more on social',
+                                            contactInfo: '',
+                                            contactAssetList: true,
+                                            // contactAssetList:  [
+                                            //   if (chosenSalon.links?.instagram != '' &&chosenSalon.links?.instagram != null)
+                                            //   'instagram.svg',
+                                            //   'tiktok.svg',
+                                            //   'facebook.svg'
+                                            // ],
+                                          ),
+                                        ],
+                                      ),
+                                    )
                                   ],
                                 ),
                               ),
-                              const Gap(10),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 80.0, right: 5.0),
-                                child: Row(
-                                  children: [
-                                    CityMuseContactCard(
-                                      contactTitle: 'Visit Us',
-                                      width: screenSize.width * 0.17,
-                                      titleFontSize: screenSize.width * 0.009,
-                                      descriptionFontSize:
-                                          screenSize.width * 0.008,
-                                      infoFontSize: screenSize.width * 0.008,
-                                      contactAsset: 'location.svg',
-                                      contactAction: () async {
-                                        Uri uri = Uri.parse(
-                                            'https://www.google.com/maps/search/?api=1&query=${Uri.encodeFull(chosenSalon.address)}');
 
-                                        if (await canLaunchUrl(uri)) {
-                                          await launchUrl(uri);
-                                        } else {
-                                          showToast(AppLocalizations.of(context)
-                                                  ?.couldNotLaunch ??
-                                              "Could not launch");
-                                        }
-                                      },
-                                      contactDescription: chosenSalon.address,
-                                      contactInfo: 'View on The Map',
-                                    ),
-                                    CityMuseContactCard(
-                                      width: screenSize.width * 0.17,
-                                      titleFontSize: screenSize.width * 0.009,
-                                      descriptionFontSize:
-                                          screenSize.width * 0.008,
-                                      infoFontSize: screenSize.width * 0.008,
-                                      contactTitle: 'Social Media',
-                                      contactAsset: 'social_media.svg',
-                                      contactDescription:
-                                          'Discover more on social',
-                                      contactInfo: '',
-                                      contactAssetList: true,
-                                      // contactAssetList:  [
-                                      //   if (chosenSalon.links?.instagram != '' &&chosenSalon.links?.instagram != null)
-                                      //   'instagram.svg',
-                                      //   'tiktok.svg',
-                                      //   'facebook.svg'
-                                      // ],
-                                    ),
-                                  ],
+                              /// Spacer(),
+                              //    const Gap(70),
+
+                              // Expanded(
+                              //     child: Image.asset(
+                              //   'assets/test_assets/map1.png',
+                              //   width: screenSize.width * 0.3,
+                              //   height: screenSize.width * 0.4,
+                              //   fit: BoxFit.fitHeight,
+                              // )),
+                              const Gap(50),
+                            ],
+                          ),
+                        ],
+                        const Gap(100),
+                        Padding(
+                          padding:
+                              const EdgeInsets.only(left: 100.0, right: 60.0),
+                          child: Container(
+                              height: 1,
+                              width: double.infinity,
+                              color: const Color(0xff41403c)),
+                        ),
+                        const Gap(20),
+                        Padding(
+                          padding:
+                              const EdgeInsets.only(left: 100.0, right: 60.0),
+                          child: Row(
+                            children: [
+                              Text(
+                                "Terms & Conditions",
+                                style: GoogleFonts.inter(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: const Color(0xff868686),
+                                  height: 24 / 14,
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                              const Gap(70),
+                              Text(
+                                "Privacy Policy",
+                                style: GoogleFonts.inter(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: const Color(0xff868686),
+                                  height: 24 / 14,
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                              const Spacer(),
+                              Text(
+                                "© 2023 Glamiris.",
+                                style: GoogleFonts.openSans(
+                                  fontSize: 14,
+                                  color: const Color(0xff868686),
+                                  //fontWeight: FontWeight.wSymbol(figma.mixed),
+                                  height: 24 / 14,
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                              const Gap(5),
+                              GestureDetector(
+                                onTap: () async {
+                                  Uri uri =
+                                      Uri.parse('https://glmrs.space/home');
+
+                                  // debugPrint("launching Url: $uri");
+
+                                  if (await canLaunchUrl(uri)) {
+                                    await launchUrl(uri);
+                                  } else {
+                                    showToast(
+                                        "Unable to launch Glamiris website");
+                                  }
+                                },
+                                child: Text(
+                                  "Powered by GlamIris",
+                                  style: GoogleFonts.openSans(
+                                    fontSize: 14,
+                                    color: _salonProfileProvider
+                                        .salonTheme.colorScheme.secondary,
+                                    fontWeight: FontWeight.bold,
+                                    // color: const Color(0xFFE980B2),
+                                    //fontWeight: FontWeight.wSymbol(figma.mixed),
+                                    height: 24 / 14,
+                                  ),
+                                  textAlign: TextAlign.left,
                                 ),
                               )
                             ],
                           ),
                         ),
-
-                        /// Spacer(),
-                        //    const Gap(70),
-
-                        // Expanded(
-                        //     child: Image.asset(
-                        //   'assets/test_assets/map1.png',
-                        //   width: screenSize.width * 0.3,
-                        //   height: screenSize.width * 0.4,
-                        //   fit: BoxFit.fitHeight,
-                        // )),
-                        const Gap(50),
+                        const Gap(30)
                       ],
                     ),
-                  ],
-                  const Gap(100),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 100.0, right: 60.0),
-                    child: Container(
-                        height: 1,
-                        width: double.infinity,
-                        color: const Color(0xff41403c)),
-                  ),
-                  const Gap(20),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 100.0, right: 60.0),
-                    child: Row(
-                      children: [
-                        Text(
-                          "Terms & Conditions",
-                          style: GoogleFonts.inter(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: const Color(0xff868686),
-                            height: 24 / 14,
-                          ),
-                          textAlign: TextAlign.left,
-                        ),
-                        const Gap(70),
-                        Text(
-                          "Privacy Policy",
-                          style: GoogleFonts.inter(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: const Color(0xff868686),
-                            height: 24 / 14,
-                          ),
-                          textAlign: TextAlign.left,
-                        ),
-                        const Spacer(),
-                        Text(
-                          "© 2023 Glamiris.",
-                          style: GoogleFonts.openSans(
-                            fontSize: 14,
-                            color: const Color(0xff868686),
-                            //fontWeight: FontWeight.wSymbol(figma.mixed),
-                            height: 24 / 14,
-                          ),
-                          textAlign: TextAlign.left,
-                        ),
-                        const Gap(5),
-                        GestureDetector(
-                          onTap: () async {
-                            Uri uri = Uri.parse('https://glmrs.space/home');
-
-                            // debugPrint("launching Url: $uri");
-
-                            if (await canLaunchUrl(uri)) {
-                              await launchUrl(uri);
-                            } else {
-                              showToast("Unable to launch Glamiris website");
-                            }
-                          },
-                          child: Text(
-                            "Powered by GlamIris",
-                            style: GoogleFonts.openSans(
-                              fontSize: 14,
-                              color: _salonProfileProvider
-                                  .salonTheme.colorScheme.secondary,
-                              fontWeight: FontWeight.bold,
-                              // color: const Color(0xFFE980B2),
-                              //fontWeight: FontWeight.wSymbol(figma.mixed),
-                              height: 24 / 14,
-                            ),
-                            textAlign: TextAlign.left,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  const Gap(30)
-                ],
-              ),
-            ),
+                  ))),
     );
   }
 }

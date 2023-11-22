@@ -65,6 +65,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
   ];
   String? selectedCatId = '';
   final PageController _pageController = PageController();
+  late ScrollController _scrollController;
 
   int currentPortfolioIndex = 0;
   int currentIndex = 0;
@@ -75,6 +76,7 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
   @override
   void initState() {
     super.initState();
+    _scrollController = ScrollController();
     ref
         .read(salonSearchProvider)
         .getAllSalonServices(ref.read(createAppointmentProvider));
@@ -118,7 +120,6 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
   List<Country> countries =
       countryCodes.map((country) => Country.from(json: country)).toList();
   int selectedIndex = 0;
-  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -248,7 +249,13 @@ class _GlamMinamlPhoneState extends ConsumerState<GlamMinimalPhone> {
       ),
       body: WebSmoothScroll(
           controller: _scrollController,
+          scrollOffset: 60, // additional offset to users scroll input
+          animationDuration:
+              500, // duration of animation of scroll in milliseconds
+          curve: Curves.easeInOutCirc, // curve of the animation
           child: SingleChildScrollView(
+            controller: _scrollController,
+            physics: const NeverScrollableScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
